@@ -13,7 +13,7 @@ final class InventoryReceiptResult extends Model {
      */
     public function getInventoryLevels(): array { return $this->get('inventory_levels'); }
     public function hasInventoryLevels(): bool { return $this->has('inventory_levels'); }
-    /** Returned units received into Inventory, from a Return disposition or against the reservation line that consumed them.
+    /** The recorded receipt. Returned units received into Inventory, from a Return disposition or against the reservation line that consumed them. For supplier deliveries, use POST /v1/inventory-adjustments with reason: received.
      * @return InventoryReceipt
      */
     public function getInventoryReceipt(): InventoryReceipt { return $this->get('inventory_receipt'); }

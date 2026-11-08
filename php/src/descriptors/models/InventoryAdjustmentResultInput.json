@@ -1,1 +1,1 @@
-{"shared":"InventoryAdjustmentResult","dependencies":["InventoryAdjustment","InventoryAdjustmentLine","InventoryAdjustmentResult","InventoryItem","InventoryLevel","MetadataMap","SharedCodec233","SharedCodec626","SharedCodec627","SharedCodec628","SharedCodec629","SharedCodec630"]}
+{"shared":"InventoryAdjustmentResult","dependencies":["BackorderPolicy","InventoryAdjustment","InventoryAdjustmentLine","InventoryAdjustmentResult","InventoryItem","InventoryLevel","MetadataMap","SharedCodec270","SharedCodec730","SharedCodec731","SharedCodec732","SharedCodec733","SharedCodec734"]}

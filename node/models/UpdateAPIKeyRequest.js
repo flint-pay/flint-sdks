@@ -1,11 +1,12 @@
-import { d4382 as c0, d4369 as c1, d4385 as c2, d4370 as c3, d4371 as c4, d4383 as c6, d4384 as c7 } from '../descriptors/data/185.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d4331 as c5 } from '../descriptors/data/182.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d4172 as c8 } from '../descriptors/data/171.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d4172 as d4172 } from '../descriptors/data/171.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import { d5622 as c0, d5623 as c2, d5624 as c3, d5625 as c4 } from '../descriptors/data/245.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d5640 as c1, d5638 as c6, d5639 as c7 } from '../descriptors/data/246.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d5580 as c5 } from '../descriptors/data/243.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d5417 as c8 } from '../descriptors/data/232.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d5417 as d5417 } from '../descriptors/data/232.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d4172;
+const read = d5417;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["SharedCodec130"]:c0(),["SharedCodec1362"]:c1(),["SharedCodec1363"]:c2(),["SharedCodec1364"]:c3(),["SharedCodec1365"]:c4(),["SharedCodec3"]:c5(),["SharedCodec320"]:c6(),["SharedCodec321"]:c7(),["UpdateAPIKeyRequest"]:c8()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["SharedCodec1557"]:c0(),["SharedCodec1558"]:c1(),["SharedCodec1559"]:c2(),["SharedCodec1560"]:c3(),["SharedCodec163"]:c4(),["SharedCodec3"]:c5(),["SharedCodec372"]:c6(),["SharedCodec373"]:c7(),["UpdateAPIKeyRequest"]:c8()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeUpdateAPIKeyRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

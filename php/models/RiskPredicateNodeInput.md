@@ -8,15 +8,15 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `all` | Conditional | Array of [RiskPredicateNodeInput](../models/RiskPredicateNodeInput.md#riskpredicatenodeinput) | minItems: `1`. maxItems: `50`. |
-| `any` | Conditional | Array of [RiskPredicateNodeInput](../models/RiskPredicateNodeInput.md#riskpredicatenodeinput) | minItems: `1`. maxItems: `50`. |
-| `not` | Conditional | [RiskPredicateNodeInput](../models/RiskPredicateNodeInput.md#riskpredicatenodeinput) | A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not` group of other nodes. |
-| `attribute` | Conditional | string |  |
-| `operator` | Conditional | string |  |
-| `value` | Conditional | string or integer or boolean | `value`: [declared alternatives](../models/RiskPredicateNodeInput.md#riskpredicatenodeinput-variant-4value). |
-| `amount_money` | Conditional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `values` | Conditional | Array of (string or integer or boolean) | minItems: `1`. maxItems: `100`. `values[]`: [declared alternatives](../models/RiskPredicateNodeInput.md#riskpredicatenodeinput-variant-4value). |
-| `list_alias` | Conditional | string | minLength: `1`. pattern: `^[a-z][a-z0-9_]{0,127}$`. |
+| `all` | Conditional | Array of [RiskPredicateNodeInput](../models/RiskPredicateNodeInput.md#riskpredicatenodeinput) | Predicates that must all match. minItems: `1`. maxItems: `50`. |
+| `any` | Conditional | Array of [RiskPredicateNodeInput](../models/RiskPredicateNodeInput.md#riskpredicatenodeinput) | Predicates of which at least one must match. minItems: `1`. maxItems: `50`. |
+| `not` | Conditional | [RiskPredicateNodeInput](../models/RiskPredicateNodeInput.md#riskpredicatenodeinput) | The predicate that must not match. A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not` group of other nodes. |
+| `attribute` | Conditional | string | The payment attribute to test. Read the attribute registry for the names a rule can use. |
+| `operator` | Conditional | string | How the attribute is compared. |
+| `value` | Conditional | string or integer or boolean | The value to compare with. `value`: [declared alternatives](../models/CreateRiskPreviewRequestInput.md#createriskpreviewrequestinput-variant-1predicate-variant-4value). |
+| `amount_money` | Conditional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | The amount to compare with. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `values` | Conditional | Array of (string or integer or boolean) | The values to compare with. The predicate matches when the attribute equals any of them. minItems: `1`. maxItems: `100`. `values[]`: [declared alternatives](../models/CreateRiskPreviewRequestInput.md#createriskpreviewrequestinput-variant-1predicate-variant-6values). |
+| `list_alias` | Conditional | string | Alias of the risk list to look the attribute's value up in. minLength: `1`. pattern: `^[a-z][a-z0-9_]{0,127}$`. |
 
 ### RiskPredicateNodeInput variant 1
 
@@ -86,25 +86,9 @@ oneOf RiskPredicateNodeIsMissing: The `Is missing` variant of `RiskPredicateNode
 
 ### RiskPredicateNodeInput variant 4.value
 
-### RiskPredicateNodeInput variant 4.value variant 1
-
-oneOf String.
-
-- Value shape: string. minLength: `1`. 
-
-### RiskPredicateNodeInput variant 4.value variant 2
-
-oneOf Integer.
-
-- Value shape: integer.  
-
-### RiskPredicateNodeInput variant 4.value variant 3
-
-oneOf Boolean.
-
-- Value shape: boolean.  
+Declared alternatives: [CreateRiskPreviewRequestInput variant 1.predicate variant 4.value](../models/CreateRiskPreviewRequestInput.md#createriskpreviewrequestinput-variant-1predicate-variant-4value).
 
 ### RiskPredicateNodeInput variant 6.values[]
 
-Declared alternatives: [RiskPredicateNodeInput variant 4.value](../models/RiskPredicateNodeInput.md#riskpredicatenodeinput-variant-4value).
+Declared alternatives: [CreateRiskPreviewRequestInput variant 1.predicate variant 6.values[]](../models/CreateRiskPreviewRequestInput.md#createriskpreviewrequestinput-variant-1predicate-variant-6values).
 

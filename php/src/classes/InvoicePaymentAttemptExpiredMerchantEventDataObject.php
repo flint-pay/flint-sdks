@@ -16,10 +16,10 @@ namespace Flint;
  * @property-read ?string $settled_at
  * @property-read ?string $started_at
  * @property-read string $status
- * @property-read ?string $updated_at
+ * @property-read string $updated_at
  * Presence-aware response; omitted optional fields return null. */
 final class InvoicePaymentAttemptExpiredMerchantEventDataObject extends Model {
-    /** @param array{'canceled_at'?: string, 'cancellation_requested_at'?: string, 'checkout_session_id'?: string, 'expected_amount_money': mixed, 'expires_at'?: string, 'invoice_id': string, 'invoice_payment_attempt_id': string, 'invoice_schedule_entry_id'?: string, 'last_payment_error'?: mixed, 'payment_intent_id'?: string, 'rail': string, 'settled_at'?: string, 'started_at'?: string, 'status': string, 'updated_at'?: string, ...}|object $values */
+    /** @param array{'canceled_at'?: string, 'cancellation_requested_at'?: string, 'checkout_session_id'?: string, 'expected_amount_money': mixed, 'expires_at'?: string, 'invoice_id': string, 'invoice_payment_attempt_id': string, 'invoice_schedule_entry_id'?: string, 'last_payment_error'?: mixed, 'payment_intent_id'?: string, 'rail': string, 'settled_at'?: string, 'started_at'?: string, 'status': string, 'updated_at': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoicePaymentAttemptExpiredMerchantEventDataObject')); }
     /** When the attempt was canceled. An attempt canceled with its checkout session before payment started may not have it. Format: date-time.
      * @return ?string
@@ -92,8 +92,8 @@ final class InvoicePaymentAttemptExpiredMerchantEventDataObject extends Model {
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
     /** When this attempt last changed. Duplicate payment notifications preserve this timestamp. Format: date-time.
-     * @return ?string
+     * @return string
      */
-    public function getUpdatedAt(): ?string { return $this->get('updated_at'); }
+    public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
 }

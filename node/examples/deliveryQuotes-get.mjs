@@ -5,7 +5,7 @@ const client = new Client({
   allowInsecureHttp: !!baseUrl && ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
 });
 const result = await client.deliveryQuotes.get(
-  "dqt_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "dqt_01KEZF7C009EB1AVCDJBN4BBVV"
 );
 console.log(result.delivery_quote_id);
 console.log(result.status);

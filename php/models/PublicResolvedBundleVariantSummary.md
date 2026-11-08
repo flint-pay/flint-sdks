@@ -8,9 +8,14 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `available_for_sale` | Required | boolean |  |
-| `name` | Optional | string |  |
-| `selected_options` | Optional | Array of [SelectedProductOption](../models/SelectedProductOption.md#selectedproductoption) |  |
-| `sku` | Optional | string |  |
-| `variant_id` | Required | string |  |
+| `is_available_for_sale` | Required | boolean | Whether the variant can be sold now. |
+| `name` | Optional | string | Name of the variant. |
+| `product_id` | Required | string | Identifier of the product this resolved bundle component variant belongs to. |
+| `selected_options` | Optional | Array of [SelectedProductOption](../models/SelectedProductOption.md#selectedproductoption) | The product options the variant selects, such as size or color. `selected_options[]`: [field definitions](../models/OrderResponse.md#orderresponsedataline_itemsbundle_componentsvariantselected_options). |
+| `sku` | Optional | string | SKU of the variant. |
+| `variant_id` | Required | string | ID of the variant. |
+
+### PublicResolvedBundleVariantSummary.selected_options[]
+
+Field definitions: [OrderResponse.data.line_items[].bundle_components[].variant.selected_options[]](../models/OrderResponse.md#orderresponsedataline_itemsbundle_componentsvariantselected_options).
 

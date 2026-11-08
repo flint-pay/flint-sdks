@@ -11,27 +11,27 @@ namespace Flint;
 final class CustomerAccountRouteTemplates extends Model {
     /** @param array{'email_preferences'?: string|null, 'invoice'?: string|null, 'order'?: string|null, 'return'?: string|null, 'subscription'?: string|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerAccountRouteTemplates')); }
-    /** Send null to clear it. minLength: 1.
+    /** Path under `merchant_account_url` for the email preferences page, with no placeholder. `null` when no template is set, so links land on `merchant_account_url`. Send null to clear it. minLength: 1.
      * @return string|null
      */
     public function getEmailPreferences(): string|null { return $this->get('email_preferences'); }
     public function hasEmailPreferences(): bool { return $this->has('email_preferences'); }
-    /** Send null to clear it. minLength: 1.
+    /** Path under `merchant_account_url` for an invoice page, containing `{resource_id}` once. `null` when no template is set, so links land on `merchant_account_url`. Send null to clear it. minLength: 1.
      * @return string|null
      */
     public function getInvoice(): string|null { return $this->get('invoice'); }
     public function hasInvoice(): bool { return $this->has('invoice'); }
-    /** Send null to clear it. minLength: 1.
+    /** Path under `merchant_account_url` for an order page, containing `{resource_id}` once. `null` when no template is set, so links land on `merchant_account_url`. Send null to clear it. minLength: 1.
      * @return string|null
      */
     public function getOrder(): string|null { return $this->get('order'); }
     public function hasOrder(): bool { return $this->has('order'); }
-    /** Send null to clear it. minLength: 1.
+    /** Path under `merchant_account_url` for a return page, containing `{resource_id}` once. `null` when no template is set, so links land on `merchant_account_url`. Send null to clear it. minLength: 1.
      * @return string|null
      */
     public function getReturn(): string|null { return $this->get('return'); }
     public function hasReturn(): bool { return $this->has('return'); }
-    /** Send null to clear it. minLength: 1.
+    /** Path under `merchant_account_url` for a subscription page, containing `{resource_id}` once. `null` when no template is set, so links land on `merchant_account_url`. Send null to clear it. minLength: 1.
      * @return string|null
      */
     public function getSubscription(): string|null { return $this->get('subscription'); }

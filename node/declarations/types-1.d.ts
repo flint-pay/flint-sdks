@@ -1,5 +1,8 @@
-import type { BalanceTransaction, Balance, Address } from './types-0.js';
-import type { MerchantWebhookEnvelope, MetadataMap, ModifierSet, MoneyValue } from './types-35.js';
+import type { MoneyValue, MoneyMovementListMeta, ModifierSet } from './types-37.js';
+import type { ExpandedOrderSummary } from './types-23.js';
+import type { ResourceReference, ResponseMeta } from './types-51.js';
+import type { MerchantWebhookEnvelope, MetadataMap } from './types-36.js';
+import type { PartnerWebhookEnvelope } from './types-42.js';
 import type { InputValue } from '../runtime.js';
 import type {
     CategoryReference,
@@ -14,71 +17,1568 @@ import type {
     CheckoutPaymentMethodSave,
     CheckoutPrefill,
     CheckoutPromotionConfig,
-    CardDetails
-} from './types-4.js';
-import type { ImageAttachment, Image } from './types-25.js';
-import type { PartnerWebhookEnvelope } from './types-40.js';
-import type { ResponseMeta } from './types-48.js';
-import type { SelectedProductOption, SettlementAmounts, ServiceFulfillmentDetails, ShipmentFulfillmentDetails } from './types-53.js';
-import type { CreateBundleRequestInput } from './types-6.js';
-import type { UpdateBundleRequestInput } from './types-58.js';
+    CheckoutRedirects
+} from './types-5.js';
+import type { ImageAttachment, Image } from './types-27.js';
+import type { SelectedProductOption } from './types-56.js';
+import type { CreateBundleRequestInput } from './types-7.js';
+import type { UpdateBundleRequestInput } from './types-63.js';
 import type {
     BuyerPauseActionOptions,
     BuyerPayBalanceActionOptions,
     BuyerPauseCapability,
-    BuyerRetentionOffer,
     BuyerPauseCapabilityInput,
-    BuyerRetentionOfferInput,
+    BuyerErrorRemediation,
     BuyerOrderPaymentAttempt,
-    BuyerPaymentCollection,
-    BuyerFulfillmentOutcome,
-    BuyerOrderLineItemModifier
+    BuyerPaymentCollection
 } from './types-2.js';
 import type {
+    BuyerRetentionOffer,
     BuyerSkipCapability,
+    BuyerRetentionOfferRequestInput,
     BuyerSkipCapabilityInput,
     BuyerReturnReplacementLineItemRequest,
-    BuyerReturnReplacementLineItemRequestInput,
-    BuyerSubscriptionPlanLineItem
+    BuyerReturnReplacementLineItemRequestInput
 } from './types-3.js';
-import type {
-    CheckoutRedirects,
-    CheckoutSessionTax,
-    CheckoutSubscriptionTerms,
-    CheckoutTheme,
-    CheckoutTipConfig
-} from './types-5.js';
-import type { LegalSettings } from './types-32.js';
-import type { CreateReturnEligibilityPreviewRequest, CreateReturnEligibilityPreviewRequestInput } from './types-10.js';
-import type { ReturnLineItemRequest, ReturnLineItemRequestInput } from './types-49.js';
-import type { ReturnResolutionLineItemRequest, ReturnResolutionLineItemRequestInput } from './types-51.js';
-import type { CreditNoteLineItem } from './types-12.js';
-import type { TaxIdentity } from './types-57.js';
-import type { PricingAmounts, PickupFulfillmentDetails } from './types-44.js';
-import type { SubscriptionIntervalOption } from './types-55.js';
-import type { StripeClientSetup } from './types-54.js';
-import type { DigitalFulfillmentDetails } from './types-20.js';
-import type { ExpandedPackageSummary, ExpandedShipmentSummary } from './types-21.js';
-import type { FulfillmentChargeLink, FulfillmentRecipient } from './types-22.js';
-export type BalanceTransactionUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+import type { CheckoutSessionTax, CheckoutSubscriptionTerms, CheckoutTheme, CheckoutTipConfig } from './types-6.js';
+import type { LegalSettings } from './types-34.js';
+import type { CreateReturnEligibilityPreviewRequest, CreateReturnEligibilityPreviewRequestInput } from './types-11.js';
+import type { ReturnLineItemRequest, ReturnLineItemRequestInput } from './types-52.js';
+import type { ReturnResolutionLineItemRequest, ReturnResolutionLineItemRequestInput } from './types-54.js';
+import type { CreditNoteLineItem } from './types-13.js';
+import type { TaxCurrencyConversion, TaxIdentity } from './types-61.js';
+/** Backorder settings shared by every variant using an inventory item. */
+export type BackorderPolicy = {
+    /** Whether this inventory item allows backorders. */
+    "enabled": boolean;
+    /** Expected shipping date. Null when unknown. Format: date. Example: "2026-08-02". */
+    "expected_ship_date": string | null;
+    /**
+     * Maximum units on backorder across the item's levels. Null when there is no cap. Format:
+     * int64. minimum: 1. maximum: 9007199254740991.
+     */
+    "limit_quantity": number | null;
+};
+/**
+ * Current balances for one currency at observed_at. Available and pending amounts are separate
+ * buckets and can be negative. Reserve and held amounts are excluded from available_money.
+ */
+export type Balance = {
+    /**
+     * Signed available amounts grouped by balance source type. Keys are an open set; US accounts
+     * use card and bank_account. When supplied as a complete breakdown, entries sum to
+     * available_money. Active payout holds reduce both available_money and one source entry by the
+     * same amount. A payout with no recorded source type uses card. A hold whose source is absent
+     * from the map uses the largest source amount, with ties broken by source name. * (Value):
+     * {@link MoneyValue}. Signed monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code.
+     */
+    "available_by_source_type"?: Record<string, MoneyValue>;
+    /**
+     * Signed amount available for payouts after active payout holds are deducted. Separate from
+     * pending_money, reserve_money, and held_money. Signed monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "available_money": MoneyValue;
+    /** Stable identifier of this currency's balance. Example: "bal_01KEZF7C00DE593X12REV5EFHZ". */
+    "balance_id": string;
+    /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */
+    "currency": string;
+    /**
+     * Funds set aside for payouts you created that haven't been debited from your balance yet.
+     * They aren't payable and aren't included in `available_money`. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "held_money": MoneyValue;
+    /** Merchant whose balance this is. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+    "merchant_id": string;
+    /**
+     * When Flint observed these amounts, as an RFC 3339 UTC instant at second precision. Stored
+     * balances retain their observation time; a fresh provider read uses the time of that read.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "observed_at": string;
+    /**
+     * Whether payouts are ready for this balance currency, including an active default payout
+     * destination and account readiness. While it is false, payments can still succeed, and their
+     * funds wait in your balance.
+     */
+    "payouts_enabled": boolean;
+    /**
+     * Signed pending amounts grouped by balance source type. Keys are an open set; US accounts use
+     * card and bank_account. When supplied as a complete breakdown, entries sum to pending_money.
+     * These amounts are separate from available_by_source_type. * (Value): {@link MoneyValue}.
+     * Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "pending_by_source_type"?: Record<string, MoneyValue>;
+    /**
+     * Signed amount awaiting availability. Separate from available_money; pending_by_source_type
+     * breaks down this amount when source details are supplied. Signed monetary amount represented
+     * as integer minor units plus an ISO 4217 currency code.
+     */
+    "pending_money": MoneyValue;
+    /**
+     * Amount held in reserve. It doesn't overlap available_money or held_money. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "reserve_money": MoneyValue;
+};
+/** A list of `Balance` objects. */
+export type BalanceListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * Balance}. Current balances for one currency at observed_at. Available and pending amounts
+     * are separate buckets and can be negative. Reserve and held amounts are excluded from
+     * available_money.
+     */
+    "data": Array<Balance>;
+    /**
+     * Additional information about this response. Response metadata for money movement lists,
+     * including request and trace IDs, warnings, and the state of the available history.
+     */
+    "meta"?: MoneyMovementListMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A change to the merchant's balance. */
+export type BalanceTransaction = {
+    /**
+     * Signed gross amount of this balance movement, before any fee. Signed monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValue;
+    /**
+     * When the funds become, or became, available to pay out. Present on pending transactions as
+     * the expected time; status says whether they are available now. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "available_at"?: string;
+    /**
+     * Stable identifier of this balance transaction. Example: "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ".
+     */
+    "balance_transaction_id": string;
+    /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */
+    "currency": string;
+    /**
+     * Short text describing the movement, from Flint or your processor. Use it for display, not
+     * for matching.
+     */
+    "description"?: string;
+    /**
+     * Fee deducted from this balance movement. On payments, this is processing_fee_money plus
+     * every add-on fee in add_on_fees. On disputes and dispute reversals, this includes the
+     * processor's dispute fee charged to your balance or actually returned to it. Charges are
+     * positive; returned fees are negative. A dispute of -4200 with a fee of 1500 has a net amount
+     * of -5700. A won dispute does not by itself return the fee. Signed monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "fee_money": MoneyValue;
+    /** Merchant whose balance this transaction moved. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+    "merchant_id": string;
+    /**
+     * Signed net effect on your Flint balance: amount_money minus fee_money in the same currency.
+     * Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "net_money": MoneyValue;
+    /** When the balance movement happened. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "occurred_at": string;
+    /**
+     * The order, inlined when you request expand=order. null when expanded and the transaction has
+     * no order_id. Present only when `expand` includes `order`; `null` when expanded and there is
+     * no related order. anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
+     * including status, payment and refund status, and pricing and settlement amounts, returned
+     * when the order is expanded. anyOf[2] (Value): null.
+     */
+    "order"?: ((ExpandedOrderSummary) | (null));
+    /**
+     * The Flint order this movement relates to, such as the order a payment was for. Absent when
+     * the movement isn't tied to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id"?: string;
+    /**
+     * The payout that carried this balance transaction to your bank. Set once, when that payout's
+     * contents are prepared, and never changed afterward, including if the payout later fails or
+     * is reversed. Absent until then, and on transactions no payout carries. Example:
+     * "po_01KEZF7C00PXK8XREWJA6K4FGV".
+     */
+    "payout_id"?: string;
+    /**
+     * Earlier balance transactions this one is linked to, including the exact payment principal a
+     * refund returns, the payout transaction that a payout_failure, payout_cancellation, or
+     * payout_reversal returns, or the collection a merchant_billing_collection_reversal reverses.
+     * Empty when there are none. [] (Value): string. Example: "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ".
+     */
+    "related_balance_transaction_ids": Array<string>;
+    /**
+     * The Flint resource behind this movement: a payment_intent, refund, dispute, payout,
+     * payout_destination, or merchant_billing_invoice. Absent when the movement has none. A
+     * reference to another resource by `resource_type` and `resource_id`.
+     */
+    "related_resource"?: ResourceReference;
+    /**
+     * Whether the funds can be paid out yet: pending until they become available, then available.
+     * Only these two values appear, and the change to available sends balance_transaction.updated.
+     * Value enum: "pending", "available".
+     */
+    "status": "pending" | "available" | (string & {});
+    /**
+     * Kind of balance movement. Unmapped movement types are returned as other. Value enum:
+     * "payment", "refund", "dispute", "dispute_reversal", "return", "recovery", "payout",
+     * "payout_failure", "payout_cancellation", "payout_reversal", "payout_advance",
+     * "payout_advance_funding", "reserve_hold", "reserve_release", "adjustment",
+     * "merchant_billing_collection", "merchant_billing_collection_reversal", "other".
+     */
+    "type": "payment"
+        | "refund"
+        | "dispute"
+        | "dispute_reversal"
+        | "return"
+        | "recovery"
+        | "payout"
+        | "payout_failure"
+        | "payout_cancellation"
+        | "payout_reversal"
+        | "payout_advance"
+        | "payout_advance_funding"
+        | "reserve_hold"
+        | "reserve_release"
+        | "adjustment"
+        | "merchant_billing_collection"
+        | "merchant_billing_collection_reversal"
+        | "other"
+        | (string & {});
+};
+export type BalanceTransactionCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
-        "object": BalanceTransaction;
+        "object": {
+            "amount_money": MoneyValue;
+            "available_at"?: string;
+            "balance_transaction_id": string;
+            "currency": string;
+            "description"?: string;
+            "fee_money": MoneyValue;
+            "merchant_id": string;
+            "net_money": MoneyValue;
+            "occurred_at": string;
+            "order"?: ((ExpandedOrderSummary) | (null));
+            "order_id"?: string;
+            "payout_id"?: string;
+            "related_balance_transaction_ids": Array<string>;
+            "related_resource"?: ResourceReference;
+            "status": "pending" | "available" | (string & {});
+            "type": "payment"
+                | "refund"
+                | "dispute"
+                | "dispute_reversal"
+                | "return"
+                | "recovery"
+                | "payout"
+                | "payout_failure"
+                | "payout_cancellation"
+                | "payout_reversal"
+                | "payout_advance"
+                | "payout_advance_funding"
+                | "reserve_hold"
+                | "reserve_release"
+                | "adjustment"
+                | "merchant_billing_collection"
+                | "merchant_billing_collection_reversal"
+                | "other"
+                | (string & {});
+        };
     };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "balance_transaction.created";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "amount_money": MoneyValue;
+            "available_at"?: string;
+            "balance_transaction_id": string;
+            "currency": string;
+            "description"?: string;
+            "fee_money": MoneyValue;
+            "merchant_id": string;
+            "net_money": MoneyValue;
+            "occurred_at": string;
+            "order"?: ((ExpandedOrderSummary) | (null));
+            "order_id"?: string;
+            "payout_id"?: string;
+            "related_balance_transaction_ids": Array<string>;
+            "related_resource"?: ResourceReference;
+            "status": "pending" | "available" | (string & {});
+            "type": "payment"
+                | "refund"
+                | "dispute"
+                | "dispute_reversal"
+                | "return"
+                | "recovery"
+                | "payout"
+                | "payout_failure"
+                | "payout_cancellation"
+                | "payout_reversal"
+                | "payout_advance"
+                | "payout_advance_funding"
+                | "reserve_hold"
+                | "reserve_release"
+                | "adjustment"
+                | "merchant_billing_collection"
+                | "merchant_billing_collection_reversal"
+                | "other"
+                | (string & {});
+        };
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "balance_transaction.created";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "balance_transaction.created";
+});
+/**
+ * The `balance_transaction.created` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type BalanceTransactionCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.amount_money (Required): {@link MoneyValue}. Signed gross amount
+     * of this balance movement, before any fee. Signed monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code. object.available_at (Optional): string. When the
+     * funds become, or became, available to pay out. Present on pending transactions as the
+     * expected time; status says whether they are available now. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.balance_transaction_id (Required): string. Stable identifier
+     * of this balance transaction. Example: "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ". object.currency
+     * (Required): string. ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     * Example: "USD". object.description (Optional): string. Short text describing the movement,
+     * from Flint or your processor. Use it for display, not for matching. object.fee_money
+     * (Required): {@link MoneyValue}. Fee deducted from this balance movement. On payments, this
+     * is processing_fee_money plus every add-on fee in add_on_fees. On disputes and dispute
+     * reversals, this includes the processor's dispute fee charged to your balance or actually
+     * returned to it. Charges are positive; returned fees are negative. A dispute of -4200 with a
+     * fee of 1500 has a net amount of -5700. A won dispute does not by itself return the fee.
+     * Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * object.merchant_id (Required): string. Merchant whose balance this transaction moved.
+     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.net_money (Required): {@link MoneyValue}.
+     * Signed net effect on your Flint balance: amount_money minus fee_money in the same currency.
+     * Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * object.occurred_at (Required): string. When the balance movement happened. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.order (Optional): {@link
+     * ExpandedOrderSummary} or null. The order, inlined when you request expand=order. null when
+     * expanded and the transaction has no order_id. Present only when `expand` includes `order`;
+     * `null` when expanded and there is no related order. object.order.anyOf[1] (Value): {@link
+     * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
+     * status, and pricing and settlement amounts, returned when the order is expanded.
+     * object.order.anyOf[2] (Value): null. object.order_id (Optional): string. The Flint order
+     * this movement relates to, such as the order a payment was for. Absent when the movement
+     * isn't tied to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.payout_id
+     * (Optional): string. The payout that carried this balance transaction to your bank. Set once,
+     * when that payout's contents are prepared, and never changed afterward, including if the
+     * payout later fails or is reversed. Absent until then, and on transactions no payout carries.
+     * Example: "po_01KEZF7C00PXK8XREWJA6K4FGV". object.related_balance_transaction_ids (Required):
+     * Array of string. Earlier balance transactions this one is linked to, including the exact
+     * payment principal a refund returns, the payout transaction that a payout_failure,
+     * payout_cancellation, or payout_reversal returns, or the collection a
+     * merchant_billing_collection_reversal reverses. Empty when there are none.
+     * object.related_balance_transaction_ids[] (Value): string. Example:
+     * "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ". object.related_resource (Optional): {@link
+     * ResourceReference}. The Flint resource behind this movement: a payment_intent, refund,
+     * dispute, payout, payout_destination, or merchant_billing_invoice. Absent when the movement
+     * has none. A reference to another resource by `resource_type` and `resource_id`.
+     * object.status (Required): string. Whether the funds can be paid out yet: pending until they
+     * become available, then available. Only these two values appear, and the change to available
+     * sends balance_transaction.updated. Value enum: "pending", "available". object.type
+     * (Required): string. Kind of balance movement. Unmapped movement types are returned as other.
+     * Value enum: "payment", "refund", "dispute", "dispute_reversal", "return", "recovery",
+     * "payout", "payout_failure", "payout_cancellation", "payout_reversal", "payout_advance",
+     * "payout_advance_funding", "reserve_hold", "reserve_release", "adjustment",
+     * "merchant_billing_collection", "merchant_billing_collection_reversal", "other".
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * amount_money (Required): {@link MoneyValue}. Signed gross amount of this balance
+         * movement, before any fee. Signed monetary amount represented as integer minor units plus
+         * an ISO 4217 currency code. available_at (Optional): string. When the funds become, or
+         * became, available to pay out. Present on pending transactions as the expected time;
+         * status says whether they are available now. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". balance_transaction_id (Required): string. Stable identifier of
+         * this balance transaction. Example: "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ". currency
+         * (Required): string. ISO 4217 currency code. minLength: 3. maxLength: 3. pattern:
+         * ^[A-Z]{3}$. Example: "USD". description (Optional): string. Short text describing the
+         * movement, from Flint or your processor. Use it for display, not for matching. fee_money
+         * (Required): {@link MoneyValue}. Fee deducted from this balance movement. On payments,
+         * this is processing_fee_money plus every add-on fee in add_on_fees. On disputes and
+         * dispute reversals, this includes the processor's dispute fee charged to your balance or
+         * actually returned to it. Charges are positive; returned fees are negative. A dispute of
+         * -4200 with a fee of 1500 has a net amount of -5700. A won dispute does not by itself
+         * return the fee. Signed monetary amount represented as integer minor units plus an ISO
+         * 4217 currency code. merchant_id (Required): string. Merchant whose balance this
+         * transaction moved. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". net_money (Required):
+         * {@link MoneyValue}. Signed net effect on your Flint balance: amount_money minus
+         * fee_money in the same currency. Signed monetary amount represented as integer minor
+         * units plus an ISO 4217 currency code. occurred_at (Required): string. When the balance
+         * movement happened. Format: date-time. Example: "2026-08-02T16:00:00Z". order (Optional):
+         * {@link ExpandedOrderSummary} or null. The order, inlined when you request expand=order.
+         * null when expanded and the transaction has no order_id. Present only when `expand`
+         * includes `order`; `null` when expanded and there is no related order. order.anyOf[1]
+         * (Value): {@link ExpandedOrderSummary}. An order's summary fields, including status,
+         * payment and refund status, and pricing and settlement amounts, returned when the order
+         * is expanded. order.anyOf[2] (Value): null. order_id (Optional): string. The Flint order
+         * this movement relates to, such as the order a payment was for. Absent when the movement
+         * isn't tied to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". payout_id (Optional):
+         * string. The payout that carried this balance transaction to your bank. Set once, when
+         * that payout's contents are prepared, and never changed afterward, including if the
+         * payout later fails or is reversed. Absent until then, and on transactions no payout
+         * carries. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV". related_balance_transaction_ids
+         * (Required): Array of string. Earlier balance transactions this one is linked to,
+         * including the exact payment principal a refund returns, the payout transaction that a
+         * payout_failure, payout_cancellation, or payout_reversal returns, or the collection a
+         * merchant_billing_collection_reversal reverses. Empty when there are none.
+         * related_balance_transaction_ids[] (Value): string. Example:
+         * "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ". related_resource (Optional): {@link
+         * ResourceReference}. The Flint resource behind this movement: a payment_intent, refund,
+         * dispute, payout, payout_destination, or merchant_billing_invoice. Absent when the
+         * movement has none. A reference to another resource by `resource_type` and `resource_id`.
+         * status (Required): string. Whether the funds can be paid out yet: pending until they
+         * become available, then available. Only these two values appear, and the change to
+         * available sends balance_transaction.updated. Value enum: "pending", "available". type
+         * (Required): string. Kind of balance movement. Unmapped movement types are returned as
+         * other. Value enum: "payment", "refund", "dispute", "dispute_reversal", "return",
+         * "recovery", "payout", "payout_failure", "payout_cancellation", "payout_reversal",
+         * "payout_advance", "payout_advance_funding", "reserve_hold", "reserve_release",
+         * "adjustment", "merchant_billing_collection", "merchant_billing_collection_reversal",
+         * "other".
+         */
+        "object": {
+            /**
+             * Signed gross amount of this balance movement, before any fee. Signed monetary amount
+             * represented as integer minor units plus an ISO 4217 currency code.
+             */
+            "amount_money": MoneyValue;
+            /**
+             * When the funds become, or became, available to pay out. Present on pending
+             * transactions as the expected time; status says whether they are available now.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "available_at"?: string;
+            /**
+             * Stable identifier of this balance transaction. Example:
+             * "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ".
+             */
+            "balance_transaction_id": string;
+            /**
+             * ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example:
+             * "USD".
+             */
+            "currency": string;
+            /**
+             * Short text describing the movement, from Flint or your processor. Use it for
+             * display, not for matching.
+             */
+            "description"?: string;
+            /**
+             * Fee deducted from this balance movement. On payments, this is processing_fee_money
+             * plus every add-on fee in add_on_fees. On disputes and dispute reversals, this
+             * includes the processor's dispute fee charged to your balance or actually returned to
+             * it. Charges are positive; returned fees are negative. A dispute of -4200 with a fee
+             * of 1500 has a net amount of -5700. A won dispute does not by itself return the fee.
+             * Signed monetary amount represented as integer minor units plus an ISO 4217 currency
+             * code.
+             */
+            "fee_money": MoneyValue;
+            /**
+             * Merchant whose balance this transaction moved. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id": string;
+            /**
+             * Signed net effect on your Flint balance: amount_money minus fee_money in the same
+             * currency. Signed monetary amount represented as integer minor units plus an ISO 4217
+             * currency code.
+             */
+            "net_money": MoneyValue;
+            /**
+             * When the balance movement happened. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "occurred_at": string;
+            /**
+             * The order, inlined when you request expand=order. null when expanded and the
+             * transaction has no order_id. Present only when `expand` includes `order`; `null`
+             * when expanded and there is no related order. anyOf[1] (Value): {@link
+             * ExpandedOrderSummary}. An order's summary fields, including status, payment and
+             * refund status, and pricing and settlement amounts, returned when the order is
+             * expanded. anyOf[2] (Value): null.
+             */
+            "order"?: ((ExpandedOrderSummary) | (null));
+            /**
+             * The Flint order this movement relates to, such as the order a payment was for.
+             * Absent when the movement isn't tied to an order. Example:
+             * "ord_01KEZF7C0054GQKJ142A8X367A".
+             */
+            "order_id"?: string;
+            /**
+             * The payout that carried this balance transaction to your bank. Set once, when that
+             * payout's contents are prepared, and never changed afterward, including if the payout
+             * later fails or is reversed. Absent until then, and on transactions no payout
+             * carries. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV".
+             */
+            "payout_id"?: string;
+            /**
+             * Earlier balance transactions this one is linked to, including the exact payment
+             * principal a refund returns, the payout transaction that a payout_failure,
+             * payout_cancellation, or payout_reversal returns, or the collection a
+             * merchant_billing_collection_reversal reverses. Empty when there are none. []
+             * (Value): string. Example: "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ".
+             */
+            "related_balance_transaction_ids": Array<string>;
+            /**
+             * The Flint resource behind this movement: a payment_intent, refund, dispute, payout,
+             * payout_destination, or merchant_billing_invoice. Absent when the movement has none.
+             * A reference to another resource by `resource_type` and `resource_id`.
+             */
+            "related_resource"?: ResourceReference;
+            /**
+             * Whether the funds can be paid out yet: pending until they become available, then
+             * available. Only these two values appear, and the change to available sends
+             * balance_transaction.updated. Value enum: "pending", "available".
+             */
+            "status": "pending" | "available" | (string & {});
+            /**
+             * Kind of balance movement. Unmapped movement types are returned as other. Value enum:
+             * "payment", "refund", "dispute", "dispute_reversal", "return", "recovery", "payout",
+             * "payout_failure", "payout_cancellation", "payout_reversal", "payout_advance",
+             * "payout_advance_funding", "reserve_hold", "reserve_release", "adjustment",
+             * "merchant_billing_collection", "merchant_billing_collection_reversal", "other".
+             */
+            "type": "payment"
+                | "refund"
+                | "dispute"
+                | "dispute_reversal"
+                | "return"
+                | "recovery"
+                | "payout"
+                | "payout_failure"
+                | "payout_cancellation"
+                | "payout_reversal"
+                | "payout_advance"
+                | "payout_advance_funding"
+                | "reserve_hold"
+                | "reserve_release"
+                | "adjustment"
+                | "merchant_billing_collection"
+                | "merchant_billing_collection_reversal"
+                | "other"
+                | (string & {});
+        };
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "balance_transaction.created". */
+    "event_type"?: "balance_transaction.created";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `balance_transaction.created` webhook payload for the `merchant` event source. Fields shared
+ * by merchant webhook payloads.
+ */
+export type BalanceTransactionCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.amount_money (Required): {@link MoneyValue}. Signed gross amount
+     * of this balance movement, before any fee. Signed monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code. object.available_at (Optional): string. When the
+     * funds become, or became, available to pay out. Present on pending transactions as the
+     * expected time; status says whether they are available now. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.balance_transaction_id (Required): string. Stable identifier
+     * of this balance transaction. Example: "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ". object.currency
+     * (Required): string. ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     * Example: "USD". object.description (Optional): string. Short text describing the movement,
+     * from Flint or your processor. Use it for display, not for matching. object.fee_money
+     * (Required): {@link MoneyValue}. Fee deducted from this balance movement. On payments, this
+     * is processing_fee_money plus every add-on fee in add_on_fees. On disputes and dispute
+     * reversals, this includes the processor's dispute fee charged to your balance or actually
+     * returned to it. Charges are positive; returned fees are negative. A dispute of -4200 with a
+     * fee of 1500 has a net amount of -5700. A won dispute does not by itself return the fee.
+     * Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * object.merchant_id (Required): string. Merchant whose balance this transaction moved.
+     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.net_money (Required): {@link MoneyValue}.
+     * Signed net effect on your Flint balance: amount_money minus fee_money in the same currency.
+     * Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * object.occurred_at (Required): string. When the balance movement happened. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.order (Optional): {@link
+     * ExpandedOrderSummary} or null. The order, inlined when you request expand=order. null when
+     * expanded and the transaction has no order_id. Present only when `expand` includes `order`;
+     * `null` when expanded and there is no related order. object.order.anyOf[1] (Value): {@link
+     * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
+     * status, and pricing and settlement amounts, returned when the order is expanded.
+     * object.order.anyOf[2] (Value): null. object.order_id (Optional): string. The Flint order
+     * this movement relates to, such as the order a payment was for. Absent when the movement
+     * isn't tied to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.payout_id
+     * (Optional): string. The payout that carried this balance transaction to your bank. Set once,
+     * when that payout's contents are prepared, and never changed afterward, including if the
+     * payout later fails or is reversed. Absent until then, and on transactions no payout carries.
+     * Example: "po_01KEZF7C00PXK8XREWJA6K4FGV". object.related_balance_transaction_ids (Required):
+     * Array of string. Earlier balance transactions this one is linked to, including the exact
+     * payment principal a refund returns, the payout transaction that a payout_failure,
+     * payout_cancellation, or payout_reversal returns, or the collection a
+     * merchant_billing_collection_reversal reverses. Empty when there are none.
+     * object.related_balance_transaction_ids[] (Value): string. Example:
+     * "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ". object.related_resource (Optional): {@link
+     * ResourceReference}. The Flint resource behind this movement: a payment_intent, refund,
+     * dispute, payout, payout_destination, or merchant_billing_invoice. Absent when the movement
+     * has none. A reference to another resource by `resource_type` and `resource_id`.
+     * object.status (Required): string. Whether the funds can be paid out yet: pending until they
+     * become available, then available. Only these two values appear, and the change to available
+     * sends balance_transaction.updated. Value enum: "pending", "available". object.type
+     * (Required): string. Kind of balance movement. Unmapped movement types are returned as other.
+     * Value enum: "payment", "refund", "dispute", "dispute_reversal", "return", "recovery",
+     * "payout", "payout_failure", "payout_cancellation", "payout_reversal", "payout_advance",
+     * "payout_advance_funding", "reserve_hold", "reserve_release", "adjustment",
+     * "merchant_billing_collection", "merchant_billing_collection_reversal", "other".
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * amount_money (Required): {@link MoneyValue}. Signed gross amount of this balance
+         * movement, before any fee. Signed monetary amount represented as integer minor units plus
+         * an ISO 4217 currency code. available_at (Optional): string. When the funds become, or
+         * became, available to pay out. Present on pending transactions as the expected time;
+         * status says whether they are available now. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". balance_transaction_id (Required): string. Stable identifier of
+         * this balance transaction. Example: "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ". currency
+         * (Required): string. ISO 4217 currency code. minLength: 3. maxLength: 3. pattern:
+         * ^[A-Z]{3}$. Example: "USD". description (Optional): string. Short text describing the
+         * movement, from Flint or your processor. Use it for display, not for matching. fee_money
+         * (Required): {@link MoneyValue}. Fee deducted from this balance movement. On payments,
+         * this is processing_fee_money plus every add-on fee in add_on_fees. On disputes and
+         * dispute reversals, this includes the processor's dispute fee charged to your balance or
+         * actually returned to it. Charges are positive; returned fees are negative. A dispute of
+         * -4200 with a fee of 1500 has a net amount of -5700. A won dispute does not by itself
+         * return the fee. Signed monetary amount represented as integer minor units plus an ISO
+         * 4217 currency code. merchant_id (Required): string. Merchant whose balance this
+         * transaction moved. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". net_money (Required):
+         * {@link MoneyValue}. Signed net effect on your Flint balance: amount_money minus
+         * fee_money in the same currency. Signed monetary amount represented as integer minor
+         * units plus an ISO 4217 currency code. occurred_at (Required): string. When the balance
+         * movement happened. Format: date-time. Example: "2026-08-02T16:00:00Z". order (Optional):
+         * {@link ExpandedOrderSummary} or null. The order, inlined when you request expand=order.
+         * null when expanded and the transaction has no order_id. Present only when `expand`
+         * includes `order`; `null` when expanded and there is no related order. order.anyOf[1]
+         * (Value): {@link ExpandedOrderSummary}. An order's summary fields, including status,
+         * payment and refund status, and pricing and settlement amounts, returned when the order
+         * is expanded. order.anyOf[2] (Value): null. order_id (Optional): string. The Flint order
+         * this movement relates to, such as the order a payment was for. Absent when the movement
+         * isn't tied to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". payout_id (Optional):
+         * string. The payout that carried this balance transaction to your bank. Set once, when
+         * that payout's contents are prepared, and never changed afterward, including if the
+         * payout later fails or is reversed. Absent until then, and on transactions no payout
+         * carries. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV". related_balance_transaction_ids
+         * (Required): Array of string. Earlier balance transactions this one is linked to,
+         * including the exact payment principal a refund returns, the payout transaction that a
+         * payout_failure, payout_cancellation, or payout_reversal returns, or the collection a
+         * merchant_billing_collection_reversal reverses. Empty when there are none.
+         * related_balance_transaction_ids[] (Value): string. Example:
+         * "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ". related_resource (Optional): {@link
+         * ResourceReference}. The Flint resource behind this movement: a payment_intent, refund,
+         * dispute, payout, payout_destination, or merchant_billing_invoice. Absent when the
+         * movement has none. A reference to another resource by `resource_type` and `resource_id`.
+         * status (Required): string. Whether the funds can be paid out yet: pending until they
+         * become available, then available. Only these two values appear, and the change to
+         * available sends balance_transaction.updated. Value enum: "pending", "available". type
+         * (Required): string. Kind of balance movement. Unmapped movement types are returned as
+         * other. Value enum: "payment", "refund", "dispute", "dispute_reversal", "return",
+         * "recovery", "payout", "payout_failure", "payout_cancellation", "payout_reversal",
+         * "payout_advance", "payout_advance_funding", "reserve_hold", "reserve_release",
+         * "adjustment", "merchant_billing_collection", "merchant_billing_collection_reversal",
+         * "other".
+         */
+        "object": {
+            /**
+             * Signed gross amount of this balance movement, before any fee. Signed monetary amount
+             * represented as integer minor units plus an ISO 4217 currency code.
+             */
+            "amount_money": MoneyValue;
+            /**
+             * When the funds become, or became, available to pay out. Present on pending
+             * transactions as the expected time; status says whether they are available now.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "available_at"?: string;
+            /**
+             * Stable identifier of this balance transaction. Example:
+             * "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ".
+             */
+            "balance_transaction_id": string;
+            /**
+             * ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example:
+             * "USD".
+             */
+            "currency": string;
+            /**
+             * Short text describing the movement, from Flint or your processor. Use it for
+             * display, not for matching.
+             */
+            "description"?: string;
+            /**
+             * Fee deducted from this balance movement. On payments, this is processing_fee_money
+             * plus every add-on fee in add_on_fees. On disputes and dispute reversals, this
+             * includes the processor's dispute fee charged to your balance or actually returned to
+             * it. Charges are positive; returned fees are negative. A dispute of -4200 with a fee
+             * of 1500 has a net amount of -5700. A won dispute does not by itself return the fee.
+             * Signed monetary amount represented as integer minor units plus an ISO 4217 currency
+             * code.
+             */
+            "fee_money": MoneyValue;
+            /**
+             * Merchant whose balance this transaction moved. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id": string;
+            /**
+             * Signed net effect on your Flint balance: amount_money minus fee_money in the same
+             * currency. Signed monetary amount represented as integer minor units plus an ISO 4217
+             * currency code.
+             */
+            "net_money": MoneyValue;
+            /**
+             * When the balance movement happened. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "occurred_at": string;
+            /**
+             * The order, inlined when you request expand=order. null when expanded and the
+             * transaction has no order_id. Present only when `expand` includes `order`; `null`
+             * when expanded and there is no related order. anyOf[1] (Value): {@link
+             * ExpandedOrderSummary}. An order's summary fields, including status, payment and
+             * refund status, and pricing and settlement amounts, returned when the order is
+             * expanded. anyOf[2] (Value): null.
+             */
+            "order"?: ((ExpandedOrderSummary) | (null));
+            /**
+             * The Flint order this movement relates to, such as the order a payment was for.
+             * Absent when the movement isn't tied to an order. Example:
+             * "ord_01KEZF7C0054GQKJ142A8X367A".
+             */
+            "order_id"?: string;
+            /**
+             * The payout that carried this balance transaction to your bank. Set once, when that
+             * payout's contents are prepared, and never changed afterward, including if the payout
+             * later fails or is reversed. Absent until then, and on transactions no payout
+             * carries. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV".
+             */
+            "payout_id"?: string;
+            /**
+             * Earlier balance transactions this one is linked to, including the exact payment
+             * principal a refund returns, the payout transaction that a payout_failure,
+             * payout_cancellation, or payout_reversal returns, or the collection a
+             * merchant_billing_collection_reversal reverses. Empty when there are none. []
+             * (Value): string. Example: "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ".
+             */
+            "related_balance_transaction_ids": Array<string>;
+            /**
+             * The Flint resource behind this movement: a payment_intent, refund, dispute, payout,
+             * payout_destination, or merchant_billing_invoice. Absent when the movement has none.
+             * A reference to another resource by `resource_type` and `resource_id`.
+             */
+            "related_resource"?: ResourceReference;
+            /**
+             * Whether the funds can be paid out yet: pending until they become available, then
+             * available. Only these two values appear, and the change to available sends
+             * balance_transaction.updated. Value enum: "pending", "available".
+             */
+            "status": "pending" | "available" | (string & {});
+            /**
+             * Kind of balance movement. Unmapped movement types are returned as other. Value enum:
+             * "payment", "refund", "dispute", "dispute_reversal", "return", "recovery", "payout",
+             * "payout_failure", "payout_cancellation", "payout_reversal", "payout_advance",
+             * "payout_advance_funding", "reserve_hold", "reserve_release", "adjustment",
+             * "merchant_billing_collection", "merchant_billing_collection_reversal", "other".
+             */
+            "type": "payment"
+                | "refund"
+                | "dispute"
+                | "dispute_reversal"
+                | "return"
+                | "recovery"
+                | "payout"
+                | "payout_failure"
+                | "payout_cancellation"
+                | "payout_reversal"
+                | "payout_advance"
+                | "payout_advance_funding"
+                | "reserve_hold"
+                | "reserve_release"
+                | "adjustment"
+                | "merchant_billing_collection"
+                | "merchant_billing_collection_reversal"
+                | "other"
+                | (string & {});
+        };
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "balance_transaction.created". */
+    "event_type"?: "balance_transaction.created";
+});
+/** A page of `BalanceTransaction` objects. */
+export type BalanceTransactionListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * BalanceTransaction}. A change to the merchant's balance.
+     */
+    "data": Array<BalanceTransaction>;
+    /**
+     * Additional information about this response. Response metadata for money movement lists,
+     * including request and trace IDs, warnings, and the state of the available history.
+     */
+    "meta"?: MoneyMovementListMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `BalanceTransaction` data. */
+export type BalanceTransactionResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A change to the
+     * merchant's balance.
+     */
+    "data": BalanceTransaction;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type BalanceTransactionUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "amount_money": MoneyValue;
+            "available_at"?: string;
+            "balance_transaction_id": string;
+            "currency": string;
+            "description"?: string;
+            "fee_money": MoneyValue;
+            "merchant_id": string;
+            "net_money": MoneyValue;
+            "occurred_at": string;
+            "order"?: ((ExpandedOrderSummary) | (null));
+            "order_id"?: string;
+            "payout_id"?: string;
+            "related_balance_transaction_ids": Array<string>;
+            "related_resource"?: ResourceReference;
+            "status": "pending" | "available" | (string & {});
+            "type": "payment"
+                | "refund"
+                | "dispute"
+                | "dispute_reversal"
+                | "return"
+                | "recovery"
+                | "payout"
+                | "payout_failure"
+                | "payout_cancellation"
+                | "payout_reversal"
+                | "payout_advance"
+                | "payout_advance_funding"
+                | "reserve_hold"
+                | "reserve_release"
+                | "adjustment"
+                | "merchant_billing_collection"
+                | "merchant_billing_collection_reversal"
+                | "other"
+                | (string & {});
+        };
+        "previous_attributes"?: Partial<BalanceTransaction>;
+    };
+    "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "balance_transaction.updated";
-})
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "amount_money": MoneyValue;
+            "available_at"?: string;
+            "balance_transaction_id": string;
+            "currency": string;
+            "description"?: string;
+            "fee_money": MoneyValue;
+            "merchant_id": string;
+            "net_money": MoneyValue;
+            "occurred_at": string;
+            "order"?: ((ExpandedOrderSummary) | (null));
+            "order_id"?: string;
+            "payout_id"?: string;
+            "related_balance_transaction_ids": Array<string>;
+            "related_resource"?: ResourceReference;
+            "status": "pending" | "available" | (string & {});
+            "type": "payment"
+                | "refund"
+                | "dispute"
+                | "dispute_reversal"
+                | "return"
+                | "recovery"
+                | "payout"
+                | "payout_failure"
+                | "payout_cancellation"
+                | "payout_reversal"
+                | "payout_advance"
+                | "payout_advance_funding"
+                | "reserve_hold"
+                | "reserve_release"
+                | "adjustment"
+                | "merchant_billing_collection"
+                | "merchant_billing_collection_reversal"
+                | "other"
+                | (string & {});
+        };
+        "previous_attributes"?: Partial<BalanceTransaction>;
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "balance_transaction.updated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
     & {
     "event_type": "balance_transaction.updated";
 });
+/**
+ * The `balance_transaction.updated` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type BalanceTransactionUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.amount_money (Required): {@link MoneyValue}. Signed gross amount
+     * of this balance movement, before any fee. Signed monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code. object.available_at (Optional): string. When the
+     * funds become, or became, available to pay out. Present on pending transactions as the
+     * expected time; status says whether they are available now. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.balance_transaction_id (Required): string. Stable identifier
+     * of this balance transaction. Example: "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ". object.currency
+     * (Required): string. ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     * Example: "USD". object.description (Optional): string. Short text describing the movement,
+     * from Flint or your processor. Use it for display, not for matching. object.fee_money
+     * (Required): {@link MoneyValue}. Fee deducted from this balance movement. On payments, this
+     * is processing_fee_money plus every add-on fee in add_on_fees. On disputes and dispute
+     * reversals, this includes the processor's dispute fee charged to your balance or actually
+     * returned to it. Charges are positive; returned fees are negative. A dispute of -4200 with a
+     * fee of 1500 has a net amount of -5700. A won dispute does not by itself return the fee.
+     * Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * object.merchant_id (Required): string. Merchant whose balance this transaction moved.
+     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.net_money (Required): {@link MoneyValue}.
+     * Signed net effect on your Flint balance: amount_money minus fee_money in the same currency.
+     * Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * object.occurred_at (Required): string. When the balance movement happened. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.order (Optional): {@link
+     * ExpandedOrderSummary} or null. The order, inlined when you request expand=order. null when
+     * expanded and the transaction has no order_id. Present only when `expand` includes `order`;
+     * `null` when expanded and there is no related order. object.order.anyOf[1] (Value): {@link
+     * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
+     * status, and pricing and settlement amounts, returned when the order is expanded.
+     * object.order.anyOf[2] (Value): null. object.order_id (Optional): string. The Flint order
+     * this movement relates to, such as the order a payment was for. Absent when the movement
+     * isn't tied to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.payout_id
+     * (Optional): string. The payout that carried this balance transaction to your bank. Set once,
+     * when that payout's contents are prepared, and never changed afterward, including if the
+     * payout later fails or is reversed. Absent until then, and on transactions no payout carries.
+     * Example: "po_01KEZF7C00PXK8XREWJA6K4FGV". object.related_balance_transaction_ids (Required):
+     * Array of string. Earlier balance transactions this one is linked to, including the exact
+     * payment principal a refund returns, the payout transaction that a payout_failure,
+     * payout_cancellation, or payout_reversal returns, or the collection a
+     * merchant_billing_collection_reversal reverses. Empty when there are none.
+     * object.related_balance_transaction_ids[] (Value): string. Example:
+     * "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ". object.related_resource (Optional): {@link
+     * ResourceReference}. The Flint resource behind this movement: a payment_intent, refund,
+     * dispute, payout, payout_destination, or merchant_billing_invoice. Absent when the movement
+     * has none. A reference to another resource by `resource_type` and `resource_id`.
+     * object.status (Required): string. Whether the funds can be paid out yet: pending until they
+     * become available, then available. Only these two values appear, and the change to available
+     * sends balance_transaction.updated. Value enum: "pending", "available". object.type
+     * (Required): string. Kind of balance movement. Unmapped movement types are returned as other.
+     * Value enum: "payment", "refund", "dispute", "dispute_reversal", "return", "recovery",
+     * "payout", "payout_failure", "payout_cancellation", "payout_reversal", "payout_advance",
+     * "payout_advance_funding", "reserve_hold", "reserve_release", "adjustment",
+     * "merchant_billing_collection", "merchant_billing_collection_reversal", "other".
+     * previous_attributes (Optional): object. Previous values of changed top-level fields in
+     * data.object, at this delivery's API version. Nested changes include the whole previous
+     * top-level value. A value is null when the field was absent before the change. Omitted when
+     * Flint did not record the previous state, including synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * amount_money (Required): {@link MoneyValue}. Signed gross amount of this balance
+         * movement, before any fee. Signed monetary amount represented as integer minor units plus
+         * an ISO 4217 currency code. available_at (Optional): string. When the funds become, or
+         * became, available to pay out. Present on pending transactions as the expected time;
+         * status says whether they are available now. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". balance_transaction_id (Required): string. Stable identifier of
+         * this balance transaction. Example: "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ". currency
+         * (Required): string. ISO 4217 currency code. minLength: 3. maxLength: 3. pattern:
+         * ^[A-Z]{3}$. Example: "USD". description (Optional): string. Short text describing the
+         * movement, from Flint or your processor. Use it for display, not for matching. fee_money
+         * (Required): {@link MoneyValue}. Fee deducted from this balance movement. On payments,
+         * this is processing_fee_money plus every add-on fee in add_on_fees. On disputes and
+         * dispute reversals, this includes the processor's dispute fee charged to your balance or
+         * actually returned to it. Charges are positive; returned fees are negative. A dispute of
+         * -4200 with a fee of 1500 has a net amount of -5700. A won dispute does not by itself
+         * return the fee. Signed monetary amount represented as integer minor units plus an ISO
+         * 4217 currency code. merchant_id (Required): string. Merchant whose balance this
+         * transaction moved. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". net_money (Required):
+         * {@link MoneyValue}. Signed net effect on your Flint balance: amount_money minus
+         * fee_money in the same currency. Signed monetary amount represented as integer minor
+         * units plus an ISO 4217 currency code. occurred_at (Required): string. When the balance
+         * movement happened. Format: date-time. Example: "2026-08-02T16:00:00Z". order (Optional):
+         * {@link ExpandedOrderSummary} or null. The order, inlined when you request expand=order.
+         * null when expanded and the transaction has no order_id. Present only when `expand`
+         * includes `order`; `null` when expanded and there is no related order. order.anyOf[1]
+         * (Value): {@link ExpandedOrderSummary}. An order's summary fields, including status,
+         * payment and refund status, and pricing and settlement amounts, returned when the order
+         * is expanded. order.anyOf[2] (Value): null. order_id (Optional): string. The Flint order
+         * this movement relates to, such as the order a payment was for. Absent when the movement
+         * isn't tied to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". payout_id (Optional):
+         * string. The payout that carried this balance transaction to your bank. Set once, when
+         * that payout's contents are prepared, and never changed afterward, including if the
+         * payout later fails or is reversed. Absent until then, and on transactions no payout
+         * carries. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV". related_balance_transaction_ids
+         * (Required): Array of string. Earlier balance transactions this one is linked to,
+         * including the exact payment principal a refund returns, the payout transaction that a
+         * payout_failure, payout_cancellation, or payout_reversal returns, or the collection a
+         * merchant_billing_collection_reversal reverses. Empty when there are none.
+         * related_balance_transaction_ids[] (Value): string. Example:
+         * "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ". related_resource (Optional): {@link
+         * ResourceReference}. The Flint resource behind this movement: a payment_intent, refund,
+         * dispute, payout, payout_destination, or merchant_billing_invoice. Absent when the
+         * movement has none. A reference to another resource by `resource_type` and `resource_id`.
+         * status (Required): string. Whether the funds can be paid out yet: pending until they
+         * become available, then available. Only these two values appear, and the change to
+         * available sends balance_transaction.updated. Value enum: "pending", "available". type
+         * (Required): string. Kind of balance movement. Unmapped movement types are returned as
+         * other. Value enum: "payment", "refund", "dispute", "dispute_reversal", "return",
+         * "recovery", "payout", "payout_failure", "payout_cancellation", "payout_reversal",
+         * "payout_advance", "payout_advance_funding", "reserve_hold", "reserve_release",
+         * "adjustment", "merchant_billing_collection", "merchant_billing_collection_reversal",
+         * "other".
+         */
+        "object": {
+            /**
+             * Signed gross amount of this balance movement, before any fee. Signed monetary amount
+             * represented as integer minor units plus an ISO 4217 currency code.
+             */
+            "amount_money": MoneyValue;
+            /**
+             * When the funds become, or became, available to pay out. Present on pending
+             * transactions as the expected time; status says whether they are available now.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "available_at"?: string;
+            /**
+             * Stable identifier of this balance transaction. Example:
+             * "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ".
+             */
+            "balance_transaction_id": string;
+            /**
+             * ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example:
+             * "USD".
+             */
+            "currency": string;
+            /**
+             * Short text describing the movement, from Flint or your processor. Use it for
+             * display, not for matching.
+             */
+            "description"?: string;
+            /**
+             * Fee deducted from this balance movement. On payments, this is processing_fee_money
+             * plus every add-on fee in add_on_fees. On disputes and dispute reversals, this
+             * includes the processor's dispute fee charged to your balance or actually returned to
+             * it. Charges are positive; returned fees are negative. A dispute of -4200 with a fee
+             * of 1500 has a net amount of -5700. A won dispute does not by itself return the fee.
+             * Signed monetary amount represented as integer minor units plus an ISO 4217 currency
+             * code.
+             */
+            "fee_money": MoneyValue;
+            /**
+             * Merchant whose balance this transaction moved. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id": string;
+            /**
+             * Signed net effect on your Flint balance: amount_money minus fee_money in the same
+             * currency. Signed monetary amount represented as integer minor units plus an ISO 4217
+             * currency code.
+             */
+            "net_money": MoneyValue;
+            /**
+             * When the balance movement happened. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "occurred_at": string;
+            /**
+             * The order, inlined when you request expand=order. null when expanded and the
+             * transaction has no order_id. Present only when `expand` includes `order`; `null`
+             * when expanded and there is no related order. anyOf[1] (Value): {@link
+             * ExpandedOrderSummary}. An order's summary fields, including status, payment and
+             * refund status, and pricing and settlement amounts, returned when the order is
+             * expanded. anyOf[2] (Value): null.
+             */
+            "order"?: ((ExpandedOrderSummary) | (null));
+            /**
+             * The Flint order this movement relates to, such as the order a payment was for.
+             * Absent when the movement isn't tied to an order. Example:
+             * "ord_01KEZF7C0054GQKJ142A8X367A".
+             */
+            "order_id"?: string;
+            /**
+             * The payout that carried this balance transaction to your bank. Set once, when that
+             * payout's contents are prepared, and never changed afterward, including if the payout
+             * later fails or is reversed. Absent until then, and on transactions no payout
+             * carries. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV".
+             */
+            "payout_id"?: string;
+            /**
+             * Earlier balance transactions this one is linked to, including the exact payment
+             * principal a refund returns, the payout transaction that a payout_failure,
+             * payout_cancellation, or payout_reversal returns, or the collection a
+             * merchant_billing_collection_reversal reverses. Empty when there are none. []
+             * (Value): string. Example: "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ".
+             */
+            "related_balance_transaction_ids": Array<string>;
+            /**
+             * The Flint resource behind this movement: a payment_intent, refund, dispute, payout,
+             * payout_destination, or merchant_billing_invoice. Absent when the movement has none.
+             * A reference to another resource by `resource_type` and `resource_id`.
+             */
+            "related_resource"?: ResourceReference;
+            /**
+             * Whether the funds can be paid out yet: pending until they become available, then
+             * available. Only these two values appear, and the change to available sends
+             * balance_transaction.updated. Value enum: "pending", "available".
+             */
+            "status": "pending" | "available" | (string & {});
+            /**
+             * Kind of balance movement. Unmapped movement types are returned as other. Value enum:
+             * "payment", "refund", "dispute", "dispute_reversal", "return", "recovery", "payout",
+             * "payout_failure", "payout_cancellation", "payout_reversal", "payout_advance",
+             * "payout_advance_funding", "reserve_hold", "reserve_release", "adjustment",
+             * "merchant_billing_collection", "merchant_billing_collection_reversal", "other".
+             */
+            "type": "payment"
+                | "refund"
+                | "dispute"
+                | "dispute_reversal"
+                | "return"
+                | "recovery"
+                | "payout"
+                | "payout_failure"
+                | "payout_cancellation"
+                | "payout_reversal"
+                | "payout_advance"
+                | "payout_advance_funding"
+                | "reserve_hold"
+                | "reserve_release"
+                | "adjustment"
+                | "merchant_billing_collection"
+                | "merchant_billing_collection_reversal"
+                | "other"
+                | (string & {});
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<BalanceTransaction>;
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "balance_transaction.updated". */
+    "event_type"?: "balance_transaction.updated";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `balance_transaction.updated` webhook payload for the `merchant` event source. Fields shared
+ * by merchant webhook payloads.
+ */
+export type BalanceTransactionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.amount_money (Required): {@link MoneyValue}. Signed gross amount
+     * of this balance movement, before any fee. Signed monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code. object.available_at (Optional): string. When the
+     * funds become, or became, available to pay out. Present on pending transactions as the
+     * expected time; status says whether they are available now. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.balance_transaction_id (Required): string. Stable identifier
+     * of this balance transaction. Example: "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ". object.currency
+     * (Required): string. ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     * Example: "USD". object.description (Optional): string. Short text describing the movement,
+     * from Flint or your processor. Use it for display, not for matching. object.fee_money
+     * (Required): {@link MoneyValue}. Fee deducted from this balance movement. On payments, this
+     * is processing_fee_money plus every add-on fee in add_on_fees. On disputes and dispute
+     * reversals, this includes the processor's dispute fee charged to your balance or actually
+     * returned to it. Charges are positive; returned fees are negative. A dispute of -4200 with a
+     * fee of 1500 has a net amount of -5700. A won dispute does not by itself return the fee.
+     * Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * object.merchant_id (Required): string. Merchant whose balance this transaction moved.
+     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.net_money (Required): {@link MoneyValue}.
+     * Signed net effect on your Flint balance: amount_money minus fee_money in the same currency.
+     * Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * object.occurred_at (Required): string. When the balance movement happened. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.order (Optional): {@link
+     * ExpandedOrderSummary} or null. The order, inlined when you request expand=order. null when
+     * expanded and the transaction has no order_id. Present only when `expand` includes `order`;
+     * `null` when expanded and there is no related order. object.order.anyOf[1] (Value): {@link
+     * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
+     * status, and pricing and settlement amounts, returned when the order is expanded.
+     * object.order.anyOf[2] (Value): null. object.order_id (Optional): string. The Flint order
+     * this movement relates to, such as the order a payment was for. Absent when the movement
+     * isn't tied to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.payout_id
+     * (Optional): string. The payout that carried this balance transaction to your bank. Set once,
+     * when that payout's contents are prepared, and never changed afterward, including if the
+     * payout later fails or is reversed. Absent until then, and on transactions no payout carries.
+     * Example: "po_01KEZF7C00PXK8XREWJA6K4FGV". object.related_balance_transaction_ids (Required):
+     * Array of string. Earlier balance transactions this one is linked to, including the exact
+     * payment principal a refund returns, the payout transaction that a payout_failure,
+     * payout_cancellation, or payout_reversal returns, or the collection a
+     * merchant_billing_collection_reversal reverses. Empty when there are none.
+     * object.related_balance_transaction_ids[] (Value): string. Example:
+     * "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ". object.related_resource (Optional): {@link
+     * ResourceReference}. The Flint resource behind this movement: a payment_intent, refund,
+     * dispute, payout, payout_destination, or merchant_billing_invoice. Absent when the movement
+     * has none. A reference to another resource by `resource_type` and `resource_id`.
+     * object.status (Required): string. Whether the funds can be paid out yet: pending until they
+     * become available, then available. Only these two values appear, and the change to available
+     * sends balance_transaction.updated. Value enum: "pending", "available". object.type
+     * (Required): string. Kind of balance movement. Unmapped movement types are returned as other.
+     * Value enum: "payment", "refund", "dispute", "dispute_reversal", "return", "recovery",
+     * "payout", "payout_failure", "payout_cancellation", "payout_reversal", "payout_advance",
+     * "payout_advance_funding", "reserve_hold", "reserve_release", "adjustment",
+     * "merchant_billing_collection", "merchant_billing_collection_reversal", "other".
+     * previous_attributes (Optional): object. Previous values of changed top-level fields in
+     * data.object, at this delivery's API version. Nested changes include the whole previous
+     * top-level value. A value is null when the field was absent before the change. Omitted when
+     * Flint did not record the previous state, including synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * amount_money (Required): {@link MoneyValue}. Signed gross amount of this balance
+         * movement, before any fee. Signed monetary amount represented as integer minor units plus
+         * an ISO 4217 currency code. available_at (Optional): string. When the funds become, or
+         * became, available to pay out. Present on pending transactions as the expected time;
+         * status says whether they are available now. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". balance_transaction_id (Required): string. Stable identifier of
+         * this balance transaction. Example: "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ". currency
+         * (Required): string. ISO 4217 currency code. minLength: 3. maxLength: 3. pattern:
+         * ^[A-Z]{3}$. Example: "USD". description (Optional): string. Short text describing the
+         * movement, from Flint or your processor. Use it for display, not for matching. fee_money
+         * (Required): {@link MoneyValue}. Fee deducted from this balance movement. On payments,
+         * this is processing_fee_money plus every add-on fee in add_on_fees. On disputes and
+         * dispute reversals, this includes the processor's dispute fee charged to your balance or
+         * actually returned to it. Charges are positive; returned fees are negative. A dispute of
+         * -4200 with a fee of 1500 has a net amount of -5700. A won dispute does not by itself
+         * return the fee. Signed monetary amount represented as integer minor units plus an ISO
+         * 4217 currency code. merchant_id (Required): string. Merchant whose balance this
+         * transaction moved. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". net_money (Required):
+         * {@link MoneyValue}. Signed net effect on your Flint balance: amount_money minus
+         * fee_money in the same currency. Signed monetary amount represented as integer minor
+         * units plus an ISO 4217 currency code. occurred_at (Required): string. When the balance
+         * movement happened. Format: date-time. Example: "2026-08-02T16:00:00Z". order (Optional):
+         * {@link ExpandedOrderSummary} or null. The order, inlined when you request expand=order.
+         * null when expanded and the transaction has no order_id. Present only when `expand`
+         * includes `order`; `null` when expanded and there is no related order. order.anyOf[1]
+         * (Value): {@link ExpandedOrderSummary}. An order's summary fields, including status,
+         * payment and refund status, and pricing and settlement amounts, returned when the order
+         * is expanded. order.anyOf[2] (Value): null. order_id (Optional): string. The Flint order
+         * this movement relates to, such as the order a payment was for. Absent when the movement
+         * isn't tied to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". payout_id (Optional):
+         * string. The payout that carried this balance transaction to your bank. Set once, when
+         * that payout's contents are prepared, and never changed afterward, including if the
+         * payout later fails or is reversed. Absent until then, and on transactions no payout
+         * carries. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV". related_balance_transaction_ids
+         * (Required): Array of string. Earlier balance transactions this one is linked to,
+         * including the exact payment principal a refund returns, the payout transaction that a
+         * payout_failure, payout_cancellation, or payout_reversal returns, or the collection a
+         * merchant_billing_collection_reversal reverses. Empty when there are none.
+         * related_balance_transaction_ids[] (Value): string. Example:
+         * "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ". related_resource (Optional): {@link
+         * ResourceReference}. The Flint resource behind this movement: a payment_intent, refund,
+         * dispute, payout, payout_destination, or merchant_billing_invoice. Absent when the
+         * movement has none. A reference to another resource by `resource_type` and `resource_id`.
+         * status (Required): string. Whether the funds can be paid out yet: pending until they
+         * become available, then available. Only these two values appear, and the change to
+         * available sends balance_transaction.updated. Value enum: "pending", "available". type
+         * (Required): string. Kind of balance movement. Unmapped movement types are returned as
+         * other. Value enum: "payment", "refund", "dispute", "dispute_reversal", "return",
+         * "recovery", "payout", "payout_failure", "payout_cancellation", "payout_reversal",
+         * "payout_advance", "payout_advance_funding", "reserve_hold", "reserve_release",
+         * "adjustment", "merchant_billing_collection", "merchant_billing_collection_reversal",
+         * "other".
+         */
+        "object": {
+            /**
+             * Signed gross amount of this balance movement, before any fee. Signed monetary amount
+             * represented as integer minor units plus an ISO 4217 currency code.
+             */
+            "amount_money": MoneyValue;
+            /**
+             * When the funds become, or became, available to pay out. Present on pending
+             * transactions as the expected time; status says whether they are available now.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "available_at"?: string;
+            /**
+             * Stable identifier of this balance transaction. Example:
+             * "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ".
+             */
+            "balance_transaction_id": string;
+            /**
+             * ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example:
+             * "USD".
+             */
+            "currency": string;
+            /**
+             * Short text describing the movement, from Flint or your processor. Use it for
+             * display, not for matching.
+             */
+            "description"?: string;
+            /**
+             * Fee deducted from this balance movement. On payments, this is processing_fee_money
+             * plus every add-on fee in add_on_fees. On disputes and dispute reversals, this
+             * includes the processor's dispute fee charged to your balance or actually returned to
+             * it. Charges are positive; returned fees are negative. A dispute of -4200 with a fee
+             * of 1500 has a net amount of -5700. A won dispute does not by itself return the fee.
+             * Signed monetary amount represented as integer minor units plus an ISO 4217 currency
+             * code.
+             */
+            "fee_money": MoneyValue;
+            /**
+             * Merchant whose balance this transaction moved. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id": string;
+            /**
+             * Signed net effect on your Flint balance: amount_money minus fee_money in the same
+             * currency. Signed monetary amount represented as integer minor units plus an ISO 4217
+             * currency code.
+             */
+            "net_money": MoneyValue;
+            /**
+             * When the balance movement happened. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "occurred_at": string;
+            /**
+             * The order, inlined when you request expand=order. null when expanded and the
+             * transaction has no order_id. Present only when `expand` includes `order`; `null`
+             * when expanded and there is no related order. anyOf[1] (Value): {@link
+             * ExpandedOrderSummary}. An order's summary fields, including status, payment and
+             * refund status, and pricing and settlement amounts, returned when the order is
+             * expanded. anyOf[2] (Value): null.
+             */
+            "order"?: ((ExpandedOrderSummary) | (null));
+            /**
+             * The Flint order this movement relates to, such as the order a payment was for.
+             * Absent when the movement isn't tied to an order. Example:
+             * "ord_01KEZF7C0054GQKJ142A8X367A".
+             */
+            "order_id"?: string;
+            /**
+             * The payout that carried this balance transaction to your bank. Set once, when that
+             * payout's contents are prepared, and never changed afterward, including if the payout
+             * later fails or is reversed. Absent until then, and on transactions no payout
+             * carries. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV".
+             */
+            "payout_id"?: string;
+            /**
+             * Earlier balance transactions this one is linked to, including the exact payment
+             * principal a refund returns, the payout transaction that a payout_failure,
+             * payout_cancellation, or payout_reversal returns, or the collection a
+             * merchant_billing_collection_reversal reverses. Empty when there are none. []
+             * (Value): string. Example: "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ".
+             */
+            "related_balance_transaction_ids": Array<string>;
+            /**
+             * The Flint resource behind this movement: a payment_intent, refund, dispute, payout,
+             * payout_destination, or merchant_billing_invoice. Absent when the movement has none.
+             * A reference to another resource by `resource_type` and `resource_id`.
+             */
+            "related_resource"?: ResourceReference;
+            /**
+             * Whether the funds can be paid out yet: pending until they become available, then
+             * available. Only these two values appear, and the change to available sends
+             * balance_transaction.updated. Value enum: "pending", "available".
+             */
+            "status": "pending" | "available" | (string & {});
+            /**
+             * Kind of balance movement. Unmapped movement types are returned as other. Value enum:
+             * "payment", "refund", "dispute", "dispute_reversal", "return", "recovery", "payout",
+             * "payout_failure", "payout_cancellation", "payout_reversal", "payout_advance",
+             * "payout_advance_funding", "reserve_hold", "reserve_release", "adjustment",
+             * "merchant_billing_collection", "merchant_billing_collection_reversal", "other".
+             */
+            "type": "payment"
+                | "refund"
+                | "dispute"
+                | "dispute_reversal"
+                | "return"
+                | "recovery"
+                | "payout"
+                | "payout_failure"
+                | "payout_cancellation"
+                | "payout_reversal"
+                | "payout_advance"
+                | "payout_advance_funding"
+                | "reserve_hold"
+                | "reserve_release"
+                | "adjustment"
+                | "merchant_billing_collection"
+                | "merchant_billing_collection_reversal"
+                | "other"
+                | (string & {});
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<BalanceTransaction>;
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "balance_transaction.updated". */
+    "event_type"?: "balance_transaction.updated";
+});
 export type BalanceTransactionsGetParams = {
     /**
-     * Supported expansions: order. Expansion requires money_movement.balance_transactions.read
-     * plus commerce.orders.read. Limits: at most 10 unique expand paths per request. Pass
-     * expand=order. [] enum: "order". Value enum: "order". anyOf[1] (Value): Array of string. []
-     * enum: "order". anyOf[1][] (Value): string. Value enum: "order". anyOf[2] (Value): string.
-     * Value enum: "order".
+     * Include related objects in the response. Supported expansions: order. Expansion requires
+     * money_movement.balance_transactions.read plus commerce.orders.read. Limits: at most 10
+     * unique expand paths per request. [] enum: "order". Value enum: "order". anyOf[1] (Value):
+     * Array of string. [] enum: "order". anyOf[1][] (Value): string. Value enum: "order". anyOf[2]
+     * (Value): string. Value enum: "order".
      */
     "expand"?: InputValue<("order") | readonly ("order")[]>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
 };
 export type BalanceTransactionsListParams = {
     /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */
@@ -89,43 +1589,44 @@ export type BalanceTransactionsListParams = {
      * prepared, usually minutes after it is created. Returns `503 SERVICE_UNAVAILABLE` with
      * `Retry-After` while they are prepared, and `409 ACTION_NOT_ALLOWED` with `reason:
      * not_itemized` for a payout that doesn't list its contents, such as a manual payout. Example:
-     * "po_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+     * "po_01KEZF7C00PXK8XREWJA6K4FGV".
      */
     "payout_id"?: InputValue<string>;
-    /** Exact-match filter on `order_id`. Example: "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV". */
+    /** Exact-match filter on `order_id`. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
     "order_id"?: InputValue<string>;
     /**
-     * Supported expansions: order. Each expansion resolves with one batched lookup per page.
-     * Expansion requires money_movement.balance_transactions.read plus commerce.orders.read.
-     * Limits: at most 10 unique expand paths per request. Pass expand=order. [] enum: "order".
-     * Value enum: "order". anyOf[1] (Value): Array of string. [] enum: "order". anyOf[1][]
-     * (Value): string. Value enum: "order". anyOf[2] (Value): string. Value enum: "order".
+     * Include related objects in the response. Supported expansions: order. Each expansion
+     * resolves with one batched lookup per page. Expansion requires
+     * money_movement.balance_transactions.read plus commerce.orders.read. Limits: at most 10
+     * unique expand paths per request. [] enum: "order". Value enum: "order". anyOf[1] (Value):
+     * Array of string. [] enum: "order". anyOf[1][] (Value): string. Value enum: "order". anyOf[2]
+     * (Value): string. Value enum: "order".
      */
     "expand"?: InputValue<("order") | readonly ("order")[]>;
     /**
-     * Optional balance transaction type filter. Accepts repeated keys, comma-separated values, or
-     * mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries
-     * are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum:
+     * Optional balance transaction type filter. Values are trimmed and deduplicated in first-seen
+     * order; empty or unknown entries are rejected. Values within this filter are ORed; separate
+     * filters are ANDed. [] enum: "payment", "refund", "dispute", "dispute_reversal", "return",
+     * "recovery", "payout", "payout_failure", "payout_cancellation", "payout_reversal",
+     * "payout_advance", "payout_advance_funding", "reserve_hold", "reserve_release", "adjustment",
+     * "merchant_billing_collection", "merchant_billing_collection_reversal", "other". Value enum:
      * "payment", "refund", "dispute", "dispute_reversal", "return", "recovery", "payout",
      * "payout_failure", "payout_cancellation", "payout_reversal", "payout_advance",
      * "payout_advance_funding", "reserve_hold", "reserve_release", "adjustment",
-     * "merchant_billing_collection", "merchant_billing_collection_reversal". Value enum:
+     * "merchant_billing_collection", "merchant_billing_collection_reversal", "other". anyOf[1]
+     * (Value): Array of string. minItems: 1. [] enum: "payment", "refund", "dispute",
+     * "dispute_reversal", "return", "recovery", "payout", "payout_failure", "payout_cancellation",
+     * "payout_reversal", "payout_advance", "payout_advance_funding", "reserve_hold",
+     * "reserve_release", "adjustment", "merchant_billing_collection",
+     * "merchant_billing_collection_reversal", "other". anyOf[1][] (Value): string. Value enum:
      * "payment", "refund", "dispute", "dispute_reversal", "return", "recovery", "payout",
      * "payout_failure", "payout_cancellation", "payout_reversal", "payout_advance",
      * "payout_advance_funding", "reserve_hold", "reserve_release", "adjustment",
-     * "merchant_billing_collection", "merchant_billing_collection_reversal". anyOf[1] (Value):
-     * Array of string. minItems: 1. [] enum: "payment", "refund", "dispute", "dispute_reversal",
-     * "return", "recovery", "payout", "payout_failure", "payout_cancellation", "payout_reversal",
-     * "payout_advance", "payout_advance_funding", "reserve_hold", "reserve_release", "adjustment",
-     * "merchant_billing_collection", "merchant_billing_collection_reversal". anyOf[1][] (Value):
-     * string. Value enum: "payment", "refund", "dispute", "dispute_reversal", "return",
+     * "merchant_billing_collection", "merchant_billing_collection_reversal", "other". anyOf[2]
+     * (Value): string. Value enum: "payment", "refund", "dispute", "dispute_reversal", "return",
      * "recovery", "payout", "payout_failure", "payout_cancellation", "payout_reversal",
      * "payout_advance", "payout_advance_funding", "reserve_hold", "reserve_release", "adjustment",
-     * "merchant_billing_collection", "merchant_billing_collection_reversal". anyOf[2] (Value):
-     * string. Value enum: "payment", "refund", "dispute", "dispute_reversal", "return",
-     * "recovery", "payout", "payout_failure", "payout_cancellation", "payout_reversal",
-     * "payout_advance", "payout_advance_funding", "reserve_hold", "reserve_release", "adjustment",
-     * "merchant_billing_collection", "merchant_billing_collection_reversal".
+     * "merchant_billing_collection", "merchant_billing_collection_reversal", "other".
      */
     "type"?: InputValue<("payment"
         | "refund"
@@ -143,7 +1644,8 @@ export type BalanceTransactionsListParams = {
         | "reserve_release"
         | "adjustment"
         | "merchant_billing_collection"
-        | "merchant_billing_collection_reversal")
+        | "merchant_billing_collection_reversal"
+        | "other")
         | readonly ("payment"
         | "refund"
         | "dispute"
@@ -160,19 +1662,19 @@ export type BalanceTransactionsListParams = {
         | "reserve_release"
         | "adjustment"
         | "merchant_billing_collection"
-        | "merchant_billing_collection_reversal")[]>;
+        | "merchant_billing_collection_reversal"
+        | "other")[]>;
     /**
-     * Filter by related_resource.resource_type. Accepts repeated keys, comma-separated values, or
-     * mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries
-     * are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum:
+     * Filter by related_resource.resource_type. Values are trimmed and deduplicated in first-seen
+     * order; empty or unknown entries are rejected. Values within this filter are ORed; separate
+     * filters are ANDed. [] enum: "payment_intent", "refund", "dispute", "payout",
+     * "payout_destination", "merchant_billing_invoice". Value enum: "payment_intent", "refund",
+     * "dispute", "payout", "payout_destination", "merchant_billing_invoice". anyOf[1] (Value):
+     * Array of string. minItems: 1. [] enum: "payment_intent", "refund", "dispute", "payout",
+     * "payout_destination", "merchant_billing_invoice". anyOf[1][] (Value): string. Value enum:
      * "payment_intent", "refund", "dispute", "payout", "payout_destination",
-     * "merchant_billing_invoice". Value enum: "payment_intent", "refund", "dispute", "payout",
-     * "payout_destination", "merchant_billing_invoice". anyOf[1] (Value): Array of string.
-     * minItems: 1. [] enum: "payment_intent", "refund", "dispute", "payout", "payout_destination",
-     * "merchant_billing_invoice". anyOf[1][] (Value): string. Value enum: "payment_intent",
-     * "refund", "dispute", "payout", "payout_destination", "merchant_billing_invoice". anyOf[2]
-     * (Value): string. Value enum: "payment_intent", "refund", "dispute", "payout",
-     * "payout_destination", "merchant_billing_invoice".
+     * "merchant_billing_invoice". anyOf[2] (Value): string. Value enum: "payment_intent",
+     * "refund", "dispute", "payout", "payout_destination", "merchant_billing_invoice".
      */
     "related_resource_type"?: InputValue<("payment_intent"
         | "refund"
@@ -186,16 +1688,15 @@ export type BalanceTransactionsListParams = {
         | "payout"
         | "payout_destination"
         | "merchant_billing_invoice")[]>;
-    /** Filter by related_resource.resource_id. */
+    /** Filter by related_resource.resource_id. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
     "related_resource_id"?: InputValue<string>;
     /**
      * Optional balance transaction status filter. Without it, the list returns transactions in
-     * every status. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed
-     * and deduplicated in first-seen order; empty or unknown entries are rejected. Values within
-     * this filter are ORed; separate filters are ANDed. [] enum: "pending", "available". Value
-     * enum: "pending", "available". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
-     * "pending", "available". anyOf[1][] (Value): string. Value enum: "pending", "available".
-     * anyOf[2] (Value): string. Value enum: "pending", "available".
+     * every status. Values are trimmed and deduplicated in first-seen order; empty or unknown
+     * entries are rejected. Values within this filter are ORed; separate filters are ANDed. []
+     * enum: "pending", "available". Value enum: "pending", "available". anyOf[1] (Value): Array of
+     * string. minItems: 1. [] enum: "pending", "available". anyOf[1][] (Value): string. Value
+     * enum: "pending", "available". anyOf[2] (Value): string. Value enum: "pending", "available".
      */
     "status"?: InputValue<("pending" | "available") | readonly ("pending" | "available")[]>;
     /** Inclusive lower bound on occurred_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
@@ -216,26 +1717,476 @@ export type BalanceTransactionsListParams = {
      */
     "page_size"?: InputValue<number>;
     /**
-     * Opaque next_page_token from the previous response. Omit on the first request. You may change
-     * `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request
-     * context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns
-     * a validation error.
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
      */
     "page_token"?: InputValue<string>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
 };
-export type BalanceUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type BalanceUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
-        "object": Balance;
+        "object": {
+            "available_by_source_type"?: Record<string, MoneyValue>;
+            "available_money": MoneyValue;
+            "balance_id": string;
+            "currency": string;
+            "held_money": MoneyValue;
+            "merchant_id": string;
+            "observed_at": string;
+            "payouts_enabled": boolean;
+            "pending_by_source_type"?: Record<string, MoneyValue>;
+            "pending_money": MoneyValue;
+            "reserve_money": MoneyValue;
+        };
+        "previous_attributes"?: Partial<Balance>;
     };
+    "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "balance.updated";
-})
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "available_by_source_type"?: Record<string, MoneyValue>;
+            "available_money": MoneyValue;
+            "balance_id": string;
+            "currency": string;
+            "held_money": MoneyValue;
+            "merchant_id": string;
+            "observed_at": string;
+            "payouts_enabled": boolean;
+            "pending_by_source_type"?: Record<string, MoneyValue>;
+            "pending_money": MoneyValue;
+            "reserve_money": MoneyValue;
+        };
+        "previous_attributes"?: Partial<Balance>;
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "balance.updated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
     & {
     "event_type": "balance.updated";
+});
+/**
+ * The `balance.updated` webhook payload for the `installed_merchants` event source. Fields shared
+ * by partner webhook payloads.
+ */
+export type BalanceUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.available_by_source_type (Optional): Map of {@link MoneyValue}.
+     * Signed available amounts grouped by balance source type. Keys are an open set; US accounts
+     * use card and bank_account. When supplied as a complete breakdown, entries sum to
+     * available_money. Active payout holds reduce both available_money and one source entry by the
+     * same amount. A payout with no recorded source type uses card. A hold whose source is absent
+     * from the map uses the largest source amount, with ties broken by source name.
+     * object.available_by_source_type.* (Value): {@link MoneyValue}. Signed monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code. object.available_money
+     * (Required): {@link MoneyValue}. Signed amount available for payouts after active payout
+     * holds are deducted. Separate from pending_money, reserve_money, and held_money. Signed
+     * monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * object.balance_id (Required): string. Stable identifier of this currency's balance. Example:
+     * "bal_01KEZF7C00DE593X12REV5EFHZ". object.currency (Required): string. ISO 4217 currency
+     * code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". object.held_money
+     * (Required): {@link MoneyValue}. Funds set aside for payouts you created that haven't been
+     * debited from your balance yet. They aren't payable and aren't included in `available_money`.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * object.merchant_id (Required): string. Merchant whose balance this is. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.observed_at (Required): string. When Flint observed
+     * these amounts, as an RFC 3339 UTC instant at second precision. Stored balances retain their
+     * observation time; a fresh provider read uses the time of that read. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.payouts_enabled (Required): boolean. Whether payouts
+     * are ready for this balance currency, including an active default payout destination and
+     * account readiness. While it is false, payments can still succeed, and their funds wait in
+     * your balance. object.pending_by_source_type (Optional): Map of {@link MoneyValue}. Signed
+     * pending amounts grouped by balance source type. Keys are an open set; US accounts use card
+     * and bank_account. When supplied as a complete breakdown, entries sum to pending_money. These
+     * amounts are separate from available_by_source_type. object.pending_by_source_type.* (Value):
+     * {@link MoneyValue}. Signed monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code. object.pending_money (Required): {@link MoneyValue}. Signed amount
+     * awaiting availability. Separate from available_money; pending_by_source_type breaks down
+     * this amount when source details are supplied. Signed monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code. object.reserve_money (Required): {@link
+     * MoneyValue}. Amount held in reserve. It doesn't overlap available_money or held_money.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * previous_attributes (Optional): object. Previous values of changed top-level fields in
+     * data.object, at this delivery's API version. Nested changes include the whole previous
+     * top-level value. A value is null when the field was absent before the change. Omitted when
+     * Flint did not record the previous state, including synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * available_by_source_type (Optional): Map of {@link MoneyValue}. Signed available amounts
+         * grouped by balance source type. Keys are an open set; US accounts use card and
+         * bank_account. When supplied as a complete breakdown, entries sum to available_money.
+         * Active payout holds reduce both available_money and one source entry by the same amount.
+         * A payout with no recorded source type uses card. A hold whose source is absent from the
+         * map uses the largest source amount, with ties broken by source name.
+         * available_by_source_type.* (Value): {@link MoneyValue}. Signed monetary amount
+         * represented as integer minor units plus an ISO 4217 currency code. available_money
+         * (Required): {@link MoneyValue}. Signed amount available for payouts after active payout
+         * holds are deducted. Separate from pending_money, reserve_money, and held_money. Signed
+         * monetary amount represented as integer minor units plus an ISO 4217 currency code.
+         * balance_id (Required): string. Stable identifier of this currency's balance. Example:
+         * "bal_01KEZF7C00DE593X12REV5EFHZ". currency (Required): string. ISO 4217 currency code.
+         * minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". held_money (Required):
+         * {@link MoneyValue}. Funds set aside for payouts you created that haven't been debited
+         * from your balance yet. They aren't payable and aren't included in `available_money`.
+         * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+         * merchant_id (Required): string. Merchant whose balance this is. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". observed_at (Required): string. When Flint observed
+         * these amounts, as an RFC 3339 UTC instant at second precision. Stored balances retain
+         * their observation time; a fresh provider read uses the time of that read. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". payouts_enabled (Required): boolean. Whether
+         * payouts are ready for this balance currency, including an active default payout
+         * destination and account readiness. While it is false, payments can still succeed, and
+         * their funds wait in your balance. pending_by_source_type (Optional): Map of {@link
+         * MoneyValue}. Signed pending amounts grouped by balance source type. Keys are an open
+         * set; US accounts use card and bank_account. When supplied as a complete breakdown,
+         * entries sum to pending_money. These amounts are separate from available_by_source_type.
+         * pending_by_source_type.* (Value): {@link MoneyValue}. Signed monetary amount represented
+         * as integer minor units plus an ISO 4217 currency code. pending_money (Required): {@link
+         * MoneyValue}. Signed amount awaiting availability. Separate from available_money;
+         * pending_by_source_type breaks down this amount when source details are supplied. Signed
+         * monetary amount represented as integer minor units plus an ISO 4217 currency code.
+         * reserve_money (Required): {@link MoneyValue}. Amount held in reserve. It doesn't overlap
+         * available_money or held_money. Monetary amount represented as integer minor units plus
+         * an ISO 4217 currency code.
+         */
+        "object": {
+            /**
+             * Signed available amounts grouped by balance source type. Keys are an open set; US
+             * accounts use card and bank_account. When supplied as a complete breakdown, entries
+             * sum to available_money. Active payout holds reduce both available_money and one
+             * source entry by the same amount. A payout with no recorded source type uses card. A
+             * hold whose source is absent from the map uses the largest source amount, with ties
+             * broken by source name. * (Value): {@link MoneyValue}. Signed monetary amount
+             * represented as integer minor units plus an ISO 4217 currency code.
+             */
+            "available_by_source_type"?: Record<string, MoneyValue>;
+            /**
+             * Signed amount available for payouts after active payout holds are deducted. Separate
+             * from pending_money, reserve_money, and held_money. Signed monetary amount
+             * represented as integer minor units plus an ISO 4217 currency code.
+             */
+            "available_money": MoneyValue;
+            /**
+             * Stable identifier of this currency's balance. Example:
+             * "bal_01KEZF7C00DE593X12REV5EFHZ".
+             */
+            "balance_id": string;
+            /**
+             * ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example:
+             * "USD".
+             */
+            "currency": string;
+            /**
+             * Funds set aside for payouts you created that haven't been debited from your balance
+             * yet. They aren't payable and aren't included in `available_money`. Monetary amount
+             * represented as integer minor units plus an ISO 4217 currency code.
+             */
+            "held_money": MoneyValue;
+            /** Merchant whose balance this is. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+            "merchant_id": string;
+            /**
+             * When Flint observed these amounts, as an RFC 3339 UTC instant at second precision.
+             * Stored balances retain their observation time; a fresh provider read uses the time
+             * of that read. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "observed_at": string;
+            /**
+             * Whether payouts are ready for this balance currency, including an active default
+             * payout destination and account readiness. While it is false, payments can still
+             * succeed, and their funds wait in your balance.
+             */
+            "payouts_enabled": boolean;
+            /**
+             * Signed pending amounts grouped by balance source type. Keys are an open set; US
+             * accounts use card and bank_account. When supplied as a complete breakdown, entries
+             * sum to pending_money. These amounts are separate from available_by_source_type. *
+             * (Value): {@link MoneyValue}. Signed monetary amount represented as integer minor
+             * units plus an ISO 4217 currency code.
+             */
+            "pending_by_source_type"?: Record<string, MoneyValue>;
+            /**
+             * Signed amount awaiting availability. Separate from available_money;
+             * pending_by_source_type breaks down this amount when source details are supplied.
+             * Signed monetary amount represented as integer minor units plus an ISO 4217 currency
+             * code.
+             */
+            "pending_money": MoneyValue;
+            /**
+             * Amount held in reserve. It doesn't overlap available_money or held_money. Monetary
+             * amount represented as integer minor units plus an ISO 4217 currency code.
+             */
+            "reserve_money": MoneyValue;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<Balance>;
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "balance.updated". */
+    "event_type"?: "balance.updated";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `balance.updated` webhook payload for the `merchant` event source. Fields shared by merchant
+ * webhook payloads.
+ */
+export type BalanceUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.available_by_source_type (Optional): Map of {@link MoneyValue}.
+     * Signed available amounts grouped by balance source type. Keys are an open set; US accounts
+     * use card and bank_account. When supplied as a complete breakdown, entries sum to
+     * available_money. Active payout holds reduce both available_money and one source entry by the
+     * same amount. A payout with no recorded source type uses card. A hold whose source is absent
+     * from the map uses the largest source amount, with ties broken by source name.
+     * object.available_by_source_type.* (Value): {@link MoneyValue}. Signed monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code. object.available_money
+     * (Required): {@link MoneyValue}. Signed amount available for payouts after active payout
+     * holds are deducted. Separate from pending_money, reserve_money, and held_money. Signed
+     * monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * object.balance_id (Required): string. Stable identifier of this currency's balance. Example:
+     * "bal_01KEZF7C00DE593X12REV5EFHZ". object.currency (Required): string. ISO 4217 currency
+     * code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". object.held_money
+     * (Required): {@link MoneyValue}. Funds set aside for payouts you created that haven't been
+     * debited from your balance yet. They aren't payable and aren't included in `available_money`.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * object.merchant_id (Required): string. Merchant whose balance this is. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.observed_at (Required): string. When Flint observed
+     * these amounts, as an RFC 3339 UTC instant at second precision. Stored balances retain their
+     * observation time; a fresh provider read uses the time of that read. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.payouts_enabled (Required): boolean. Whether payouts
+     * are ready for this balance currency, including an active default payout destination and
+     * account readiness. While it is false, payments can still succeed, and their funds wait in
+     * your balance. object.pending_by_source_type (Optional): Map of {@link MoneyValue}. Signed
+     * pending amounts grouped by balance source type. Keys are an open set; US accounts use card
+     * and bank_account. When supplied as a complete breakdown, entries sum to pending_money. These
+     * amounts are separate from available_by_source_type. object.pending_by_source_type.* (Value):
+     * {@link MoneyValue}. Signed monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code. object.pending_money (Required): {@link MoneyValue}. Signed amount
+     * awaiting availability. Separate from available_money; pending_by_source_type breaks down
+     * this amount when source details are supplied. Signed monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code. object.reserve_money (Required): {@link
+     * MoneyValue}. Amount held in reserve. It doesn't overlap available_money or held_money.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * previous_attributes (Optional): object. Previous values of changed top-level fields in
+     * data.object, at this delivery's API version. Nested changes include the whole previous
+     * top-level value. A value is null when the field was absent before the change. Omitted when
+     * Flint did not record the previous state, including synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * available_by_source_type (Optional): Map of {@link MoneyValue}. Signed available amounts
+         * grouped by balance source type. Keys are an open set; US accounts use card and
+         * bank_account. When supplied as a complete breakdown, entries sum to available_money.
+         * Active payout holds reduce both available_money and one source entry by the same amount.
+         * A payout with no recorded source type uses card. A hold whose source is absent from the
+         * map uses the largest source amount, with ties broken by source name.
+         * available_by_source_type.* (Value): {@link MoneyValue}. Signed monetary amount
+         * represented as integer minor units plus an ISO 4217 currency code. available_money
+         * (Required): {@link MoneyValue}. Signed amount available for payouts after active payout
+         * holds are deducted. Separate from pending_money, reserve_money, and held_money. Signed
+         * monetary amount represented as integer minor units plus an ISO 4217 currency code.
+         * balance_id (Required): string. Stable identifier of this currency's balance. Example:
+         * "bal_01KEZF7C00DE593X12REV5EFHZ". currency (Required): string. ISO 4217 currency code.
+         * minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". held_money (Required):
+         * {@link MoneyValue}. Funds set aside for payouts you created that haven't been debited
+         * from your balance yet. They aren't payable and aren't included in `available_money`.
+         * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+         * merchant_id (Required): string. Merchant whose balance this is. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". observed_at (Required): string. When Flint observed
+         * these amounts, as an RFC 3339 UTC instant at second precision. Stored balances retain
+         * their observation time; a fresh provider read uses the time of that read. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". payouts_enabled (Required): boolean. Whether
+         * payouts are ready for this balance currency, including an active default payout
+         * destination and account readiness. While it is false, payments can still succeed, and
+         * their funds wait in your balance. pending_by_source_type (Optional): Map of {@link
+         * MoneyValue}. Signed pending amounts grouped by balance source type. Keys are an open
+         * set; US accounts use card and bank_account. When supplied as a complete breakdown,
+         * entries sum to pending_money. These amounts are separate from available_by_source_type.
+         * pending_by_source_type.* (Value): {@link MoneyValue}. Signed monetary amount represented
+         * as integer minor units plus an ISO 4217 currency code. pending_money (Required): {@link
+         * MoneyValue}. Signed amount awaiting availability. Separate from available_money;
+         * pending_by_source_type breaks down this amount when source details are supplied. Signed
+         * monetary amount represented as integer minor units plus an ISO 4217 currency code.
+         * reserve_money (Required): {@link MoneyValue}. Amount held in reserve. It doesn't overlap
+         * available_money or held_money. Monetary amount represented as integer minor units plus
+         * an ISO 4217 currency code.
+         */
+        "object": {
+            /**
+             * Signed available amounts grouped by balance source type. Keys are an open set; US
+             * accounts use card and bank_account. When supplied as a complete breakdown, entries
+             * sum to available_money. Active payout holds reduce both available_money and one
+             * source entry by the same amount. A payout with no recorded source type uses card. A
+             * hold whose source is absent from the map uses the largest source amount, with ties
+             * broken by source name. * (Value): {@link MoneyValue}. Signed monetary amount
+             * represented as integer minor units plus an ISO 4217 currency code.
+             */
+            "available_by_source_type"?: Record<string, MoneyValue>;
+            /**
+             * Signed amount available for payouts after active payout holds are deducted. Separate
+             * from pending_money, reserve_money, and held_money. Signed monetary amount
+             * represented as integer minor units plus an ISO 4217 currency code.
+             */
+            "available_money": MoneyValue;
+            /**
+             * Stable identifier of this currency's balance. Example:
+             * "bal_01KEZF7C00DE593X12REV5EFHZ".
+             */
+            "balance_id": string;
+            /**
+             * ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example:
+             * "USD".
+             */
+            "currency": string;
+            /**
+             * Funds set aside for payouts you created that haven't been debited from your balance
+             * yet. They aren't payable and aren't included in `available_money`. Monetary amount
+             * represented as integer minor units plus an ISO 4217 currency code.
+             */
+            "held_money": MoneyValue;
+            /** Merchant whose balance this is. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+            "merchant_id": string;
+            /**
+             * When Flint observed these amounts, as an RFC 3339 UTC instant at second precision.
+             * Stored balances retain their observation time; a fresh provider read uses the time
+             * of that read. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "observed_at": string;
+            /**
+             * Whether payouts are ready for this balance currency, including an active default
+             * payout destination and account readiness. While it is false, payments can still
+             * succeed, and their funds wait in your balance.
+             */
+            "payouts_enabled": boolean;
+            /**
+             * Signed pending amounts grouped by balance source type. Keys are an open set; US
+             * accounts use card and bank_account. When supplied as a complete breakdown, entries
+             * sum to pending_money. These amounts are separate from available_by_source_type. *
+             * (Value): {@link MoneyValue}. Signed monetary amount represented as integer minor
+             * units plus an ISO 4217 currency code.
+             */
+            "pending_by_source_type"?: Record<string, MoneyValue>;
+            /**
+             * Signed amount awaiting availability. Separate from available_money;
+             * pending_by_source_type breaks down this amount when source details are supplied.
+             * Signed monetary amount represented as integer minor units plus an ISO 4217 currency
+             * code.
+             */
+            "pending_money": MoneyValue;
+            /**
+             * Amount held in reserve. It doesn't overlap available_money or held_money. Monetary
+             * amount represented as integer minor units plus an ISO 4217 currency code.
+             */
+            "reserve_money": MoneyValue;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<Balance>;
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "balance.updated". */
+    "event_type"?: "balance.updated";
 });
 export type BalancesListParams = {
     /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */
     "currency"?: InputValue<string>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
 };
 /**
  * A merchant's branding settings: colors, corner radius, and font family. Checkout uses them as
@@ -248,7 +2199,10 @@ export type BrandingSettings = {
     "background_color"?: string;
     /** Corner radius in pixels, from 0 to 32. 0 is a square corner. Format: int32. */
     "corner_radius"?: number;
-    /** Value enum: "instrument_sans", "system_sans", "system_serif", "monospace". */
+    /**
+     * Typeface of hosted checkout and buyer pages. Without one, Flint uses `instrument_sans`.
+     * Value enum: "instrument_sans", "system_sans", "system_serif", "monospace".
+     */
     "font_family"?: "instrument_sans" | "system_sans" | "system_serif" | "monospace" | (string & {});
     /** A hex color in the form #RRGGBB, such as #1A73E8. */
     "primary_color"?: string;
@@ -276,8 +2230,9 @@ export type BrandingSettingsRequest = {
      */
     "corner_radius"?: number;
     /**
-     * Send null to clear it. Value enum: "instrument_sans", "system_sans", "system_serif",
-     * "monospace", null.
+     * Typeface of hosted checkout and buyer pages. Without one, Flint uses `instrument_sans`. Send
+     * null to clear it. pattern: ^#[0-9a-fA-F]{6}$. Value enum: "instrument_sans", "system_sans",
+     * "system_serif", "monospace", null.
      */
     "font_family"?: "instrument_sans" | "system_sans" | "system_serif" | "monospace" | null | (string & {}) | null;
     /**
@@ -312,8 +2267,9 @@ export type BrandingSettingsRequestInput = {
      */
     "corner_radius"?: number;
     /**
-     * Send null to clear it. Value enum: "instrument_sans", "system_sans", "system_serif",
-     * "monospace", null.
+     * Typeface of hosted checkout and buyer pages. Without one, Flint uses `instrument_sans`. Send
+     * null to clear it. pattern: ^#[0-9a-fA-F]{6}$. Value enum: "instrument_sans", "system_sans",
+     * "system_serif", "monospace", null.
      */
     "font_family"?: "instrument_sans" | "system_sans" | "system_serif" | "monospace" | null;
     /**
@@ -333,15 +2289,9 @@ export type BrandingSettingsRequestInput = {
  * category uses the merchant default and equals only another unset category.
  */
 export type Bundle = {
-    /**
-     * Whether the bundle can be sold now: it is `active`, has at least one component, every
-     * component's variant and product are `active`, and `delivery_configuration_status` isn't
-     * `action_required`. Stock isn't considered.
-     */
-    "available_for_sale": boolean;
     /** Barcode assigned to this sellable item. */
     "barcode"?: string;
-    /** Stable identifier of the bundle. */
+    /** Stable identifier of the bundle. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". */
     "bundle_id": string;
     /**
      * Always present. Empty collections are returned as []. [] (Value): {@link CategoryReference}.
@@ -356,7 +2306,10 @@ export type Bundle = {
      * included in a bundle.
      */
     "components": Array<BundleComponent>;
-    /** When this resource was created, as an RFC3339 timestamp. Format: date-time. */
+    /**
+     * When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
     "created_at"?: string;
     /**
      * Delivery readiness aggregated across the bundle's components. A bundle with no components
@@ -365,7 +2318,10 @@ export type Bundle = {
     "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
     /** Description of the bundle shown to buyers. */
     "description"?: string;
-    /** Caller-owned identifier for this resource in an external system. maxLength: 255. */
+    /**
+     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
+     * "warehouse-1842".
+     */
     "external_reference_id"?: string;
     /**
      * Images attached to this resource, in display order. The first image is primary. [] (Value):
@@ -373,7 +2329,16 @@ export type Bundle = {
      * attachment metadata.
      */
     "images": Array<ImageAttachment>;
-    /** Identifier of the merchant that owns this resource. */
+    /**
+     * Whether the bundle can be sold now: it is `active`, has at least one component, every
+     * component's variant and product are `active`, and `delivery_configuration_status` isn't
+     * `action_required`. Stock isn't considered.
+     */
+    "is_available_for_sale": boolean;
+    /**
+     * Identifier of the merchant that owns this resource. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     */
     "merchant_id"?: string;
     /**
      * Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a
@@ -390,7 +2355,10 @@ export type Bundle = {
      * (Value): null.
      */
     "modifier_set"?: ((ModifierSet) | (null));
-    /** Attached modifier set. Send null on update to remove it. */
+    /**
+     * Attached modifier set. Send null on update to remove it. Example:
+     * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+     */
     "modifier_set_id": string | null;
     /** Bundle name shown to buyers. */
     "name": string;
@@ -406,7 +2374,10 @@ export type Bundle = {
      * integer minor units plus an ISO 4217 currency code.
      */
     "unit_price_money": MoneyValue;
-    /** When this resource last changed, as an RFC3339 timestamp. Format: date-time. */
+    /**
+     * When this resource last changed, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
     "updated_at"?: string;
     /**
      * Current resource version. Send it as expected_version to reject a write if the resource has
@@ -417,15 +2388,63 @@ export type Bundle = {
 export type BundleArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
-        "object": Bundle;
+        "object": {
+            "barcode"?: string;
+            "bundle_id": string;
+            "categories": Array<CategoryReference>;
+            "component_count": number;
+            "components": Array<BundleComponent>;
+            "created_at"?: string;
+            "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
+            "description"?: string;
+            "external_reference_id"?: string;
+            "images": Array<ImageAttachment>;
+            "is_available_for_sale": boolean;
+            "merchant_id"?: string;
+            "metadata"?: MetadataMap;
+            "modifier_set"?: ((ModifierSet) | (null));
+            "modifier_set_id": string | null;
+            "name": string;
+            "sku"?: string;
+            "status": "active" | "inactive" | "archived" | (string & {});
+            "unit_price_money": MoneyValue;
+            "updated_at"?: string;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<Bundle>;
     };
+    "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "bundle.archived";
 }))
     | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
-        "object": Bundle;
+        "object": {
+            "barcode"?: string;
+            "bundle_id": string;
+            "categories": Array<CategoryReference>;
+            "component_count": number;
+            "components": Array<BundleComponent>;
+            "created_at"?: string;
+            "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
+            "description"?: string;
+            "external_reference_id"?: string;
+            "images": Array<ImageAttachment>;
+            "is_available_for_sale": boolean;
+            "merchant_id"?: string;
+            "metadata"?: MetadataMap;
+            "modifier_set"?: ((ModifierSet) | (null));
+            "modifier_set_id": string | null;
+            "name": string;
+            "sku"?: string;
+            "status": "active" | "inactive" | "archived" | (string & {});
+            "unit_price_money": MoneyValue;
+            "updated_at"?: string;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<Bundle>;
     };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "bundle.archived";
     "source"?: ({
         "environment_grant_id": string;
@@ -433,7 +2452,6 @@ export type BundleArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
         "mode": "test" | "live" | (string & {});
         "partner_app_install_id": string;
         "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
     });
 })))
     & {
@@ -446,36 +2464,248 @@ export type BundleArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
 export type BundleArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     *  object (Required): {@link Bundle}. Several variants sold as one line at the bundle's price.
-     * A bundle line takes its components' shared taxability and tax category; all components must
-     * share both stored values. An unset category uses the merchant default and equals only
-     * another unset category.
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
+     * fields: `modifier_set`. object.barcode (Optional): string. Barcode assigned to this sellable
+     * item. object.bundle_id (Required): string. Stable identifier of the bundle. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". object.categories (Required): Array of {@link
+     * CategoryReference}. Always present. Empty collections are returned as [].
+     * object.categories[] (Value): {@link CategoryReference}. A reference to a product category by
+     * ID, handle, and name. object.component_count (Required): integer. Number of components in
+     * the bundle. Format: int32. object.components (Required): Array of {@link BundleComponent}.
+     * The bundle's components in position order, on every bundle response including list rows. []
+     * only when the bundle has no components. object.components[] (Value): {@link
+     * BundleComponent}. An item included in a bundle. object.created_at (Optional): string. When
+     * this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.delivery_configuration_status (Required): string. Delivery
+     * readiness aggregated across the bundle's components. A bundle with no components reports
+     * `not_applicable`. Value enum: "configured", "action_required", "not_applicable".
+     * object.description (Optional): string. Description of the bundle shown to buyers.
+     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
+     * in an external system. maxLength: 255. Example: "warehouse-1842". object.images (Required):
+     * Array of {@link ImageAttachment}. Images attached to this resource, in display order. The
+     * first image is primary. object.images[] (Value): {@link ImageAttachment}. An image attached
+     * to a resource, with its display properties and attachment metadata.
+     * object.is_available_for_sale (Required): boolean. Whether the bundle can be sold now: it is
+     * `active`, has at least one component, every component's variant and product are `active`,
+     * and `delivery_configuration_status` isn't `action_required`. Stock isn't considered.
+     * object.merchant_id (Optional): string. Identifier of the merchant that owns this resource.
+     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link MetadataMap}.
+     * Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a
+     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
+     * may not satisfy them. object.modifier_set (Optional): {@link ModifierSet} or null. Attached
+     * modifier set, included when expand=modifier_set is requested. Requires commerce.catalog.read
+     * in addition to the resource's read scope. Present only when `expand` includes
+     * `modifier_set`; `null` when expanded and there is no related modifier set.
+     * object.modifier_set.anyOf[1] (Value): {@link ModifierSet}. A reusable collection of
+     * customization groups. object.modifier_set.anyOf[2] (Value): null. object.modifier_set_id
+     * (Required): string or null. Attached modifier set. Send null on update to remove it.
+     * Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". object.name (Required): string. Bundle name shown
+     * to buyers. object.sku (Optional): string. Stock keeping unit assigned to this sellable item.
+     * object.status (Required): string. Bundle lifecycle status. Archived bundles remain readable
+     * and cannot be edited. Value enum: "active", "inactive", "archived". object.unit_price_money
+     * (Required): {@link MoneyValue}. Price charged for one unit, in the currency's smallest unit.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * object.updated_at (Optional): string. When this resource last changed, as an RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
+     * integer. Current resource version. Send it as expected_version to reject a write if the
+     * resource has changed. Format: uint64. minimum: 0. previous_attributes (Optional): object.
+     * Previous values of changed top-level fields in data.object, at this delivery's API version.
+     * Nested changes include the whole previous top-level value. A value is null when the field
+     * was absent before the change. Omitted when Flint did not record the previous state,
+     * including synthetic test events.
      */
     "data"?: {
         /**
-         * Several variants sold as one line at the bundle's price. A bundle line takes its
-         * components' shared taxability and tax category; all components must share both stored
-         * values. An unset category uses the merchant default and equals only another unset
-         * category.
+         * The resource snapshot, without expansions. Webhooks omit these fields: `modifier_set`.
+         * barcode (Optional): string. Barcode assigned to this sellable item. bundle_id
+         * (Required): string. Stable identifier of the bundle. Example:
+         * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". categories (Required): Array of {@link
+         * CategoryReference}. Always present. Empty collections are returned as []. categories[]
+         * (Value): {@link CategoryReference}. A reference to a product category by ID, handle, and
+         * name. component_count (Required): integer. Number of components in the bundle. Format:
+         * int32. components (Required): Array of {@link BundleComponent}. The bundle's components
+         * in position order, on every bundle response including list rows. [] only when the bundle
+         * has no components. components[] (Value): {@link BundleComponent}. An item included in a
+         * bundle. created_at (Optional): string. When this resource was created, as an RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * delivery_configuration_status (Required): string. Delivery readiness aggregated across
+         * the bundle's components. A bundle with no components reports `not_applicable`. Value
+         * enum: "configured", "action_required", "not_applicable". description (Optional): string.
+         * Description of the bundle shown to buyers. external_reference_id (Optional): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". images (Required): Array of {@link ImageAttachment}. Images
+         * attached to this resource, in display order. The first image is primary. images[]
+         * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
+         * properties and attachment metadata. is_available_for_sale (Required): boolean. Whether
+         * the bundle can be sold now: it is `active`, has at least one component, every
+         * component's variant and product are `active`, and `delivery_configuration_status` isn't
+         * `action_required`. Stock isn't considered. merchant_id (Optional): string. Identifier of
+         * the merchant that owns this resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * metadata (Optional): {@link MetadataMap}. Caller-owned metadata stored on this resource.
+         * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved
+         * for Flint and are not returned. Writes follow the limits on MetadataInput and
+         * MetadataPatchInput; maps written before those limits may not satisfy them. modifier_set
+         * (Optional): {@link ModifierSet} or null. Attached modifier set, included when
+         * expand=modifier_set is requested. Requires commerce.catalog.read in addition to the
+         * resource's read scope. Present only when `expand` includes `modifier_set`; `null` when
+         * expanded and there is no related modifier set. modifier_set.anyOf[1] (Value): {@link
+         * ModifierSet}. A reusable collection of customization groups. modifier_set.anyOf[2]
+         * (Value): null. modifier_set_id (Required): string or null. Attached modifier set. Send
+         * null on update to remove it. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". name (Required):
+         * string. Bundle name shown to buyers. sku (Optional): string. Stock keeping unit assigned
+         * to this sellable item. status (Required): string. Bundle lifecycle status. Archived
+         * bundles remain readable and cannot be edited. Value enum: "active", "inactive",
+         * "archived". unit_price_money (Required): {@link MoneyValue}. Price charged for one unit,
+         * in the currency's smallest unit. Monetary amount represented as integer minor units plus
+         * an ISO 4217 currency code. updated_at (Optional): string. When this resource last
+         * changed, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * version (Required): integer. Current resource version. Send it as expected_version to
+         * reject a write if the resource has changed. Format: uint64. minimum: 0.
          */
-        "object": Bundle;
+        "object": {
+            /** Barcode assigned to this sellable item. */
+            "barcode"?: string;
+            /** Stable identifier of the bundle. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". */
+            "bundle_id": string;
+            /**
+             * Always present. Empty collections are returned as []. [] (Value): {@link
+             * CategoryReference}. A reference to a product category by ID, handle, and name.
+             */
+            "categories": Array<CategoryReference>;
+            /** Number of components in the bundle. Format: int32. */
+            "component_count": number;
+            /**
+             * The bundle's components in position order, on every bundle response including list
+             * rows. [] only when the bundle has no components. [] (Value): {@link
+             * BundleComponent}. An item included in a bundle.
+             */
+            "components": Array<BundleComponent>;
+            /**
+             * When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "created_at"?: string;
+            /**
+             * Delivery readiness aggregated across the bundle's components. A bundle with no
+             * components reports `not_applicable`. Value enum: "configured", "action_required",
+             * "not_applicable".
+             */
+            "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
+            /** Description of the bundle shown to buyers. */
+            "description"?: string;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /**
+             * Images attached to this resource, in display order. The first image is primary. []
+             * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
+             * properties and attachment metadata.
+             */
+            "images": Array<ImageAttachment>;
+            /**
+             * Whether the bundle can be sold now: it is `active`, has at least one component,
+             * every component's variant and product are `active`, and
+             * `delivery_configuration_status` isn't `action_required`. Stock isn't considered.
+             */
+            "is_available_for_sale": boolean;
+            /**
+             * Identifier of the merchant that owns this resource. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id"?: string;
+            /**
+             * Caller-owned metadata stored on this resource. Caller-owned key-value data stored on
+             * a resource. Keys starting with flint_ are reserved for Flint and are not returned.
+             * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written
+             * before those limits may not satisfy them.
+             */
+            "metadata"?: MetadataMap;
+            /**
+             * Attached modifier set, included when expand=modifier_set is requested. Requires
+             * commerce.catalog.read in addition to the resource's read scope. Present only when
+             * `expand` includes `modifier_set`; `null` when expanded and there is no related
+             * modifier set. anyOf[1] (Value): {@link ModifierSet}. A reusable collection of
+             * customization groups. anyOf[2] (Value): null.
+             */
+            "modifier_set"?: ((ModifierSet) | (null));
+            /**
+             * Attached modifier set. Send null on update to remove it. Example:
+             * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+             */
+            "modifier_set_id": string | null;
+            /** Bundle name shown to buyers. */
+            "name": string;
+            /** Stock keeping unit assigned to this sellable item. */
+            "sku"?: string;
+            /**
+             * Bundle lifecycle status. Archived bundles remain readable and cannot be edited.
+             * Value enum: "active", "inactive", "archived".
+             */
+            "status": "active" | "inactive" | "archived" | (string & {});
+            /**
+             * Price charged for one unit, in the currency's smallest unit. Monetary amount
+             * represented as integer minor units plus an ISO 4217 currency code.
+             */
+            "unit_price_money": MoneyValue;
+            /**
+             * When this resource last changed, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
+            "updated_at"?: string;
+            /**
+             * Current resource version. Send it as expected_version to reject a write if the
+             * resource has changed. Format: uint64. minimum: 0.
+             */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<Bundle>;
     };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
     /** Value enum: "bundle.archived". */
     "event_type"?: "bundle.archived";
     /**
-     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
-     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
-     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
      */
     "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
         "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
         "merchant_id": string;
-        /** Value enum: "test", "live". */
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
         "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
         "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
         "sandbox_id"?: string;
-        /** Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
     });
 });
 /**
@@ -485,26 +2715,222 @@ export type BundleArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
 export type BundleArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     *  object (Required): {@link Bundle}. Several variants sold as one line at the bundle's price.
-     * A bundle line takes its components' shared taxability and tax category; all components must
-     * share both stored values. An unset category uses the merchant default and equals only
-     * another unset category.
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
+     * fields: `modifier_set`. object.barcode (Optional): string. Barcode assigned to this sellable
+     * item. object.bundle_id (Required): string. Stable identifier of the bundle. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". object.categories (Required): Array of {@link
+     * CategoryReference}. Always present. Empty collections are returned as [].
+     * object.categories[] (Value): {@link CategoryReference}. A reference to a product category by
+     * ID, handle, and name. object.component_count (Required): integer. Number of components in
+     * the bundle. Format: int32. object.components (Required): Array of {@link BundleComponent}.
+     * The bundle's components in position order, on every bundle response including list rows. []
+     * only when the bundle has no components. object.components[] (Value): {@link
+     * BundleComponent}. An item included in a bundle. object.created_at (Optional): string. When
+     * this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.delivery_configuration_status (Required): string. Delivery
+     * readiness aggregated across the bundle's components. A bundle with no components reports
+     * `not_applicable`. Value enum: "configured", "action_required", "not_applicable".
+     * object.description (Optional): string. Description of the bundle shown to buyers.
+     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
+     * in an external system. maxLength: 255. Example: "warehouse-1842". object.images (Required):
+     * Array of {@link ImageAttachment}. Images attached to this resource, in display order. The
+     * first image is primary. object.images[] (Value): {@link ImageAttachment}. An image attached
+     * to a resource, with its display properties and attachment metadata.
+     * object.is_available_for_sale (Required): boolean. Whether the bundle can be sold now: it is
+     * `active`, has at least one component, every component's variant and product are `active`,
+     * and `delivery_configuration_status` isn't `action_required`. Stock isn't considered.
+     * object.merchant_id (Optional): string. Identifier of the merchant that owns this resource.
+     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link MetadataMap}.
+     * Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a
+     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
+     * may not satisfy them. object.modifier_set (Optional): {@link ModifierSet} or null. Attached
+     * modifier set, included when expand=modifier_set is requested. Requires commerce.catalog.read
+     * in addition to the resource's read scope. Present only when `expand` includes
+     * `modifier_set`; `null` when expanded and there is no related modifier set.
+     * object.modifier_set.anyOf[1] (Value): {@link ModifierSet}. A reusable collection of
+     * customization groups. object.modifier_set.anyOf[2] (Value): null. object.modifier_set_id
+     * (Required): string or null. Attached modifier set. Send null on update to remove it.
+     * Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". object.name (Required): string. Bundle name shown
+     * to buyers. object.sku (Optional): string. Stock keeping unit assigned to this sellable item.
+     * object.status (Required): string. Bundle lifecycle status. Archived bundles remain readable
+     * and cannot be edited. Value enum: "active", "inactive", "archived". object.unit_price_money
+     * (Required): {@link MoneyValue}. Price charged for one unit, in the currency's smallest unit.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * object.updated_at (Optional): string. When this resource last changed, as an RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
+     * integer. Current resource version. Send it as expected_version to reject a write if the
+     * resource has changed. Format: uint64. minimum: 0. previous_attributes (Optional): object.
+     * Previous values of changed top-level fields in data.object, at this delivery's API version.
+     * Nested changes include the whole previous top-level value. A value is null when the field
+     * was absent before the change. Omitted when Flint did not record the previous state,
+     * including synthetic test events.
      */
     "data"?: {
         /**
-         * Several variants sold as one line at the bundle's price. A bundle line takes its
-         * components' shared taxability and tax category; all components must share both stored
-         * values. An unset category uses the merchant default and equals only another unset
-         * category.
+         * The resource snapshot, without expansions. Webhooks omit these fields: `modifier_set`.
+         * barcode (Optional): string. Barcode assigned to this sellable item. bundle_id
+         * (Required): string. Stable identifier of the bundle. Example:
+         * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". categories (Required): Array of {@link
+         * CategoryReference}. Always present. Empty collections are returned as []. categories[]
+         * (Value): {@link CategoryReference}. A reference to a product category by ID, handle, and
+         * name. component_count (Required): integer. Number of components in the bundle. Format:
+         * int32. components (Required): Array of {@link BundleComponent}. The bundle's components
+         * in position order, on every bundle response including list rows. [] only when the bundle
+         * has no components. components[] (Value): {@link BundleComponent}. An item included in a
+         * bundle. created_at (Optional): string. When this resource was created, as an RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * delivery_configuration_status (Required): string. Delivery readiness aggregated across
+         * the bundle's components. A bundle with no components reports `not_applicable`. Value
+         * enum: "configured", "action_required", "not_applicable". description (Optional): string.
+         * Description of the bundle shown to buyers. external_reference_id (Optional): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". images (Required): Array of {@link ImageAttachment}. Images
+         * attached to this resource, in display order. The first image is primary. images[]
+         * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
+         * properties and attachment metadata. is_available_for_sale (Required): boolean. Whether
+         * the bundle can be sold now: it is `active`, has at least one component, every
+         * component's variant and product are `active`, and `delivery_configuration_status` isn't
+         * `action_required`. Stock isn't considered. merchant_id (Optional): string. Identifier of
+         * the merchant that owns this resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * metadata (Optional): {@link MetadataMap}. Caller-owned metadata stored on this resource.
+         * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved
+         * for Flint and are not returned. Writes follow the limits on MetadataInput and
+         * MetadataPatchInput; maps written before those limits may not satisfy them. modifier_set
+         * (Optional): {@link ModifierSet} or null. Attached modifier set, included when
+         * expand=modifier_set is requested. Requires commerce.catalog.read in addition to the
+         * resource's read scope. Present only when `expand` includes `modifier_set`; `null` when
+         * expanded and there is no related modifier set. modifier_set.anyOf[1] (Value): {@link
+         * ModifierSet}. A reusable collection of customization groups. modifier_set.anyOf[2]
+         * (Value): null. modifier_set_id (Required): string or null. Attached modifier set. Send
+         * null on update to remove it. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". name (Required):
+         * string. Bundle name shown to buyers. sku (Optional): string. Stock keeping unit assigned
+         * to this sellable item. status (Required): string. Bundle lifecycle status. Archived
+         * bundles remain readable and cannot be edited. Value enum: "active", "inactive",
+         * "archived". unit_price_money (Required): {@link MoneyValue}. Price charged for one unit,
+         * in the currency's smallest unit. Monetary amount represented as integer minor units plus
+         * an ISO 4217 currency code. updated_at (Optional): string. When this resource last
+         * changed, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * version (Required): integer. Current resource version. Send it as expected_version to
+         * reject a write if the resource has changed. Format: uint64. minimum: 0.
          */
-        "object": Bundle;
+        "object": {
+            /** Barcode assigned to this sellable item. */
+            "barcode"?: string;
+            /** Stable identifier of the bundle. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". */
+            "bundle_id": string;
+            /**
+             * Always present. Empty collections are returned as []. [] (Value): {@link
+             * CategoryReference}. A reference to a product category by ID, handle, and name.
+             */
+            "categories": Array<CategoryReference>;
+            /** Number of components in the bundle. Format: int32. */
+            "component_count": number;
+            /**
+             * The bundle's components in position order, on every bundle response including list
+             * rows. [] only when the bundle has no components. [] (Value): {@link
+             * BundleComponent}. An item included in a bundle.
+             */
+            "components": Array<BundleComponent>;
+            /**
+             * When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "created_at"?: string;
+            /**
+             * Delivery readiness aggregated across the bundle's components. A bundle with no
+             * components reports `not_applicable`. Value enum: "configured", "action_required",
+             * "not_applicable".
+             */
+            "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
+            /** Description of the bundle shown to buyers. */
+            "description"?: string;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /**
+             * Images attached to this resource, in display order. The first image is primary. []
+             * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
+             * properties and attachment metadata.
+             */
+            "images": Array<ImageAttachment>;
+            /**
+             * Whether the bundle can be sold now: it is `active`, has at least one component,
+             * every component's variant and product are `active`, and
+             * `delivery_configuration_status` isn't `action_required`. Stock isn't considered.
+             */
+            "is_available_for_sale": boolean;
+            /**
+             * Identifier of the merchant that owns this resource. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id"?: string;
+            /**
+             * Caller-owned metadata stored on this resource. Caller-owned key-value data stored on
+             * a resource. Keys starting with flint_ are reserved for Flint and are not returned.
+             * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written
+             * before those limits may not satisfy them.
+             */
+            "metadata"?: MetadataMap;
+            /**
+             * Attached modifier set, included when expand=modifier_set is requested. Requires
+             * commerce.catalog.read in addition to the resource's read scope. Present only when
+             * `expand` includes `modifier_set`; `null` when expanded and there is no related
+             * modifier set. anyOf[1] (Value): {@link ModifierSet}. A reusable collection of
+             * customization groups. anyOf[2] (Value): null.
+             */
+            "modifier_set"?: ((ModifierSet) | (null));
+            /**
+             * Attached modifier set. Send null on update to remove it. Example:
+             * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+             */
+            "modifier_set_id": string | null;
+            /** Bundle name shown to buyers. */
+            "name": string;
+            /** Stock keeping unit assigned to this sellable item. */
+            "sku"?: string;
+            /**
+             * Bundle lifecycle status. Archived bundles remain readable and cannot be edited.
+             * Value enum: "active", "inactive", "archived".
+             */
+            "status": "active" | "inactive" | "archived" | (string & {});
+            /**
+             * Price charged for one unit, in the currency's smallest unit. Monetary amount
+             * represented as integer minor units plus an ISO 4217 currency code.
+             */
+            "unit_price_money": MoneyValue;
+            /**
+             * When this resource last changed, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
+            "updated_at"?: string;
+            /**
+             * Current resource version. Send it as expected_version to reject a write if the
+             * resource has changed. Format: uint64. minimum: 0.
+             */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<Bundle>;
     };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
     /** Value enum: "bundle.archived". */
     "event_type"?: "bundle.archived";
 });
 /** An item included in a bundle. */
 export type BundleComponent = {
-    /** Stable identifier of this component within its bundle. */
+    /**
+     * Stable identifier of this component within its bundle. Example:
+     * "bunc_01KEZF7C00CQASEZGAPEANTGD1".
+     */
     "bundle_component_id": string;
     /**
      * Reason the component's delivery configuration needs attention. Value enum:
@@ -516,11 +2942,17 @@ export type BundleComponent = {
      * Value enum: "configured", "action_required", "not_applicable".
      */
     "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
-    /** Delivery profile used for this component, including any component override. */
+    /**
+     * Delivery profile used for this component, including any component override. Example:
+     * "dprof_01KEZF7C0020J13FQYNY9854R0".
+     */
     "delivery_profile_id"?: string;
     /** Display order among the bundle's components, starting at zero. Format: int32. */
     "position": number;
-    /** Identifier of the product the component's variant belongs to. */
+    /**
+     * Identifier of the product the component's variant belongs to. Example:
+     * "prod_01KEZF7C00BVSHCNWVH528HB66".
+     */
     "product_id"?: string;
     /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
     "quantity": number;
@@ -530,7 +2962,10 @@ export type BundleComponent = {
      * sale.
      */
     "variant"?: BundleComponentVariantSummary;
-    /** Identifier of the product variant included in the bundle. */
+    /**
+     * Identifier of the product variant included in the bundle. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
     "variant_id": string;
 };
 /** A page of `BundleComponent` objects. */
@@ -559,9 +2994,14 @@ export type BundleComponentListResponse = {
  */
 export type BundleComponentVariantSummary = {
     /** Whether the component's variant and its product are both active. */
-    "available_for_sale": boolean;
+    "is_available_for_sale": boolean;
     /** Name of the component's variant, when set. */
     "name"?: string;
+    /**
+     * Identifier of the product this component variant belongs to. Example:
+     * "prod_01KEZF7C00BVSHCNWVH528HB66".
+     */
+    "product_id": string;
     /** Name of the product the variant belongs to. */
     "product_name"?: string;
     /**
@@ -572,21 +3012,70 @@ export type BundleComponentVariantSummary = {
     "selected_options"?: Array<SelectedProductOption>;
     /** Stock keeping unit assigned to the component's variant, when set. */
     "sku"?: string;
-    /** Identifier of the product variant included in the component. */
+    /**
+     * Identifier of the product variant included in the component. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
     "variant_id": string;
 };
 export type BundleCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
-        "object": Bundle;
+        "object": {
+            "barcode"?: string;
+            "bundle_id": string;
+            "categories": Array<CategoryReference>;
+            "component_count": number;
+            "components": Array<BundleComponent>;
+            "created_at"?: string;
+            "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
+            "description"?: string;
+            "external_reference_id"?: string;
+            "images": Array<ImageAttachment>;
+            "is_available_for_sale": boolean;
+            "merchant_id"?: string;
+            "metadata"?: MetadataMap;
+            "modifier_set"?: ((ModifierSet) | (null));
+            "modifier_set_id": string | null;
+            "name": string;
+            "sku"?: string;
+            "status": "active" | "inactive" | "archived" | (string & {});
+            "unit_price_money": MoneyValue;
+            "updated_at"?: string;
+            "version": number;
+        };
     };
+    "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "bundle.created";
 }))
     | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
-        "object": Bundle;
+        "object": {
+            "barcode"?: string;
+            "bundle_id": string;
+            "categories": Array<CategoryReference>;
+            "component_count": number;
+            "components": Array<BundleComponent>;
+            "created_at"?: string;
+            "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
+            "description"?: string;
+            "external_reference_id"?: string;
+            "images": Array<ImageAttachment>;
+            "is_available_for_sale": boolean;
+            "merchant_id"?: string;
+            "metadata"?: MetadataMap;
+            "modifier_set"?: ((ModifierSet) | (null));
+            "modifier_set_id": string | null;
+            "name": string;
+            "sku"?: string;
+            "status": "active" | "inactive" | "archived" | (string & {});
+            "unit_price_money": MoneyValue;
+            "updated_at"?: string;
+            "version": number;
+        };
     };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "bundle.created";
     "source"?: ({
         "environment_grant_id": string;
@@ -594,7 +3083,6 @@ export type BundleCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, r
         "mode": "test" | "live" | (string & {});
         "partner_app_install_id": string;
         "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
     });
 })))
     & {
@@ -607,36 +3095,237 @@ export type BundleCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, r
 export type BundleCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     *  object (Required): {@link Bundle}. Several variants sold as one line at the bundle's price.
-     * A bundle line takes its components' shared taxability and tax category; all components must
-     * share both stored values. An unset category uses the merchant default and equals only
-     * another unset category.
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
+     * fields: `modifier_set`. object.barcode (Optional): string. Barcode assigned to this sellable
+     * item. object.bundle_id (Required): string. Stable identifier of the bundle. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". object.categories (Required): Array of {@link
+     * CategoryReference}. Always present. Empty collections are returned as [].
+     * object.categories[] (Value): {@link CategoryReference}. A reference to a product category by
+     * ID, handle, and name. object.component_count (Required): integer. Number of components in
+     * the bundle. Format: int32. object.components (Required): Array of {@link BundleComponent}.
+     * The bundle's components in position order, on every bundle response including list rows. []
+     * only when the bundle has no components. object.components[] (Value): {@link
+     * BundleComponent}. An item included in a bundle. object.created_at (Optional): string. When
+     * this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.delivery_configuration_status (Required): string. Delivery
+     * readiness aggregated across the bundle's components. A bundle with no components reports
+     * `not_applicable`. Value enum: "configured", "action_required", "not_applicable".
+     * object.description (Optional): string. Description of the bundle shown to buyers.
+     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
+     * in an external system. maxLength: 255. Example: "warehouse-1842". object.images (Required):
+     * Array of {@link ImageAttachment}. Images attached to this resource, in display order. The
+     * first image is primary. object.images[] (Value): {@link ImageAttachment}. An image attached
+     * to a resource, with its display properties and attachment metadata.
+     * object.is_available_for_sale (Required): boolean. Whether the bundle can be sold now: it is
+     * `active`, has at least one component, every component's variant and product are `active`,
+     * and `delivery_configuration_status` isn't `action_required`. Stock isn't considered.
+     * object.merchant_id (Optional): string. Identifier of the merchant that owns this resource.
+     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link MetadataMap}.
+     * Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a
+     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
+     * may not satisfy them. object.modifier_set (Optional): {@link ModifierSet} or null. Attached
+     * modifier set, included when expand=modifier_set is requested. Requires commerce.catalog.read
+     * in addition to the resource's read scope. Present only when `expand` includes
+     * `modifier_set`; `null` when expanded and there is no related modifier set.
+     * object.modifier_set.anyOf[1] (Value): {@link ModifierSet}. A reusable collection of
+     * customization groups. object.modifier_set.anyOf[2] (Value): null. object.modifier_set_id
+     * (Required): string or null. Attached modifier set. Send null on update to remove it.
+     * Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". object.name (Required): string. Bundle name shown
+     * to buyers. object.sku (Optional): string. Stock keeping unit assigned to this sellable item.
+     * object.status (Required): string. Bundle lifecycle status. Archived bundles remain readable
+     * and cannot be edited. Value enum: "active", "inactive", "archived". object.unit_price_money
+     * (Required): {@link MoneyValue}. Price charged for one unit, in the currency's smallest unit.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * object.updated_at (Optional): string. When this resource last changed, as an RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
+     * integer. Current resource version. Send it as expected_version to reject a write if the
+     * resource has changed. Format: uint64. minimum: 0.
      */
     "data"?: {
         /**
-         * Several variants sold as one line at the bundle's price. A bundle line takes its
-         * components' shared taxability and tax category; all components must share both stored
-         * values. An unset category uses the merchant default and equals only another unset
-         * category.
+         * The resource snapshot, without expansions. Webhooks omit these fields: `modifier_set`.
+         * barcode (Optional): string. Barcode assigned to this sellable item. bundle_id
+         * (Required): string. Stable identifier of the bundle. Example:
+         * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". categories (Required): Array of {@link
+         * CategoryReference}. Always present. Empty collections are returned as []. categories[]
+         * (Value): {@link CategoryReference}. A reference to a product category by ID, handle, and
+         * name. component_count (Required): integer. Number of components in the bundle. Format:
+         * int32. components (Required): Array of {@link BundleComponent}. The bundle's components
+         * in position order, on every bundle response including list rows. [] only when the bundle
+         * has no components. components[] (Value): {@link BundleComponent}. An item included in a
+         * bundle. created_at (Optional): string. When this resource was created, as an RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * delivery_configuration_status (Required): string. Delivery readiness aggregated across
+         * the bundle's components. A bundle with no components reports `not_applicable`. Value
+         * enum: "configured", "action_required", "not_applicable". description (Optional): string.
+         * Description of the bundle shown to buyers. external_reference_id (Optional): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". images (Required): Array of {@link ImageAttachment}. Images
+         * attached to this resource, in display order. The first image is primary. images[]
+         * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
+         * properties and attachment metadata. is_available_for_sale (Required): boolean. Whether
+         * the bundle can be sold now: it is `active`, has at least one component, every
+         * component's variant and product are `active`, and `delivery_configuration_status` isn't
+         * `action_required`. Stock isn't considered. merchant_id (Optional): string. Identifier of
+         * the merchant that owns this resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * metadata (Optional): {@link MetadataMap}. Caller-owned metadata stored on this resource.
+         * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved
+         * for Flint and are not returned. Writes follow the limits on MetadataInput and
+         * MetadataPatchInput; maps written before those limits may not satisfy them. modifier_set
+         * (Optional): {@link ModifierSet} or null. Attached modifier set, included when
+         * expand=modifier_set is requested. Requires commerce.catalog.read in addition to the
+         * resource's read scope. Present only when `expand` includes `modifier_set`; `null` when
+         * expanded and there is no related modifier set. modifier_set.anyOf[1] (Value): {@link
+         * ModifierSet}. A reusable collection of customization groups. modifier_set.anyOf[2]
+         * (Value): null. modifier_set_id (Required): string or null. Attached modifier set. Send
+         * null on update to remove it. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". name (Required):
+         * string. Bundle name shown to buyers. sku (Optional): string. Stock keeping unit assigned
+         * to this sellable item. status (Required): string. Bundle lifecycle status. Archived
+         * bundles remain readable and cannot be edited. Value enum: "active", "inactive",
+         * "archived". unit_price_money (Required): {@link MoneyValue}. Price charged for one unit,
+         * in the currency's smallest unit. Monetary amount represented as integer minor units plus
+         * an ISO 4217 currency code. updated_at (Optional): string. When this resource last
+         * changed, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * version (Required): integer. Current resource version. Send it as expected_version to
+         * reject a write if the resource has changed. Format: uint64. minimum: 0.
          */
-        "object": Bundle;
+        "object": {
+            /** Barcode assigned to this sellable item. */
+            "barcode"?: string;
+            /** Stable identifier of the bundle. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". */
+            "bundle_id": string;
+            /**
+             * Always present. Empty collections are returned as []. [] (Value): {@link
+             * CategoryReference}. A reference to a product category by ID, handle, and name.
+             */
+            "categories": Array<CategoryReference>;
+            /** Number of components in the bundle. Format: int32. */
+            "component_count": number;
+            /**
+             * The bundle's components in position order, on every bundle response including list
+             * rows. [] only when the bundle has no components. [] (Value): {@link
+             * BundleComponent}. An item included in a bundle.
+             */
+            "components": Array<BundleComponent>;
+            /**
+             * When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "created_at"?: string;
+            /**
+             * Delivery readiness aggregated across the bundle's components. A bundle with no
+             * components reports `not_applicable`. Value enum: "configured", "action_required",
+             * "not_applicable".
+             */
+            "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
+            /** Description of the bundle shown to buyers. */
+            "description"?: string;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /**
+             * Images attached to this resource, in display order. The first image is primary. []
+             * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
+             * properties and attachment metadata.
+             */
+            "images": Array<ImageAttachment>;
+            /**
+             * Whether the bundle can be sold now: it is `active`, has at least one component,
+             * every component's variant and product are `active`, and
+             * `delivery_configuration_status` isn't `action_required`. Stock isn't considered.
+             */
+            "is_available_for_sale": boolean;
+            /**
+             * Identifier of the merchant that owns this resource. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id"?: string;
+            /**
+             * Caller-owned metadata stored on this resource. Caller-owned key-value data stored on
+             * a resource. Keys starting with flint_ are reserved for Flint and are not returned.
+             * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written
+             * before those limits may not satisfy them.
+             */
+            "metadata"?: MetadataMap;
+            /**
+             * Attached modifier set, included when expand=modifier_set is requested. Requires
+             * commerce.catalog.read in addition to the resource's read scope. Present only when
+             * `expand` includes `modifier_set`; `null` when expanded and there is no related
+             * modifier set. anyOf[1] (Value): {@link ModifierSet}. A reusable collection of
+             * customization groups. anyOf[2] (Value): null.
+             */
+            "modifier_set"?: ((ModifierSet) | (null));
+            /**
+             * Attached modifier set. Send null on update to remove it. Example:
+             * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+             */
+            "modifier_set_id": string | null;
+            /** Bundle name shown to buyers. */
+            "name": string;
+            /** Stock keeping unit assigned to this sellable item. */
+            "sku"?: string;
+            /**
+             * Bundle lifecycle status. Archived bundles remain readable and cannot be edited.
+             * Value enum: "active", "inactive", "archived".
+             */
+            "status": "active" | "inactive" | "archived" | (string & {});
+            /**
+             * Price charged for one unit, in the currency's smallest unit. Monetary amount
+             * represented as integer minor units plus an ISO 4217 currency code.
+             */
+            "unit_price_money": MoneyValue;
+            /**
+             * When this resource last changed, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
+            "updated_at"?: string;
+            /**
+             * Current resource version. Send it as expected_version to reject a write if the
+             * resource has changed. Format: uint64. minimum: 0.
+             */
+            "version": number;
+        };
     };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
     /** Value enum: "bundle.created". */
     "event_type"?: "bundle.created";
     /**
-     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
-     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
-     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
      */
     "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
         "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
         "merchant_id": string;
-        /** Value enum: "test", "live". */
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
         "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
         "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
         "sandbox_id"?: string;
-        /** Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
     });
 });
 /**
@@ -646,20 +3335,202 @@ export type BundleCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
 export type BundleCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     *  object (Required): {@link Bundle}. Several variants sold as one line at the bundle's price.
-     * A bundle line takes its components' shared taxability and tax category; all components must
-     * share both stored values. An unset category uses the merchant default and equals only
-     * another unset category.
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
+     * fields: `modifier_set`. object.barcode (Optional): string. Barcode assigned to this sellable
+     * item. object.bundle_id (Required): string. Stable identifier of the bundle. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". object.categories (Required): Array of {@link
+     * CategoryReference}. Always present. Empty collections are returned as [].
+     * object.categories[] (Value): {@link CategoryReference}. A reference to a product category by
+     * ID, handle, and name. object.component_count (Required): integer. Number of components in
+     * the bundle. Format: int32. object.components (Required): Array of {@link BundleComponent}.
+     * The bundle's components in position order, on every bundle response including list rows. []
+     * only when the bundle has no components. object.components[] (Value): {@link
+     * BundleComponent}. An item included in a bundle. object.created_at (Optional): string. When
+     * this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.delivery_configuration_status (Required): string. Delivery
+     * readiness aggregated across the bundle's components. A bundle with no components reports
+     * `not_applicable`. Value enum: "configured", "action_required", "not_applicable".
+     * object.description (Optional): string. Description of the bundle shown to buyers.
+     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
+     * in an external system. maxLength: 255. Example: "warehouse-1842". object.images (Required):
+     * Array of {@link ImageAttachment}. Images attached to this resource, in display order. The
+     * first image is primary. object.images[] (Value): {@link ImageAttachment}. An image attached
+     * to a resource, with its display properties and attachment metadata.
+     * object.is_available_for_sale (Required): boolean. Whether the bundle can be sold now: it is
+     * `active`, has at least one component, every component's variant and product are `active`,
+     * and `delivery_configuration_status` isn't `action_required`. Stock isn't considered.
+     * object.merchant_id (Optional): string. Identifier of the merchant that owns this resource.
+     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link MetadataMap}.
+     * Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a
+     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
+     * may not satisfy them. object.modifier_set (Optional): {@link ModifierSet} or null. Attached
+     * modifier set, included when expand=modifier_set is requested. Requires commerce.catalog.read
+     * in addition to the resource's read scope. Present only when `expand` includes
+     * `modifier_set`; `null` when expanded and there is no related modifier set.
+     * object.modifier_set.anyOf[1] (Value): {@link ModifierSet}. A reusable collection of
+     * customization groups. object.modifier_set.anyOf[2] (Value): null. object.modifier_set_id
+     * (Required): string or null. Attached modifier set. Send null on update to remove it.
+     * Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". object.name (Required): string. Bundle name shown
+     * to buyers. object.sku (Optional): string. Stock keeping unit assigned to this sellable item.
+     * object.status (Required): string. Bundle lifecycle status. Archived bundles remain readable
+     * and cannot be edited. Value enum: "active", "inactive", "archived". object.unit_price_money
+     * (Required): {@link MoneyValue}. Price charged for one unit, in the currency's smallest unit.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * object.updated_at (Optional): string. When this resource last changed, as an RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
+     * integer. Current resource version. Send it as expected_version to reject a write if the
+     * resource has changed. Format: uint64. minimum: 0.
      */
     "data"?: {
         /**
-         * Several variants sold as one line at the bundle's price. A bundle line takes its
-         * components' shared taxability and tax category; all components must share both stored
-         * values. An unset category uses the merchant default and equals only another unset
-         * category.
+         * The resource snapshot, without expansions. Webhooks omit these fields: `modifier_set`.
+         * barcode (Optional): string. Barcode assigned to this sellable item. bundle_id
+         * (Required): string. Stable identifier of the bundle. Example:
+         * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". categories (Required): Array of {@link
+         * CategoryReference}. Always present. Empty collections are returned as []. categories[]
+         * (Value): {@link CategoryReference}. A reference to a product category by ID, handle, and
+         * name. component_count (Required): integer. Number of components in the bundle. Format:
+         * int32. components (Required): Array of {@link BundleComponent}. The bundle's components
+         * in position order, on every bundle response including list rows. [] only when the bundle
+         * has no components. components[] (Value): {@link BundleComponent}. An item included in a
+         * bundle. created_at (Optional): string. When this resource was created, as an RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * delivery_configuration_status (Required): string. Delivery readiness aggregated across
+         * the bundle's components. A bundle with no components reports `not_applicable`. Value
+         * enum: "configured", "action_required", "not_applicable". description (Optional): string.
+         * Description of the bundle shown to buyers. external_reference_id (Optional): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". images (Required): Array of {@link ImageAttachment}. Images
+         * attached to this resource, in display order. The first image is primary. images[]
+         * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
+         * properties and attachment metadata. is_available_for_sale (Required): boolean. Whether
+         * the bundle can be sold now: it is `active`, has at least one component, every
+         * component's variant and product are `active`, and `delivery_configuration_status` isn't
+         * `action_required`. Stock isn't considered. merchant_id (Optional): string. Identifier of
+         * the merchant that owns this resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * metadata (Optional): {@link MetadataMap}. Caller-owned metadata stored on this resource.
+         * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved
+         * for Flint and are not returned. Writes follow the limits on MetadataInput and
+         * MetadataPatchInput; maps written before those limits may not satisfy them. modifier_set
+         * (Optional): {@link ModifierSet} or null. Attached modifier set, included when
+         * expand=modifier_set is requested. Requires commerce.catalog.read in addition to the
+         * resource's read scope. Present only when `expand` includes `modifier_set`; `null` when
+         * expanded and there is no related modifier set. modifier_set.anyOf[1] (Value): {@link
+         * ModifierSet}. A reusable collection of customization groups. modifier_set.anyOf[2]
+         * (Value): null. modifier_set_id (Required): string or null. Attached modifier set. Send
+         * null on update to remove it. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". name (Required):
+         * string. Bundle name shown to buyers. sku (Optional): string. Stock keeping unit assigned
+         * to this sellable item. status (Required): string. Bundle lifecycle status. Archived
+         * bundles remain readable and cannot be edited. Value enum: "active", "inactive",
+         * "archived". unit_price_money (Required): {@link MoneyValue}. Price charged for one unit,
+         * in the currency's smallest unit. Monetary amount represented as integer minor units plus
+         * an ISO 4217 currency code. updated_at (Optional): string. When this resource last
+         * changed, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * version (Required): integer. Current resource version. Send it as expected_version to
+         * reject a write if the resource has changed. Format: uint64. minimum: 0.
          */
-        "object": Bundle;
+        "object": {
+            /** Barcode assigned to this sellable item. */
+            "barcode"?: string;
+            /** Stable identifier of the bundle. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". */
+            "bundle_id": string;
+            /**
+             * Always present. Empty collections are returned as []. [] (Value): {@link
+             * CategoryReference}. A reference to a product category by ID, handle, and name.
+             */
+            "categories": Array<CategoryReference>;
+            /** Number of components in the bundle. Format: int32. */
+            "component_count": number;
+            /**
+             * The bundle's components in position order, on every bundle response including list
+             * rows. [] only when the bundle has no components. [] (Value): {@link
+             * BundleComponent}. An item included in a bundle.
+             */
+            "components": Array<BundleComponent>;
+            /**
+             * When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "created_at"?: string;
+            /**
+             * Delivery readiness aggregated across the bundle's components. A bundle with no
+             * components reports `not_applicable`. Value enum: "configured", "action_required",
+             * "not_applicable".
+             */
+            "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
+            /** Description of the bundle shown to buyers. */
+            "description"?: string;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /**
+             * Images attached to this resource, in display order. The first image is primary. []
+             * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
+             * properties and attachment metadata.
+             */
+            "images": Array<ImageAttachment>;
+            /**
+             * Whether the bundle can be sold now: it is `active`, has at least one component,
+             * every component's variant and product are `active`, and
+             * `delivery_configuration_status` isn't `action_required`. Stock isn't considered.
+             */
+            "is_available_for_sale": boolean;
+            /**
+             * Identifier of the merchant that owns this resource. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id"?: string;
+            /**
+             * Caller-owned metadata stored on this resource. Caller-owned key-value data stored on
+             * a resource. Keys starting with flint_ are reserved for Flint and are not returned.
+             * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written
+             * before those limits may not satisfy them.
+             */
+            "metadata"?: MetadataMap;
+            /**
+             * Attached modifier set, included when expand=modifier_set is requested. Requires
+             * commerce.catalog.read in addition to the resource's read scope. Present only when
+             * `expand` includes `modifier_set`; `null` when expanded and there is no related
+             * modifier set. anyOf[1] (Value): {@link ModifierSet}. A reusable collection of
+             * customization groups. anyOf[2] (Value): null.
+             */
+            "modifier_set"?: ((ModifierSet) | (null));
+            /**
+             * Attached modifier set. Send null on update to remove it. Example:
+             * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+             */
+            "modifier_set_id": string | null;
+            /** Bundle name shown to buyers. */
+            "name": string;
+            /** Stock keeping unit assigned to this sellable item. */
+            "sku"?: string;
+            /**
+             * Bundle lifecycle status. Archived bundles remain readable and cannot be edited.
+             * Value enum: "active", "inactive", "archived".
+             */
+            "status": "active" | "inactive" | "archived" | (string & {});
+            /**
+             * Price charged for one unit, in the currency's smallest unit. Monetary amount
+             * represented as integer minor units plus an ISO 4217 currency code.
+             */
+            "unit_price_money": MoneyValue;
+            /**
+             * When this resource last changed, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
+            "updated_at"?: string;
+            /**
+             * Current resource version. Send it as expected_version to reject a write if the
+             * resource has changed. Format: uint64. minimum: 0.
+             */
+            "version": number;
+        };
     };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
     /** Value enum: "bundle.created". */
     "event_type"?: "bundle.created";
 });
@@ -708,15 +3579,63 @@ export type BundleResponse = {
 export type BundleUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
-        "object": Bundle;
+        "object": {
+            "barcode"?: string;
+            "bundle_id": string;
+            "categories": Array<CategoryReference>;
+            "component_count": number;
+            "components": Array<BundleComponent>;
+            "created_at"?: string;
+            "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
+            "description"?: string;
+            "external_reference_id"?: string;
+            "images": Array<ImageAttachment>;
+            "is_available_for_sale": boolean;
+            "merchant_id"?: string;
+            "metadata"?: MetadataMap;
+            "modifier_set"?: ((ModifierSet) | (null));
+            "modifier_set_id": string | null;
+            "name": string;
+            "sku"?: string;
+            "status": "active" | "inactive" | "archived" | (string & {});
+            "unit_price_money": MoneyValue;
+            "updated_at"?: string;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<Bundle>;
     };
+    "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "bundle.updated";
 }))
     | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
-        "object": Bundle;
+        "object": {
+            "barcode"?: string;
+            "bundle_id": string;
+            "categories": Array<CategoryReference>;
+            "component_count": number;
+            "components": Array<BundleComponent>;
+            "created_at"?: string;
+            "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
+            "description"?: string;
+            "external_reference_id"?: string;
+            "images": Array<ImageAttachment>;
+            "is_available_for_sale": boolean;
+            "merchant_id"?: string;
+            "metadata"?: MetadataMap;
+            "modifier_set"?: ((ModifierSet) | (null));
+            "modifier_set_id": string | null;
+            "name": string;
+            "sku"?: string;
+            "status": "active" | "inactive" | "archived" | (string & {});
+            "unit_price_money": MoneyValue;
+            "updated_at"?: string;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<Bundle>;
     };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "bundle.updated";
     "source"?: ({
         "environment_grant_id": string;
@@ -724,7 +3643,6 @@ export type BundleUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, r
         "mode": "test" | "live" | (string & {});
         "partner_app_install_id": string;
         "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
     });
 })))
     & {
@@ -737,36 +3655,248 @@ export type BundleUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, r
 export type BundleUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     *  object (Required): {@link Bundle}. Several variants sold as one line at the bundle's price.
-     * A bundle line takes its components' shared taxability and tax category; all components must
-     * share both stored values. An unset category uses the merchant default and equals only
-     * another unset category.
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
+     * fields: `modifier_set`. object.barcode (Optional): string. Barcode assigned to this sellable
+     * item. object.bundle_id (Required): string. Stable identifier of the bundle. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". object.categories (Required): Array of {@link
+     * CategoryReference}. Always present. Empty collections are returned as [].
+     * object.categories[] (Value): {@link CategoryReference}. A reference to a product category by
+     * ID, handle, and name. object.component_count (Required): integer. Number of components in
+     * the bundle. Format: int32. object.components (Required): Array of {@link BundleComponent}.
+     * The bundle's components in position order, on every bundle response including list rows. []
+     * only when the bundle has no components. object.components[] (Value): {@link
+     * BundleComponent}. An item included in a bundle. object.created_at (Optional): string. When
+     * this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.delivery_configuration_status (Required): string. Delivery
+     * readiness aggregated across the bundle's components. A bundle with no components reports
+     * `not_applicable`. Value enum: "configured", "action_required", "not_applicable".
+     * object.description (Optional): string. Description of the bundle shown to buyers.
+     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
+     * in an external system. maxLength: 255. Example: "warehouse-1842". object.images (Required):
+     * Array of {@link ImageAttachment}. Images attached to this resource, in display order. The
+     * first image is primary. object.images[] (Value): {@link ImageAttachment}. An image attached
+     * to a resource, with its display properties and attachment metadata.
+     * object.is_available_for_sale (Required): boolean. Whether the bundle can be sold now: it is
+     * `active`, has at least one component, every component's variant and product are `active`,
+     * and `delivery_configuration_status` isn't `action_required`. Stock isn't considered.
+     * object.merchant_id (Optional): string. Identifier of the merchant that owns this resource.
+     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link MetadataMap}.
+     * Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a
+     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
+     * may not satisfy them. object.modifier_set (Optional): {@link ModifierSet} or null. Attached
+     * modifier set, included when expand=modifier_set is requested. Requires commerce.catalog.read
+     * in addition to the resource's read scope. Present only when `expand` includes
+     * `modifier_set`; `null` when expanded and there is no related modifier set.
+     * object.modifier_set.anyOf[1] (Value): {@link ModifierSet}. A reusable collection of
+     * customization groups. object.modifier_set.anyOf[2] (Value): null. object.modifier_set_id
+     * (Required): string or null. Attached modifier set. Send null on update to remove it.
+     * Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". object.name (Required): string. Bundle name shown
+     * to buyers. object.sku (Optional): string. Stock keeping unit assigned to this sellable item.
+     * object.status (Required): string. Bundle lifecycle status. Archived bundles remain readable
+     * and cannot be edited. Value enum: "active", "inactive", "archived". object.unit_price_money
+     * (Required): {@link MoneyValue}. Price charged for one unit, in the currency's smallest unit.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * object.updated_at (Optional): string. When this resource last changed, as an RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
+     * integer. Current resource version. Send it as expected_version to reject a write if the
+     * resource has changed. Format: uint64. minimum: 0. previous_attributes (Optional): object.
+     * Previous values of changed top-level fields in data.object, at this delivery's API version.
+     * Nested changes include the whole previous top-level value. A value is null when the field
+     * was absent before the change. Omitted when Flint did not record the previous state,
+     * including synthetic test events.
      */
     "data"?: {
         /**
-         * Several variants sold as one line at the bundle's price. A bundle line takes its
-         * components' shared taxability and tax category; all components must share both stored
-         * values. An unset category uses the merchant default and equals only another unset
-         * category.
+         * The resource snapshot, without expansions. Webhooks omit these fields: `modifier_set`.
+         * barcode (Optional): string. Barcode assigned to this sellable item. bundle_id
+         * (Required): string. Stable identifier of the bundle. Example:
+         * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". categories (Required): Array of {@link
+         * CategoryReference}. Always present. Empty collections are returned as []. categories[]
+         * (Value): {@link CategoryReference}. A reference to a product category by ID, handle, and
+         * name. component_count (Required): integer. Number of components in the bundle. Format:
+         * int32. components (Required): Array of {@link BundleComponent}. The bundle's components
+         * in position order, on every bundle response including list rows. [] only when the bundle
+         * has no components. components[] (Value): {@link BundleComponent}. An item included in a
+         * bundle. created_at (Optional): string. When this resource was created, as an RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * delivery_configuration_status (Required): string. Delivery readiness aggregated across
+         * the bundle's components. A bundle with no components reports `not_applicable`. Value
+         * enum: "configured", "action_required", "not_applicable". description (Optional): string.
+         * Description of the bundle shown to buyers. external_reference_id (Optional): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". images (Required): Array of {@link ImageAttachment}. Images
+         * attached to this resource, in display order. The first image is primary. images[]
+         * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
+         * properties and attachment metadata. is_available_for_sale (Required): boolean. Whether
+         * the bundle can be sold now: it is `active`, has at least one component, every
+         * component's variant and product are `active`, and `delivery_configuration_status` isn't
+         * `action_required`. Stock isn't considered. merchant_id (Optional): string. Identifier of
+         * the merchant that owns this resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * metadata (Optional): {@link MetadataMap}. Caller-owned metadata stored on this resource.
+         * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved
+         * for Flint and are not returned. Writes follow the limits on MetadataInput and
+         * MetadataPatchInput; maps written before those limits may not satisfy them. modifier_set
+         * (Optional): {@link ModifierSet} or null. Attached modifier set, included when
+         * expand=modifier_set is requested. Requires commerce.catalog.read in addition to the
+         * resource's read scope. Present only when `expand` includes `modifier_set`; `null` when
+         * expanded and there is no related modifier set. modifier_set.anyOf[1] (Value): {@link
+         * ModifierSet}. A reusable collection of customization groups. modifier_set.anyOf[2]
+         * (Value): null. modifier_set_id (Required): string or null. Attached modifier set. Send
+         * null on update to remove it. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". name (Required):
+         * string. Bundle name shown to buyers. sku (Optional): string. Stock keeping unit assigned
+         * to this sellable item. status (Required): string. Bundle lifecycle status. Archived
+         * bundles remain readable and cannot be edited. Value enum: "active", "inactive",
+         * "archived". unit_price_money (Required): {@link MoneyValue}. Price charged for one unit,
+         * in the currency's smallest unit. Monetary amount represented as integer minor units plus
+         * an ISO 4217 currency code. updated_at (Optional): string. When this resource last
+         * changed, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * version (Required): integer. Current resource version. Send it as expected_version to
+         * reject a write if the resource has changed. Format: uint64. minimum: 0.
          */
-        "object": Bundle;
+        "object": {
+            /** Barcode assigned to this sellable item. */
+            "barcode"?: string;
+            /** Stable identifier of the bundle. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". */
+            "bundle_id": string;
+            /**
+             * Always present. Empty collections are returned as []. [] (Value): {@link
+             * CategoryReference}. A reference to a product category by ID, handle, and name.
+             */
+            "categories": Array<CategoryReference>;
+            /** Number of components in the bundle. Format: int32. */
+            "component_count": number;
+            /**
+             * The bundle's components in position order, on every bundle response including list
+             * rows. [] only when the bundle has no components. [] (Value): {@link
+             * BundleComponent}. An item included in a bundle.
+             */
+            "components": Array<BundleComponent>;
+            /**
+             * When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "created_at"?: string;
+            /**
+             * Delivery readiness aggregated across the bundle's components. A bundle with no
+             * components reports `not_applicable`. Value enum: "configured", "action_required",
+             * "not_applicable".
+             */
+            "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
+            /** Description of the bundle shown to buyers. */
+            "description"?: string;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /**
+             * Images attached to this resource, in display order. The first image is primary. []
+             * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
+             * properties and attachment metadata.
+             */
+            "images": Array<ImageAttachment>;
+            /**
+             * Whether the bundle can be sold now: it is `active`, has at least one component,
+             * every component's variant and product are `active`, and
+             * `delivery_configuration_status` isn't `action_required`. Stock isn't considered.
+             */
+            "is_available_for_sale": boolean;
+            /**
+             * Identifier of the merchant that owns this resource. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id"?: string;
+            /**
+             * Caller-owned metadata stored on this resource. Caller-owned key-value data stored on
+             * a resource. Keys starting with flint_ are reserved for Flint and are not returned.
+             * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written
+             * before those limits may not satisfy them.
+             */
+            "metadata"?: MetadataMap;
+            /**
+             * Attached modifier set, included when expand=modifier_set is requested. Requires
+             * commerce.catalog.read in addition to the resource's read scope. Present only when
+             * `expand` includes `modifier_set`; `null` when expanded and there is no related
+             * modifier set. anyOf[1] (Value): {@link ModifierSet}. A reusable collection of
+             * customization groups. anyOf[2] (Value): null.
+             */
+            "modifier_set"?: ((ModifierSet) | (null));
+            /**
+             * Attached modifier set. Send null on update to remove it. Example:
+             * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+             */
+            "modifier_set_id": string | null;
+            /** Bundle name shown to buyers. */
+            "name": string;
+            /** Stock keeping unit assigned to this sellable item. */
+            "sku"?: string;
+            /**
+             * Bundle lifecycle status. Archived bundles remain readable and cannot be edited.
+             * Value enum: "active", "inactive", "archived".
+             */
+            "status": "active" | "inactive" | "archived" | (string & {});
+            /**
+             * Price charged for one unit, in the currency's smallest unit. Monetary amount
+             * represented as integer minor units plus an ISO 4217 currency code.
+             */
+            "unit_price_money": MoneyValue;
+            /**
+             * When this resource last changed, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
+            "updated_at"?: string;
+            /**
+             * Current resource version. Send it as expected_version to reject a write if the
+             * resource has changed. Format: uint64. minimum: 0.
+             */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<Bundle>;
     };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
     /** Value enum: "bundle.updated". */
     "event_type"?: "bundle.updated";
     /**
-     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
-     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
-     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
      */
     "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
         "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
         "merchant_id": string;
-        /** Value enum: "test", "live". */
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
         "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
         "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
         "sandbox_id"?: string;
-        /** Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
     });
 });
 /**
@@ -776,37 +3906,286 @@ export type BundleUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
 export type BundleUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     *  object (Required): {@link Bundle}. Several variants sold as one line at the bundle's price.
-     * A bundle line takes its components' shared taxability and tax category; all components must
-     * share both stored values. An unset category uses the merchant default and equals only
-     * another unset category.
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
+     * fields: `modifier_set`. object.barcode (Optional): string. Barcode assigned to this sellable
+     * item. object.bundle_id (Required): string. Stable identifier of the bundle. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". object.categories (Required): Array of {@link
+     * CategoryReference}. Always present. Empty collections are returned as [].
+     * object.categories[] (Value): {@link CategoryReference}. A reference to a product category by
+     * ID, handle, and name. object.component_count (Required): integer. Number of components in
+     * the bundle. Format: int32. object.components (Required): Array of {@link BundleComponent}.
+     * The bundle's components in position order, on every bundle response including list rows. []
+     * only when the bundle has no components. object.components[] (Value): {@link
+     * BundleComponent}. An item included in a bundle. object.created_at (Optional): string. When
+     * this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.delivery_configuration_status (Required): string. Delivery
+     * readiness aggregated across the bundle's components. A bundle with no components reports
+     * `not_applicable`. Value enum: "configured", "action_required", "not_applicable".
+     * object.description (Optional): string. Description of the bundle shown to buyers.
+     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
+     * in an external system. maxLength: 255. Example: "warehouse-1842". object.images (Required):
+     * Array of {@link ImageAttachment}. Images attached to this resource, in display order. The
+     * first image is primary. object.images[] (Value): {@link ImageAttachment}. An image attached
+     * to a resource, with its display properties and attachment metadata.
+     * object.is_available_for_sale (Required): boolean. Whether the bundle can be sold now: it is
+     * `active`, has at least one component, every component's variant and product are `active`,
+     * and `delivery_configuration_status` isn't `action_required`. Stock isn't considered.
+     * object.merchant_id (Optional): string. Identifier of the merchant that owns this resource.
+     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link MetadataMap}.
+     * Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a
+     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
+     * may not satisfy them. object.modifier_set (Optional): {@link ModifierSet} or null. Attached
+     * modifier set, included when expand=modifier_set is requested. Requires commerce.catalog.read
+     * in addition to the resource's read scope. Present only when `expand` includes
+     * `modifier_set`; `null` when expanded and there is no related modifier set.
+     * object.modifier_set.anyOf[1] (Value): {@link ModifierSet}. A reusable collection of
+     * customization groups. object.modifier_set.anyOf[2] (Value): null. object.modifier_set_id
+     * (Required): string or null. Attached modifier set. Send null on update to remove it.
+     * Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". object.name (Required): string. Bundle name shown
+     * to buyers. object.sku (Optional): string. Stock keeping unit assigned to this sellable item.
+     * object.status (Required): string. Bundle lifecycle status. Archived bundles remain readable
+     * and cannot be edited. Value enum: "active", "inactive", "archived". object.unit_price_money
+     * (Required): {@link MoneyValue}. Price charged for one unit, in the currency's smallest unit.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * object.updated_at (Optional): string. When this resource last changed, as an RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
+     * integer. Current resource version. Send it as expected_version to reject a write if the
+     * resource has changed. Format: uint64. minimum: 0. previous_attributes (Optional): object.
+     * Previous values of changed top-level fields in data.object, at this delivery's API version.
+     * Nested changes include the whole previous top-level value. A value is null when the field
+     * was absent before the change. Omitted when Flint did not record the previous state,
+     * including synthetic test events.
      */
     "data"?: {
         /**
-         * Several variants sold as one line at the bundle's price. A bundle line takes its
-         * components' shared taxability and tax category; all components must share both stored
-         * values. An unset category uses the merchant default and equals only another unset
-         * category.
+         * The resource snapshot, without expansions. Webhooks omit these fields: `modifier_set`.
+         * barcode (Optional): string. Barcode assigned to this sellable item. bundle_id
+         * (Required): string. Stable identifier of the bundle. Example:
+         * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". categories (Required): Array of {@link
+         * CategoryReference}. Always present. Empty collections are returned as []. categories[]
+         * (Value): {@link CategoryReference}. A reference to a product category by ID, handle, and
+         * name. component_count (Required): integer. Number of components in the bundle. Format:
+         * int32. components (Required): Array of {@link BundleComponent}. The bundle's components
+         * in position order, on every bundle response including list rows. [] only when the bundle
+         * has no components. components[] (Value): {@link BundleComponent}. An item included in a
+         * bundle. created_at (Optional): string. When this resource was created, as an RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * delivery_configuration_status (Required): string. Delivery readiness aggregated across
+         * the bundle's components. A bundle with no components reports `not_applicable`. Value
+         * enum: "configured", "action_required", "not_applicable". description (Optional): string.
+         * Description of the bundle shown to buyers. external_reference_id (Optional): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". images (Required): Array of {@link ImageAttachment}. Images
+         * attached to this resource, in display order. The first image is primary. images[]
+         * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
+         * properties and attachment metadata. is_available_for_sale (Required): boolean. Whether
+         * the bundle can be sold now: it is `active`, has at least one component, every
+         * component's variant and product are `active`, and `delivery_configuration_status` isn't
+         * `action_required`. Stock isn't considered. merchant_id (Optional): string. Identifier of
+         * the merchant that owns this resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * metadata (Optional): {@link MetadataMap}. Caller-owned metadata stored on this resource.
+         * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved
+         * for Flint and are not returned. Writes follow the limits on MetadataInput and
+         * MetadataPatchInput; maps written before those limits may not satisfy them. modifier_set
+         * (Optional): {@link ModifierSet} or null. Attached modifier set, included when
+         * expand=modifier_set is requested. Requires commerce.catalog.read in addition to the
+         * resource's read scope. Present only when `expand` includes `modifier_set`; `null` when
+         * expanded and there is no related modifier set. modifier_set.anyOf[1] (Value): {@link
+         * ModifierSet}. A reusable collection of customization groups. modifier_set.anyOf[2]
+         * (Value): null. modifier_set_id (Required): string or null. Attached modifier set. Send
+         * null on update to remove it. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". name (Required):
+         * string. Bundle name shown to buyers. sku (Optional): string. Stock keeping unit assigned
+         * to this sellable item. status (Required): string. Bundle lifecycle status. Archived
+         * bundles remain readable and cannot be edited. Value enum: "active", "inactive",
+         * "archived". unit_price_money (Required): {@link MoneyValue}. Price charged for one unit,
+         * in the currency's smallest unit. Monetary amount represented as integer minor units plus
+         * an ISO 4217 currency code. updated_at (Optional): string. When this resource last
+         * changed, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * version (Required): integer. Current resource version. Send it as expected_version to
+         * reject a write if the resource has changed. Format: uint64. minimum: 0.
          */
-        "object": Bundle;
+        "object": {
+            /** Barcode assigned to this sellable item. */
+            "barcode"?: string;
+            /** Stable identifier of the bundle. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". */
+            "bundle_id": string;
+            /**
+             * Always present. Empty collections are returned as []. [] (Value): {@link
+             * CategoryReference}. A reference to a product category by ID, handle, and name.
+             */
+            "categories": Array<CategoryReference>;
+            /** Number of components in the bundle. Format: int32. */
+            "component_count": number;
+            /**
+             * The bundle's components in position order, on every bundle response including list
+             * rows. [] only when the bundle has no components. [] (Value): {@link
+             * BundleComponent}. An item included in a bundle.
+             */
+            "components": Array<BundleComponent>;
+            /**
+             * When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "created_at"?: string;
+            /**
+             * Delivery readiness aggregated across the bundle's components. A bundle with no
+             * components reports `not_applicable`. Value enum: "configured", "action_required",
+             * "not_applicable".
+             */
+            "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
+            /** Description of the bundle shown to buyers. */
+            "description"?: string;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /**
+             * Images attached to this resource, in display order. The first image is primary. []
+             * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
+             * properties and attachment metadata.
+             */
+            "images": Array<ImageAttachment>;
+            /**
+             * Whether the bundle can be sold now: it is `active`, has at least one component,
+             * every component's variant and product are `active`, and
+             * `delivery_configuration_status` isn't `action_required`. Stock isn't considered.
+             */
+            "is_available_for_sale": boolean;
+            /**
+             * Identifier of the merchant that owns this resource. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id"?: string;
+            /**
+             * Caller-owned metadata stored on this resource. Caller-owned key-value data stored on
+             * a resource. Keys starting with flint_ are reserved for Flint and are not returned.
+             * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written
+             * before those limits may not satisfy them.
+             */
+            "metadata"?: MetadataMap;
+            /**
+             * Attached modifier set, included when expand=modifier_set is requested. Requires
+             * commerce.catalog.read in addition to the resource's read scope. Present only when
+             * `expand` includes `modifier_set`; `null` when expanded and there is no related
+             * modifier set. anyOf[1] (Value): {@link ModifierSet}. A reusable collection of
+             * customization groups. anyOf[2] (Value): null.
+             */
+            "modifier_set"?: ((ModifierSet) | (null));
+            /**
+             * Attached modifier set. Send null on update to remove it. Example:
+             * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+             */
+            "modifier_set_id": string | null;
+            /** Bundle name shown to buyers. */
+            "name": string;
+            /** Stock keeping unit assigned to this sellable item. */
+            "sku"?: string;
+            /**
+             * Bundle lifecycle status. Archived bundles remain readable and cannot be edited.
+             * Value enum: "active", "inactive", "archived".
+             */
+            "status": "active" | "inactive" | "archived" | (string & {});
+            /**
+             * Price charged for one unit, in the currency's smallest unit. Monetary amount
+             * represented as integer minor units plus an ISO 4217 currency code.
+             */
+            "unit_price_money": MoneyValue;
+            /**
+             * When this resource last changed, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
+            "updated_at"?: string;
+            /**
+             * Current resource version. Send it as expected_version to reject a write if the
+             * resource has changed. Format: uint64. minimum: 0.
+             */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<Bundle>;
     };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
     /** Value enum: "bundle.updated". */
     "event_type"?: "bundle.updated";
 });
-export type BundlesCreateParams = (InputValue<CreateBundleRequestInput>);
+export type BundlesCreateParams = (InputValue<CreateBundleRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
 export type BundlesDeleteParams = {
     /** Optional bundle version last read by the caller. Format: uint64. minimum: 1. */
     "expected_version"?: InputValue<number>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
 };
 export type BundlesGetParams = {
     /**
-     * Supported expansions: modifier_set. Expand the attached modifier set. Limits: at most 10
-     * unique expand paths per request. Pass expand=modifier_set. [] enum: "modifier_set". Value
-     * enum: "modifier_set". anyOf[1] (Value): Array of string. [] enum: "modifier_set". anyOf[1][]
-     * (Value): string. Value enum: "modifier_set". anyOf[2] (Value): string. Value enum:
-     * "modifier_set".
+     * Include related objects in the response. Supported expansions: modifier_set. Expand the
+     * attached modifier set. Limits: at most 10 unique expand paths per request. [] enum:
+     * "modifier_set". Value enum: "modifier_set". anyOf[1] (Value): Array of string. [] enum:
+     * "modifier_set". anyOf[1][] (Value): string. Value enum: "modifier_set". anyOf[2] (Value):
+     * string. Value enum: "modifier_set".
      */
     "expand"?: InputValue<("modifier_set") | readonly ("modifier_set")[]>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
 };
 export type BundlesListComponentsParams = {
     /**
@@ -815,19 +4194,18 @@ export type BundlesListComponentsParams = {
      */
     "page_size"?: InputValue<number>;
     /**
-     * Opaque next_page_token from the previous response. Omit on the first request. You may change
-     * `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request
-     * context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns
-     * a validation error.
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
      */
     "page_token"?: InputValue<string>;
-    /** Filter by assigned delivery profile ID. Example: "dprof_01ARZ3NDEKTSV4RRFFQ69G5FAV". */
+    /** Filter by assigned delivery profile ID. Example: "dprof_01KEZF7C0020J13FQYNY9854R0". */
     "delivery_profile_id"?: InputValue<string>;
     /**
-     * Filter by delivery readiness. Accepts repeated keys, comma-separated values, or mixtures.
-     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
-     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum:
-     * "configured", "action_required", "not_applicable". Value enum: "configured",
+     * Filter by delivery readiness. Values are trimmed and deduplicated in first-seen order; empty
+     * or unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "configured", "action_required", "not_applicable". Value enum: "configured",
      * "action_required", "not_applicable". anyOf[1] (Value): Array of string. minItems: 1. []
      * enum: "configured", "action_required", "not_applicable". anyOf[1][] (Value): string. Value
      * enum: "configured", "action_required", "not_applicable". anyOf[2] (Value): string. Value
@@ -835,6 +4213,24 @@ export type BundlesListComponentsParams = {
      */
     "delivery_configuration_status"?: InputValue<("configured" | "action_required" | "not_applicable")
         | readonly ("configured" | "action_required" | "not_applicable")[]>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
 };
 export type BundlesListParams = {
     /**
@@ -843,14 +4239,15 @@ export type BundlesListParams = {
      */
     "page_size"?: InputValue<number>;
     /**
-     * Opaque next_page_token from the previous response. Omit on the first request. You may change
-     * `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request
-     * context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns
-     * a validation error.
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
      */
     "page_token"?: InputValue<string>;
     /**
      * Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
+     * Example: "warehouse-1842".
      */
     "external_reference_id"?: InputValue<string>;
     /** Filter by exact SKU. maxLength: 100. */
@@ -864,14 +4261,13 @@ export type BundlesListParams = {
     /** Filter by category handle. maxLength: 100. pattern: ^[a-z0-9]+(-[a-z0-9]+)*$. */
     "category_handle"?: InputValue<string>;
     /**
-     * Filter by status. Repeat the parameter or send comma-separated values to match any of
-     * several. Omitted, the list leaves out archived rows; name archived to include them. Accepts
-     * repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in
-     * first-seen order; empty or unknown entries are rejected. Values within this filter are ORed;
-     * separate filters are ANDed. [] enum: "active", "inactive", "archived". Value enum: "active",
-     * "inactive", "archived". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "active",
-     * "inactive", "archived". anyOf[1][] (Value): string. Value enum: "active", "inactive",
-     * "archived". anyOf[2] (Value): string. Value enum: "active", "inactive", "archived".
+     * Filter by status. Omitted, the list leaves out archived rows; name archived to include them.
+     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
+     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "active",
+     * "inactive", "archived". Value enum: "active", "inactive", "archived". anyOf[1] (Value):
+     * Array of string. minItems: 1. [] enum: "active", "inactive", "archived". anyOf[1][] (Value):
+     * string. Value enum: "active", "inactive", "archived". anyOf[2] (Value): string. Value enum:
+     * "active", "inactive", "archived".
      */
     "status"?: InputValue<("active" | "inactive" | "archived") | readonly ("active" | "inactive" | "archived")[]>;
     /**
@@ -883,18 +4279,18 @@ export type BundlesListParams = {
     "sort_direction"?: InputValue<"asc" | "desc">;
     /**
      * Filter bundles with at least one component assigned to this delivery profile. Example:
-     * "dprof_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+     * "dprof_01KEZF7C0020J13FQYNY9854R0".
      */
     "delivery_profile_id"?: InputValue<string>;
     /**
-     * Filter by aggregated delivery readiness across bundle components. Accepts repeated keys,
-     * comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen
-     * order; empty or unknown entries are rejected. Values within this filter are ORed; separate
-     * filters are ANDed. [] enum: "configured", "action_required", "not_applicable". Value enum:
-     * "configured", "action_required", "not_applicable". anyOf[1] (Value): Array of string.
-     * minItems: 1. [] enum: "configured", "action_required", "not_applicable". anyOf[1][] (Value):
-     * string. Value enum: "configured", "action_required", "not_applicable". anyOf[2] (Value):
-     * string. Value enum: "configured", "action_required", "not_applicable".
+     * Filter by aggregated delivery readiness across bundle components. Values are trimmed and
+     * deduplicated in first-seen order; empty or unknown entries are rejected. Values within this
+     * filter are ORed; separate filters are ANDed. [] enum: "configured", "action_required",
+     * "not_applicable". Value enum: "configured", "action_required", "not_applicable". anyOf[1]
+     * (Value): Array of string. minItems: 1. [] enum: "configured", "action_required",
+     * "not_applicable". anyOf[1][] (Value): string. Value enum: "configured", "action_required",
+     * "not_applicable". anyOf[2] (Value): string. Value enum: "configured", "action_required",
+     * "not_applicable".
      */
     "delivery_configuration_status"?: InputValue<("configured" | "action_required" | "not_applicable")
         | readonly ("configured" | "action_required" | "not_applicable")[]>;
@@ -907,17 +4303,55 @@ export type BundlesListParams = {
     /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
     "updated_before"?: InputValue<string | globalThis.Date>;
     /**
-     * Supported expansions: modifier_set. Include the requested related resources using scoped
-     * batch reads for this page. Each relationship requires its existing target read scopes.
-     * Expansion changes the representation without changing pagination tokens. Limits: at most 10
-     * unique expand paths per request. Pass expand=modifier_set. [] enum: "modifier_set". Value
-     * enum: "modifier_set". anyOf[1] (Value): Array of string. [] enum: "modifier_set". anyOf[1][]
-     * (Value): string. Value enum: "modifier_set". anyOf[2] (Value): string. Value enum:
-     * "modifier_set".
+     * Include related objects in the response. Supported expansions: modifier_set. Include the
+     * requested related resources using scoped batch reads for this page. Each relationship
+     * requires its existing target read scopes. Expansion changes the representation without
+     * changing pagination tokens. Limits: at most 10 unique expand paths per request. [] enum:
+     * "modifier_set". Value enum: "modifier_set". anyOf[1] (Value): Array of string. [] enum:
+     * "modifier_set". anyOf[1][] (Value): string. Value enum: "modifier_set". anyOf[2] (Value):
+     * string. Value enum: "modifier_set".
      */
     "expand"?: InputValue<("modifier_set") | readonly ("modifier_set")[]>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
 };
-export type BundlesUpdateParams = (InputValue<UpdateBundleRequestInput>);
+export type BundlesUpdateParams = (InputValue<UpdateBundleRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
 /**
  * One thing a buyer can do with an order, subscription, invoice or return they read through
  * /v1/me. Show the actions with is_required as what needs the buyer's attention, and the first
@@ -931,7 +4365,8 @@ export type BuyerAction = {
     "cancel"?: BuyerCancelActionOptions;
     /**
      * When the buyer needs to act by. Omitted when the action has no deadline, or when the
-     * resource's state or the store's policy doesn't allow it. Format: date-time.
+     * resource's state or the store's policy doesn't allow it. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
      */
     "due_at"?: string;
     /** Whether this session can take the action now. */
@@ -946,7 +4381,8 @@ export type BuyerAction = {
      * added; ignore kinds you don't recognize. Value enum: "start_return", "resend_receipt",
      * "cancel", "pause", "resume", "reactivate", "update_payment_method", "pay", "withdraw",
      * "ship_items", "pay_balance", "retry_payment", "update_delivery", "skip",
-     * "update_billing_interval", "update_quantity", "swap_items", "renew".
+     * "update_billing_interval", "update_quantity", "swap_items", "renew", "change_plan",
+     * "cancel_plan_change".
      */
     "kind": "start_return"
         | "resend_receipt"
@@ -966,6 +4402,8 @@ export type BuyerAction = {
         | "update_quantity"
         | "swap_items"
         | "renew"
+        | "change_plan"
+        | "cancel_plan_change"
         | (string & {});
     /**
      * Present only on an available pause action. The pause lengths this subscription accepts from
@@ -1032,9 +4470,44 @@ export type BuyerCancelRetentionOffer = {
     "pause_duration_cycles": number;
 };
 /**
- * What a store lets buyers do to their own subscriptions. Send at least one field; each field you
- * omit takes its default. minProperties: 1.
+ * Withdraw a requested Return belonging to the current buyer. An omitted reason defaults to
+ * buyer_request.
  */
+export type BuyerCancelReturnRequest = {
+    /**
+     * Version last read from the resource returned in `data` (the primary resource for a result
+     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
+     * the operation and fields being changed. Format: int64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * The buyer withdrew the Return request. Defaults to buyer_request when omitted. Default:
+     * "buyer_request". Value enum: "buyer_request".
+     */
+    "reason"?: "buyer_request" | (string & {});
+    /** Optional detail about why the buyer withdrew the Return. minLength: 1. */
+    "reason_message"?: string;
+};
+/**
+ * Withdraw a requested Return belonging to the current buyer. An omitted reason defaults to
+ * buyer_request.
+ */
+export type BuyerCancelReturnRequestInput = {
+    /**
+     * Version last read from the resource returned in `data` (the primary resource for a result
+     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
+     * the operation and fields being changed. Format: int64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * The buyer withdrew the Return request. Defaults to buyer_request when omitted. Default:
+     * "buyer_request". Value enum: "buyer_request".
+     */
+    "reason"?: "buyer_request";
+    /** Optional detail about why the buyer withdrew the Return. minLength: 1. */
+    "reason_message"?: string;
+};
+/** What a store lets buyers do to their own subscriptions. minProperties: 1. */
 export type BuyerCapabilities = {
     /**
      * Whether buyers may change the shipping address and delivery method of their physical
@@ -1086,11 +4559,8 @@ export type BuyerCapabilities = {
      */
     "skip"?: BuyerSkipCapability;
 };
-/**
- * What a store lets buyers do to their own subscriptions. Send at least one field; each field you
- * omit takes its default. minProperties: 1.
- */
-export type BuyerCapabilitiesInput = {
+/** What a store lets buyers do to their own subscriptions. minProperties: 1. */
+export type BuyerCapabilitiesRequestInput = {
     /**
      * Whether buyers may change the shipping address and delivery method of their physical
      * subscriptions. Default: true.
@@ -1132,7 +4602,7 @@ export type BuyerCapabilitiesInput = {
      * canceling. The buyer can always decline it and cancel. Omit it for no offer. The offer a
      * buyer sees before canceling. Send at least one field. minProperties: 1.
      */
-    "retention_offer"?: BuyerRetentionOfferInput;
+    "retention_offer"?: BuyerRetentionOfferRequestInput;
     /**
      * Replaced as a whole: send every field you want to keep. Whether buyers may skip renewals.
      * Omit it to allow skipping with no consecutive limit. Whether buyers may skip renewals. Send
@@ -1145,10 +4615,11 @@ export type BuyerCapabilitiesInput = {
  * it.
  */
 export type BuyerCheckoutProblemResource = {
+    /** Whether the checkout cannot complete until the problem is resolved. */
     "blocks_completion": boolean;
     /**
-     * Value enum: "delivery_selection_stale", "delivery_selection_invalid", "delivery_unreadable",
-     * "payment_in_progress".
+     * Which condition affects the checkout. Value enum: "delivery_selection_stale",
+     * "delivery_selection_invalid", "delivery_unreadable", "payment_in_progress".
      */
     "code": "delivery_selection_stale"
         | "delivery_selection_invalid"
@@ -1156,11 +4627,12 @@ export type BuyerCheckoutProblemResource = {
         | "payment_in_progress"
         | (string & {});
     /**
+     * What the caller can do about the problem, and whether retrying the same request can help.
      * Guidance for recovering from a payment error: whether and how to retry (`retry`), and
      * optional next steps.
      */
     "remediation"?: BuyerErrorRemediation;
-    /** Value enum: "error". */
+    /** How serious the problem is. Value enum: "error". */
     "severity": "error" | (string & {});
 };
 /** A session in which a buyer completes an order's payment. */
@@ -1198,14 +4670,21 @@ export type BuyerCheckoutSession = {
      * confirms it. Returned only to the checkout credential; never in webhook payloads.
      */
     "can_save_payment_method_with_phone"?: boolean;
+    /**
+     * Unique identifier for this checkout session, prefixed `cs_`. Example:
+     * "cs_01KEZF7C004JRWFW43H037MQRN".
+     */
     "checkout_session_id": string;
-    /** RFC3339 timestamp. Format: date-time. */
-    "created_at"?: string;
-    /** Custom text shown in checkout: an order summary message and a shipping address label. */
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * The custom text this session shows in checkout. Custom text shown in checkout: an order
+     * summary message and a shipping address label.
+     */
     "custom_text"?: CheckoutCustomTextConfig;
     /**
      * The customer of the session's order. Omitted when the order has none. A checkout credential
-     * issued for this session acts for this customer.
+     * issued for this session acts for this customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      */
     "customer_id"?: string;
     /**
@@ -1227,7 +4706,7 @@ export type BuyerCheckoutSession = {
     "delivery"?: CheckoutDerivedDeliveryResource;
     /**
      * Immutable delivery method assignment captured when the checkout was created. [] (Value):
-     * string.
+     * string. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
      */
     "delivery_method_ids": Array<string>;
     /**
@@ -1235,7 +4714,7 @@ export type BuyerCheckoutSession = {
      * selected before payment.
      */
     "delivery_selection_required": boolean;
-    /** RFC3339 timestamp. Format: date-time. */
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "expires_at"?: string;
     /**
      * The lifetime the session got. expires_at is its deadline. Omitted for invoice sessions,
@@ -1250,6 +4729,10 @@ export type BuyerCheckoutSession = {
      * A URL to load in an iframe when applying a gift card returns `GIFT_CARD_CHALLENGE_REQUIRED`.
      */
     "gift_card_challenge"?: CheckoutGiftCardChallenge;
+    /**
+     * ID of the invoice a session of type `invoice` collects payment for. Absent for other types.
+     * Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+     */
     "invoice_id"?: string;
     /**
      * Whether this terminal session credential is temporarily restricted to recovering its owning
@@ -1257,21 +4740,23 @@ export type BuyerCheckoutSession = {
      */
     "is_in_recovery": boolean;
     /**
-     * Legal settings for a checkout: whether buyers must accept terms, and links to the terms,
-     * refund policy, shipping policy, and contract.
+     * The terms and policy links this session shows the buyer, and whether the buyer must accept
+     * the terms. Legal settings for a checkout: whether buyers must accept terms, and links to the
+     * terms, refund policy, shipping policy, and contract.
      */
     "legal"?: LegalSettings;
     /**
      * The merchant's square icon, shown in browser tabs and compact headers. Returned by `GET
      * /v1/checkout-sessions/{checkout_session_id}` when the merchant has one; other responses and
-     * webhooks omit it. An image with its `url`, `width`, and `height`, and optional `alt` text.
+     * webhooks omit it. An image with its URL, size, and alt text.
      */
     "merchant_icon"?: Image;
-    "merchant_id"?: string;
+    /** ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+    "merchant_id": string;
     /**
      * The merchant's logo. Returned by `GET /v1/checkout-sessions/{checkout_session_id}` when the
-     * merchant has one; other responses and webhooks omit it. An image with its `url`, `width`,
-     * and `height`, and optional `alt` text.
+     * merchant has one; other responses and webhooks omit it. An image with its URL, size, and alt
+     * text.
      */
     "merchant_logo"?: Image;
     /**
@@ -1289,6 +4774,10 @@ export type BuyerCheckoutSession = {
      * set it.
      */
     "merchant_support"?: CheckoutMerchantSupport;
+    /**
+     * ID of the order the session collects payment for, fixed at creation. Absent when the session
+     * has no order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
     "order_id"?: string;
     /** Origin of the page that renders this embedded checkout. Omitted when not set. */
     "page_origin"?: string;
@@ -1299,14 +4788,20 @@ export type BuyerCheckoutSession = {
      * Stripe values.
      */
     "payment_collection"?: BuyerPaymentCollection;
-    /**  [] (Value): string. */
+    /**
+     * IDs of the payment intents for the session's order. Absent when the order has none. []
+     * (Value): string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
     "payment_intent_ids"?: Array<string>;
+    /**
+     * ID of the payment link the session was started from. Absent when it was not started from a
+     * payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+     */
     "payment_link_id"?: string;
     /**
      * The current image of the payment link that opened this session. Returned by `GET
      * /v1/checkout-sessions/{checkout_session_id}` when that link has an image; other responses
-     * and webhooks omit it. An image with its `url`, `width`, and `height`, and optional `alt`
-     * text.
+     * and webhooks omit it. An image with its URL, size, and alt text.
      */
     "payment_link_image"?: Image;
     /**
@@ -1326,7 +4821,7 @@ export type BuyerCheckoutSession = {
      * redirect payment such as Affirm, whatever the outcome; read the session there to show the
      * result. Required when the session offers affirm. It can't contain credentials, a query
      * string, or a fragment. Test mode also accepts http loopback URLs. Up to 2,048 characters.
-     * Format: uri. maxLength: 2048.
+     * Format: uri. maxLength: 2048. Example: "https://example.com/receipt".
      */
     "payment_return_url"?: string;
     /**
@@ -1355,13 +4850,20 @@ export type BuyerCheckoutSession = {
      */
     "problems": Array<BuyerCheckoutProblemResource>;
     /**
-     * Promotion settings for a checkout: whether automatic promotions apply and whether the buyer
-     * can apply promotion codes.
+     * Whether automatic promotions apply to this session and whether the buyer can enter promotion
+     * codes. Promotion settings for a checkout: whether automatic promotions apply and whether the
+     * buyer can apply promotion codes.
      */
     "promotion_config"?: CheckoutPromotionConfig;
-    /** RFC3339 deadline for the restricted payment-attempt recovery window. Format: date-time. */
+    /**
+     * When the restricted payment-attempt recovery window ends. `null` when the session has no
+     * recovery window. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
     "recovery_expires_at"?: string | null;
-    /** Payment attempt that this checkout credential may recover while is_in_recovery is true. */
+    /**
+     * Payment attempt that this checkout credential may recover while is_in_recovery is true.
+     * Example: "opat_01KEZF7C00B5PW9F2R8A4YSH5D".
+     */
     "recovery_payment_attempt_id"?: string;
     /**
      * Where hosted checkout sends the buyer. Not allowed when surface is embedded; use
@@ -1404,8 +4906,16 @@ export type BuyerCheckoutSession = {
      * /v1/checkout-sessions/{checkout_session_id}`; other responses and webhooks omit it.
      */
     "show_flint_mark"?: boolean;
-    /** Value enum: "open", "paid", "partially_paid", "expired", "closed", "invalidated". */
+    /**
+     * Where the session is in its lifecycle. Only an `open` session accepts payment.
+     * `terminal_reason` says why a session that is not open ended. Value enum: "open", "paid",
+     * "partially_paid", "expired", "closed", "invalidated".
+     */
     "status": "open" | "paid" | "partially_paid" | "expired" | "closed" | "invalidated" | (string & {});
+    /**
+     * ID of the subscription plan a session of type `subscription_plan` signs the buyer up for.
+     * Absent for other types. Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
+     */
     "subscription_plan_id"?: string;
     /**
      * Renewal terms a subscription checkout commits the buyer to. Frozen when the session's order
@@ -1414,8 +4924,15 @@ export type BuyerCheckoutSession = {
      * session's order was created, so later plan changes do not alter them.
      */
     "subscription_terms"?: CheckoutSubscriptionTerms;
+    /**
+     * ID of the session that replaced this one. Present when `terminal_reason` is `superseded`.
+     * Example: "cs_01KEZF7C004JRWFW43H037MQRN".
+     */
     "superseding_checkout_session_id"?: string;
-    /** Value enum: "hosted", "embedded". */
+    /**
+     * How the session is presented to the buyer. A hosted session has a `url` on Flint's checkout
+     * page; an embedded one is rendered on your own page. Value enum: "hosted", "embedded".
+     */
     "surface": "hosted" | "embedded" | (string & {});
     /**
      * The session's tax settings. Omitted when the session sets none. Tax settings of a checkout
@@ -1423,7 +4940,13 @@ export type BuyerCheckoutSession = {
      */
     "tax"?: CheckoutSessionTax;
     /**
-     * Value enum: "payment_succeeded", "payment_partially_succeeded", "expired",
+     * Why the session ended. The checkout credential can still read its own closed or expired
+     * session; every other call is refused because the session is not open. order_paid_elsewhere
+     * applies only to invalidated sessions when payment succeeds or partially succeeds outside the
+     * session. order_mutated applies when an edit closes or completes its order, or ends an
+     * invoice, return-resolution, or subscription-plan session. Other merchant edits keep hosted
+     * and embedded sessions open. A session already past expires_at ends with expired before the
+     * edit is applied. Value enum: "payment_succeeded", "payment_partially_succeeded", "expired",
      * "closed_by_merchant", "order_mutated", "superseded", "order_paid_elsewhere",
      * "invoice_paid_elsewhere", "invoice_voided", "invoice_uncollectible",
      * "invoice_balance_changed".
@@ -1449,14 +4972,17 @@ export type BuyerCheckoutSession = {
      */
     "theme"?: CheckoutTheme;
     /**
-     * Tip settings for a checkout: whether tips are enabled, the percent or fixed amount options,
-     * the default tip, and custom tips.
+     * The tip options this session offers the buyer. Tip settings for a checkout: whether tips are
+     * enabled, the percent or fixed amount options, the default tip, and custom tips.
      */
     "tip"?: CheckoutTipConfig;
-    /** Value enum: "order", "quick_pay", "subscription_plan", "invoice", "payment_link". */
+    /**
+     * What the session collects payment for, fixed at creation. Value enum: "order", "quick_pay",
+     * "subscription_plan", "invoice", "payment_link".
+     */
     "type": "order" | "quick_pay" | "subscription_plan" | "invoice" | "payment_link" | (string & {});
-    /** RFC3339 timestamp. Format: date-time. */
-    "updated_at"?: string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
     /**
      * Hosted checkout URL that carries a one-time launch credential. Send the buyer here to pay.
      * Present only for hosted sessions read with a merchant credential that can manage checkout
@@ -1471,31 +4997,32 @@ export type BuyerCheckoutSession = {
     "version": number;
 };
 /**
- * The checkout session with its checkout credential. For hosted checkout, send the buyer to url.
- * For embedded checkout, pass checkout_auth_token to your checkout client. A session in which a
- * buyer completes an order's payment.
+ * The checkout session with any newly issued checkout credential. Hosted launches return url
+ * without checkout_auth_token. Embedded launches return checkout_auth_token without url. Customer
+ * binding confirmation returns its newly issued credential for either surface. A session in which
+ * a buyer completes an order's payment.
  */
 export type BuyerCheckoutSessionWithSecret = (Exclude<BuyerCheckoutSession & object, readonly unknown[]>)
     & ({
     /**
      * Checkout credential. Send it as Authorization: Bearer <checkout_auth_token>. Present on
-     * checkout launch and customer binding confirmation; omitted when a saved-card confirmation
-     * keeps the current credential.
+     * embedded checkout launch and customer binding confirmation. Omitted on hosted checkout
+     * launch and when a saved-card confirmation keeps the current credential.
      */
     "checkout_auth_token"?: string;
 });
 /** The request body for: Preview Return eligibility or resolution amounts for the current buyer. */
 export type BuyerCreateReturnPreviewRequest = ({
     /**
-     * A request to preview which items of an order can be returned, given an order and a
-     * selection.
+     * The eligibility check. Present when `mode` is `eligibility`. A request to preview which
+     * items of an order can be returned, given an order and a selection.
      */
     "eligibility"?: CreateReturnEligibilityPreviewRequest;
-    /** Value enum: "eligibility", "resolution". */
+    /** Which preview to run. Value enum: "eligibility", "resolution". */
     "mode": "eligibility" | "resolution" | (string & {});
     /**
-     * The buyer's proposed resolution type, returned quantities, and replacement items to preview
-     * for a Return.
+     * The priced resolution. Present when `mode` is `resolution`. The buyer's proposed resolution
+     * type, returned quantities, and replacement items to preview for a Return.
      */
     "resolution"?: BuyerCreateReturnResolutionPreviewRequest;
 })
@@ -1505,48 +5032,48 @@ export type BuyerCreateReturnPreviewRequest = ({
 /** The `eligibility` variant of `BuyerCreateReturnPreviewRequest`. */
 export type BuyerCreateReturnPreviewRequestEligibility = ({
     /**
-     * A request to preview which items of an order can be returned, given an order and a
-     * selection.
+     * The eligibility check. Present when `mode` is `eligibility`. A request to preview which
+     * items of an order can be returned, given an order and a selection.
      */
     "eligibility": CreateReturnEligibilityPreviewRequest;
-    /** Value enum: "eligibility". */
+    /** Which preview to run. Value enum: "eligibility". */
     "mode": "eligibility" | (string & {});
     /**
-     * The buyer's proposed resolution type, returned quantities, and replacement items to preview
-     * for a Return.
+     * The priced resolution. Present when `mode` is `resolution`. The buyer's proposed resolution
+     * type, returned quantities, and replacement items to preview for a Return.
      */
     "resolution"?: BuyerCreateReturnResolutionPreviewRequest;
 })
     & (({
-    /** Value enum: "eligibility". */
+    /** Which preview to run. Value enum: "eligibility". */
     "mode": unknown;
     /**
-     * A request to preview which items of an order can be returned, given an order and a
-     * selection.
+     * The eligibility check. Present when `mode` is `eligibility`. A request to preview which
+     * items of an order can be returned, given an order and a selection.
      */
     "eligibility": CreateReturnEligibilityPreviewRequest;
 }));
 /** The `eligibility` variant of `BuyerCreateReturnPreviewRequest`. */
 export type BuyerCreateReturnPreviewRequestEligibilityInput = ({
     /**
-     * A request to preview which items of an order can be returned, given an order and a
-     * selection.
+     * The eligibility check. Present when `mode` is `eligibility`. A request to preview which
+     * items of an order can be returned, given an order and a selection.
      */
     "eligibility": CreateReturnEligibilityPreviewRequestInput;
-    /** Value enum: "eligibility". */
+    /** Which preview to run. Value enum: "eligibility". */
     "mode": "eligibility";
     /**
-     * The buyer's proposed resolution type, returned quantities, and replacement items to preview
-     * for a Return.
+     * The priced resolution. Present when `mode` is `resolution`. The buyer's proposed resolution
+     * type, returned quantities, and replacement items to preview for a Return.
      */
     "resolution"?: BuyerCreateReturnResolutionPreviewRequestInput;
 })
     & (({
-    /** Value enum: "eligibility". */
+    /** Which preview to run. Value enum: "eligibility". */
     "mode": "eligibility";
     /**
-     * A request to preview which items of an order can be returned, given an order and a
-     * selection.
+     * The eligibility check. Present when `mode` is `eligibility`. A request to preview which
+     * items of an order can be returned, given an order and a selection.
      */
     "eligibility": CreateReturnEligibilityPreviewRequestInput;
 })
@@ -1556,15 +5083,15 @@ export type BuyerCreateReturnPreviewRequestEligibilityInput = ({
 /** The request body for: Preview Return eligibility or resolution amounts for the current buyer. */
 export type BuyerCreateReturnPreviewRequestInput = ({
     /**
-     * A request to preview which items of an order can be returned, given an order and a
-     * selection.
+     * The eligibility check. Present when `mode` is `eligibility`. A request to preview which
+     * items of an order can be returned, given an order and a selection.
      */
     "eligibility"?: CreateReturnEligibilityPreviewRequestInput;
-    /** Value enum: "eligibility", "resolution". */
+    /** Which preview to run. Value enum: "eligibility", "resolution". */
     "mode": "eligibility" | "resolution";
     /**
-     * The buyer's proposed resolution type, returned quantities, and replacement items to preview
-     * for a Return.
+     * The priced resolution. Present when `mode` is `resolution`. The buyer's proposed resolution
+     * type, returned quantities, and replacement items to preview for a Return.
      */
     "resolution"?: BuyerCreateReturnResolutionPreviewRequestInput;
 })
@@ -1573,48 +5100,48 @@ export type BuyerCreateReturnPreviewRequestInput = ({
 /** The `resolution` variant of `BuyerCreateReturnPreviewRequest`. */
 export type BuyerCreateReturnPreviewRequestResolution = ({
     /**
-     * A request to preview which items of an order can be returned, given an order and a
-     * selection.
+     * The eligibility check. Present when `mode` is `eligibility`. A request to preview which
+     * items of an order can be returned, given an order and a selection.
      */
     "eligibility"?: CreateReturnEligibilityPreviewRequest;
-    /** Value enum: "resolution". */
+    /** Which preview to run. Value enum: "resolution". */
     "mode": "resolution" | (string & {});
     /**
-     * The buyer's proposed resolution type, returned quantities, and replacement items to preview
-     * for a Return.
+     * The priced resolution. Present when `mode` is `resolution`. The buyer's proposed resolution
+     * type, returned quantities, and replacement items to preview for a Return.
      */
     "resolution": BuyerCreateReturnResolutionPreviewRequest;
 })
     & (({
-    /** Value enum: "resolution". */
+    /** Which preview to run. Value enum: "resolution". */
     "mode": unknown;
     /**
-     * The buyer's proposed resolution type, returned quantities, and replacement items to preview
-     * for a Return.
+     * The priced resolution. Present when `mode` is `resolution`. The buyer's proposed resolution
+     * type, returned quantities, and replacement items to preview for a Return.
      */
     "resolution": BuyerCreateReturnResolutionPreviewRequest;
 }));
 /** The `resolution` variant of `BuyerCreateReturnPreviewRequest`. */
 export type BuyerCreateReturnPreviewRequestResolutionInput = ({
     /**
-     * A request to preview which items of an order can be returned, given an order and a
-     * selection.
+     * The eligibility check. Present when `mode` is `eligibility`. A request to preview which
+     * items of an order can be returned, given an order and a selection.
      */
     "eligibility"?: CreateReturnEligibilityPreviewRequestInput;
-    /** Value enum: "resolution". */
+    /** Which preview to run. Value enum: "resolution". */
     "mode": "resolution";
     /**
-     * The buyer's proposed resolution type, returned quantities, and replacement items to preview
-     * for a Return.
+     * The priced resolution. Present when `mode` is `resolution`. The buyer's proposed resolution
+     * type, returned quantities, and replacement items to preview for a Return.
      */
     "resolution": BuyerCreateReturnResolutionPreviewRequestInput;
 })
     & (({
-    /** Value enum: "resolution". */
+    /** Which preview to run. Value enum: "resolution". */
     "mode": "resolution";
     /**
-     * The buyer's proposed resolution type, returned quantities, and replacement items to preview
-     * for a Return.
+     * The priced resolution. Present when `mode` is `resolution`. The buyer's proposed resolution
+     * type, returned quantities, and replacement items to preview for a Return.
      */
     "resolution": BuyerCreateReturnResolutionPreviewRequestInput;
 })
@@ -1624,23 +5151,29 @@ export type BuyerCreateReturnPreviewRequestResolutionInput = ({
 /** The request body for: Create a Return for the current buyer. */
 export type BuyerCreateReturnRequest = {
     /**
-     * minItems: 1. maxItems: 100. [] (Value): {@link ReturnLineItemRequest}. An order line item to
-     * return, with the quantity, return reason, and optionally a note and the resolution the buyer
-     * wants.
+     * The lines to check or return, each naming an order line item. minItems: 1. maxItems: 100. []
+     * (Value): {@link ReturnLineItemRequest}. An order line item to return, with the quantity,
+     * return reason, and optionally a note and the resolution the buyer wants.
      */
     "line_items": Array<ReturnLineItemRequest>;
-    /** minLength: 1. */
+    /**
+     * ID of the Order to return items from. minLength: 1. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
     "order_id": string;
 };
 /** The request body for: Create a Return for the current buyer. */
 export type BuyerCreateReturnRequestInput = {
     /**
-     * minItems: 1. maxItems: 100. [] (Value): {@link ReturnLineItemRequestInput}. An order line
-     * item to return, with the quantity, return reason, and optionally a note and the resolution
-     * the buyer wants.
+     * The lines to check or return, each naming an order line item. minItems: 1. maxItems: 100. []
+     * (Value): {@link ReturnLineItemRequestInput}. An order line item to return, with the
+     * quantity, return reason, and optionally a note and the resolution the buyer wants.
      */
     "line_items": Array<ReturnLineItemRequestInput>;
-    /** minLength: 1. */
+    /**
+     * ID of the Order to return items from. minLength: 1. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
     "order_id": string;
 };
 /**
@@ -1649,12 +5182,14 @@ export type BuyerCreateReturnRequestInput = {
  */
 export type BuyerCreateReturnResolutionPreviewRequest = ({
     /**
-     * minItems: 1. [] (Value): {@link ReturnResolutionLineItemRequest}. A return line and quantity
-     * to include in a return resolution.
+     * Return lines and quantities to cover, up to 100. Not allowed on a correction. minItems: 1.
+     * [] (Value): {@link ReturnResolutionLineItemRequest}. A return line and quantity to include
+     * in a return resolution.
      */
     "line_items": Array<ReturnResolutionLineItemRequest>;
     /**
-     *  [] (Value): {@link BuyerReturnReplacementLineItemRequest}. A catalog variant or bundle and
+     * Merchandise the buyer receives instead, up to 100. Send with `exchange` or `replacement`. []
+     * (Value): {@link BuyerReturnReplacementLineItemRequest}. A catalog variant or bundle and
      * quantity the buyer requests as a replacement in a Return resolution preview.
      */
     "replacement_line_items"?: Array<BuyerReturnReplacementLineItemRequest>;
@@ -1664,7 +5199,10 @@ export type BuyerCreateReturnResolutionPreviewRequest = ({
      * "no_monetary_action", "store_credit".
      */
     "resolution_type": "refund" | "exchange" | "replacement" | "no_monetary_action" | "store_credit" | (string & {});
-    /** minLength: 1. */
+    /**
+     * ID of the Return the resolution is for. minLength: 1. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
     "return_id": string;
 });
 /**
@@ -1673,13 +5211,15 @@ export type BuyerCreateReturnResolutionPreviewRequest = ({
  */
 export type BuyerCreateReturnResolutionPreviewRequestInput = ({
     /**
-     * minItems: 1. [] (Value): {@link ReturnResolutionLineItemRequestInput}. A return line and
-     * quantity to include in a return resolution.
+     * Return lines and quantities to cover, up to 100. Not allowed on a correction. minItems: 1.
+     * [] (Value): {@link ReturnResolutionLineItemRequestInput}. A return line and quantity to
+     * include in a return resolution.
      */
     "line_items": Array<ReturnResolutionLineItemRequestInput>;
     /**
-     *  [] (Value): {@link BuyerReturnReplacementLineItemRequestInput}. A catalog variant or bundle
-     * and quantity the buyer requests as a replacement in a Return resolution preview.
+     * Merchandise the buyer receives instead, up to 100. Send with `exchange` or `replacement`. []
+     * (Value): {@link BuyerReturnReplacementLineItemRequestInput}. A catalog variant or bundle and
+     * quantity the buyer requests as a replacement in a Return resolution preview.
      */
     "replacement_line_items"?: Array<BuyerReturnReplacementLineItemRequestInput>;
     /**
@@ -1688,7 +5228,10 @@ export type BuyerCreateReturnResolutionPreviewRequestInput = ({
      * "no_monetary_action", "store_credit".
      */
     "resolution_type": "refund" | "exchange" | "replacement" | "no_monetary_action" | "store_credit";
-    /** minLength: 1. */
+    /**
+     * ID of the Return the resolution is for. minLength: 1. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
     "return_id": string;
 });
 /**
@@ -1698,20 +5241,22 @@ export type BuyerCreateReturnResolutionPreviewRequestInput = ({
 export type BuyerCreditNote = {
     /**
      * Identity frozen on the source invoice at issue. Later profile edits do not change this
-     * document. anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal identity displayed
-     * on invoices and credit notes. Does not verify IDs or change tax treatment. Tax IDs are an
-     * owned collection in display order; replacing the array requires the parent's
-     * expected_version. Existing entries retain their document_tax_id; omit an entry to remove it,
-     * or omit its ID to add one. anyOf[2] (Value): null.
+     * document. `null` when no buyer tax identity was captured on the source invoice. Customer
+     * deletion preserves identities captured on issued invoices and credit notes. anyOf[1]
+     * (Value): {@link TaxIdentity}. Merchant-provided legal identity displayed on invoices and
+     * credit notes. Does not verify IDs or change tax treatment. Tax IDs are an owned collection
+     * in display order; replacing the array requires the parent's expected_version. Existing
+     * entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add one.
+     * anyOf[2] (Value): null.
      */
     "buyer_tax_identity": ((TaxIdentity) | (null));
-    /** Unique identifier of the credit note. */
+    /** Unique identifier of the credit note. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". */
     "credit_note_id": string;
     /** Assigned at issue and stable from then on. Absent while the credit note is a draft. */
     "credit_note_number": string;
-    /** The invoice this credit note corrects. */
+    /** The invoice this credit note corrects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". */
     "invoice_id": string;
-    /** When the credit note was issued. Format: date-time. */
+    /** When the credit note was issued. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "issued_at": string;
     /**
      * Status of the most recent refund linked to this credit note. Absent when no refund has been
@@ -1720,11 +5265,12 @@ export type BuyerCreditNote = {
     "latest_refund_status"?: "pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {});
     /**
      * Itemized corrections against frozen invoice lines. Amount and quantity corrections share
-     * each source line's remaining value, discount, and tax across issued, non-void credit notes.
-     * Drafts reserve no credit. [] (Value): {@link CreditNoteLineItem}. One correction calculated
-     * from the frozen invoice line's remaining billed value, discount, and tax. The source line's
-     * inclusive or additive tax mode is preserved. Current catalog prices and tax settings do not
-     * affect the correction. Stored issued values are never recalculated by a read.
+     * each source line's remaining value, discount, and tax across issued credit notes that have
+     * not been voided. Drafts reserve no credit. [] (Value): {@link CreditNoteLineItem}. One
+     * correction calculated from the frozen invoice line's remaining billed value, discount, and
+     * tax. The source line's inclusive or additive tax mode is preserved. Current catalog prices
+     * and tax settings do not affect the correction. Stored issued values are never recalculated
+     * by a read.
      */
     "line_items": Array<CreditNoteLineItem>;
     /** Free text shown on the credit note. Null when none was set. */
@@ -1746,672 +5292,60 @@ export type BuyerCreditNote = {
     "refunded_money": MoneyValue;
     /**
      * Identity frozen on the source invoice at issue. Later profile edits do not change this
-     * document. anyOf[1] (Value): {@link TaxIdentity}. Merchant-provided legal identity displayed
-     * on invoices and credit notes. Does not verify IDs or change tax treatment. Tax IDs are an
-     * owned collection in display order; replacing the array requires the parent's
-     * expected_version. Existing entries retain their document_tax_id; omit an entry to remove it,
-     * or omit its ID to add one. anyOf[2] (Value): null.
+     * document. `null` when no seller tax identity was captured. anyOf[1] (Value): {@link
+     * TaxIdentity}. Merchant-provided legal identity displayed on invoices and credit notes. Does
+     * not verify IDs or change tax treatment. Tax IDs are an owned collection in display order;
+     * replacing the array requires the parent's expected_version. Existing entries retain their
+     * document_tax_id; omit an entry to remove it, or omit its ID to add one. anyOf[2] (Value):
+     * null.
      */
     "seller_tax_identity": ((TaxIdentity) | (null));
-    /** issued once it is numbered and frozen, void once retired. Value enum: "issued", "void". */
-    "status": "issued" | "void" | (string & {});
+    /**
+     * issued once it is numbered and frozen, voided once withdrawn. Value enum: "issued",
+     * "voided".
+     */
+    "status": "issued" | "voided" | (string & {});
+    /**
+     * The credit note's VAT stated in the currency of the country that charges it, frozen at
+     * issue. Each entry reuses the invoice's currency, exchange_rate, rate_date, and rate_source
+     * from snapshot.tax_currency_conversions, with this note's credited VAT and taxable amount
+     * converted the same way. Always [] on drafts and when the invoice froze no conversion. The
+     * credit note PDF prints the same figures. [] (Value): {@link TaxCurrencyConversion}. VAT on
+     * an issued document converted into the currency of the country whose VAT is charged.
+     */
+    "tax_currency_conversions": Array<TaxCurrencyConversion>;
     /**
      * The face value of the credit note, the sum of its lines. Monetary amount represented as
      * integer minor units plus an ISO 4217 currency code.
      */
     "total_money": MoneyValue;
-    /** When the credit note was voided. Absent unless it is void. Format: date-time. */
+    /**
+     * When the credit note was voided. Absent unless its status is voided. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z".
+     */
     "voided_at"?: string;
 };
 /** A page of `BuyerCreditNote` objects. */
 export type BuyerCreditNoteListResponse = {
     /**
-     *  [] (Value): {@link BuyerCreditNote}. The buyer-visible view of a credit note. Drafts are
-     * never returned, and how much credit is left to allocate is omitted.
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * BuyerCreditNote}. The buyer-visible view of a credit note. Drafts are never returned, and
+     * how much credit is left to allocate is omitted.
      */
     "data": Array<BuyerCreditNote>;
     /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
      */
     "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
     "next_page_token"?: string;
     /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
     "request_id": string;
-};
-/** A response containing `BuyerCreditNote` data. */
-export type BuyerCreditNoteResponse = {
-    /**
-     * The buyer-visible view of a credit note. Drafts are never returned, and how much credit is
-     * left to allocate is omitted.
-     */
-    "data": BuyerCreditNote;
-    /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A merchant's customer profile. */
-export type BuyerCustomer = {
-    /**
-     * The customer's default billing address: a copy of the saved address marked
-     * is_default_billing. Read-only; change it with is_default_billing through /v1/me/addresses.
-     * `null` when no saved address is the billing default. anyOf[1] (Value): {@link Address}. A
-     * postal address. Every address has country. Addresses Flint checked as complete (customer and
-     * saved addresses, merchant, location, invoice, order delivery destination, tax identity,
-     * fulfillment recipient and pickup addresses) always have line1 and city, and US ones always
-     * have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax
-     * locations hold only what was provided, such as postal_code and country. anyOf[2] (Value):
-     * null.
-     */
-    "billing_address": ((Address) | (null));
-    /** RFC3339 timestamp. Format: date-time. */
-    "created_at"?: string;
-    "customer_id": string;
-    "default_payment_method_id": string | null;
-    /**
-     * Customer email, or null when the customer has none. Unique among the environment's
-     * customers.
-     */
-    "email": string | null;
-    "merchant_id"?: string;
-    /** Customer name, or null when none. */
-    "name": string | null;
-    /** Customer phone number, or null when none. */
-    "phone": string | null;
-    /**
-     * The customer's default shipping address: a copy of the saved address marked
-     * is_default_shipping. Read-only; change it with is_default_shipping through /v1/me/addresses.
-     * `null` when no saved address is the shipping default. anyOf[1] (Value): {@link Address}. A
-     * postal address. Every address has country. Addresses Flint checked as complete (customer and
-     * saved addresses, merchant, location, invoice, order delivery destination, tax identity,
-     * fulfillment recipient and pickup addresses) always have line1 and city, and US ones always
-     * have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax
-     * locations hold only what was provided, such as postal_code and country. anyOf[2] (Value):
-     * null.
-     */
-    "shipping_address": ((Address) | (null));
-    /** Value enum: "active", "deletion_processing", "deleted". */
-    "status": "active" | "deletion_processing" | "deleted" | (string & {});
-    /** Always null for buyer credentials. */
-    "tax_identity": null;
-    /** RFC3339 timestamp. Format: date-time. */
-    "updated_at"?: string;
-    /** Format: uint64. minimum: 1. */
-    "version": number;
-};
-/** A response containing `BuyerCustomer` data. */
-export type BuyerCustomerResponse = {
-    /** A merchant's customer profile. */
-    "data": BuyerCustomer;
-    /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * Buyer-facing details of a local delivery fulfillment: courier, timing, and tracking. Some fields
- * are omitted for credentials that don't act for the verified customer.
- */
-export type BuyerDeliveryFulfillmentDetails = {
-    /** Carrier responsible for the local delivery. */
-    "carrier"?: string;
-    /** Time at which the courier collected the order. Format: date-time. */
-    "courier_pickup_at"?: string;
-    /**
-     * Width of the promised courier pickup window, from 0 to 86400 seconds. Format: int64.
-     * minimum: 0. maximum: 86400.
-     */
-    "courier_pickup_window_duration_seconds"?: number;
-    /** Delivery network or merchant fleet provider handling the job. maxLength: 255. */
-    "courier_provider_name"?: string;
-    /** Buyer-safe support number for the courier or merchant fleet. maxLength: 30. */
-    "courier_support_phone"?: string;
-    /** When the items were delivered, in RFC3339 format. Format: date-time. */
-    "delivered_at"?: string;
-    /** When the delivery was dispatched, in RFC3339 format. Format: date-time. */
-    "dispatched_at"?: string;
-    /**
-     * Driver-facing notes for the final handoff. Omitted for a checkout session credential that
-     * doesn't act for the customer the buyer verified. maxLength: 2048.
-     */
-    "dropoff_notes"?: string;
-    /** Deadline after which an undelivered job should enter merchant review. Format: date-time. */
-    "expires_at"?: string;
-    /**
-     * Omitted for a checkout session credential that doesn't act for the customer the buyer
-     * verified.
-     */
-    "instructions"?: string;
-    /**
-     * Whether the buyer requested a no-contact handoff. Omitted for a checkout session credential
-     * that doesn't act for the customer the buyer verified.
-     */
-    "no_contact"?: boolean;
-    /**
-     * Expected preparation time before courier pickup, from 0 to 86400 seconds. Format: int64.
-     * minimum: 0. maximum: 86400.
-     */
-    "prep_time_duration_seconds"?: number;
-    /** Time at which the order became ready for courier pickup. Format: date-time. */
-    "ready_at"?: string;
-    /** Timezone used to display the local delivery window. */
-    "timezone"?: string;
-    /**
-     * Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. Omitted for a
-     * checkout session credential that doesn't act for the customer the buyer verified.
-     */
-    "tracking_url"?: string;
-    /** End of the promised delivery window, in RFC3339 format. Format: date-time. */
-    "window_end_at"?: string;
-    /** Start of the promised delivery window, in RFC3339 format. Format: date-time. */
-    "window_start_at"?: string;
-};
-/**
- * Guidance for recovering from a payment error: whether and how to retry (`retry`), and optional
- * next steps.
- */
-export type BuyerErrorRemediation = {
-    /** What to change or check before attempting the operation again. */
-    "next_steps"?: string;
-    /**
-     * How to recover: same_request resends the identical request with the same Idempotency-Key;
-     * after_refresh re-reads the resource and rebuilds the request with a new key; none requires
-     * correcting the request or following next_steps or next_actions. Value enum: "same_request",
-     * "after_refresh", "none".
-     */
-    "retry": "same_request" | "after_refresh" | "none" | (string & {});
-};
-/**
- * An order summary in a buyer response, with order status and totals. Recorded buyer contact is
- * omitted.
- */
-export type BuyerExpandedOrderSummary = {
-    /**
-     * When the order closed. Present exactly when status is closed. Set once at the transition and
-     * never changed. Format: date-time.
-     */
-    "closed_at"?: string;
-    /**
-     * Why the order closed. Present exactly when status is closed. Set once at closure.
-     * Unrecognized reasons are returned as other; new values may be added. Value enum: "paid",
-     * "closed_by_merchant", "checkout_expired", "written_off", "superseded",
-     * "return_resolution_canceled", "other".
-     */
-    "closed_reason"?: "paid"
-        | "closed_by_merchant"
-        | "checkout_expired"
-        | "written_off"
-        | "superseded"
-        | "return_resolution_canceled"
-        | "other"
-        | (string & {});
-    /** When the order was created, in RFC3339 format. Format: date-time. */
-    "created_at"?: string;
-    /** Customer associated with the order, when one is set. */
-    "customer_id"?: string;
-    /**
-     * Aggregate progress across the order's fulfillment quantities. Value enum: "not_fulfilled",
-     * "partially_fulfilled", "fulfilled", "canceled", "not_applicable", "closed".
-     */
-    "fulfillment_status"?: "not_fulfilled"
-        | "partially_fulfilled"
-        | "fulfilled"
-        | "canceled"
-        | "not_applicable"
-        | "closed"
-        | (string & {});
-    /**
-     * ID of the delivery selection that governs this order. Null when no selection governs the
-     * order.
-     */
-    "governing_delivery_selection_id": string | null;
-    /** Stable identifier of the expanded order. */
-    "order_id": string;
-    /** Human-readable order number for receipts and merchant reference. */
-    "order_number"?: string;
-    /** Payment intents associated with the order. [] (Value): string. */
-    "payment_intent_ids"?: Array<string>;
-    /**
-     * Collection progress. An invoice write-off also completes collection without receiving the
-     * written-off amount. Value enum: "unpaid", "partially_paid", "paid".
-     */
-    "payment_status": "unpaid" | "partially_paid" | "paid" | (string & {});
-    /**
-     * Order totals before accounting for collected payments and refunds. The money totals for an
-     * order or invoice: subtotal, discounts, charges, tax, requested tip, and total.
-     */
-    "pricing_amounts": PricingAmounts;
-    /**
-     * Refund progress for collected money. Value enum: "none", "partially_refunded", "refunded".
-     */
-    "refund_status": "none" | "partially_refunded" | "refunded" | (string & {});
-    /**
-     * Payments, refunds, credits, and amounts still owed for the order. How much of an order has
-     * been paid, refunded, credited, written off, and settled as tips, and what balance and
-     * outstanding amount remain.
-     */
-    "settlement_amounts": SettlementAmounts;
-    /**
-     * Whether the order still accepts changes and new payments. Refunds, fulfillment, disputes,
-     * returns, and metadata or note edits continue on a closed order. Value enum: "open",
-     * "closed".
-     */
-    "status": "open" | "closed" | (string & {});
-    /** When the order was last updated, in RFC3339 format. Format: date-time. */
-    "updated_at"?: string;
-};
-/**
- * A subscription plan expanded on a buyer's order: billing interval, setup fee, trial length,
- * status, and line items.
- */
-export type BuyerExpandedSubscriptionPlanSummary = {
-    /** Value enum: "daily", "weekly", "monthly", "yearly". */
-    "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-    /** Format: int32. */
-    "billing_interval_count": number;
-    /**
-     * maxItems: 12. uniqueItems: true. [] (Value): {@link SubscriptionIntervalOption}. A billing
-     * interval, such as every 2 months, offered by a subscription plan.
-     */
-    "billing_interval_options"?: Array<SubscriptionIntervalOption>;
-    /** RFC3339 timestamp. Format: date-time. */
-    "created_at"?: string;
-    /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */
-    "currency": string;
-    "description"?: string;
-    /**
-     *  [] (Value): {@link BuyerSubscriptionPlanLineItem}. A line item of a subscription plan as a
-     * buyer sees it: the product, bundle, or variant, quantity, unit price, and swap variants.
-     */
-    "line_items"?: Array<BuyerSubscriptionPlanLineItem>;
-    "name": string;
-    /** maxItems: 10. uniqueItems: true. [] (Value): integer. minimum: 1. maximum: 100. */
-    "quantity_options"?: Array<number>;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "setup_fee_money"?: MoneyValue;
-    /**
-     * Active plans accept new signups. Inactive plans refuse new signups with ACTION_NOT_ALLOWED
-     * while existing subscriptions keep renewing. Archived plans are read-only and their status is
-     * set only by DELETE /v1/subscription-plans/{subscription_plan_id}. Value enum: "active",
-     * "inactive", "archived".
-     */
-    "status": "active" | "inactive" | "archived" | (string & {});
-    "subscription_plan_id": string;
-    /** Format: int32. */
-    "trial_period_days"?: number;
-    /** RFC3339 timestamp. Format: date-time. */
-    "updated_at"?: string;
-};
-/**
- * An independent card saved with Flint that the current buyer can set up at this store. Store
- * copies have their own consent and lifecycle.
- */
-export type BuyerFlintWalletCard = {
-    /**
-     * Card details on a payment method: brand, expiration month and year, last four digits, and
-     * the wallet when one was used.
-     */
-    "card": CardDetails;
-    /**
-     * Opaque handle for this card at this store. Handles differ across stores and cannot be used
-     * at another store.
-     */
-    "flint_wallet_card_id": string;
-    /**
-     * The store's independent card copy, or null when this store does not hold a copy. A pending
-     * copy still needs confirmation before use.
-     */
-    "store_payment_method_id": string | null;
-};
-/** A page of `BuyerFlintWalletCard` objects. */
-export type BuyerFlintWalletCardListResponse = {
-    /**
-     *  [] (Value): {@link BuyerFlintWalletCard}. An independent card saved with Flint that the
-     * current buyer can set up at this store. Store copies have their own consent and lifecycle.
-     */
-    "data": Array<BuyerFlintWalletCard>;
-    /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    "next_page_token"?: string;
-    /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * The state of a request to save a payment method in the signed-in buyer's Flint wallet, with the
- * client setup data needed to finish it.
- */
-export type BuyerFlintWalletStoreSetup = {
-    /**
-     *  anyOf[1] (Value): {@link StripeClientSetup}. Stripe.js setup authority returned while
-     * saving a payment method. Follow its stripe_js_call now. setup_collection is guidance instead
-     * and never carries a secret. anyOf[2] (Value): null.
-     */
-    "client_setup": ((StripeClientSetup) | (null));
-    "payment_method_id": string;
-    /** Value enum: "pending", "active", "failed", "expired". */
-    "status": "pending" | "active" | "failed" | "expired" | (string & {});
-    "store_setup_id": string;
-};
-/** A response containing `BuyerFlintWalletStoreSetup` data. */
-export type BuyerFlintWalletStoreSetupResponse = {
-    /**
-     * The state of a request to save a payment method in the signed-in buyer's Flint wallet, with
-     * the client setup data needed to finish it.
-     */
-    "data": BuyerFlintWalletStoreSetup;
-    /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** Work required to deliver an order's items. */
-export type BuyerFulfillment = {
-    /**
-     * Order charges associated with this fulfillment. [] (Value): {@link FulfillmentChargeLink}.
-     * Links a fulfillment to an order charge by `order_charge_id`.
-     */
-    "charges"?: Array<FulfillmentChargeLink>;
-    /**
-     * When the fulfillment was completed. Mirrors the completion time for its type: delivered_at
-     * for shipment, local delivery, and digital fulfillments, picked_up_at for pickup, and
-     * service_details.completed_at for service fulfillments. Omitted until a completion time is
-     * recorded. Format: date-time.
-     */
-    "completed_at"?: string;
-    /** When the fulfillment was created, in RFC3339 format. Format: date-time. */
-    "created_at"?: string;
-    /** Customer receiving this fulfillment, when one is set. */
-    "customer_id"?: string;
-    /**
-     * Delivery URL and completion time for a digital fulfillment. Details of a digital
-     * fulfillment: when it was delivered (`delivered_at`) and its `delivery_url`.
-     */
-    "digital_details"?: DigitalFulfillmentDetails;
-    /** First time this fulfillment reached dispatched. Format: date-time. */
-    "dispatched_at"?: string;
-    /** Stable identifier of the fulfillment. */
-    "fulfillment_id": string;
-    /**
-     * Order lines and quantities allocated to this fulfillment. [] (Value): {@link
-     * BuyerFulfillmentLineItem}. An order line item and quantity included in a buyer's
-     * fulfillment, with the line's modifiers.
-     */
-    "line_items": Array<BuyerFulfillmentLineItem>;
-    /**
-     * Courier, delivery window, and handoff details for a local delivery fulfillment. Buyer-facing
-     * details of a local delivery fulfillment: courier, timing, and tracking. Some fields are
-     * omitted for credentials that don't act for the verified customer.
-     */
-    "local_delivery_details"?: BuyerDeliveryFulfillmentDetails;
-    /** Order whose items this fulfillment delivers. */
-    "order_id": string;
-    /**
-     * Human-readable number of the order this fulfillment belongs to. Omitted when the order has
-     * no number.
-     */
-    "order_number"?: string;
-    /**
-     * Terminal outcome details. Present exactly when status is no_show. A terminal outcome
-     * recorded on a fulfillment, such as a no-show, with its `reason` and when it occurred.
-     */
-    "outcome"?: BuyerFulfillmentOutcome;
-    /**
-     * Packages associated with this fulfillment. [] (Value): {@link ExpandedPackageSummary}. A
-     * package on a buyer's fulfillment, with its carrier, status, tracking details, and
-     * timestamps. Buyer credentials get no supported actions.
-     */
-    "packages"?: Array<ExpandedPackageSummary>;
-    /** First time this fulfillment reached packed. Format: date-time. */
-    "packed_at"?: string;
-    /** First time this fulfillment reached picked. Format: date-time. */
-    "picked_at"?: string;
-    /**
-     * Pickup window, pickup mode, and handoff times for a pickup fulfillment. Pickup details. For
-     * a pickup that checkout creates, location_name, address, and instructions name the store the
-     * buyer chose and the delivery method's pickup instructions. The note the buyer left for the
-     * store is in recipient.instructions.
-     */
-    "pickup_details"?: PickupFulfillmentDetails;
-    /**
-     * Omitted for a checkout session credential that doesn't act for the customer the buyer
-     * verified. The recipient of a fulfillment, with name, email, phone, address, and handling
-     * instructions.
-     */
-    "recipient"?: FulfillmentRecipient;
-    /**
-     * Derived start of the service schedule or pickup, local delivery, or shipment window. Null
-     * when no schedule is booked, including digital fulfillments. Details remain the authoritative
-     * schedule inputs. Nulls sort first ascending and last descending, then by fulfillment_id in
-     * the same direction. Format: date-time.
-     */
-    "scheduled_start_at": string | null;
-    /**
-     * Schedule and completion details for a service fulfillment. Details of a service fulfillment:
-     * the scheduled start and end, timezone, completion time, and notes.
-     */
-    "service_details"?: ServiceFulfillmentDetails;
-    /**
-     * Shipping schedule and ship time for a shipment fulfillment. Present only on shipment
-     * fulfillments with at least one value. Details of a shipment fulfillment: the shipping
-     * window, timezone, and when the shipment was handed to the carrier.
-     */
-    "shipment_details"?: ShipmentFulfillmentDetails;
-    /**
-     * Shipments associated with this fulfillment. [] (Value): {@link ExpandedShipmentSummary}. A
-     * shipment's summary fields, including direction, status, and package count, returned when the
-     * shipment is expanded.
-     */
-    "shipments"?: Array<ExpandedShipmentSummary>;
-    /**
-     * Buyer-visible fulfillment status. Held fulfillments show their pre-hold status. Value enum:
-     * "pending", "in_progress", "ready", "completed", "canceled", "failed", "scheduled",
-     * "accepted", "preparing", "picked", "packed", "dispatched", "no_show".
-     */
-    "status": "pending"
-        | "in_progress"
-        | "ready"
-        | "completed"
-        | "canceled"
-        | "failed"
-        | "scheduled"
-        | "accepted"
-        | "preparing"
-        | "picked"
-        | "packed"
-        | "dispatched"
-        | "no_show"
-        | (string & {});
-    /**
-     * Always empty for buyer credentials. maxItems: 0. [] enum: "complete", "cancel", "hold",
-     * "start", "mark_ready", "fail", "schedule", "accept", "mark_preparing", "mark_picked",
-     * "mark_packed", "dispatch", "mark_no_show", "release_hold". [] (Value): string. Value enum:
-     * "complete", "cancel", "hold", "start", "mark_ready", "fail", "schedule", "accept",
-     * "mark_preparing", "mark_picked", "mark_packed", "dispatch", "mark_no_show", "release_hold".
-     */
-    "supported_actions": Array<"complete"
-        | "cancel"
-        | "hold"
-        | "start"
-        | "mark_ready"
-        | "fail"
-        | "schedule"
-        | "accept"
-        | "mark_preparing"
-        | "mark_picked"
-        | "mark_packed"
-        | "dispatch"
-        | "mark_no_show"
-        | "release_hold"
-        | (string & {})>;
-    /**
-     * When the fulfillment entered a terminal state: completed, canceled, failed, or no_show. This
-     * records the state transition; completed_at records completion evidence supplied for the
-     * fulfillment. Format: date-time.
-     */
-    "terminal_at"?: string;
-    /** Value enum: "shipment", "pickup", "local_delivery", "digital", "service". */
-    "type": "shipment" | "pickup" | "local_delivery" | "digital" | "service" | (string & {});
-    /** When the fulfillment was last updated, in RFC3339 format. Format: date-time. */
-    "updated_at"?: string;
-    /** Monotonic fulfillment version for expected_version checks. Format: uint64. minimum: 1. */
-    "version": number;
-};
-/** An action recorded during an order's fulfillment. */
-export type BuyerFulfillmentEvent = {
-    /** RFC3339 timestamp. Format: date-time. */
-    "created_at": string;
-    /**
-     * Value enum: "pending", "in_progress", "ready", "completed", "canceled", "failed",
-     * "scheduled", "accepted", "preparing", "picked", "packed", "dispatched", "no_show",
-     * "created", "shipped", "in_transit", "out_for_delivery", "delivered", "delivery_attempted",
-     * "exception", "returned", "voided".
-     */
-    "current_status"?: "pending"
-        | "in_progress"
-        | "ready"
-        | "completed"
-        | "canceled"
-        | "failed"
-        | "scheduled"
-        | "accepted"
-        | "preparing"
-        | "picked"
-        | "packed"
-        | "dispatched"
-        | "no_show"
-        | "created"
-        | "shipped"
-        | "in_transit"
-        | "out_for_delivery"
-        | "delivered"
-        | "delivery_attempted"
-        | "exception"
-        | "returned"
-        | "voided"
-        | (string & {});
-    /**
-     * Value enum: "carrier_scan", "status_changed", "shipped", "in_transit", "out_for_delivery",
-     * "delivered", "delivery_attempted", "tracking_updated", "exception", "returned", "custom",
-     * "accepted", "preparing", "picked", "packed", "ready", "dispatched", "completed", "canceled",
-     * "failed", "no_show".
-     */
-    "event_type": "carrier_scan"
-        | "status_changed"
-        | "shipped"
-        | "in_transit"
-        | "out_for_delivery"
-        | "delivered"
-        | "delivery_attempted"
-        | "tracking_updated"
-        | "exception"
-        | "returned"
-        | "custom"
-        | "accepted"
-        | "preparing"
-        | "picked"
-        | "packed"
-        | "ready"
-        | "dispatched"
-        | "completed"
-        | "canceled"
-        | "failed"
-        | "no_show"
-        | (string & {});
-    "fulfillment_event_id": string;
-    "fulfillment_id": string;
-    "location_description"?: string;
-    /** RFC3339 timestamp. Format: date-time. */
-    "occurred_at": string;
-    "order_id": string;
-    "package_id"?: string;
-    /**
-     * Value enum: "pending", "in_progress", "ready", "completed", "canceled", "failed",
-     * "scheduled", "accepted", "preparing", "picked", "packed", "dispatched", "no_show",
-     * "created", "shipped", "in_transit", "out_for_delivery", "delivered", "delivery_attempted",
-     * "exception", "returned", "voided".
-     */
-    "previous_status"?: "pending"
-        | "in_progress"
-        | "ready"
-        | "completed"
-        | "canceled"
-        | "failed"
-        | "scheduled"
-        | "accepted"
-        | "preparing"
-        | "picked"
-        | "packed"
-        | "dispatched"
-        | "no_show"
-        | "created"
-        | "shipped"
-        | "in_transit"
-        | "out_for_delivery"
-        | "delivered"
-        | "delivery_attempted"
-        | "exception"
-        | "returned"
-        | "voided"
-        | (string & {});
-    "shipment_id"?: string;
-};
-/** A page of `BuyerFulfillmentEvent` objects. */
-export type BuyerFulfillmentEventListResponse = {
-    /**
-     *  [] (Value): {@link BuyerFulfillmentEvent}. An action recorded during an order's
-     * fulfillment.
-     */
-    "data": Array<BuyerFulfillmentEvent>;
-    /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    "next_page_token"?: string;
-    /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** An order line item and quantity included in a buyer's fulfillment, with the line's modifiers. */
-export type BuyerFulfillmentLineItem = {
-    /**
-     * Modifier selections snapshotted from the order line for fulfillment. [] (Value): {@link
-     * BuyerOrderLineItemModifier}. A modifier on a buyer's order line item, either a catalog
-     * modifier or entered text, with its quantity and price change.
-     */
-    "modifiers"?: Array<BuyerOrderLineItemModifier>;
-    /** Order line whose quantity is allocated to the fulfillment. */
-    "order_line_item_id": string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quantity": number;
 };

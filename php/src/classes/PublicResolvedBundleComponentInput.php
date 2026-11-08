@@ -11,13 +11,13 @@ namespace Flint;
 final class PublicResolvedBundleComponentInput extends Model {
     /** @param array{'position': int, 'product_id'?: string, 'quantity': int, 'variant'?: PublicResolvedBundleVariantSummaryInput|array<array-key, mixed>|\stdClass, 'variant_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PublicResolvedBundleComponentInput')); }
-    /** Format: int32.
+    /** Position of the component within the bundle. Format: int32.
      * @return int
      * @throws SdkError When position is omitted; use hasPosition() or valueOrDefault().
      */
     public function getPosition(): int { return $this->get('position'); }
     public function hasPosition(): bool { return $this->has('position'); }
-    /** product_id
+    /** ID of the product the component's variant belongs to. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
      * @return string
      * @throws SdkError When product_id is omitted; use hasProductId() or valueOrDefault().
      */
@@ -29,13 +29,13 @@ final class PublicResolvedBundleComponentInput extends Model {
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
-    /** A summary of a bundle component's variant, with its name, SKU, selected options, and whether it is available for sale.
+    /** Summary of the component's variant. A summary of a bundle component's variant, with its name, SKU, selected options, and whether it is available for sale.
      * @return PublicResolvedBundleVariantSummaryInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When variant is omitted; use hasVariant() or valueOrDefault().
      */
     public function getVariant(): mixed { return $this->get('variant'); }
     public function hasVariant(): bool { return $this->has('variant'); }
-    /** variant_id
+    /** ID of the component's variant. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
      * @return string
      * @throws SdkError When variant_id is omitted; use hasVariantId() or valueOrDefault().
      */

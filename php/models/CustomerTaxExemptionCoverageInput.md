@@ -1,0 +1,83 @@
+[Model index](../MODELS.md) · [Runtime guide](../RUNTIME.md)
+
+## CustomerTaxExemptionCoverageInput
+
+Replaced as a whole: send every field you want to keep. Covers all US states or an explicit list of US states and DC.
+
+Request input.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `country` | Required | string | Country covered by this exemption. Only US is accepted. Uses ISO 3166-1 alpha-2 country codes. minLength: `2`. maxLength: `2`. pattern: `^[A-Z]{2}$`. Example: `"US"`. Values: `"US"`. |
+| `states` | Conditional | Array of string | US postal state codes or DC. Required for states and forbidden for all_states. minItems: `1`. maxItems: `60`. uniqueItems: `true`. Items values: [51 declared values](#customertaxexemptioncoverageinput-states--values). |
+| `type` | Required | string | Choose all_states or states explicitly. Values: `"all_states"`, `"states"`. |
+
+#### CustomerTaxExemptionCoverageInput states [] values
+
+- `"AL"`
+- `"AK"`
+- `"AZ"`
+- `"AR"`
+- `"CA"`
+- `"CO"`
+- `"CT"`
+- `"DE"`
+- `"DC"`
+- `"FL"`
+- `"GA"`
+- `"HI"`
+- `"ID"`
+- `"IL"`
+- `"IN"`
+- `"IA"`
+- `"KS"`
+- `"KY"`
+- `"LA"`
+- `"ME"`
+- `"MD"`
+- `"MA"`
+- `"MI"`
+- `"MN"`
+- `"MS"`
+- `"MO"`
+- `"MT"`
+- `"NE"`
+- `"NV"`
+- `"NH"`
+- `"NJ"`
+- `"NM"`
+- `"NY"`
+- `"NC"`
+- `"ND"`
+- `"OH"`
+- `"OK"`
+- `"OR"`
+- `"PA"`
+- `"RI"`
+- `"SC"`
+- `"SD"`
+- `"TN"`
+- `"TX"`
+- `"UT"`
+- `"VT"`
+- `"VA"`
+- `"WA"`
+- `"WV"`
+- `"WI"`
+- `"WY"`
+
+### CustomerTaxExemptionCoverageInput variant 1: `country` = `"US"`, `type` = `"all_states"`
+
+oneOf with type: "all_states": Replaced as a whole: send every field you want to keep. Covers all US states or an explicit list of US states and DC..
+
+- Condition: not (present(`states`)).
+- Optional: `states`.
+- Constraints for `type`: Values: `"all_states"`.
+
+### CustomerTaxExemptionCoverageInput variant 2: `country` = `"US"`, `type` = `"states"`
+
+oneOf with type: "states": Replaced as a whole: send every field you want to keep. Covers all US states or an explicit list of US states and DC..
+
+- Required: `states`.
+- Constraints for `type`: Values: `"states"`.
+

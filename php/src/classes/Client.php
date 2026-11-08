@@ -30,6 +30,7 @@ namespace Flint;
  * @property-read DiscountPreviewsResource $discountPreviews
  * @property-read DisputesResource $disputes
  * @property-read EmailPreferenceLinksResource $emailPreferenceLinks
+ * @property-read EmailPreferencesResource $emailPreferences
  * @property-read FeedbackReportsResource $feedbackReports
  * @property-read FilesResource $files
  * @property-read FraudWarningsResource $fraudWarnings
@@ -65,8 +66,8 @@ namespace Flint;
  * @property-read OauthResource $oauth
  * @property-read OnboardingResource $onboarding
  * @property-read OpenapiResource $openapi
+ * @property-read OrderEditPreviewsResource $orderEditPreviews
  * @property-read OrdersResource $orders
- * @property-read OrganizationsResource $organizations
  * @property-read PackagesResource $packages
  * @property-read PartnerAppInstallsResource $partnerAppInstalls
  * @property-read PartnerAppsResource $partnerApps
@@ -78,6 +79,7 @@ namespace Flint;
  * @property-read PayoutDestinationsResource $payoutDestinations
  * @property-read PayoutSettingsResource $payoutSettings
  * @property-read PayoutsResource $payouts
+ * @property-read PriceListsResource $priceLists
  * @property-read ProductsResource $products
  * @property-read PromotionCodesResource $promotionCodes
  * @property-read PromotionsResource $promotions
@@ -104,8 +106,10 @@ namespace Flint;
  * @property-read SubscriptionPlansResource $subscriptionPlans
  * @property-read SubscriptionPreviewsResource $subscriptionPreviews
  * @property-read SubscriptionsResource $subscriptions
+ * @property-read TaxCalculationCallbacksResource $taxCalculationCallbacks
  * @property-read TaxConnectionResource $taxConnection
  * @property-read TestClocksResource $testClocks
+ * @property-read TicketsResource $tickets
  * @property-read WebhookDeliveriesResource $webhookDeliveries
  * @property-read WebhookEndpointsResource $webhookEndpoints
  * @property-read WebhookEventTypesResource $webhookEventTypes
@@ -148,6 +152,7 @@ final class Client {
             'discountPreviews' => $this->resourceCache['discountPreviews'] ??= new DiscountPreviewsResource($this->runtime),
             'disputes' => $this->resourceCache['disputes'] ??= new DisputesResource($this->runtime),
             'emailPreferenceLinks' => $this->resourceCache['emailPreferenceLinks'] ??= new EmailPreferenceLinksResource($this->runtime),
+            'emailPreferences' => $this->resourceCache['emailPreferences'] ??= new EmailPreferencesResource($this->runtime),
             'feedbackReports' => $this->resourceCache['feedbackReports'] ??= new FeedbackReportsResource($this->runtime),
             'files' => $this->resourceCache['files'] ??= new FilesResource($this->runtime),
             'fraudWarnings' => $this->resourceCache['fraudWarnings'] ??= new FraudWarningsResource($this->runtime),
@@ -183,8 +188,8 @@ final class Client {
             'oauth' => $this->resourceCache['oauth'] ??= new OauthResource($this->runtime),
             'onboarding' => $this->resourceCache['onboarding'] ??= new OnboardingResource($this->runtime),
             'openapi' => $this->resourceCache['openapi'] ??= new OpenapiResource($this->runtime),
+            'orderEditPreviews' => $this->resourceCache['orderEditPreviews'] ??= new OrderEditPreviewsResource($this->runtime),
             'orders' => $this->resourceCache['orders'] ??= new OrdersResource($this->runtime),
-            'organizations' => $this->resourceCache['organizations'] ??= new OrganizationsResource($this->runtime),
             'packages' => $this->resourceCache['packages'] ??= new PackagesResource($this->runtime),
             'partnerAppInstalls' => $this->resourceCache['partnerAppInstalls'] ??= new PartnerAppInstallsResource($this->runtime),
             'partnerApps' => $this->resourceCache['partnerApps'] ??= new PartnerAppsResource($this->runtime),
@@ -196,6 +201,7 @@ final class Client {
             'payoutDestinations' => $this->resourceCache['payoutDestinations'] ??= new PayoutDestinationsResource($this->runtime),
             'payoutSettings' => $this->resourceCache['payoutSettings'] ??= new PayoutSettingsResource($this->runtime),
             'payouts' => $this->resourceCache['payouts'] ??= new PayoutsResource($this->runtime),
+            'priceLists' => $this->resourceCache['priceLists'] ??= new PriceListsResource($this->runtime),
             'products' => $this->resourceCache['products'] ??= new ProductsResource($this->runtime),
             'promotionCodes' => $this->resourceCache['promotionCodes'] ??= new PromotionCodesResource($this->runtime),
             'promotions' => $this->resourceCache['promotions'] ??= new PromotionsResource($this->runtime),
@@ -222,8 +228,10 @@ final class Client {
             'subscriptionPlans' => $this->resourceCache['subscriptionPlans'] ??= new SubscriptionPlansResource($this->runtime),
             'subscriptionPreviews' => $this->resourceCache['subscriptionPreviews'] ??= new SubscriptionPreviewsResource($this->runtime),
             'subscriptions' => $this->resourceCache['subscriptions'] ??= new SubscriptionsResource($this->runtime),
+            'taxCalculationCallbacks' => $this->resourceCache['taxCalculationCallbacks'] ??= new TaxCalculationCallbacksResource($this->runtime),
             'taxConnection' => $this->resourceCache['taxConnection'] ??= new TaxConnectionResource($this->runtime),
             'testClocks' => $this->resourceCache['testClocks'] ??= new TestClocksResource($this->runtime),
+            'tickets' => $this->resourceCache['tickets'] ??= new TicketsResource($this->runtime),
             'webhookDeliveries' => $this->resourceCache['webhookDeliveries'] ??= new WebhookDeliveriesResource($this->runtime),
             'webhookEndpoints' => $this->resourceCache['webhookEndpoints'] ??= new WebhookEndpointsResource($this->runtime),
             'webhookEventTypes' => $this->resourceCache['webhookEventTypes'] ??= new WebhookEventTypesResource($this->runtime),
@@ -233,13 +241,13 @@ final class Client {
         };
     }
     public function __set(string $name, mixed $value): void { throw SdkError::create('validation', 'Client resource properties are read-only'); }
-    public function __isset(string $name): bool { return in_array($name, ['analytics', 'apiKeys', 'apiRequestLogs', 'authContext', 'balanceTransactions', 'balances', 'bundles', 'categories', 'checkoutSessions', 'creditNotes', 'customDomains', 'customerDeletionRequests', 'customerSessions', 'customerVerifications', 'customers', 'deliveryLocationSets', 'deliveryMethods', 'deliveryPreviews', 'deliveryProfiles', 'deliveryQuotes', 'deliveryRateCallbacks', 'deliveryRevocations', 'deliveryZones', 'demoSessions', 'devices', 'discountPreviews', 'disputes', 'emailPreferenceLinks', 'feedbackReports', 'files', 'fraudWarnings', 'fulfillmentEvents', 'fulfillmentNotifications', 'fulfillments', 'giftCardFundingDispositions', 'giftCardLoads', 'giftCardNotifications', 'giftCardRedemptions', 'giftCardTransactions', 'giftCards', 'inventoryAdjustments', 'inventoryAllocationPolicies', 'inventoryCounts', 'inventoryItems', 'inventoryLevels', 'inventoryMovements', 'inventoryReceipts', 'inventoryReservations', 'inventoryTransfers', 'invoicePaymentTerms', 'invoices', 'locations', 'me', 'merchant', 'merchantAccountSessions', 'merchantBillingBalances', 'merchantBillingEntries', 'merchantBillingInvoices', 'modifierGroups', 'modifierSets', 'oauth', 'onboarding', 'openapi', 'orders', 'organizations', 'packages', 'partnerAppInstalls', 'partnerApps', 'paymentIntents', 'paymentLinks', 'paymentMethodDomains', 'paymentMethods', 'paymentReviews', 'payoutDestinations', 'payoutSettings', 'payouts', 'products', 'promotionCodes', 'promotions', 'refunds', 'reportDownloads', 'reports', 'resourceTimelines', 'returnDispositions', 'returnInspections', 'returnPolicies', 'returnPreviews', 'returnReasons', 'returnReceipts', 'returnResolutions', 'returns', 'riskLists', 'riskPreviews', 'riskRules', 'sandboxes', 'settings', 'shipments', 'subscriptionDeliveryMigrations', 'subscriptionOffers', 'subscriptionPlans', 'subscriptionPreviews', 'subscriptions', 'taxConnection', 'testClocks', 'webhookDeliveries', 'webhookEndpoints', 'webhookEventTypes', 'webhookEvents', 'workloadIdentities'], true); }
+    public function __isset(string $name): bool { return in_array($name, ['analytics', 'apiKeys', 'apiRequestLogs', 'authContext', 'balanceTransactions', 'balances', 'bundles', 'categories', 'checkoutSessions', 'creditNotes', 'customDomains', 'customerDeletionRequests', 'customerSessions', 'customerVerifications', 'customers', 'deliveryLocationSets', 'deliveryMethods', 'deliveryPreviews', 'deliveryProfiles', 'deliveryQuotes', 'deliveryRateCallbacks', 'deliveryRevocations', 'deliveryZones', 'demoSessions', 'devices', 'discountPreviews', 'disputes', 'emailPreferenceLinks', 'emailPreferences', 'feedbackReports', 'files', 'fraudWarnings', 'fulfillmentEvents', 'fulfillmentNotifications', 'fulfillments', 'giftCardFundingDispositions', 'giftCardLoads', 'giftCardNotifications', 'giftCardRedemptions', 'giftCardTransactions', 'giftCards', 'inventoryAdjustments', 'inventoryAllocationPolicies', 'inventoryCounts', 'inventoryItems', 'inventoryLevels', 'inventoryMovements', 'inventoryReceipts', 'inventoryReservations', 'inventoryTransfers', 'invoicePaymentTerms', 'invoices', 'locations', 'me', 'merchant', 'merchantAccountSessions', 'merchantBillingBalances', 'merchantBillingEntries', 'merchantBillingInvoices', 'modifierGroups', 'modifierSets', 'oauth', 'onboarding', 'openapi', 'orderEditPreviews', 'orders', 'packages', 'partnerAppInstalls', 'partnerApps', 'paymentIntents', 'paymentLinks', 'paymentMethodDomains', 'paymentMethods', 'paymentReviews', 'payoutDestinations', 'payoutSettings', 'payouts', 'priceLists', 'products', 'promotionCodes', 'promotions', 'refunds', 'reportDownloads', 'reports', 'resourceTimelines', 'returnDispositions', 'returnInspections', 'returnPolicies', 'returnPreviews', 'returnReasons', 'returnReceipts', 'returnResolutions', 'returns', 'riskLists', 'riskPreviews', 'riskRules', 'sandboxes', 'settings', 'shipments', 'subscriptionDeliveryMigrations', 'subscriptionOffers', 'subscriptionPlans', 'subscriptionPreviews', 'subscriptions', 'taxCalculationCallbacks', 'taxConnection', 'testClocks', 'tickets', 'webhookDeliveries', 'webhookEndpoints', 'webhookEventTypes', 'webhookEvents', 'workloadIdentities'], true); }
     public function close(): void { $this->runtime->close(); }
     /** @param string $rawBody Original request bytes.
      * @param array<string, string|list<string>> $headers Header map, including PSR-7 header arrays.
      * @param string|array<array-key, string> $secrets
      * @param int|null $nowSeconds
-     * @return array{known: true, event: BalanceTransactionCreatedEvent|BalanceTransactionUpdatedEvent|BalanceUpdatedEvent|CustomDomainArchivedEvent|CustomDomainUpdatedEvent|DisputeCreatedEvent|DisputeInquiryClosedEvent|DisputeLostEvent|DisputeNeedsResponseEvent|DisputePreventedEvent|DisputeUpdatedEvent|DisputeWonEvent|EnvironmentGrantCreatedEvent|EnvironmentGrantRevokedEvent|MerchantBillingBalanceUpdatedEvent|MerchantBillingInvoiceIssuedEvent|MerchantBillingInvoiceUpdatedEvent|MerchantReadinessUpdatedEvent|MerchantUpdatedEvent|PartnerAppInstallCreatedEvent|PartnerAppInstallPermissionsUpdatedEvent|PartnerAppInstallRevokedEvent|PartnerAppInstallUpdatedEvent|PayoutDestinationArchivedEvent|PayoutDestinationCreatedEvent|PayoutDestinationDisabledEvent|PayoutDestinationUpdatedEvent|PayoutSettingsUpdatedEvent|PayoutCanceledEvent|PayoutCreatedEvent|PayoutFailedEvent|PayoutPaidEvent|PayoutReversedEvent|PayoutUpdatedEvent|TaxConnectionUpdatedEvent|TestClockAdvancingEvent|TestClockArchivedEvent|TestClockCreatedEvent|TestClockFailedEvent|TestClockReadyEvent|\stdClass|array}|array{known: false, event: mixed, reason: 'unknown_event'|'unmatched_envelope'} */
+     * @return array{known: true, event: CustomDomainArchivedEvent|CustomDomainUpdatedEvent|CustomerDeletionRequestCompletedEvent|CustomerDeletionRequestCreatedEvent|CustomerDeletionRequestFailedEvent|CustomerDeletionRequestProcessingEvent|CustomerDeletionRequestRejectedEvent|EnvironmentGrantCreatedEvent|EnvironmentGrantRevokedEvent|MerchantBillingBalanceUpdatedEvent|MerchantBillingInvoiceIssuedEvent|MerchantBillingInvoiceUpdatedEvent|PartnerAppInstallCreatedEvent|PartnerAppInstallPermissionsUpdatedEvent|PartnerAppInstallRevokedEvent|PartnerAppInstallUpdatedEvent|PartnerAppPlatformApprovedEvent|PartnerAppPlatformLimitedEvent|PartnerAppPlatformRejectedEvent|PartnerAppUpdatedEvent|ReportFailedEvent|ReportSucceededEvent|TaxCalculationCallbackActivatedEvent|TaxCalculationCallbackArchivedEvent|TaxCalculationCallbackCreatedEvent|TaxCalculationCallbackDeactivatedEvent|TaxCalculationCallbackUpdatedEvent|TaxConnectionUpdatedEvent|TestClockAdvancingEvent|TestClockArchivedEvent|TestClockCreatedEvent|TestClockFailedEvent|TestClockReadyEvent|\stdClass|array}|array{known: false, event: mixed, reason: 'unknown_event'|'unmatched_envelope'} */
     public function verifyWebhook(mixed $rawBody, mixed $headers, mixed $secrets, mixed $nowSeconds = null): array { return $this->runtime->verifyWebhook($rawBody, $headers, $secrets, $nowSeconds); }
     /** @param array<string, mixed> $options @return array<string, mixed> */
     public function verifyWebhookDelivery(mixed $rawBody, mixed $headers, array $options): array { return $this->runtime->verifyWebhookDelivery($rawBody, $headers, $options); }

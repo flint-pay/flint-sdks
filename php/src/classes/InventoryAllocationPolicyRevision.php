@@ -10,7 +10,7 @@ namespace Flint;
 final class InventoryAllocationPolicyRevision extends Model {
     /** @param array{'configuration': mixed, 'created_at': string, 'inventory_allocation_policy_id': string, 'inventory_allocation_policy_revision_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryAllocationPolicyRevision')); }
-    /** Routing rules for an inventory allocation policy: ranked groups of Locations, whether demand can be split, and how many Locations one assignment may use.
+    /** Routing rules: ranked groups of Locations, whether demand can be split, and the most Locations one assignment may use. Routing rules for an inventory allocation policy: ranked groups of Locations, whether demand can be split, and how many Locations one assignment may use.
      * @return InventoryAllocationConfigurationValue
      */
     public function getConfiguration(): InventoryAllocationConfigurationValue { return $this->get('configuration'); }
@@ -20,12 +20,12 @@ final class InventoryAllocationPolicyRevision extends Model {
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** inventory_allocation_policy_id
+    /** ID of the policy this revision belongs to.
      * @return string
      */
     public function getInventoryAllocationPolicyId(): string { return $this->get('inventory_allocation_policy_id'); }
     public function hasInventoryAllocationPolicyId(): bool { return $this->has('inventory_allocation_policy_id'); }
-    /** inventory_allocation_policy_revision_id
+    /** Unique identifier for this inventory allocation policy revision, prefixed `invpv_`.
      * @return string
      */
     public function getInventoryAllocationPolicyRevisionId(): string { return $this->get('inventory_allocation_policy_revision_id'); }

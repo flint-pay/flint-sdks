@@ -5,9 +5,9 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/checkoutSessions.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import r0 from '../descriptors/resources/checkoutSessions.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import settings from '../descriptors/settings.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["closeCheckoutSession"]:r0,["confirmCheckoutSessionCustomerVerification"]:r0,["createCheckoutSession"]:r0,["createCheckoutSessionCustomerVerification"]:r0,["createCheckoutSessionDeliveryQuote"]:r0,["createCheckoutSessionDeliverySelection"]:r0,["deleteCheckoutSessionCurrentDeliverySelection"]:r0,["getCheckoutSession"]:r0,["getCheckoutSessionCurrentDeliverySelection"]:r0,["getCheckoutSessionDeliveryQuote"]:r0,["getCheckoutSessionDeliverySelection"]:r0,["listCheckoutSessionDeliverySelections"]:r0,["listCheckoutSessions"]:r0,["updateCheckoutSession"]:r0});
 export class Client {
@@ -17,7 +17,11 @@ this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.checkoutSessions = Object.freeze({
       close: async (checkout_session_id, params, options) => this.#runtime.request("closeCheckoutSession", _sdkRequestInput([
   "checkout_session_id"
-], [checkout_session_id], [], true, false, params, [
+], [checkout_session_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, false, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
@@ -30,7 +34,11 @@ this.checkoutSessions = Object.freeze({
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("confirmCheckoutSessionCustomerVerification", result, path))),
-      create: async (params, options) => this.#runtime.request("createCheckoutSession", _sdkRequestInput([], [], [], true, true, params, [
+      create: async (params, options) => this.#runtime.request("createCheckoutSession", _sdkRequestInput([], [], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
@@ -44,14 +52,22 @@ this.checkoutSessions = Object.freeze({
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createCheckoutSessionCustomerVerification", result, path))),
       createDeliveryQuote: async (checkout_session_id, params, options) => this.#runtime.request("createCheckoutSessionDeliveryQuote", _sdkRequestInput([
   "checkout_session_id"
-], [checkout_session_id], [], true, true, params, [
+], [checkout_session_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, false, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createCheckoutSessionDeliveryQuote", result, path))),
       createDeliverySelection: async (checkout_session_id, params, options) => this.#runtime.request("createCheckoutSessionDeliverySelection", _sdkRequestInput([
   "checkout_session_id"
-], [checkout_session_id], [], true, true, params, [
+], [checkout_session_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
@@ -59,7 +75,10 @@ this.checkoutSessions = Object.freeze({
       deleteCurrentDeliverySelection: async (checkout_session_id, params, options) => this.#runtime.request("deleteCheckoutSessionCurrentDeliverySelection", _sdkRequestInput([
   "checkout_session_id"
 ], [checkout_session_id], [
-  "expected_delivery_selection_id"
+  "expected_delivery_selection_id",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Idempotency-Key",
   "Flint-Version",
@@ -68,28 +87,43 @@ this.checkoutSessions = Object.freeze({
       get: async (checkout_session_id, params, options) => this.#runtime.request("getCheckoutSession", _sdkRequestInput([
   "checkout_session_id"
 ], [checkout_session_id], [
-  "expand"
+  "expand",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getCheckoutSession", result, path))),
       getCurrentDeliverySelection: async (checkout_session_id, params, options) => this.#runtime.request("getCheckoutSessionCurrentDeliverySelection", _sdkRequestInput([
   "checkout_session_id"
-], [checkout_session_id], [], false, false, params, [
+], [checkout_session_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getCheckoutSessionCurrentDeliverySelection", result, path))),
       getDeliveryQuote: async (checkout_session_id, delivery_quote_id, params, options) => this.#runtime.request("getCheckoutSessionDeliveryQuote", _sdkRequestInput([
   "checkout_session_id",
   "delivery_quote_id"
-], [checkout_session_id, delivery_quote_id], [], false, false, params, [
+], [checkout_session_id, delivery_quote_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getCheckoutSessionDeliveryQuote", result, path))),
       getDeliverySelection: async (checkout_session_id, delivery_selection_id, params, options) => this.#runtime.request("getCheckoutSessionDeliverySelection", _sdkRequestInput([
   "checkout_session_id",
   "delivery_selection_id"
-], [checkout_session_id, delivery_selection_id], [], false, false, params, [
+], [checkout_session_id, delivery_selection_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getCheckoutSessionDeliverySelection", result, path))),
@@ -97,7 +131,10 @@ this.checkoutSessions = Object.freeze({
   "checkout_session_id"
 ], [checkout_session_id], [
   "page_size",
-  "page_token"
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -106,7 +143,10 @@ this.checkoutSessions = Object.freeze({
   "checkout_session_id"
 ], [checkout_session_id], [
   "page_size",
-  "page_token"
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -115,7 +155,10 @@ this.checkoutSessions = Object.freeze({
   "checkout_session_id"
 ], [checkout_session_id], [
   "page_size",
-  "page_token"
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -141,7 +184,10 @@ this.checkoutSessions = Object.freeze({
   "updated_before",
   "expires_after",
   "expires_before",
-  "expand"
+  "expand",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -167,7 +213,10 @@ this.checkoutSessions = Object.freeze({
   "updated_before",
   "expires_after",
   "expires_before",
-  "expand"
+  "expand",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -193,14 +242,21 @@ this.checkoutSessions = Object.freeze({
   "updated_before",
   "expires_after",
   "expires_before",
-  "expand"
+  "expand",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
 ]), options),
       update: async (checkout_session_id, params, options) => this.#runtime.request("updateCheckoutSession", _sdkRequestInput([
   "checkout_session_id"
-], [checkout_session_id], [], true, true, params, [
+], [checkout_session_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
@@ -233,6 +289,7 @@ export { makeConfirmCheckoutSessionCustomerVerificationRequest } from '../models
 export { makeCreateCheckoutDeliveryQuoteRequest } from '../models/CreateCheckoutDeliveryQuoteRequest.js';
 export { makeCreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequest } from '../models/CreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequest.js';
 export { makeCreateCheckoutSessionCustomerVerificationRequest } from '../models/CreateCheckoutSessionCustomerVerificationRequest.js';
+export { makeCreateCheckoutSessionDiscount } from '../models/CreateCheckoutSessionDiscount.js';
 export { makeCreateCheckoutSessionGiftCardPurchaseVerificationRequest } from '../models/CreateCheckoutSessionGiftCardPurchaseVerificationRequest.js';
 export { makeCreateCheckoutSessionOrder } from '../models/CreateCheckoutSessionOrder.js';
 export { makeCreateCheckoutSessionQuickPay } from '../models/CreateCheckoutSessionQuickPay.js';
@@ -248,22 +305,16 @@ export { makeDeliveryBuyerLocationInputCoordinate } from '../models/DeliveryBuye
 export { makeDeliveryBuyerLocationRequest } from '../models/DeliveryBuyerLocationRequest.js';
 export { makeDeliveryCoordinateRequest } from '../models/DeliveryCoordinateRequest.js';
 export { makeDeliveryInventoryAssignmentRequest } from '../models/DeliveryInventoryAssignmentRequest.js';
-export { makeDeliveryRecipientRequirement } from '../models/DeliveryRecipientRequirement.js';
 export { makeDeliverySelectionInstructionsRequest } from '../models/DeliverySelectionInstructionsRequest.js';
 export { makeDeliverySelectionRecipientRequest } from '../models/DeliverySelectionRecipientRequest.js';
 export { makeDeliveryWindowRequest } from '../models/DeliveryWindowRequest.js';
-export { makeDimensions } from '../models/Dimensions.js';
 export { makeMetadataPatchRequest } from '../models/MetadataPatchRequest.js';
 export { makeMetadataRequest } from '../models/MetadataRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makeOrderCalculatedChargeTax } from '../models/OrderCalculatedChargeTax.js';
-export { makeOrderCalculatedLineItemTax } from '../models/OrderCalculatedLineItemTax.js';
-export { makeOrderLineItemTax } from '../models/OrderLineItemTax.js';
-export { makeSubscriptionIntervalOption } from '../models/SubscriptionIntervalOption.js';
-export { makeTaxCalculationRequest } from '../models/TaxCalculationRequest.js';
-export { makeTaxComponentRequest } from '../models/TaxComponentRequest.js';
-export { makeTaxJurisdiction } from '../models/TaxJurisdiction.js';
+export { makeOrderLineItemTaxRequest } from '../models/OrderLineItemTaxRequest.js';
+export { makePromotionRefInputPromotionCode } from '../models/PromotionRefInputPromotionCode.js';
+export { makePromotionRefInputPromotionID } from '../models/PromotionRefInputPromotionID.js';
+export { makePromotionRefRequest } from '../models/PromotionRefRequest.js';
 export { makeTextModifierRequest } from '../models/TextModifierRequest.js';
 export { makeThemeConfigRequest } from '../models/ThemeConfigRequest.js';
 export { makeUpdateCheckoutSessionRequest } from '../models/UpdateCheckoutSessionRequest.js';
-export { makeWeight } from '../models/Weight.js';

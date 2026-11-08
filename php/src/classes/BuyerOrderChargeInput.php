@@ -19,7 +19,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $updated_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class BuyerOrderChargeInput extends Model {
-    /** @param array{'amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'applied_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'calculation_basis'?: string, 'created_at'?: string|\DateTimeInterface, 'description'?: string, 'fulfillment_id'?: string, 'name': string, 'order_charge_id': string, 'percent'?: int|float, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'tax'?: OrderCalculatedChargeTaxInput|array<array-key, mixed>|\stdClass, 'tax_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'type': string, 'updated_at'?: string|\DateTimeInterface, ...}|object $values */
+    /** @param array{'amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'applied_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'calculation_basis'?: string, 'created_at': string|\DateTimeInterface, 'description'?: string, 'fulfillment_id'?: string, 'name': string, 'order_charge_id': string, 'percent'?: int|float, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'tax'?: OrderCalculatedChargeTaxInput|array<array-key, mixed>|\stdClass, 'tax_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'type': string, 'updated_at': string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerOrderChargeInput')); }
     /** Fixed charge amount before charge discounts and tax. Percentage charges use percent instead. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
@@ -33,43 +33,43 @@ final class BuyerOrderChargeInput extends Model {
      */
     public function getAppliedMoney(): mixed { return $this->get('applied_money'); }
     public function hasAppliedMoney(): bool { return $this->has('applied_money'); }
-    /** Value enum: "subtotal_pre_discount", "subtotal_post_discount".
+    /** The amount a percent charge is calculated from. Value enum: "subtotal_pre_discount", "subtotal_post_discount".
      * @return string
      * @throws SdkError When calculation_basis is omitted; use hasCalculationBasis() or valueOrDefault().
      */
     public function getCalculationBasis(): string { return $this->get('calculation_basis'); }
     public function hasCalculationBasis(): bool { return $this->has('calculation_basis'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** description
+    /** Optional description of the charge.
      * @return string
      * @throws SdkError When description is omitted; use hasDescription() or valueOrDefault().
      */
     public function getDescription(): string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** fulfillment_id
+    /** ID of the fulfillment this charge belongs to, such as a shipping fee on its shipment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
      * @return string
      * @throws SdkError When fulfillment_id is omitted; use hasFulfillmentId() or valueOrDefault().
      */
     public function getFulfillmentId(): string { return $this->get('fulfillment_id'); }
     public function hasFulfillmentId(): bool { return $this->has('fulfillment_id'); }
-    /** name
+    /** What the buyer sees for this charge at checkout and on receipts.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** order_charge_id
+    /** Unique identifier for this order charge, prefixed `och_`. Example: "och_01KEZF7C00XX8AKACP0GHKFWWT".
      * @return string
      * @throws SdkError When order_charge_id is omitted; use hasOrderChargeId() or valueOrDefault().
      */
     public function getOrderChargeId(): string { return $this->get('order_charge_id'); }
     public function hasOrderChargeId(): bool { return $this->has('order_charge_id'); }
-    /** multipleOf: 0.0001.
+    /** Percentage points of the base `calculation_basis` names, such as `3` for 3%. Fixed charges use `amount_money` instead. multipleOf: 0.0001.
      * @return int|float
      * @throws SdkError When percent is omitted; use hasPercent() or valueOrDefault().
      */
@@ -81,7 +81,7 @@ final class BuyerOrderChargeInput extends Model {
      */
     public function getRefundedMoney(): mixed { return $this->get('refunded_money'); }
     public function hasRefundedMoney(): bool { return $this->has('refunded_money'); }
-    /** Tax settings for an order charge calculated by Flint or supplied by you, including the charge's tax category and whether it is taxable.
+    /** How tax applies to this charge. Tax settings for an order charge calculated by Flint or supplied by you, including the charge's tax category and whether it is taxable.
      * @return OrderCalculatedChargeTaxInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When tax is omitted; use hasTax() or valueOrDefault().
      */
@@ -99,13 +99,13 @@ final class BuyerOrderChargeInput extends Model {
      */
     public function getTotalMoney(): mixed { return $this->get('total_money'); }
     public function hasTotalMoney(): bool { return $this->has('total_money'); }
-    /** Value enum: "service_fee", "delivery_fee", "shipping_fee", "handling_fee", "packaging_fee", "small_order_fee", "service_area_fee", "setup_fee", "installation_fee", "cleaning_fee", "booking_fee", "reservation_fee", "ticket_fee", "fulfillment_fee", "restocking_fee", "rush_fee", "other".
+    /** What the charge is for. It classifies the charge in reporting and sets its default tax category. Value enum: "service_fee", "delivery_fee", "shipping_fee", "handling_fee", "packaging_fee", "small_order_fee", "service_area_fee", "setup_fee", "installation_fee", "cleaning_fee", "booking_fee", "reservation_fee", "ticket_fee", "fulfillment_fee", "restocking_fee", "rush_fee", "other".
      * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */
     public function getType(): string { return $this->get('type'); }
     public function hasType(): bool { return $this->has('type'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */

@@ -8,13 +8,13 @@ namespace Flint;
 final class RefundGiftCardCodeInput extends Model {
     /** @param array{'code': string, 'gift_card_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RefundGiftCardCodeInput')); }
-    /** code
+    /** Code that redeems the new gift card. Only the create response and a replay of it within 24 hours carry codes, so store it securely.
      * @return string
      * @throws SdkError When code is omitted; use hasCode() or valueOrDefault().
      */
     public function getCode(): string { return $this->get('code'); }
     public function hasCode(): bool { return $this->has('code'); }
-    /** gift_card_id
+    /** ID of the gift card the code belongs to. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
      * @return string
      * @throws SdkError When gift_card_id is omitted; use hasGiftCardId() or valueOrDefault().
      */

@@ -1,294 +1,1016 @@
 import type {
-    DeliveryProfileOriginPolicyInputFixedLocation,
-    DeliveryProfileOriginPolicyInputFixedLocationInput,
-    DeliveryProfile
-} from './types-17.js';
-import type { ResponseMeta } from './types-48.js';
-import type { MerchantWebhookEnvelope } from './types-35.js';
-import type { PartnerWebhookEnvelope } from './types-40.js';
-import type { InputValue } from '../runtime.js';
-import type { AssignToUnconfiguredDeliveryProfileRequestInput, Address } from './types-0.js';
-import type { CreateDeliveryProfileRequestInput, CreateDeliveryRateCallbackRequestInput } from './types-7.js';
-import type {
+    DeliveryMethodOriginSelectorInputAllocatedOriginGroupInput,
+    DeliveryMethodOriginSelectorInputFixedLocationInput,
+    DeliveryMethodOriginSelectorInputPickupLocationCollectionInput,
+    DeliveryMethod,
+    DeliveryMethodConfiguration,
     DeliveryLocationSetsDeleteParams,
+    DeliveryLocationSummaryResource,
+    DeliveryMerchantDiagnostic
+} from './types-17.js';
+import type { ResponseMeta } from './types-51.js';
+import type { MerchantWebhookEnvelope, MetadataMap } from './types-36.js';
+import type { PartnerWebhookEnvelope } from './types-42.js';
+import type { SubscriptionCounts } from './types-57.js';
+import type { InputValue } from '../runtime.js';
+import type { CreateDeliveryMethodRequestInput, CreateDeliveryPreviewRequestInput } from './types-8.js';
+import type { DisputesAcceptParams } from './types-22.js';
+import type { UpdateDeliveryMethodRequestInput } from './types-63.js';
+import type { BuyerInstructionsConfig } from './types-2.js';
+import type {
+    DeliveryArrivalEstimate,
     DeliveryInputRequirement,
-    DeliveryMerchantDiagnostic,
-    DeliveryDistance,
-    DeliveryDistanceInput
-} from './types-15.js';
-import type { UpdateDeliveryProfileRequestInput } from './types-58.js';
-import type { DeliveryBuyerLocationResource, DeliveryAddressAdvisoryResource, DeliveryCandidateOutcomeResource } from './types-14.js';
-import type { DeliveryPendingCallerRateRequest, DeliveryOptionProjection } from './types-16.js';
-/** The `inventory_routing` variant of `DeliveryProfileOriginPolicyInput`. */
-export type DeliveryProfileOriginPolicyInputInventoryRouting = ({
-    /** minLength: 1. */
-    "location_id"?: string;
-    /** Value enum: "inventory_routing". */
-    "type": "inventory_routing" | (string & {});
-})
-    & (({
-    /** Value enum: "inventory_routing". */
-    "type": unknown;
-}));
-/** The `inventory_routing` variant of `DeliveryProfileOriginPolicyInput`. */
-export type DeliveryProfileOriginPolicyInputInventoryRoutingInput = ({
-    /** minLength: 1. */
-    "location_id"?: string;
-    /** Value enum: "inventory_routing". */
-    "type": "inventory_routing";
-})
-    & (({
-    /** Value enum: "inventory_routing". */
-    "type": "inventory_routing";
-})
-    & (({
-    "location_id"?: never;
-})));
-/** The `method_origin` variant of `DeliveryProfileOriginPolicyInput`. */
-export type DeliveryProfileOriginPolicyInputMethodOrigin = ({
-    /** minLength: 1. */
-    "location_id"?: string;
-    /** Value enum: "method_origin". */
-    "type": "method_origin" | (string & {});
-})
-    & (({
-    /** Value enum: "method_origin". */
-    "type": unknown;
-}));
-/** The `method_origin` variant of `DeliveryProfileOriginPolicyInput`. */
-export type DeliveryProfileOriginPolicyInputMethodOriginInput = ({
-    /** minLength: 1. */
-    "location_id"?: string;
-    /** Value enum: "method_origin". */
-    "type": "method_origin";
-})
-    & (({
-    /** Value enum: "method_origin". */
-    "type": "method_origin";
-})
-    & (({
-    "location_id"?: never;
-})));
+    DeliveryAddressAdvisoryResource,
+    DeliveryBuyerLocationResource,
+    DeliveryCandidateOutcomeResource,
+    DeliveryEligibilityExpression,
+    DeliveryEligibilityExpressionRequest,
+    DeliveryEligibilityExpressionRequestInput,
+    DeliveryCalculatedPricingStrategy,
+    DeliveryExternalPricingStrategy,
+    DeliveryFixedPricingStrategy,
+    DeliveryCallbackPricingStrategyRequest,
+    DeliveryCallerSuppliedPricingStrategyRequest,
+    DeliveryCalculatedPricingStrategyRequestInput,
+    DeliveryCallbackPricingStrategyRequestInput,
+    DeliveryCallerSuppliedPricingStrategyRequestInput,
+    DeliveryFixedPricingStrategyRequestInput
+} from './types-16.js';
+import type {
+    DeliveryQuoteExecutionLegResource,
+    DeliveryQuoteLineItemResource,
+    DeliveryPricingStrategyRateTable,
+    DeliveryPricingStrategyTiered
+} from './types-19.js';
+import type {
+    DeliveryRecipientRequirement,
+    DeliveryRateTablePricingStrategy,
+    DeliveryRateTablePricingStrategyCreateRequest,
+    DeliveryRateTablePricingStrategyCreateRequestInput,
+    DeliveryRateTablePricingStrategyRequest,
+    DeliveryRateTablePricingStrategyRequestInput
+} from './types-20.js';
+import type {
+    DeliveryShipmentDetails,
+    DeliveryWindowRequest,
+    DeliveryTieredPricingStrategy,
+    DeliveryTieredPricingStrategyRequestInput
+} from './types-21.js';
+import type { MoneyValue, MoneyValueInput } from './types-37.js';
+import type { Address } from './types-0.js';
+import type { CreateOrderLineItem } from './types-10.js';
 /**
- * Origin policy you supply for a delivery profile: a fixed Location (`location_id`), inventory
- * routing, or the origin set on the delivery method.
+ * The origin you supply for a delivery method, chosen by `type`: a fixed location, or locations
+ * from a delivery location set or an inline list.
  */
-export type DeliveryProfileOriginPolicyRequest = ({
-    /** minLength: 1. */
-    "location_id"?: string;
-    /** Value enum: "fixed_location", "inventory_routing", "method_origin". */
-    "type": "fixed_location" | "inventory_routing" | "method_origin" | (string & {});
-})
-    & ((Exclude<DeliveryProfileOriginPolicyInputFixedLocation & object, readonly unknown[]>)
-    | (Exclude<DeliveryProfileOriginPolicyInputInventoryRouting & object, readonly unknown[]>)
-    | (Exclude<DeliveryProfileOriginPolicyInputMethodOrigin & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/**
- * Origin policy you supply for a delivery profile: a fixed Location (`location_id`), inventory
- * routing, or the origin set on the delivery method.
- */
-export type DeliveryProfileOriginPolicyRequestInput = ({
-    /** minLength: 1. */
-    "location_id"?: string;
-    /** Value enum: "fixed_location", "inventory_routing", "method_origin". */
-    "type": "fixed_location" | "inventory_routing" | "method_origin";
-})
-    & ((Exclude<DeliveryProfileOriginPolicyInputFixedLocationInput & object, readonly unknown[]>)
-    | (Exclude<DeliveryProfileOriginPolicyInputInventoryRoutingInput & object, readonly unknown[]>)
-    | (Exclude<DeliveryProfileOriginPolicyInputMethodOriginInput & object, readonly unknown[]>));
-/** A response containing `DeliveryProfile` data. */
-export type DeliveryProfileResponse = {
-    /** Reusable delivery rules assigned to catalog items. */
-    "data": DeliveryProfile;
+export type DeliveryMethodOriginSelectorRequestInput = ({
     /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
+     * Named delivery location set to reuse. Send either delivery_location_set_id or inline
+     * location_ids, never both. The set may contain at most 25 Locations for
+     * allocated_origin_group or 1,000 for pickup_location_collection. minLength: 1. Example:
+     * "dls_01KEZF7C00C4WWN7RYTRF55C4H".
+     */
+    "delivery_location_set_id"?: string;
+    /** minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
+    "location_id"?: string;
+    /**
+     * Inline Location IDs for a set managed by this delivery method. Send either location_ids or
+     * delivery_location_set_id, never both. Use 1 to 25 unique Locations for
+     * allocated_origin_group or 1 to 1,000 for pickup_location_collection. Reads return these
+     * Location IDs without exposing the managed set. [] (Value): string. minLength: 1. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_ids"?: Array<string>;
+    /** Value enum: "fixed_location", "allocated_origin_group", "pickup_location_collection". */
+    "type": "fixed_location" | "allocated_origin_group" | "pickup_location_collection";
+})
+    & ((Exclude<DeliveryMethodOriginSelectorInputFixedLocationInput & object, readonly unknown[]>)
+    | (Exclude<DeliveryMethodOriginSelectorInputAllocatedOriginGroupInput & object, readonly unknown[]>)
+    | (Exclude<DeliveryMethodOriginSelectorInputPickupLocationCollectionInput & object, readonly unknown[]>));
+/** A response containing `DeliveryMethod` data. */
+export type DeliveryMethodResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A configured shipping,
+     * pickup, local delivery, or service option.
+     */
+    "data": DeliveryMethod;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
      */
     "meta"?: ResponseMeta;
     /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
     "request_id": string;
 };
-export type DeliveryProfileUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type DeliveryMethodUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
-        "object": DeliveryProfile;
+        "object": {
+            "configuration": DeliveryMethodConfiguration;
+            "created_at": string;
+            "current_delivery_method_revision_id": string;
+            "delivery_method_id": string;
+            "delivery_revocation_id": string | null;
+            "description"?: string;
+            "display_position": number;
+            "external_reference_id"?: string;
+            "metadata"?: MetadataMap;
+            "name": string;
+            "recommendation_priority"?: number;
+            "status": "active" | "inactive" | "archived" | (string & {});
+            "subscription_counts": SubscriptionCounts;
+            "type": "shipment" | "local_delivery" | "pickup" | (string & {});
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<DeliveryMethod>;
     };
-    "event_type"?: "delivery_profile.updated";
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "delivery_method.updated";
 }))
     | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
-        "object": DeliveryProfile;
+        "object": {
+            "configuration": DeliveryMethodConfiguration;
+            "created_at": string;
+            "current_delivery_method_revision_id": string;
+            "delivery_method_id": string;
+            "delivery_revocation_id": string | null;
+            "description"?: string;
+            "display_position": number;
+            "external_reference_id"?: string;
+            "metadata"?: MetadataMap;
+            "name": string;
+            "recommendation_priority"?: number;
+            "status": "active" | "inactive" | "archived" | (string & {});
+            "subscription_counts": SubscriptionCounts;
+            "type": "shipment" | "local_delivery" | "pickup" | (string & {});
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<DeliveryMethod>;
     };
-    "event_type"?: "delivery_profile.updated";
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "delivery_method.updated";
     "source"?: ({
         "environment_grant_id": string;
         "merchant_id": string;
         "mode": "test" | "live" | (string & {});
         "partner_app_install_id": string;
         "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
     });
 })))
     & {
-    "event_type": "delivery_profile.updated";
+    "event_type": "delivery_method.updated";
 });
 /**
- * The `delivery_profile.updated` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
+ * The `delivery_method.updated` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
  */
-export type DeliveryProfileUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+export type DeliveryMethodUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     *  object (Required): {@link DeliveryProfile}. Reusable delivery rules assigned to catalog
-     * items.
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.configuration (Required): {@link DeliveryMethodConfiguration}.
+     * Current eligibility, pricing, origin, estimate, and tax configuration. How a delivery method
+     * works: its origin, pricing, eligibility, timing estimate, tax settings, recipient
+     * requirements, and option lifetimes. object.created_at (Required): string. Time the method
+     * was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.current_delivery_method_revision_id (Required): string. Immutable revision currently
+     * used for new quotes. Example: "dmetr_01KEZF7C001ZF9D92DY1G51GV9". object.delivery_method_id
+     * (Required): string. Stable delivery method ID. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     * object.delivery_revocation_id (Required): string or null. The revocation fencing this
+     * resource's own current revision. `null` when the current revision isn't revoked. It doesn't
+     * cover dependencies: a method can be unusable while this is `null` because its rate callback
+     * revision, signing key, or a Location's address is revoked. A revocation doesn't change
+     * `status`; publish a new revision to clear it. Example: "drev_01KEZF7C007Q141XJ28YAAC87B".
+     * object.description (Optional): string. Optional buyer-facing description.
+     * object.display_position (Required): integer. Ascending display order among methods. Format:
+     * int32. object.external_reference_id (Optional): string. Caller-owned identifier for this
+     * resource in an external system. maxLength: 255. Example: "warehouse-1842". object.metadata
+     * (Optional): {@link MetadataMap}. Caller-owned metadata. Caller-owned key-value data stored
+     * on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
+     * may not satisfy them. object.name (Required): string. Merchant-facing method name.
+     * object.recommendation_priority (Optional): integer. Marks this method as recommended. Within
+     * each choice group, the available method with the lowest value is recommended and listed
+     * first. Ties go to the lower display_position, then the method ID. Null never recommends the
+     * method. Format: int32. object.status (Required): string. Current method lifecycle status.
+     * Value enum: "active", "inactive", "archived". object.subscription_counts (Required): {@link
+     * SubscriptionCounts}. Counts of subscriptions by status: active, past due, and paused.
+     * object.type (Required): string. Delivery mode this method offers. Value enum: "shipment",
+     * "local_delivery", "pickup". object.updated_at (Required): string. Time the method last
+     * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
+     * integer. Optimistic-concurrency version for method writes. Format: uint64. minimum: 1.
+     * previous_attributes (Optional): object. Previous values of changed top-level fields in
+     * data.object, at this delivery's API version. Nested changes include the whole previous
+     * top-level value. A value is null when the field was absent before the change. Omitted when
+     * Flint did not record the previous state, including synthetic test events.
      */
     "data"?: {
-        /** Reusable delivery rules assigned to catalog items. */
-        "object": DeliveryProfile;
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * configuration (Required): {@link DeliveryMethodConfiguration}. Current eligibility,
+         * pricing, origin, estimate, and tax configuration. How a delivery method works: its
+         * origin, pricing, eligibility, timing estimate, tax settings, recipient requirements, and
+         * option lifetimes. created_at (Required): string. Time the method was created. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". current_delivery_method_revision_id
+         * (Required): string. Immutable revision currently used for new quotes. Example:
+         * "dmetr_01KEZF7C001ZF9D92DY1G51GV9". delivery_method_id (Required): string. Stable
+         * delivery method ID. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". delivery_revocation_id
+         * (Required): string or null. The revocation fencing this resource's own current revision.
+         * `null` when the current revision isn't revoked. It doesn't cover dependencies: a method
+         * can be unusable while this is `null` because its rate callback revision, signing key, or
+         * a Location's address is revoked. A revocation doesn't change `status`; publish a new
+         * revision to clear it. Example: "drev_01KEZF7C007Q141XJ28YAAC87B". description
+         * (Optional): string. Optional buyer-facing description. display_position (Required):
+         * integer. Ascending display order among methods. Format: int32. external_reference_id
+         * (Optional): string. Caller-owned identifier for this resource in an external system.
+         * maxLength: 255. Example: "warehouse-1842". metadata (Optional): {@link MetadataMap}.
+         * Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys starting
+         * with flint_ are reserved for Flint and are not returned. Writes follow the limits on
+         * MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy
+         * them. name (Required): string. Merchant-facing method name. recommendation_priority
+         * (Optional): integer. Marks this method as recommended. Within each choice group, the
+         * available method with the lowest value is recommended and listed first. Ties go to the
+         * lower display_position, then the method ID. Null never recommends the method. Format:
+         * int32. status (Required): string. Current method lifecycle status. Value enum: "active",
+         * "inactive", "archived". subscription_counts (Required): {@link SubscriptionCounts}.
+         * Counts of subscriptions by status: active, past due, and paused. type (Required):
+         * string. Delivery mode this method offers. Value enum: "shipment", "local_delivery",
+         * "pickup". updated_at (Required): string. Time the method last changed. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". version (Required): integer.
+         * Optimistic-concurrency version for method writes. Format: uint64. minimum: 1.
+         */
+        "object": {
+            /**
+             * Current eligibility, pricing, origin, estimate, and tax configuration. How a
+             * delivery method works: its origin, pricing, eligibility, timing estimate, tax
+             * settings, recipient requirements, and option lifetimes.
+             */
+            "configuration": DeliveryMethodConfiguration;
+            /** Time the method was created. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Immutable revision currently used for new quotes. Example:
+             * "dmetr_01KEZF7C001ZF9D92DY1G51GV9".
+             */
+            "current_delivery_method_revision_id": string;
+            /** Stable delivery method ID. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". */
+            "delivery_method_id": string;
+            /**
+             * The revocation fencing this resource's own current revision. `null` when the current
+             * revision isn't revoked. It doesn't cover dependencies: a method can be unusable
+             * while this is `null` because its rate callback revision, signing key, or a
+             * Location's address is revoked. A revocation doesn't change `status`; publish a new
+             * revision to clear it. Example: "drev_01KEZF7C007Q141XJ28YAAC87B".
+             */
+            "delivery_revocation_id": string | null;
+            /** Optional buyer-facing description. */
+            "description"?: string;
+            /** Ascending display order among methods. Format: int32. */
+            "display_position": number;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /**
+             * Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys
+             * starting with flint_ are reserved for Flint and are not returned. Writes follow the
+             * limits on MetadataInput and MetadataPatchInput; maps written before those limits may
+             * not satisfy them.
+             */
+            "metadata"?: MetadataMap;
+            /** Merchant-facing method name. */
+            "name": string;
+            /**
+             * Marks this method as recommended. Within each choice group, the available method
+             * with the lowest value is recommended and listed first. Ties go to the lower
+             * display_position, then the method ID. Null never recommends the method. Format:
+             * int32.
+             */
+            "recommendation_priority"?: number;
+            /** Current method lifecycle status. Value enum: "active", "inactive", "archived". */
+            "status": "active" | "inactive" | "archived" | (string & {});
+            /** Counts of subscriptions by status: active, past due, and paused. */
+            "subscription_counts": SubscriptionCounts;
+            /**
+             * Delivery mode this method offers. Value enum: "shipment", "local_delivery",
+             * "pickup".
+             */
+            "type": "shipment" | "local_delivery" | "pickup" | (string & {});
+            /** Time the method last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /** Optimistic-concurrency version for method writes. Format: uint64. minimum: 1. */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<DeliveryMethod>;
     };
-    /** Value enum: "delivery_profile.updated". */
-    "event_type"?: "delivery_profile.updated";
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "delivery_method.updated". */
+    "event_type"?: "delivery_method.updated";
     /**
-     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
-     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
-     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
      */
     "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
         "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
         "merchant_id": string;
-        /** Value enum: "test", "live". */
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
         "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
         "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
         "sandbox_id"?: string;
-        /** Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
     });
 });
 /**
- * The `delivery_profile.updated` webhook payload for the `merchant` event source. Fields shared by
+ * The `delivery_method.updated` webhook payload for the `merchant` event source. Fields shared by
  * merchant webhook payloads.
  */
-export type DeliveryProfileUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type DeliveryMethodUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     *  object (Required): {@link DeliveryProfile}. Reusable delivery rules assigned to catalog
-     * items.
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.configuration (Required): {@link DeliveryMethodConfiguration}.
+     * Current eligibility, pricing, origin, estimate, and tax configuration. How a delivery method
+     * works: its origin, pricing, eligibility, timing estimate, tax settings, recipient
+     * requirements, and option lifetimes. object.created_at (Required): string. Time the method
+     * was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.current_delivery_method_revision_id (Required): string. Immutable revision currently
+     * used for new quotes. Example: "dmetr_01KEZF7C001ZF9D92DY1G51GV9". object.delivery_method_id
+     * (Required): string. Stable delivery method ID. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     * object.delivery_revocation_id (Required): string or null. The revocation fencing this
+     * resource's own current revision. `null` when the current revision isn't revoked. It doesn't
+     * cover dependencies: a method can be unusable while this is `null` because its rate callback
+     * revision, signing key, or a Location's address is revoked. A revocation doesn't change
+     * `status`; publish a new revision to clear it. Example: "drev_01KEZF7C007Q141XJ28YAAC87B".
+     * object.description (Optional): string. Optional buyer-facing description.
+     * object.display_position (Required): integer. Ascending display order among methods. Format:
+     * int32. object.external_reference_id (Optional): string. Caller-owned identifier for this
+     * resource in an external system. maxLength: 255. Example: "warehouse-1842". object.metadata
+     * (Optional): {@link MetadataMap}. Caller-owned metadata. Caller-owned key-value data stored
+     * on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
+     * may not satisfy them. object.name (Required): string. Merchant-facing method name.
+     * object.recommendation_priority (Optional): integer. Marks this method as recommended. Within
+     * each choice group, the available method with the lowest value is recommended and listed
+     * first. Ties go to the lower display_position, then the method ID. Null never recommends the
+     * method. Format: int32. object.status (Required): string. Current method lifecycle status.
+     * Value enum: "active", "inactive", "archived". object.subscription_counts (Required): {@link
+     * SubscriptionCounts}. Counts of subscriptions by status: active, past due, and paused.
+     * object.type (Required): string. Delivery mode this method offers. Value enum: "shipment",
+     * "local_delivery", "pickup". object.updated_at (Required): string. Time the method last
+     * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
+     * integer. Optimistic-concurrency version for method writes. Format: uint64. minimum: 1.
+     * previous_attributes (Optional): object. Previous values of changed top-level fields in
+     * data.object, at this delivery's API version. Nested changes include the whole previous
+     * top-level value. A value is null when the field was absent before the change. Omitted when
+     * Flint did not record the previous state, including synthetic test events.
      */
     "data"?: {
-        /** Reusable delivery rules assigned to catalog items. */
-        "object": DeliveryProfile;
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * configuration (Required): {@link DeliveryMethodConfiguration}. Current eligibility,
+         * pricing, origin, estimate, and tax configuration. How a delivery method works: its
+         * origin, pricing, eligibility, timing estimate, tax settings, recipient requirements, and
+         * option lifetimes. created_at (Required): string. Time the method was created. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". current_delivery_method_revision_id
+         * (Required): string. Immutable revision currently used for new quotes. Example:
+         * "dmetr_01KEZF7C001ZF9D92DY1G51GV9". delivery_method_id (Required): string. Stable
+         * delivery method ID. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". delivery_revocation_id
+         * (Required): string or null. The revocation fencing this resource's own current revision.
+         * `null` when the current revision isn't revoked. It doesn't cover dependencies: a method
+         * can be unusable while this is `null` because its rate callback revision, signing key, or
+         * a Location's address is revoked. A revocation doesn't change `status`; publish a new
+         * revision to clear it. Example: "drev_01KEZF7C007Q141XJ28YAAC87B". description
+         * (Optional): string. Optional buyer-facing description. display_position (Required):
+         * integer. Ascending display order among methods. Format: int32. external_reference_id
+         * (Optional): string. Caller-owned identifier for this resource in an external system.
+         * maxLength: 255. Example: "warehouse-1842". metadata (Optional): {@link MetadataMap}.
+         * Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys starting
+         * with flint_ are reserved for Flint and are not returned. Writes follow the limits on
+         * MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy
+         * them. name (Required): string. Merchant-facing method name. recommendation_priority
+         * (Optional): integer. Marks this method as recommended. Within each choice group, the
+         * available method with the lowest value is recommended and listed first. Ties go to the
+         * lower display_position, then the method ID. Null never recommends the method. Format:
+         * int32. status (Required): string. Current method lifecycle status. Value enum: "active",
+         * "inactive", "archived". subscription_counts (Required): {@link SubscriptionCounts}.
+         * Counts of subscriptions by status: active, past due, and paused. type (Required):
+         * string. Delivery mode this method offers. Value enum: "shipment", "local_delivery",
+         * "pickup". updated_at (Required): string. Time the method last changed. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". version (Required): integer.
+         * Optimistic-concurrency version for method writes. Format: uint64. minimum: 1.
+         */
+        "object": {
+            /**
+             * Current eligibility, pricing, origin, estimate, and tax configuration. How a
+             * delivery method works: its origin, pricing, eligibility, timing estimate, tax
+             * settings, recipient requirements, and option lifetimes.
+             */
+            "configuration": DeliveryMethodConfiguration;
+            /** Time the method was created. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Immutable revision currently used for new quotes. Example:
+             * "dmetr_01KEZF7C001ZF9D92DY1G51GV9".
+             */
+            "current_delivery_method_revision_id": string;
+            /** Stable delivery method ID. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". */
+            "delivery_method_id": string;
+            /**
+             * The revocation fencing this resource's own current revision. `null` when the current
+             * revision isn't revoked. It doesn't cover dependencies: a method can be unusable
+             * while this is `null` because its rate callback revision, signing key, or a
+             * Location's address is revoked. A revocation doesn't change `status`; publish a new
+             * revision to clear it. Example: "drev_01KEZF7C007Q141XJ28YAAC87B".
+             */
+            "delivery_revocation_id": string | null;
+            /** Optional buyer-facing description. */
+            "description"?: string;
+            /** Ascending display order among methods. Format: int32. */
+            "display_position": number;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /**
+             * Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys
+             * starting with flint_ are reserved for Flint and are not returned. Writes follow the
+             * limits on MetadataInput and MetadataPatchInput; maps written before those limits may
+             * not satisfy them.
+             */
+            "metadata"?: MetadataMap;
+            /** Merchant-facing method name. */
+            "name": string;
+            /**
+             * Marks this method as recommended. Within each choice group, the available method
+             * with the lowest value is recommended and listed first. Ties go to the lower
+             * display_position, then the method ID. Null never recommends the method. Format:
+             * int32.
+             */
+            "recommendation_priority"?: number;
+            /** Current method lifecycle status. Value enum: "active", "inactive", "archived". */
+            "status": "active" | "inactive" | "archived" | (string & {});
+            /** Counts of subscriptions by status: active, past due, and paused. */
+            "subscription_counts": SubscriptionCounts;
+            /**
+             * Delivery mode this method offers. Value enum: "shipment", "local_delivery",
+             * "pickup".
+             */
+            "type": "shipment" | "local_delivery" | "pickup" | (string & {});
+            /** Time the method last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /** Optimistic-concurrency version for method writes. Format: uint64. minimum: 1. */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<DeliveryMethod>;
     };
-    /** Value enum: "delivery_profile.updated". */
-    "event_type"?: "delivery_profile.updated";
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "delivery_method.updated". */
+    "event_type"?: "delivery_method.updated";
 });
-export type DeliveryProfilesAssignToUnconfiguredParams = (InputValue<AssignToUnconfiguredDeliveryProfileRequestInput>);
-export type DeliveryProfilesCreateParams = (InputValue<CreateDeliveryProfileRequestInput>);
-export type DeliveryProfilesDeleteParams = DeliveryLocationSetsDeleteParams;
-export type DeliveryProfilesGetParams = {
-    /** Compute catalog and delivery-configuration diagnostics for this profile. Default: false. */
-    "include_diagnostics"?: InputValue<boolean>;
+export type DeliveryMethodsCreateParams = (CreateDeliveryMethodRequestInput)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
 };
-export type DeliveryProfilesListParams = {
+export type DeliveryMethodsDeleteParams = DeliveryLocationSetsDeleteParams;
+export type DeliveryMethodsGetParams = DisputesAcceptParams;
+export type DeliveryMethodsListParams = {
     /**
      * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
      * 100. Default: 20.
      */
     "page_size"?: InputValue<number>;
     /**
-     * Opaque next_page_token from the previous response. Omit on the first request. You may change
-     * `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request
-     * context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns
-     * a validation error.
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
      */
     "page_token"?: InputValue<string>;
     /**
-     * Search across delivery_profile_id, name, and external_reference_id. Text fields match any
-     * part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the
-     * start and need the type prefix, such as dprof_01. maxLength: 255.
+     * Search across delivery_method_id, name, description, and external_reference_id. Text fields
+     * match any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs
+     * match from the start and need the type prefix, such as dmet_01. maxLength: 255.
      */
     "query"?: InputValue<string>;
     /**
      * Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
+     * Example: "warehouse-1842".
      */
     "external_reference_id"?: InputValue<string>;
     /**
-     * Filter by status. Repeat the parameter or send comma-separated values to match any of
-     * several. Omitted, the list leaves out archived rows; name archived to include them. Accepts
-     * repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in
-     * first-seen order; empty or unknown entries are rejected. Values within this filter are ORed;
-     * separate filters are ANDed. [] enum: "active", "archived". Value enum: "active", "archived".
-     * anyOf[1] (Value): Array of string. minItems: 1. [] enum: "active", "archived". anyOf[1][]
-     * (Value): string. Value enum: "active", "archived". anyOf[2] (Value): string. Value enum:
-     * "active", "archived".
+     * Filter by status. Omitted, the list leaves out archived rows; name archived to include them.
+     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
+     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "active",
+     * "inactive", "archived". Value enum: "active", "inactive", "archived". anyOf[1] (Value):
+     * Array of string. minItems: 1. [] enum: "active", "inactive", "archived". anyOf[1][] (Value):
+     * string. Value enum: "active", "inactive", "archived". anyOf[2] (Value): string. Value enum:
+     * "active", "inactive", "archived".
      */
-    "status"?: InputValue<("active" | "archived") | readonly ("active" | "archived")[]>;
+    "status"?: InputValue<("active" | "inactive" | "archived") | readonly ("active" | "inactive" | "archived")[]>;
     /**
-     * Filter by whether the profile is the current physical catalog default. Accepts a single true
-     * or false value.
+     * Filter by method type. Values are trimmed and deduplicated in first-seen order; empty or
+     * unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "shipment", "local_delivery", "pickup". Value enum: "shipment",
+     * "local_delivery", "pickup". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
+     * "shipment", "local_delivery", "pickup". anyOf[1][] (Value): string. Value enum: "shipment",
+     * "local_delivery", "pickup". anyOf[2] (Value): string. Value enum: "shipment",
+     * "local_delivery", "pickup".
      */
-    "is_default"?: InputValue<boolean>;
+    "type"?: InputValue<("shipment" | "local_delivery" | "pickup") | readonly ("shipment" | "local_delivery" | "pickup")[]>;
+    /** Filter by referenced delivery zone. Example: "dzone_01KEZF7C005RY7KGCN4M2CH5WP". */
+    "delivery_zone_id"?: InputValue<string>;
+    /** Filter by referenced delivery location set. Example: "dls_01KEZF7C00C4WWN7RYTRF55C4H". */
+    "delivery_location_set_id"?: InputValue<string>;
+    /** Filter by referenced callback endpoint. Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1". */
+    "delivery_rate_callback_id"?: InputValue<string>;
+    /** Filter by referenced Location. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
+    "location_id"?: InputValue<string>;
     /**
-     * Filter by profile resolution mode. Accepts repeated keys, comma-separated values, or
-     * mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries
-     * are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum:
-     * "quote", "manual". Value enum: "quote", "manual". anyOf[1] (Value): Array of string.
-     * minItems: 1. [] enum: "quote", "manual". anyOf[1][] (Value): string. Value enum: "quote",
-     * "manual". anyOf[2] (Value): string. Value enum: "quote", "manual".
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
      */
-    "resolution_mode"?: InputValue<("quote" | "manual") | readonly ("quote" | "manual")[]>;
+    "Flint-Merchant-Id"?: InputValue<string>;
     /**
-     * Compute catalog and delivery-configuration diagnostics for every profile returned. Default:
-     * false.
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
      */
-    "include_diagnostics"?: InputValue<boolean>;
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
 };
-export type DeliveryProfilesUpdateParams = (UpdateDeliveryProfileRequestInput);
-/** An estimate of available delivery options and their prices. */
-export type DeliveryQuote = {
-    "basis_delivery_quote_id"?: string;
-    "basis_delivery_selection_id"?: string;
+export type DeliveryMethodsUpdateParams = (UpdateDeliveryMethodRequestInput)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+/**
+ * A delivery option in a quote or preview: its price, type, timing, delivery plan, execution legs,
+ * and shipment, pickup, or local delivery details.
+ */
+export type DeliveryOptionProjection = {
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "amount_money": MoneyValue;
+    /**
+     * The estimated arrival date range for a delivery option, as calendar dates in the option's
+     * timezone.
+     */
+    "arrival_estimate"?: DeliveryArrivalEstimate;
+    /**
+     * Controls buyer instructions for a delivery option. Omit it from a method configuration to
+     * disable instruction collection.
+     */
+    "buyer_instructions": BuyerInstructionsConfig;
+    /**
+     * Flint charge tax category. Value enum: "service_fee", "shipping", "delivery", "handling",
+     * "surcharge".
+     */
+    "charge_tax_category"?: "service_fee" | "shipping" | "delivery" | "handling" | "surcharge" | (string & {});
+    /** Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D". */
+    "consumed_by_delivery_selection_id"?: string;
+    /** Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". */
+    "delivery_method_id": string;
+    /** Example: "dmetr_01KEZF7C001ZF9D92DY1G51GV9". */
+    "delivery_method_revision_id"?: string;
+    /** Example: "dopt_01KEZF7C00JM9TDZQZ5KQJ6923". */
+    "delivery_option_id"?: string;
+    /**
+     * Whether a delivery option is fulfilled in one delivery or several, with the first arrival
+     * time, completion time, and delivery count.
+     */
+    "delivery_plan": DeliveryPlan;
+    "description"?: string;
+    /** Format: int32. */
+    "display_position": number;
+    /**
+     * Where this option's items leave from, one leg per origin Location. Under method_origin
+     * routing each method uses its own origin, so a pickup option leaves from the chosen store
+     * while a shipment option can leave from a warehouse. Selecting the option makes these legs
+     * the selection's execution legs. [] (Value): {@link DeliveryQuoteExecutionLegResource}. One
+     * leg of a delivery choice group, identifying the origin Location the group's items leave
+     * from.
+     */
+    "execution_legs"?: Array<DeliveryQuoteExecutionLegResource>;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "expires_at"?: string;
+    /** Details of a local delivery option: instructions and service level. */
+    "local_delivery"?: DeliveryShipmentDetails;
+    "name": string;
+    /**
+     *  [] (Value): {@link DeliveryWindowRequest}. A time window a buyer can choose for a delivery,
+     * with its start, end, price, and the last moment it can be chosen.
+     */
+    "offered_windows"?: Array<DeliveryWindowRequest>;
+    /** Pickup details of a delivery option: the pickup mode and the pickup location. */
+    "pickup"?: DeliveryPickupDetails;
+    /**
+     * Recipient fields this option asks for. A selection can leave out required fields, but
+     * payment needs them. [] (Value): {@link DeliveryRecipientRequirement}. Says whether a
+     * recipient field (`name`, `email`, or `phone`) is required for a delivery method, and the
+     * format it must use.
+     */
+    "recipient_requirements"?: Array<DeliveryRecipientRequirement>;
+    "recommended": boolean;
+    /**
+     * Shipment-specific details of a delivery option or choice: the `service_level` and buyer
+     * `instructions`.
+     */
+    "shipment"?: DeliveryShipmentDetails;
+    "taxable": boolean;
+    /**
+     * IANA timezone for displaying window_start_at, window_end_at, and any offered windows.
+     * Example: "America/New_York".
+     */
+    "timezone"?: string;
+    /** Value enum: "shipment", "pickup", "local_delivery". */
+    "type": "shipment" | "pickup" | "local_delivery" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "window_end_at"?: string;
+    /** Value enum: "uniform", "varies". */
+    "window_pricing"?: "uniform" | "varies" | (string & {});
+    /** Value enum: "none", "offered". */
+    "window_selection": "none" | "offered" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "window_start_at"?: string;
+};
+/**
+ * A delivery method and choice group still waiting for a caller-supplied rate on a delivery quote.
+ */
+export type DeliveryPendingCallerRateRequest = {
+    /** Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8". */
+    "delivery_choice_group_id": string;
+    /** Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". */
+    "delivery_method_id": string;
+    /** Example: "dmetr_01KEZF7C001ZF9D92DY1G51GV9". */
+    "delivery_method_revision_id": string;
+};
+/**
+ * The result of a pickup locations preview: each pickup location and whether it can supply the
+ * order, with input requirements and merchant diagnostics.
+ */
+export type DeliveryPickupAvailability = {
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "evaluated_at": string;
+    /** Value enum: "complete", "incomplete", "degraded". */
+    "evaluation_status": "complete" | "incomplete" | "degraded" | (string & {});
+    /**
+     *  [] (Value): {@link DeliveryInputRequirement}. An input a delivery method needs, such as an
+     * address field or time window, with its `field_path`, purpose, and constraint.
+     */
+    "input_requirements": Array<DeliveryInputRequirement>;
+    /**
+     * Up to 25 pickup locations, nearest first when Flint can place the buyer location, otherwise
+     * in the order the pickup methods list them. maxItems: 25. [] (Value): {@link
+     * DeliveryPickupAvailabilityLocationResource}. One pickup location in a pickup locations
+     * preview, with its outcome, distance, compatible methods, and applicable quantities.
+     */
+    "locations": Array<DeliveryPickupAvailabilityLocationResource>;
+    /**
+     * Configured Locations the search left out, and listed Locations that cannot supply the
+     * order's tracked items. Always present with an API key or dashboard credential as an array,
+     * including when empty. [] (Value): {@link DeliveryPickupAvailabilityDiagnostic}. A
+     * merchant-only diagnostic about a configured pickup location that was left out of the results
+     * or cannot supply the order.
+     */
+    "merchant_diagnostics"?: Array<DeliveryPickupAvailabilityDiagnostic>;
+    /**
+     * The delivery question this preview answers. - `pickup_locations`: Lists the checkout
+     * session's pickup locations and whether each can supply its items. Value enum:
+     * "pickup_locations".
+     */
+    "mode": "pickup_locations" | (string & {});
+};
+/**
+ * Whether pickup is available at one location, chosen by `type`, with the reason when it is
+ * unavailable or cannot be calculated.
+ */
+export type DeliveryPickupAvailabilityCandidateOutcome = {
+    /**
+     *  [] (Value): {@link DeliveryAddressAdvisoryResource}. An address verification result for a
+     * delivery address or buyer location. `suggested_address` may offer a correction.
+     */
+    "address_advisories"?: Array<DeliveryAddressAdvisoryResource>;
+    /**
+     * Why Flint could not calculate pickup availability and the action that can make calculation
+     * succeed. - `eligibility_context_invalid`: Create a new checkout session, then create a new
+     * quote. - `eligibility_dependency_failure`: Retry after the eligibility dependency recovers.
+     * - `pickup_method_unavailable`: Activate or choose an available pickup method. -
+     * `inventory_dependency_failure`: Retry after inventory availability and routing recover.
+     * Value enum: "eligibility_context_invalid", "eligibility_dependency_failure",
+     * "pickup_method_unavailable", "inventory_dependency_failure".
+     */
+    "failure_category"?: "eligibility_context_invalid"
+        | "eligibility_dependency_failure"
+        | "pickup_method_unavailable"
+        | "inventory_dependency_failure"
+        | (string & {});
+    /**
+     *  [] (Value): {@link DeliveryInputRequirement}. An input a delivery method needs, such as an
+     * address field or time window, with its `field_path`, purpose, and constraint.
+     */
+    "input_requirements"?: Array<DeliveryInputRequirement>;
+    "retryable"?: boolean;
+    /** Value enum: "available", "unavailable", "input_required", "cannot_calculate". */
+    "type": "available" | "unavailable" | "input_required" | "cannot_calculate" | (string & {});
+    /**
+     * Why pickup is unavailable and the action that can make it eligible. -
+     * `eligibility_no_match`: Inspect eligibility_mismatches, then change the relevant buyer facts
+     * or method eligibility rule. - `inventory_unavailable`: The origin or pickup location cannot
+     * supply the requested inventory. Reduce the quantity, replenish inventory, or choose another
+     * origin or method. Value enum: "eligibility_no_match", "inventory_unavailable".
+     */
+    "unavailable_reason"?: "eligibility_no_match" | "inventory_unavailable" | (string & {});
+};
+/**
+ * A merchant-only diagnostic about a configured pickup location that was left out of the results
+ * or cannot supply the order.
+ */
+export type DeliveryPickupAvailabilityDiagnostic = {
+    /**
+     * Stable reason a configured pickup location was left out of the results or cannot supply the
+     * order. - `pickup_location_inactive`: The Location is inactive, so it was left out. -
+     * `pickup_location_geography_unavailable`: The Location has no usable published geography, so
+     * it was left out. - `pickup_location_inventory_unavailable`: The Location does not allocate
+     * inventory, so it cannot supply the order's tracked items. It is listed with an unavailable
+     * outcome. Items without tracked inventory need no allocation. -
+     * `pickup_location_dependency_failure`: Flint could not resolve the configured Location. Value
+     * enum: "pickup_location_inactive", "pickup_location_geography_unavailable",
+     * "pickup_location_inventory_unavailable", "pickup_location_dependency_failure".
+     */
+    "code": "pickup_location_inactive"
+        | "pickup_location_geography_unavailable"
+        | "pickup_location_inventory_unavailable"
+        | "pickup_location_dependency_failure"
+        | (string & {});
+    /** Example: "ddiag_01KEZF7C002JPVD08857RGDGPC". */
+    "diagnostic_id": string;
+    /** Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
+    "location_id": string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "occurred_at": string;
+    /** Value enum: "unavailable", "cannot_calculate". */
+    "outcome": "unavailable" | "cannot_calculate" | (string & {});
+    /** Value enum: "review_configuration", "retry". */
+    "recommended_action": "review_configuration" | "retry" | (string & {});
+    "retryable": boolean;
+    /** Value enum: "location". */
+    "scope": "location" | (string & {});
+    "summary": string;
+};
+/**
+ * One pickup location in a pickup locations preview, with its outcome, distance, compatible
+ * methods, and applicable quantities.
+ */
+export type DeliveryPickupAvailabilityLocationResource = {
+    /**
+     *  [] (Value): {@link DeliveryQuoteLineItemResource}. The quantity of an order line item, or
+     * of one of its bundle components, that a pickup location applies to.
+     */
+    "applicable_quantities": Array<DeliveryQuoteLineItemResource>;
+    /**
+     * Whether pickup is available at one location, chosen by `type`, with the reason when it is
+     * unavailable or cannot be calculated.
+     */
+    "candidate_outcome": DeliveryPickupAvailabilityCandidateOutcome;
+    /**
+     *  [] (Value): {@link DeliveryPickupAvailabilityMethodResource}. A pickup delivery method,
+     * with its revision, that can serve a pickup location.
+     */
+    "compatible_methods": Array<DeliveryPickupAvailabilityMethodResource>;
+    /**
+     * Straight-line distance in meters from the buyer location. A buyer location with only a
+     * postal code is measured from the postal code's center. Omitted when Flint cannot place the
+     * buyer location or the store.
+     */
+    "distance_meters"?: number;
+    /** The ID, name, and address of a pickup location in a pickup locations preview. */
+    "location": DeliveryPickupAvailabilityLocationSummary;
+};
+/** The ID, name, and address of a pickup location in a pickup locations preview. */
+export type DeliveryPickupAvailabilityLocationSummary = {
+    /**
+     * A postal address. Every address has country. Addresses Flint checked as complete (customer
+     * and saved addresses, merchant, location, invoice, order delivery destination, tax identity,
+     * fulfillment recipient and pickup addresses) always have line1 and city, and US ones always
+     * have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax
+     * locations hold only what was provided, such as postal_code and country.
+     */
+    "address"?: Address;
+    /** Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
+    "location_id": string;
+    "name": string;
+};
+/**
+ * A maximum distance from the buyer location, as a value and unit, that limits which pickup
+ * locations a preview returns.
+ */
+export type DeliveryPickupAvailabilityMaximumDistanceRequestInput = {
+    /** Value enum: "meter", "kilometer", "mile". */
+    "unit": "meter" | "kilometer" | "mile";
+    /**
+     * Maximum distance from the buyer location, greater than zero, in the selected unit.
+     * exclusiveMinimum: 0.
+     */
+    "value": number;
+};
+/** A pickup delivery method, with its revision, that can serve a pickup location. */
+export type DeliveryPickupAvailabilityMethodResource = {
+    /** Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". */
+    "delivery_method_id": string;
+    /** Example: "dmetr_01KEZF7C001ZF9D92DY1G51GV9". */
+    "delivery_method_revision_id": string;
+};
+/** Pickup details of a delivery option: the pickup mode and the pickup location. */
+export type DeliveryPickupDetails = {
+    /**
+     * A pickup location shown on a delivery option: its name, address, instructions, and timezone.
+     */
+    "location"?: DeliveryLocationSummaryResource;
+    /** Value enum: "in_store", "curbside", "locker", "other". */
+    "pickup_mode": "in_store" | "curbside" | "locker" | "other" | (string & {});
+};
+/**
+ * Whether a delivery option is fulfilled in one delivery or several, with the first arrival time,
+ * completion time, and delivery count.
+ */
+export type DeliveryPlan = {
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "complete_by_at"?: string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "first_arrival_at"?: string;
+    "planned_delivery_count"?: number;
+    /** Value enum: "single_delivery", "multiple_deliveries". */
+    "type": "single_delivery" | "multiple_deliveries" | (string & {});
+};
+/**
+ * A delivery eligibility condition that matches the address postal code against exact or prefix
+ * `values`.
+ */
+export type DeliveryPostalCodeCondition = {
+    /**
+     * Address facts tested by this condition. destination_address is the shipping destination.
+     * buyer_location is the buyer's current pickup or local-delivery location. Default:
+     * "destination_address". Value enum: "destination_address", "buyer_location".
+     */
+    "subject"?: "destination_address" | "buyer_location" | (string & {});
+    /**
+     * Postal codes, each with its country. Flint compares codes in uppercase without spaces or
+     * hyphens. An exact value matches that code, and a prefix value matches every code that starts
+     * with it. A five-digit ZIP code in the US or a US territory also matches the ZIP+4 codes
+     * within it, so 07030 matches 07030-5788, which address verification returns for a full
+     * address. A ZIP+4 value matches only that ZIP+4. [] (Value): {@link DeliveryPostalCodeValue}.
+     * A postal code or postal code prefix with its country, used in a postal code condition.
+     */
+    "values": Array<DeliveryPostalCodeValue>;
+};
+/**
+ * A delivery eligibility condition that matches the address postal code against exact or prefix
+ * `values`.
+ */
+export type DeliveryPostalCodeConditionRequestInput = {
+    /**
+     * Address facts tested by this condition. destination_address is the shipping destination.
+     * buyer_location is the buyer's current pickup or local-delivery location. Default:
+     * "destination_address". Value enum: "destination_address", "buyer_location".
+     */
+    "subject"?: "destination_address" | "buyer_location";
+    /**
+     * Postal codes, each with its country. Flint compares codes in uppercase without spaces or
+     * hyphens. An exact value matches that code, and a prefix value matches every code that starts
+     * with it. A five-digit ZIP code in the US or a US territory also matches the ZIP+4 codes
+     * within it, so 07030 matches 07030-5788, which address verification returns for a full
+     * address. A ZIP+4 value matches only that ZIP+4. [] (Value): {@link
+     * DeliveryPostalCodeValueRequestInput}. A postal code or postal code prefix with its country,
+     * used in a postal code condition.
+     */
+    "values": Array<DeliveryPostalCodeValueRequestInput>;
+};
+/** A postal code or postal code prefix with its country, used in a postal code condition. */
+export type DeliveryPostalCodeValue = {
+    /**
+     * ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example:
+     * "US".
+     */
+    "country": string;
+    /** Default: "exact". Value enum: "exact", "prefix". */
+    "type"?: "exact" | "prefix" | (string & {});
+    /** minLength: 1. */
+    "value": string;
+};
+/** A postal code or postal code prefix with its country, used in a postal code condition. */
+export type DeliveryPostalCodeValueRequestInput = {
+    /**
+     * ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example:
+     * "US".
+     */
+    "country": string;
+    /** Default: "exact". Value enum: "exact", "prefix". */
+    "type"?: "exact" | "prefix";
+    /** minLength: 1. */
+    "value": string;
+};
+/**
+ * The delivery options and prices Flint would offer for the supplied items and buyer location,
+ * with input requirements and merchant diagnostics.
+ */
+export type DeliveryPreview = {
     /**
      * Omitted for a checkout session credential that doesn't act for the customer the buyer
      * verified. The normalized buyer address or coordinate used for this quote.
      */
     "buyer_location"?: DeliveryBuyerLocationResource;
     /**
-     * Buyer-safe reasons no delivery option was available. Merchant configuration details are
-     * never included. [] enum: "address_required", "address_incomplete", "outside_delivery_area",
-     * "no_pickup_location_nearby", "unavailable_for_these_items", "temporarily_unavailable". []
-     * (Value): string. Value enum: "address_required", "address_incomplete",
-     * "outside_delivery_area", "no_pickup_location_nearby", "unavailable_for_these_items",
-     * "temporarily_unavailable".
+     *  [] (Value): {@link DeliveryPreviewChoiceGroupResource}. One group of order items in a
+     * delivery options preview, with the options a buyer could choose, its availability status,
+     * and any input still needed.
      */
-    "buyer_reasons": Array<"address_required"
-        | "address_incomplete"
-        | "outside_delivery_area"
-        | "no_pickup_location_nearby"
-        | "unavailable_for_these_items"
-        | "temporarily_unavailable"
-        | (string & {})>;
-    /** Always present with an API key or dashboard credential. */
-    "checkout_session_id"?: string;
-    /**
-     *  [] (Value): {@link DeliveryQuoteChoiceGroupResource}. One group of order items in a
-     * delivery quote, with the delivery options the buyer can choose, its availability status, and
-     * any input still needed.
-     */
-    "choice_groups": Array<DeliveryQuoteChoiceGroupResource>;
-    /** When Flint created this quote. Format: date-time. */
-    "created_at": string;
-    "delivery_quote_id": string;
-    /**
-     * Version of the order's delivery details evaluated by this quote. Always present with an API
-     * key or dashboard credential. Format: uint64. minimum: 0.
-     */
-    "delivery_quote_version"?: number;
-    /** The delivery revocation that revoked this quote, or null when no revocation applies. */
-    "delivery_revocation_id": string | null;
+    "choice_groups": Array<DeliveryPreviewChoiceGroupResource>;
+    /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */
+    "currency": string;
+    /**  [] (Value): string. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". */
+    "delivery_method_ids": Array<string>;
     /**
      * Omitted for a checkout session credential that doesn't act for the customer the buyer
      * verified. A postal address. Every address has country. Addresses Flint checked as complete
@@ -298,21 +1020,11 @@ export type DeliveryQuote = {
      * postal-code tax locations hold only what was provided, such as postal_code and country.
      */
     "destination_address"?: Address;
-    /**
-     * Version of the checkout eligibility context evaluated by this quote. Always present with an
-     * API key or dashboard credential. Format: uint64. minimum: 0.
-     */
-    "eligibility_context_version"?: number;
-    /** RFC3339 timestamp. Format: date-time. */
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "evaluated_at": string;
     /** Value enum: "complete", "incomplete", "degraded". */
     "evaluation_status": "complete" | "incomplete" | "degraded" | (string & {});
-    /**
-     * Authoritative expiry for this quote: 24 hours when every method uses fixed, tiered, or
-     * rate_table pricing, and at most 15 minutes otherwise. A cart with tracked inventory shortens
-     * it to the 5 minutes its stock check stays valid. Read this value from every response.
-     * Format: date-time.
-     */
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "expires_at": string;
     /**
      * Inputs the delivery methods need. A quote requirement, such as the destination address, is
@@ -326,71 +1038,30 @@ export type DeliveryQuote = {
      */
     "input_requirements": Array<DeliveryInputRequirement>;
     /**
-     * Always present with an API key or dashboard credential. [] (Value): {@link
-     * DeliveryMerchantDiagnostic}. A merchant-only diagnostic explaining why a delivery method
-     * produced no option, with its outcome, recommended action, and eligibility mismatches.
+     *  [] (Value): {@link CreateOrderLineItem}. A line item in a delivery preview: a catalog
+     * variant, a bundle, or a custom item with a name and unit price.
+     */
+    "line_items": Array<CreateOrderLineItem>;
+    /**
+     * Present for merchant callers as an array, including when empty. Absent for buyer callers. []
+     * (Value): {@link DeliveryMerchantDiagnostic}. A merchant-only diagnostic explaining why a
+     * delivery method produced no option, with its outcome, recommended action, and eligibility
+     * mismatches.
      */
     "merchant_diagnostics"?: Array<DeliveryMerchantDiagnostic>;
     /**
-     *  [] (Value): {@link DeliveryQuoteMethodResource}. A delivery method offered in a delivery
-     * quote, with its name, type, display position, and revision.
+     * The delivery question this preview answers. - `delivery_options`: Evaluates delivery methods
+     * and prices for the supplied items and buyer location. Value enum: "delivery_options".
      */
-    "methods"?: Array<DeliveryQuoteMethodResource>;
-    /** Always present with an API key or dashboard credential. */
-    "order_id"?: string;
-    /**
-     *  [] (Value): {@link DeliveryPendingCallerRateRequest}. A delivery method and choice group
-     * still waiting for a caller-supplied rate on a delivery quote.
-     */
-    "pending_caller_rate_requests"?: Array<DeliveryPendingCallerRateRequest>;
-    /**
-     * Why the quote was revoked: the reason on the delivery revocation that fenced a dependency
-     * this quote used. Present when status is revoked. Value enum: "unsafe_configuration",
-     * "location_unavailable", "credential_compromise", "legal_requirement", "other".
-     */
-    "revocation_reason"?: "unsafe_configuration"
-        | "location_unavailable"
-        | "credential_compromise"
-        | "legal_requirement"
-        | "other"
-        | (string & {});
-    /** RFC3339 timestamp. Format: date-time. */
-    "revoked_at"?: string;
-    "selection_required": boolean;
-    /**
-     * Value enum: "checkout_changed", "selection_changed", "eligibility_changed",
-     * "inventory_changed", "authority_changed", "superseded_by_priced_quote".
-     */
-    "stale_reason"?: "checkout_changed"
-        | "selection_changed"
-        | "eligibility_changed"
-        | "inventory_changed"
-        | "authority_changed"
-        | "superseded_by_priced_quote"
-        | (string & {});
-    /**
-     * Whether the quote can be selected now, derived from the current checkout or renewal order on
-     * every read. Value enum: "active", "consumed", "stale", "expired", "revoked".
-     */
-    "status": "active" | "consumed" | "stale" | "expired" | "revoked" | (string & {});
-    /**
-     * The priced delivery quote that replaced this quote. Its basis_delivery_quote_id names this
-     * quote.
-     */
-    "superseded_by_delivery_quote_id"?: string;
+    "mode": "delivery_options" | (string & {});
+    /** Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
+    "pickup_location_id"?: string;
 };
 /**
- * One group of order items in a delivery quote, with the delivery options the buyer can choose,
+ * One group of order items in a delivery options preview, with the options a buyer could choose,
  * its availability status, and any input still needed.
  */
-export type DeliveryQuoteChoiceGroupResource = {
-    /**
-     * Buyer-actionable address verification results that affected this choice group. A
-     * suggested_address is an explicit correction the buyer may confirm; Flint does not apply it
-     * silently. [] (Value): {@link DeliveryAddressAdvisoryResource}. An address verification
-     * result for a delivery address or buyer location. `suggested_address` may offer a correction.
-     */
-    "address_advisories"?: Array<DeliveryAddressAdvisoryResource>;
+export type DeliveryPreviewChoiceGroupResource = {
     /**  [] (Value): string. */
     "allowed_types"?: Array<string>;
     /** Value enum: "ready", "needs_input", "needs_checkout_context", "unavailable". */
@@ -400,8 +1071,7 @@ export type DeliveryQuoteChoiceGroupResource = {
      * method for a choice group, selected by `type`: available with an option, unavailable, input
      * required, cannot calculate, or requires checkout context.
      */
-    "candidate_outcomes"?: Record<string, DeliveryCandidateOutcomeResource>;
-    "delivery_choice_group_id": string;
+    "candidate_outcomes": Record<string, DeliveryCandidateOutcomeResource>;
     /** Value enum: "complete", "incomplete", "degraded". */
     "evaluation_status": "complete" | "incomplete" | "degraded" | (string & {});
     /**
@@ -423,903 +1093,1525 @@ export type DeliveryQuoteChoiceGroupResource = {
      */
     "line_items": Array<DeliveryQuoteLineItemResource>;
     /**
-     * Types of the delivery methods that can serve this group's items, each listed once, in the
-     * order the methods display. A type is listed before its options are priced, such as a local
-     * delivery that waits for the buyer's address, and stays listed while its methods need more
-     * input or cannot serve the current input. options lists what the buyer can choose now. A
-     * method whose type these items do not allow is left out, and the list is empty when no method
-     * can serve them. [] enum: "shipment", "pickup", "local_delivery". [] (Value): string. Value
-     * enum: "shipment", "pickup", "local_delivery".
-     */
-    "method_types": Array<"shipment" | "pickup" | "local_delivery" | (string & {})>;
-    /**
      *  [] (Value): {@link DeliveryOptionProjection}. A delivery option in a quote or preview: its
      * price, type, timing, delivery plan, execution legs, and shipment, pickup, or local delivery
      * details.
      */
     "options": Array<DeliveryOptionProjection>;
-    "previously_selected_delivery_method_id"?: string;
-    "stable_key": string;
 };
-/**
- * One leg of a delivery choice group, identifying the origin Location the group's items leave
- * from.
- */
-export type DeliveryQuoteExecutionLegResource = {
-    "delivery_execution_leg_id": string;
-    "origin_location_id": string;
-};
-/**
- * An order line item, or one bundle component of it, and the quantity covered by a delivery choice
- * group.
- */
-export type DeliveryQuoteLineItemResource = {
-    "bundle_component_id"?: string;
-    "order_line_item_id": string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quantity": number;
-};
-/** A page of `DeliveryQuote` objects. */
-export type DeliveryQuoteListResponse = {
+/** The response for: Create delivery preview. */
+export type DeliveryPreviewResponse = {
     /**
-     *  [] (Value): {@link DeliveryQuote}. An estimate of available delivery options and their
-     * prices.
+     * Resource, collection, or operation result returned by this request. oneOf[1] (Value): {@link
+     * DeliveryPreview}. The delivery options and prices Flint would offer for the supplied items
+     * and buyer location, with input requirements and merchant diagnostics. oneOf[2] (Value):
+     * {@link DeliveryPickupAvailability}. The result of a pickup locations preview: each pickup
+     * location and whether it can supply the order, with input requirements and merchant
+     * diagnostics.
      */
-    "data": Array<DeliveryQuote>;
+    "data": ((DeliveryPreview) | (DeliveryPickupAvailability) | (Record<string, unknown>));
     /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
      */
     "meta"?: ResponseMeta;
-    "next_page_token"?: string;
     /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
     "request_id": string;
 };
 /**
- * A delivery method offered in a delivery quote, with its name, type, display position, and
- * revision.
+ * Chooses where a delivery options preview routes inventory from: a fixed Location, an inventory
+ * allocation policy, or one policy revision.
  */
-export type DeliveryQuoteMethodResource = {
-    "delivery_method_id": string;
-    "delivery_method_revision_id": string;
-    "description"?: string;
-    /** Format: int32. */
-    "display_position": number;
-    "name": string;
-    /**
-     * Marks this method as recommended. Within each choice group, the available method with the
-     * lowest value is recommended and listed first. Ties go to the lower display_position, then
-     * the method ID. Null never recommends the method. Format: int32.
-     */
-    "recommendation_priority"?: number;
-    /** Value enum: "shipment", "pickup", "local_delivery". */
-    "type": "shipment" | "pickup" | "local_delivery" | (string & {});
-};
-/** A response containing `DeliveryQuote` data. */
-export type DeliveryQuoteResponse = {
-    /** An estimate of available delivery options and their prices. */
-    "data": DeliveryQuote;
-    /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type DeliveryQuotesGetParams = {};
-export type DeliveryQuotesListParams = {
-    /** Filter by checkout session. Example: "cs_01ARZ3NDEKTSV4RRFFQ69G5FAV". */
-    "checkout_session_id"?: InputValue<string>;
-    /** Filter by order. Example: "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV". */
-    "order_id"?: InputValue<string>;
-    /**
-     * Filter by lifecycle status. Accepts repeated keys, comma-separated values, or mixtures.
-     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
-     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "active",
-     * "consumed", "stale", "expired", "revoked". Value enum: "active", "consumed", "stale",
-     * "expired", "revoked". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "active",
-     * "consumed", "stale", "expired", "revoked". anyOf[1][] (Value): string. Value enum: "active",
-     * "consumed", "stale", "expired", "revoked". anyOf[2] (Value): string. Value enum: "active",
-     * "consumed", "stale", "expired", "revoked".
-     */
-    "status"?: InputValue<("active" | "consumed" | "stale" | "expired" | "revoked")
-        | readonly ("active" | "consumed" | "stale" | "expired" | "revoked")[]>;
-    /**
-     * Filter by evaluation status. Accepts repeated keys, comma-separated values, or mixtures.
-     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
-     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum:
-     * "complete", "incomplete", "degraded". Value enum: "complete", "incomplete", "degraded".
-     * anyOf[1] (Value): Array of string. minItems: 1. [] enum: "complete", "incomplete",
-     * "degraded". anyOf[1][] (Value): string. Value enum: "complete", "incomplete", "degraded".
-     * anyOf[2] (Value): string. Value enum: "complete", "incomplete", "degraded".
-     */
-    "evaluation_status"?: InputValue<("complete" | "incomplete" | "degraded") | readonly ("complete" | "incomplete" | "degraded")[]>;
-    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque next_page_token from the previous response. Omit on the first request. You may change
-     * `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request
-     * context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns
-     * a validation error.
-     */
-    "page_token"?: InputValue<string>;
-};
-/**
- * Eligibility condition that matches when the destination or buyer location is within
- * `maximum_distance` of an origin, measured in a straight line.
- */
-export type DeliveryRadiusCondition = {
-    /** A distance as a `value` in meters, kilometers, or miles. */
-    "maximum_distance": DeliveryDistance;
-    /** Default: "straight_line". Value enum: "straight_line". */
-    "measurement"?: "straight_line" | (string & {});
-    /**
-     * The point a radius condition measures from: a specific Location (`location_id`) or the
-     * delivery method's own origin (`method_origin`).
-     */
-    "origin": DeliveryRadiusOrigin;
-    /**
-     * Address facts tested by this condition. destination_address is the shipping destination.
-     * buyer_location is the buyer's current pickup or local-delivery location. Default:
-     * "destination_address". Value enum: "destination_address", "buyer_location".
-     */
-    "subject"?: "destination_address" | "buyer_location" | (string & {});
-};
-/**
- * Eligibility condition that matches when the destination or buyer location is within
- * `maximum_distance` of an origin, measured in a straight line.
- */
-export type DeliveryRadiusConditionInput = {
-    /** A distance as a `value` in meters, kilometers, or miles. */
-    "maximum_distance": DeliveryDistanceInput;
-    /** Default: "straight_line". Value enum: "straight_line". */
-    "measurement"?: "straight_line";
-    /**
-     * The point a radius condition measures from: a specific Location (`location_id`) or the
-     * delivery method's own origin (`method_origin`).
-     */
-    "origin": DeliveryRadiusOriginInput;
-    /**
-     * Address facts tested by this condition. destination_address is the shipping destination.
-     * buyer_location is the buyer's current pickup or local-delivery location. Default:
-     * "destination_address". Value enum: "destination_address", "buyer_location".
-     */
-    "subject"?: "destination_address" | "buyer_location";
-};
-/**
- * The point a radius condition measures from: a specific Location (`location_id`) or the delivery
- * method's own origin (`method_origin`).
- */
-export type DeliveryRadiusOrigin = {
-    /** minLength: 1. */
+export type DeliveryPreviewRoutingSourceInput = {
+    /** minLength: 1. Example: "invp_01KEZF7C0076BZX855WAGC5SQK". */
+    "inventory_allocation_policy_id"?: string;
+    /** minLength: 1. Example: "invpv_01KEZF7C00JSFTTBKC1JY614JJ". */
+    "inventory_allocation_policy_revision_id"?: string;
+    /** minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
     "location_id"?: string;
-    "method_origin"?: boolean;
+    /** Value enum: "fixed_location", "policy", "policy_revision". */
+    "type": "fixed_location" | "policy" | "policy_revision";
 };
-/**
- * The point a radius condition measures from: a specific Location (`location_id`) or the delivery
- * method's own origin (`method_origin`).
- */
-export type DeliveryRadiusOriginInput = DeliveryRadiusOrigin;
-/** An endpoint that supplies delivery rates. */
-export type DeliveryRateCallback = {
-    /** Consecutive callback failures since the last successful response. minimum: 0. */
-    "circuit_failure_count": number;
-    /** Value enum: "closed", "open", "half_open". */
-    "circuit_state": "closed" | "open" | "half_open" | (string & {});
-    /**
-     * Settings for a delivery rate callback: the endpoint `url` Flint calls, request timeout,
-     * request and response size limits, redirect policy, and whether previews can use it.
-     */
-    "configuration": DeliveryRateCallbackConfiguration;
-    /** RFC3339 timestamp. Format: date-time. */
-    "created_at": string;
-    "current_delivery_rate_callback_revision_id": string;
-    "delivery_rate_callback_id": string;
-    /** Caller-owned identifier for this resource in an external system. maxLength: 255. */
-    "external_reference_id"?: string;
-    /** Initial HMAC signing key ID. Returned only by create when hmac is included. */
-    "key_id"?: string;
-    "name": string;
-    /**
-     * Initial HMAC shared secret. Returned only by the create response when signing_methods
-     * includes hmac.
-     */
-    "secret"?: string;
-    /**
-     * Signing methods enabled for callback HTTP requests. jwt sends Authorization: Bearer with a
-     * Flint-signed token whose aud is this delivery_rate_callback_id; hmac sends webhook-signature
-     * and signing key IDs. minItems: 1. uniqueItems: true. Example: ["jwt"]. [] enum: "jwt",
-     * "hmac". [] (Value): string. jwt uses Flint's public JWKS. hmac uses a shared secret and
-     * Standard Webhooks v1. Value enum: "jwt", "hmac".
-     */
-    "signing_methods": Array<"jwt" | "hmac" | (string & {})>;
-    /** Value enum: "active", "inactive", "archived". */
-    "status": "active" | "inactive" | "archived" | (string & {});
-    /** RFC3339 timestamp. Format: date-time. */
-    "updated_at": string;
-    /** Format: uint64. minimum: 1. */
-    "version": number;
-};
-export type DeliveryRateCallbackActivatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": DeliveryRateCallback;
-    };
-    "event_type"?: "delivery_rate_callback.activated";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": DeliveryRateCallback;
-    };
-    "event_type"?: "delivery_rate_callback.activated";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
+export type DeliveryPreviewsCreateParams = (CreateDeliveryPreviewRequestInput)
     & {
-    "event_type": "delivery_rate_callback.activated";
-});
-/**
- * The `delivery_rate_callback.activated` webhook payload for the `installed_merchants` event
- * source. Fields shared by partner webhook payloads.
- */
-export type DeliveryRateCallbackActivatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
     /**
-     *  object (Required): {@link DeliveryRateCallback}. An endpoint that supplies delivery rates.
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
      */
-    "data"?: {
-        /** An endpoint that supplies delivery rates. */
-        "object": DeliveryRateCallback;
-    };
-    /** Value enum: "delivery_rate_callback.activated". */
-    "event_type"?: "delivery_rate_callback.activated";
+    "Flint-Merchant-Id"?: InputValue<string>;
     /**
-     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
-     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
-     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
      */
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        /** Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        /** Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * The `delivery_rate_callback.activated` webhook payload for the `merchant` event source. Fields
- * shared by merchant webhook payloads.
- */
-export type DeliveryRateCallbackActivatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
+    "Flint-Mode"?: InputValue<"test" | "live">;
     /**
-     *  object (Required): {@link DeliveryRateCallback}. An endpoint that supplies delivery rates.
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
      */
-    "data"?: {
-        /** An endpoint that supplies delivery rates. */
-        "object": DeliveryRateCallback;
-    };
-    /** Value enum: "delivery_rate_callback.activated". */
-    "event_type"?: "delivery_rate_callback.activated";
-});
-export type DeliveryRateCallbackArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": DeliveryRateCallback;
-    };
-    "event_type"?: "delivery_rate_callback.archived";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": DeliveryRateCallback;
-    };
-    "event_type"?: "delivery_rate_callback.archived";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "delivery_rate_callback.archived";
-});
-/**
- * The `delivery_rate_callback.archived` webhook payload for the `installed_merchants` event
- * source. Fields shared by partner webhook payloads.
- */
-export type DeliveryRateCallbackArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link DeliveryRateCallback}. An endpoint that supplies delivery rates.
-     */
-    "data"?: {
-        /** An endpoint that supplies delivery rates. */
-        "object": DeliveryRateCallback;
-    };
-    /** Value enum: "delivery_rate_callback.archived". */
-    "event_type"?: "delivery_rate_callback.archived";
-    /**
-     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
-     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
-     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        /** Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        /** Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * The `delivery_rate_callback.archived` webhook payload for the `merchant` event source. Fields
- * shared by merchant webhook payloads.
- */
-export type DeliveryRateCallbackArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link DeliveryRateCallback}. An endpoint that supplies delivery rates.
-     */
-    "data"?: {
-        /** An endpoint that supplies delivery rates. */
-        "object": DeliveryRateCallback;
-    };
-    /** Value enum: "delivery_rate_callback.archived". */
-    "event_type"?: "delivery_rate_callback.archived";
-});
-/**
- * Settings for a delivery rate callback: the endpoint `url` Flint calls, request timeout, request
- * and response size limits, redirect policy, and whether previews can use it.
- */
-export type DeliveryRateCallbackConfiguration = {
-    /** Format: int64. minimum: 1. maximum: 1048576. Default: 262144. */
-    "maximum_request_bytes"?: number;
-    /** Format: int64. minimum: 1. maximum: 1048576. Default: 262144. */
-    "maximum_response_bytes"?: number;
-    /** Default: false. */
-    "preview_enabled"?: boolean;
-    /** Default: "reject". Value enum: "reject". */
-    "redirect_policy"?: "reject" | (string & {});
-    /** minimum: 0.1. maximum: 10. Default: 2. */
-    "request_timeout_seconds"?: number;
-    /** minLength: 1. */
-    "url": string;
+    "Flint-Sandbox-Id"?: InputValue<string>;
 };
 /**
- * Settings for a delivery rate callback: the endpoint `url` Flint calls, request timeout, request
- * and response size limits, redirect policy, and whether previews can use it.
+ * One rate in a rate table pricing strategy: a `when` condition, a `priority`, and a price per
+ * currency. The first matching rate by priority sets the price.
  */
-export type DeliveryRateCallbackConfigurationInput = {
-    /** Format: int64. minimum: 1. maximum: 1048576. Default: 262144. */
-    "maximum_request_bytes"?: number;
-    /** Format: int64. minimum: 1. maximum: 1048576. Default: 262144. */
-    "maximum_response_bytes"?: number;
-    /** Default: false. */
-    "preview_enabled"?: boolean;
-    /** Default: "reject". Value enum: "reject". */
-    "redirect_policy"?: "reject";
-    /** minimum: 0.1. maximum: 10. Default: 2. */
-    "request_timeout_seconds"?: number;
-    /** minLength: 1. */
-    "url": string;
+export type DeliveryPricingRate = {
+    /**
+     *  * (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus an
+     * ISO 4217 currency code.
+     */
+    "currency_options": Record<string, MoneyValue>;
+    /** Example: "drate_01KEZF7C00FD0B4QEC0M00MJ4S". */
+    "delivery_rate_id": string;
+    /**
+     * Rates are checked from the highest priority to the lowest. The first matching rate sets the
+     * price. Priorities must be unique and at least 0. Format: int32.
+     */
+    "priority": number;
+    /**
+     *  anyOf[1] (Value): {@link DeliveryEligibilityExpression}. A boolean expression containing
+     * exactly one operator or typed condition at each node. Expressions support at most 8 levels
+     * and 100 total nodes. anyOf[2] (Value): null.
+     */
+    "when": ((DeliveryEligibilityExpression) | (null) | (unknown));
 };
 /**
- * Only the keys you send change; keys you leave out keep their current values. Null restores a
- * key's default, as each field describes. The result must be a configuration you could create.
- * Requires expected_version. An empty configuration is invalid. minProperties: 1.
+ * A rate to add when creating a rate table pricing strategy: a `when` condition, a `priority`, and
+ * a price per currency.
  */
-export type DeliveryRateCallbackConfigurationPatchRequest = {
-    /** Null restores 262144 bytes. Format: int64. minimum: 1. maximum: 1048576. */
-    "maximum_request_bytes"?: number | null;
-    /** Null restores 262144 bytes. Format: int64. minimum: 1. maximum: 1048576. */
-    "maximum_response_bytes"?: number | null;
-    /** Null restores false. */
-    "preview_enabled"?: boolean | null;
-    /** Null restores reject. Value enum: "reject", null. */
-    "redirect_policy"?: "reject" | null | (string & {}) | null;
-    /** Null restores 2 seconds. minimum: 0.1. maximum: 10. */
-    "request_timeout_seconds"?: number | null;
-    /** Null is invalid. minLength: 1. */
-    "url"?: string;
+export type DeliveryPricingRateCreateRequest = {
+    /**
+     *  * (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus an
+     * ISO 4217 currency code.
+     */
+    "currency_options": Record<string, MoneyValue>;
+    /**
+     * Rates are checked from the highest priority to the lowest. The first matching rate sets the
+     * price. Priorities must be unique and at least 0. Format: int32.
+     */
+    "priority": number;
+    /**
+     * A boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes.
+     */
+    "when": DeliveryEligibilityExpressionRequest;
 };
 /**
- * Only the keys you send change; keys you leave out keep their current values. Null restores a
- * key's default, as each field describes. The result must be a configuration you could create.
- * Requires expected_version. An empty configuration is invalid. minProperties: 1.
+ * A rate to add when creating a rate table pricing strategy: a `when` condition, a `priority`, and
+ * a price per currency.
  */
-export type DeliveryRateCallbackConfigurationPatchRequestInput = {
-    /** Null restores 262144 bytes. Format: int64. minimum: 1. maximum: 1048576. */
-    "maximum_request_bytes"?: number | null;
-    /** Null restores 262144 bytes. Format: int64. minimum: 1. maximum: 1048576. */
-    "maximum_response_bytes"?: number | null;
-    /** Null restores false. */
-    "preview_enabled"?: boolean | null;
-    /** Null restores reject. Value enum: "reject", null. */
-    "redirect_policy"?: "reject" | null;
-    /** Null restores 2 seconds. minimum: 0.1. maximum: 10. */
-    "request_timeout_seconds"?: number | null;
-    /** Null is invalid. minLength: 1. */
-    "url"?: string;
+export type DeliveryPricingRateCreateRequestInput = {
+    /**
+     *  * (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "currency_options": Record<string, MoneyValueInput>;
+    /**
+     * Rates are checked from the highest priority to the lowest. The first matching rate sets the
+     * price. Priorities must be unique and at least 0. Format: int32.
+     */
+    "priority": number;
+    /**
+     * A boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes.
+     */
+    "when": DeliveryEligibilityExpressionRequestInput;
 };
 /**
- * Result of checking the connection to a delivery rate callback endpoint, with its status,
- * latency, HTTP status code, and failure category if it failed.
+ * A rate in a rate table pricing strategy you send when updating a delivery method. Include
+ * `delivery_rate_id` to keep or update an existing rate.
  */
-export type DeliveryRateCallbackConnectionCheck = {
-    /** RFC3339 timestamp. Format: date-time. */
-    "checked_at": string;
-    "delivery_rate_callback_id": string;
-    "delivery_rate_callback_revision_id": string;
+export type DeliveryPricingRateRequest = {
     /**
-     * Why the callback connection check failed and the action that can make the next check
-     * succeed. - `authentication_or_http_error`: Return a 2xx status after verifying the enabled
-     * signing methods. For a 401, check JWT verification with Flint's JWKS, issuer,
-     * delivery_rate_callback_id audience, expiration, and body_sha256 of the exact request bytes.
-     * For HMAC, check the shared secret and verify the raw body before parsing it. -
-     * `blocked_target`: Use a public HTTPS callback target allowed by Flint's outbound network
-     * policy. - `connection_error`: Restore network connectivity to the callback host, then test
-     * again. - `dns_error`: Fix the callback hostname or its DNS records, then test again. -
-     * `invalid_response`: Return a 2xx application/json response within maximum_response_bytes.
-     * For a test delivery, the body must also follow the callback response rules. Then test again.
-     * - `request_error`: Flint couldn't complete the request for another reason. Check the URL and
-     * your server logs, then test again. - `timeout`: Acknowledge the callback within its
-     * configured timeout, then test again. - `tls_error`: Fix the callback certificate and TLS
-     * configuration, then test again. Value enum: "authentication_or_http_error",
-     * "blocked_target", "connection_error", "dns_error", "invalid_response", "request_error",
-     * "timeout", "tls_error".
+     *  * (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus an
+     * ISO 4217 currency code.
      */
-    "failure_category"?: "authentication_or_http_error"
-        | "blocked_target"
-        | "connection_error"
-        | "dns_error"
-        | "invalid_response"
-        | "request_error"
-        | "timeout"
-        | "tls_error"
-        | (string & {});
-    "http_status_code"?: number;
+    "currency_options": Record<string, MoneyValue>;
     /**
-     * ID of the HMAC signing key that signed this request. Empty for a JWT-only callback, which
-     * has no shared secret.
+     * Stable rate identifier returned by Flint. Include it when updating or retaining an existing
+     * rate. minLength: 1. Example: "drate_01KEZF7C00FD0B4QEC0M00MJ4S".
      */
-    "key_id": string;
-    /** Format: int64. */
-    "latency_milliseconds": number;
-    /** Value enum: "succeeded", "failed". */
-    "status": "succeeded" | "failed" | (string & {});
-};
-/** A response containing `DeliveryRateCallbackConnectionCheck` data. */
-export type DeliveryRateCallbackConnectionCheckResponse = {
+    "delivery_rate_id"?: string;
     /**
-     * Result of checking the connection to a delivery rate callback endpoint, with its status,
-     * latency, HTTP status code, and failure category if it failed.
+     * Rates are checked from the highest priority to the lowest. The first matching rate sets the
+     * price. Priorities must be unique and at least 0. Format: int32.
      */
-    "data": DeliveryRateCallbackConnectionCheck;
+    "priority": number;
     /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
+     * A boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes.
      */
-    "meta"?: ResponseMeta;
-    /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type DeliveryRateCallbackCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": DeliveryRateCallback;
-    };
-    "event_type"?: "delivery_rate_callback.created";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": DeliveryRateCallback;
-    };
-    "event_type"?: "delivery_rate_callback.created";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "delivery_rate_callback.created";
-});
-/**
- * The `delivery_rate_callback.created` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
- */
-export type DeliveryRateCallbackCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link DeliveryRateCallback}. An endpoint that supplies delivery rates.
-     */
-    "data"?: {
-        /** An endpoint that supplies delivery rates. */
-        "object": DeliveryRateCallback;
-    };
-    /** Value enum: "delivery_rate_callback.created". */
-    "event_type"?: "delivery_rate_callback.created";
-    /**
-     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
-     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
-     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        /** Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        /** Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * The `delivery_rate_callback.created` webhook payload for the `merchant` event source. Fields
- * shared by merchant webhook payloads.
- */
-export type DeliveryRateCallbackCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link DeliveryRateCallback}. An endpoint that supplies delivery rates.
-     */
-    "data"?: {
-        /** An endpoint that supplies delivery rates. */
-        "object": DeliveryRateCallback;
-    };
-    /** Value enum: "delivery_rate_callback.created". */
-    "event_type"?: "delivery_rate_callback.created";
-});
-export type DeliveryRateCallbackDeactivatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": DeliveryRateCallback;
-    };
-    "event_type"?: "delivery_rate_callback.deactivated";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": DeliveryRateCallback;
-    };
-    "event_type"?: "delivery_rate_callback.deactivated";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "delivery_rate_callback.deactivated";
-});
-/**
- * The `delivery_rate_callback.deactivated` webhook payload for the `installed_merchants` event
- * source. Fields shared by partner webhook payloads.
- */
-export type DeliveryRateCallbackDeactivatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link DeliveryRateCallback}. An endpoint that supplies delivery rates.
-     */
-    "data"?: {
-        /** An endpoint that supplies delivery rates. */
-        "object": DeliveryRateCallback;
-    };
-    /** Value enum: "delivery_rate_callback.deactivated". */
-    "event_type"?: "delivery_rate_callback.deactivated";
-    /**
-     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
-     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
-     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        /** Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        /** Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * The `delivery_rate_callback.deactivated` webhook payload for the `merchant` event source. Fields
- * shared by merchant webhook payloads.
- */
-export type DeliveryRateCallbackDeactivatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link DeliveryRateCallback}. An endpoint that supplies delivery rates.
-     */
-    "data"?: {
-        /** An endpoint that supplies delivery rates. */
-        "object": DeliveryRateCallback;
-    };
-    /** Value enum: "delivery_rate_callback.deactivated". */
-    "event_type"?: "delivery_rate_callback.deactivated";
-});
-/** A page of `DeliveryRateCallback` objects. */
-export type DeliveryRateCallbackListResponse = {
-    /**  [] (Value): {@link DeliveryRateCallback}. An endpoint that supplies delivery rates. */
-    "data": Array<DeliveryRateCallback>;
-    /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    "next_page_token"?: string;
-    /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A response containing `DeliveryRateCallback` data. */
-export type DeliveryRateCallbackResponse = {
-    /** An endpoint that supplies delivery rates. */
-    "data": DeliveryRateCallback;
-    /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
+    "when": DeliveryEligibilityExpressionRequest;
 };
 /**
- * Result of rotating a delivery rate callback's signing key, including the new `key_id` and the
- * new `secret`, which is returned only in this response.
+ * A rate in a rate table pricing strategy you send when updating a delivery method. Include
+ * `delivery_rate_id` to keep or update an existing rate.
  */
-export type DeliveryRateCallbackSigningKeyRotation = {
-    "delivery_rate_callback_id": string;
-    "key_id": string;
-    /** New signing secret. Returned only by this rotation response. */
-    "secret": string;
-};
-/** A response containing `DeliveryRateCallbackSigningKeyRotation` data. */
-export type DeliveryRateCallbackSigningKeyRotationResponse = {
+export type DeliveryPricingRateRequestInput = {
     /**
-     * Result of rotating a delivery rate callback's signing key, including the new `key_id` and
-     * the new `secret`, which is returned only in this response.
+     *  * (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
      */
-    "data": DeliveryRateCallbackSigningKeyRotation;
+    "currency_options": Record<string, MoneyValueInput>;
     /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
+     * Stable rate identifier returned by Flint. Include it when updating or retaining an existing
+     * rate. minLength: 1. Example: "drate_01KEZF7C00FD0B4QEC0M00MJ4S".
      */
-    "meta"?: ResponseMeta;
+    "delivery_rate_id"?: string;
     /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     * Rates are checked from the highest priority to the lowest. The first matching rate sets the
+     * price. Priorities must be unique and at least 0. Format: int32.
      */
-    "request_id": string;
+    "priority": number;
+    /**
+     * A boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes.
+     */
+    "when": DeliveryEligibilityExpressionRequestInput;
 };
 /**
- * Result of sending a test request to a delivery rate callback, with its status, latency, HTTP
- * status code, and failure category if it failed.
+ * How a delivery method sets its price, selected by `type`. Only the matching property (`fixed`,
+ * `rate_table`, `tiered`, `calculated`, `callback`, or `caller_supplied`) is set.
  */
-export type DeliveryRateCallbackTestDelivery = {
-    "delivery_rate_callback_id": string;
-    "delivery_rate_callback_revision_id": string;
+export type DeliveryPricingStrategy = ({
     /**
-     * Why the callback test failed and the action that can make the next test succeed. -
-     * `authentication_or_http_error`: Return a 2xx status after verifying the enabled signing
-     * methods. For a 401, check JWT verification with Flint's JWKS, issuer,
-     * delivery_rate_callback_id audience, expiration, and body_sha256 of the exact request bytes.
-     * For HMAC, check the shared secret and verify the raw body before parsing it. -
-     * `blocked_target`: Use a public HTTPS callback target allowed by Flint's outbound network
-     * policy. - `connection_error`: Restore network connectivity to the callback host, then test
-     * again. - `dns_error`: Fix the callback hostname or its DNS records, then test again. -
-     * `invalid_response`: Return a 2xx application/json response within maximum_response_bytes.
-     * For a test delivery, the body must also follow the callback response rules. Then test again.
-     * - `request_error`: Flint couldn't complete the request for another reason. Check the URL and
-     * your server logs, then test again. - `timeout`: Acknowledge the callback within its
-     * configured timeout, then test again. - `tls_error`: Fix the callback certificate and TLS
-     * configuration, then test again. Value enum: "authentication_or_http_error",
-     * "blocked_target", "connection_error", "dns_error", "invalid_response", "request_error",
-     * "timeout", "tls_error".
+     * Delivery pricing calculated from a base fee, distance, weight, and per-item handling, with
+     * minimum and maximum fees, by currency.
      */
-    "failure_category"?: "authentication_or_http_error"
-        | "blocked_target"
-        | "connection_error"
-        | "dns_error"
-        | "invalid_response"
-        | "request_error"
-        | "timeout"
-        | "tls_error"
-        | (string & {});
-    "http_status_code"?: number;
+    "calculated"?: DeliveryCalculatedPricingStrategy;
     /**
-     * ID of the HMAC signing key that signed this request. Empty for a JWT-only callback, which
-     * has no shared secret.
+     * Delivery pricing that comes from outside Flint, from a delivery rate callback or the caller,
+     * bounded by minimum and maximum fees by currency.
      */
-    "key_id": string;
-    /** Format: int64. */
-    "latency_milliseconds": number;
-    /** Value enum: "succeeded", "failed". */
-    "status": "succeeded" | "failed" | (string & {});
-    /** RFC3339 timestamp. Format: date-time. */
-    "tested_at": string;
-};
-/** A response containing `DeliveryRateCallbackTestDelivery` data. */
-export type DeliveryRateCallbackTestDeliveryResponse = {
+    "callback"?: DeliveryExternalPricingStrategy;
     /**
-     * Result of sending a test request to a delivery rate callback, with its status, latency, HTTP
-     * status code, and failure category if it failed.
+     * Delivery pricing that comes from outside Flint, from a delivery rate callback or the caller,
+     * bounded by minimum and maximum fees by currency.
      */
-    "data": DeliveryRateCallbackTestDelivery;
+    "caller_supplied"?: DeliveryExternalPricingStrategy;
+    /** A fixed delivery price, by currency. */
+    "fixed"?: DeliveryFixedPricingStrategy;
     /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
+     * Pricing strategy that charges the price of the first matching rate in a list of prioritized
+     * rates. `unmatched_behavior` says what happens when none match.
      */
-    "meta"?: ResponseMeta;
+    "rate_table"?: DeliveryRateTablePricingStrategy;
     /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     * Pricing strategy that charges by band. The `basis` value, such as total weight or subtotal,
+     * selects a band, and `unit` applies to weight bases.
      */
-    "request_id": string;
-};
-export type DeliveryRateCallbackUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    "tiered"?: DeliveryTieredPricingStrategy;
+    /** Value enum: "fixed", "rate_table", "tiered", "calculated", "callback", "caller_supplied". */
+    "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied" | (string & {});
+})
+    & ((Exclude<DeliveryPricingStrategyCalculated & object, readonly unknown[]>)
+    | (Exclude<DeliveryPricingStrategyCallback & object, readonly unknown[]>)
+    | (Exclude<DeliveryPricingStrategyCallerSupplied & object, readonly unknown[]>)
+    | (Exclude<DeliveryPricingStrategyFixed & object, readonly unknown[]>)
+    | (Exclude<DeliveryPricingStrategyRateTable & object, readonly unknown[]>)
+    | (Exclude<DeliveryPricingStrategyTiered & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/** The `calculated` variant of `DeliveryPricingStrategy`. */
+export type DeliveryPricingStrategyCalculated = ({
+    /**
+     * Delivery pricing calculated from a base fee, distance, weight, and per-item handling, with
+     * minimum and maximum fees, by currency.
+     */
+    "calculated": DeliveryCalculatedPricingStrategy;
+    /**
+     * Delivery pricing that comes from outside Flint, from a delivery rate callback or the caller,
+     * bounded by minimum and maximum fees by currency.
+     */
+    "callback"?: DeliveryExternalPricingStrategy;
+    /**
+     * Delivery pricing that comes from outside Flint, from a delivery rate callback or the caller,
+     * bounded by minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryExternalPricingStrategy;
+    /** A fixed delivery price, by currency. */
+    "fixed"?: DeliveryFixedPricingStrategy;
+    /**
+     * Pricing strategy that charges the price of the first matching rate in a list of prioritized
+     * rates. `unmatched_behavior` says what happens when none match.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategy;
+    /**
+     * Pricing strategy that charges by band. The `basis` value, such as total weight or subtotal,
+     * selects a band, and `unit` applies to weight bases.
+     */
+    "tiered"?: DeliveryTieredPricingStrategy;
+    /** Value enum: "calculated". */
+    "type": "calculated" | (string & {});
+})
+    & (({
+    /** Value enum: "calculated". */
+    "type": unknown;
+    /**
+     * Delivery pricing calculated from a base fee, distance, weight, and per-item handling, with
+     * minimum and maximum fees, by currency.
+     */
+    "calculated": DeliveryCalculatedPricingStrategy;
+}));
+/** The `callback` variant of `DeliveryPricingStrategy`. */
+export type DeliveryPricingStrategyCallback = ({
+    /**
+     * Delivery pricing calculated from a base fee, distance, weight, and per-item handling, with
+     * minimum and maximum fees, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategy;
+    /**
+     * Delivery pricing that comes from outside Flint, from a delivery rate callback or the caller,
+     * bounded by minimum and maximum fees by currency.
+     */
+    "callback": DeliveryExternalPricingStrategy;
+    /**
+     * Delivery pricing that comes from outside Flint, from a delivery rate callback or the caller,
+     * bounded by minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryExternalPricingStrategy;
+    /** A fixed delivery price, by currency. */
+    "fixed"?: DeliveryFixedPricingStrategy;
+    /**
+     * Pricing strategy that charges the price of the first matching rate in a list of prioritized
+     * rates. `unmatched_behavior` says what happens when none match.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategy;
+    /**
+     * Pricing strategy that charges by band. The `basis` value, such as total weight or subtotal,
+     * selects a band, and `unit` applies to weight bases.
+     */
+    "tiered"?: DeliveryTieredPricingStrategy;
+    /** Value enum: "callback". */
+    "type": "callback" | (string & {});
+})
+    & (({
+    /** Value enum: "callback". */
+    "type": unknown;
+    /**
+     * Delivery pricing that comes from outside Flint, from a delivery rate callback or the caller,
+     * bounded by minimum and maximum fees by currency.
+     */
+    "callback": DeliveryExternalPricingStrategy;
+}));
+/** The `caller_supplied` variant of `DeliveryPricingStrategy`. */
+export type DeliveryPricingStrategyCallerSupplied = ({
+    /**
+     * Delivery pricing calculated from a base fee, distance, weight, and per-item handling, with
+     * minimum and maximum fees, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategy;
+    /**
+     * Delivery pricing that comes from outside Flint, from a delivery rate callback or the caller,
+     * bounded by minimum and maximum fees by currency.
+     */
+    "callback"?: DeliveryExternalPricingStrategy;
+    /**
+     * Delivery pricing that comes from outside Flint, from a delivery rate callback or the caller,
+     * bounded by minimum and maximum fees by currency.
+     */
+    "caller_supplied": DeliveryExternalPricingStrategy;
+    /** A fixed delivery price, by currency. */
+    "fixed"?: DeliveryFixedPricingStrategy;
+    /**
+     * Pricing strategy that charges the price of the first matching rate in a list of prioritized
+     * rates. `unmatched_behavior` says what happens when none match.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategy;
+    /**
+     * Pricing strategy that charges by band. The `basis` value, such as total weight or subtotal,
+     * selects a band, and `unit` applies to weight bases.
+     */
+    "tiered"?: DeliveryTieredPricingStrategy;
+    /** Value enum: "caller_supplied". */
+    "type": "caller_supplied" | (string & {});
+})
+    & (({
+    /** Value enum: "caller_supplied". */
+    "type": unknown;
+    /**
+     * Delivery pricing that comes from outside Flint, from a delivery rate callback or the caller,
+     * bounded by minimum and maximum fees by currency.
+     */
+    "caller_supplied": DeliveryExternalPricingStrategy;
+}));
+/** The `calculated` variant of `DeliveryPricingStrategyCreateInput`. */
+export type DeliveryPricingStrategyCreateInputCalculated = ({
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated": DeliveryCalculatedPricingStrategy;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback"?: DeliveryCallbackPricingStrategyRequest;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequest;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed"?: DeliveryFixedPricingStrategy;
+    /**
+     * Rate table pricing strategy you supply when creating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategyCreateRequest;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategy;
+    /** Value enum: "calculated". */
+    "type": "calculated" | (string & {});
+})
+    & (({
+    /** Value enum: "calculated". */
+    "type": unknown;
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated": DeliveryCalculatedPricingStrategy;
+}));
+/** The `calculated` variant of `DeliveryPricingStrategyCreateInput`. */
+export type DeliveryPricingStrategyCreateInputCalculatedInput = ({
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated": DeliveryCalculatedPricingStrategyRequestInput;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback"?: DeliveryCallbackPricingStrategyRequestInput;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed"?: DeliveryFixedPricingStrategyRequestInput;
+    /**
+     * Rate table pricing strategy you supply when creating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategyCreateRequestInput;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategyRequestInput;
+    /** Value enum: "calculated". */
+    "type": "calculated";
+})
+    & (({
+    /** Value enum: "calculated". */
+    "type": ("calculated") & ("calculated");
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated": DeliveryCalculatedPricingStrategyRequestInput;
+})
+    & (({
+    "callback"?: never;
+})
     & ({
-    "data"?: {
-        "object": DeliveryRateCallback;
-    };
-    "event_type"?: "delivery_rate_callback.updated";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    "caller_supplied"?: never;
+})
     & ({
-    "data"?: {
-        "object": DeliveryRateCallback;
-    };
-    "event_type"?: "delivery_rate_callback.updated";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "delivery_rate_callback.updated";
-});
+    "fixed"?: never;
+})
+    & ({
+    "rate_table"?: never;
+})
+    & ({
+    "tiered"?: never;
+})));
+/** The `callback` variant of `DeliveryPricingStrategyCreateInput`. */
+export type DeliveryPricingStrategyCreateInputCallback = ({
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategy;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback": DeliveryCallbackPricingStrategyRequest;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequest;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed"?: DeliveryFixedPricingStrategy;
+    /**
+     * Rate table pricing strategy you supply when creating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategyCreateRequest;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategy;
+    /** Value enum: "callback". */
+    "type": "callback" | (string & {});
+})
+    & (({
+    /** Value enum: "callback". */
+    "type": unknown;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback": DeliveryCallbackPricingStrategyRequest;
+}));
+/** The `callback` variant of `DeliveryPricingStrategyCreateInput`. */
+export type DeliveryPricingStrategyCreateInputCallbackInput = ({
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategyRequestInput;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback": DeliveryCallbackPricingStrategyRequestInput;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed"?: DeliveryFixedPricingStrategyRequestInput;
+    /**
+     * Rate table pricing strategy you supply when creating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategyCreateRequestInput;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategyRequestInput;
+    /** Value enum: "callback". */
+    "type": "callback";
+})
+    & (({
+    /** Value enum: "callback". */
+    "type": ("callback") & ("callback");
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback": DeliveryCallbackPricingStrategyRequestInput;
+})
+    & (({
+    "calculated"?: never;
+})
+    & ({
+    "caller_supplied"?: never;
+})
+    & ({
+    "fixed"?: never;
+})
+    & ({
+    "rate_table"?: never;
+})
+    & ({
+    "tiered"?: never;
+})));
+/** The `caller_supplied` variant of `DeliveryPricingStrategyCreateInput`. */
+export type DeliveryPricingStrategyCreateInputCallerSupplied = ({
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategy;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback"?: DeliveryCallbackPricingStrategyRequest;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied": DeliveryCallerSuppliedPricingStrategyRequest;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed"?: DeliveryFixedPricingStrategy;
+    /**
+     * Rate table pricing strategy you supply when creating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategyCreateRequest;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategy;
+    /** Value enum: "caller_supplied". */
+    "type": "caller_supplied" | (string & {});
+})
+    & (({
+    /** Value enum: "caller_supplied". */
+    "type": unknown;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied": DeliveryCallerSuppliedPricingStrategyRequest;
+}));
+/** The `caller_supplied` variant of `DeliveryPricingStrategyCreateInput`. */
+export type DeliveryPricingStrategyCreateInputCallerSuppliedInput = ({
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategyRequestInput;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback"?: DeliveryCallbackPricingStrategyRequestInput;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied": DeliveryCallerSuppliedPricingStrategyRequestInput;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed"?: DeliveryFixedPricingStrategyRequestInput;
+    /**
+     * Rate table pricing strategy you supply when creating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategyCreateRequestInput;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategyRequestInput;
+    /** Value enum: "caller_supplied". */
+    "type": "caller_supplied";
+})
+    & (({
+    /** Value enum: "caller_supplied". */
+    "type": ("caller_supplied") & ("caller_supplied");
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied": DeliveryCallerSuppliedPricingStrategyRequestInput;
+})
+    & (({
+    "calculated"?: never;
+})
+    & ({
+    "callback"?: never;
+})
+    & ({
+    "fixed"?: never;
+})
+    & ({
+    "rate_table"?: never;
+})
+    & ({
+    "tiered"?: never;
+})));
+/** The `fixed` variant of `DeliveryPricingStrategyCreateInput`. */
+export type DeliveryPricingStrategyCreateInputFixed = ({
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategy;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback"?: DeliveryCallbackPricingStrategyRequest;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequest;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed": DeliveryFixedPricingStrategy;
+    /**
+     * Rate table pricing strategy you supply when creating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategyCreateRequest;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategy;
+    /** Value enum: "fixed". */
+    "type": "fixed" | (string & {});
+})
+    & (({
+    /** Value enum: "fixed". */
+    "type": unknown;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed": DeliveryFixedPricingStrategy;
+}));
+/** The `fixed` variant of `DeliveryPricingStrategyCreateInput`. */
+export type DeliveryPricingStrategyCreateInputFixedInput = ({
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategyRequestInput;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback"?: DeliveryCallbackPricingStrategyRequestInput;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed": DeliveryFixedPricingStrategyRequestInput;
+    /**
+     * Rate table pricing strategy you supply when creating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategyCreateRequestInput;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategyRequestInput;
+    /** Value enum: "fixed". */
+    "type": "fixed";
+})
+    & (({
+    /** Value enum: "fixed". */
+    "type": ("fixed") & ("fixed");
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed": DeliveryFixedPricingStrategyRequestInput;
+})
+    & (({
+    "calculated"?: never;
+})
+    & ({
+    "callback"?: never;
+})
+    & ({
+    "caller_supplied"?: never;
+})
+    & ({
+    "rate_table"?: never;
+})
+    & ({
+    "tiered"?: never;
+})));
+/** The `rate_table` variant of `DeliveryPricingStrategyCreateInput`. */
+export type DeliveryPricingStrategyCreateInputRateTable = ({
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategy;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback"?: DeliveryCallbackPricingStrategyRequest;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequest;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed"?: DeliveryFixedPricingStrategy;
+    /**
+     * Rate table pricing strategy you supply when creating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table": DeliveryRateTablePricingStrategyCreateRequest;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategy;
+    /** Value enum: "rate_table". */
+    "type": "rate_table" | (string & {});
+})
+    & (({
+    /** Value enum: "rate_table". */
+    "type": unknown;
+    /**
+     * Rate table pricing strategy you supply when creating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table": DeliveryRateTablePricingStrategyCreateRequest;
+}));
+/** The `rate_table` variant of `DeliveryPricingStrategyCreateInput`. */
+export type DeliveryPricingStrategyCreateInputRateTableInput = ({
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategyRequestInput;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback"?: DeliveryCallbackPricingStrategyRequestInput;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed"?: DeliveryFixedPricingStrategyRequestInput;
+    /**
+     * Rate table pricing strategy you supply when creating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table": DeliveryRateTablePricingStrategyCreateRequestInput;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategyRequestInput;
+    /** Value enum: "rate_table". */
+    "type": "rate_table";
+})
+    & (({
+    /** Value enum: "rate_table". */
+    "type": ("rate_table") & ("rate_table");
+    /**
+     * Rate table pricing strategy you supply when creating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table": DeliveryRateTablePricingStrategyCreateRequestInput;
+})
+    & (({
+    "calculated"?: never;
+})
+    & ({
+    "callback"?: never;
+})
+    & ({
+    "caller_supplied"?: never;
+})
+    & ({
+    "fixed"?: never;
+})
+    & ({
+    "tiered"?: never;
+})));
+/** The `tiered` variant of `DeliveryPricingStrategyCreateInput`. */
+export type DeliveryPricingStrategyCreateInputTiered = ({
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategy;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback"?: DeliveryCallbackPricingStrategyRequest;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequest;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed"?: DeliveryFixedPricingStrategy;
+    /**
+     * Rate table pricing strategy you supply when creating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategyCreateRequest;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered": DeliveryTieredPricingStrategy;
+    /** Value enum: "tiered". */
+    "type": "tiered" | (string & {});
+})
+    & (({
+    /** Value enum: "tiered". */
+    "type": unknown;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered": DeliveryTieredPricingStrategy;
+}));
+/** The `tiered` variant of `DeliveryPricingStrategyCreateInput`. */
+export type DeliveryPricingStrategyCreateInputTieredInput = ({
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategyRequestInput;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback"?: DeliveryCallbackPricingStrategyRequestInput;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed"?: DeliveryFixedPricingStrategyRequestInput;
+    /**
+     * Rate table pricing strategy you supply when creating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategyCreateRequestInput;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered": DeliveryTieredPricingStrategyRequestInput;
+    /** Value enum: "tiered". */
+    "type": "tiered";
+})
+    & (({
+    /** Value enum: "tiered". */
+    "type": ("tiered") & ("tiered");
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered": DeliveryTieredPricingStrategyRequestInput;
+})
+    & (({
+    "calculated"?: never;
+})
+    & ({
+    "callback"?: never;
+})
+    & ({
+    "caller_supplied"?: never;
+})
+    & ({
+    "fixed"?: never;
+})
+    & ({
+    "rate_table"?: never;
+})));
 /**
- * The `delivery_rate_callback.updated` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
+ * The pricing strategy you supply when creating a delivery method. Set `type` and the matching
+ * property.
  */
-export type DeliveryRateCallbackUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
+export type DeliveryPricingStrategyCreateRequest = ({
     /**
-     *  object (Required): {@link DeliveryRateCallback}. An endpoint that supplies delivery rates.
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
      */
-    "data"?: {
-        /** An endpoint that supplies delivery rates. */
-        "object": DeliveryRateCallback;
-    };
-    /** Value enum: "delivery_rate_callback.updated". */
-    "event_type"?: "delivery_rate_callback.updated";
+    "calculated"?: DeliveryCalculatedPricingStrategy;
     /**
-     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
-     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
-     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
      */
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        /** Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        /** Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
+    "callback"?: DeliveryCallbackPricingStrategyRequest;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequest;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed"?: DeliveryFixedPricingStrategy;
+    /**
+     * Rate table pricing strategy you supply when creating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategyCreateRequest;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategy;
+    /** Value enum: "fixed", "rate_table", "tiered", "calculated", "callback", "caller_supplied". */
+    "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied" | (string & {});
+})
+    & ((Exclude<DeliveryPricingStrategyCreateInputCalculated & object, readonly unknown[]>)
+    | (Exclude<DeliveryPricingStrategyCreateInputCallback & object, readonly unknown[]>)
+    | (Exclude<DeliveryPricingStrategyCreateInputCallerSupplied & object, readonly unknown[]>)
+    | (Exclude<DeliveryPricingStrategyCreateInputFixed & object, readonly unknown[]>)
+    | (Exclude<DeliveryPricingStrategyCreateInputRateTable & object, readonly unknown[]>)
+    | (Exclude<DeliveryPricingStrategyCreateInputTiered & object, readonly unknown[]>)
+    | (Record<string, unknown>));
 /**
- * The `delivery_rate_callback.updated` webhook payload for the `merchant` event source. Fields
- * shared by merchant webhook payloads.
+ * The pricing strategy you supply when creating a delivery method. Set `type` and the matching
+ * property.
  */
-export type DeliveryRateCallbackUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type DeliveryPricingStrategyCreateRequestInput = ({
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategyRequestInput;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback"?: DeliveryCallbackPricingStrategyRequestInput;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed"?: DeliveryFixedPricingStrategyRequestInput;
+    /**
+     * Rate table pricing strategy you supply when creating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategyCreateRequestInput;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategyRequestInput;
+    /** Value enum: "fixed", "rate_table", "tiered", "calculated", "callback", "caller_supplied". */
+    "type": "fixed" | "rate_table" | "tiered" | "calculated" | "callback" | "caller_supplied";
+})
+    & ((Exclude<DeliveryPricingStrategyCreateInputCalculatedInput & object, readonly unknown[]>)
+    | (Exclude<DeliveryPricingStrategyCreateInputCallbackInput & object, readonly unknown[]>)
+    | (Exclude<DeliveryPricingStrategyCreateInputCallerSuppliedInput & object, readonly unknown[]>)
+    | (Exclude<DeliveryPricingStrategyCreateInputFixedInput & object, readonly unknown[]>)
+    | (Exclude<DeliveryPricingStrategyCreateInputRateTableInput & object, readonly unknown[]>)
+    | (Exclude<DeliveryPricingStrategyCreateInputTieredInput & object, readonly unknown[]>));
+/** The `fixed` variant of `DeliveryPricingStrategy`. */
+export type DeliveryPricingStrategyFixed = ({
+    /**
+     * Delivery pricing calculated from a base fee, distance, weight, and per-item handling, with
+     * minimum and maximum fees, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategy;
+    /**
+     * Delivery pricing that comes from outside Flint, from a delivery rate callback or the caller,
+     * bounded by minimum and maximum fees by currency.
+     */
+    "callback"?: DeliveryExternalPricingStrategy;
+    /**
+     * Delivery pricing that comes from outside Flint, from a delivery rate callback or the caller,
+     * bounded by minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryExternalPricingStrategy;
+    /** A fixed delivery price, by currency. */
+    "fixed": DeliveryFixedPricingStrategy;
+    /**
+     * Pricing strategy that charges the price of the first matching rate in a list of prioritized
+     * rates. `unmatched_behavior` says what happens when none match.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategy;
+    /**
+     * Pricing strategy that charges by band. The `basis` value, such as total weight or subtotal,
+     * selects a band, and `unit` applies to weight bases.
+     */
+    "tiered"?: DeliveryTieredPricingStrategy;
+    /** Value enum: "fixed". */
+    "type": "fixed" | (string & {});
+})
+    & (({
+    /** Value enum: "fixed". */
+    "type": unknown;
+    /** A fixed delivery price, by currency. */
+    "fixed": DeliveryFixedPricingStrategy;
+}));
+/** The `calculated` variant of `DeliveryPricingStrategyInput`. */
+export type DeliveryPricingStrategyInputCalculated = ({
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated": DeliveryCalculatedPricingStrategy;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback"?: DeliveryCallbackPricingStrategyRequest;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequest;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed"?: DeliveryFixedPricingStrategy;
+    /**
+     * Rate table pricing strategy you supply when updating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategyRequest;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategy;
+    /** Value enum: "calculated". */
+    "type": "calculated" | (string & {});
+})
+    & (({
+    /** Value enum: "calculated". */
+    "type": unknown;
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated": DeliveryCalculatedPricingStrategy;
+}));
+/** The `calculated` variant of `DeliveryPricingStrategyInput`. */
+export type DeliveryPricingStrategyInputCalculatedInput = ({
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated": DeliveryCalculatedPricingStrategyRequestInput;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback"?: DeliveryCallbackPricingStrategyRequestInput;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed"?: DeliveryFixedPricingStrategyRequestInput;
+    /**
+     * Rate table pricing strategy you supply when updating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategyRequestInput;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategyRequestInput;
+    /** Value enum: "calculated". */
+    "type": "calculated";
+})
+    & (({
+    /** Value enum: "calculated". */
+    "type": ("calculated") & ("calculated");
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated": DeliveryCalculatedPricingStrategyRequestInput;
+})
+    & (({
+    "callback"?: never;
+})
     & ({
+    "caller_supplied"?: never;
+})
+    & ({
+    "fixed"?: never;
+})
+    & ({
+    "rate_table"?: never;
+})
+    & ({
+    "tiered"?: never;
+})));
+/** The `callback` variant of `DeliveryPricingStrategyInput`. */
+export type DeliveryPricingStrategyInputCallback = ({
     /**
-     *  object (Required): {@link DeliveryRateCallback}. An endpoint that supplies delivery rates.
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
      */
-    "data"?: {
-        /** An endpoint that supplies delivery rates. */
-        "object": DeliveryRateCallback;
-    };
-    /** Value enum: "delivery_rate_callback.updated". */
-    "event_type"?: "delivery_rate_callback.updated";
-});
-export type DeliveryRateCallbacksCheckConnectionParams = {};
-export type DeliveryRateCallbacksCreateParams = (InputValue<CreateDeliveryRateCallbackRequestInput>);
-export type DeliveryRateCallbacksCreateTestDeliveryParams = {};
-export type DeliveryRateCallbacksDeleteParams = DeliveryLocationSetsDeleteParams;
-export type DeliveryRateCallbacksGetParams = {};
-export type DeliveryRateCallbacksListParams = {
+    "calculated"?: DeliveryCalculatedPricingStrategy;
     /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
      */
-    "page_size"?: InputValue<number>;
+    "callback": DeliveryCallbackPricingStrategyRequest;
     /**
-     * Opaque next_page_token from the previous response. Omit on the first request. You may change
-     * `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request
-     * context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns
-     * a validation error.
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
      */
-    "page_token"?: InputValue<string>;
+    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequest;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed"?: DeliveryFixedPricingStrategy;
     /**
-     * Search across delivery_rate_callback_id, name, and external_reference_id. Text fields match
-     * any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from
-     * the start and need the type prefix, such as dcb_01. maxLength: 255.
+     * Rate table pricing strategy you supply when updating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
      */
-    "query"?: InputValue<string>;
+    "rate_table"?: DeliveryRateTablePricingStrategyRequest;
     /**
-     * Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
      */
-    "external_reference_id"?: InputValue<string>;
+    "tiered"?: DeliveryTieredPricingStrategy;
+    /** Value enum: "callback". */
+    "type": "callback" | (string & {});
+})
+    & (({
+    /** Value enum: "callback". */
+    "type": unknown;
     /**
-     * Filter by status. Repeat the parameter or send comma-separated values to match any of
-     * several. Omitted, the list leaves out archived rows; name archived to include them. Accepts
-     * repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in
-     * first-seen order; empty or unknown entries are rejected. Values within this filter are ORed;
-     * separate filters are ANDed. [] enum: "active", "inactive", "archived". Value enum: "active",
-     * "inactive", "archived". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "active",
-     * "inactive", "archived". anyOf[1][] (Value): string. Value enum: "active", "inactive",
-     * "archived". anyOf[2] (Value): string. Value enum: "active", "inactive", "archived".
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
      */
-    "status"?: InputValue<("active" | "inactive" | "archived") | readonly ("active" | "inactive" | "archived")[]>;
+    "callback": DeliveryCallbackPricingStrategyRequest;
+}));
+/** The `callback` variant of `DeliveryPricingStrategyInput`. */
+export type DeliveryPricingStrategyInputCallbackInput = ({
     /**
-     * Filter by an active current method that references this resource. Example:
-     * "dmet_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
      */
-    "delivery_method_id"?: InputValue<string>;
-};
-export type DeliveryRateCallbacksRotateSecretParams = {};
+    "calculated"?: DeliveryCalculatedPricingStrategyRequestInput;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback": DeliveryCallbackPricingStrategyRequestInput;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed"?: DeliveryFixedPricingStrategyRequestInput;
+    /**
+     * Rate table pricing strategy you supply when updating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategyRequestInput;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategyRequestInput;
+    /** Value enum: "callback". */
+    "type": "callback";
+})
+    & (({
+    /** Value enum: "callback". */
+    "type": ("callback") & ("callback");
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback": DeliveryCallbackPricingStrategyRequestInput;
+})
+    & (({
+    "calculated"?: never;
+})
+    & ({
+    "caller_supplied"?: never;
+})
+    & ({
+    "fixed"?: never;
+})
+    & ({
+    "rate_table"?: never;
+})
+    & ({
+    "tiered"?: never;
+})));
+/** The `caller_supplied` variant of `DeliveryPricingStrategyInput`. */
+export type DeliveryPricingStrategyInputCallerSupplied = ({
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategy;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback"?: DeliveryCallbackPricingStrategyRequest;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied": DeliveryCallerSuppliedPricingStrategyRequest;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed"?: DeliveryFixedPricingStrategy;
+    /**
+     * Rate table pricing strategy you supply when updating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategyRequest;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategy;
+    /** Value enum: "caller_supplied". */
+    "type": "caller_supplied" | (string & {});
+})
+    & (({
+    /** Value enum: "caller_supplied". */
+    "type": unknown;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied": DeliveryCallerSuppliedPricingStrategyRequest;
+}));
+/** The `caller_supplied` variant of `DeliveryPricingStrategyInput`. */
+export type DeliveryPricingStrategyInputCallerSuppliedInput = ({
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategyRequestInput;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback"?: DeliveryCallbackPricingStrategyRequestInput;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied": DeliveryCallerSuppliedPricingStrategyRequestInput;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed"?: DeliveryFixedPricingStrategyRequestInput;
+    /**
+     * Rate table pricing strategy you supply when updating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategyRequestInput;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategyRequestInput;
+    /** Value enum: "caller_supplied". */
+    "type": "caller_supplied";
+})
+    & (({
+    /** Value enum: "caller_supplied". */
+    "type": ("caller_supplied") & ("caller_supplied");
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied": DeliveryCallerSuppliedPricingStrategyRequestInput;
+})
+    & (({
+    "calculated"?: never;
+})
+    & ({
+    "callback"?: never;
+})
+    & ({
+    "fixed"?: never;
+})
+    & ({
+    "rate_table"?: never;
+})
+    & ({
+    "tiered"?: never;
+})));
+/** The `fixed` variant of `DeliveryPricingStrategyInput`. */
+export type DeliveryPricingStrategyInputFixed = ({
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategy;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback"?: DeliveryCallbackPricingStrategyRequest;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequest;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed": DeliveryFixedPricingStrategy;
+    /**
+     * Rate table pricing strategy you supply when updating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategyRequest;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategy;
+    /** Value enum: "fixed". */
+    "type": "fixed" | (string & {});
+})
+    & (({
+    /** Value enum: "fixed". */
+    "type": unknown;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed": DeliveryFixedPricingStrategy;
+}));
+/** The `fixed` variant of `DeliveryPricingStrategyInput`. */
+export type DeliveryPricingStrategyInputFixedInput = ({
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategyRequestInput;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback"?: DeliveryCallbackPricingStrategyRequestInput;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed": DeliveryFixedPricingStrategyRequestInput;
+    /**
+     * Rate table pricing strategy you supply when updating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table"?: DeliveryRateTablePricingStrategyRequestInput;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategyRequestInput;
+    /** Value enum: "fixed". */
+    "type": "fixed";
+})
+    & (({
+    /** Value enum: "fixed". */
+    "type": ("fixed") & ("fixed");
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed": DeliveryFixedPricingStrategyRequestInput;
+})
+    & (({
+    "calculated"?: never;
+})
+    & ({
+    "callback"?: never;
+})
+    & ({
+    "caller_supplied"?: never;
+})
+    & ({
+    "rate_table"?: never;
+})
+    & ({
+    "tiered"?: never;
+})));
+/** The `rate_table` variant of `DeliveryPricingStrategyInput`. */
+export type DeliveryPricingStrategyInputRateTable = ({
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategy;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback"?: DeliveryCallbackPricingStrategyRequest;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequest;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed"?: DeliveryFixedPricingStrategy;
+    /**
+     * Rate table pricing strategy you supply when updating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table": DeliveryRateTablePricingStrategyRequest;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategy;
+    /** Value enum: "rate_table". */
+    "type": "rate_table" | (string & {});
+})
+    & (({
+    /** Value enum: "rate_table". */
+    "type": unknown;
+    /**
+     * Rate table pricing strategy you supply when updating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table": DeliveryRateTablePricingStrategyRequest;
+}));
+/** The `rate_table` variant of `DeliveryPricingStrategyInput`. */
+export type DeliveryPricingStrategyInputRateTableInput = ({
+    /**
+     * Calculated delivery pricing you supply for a delivery method: base fee, distance and weight
+     * rates, per-item handling, and fee limits, by currency.
+     */
+    "calculated"?: DeliveryCalculatedPricingStrategyRequestInput;
+    /**
+     * Delivery pricing you supply that comes from a delivery rate callback
+     * (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+     */
+    "callback"?: DeliveryCallbackPricingStrategyRequestInput;
+    /**
+     * Delivery pricing where you supply the rate when creating a delivery quote, bounded by
+     * minimum and maximum fees by currency.
+     */
+    "caller_supplied"?: DeliveryCallerSuppliedPricingStrategyRequestInput;
+    /** A fixed delivery price by currency, supplied for a delivery method. */
+    "fixed"?: DeliveryFixedPricingStrategyRequestInput;
+    /**
+     * Rate table pricing strategy you supply when updating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table": DeliveryRateTablePricingStrategyRequestInput;
+    /**
+     * Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with
+     * prices, and a weight `unit` when the basis is total weight.
+     */
+    "tiered"?: DeliveryTieredPricingStrategyRequestInput;
+    /** Value enum: "rate_table". */
+    "type": "rate_table";
+})
+    & (({
+    /** Value enum: "rate_table". */
+    "type": ("rate_table") & ("rate_table");
+    /**
+     * Rate table pricing strategy you supply when updating a delivery method: a list of
+     * prioritized rates, each with a condition and prices.
+     */
+    "rate_table": DeliveryRateTablePricingStrategyRequestInput;
+})
+    & (({
+    "calculated"?: never;
+})
+    & ({
+    "callback"?: never;
+})
+    & ({
+    "caller_supplied"?: never;
+})
+    & ({
+    "fixed"?: never;
+})
+    & ({
+    "tiered"?: never;
+})));

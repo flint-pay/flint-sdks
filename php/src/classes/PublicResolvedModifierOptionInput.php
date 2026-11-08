@@ -17,7 +17,7 @@ namespace Flint;
 final class PublicResolvedModifierOptionInput extends Model {
     /** @param array{'available': bool, 'default_quantity'?: int, 'line_item_tax_category'?: string, 'modifier_id': string, 'name': string, 'position'?: int, 'selected_by_default'?: bool, 'show_on_fulfillment'?: bool, 'show_on_receipt'?: bool, 'taxable'?: bool, 'unit_price_delta_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PublicResolvedModifierOptionInput')); }
-    /** available
+    /** Whether the choice can be selected now.
      * @return bool
      * @throws SdkError When available is omitted; use hasAvailable() or valueOrDefault().
      */
@@ -35,49 +35,49 @@ final class PublicResolvedModifierOptionInput extends Model {
      */
     public function getLineItemTaxCategory(): string { return $this->get('line_item_tax_category'); }
     public function hasLineItemTaxCategory(): bool { return $this->has('line_item_tax_category'); }
-    /** modifier_id
+    /** ID of the modifier this choice selects. Example: "mod_01KEZF7C00SAWDZBQJX5H0XW1S".
      * @return string
      * @throws SdkError When modifier_id is omitted; use hasModifierId() or valueOrDefault().
      */
     public function getModifierId(): string { return $this->get('modifier_id'); }
     public function hasModifierId(): bool { return $this->has('modifier_id'); }
-    /** name
+    /** Name of the choice.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Format: int32.
+    /** Position of the choice within its group. Format: int32.
      * @return int
      * @throws SdkError When position is omitted; use hasPosition() or valueOrDefault().
      */
     public function getPosition(): int { return $this->get('position'); }
     public function hasPosition(): bool { return $this->has('position'); }
-    /** selected_by_default
+    /** Whether the choice is selected when the buyer adds the item without choosing modifiers.
      * @return bool
      * @throws SdkError When selected_by_default is omitted; use hasSelectedByDefault() or valueOrDefault().
      */
     public function getSelectedByDefault(): bool { return $this->get('selected_by_default'); }
     public function hasSelectedByDefault(): bool { return $this->has('selected_by_default'); }
-    /** show_on_fulfillment
+    /** Whether the choice appears on fulfillment documents.
      * @return bool
      * @throws SdkError When show_on_fulfillment is omitted; use hasShowOnFulfillment() or valueOrDefault().
      */
     public function getShowOnFulfillment(): bool { return $this->get('show_on_fulfillment'); }
     public function hasShowOnFulfillment(): bool { return $this->has('show_on_fulfillment'); }
-    /** show_on_receipt
+    /** Whether the choice appears on receipts.
      * @return bool
      * @throws SdkError When show_on_receipt is omitted; use hasShowOnReceipt() or valueOrDefault().
      */
     public function getShowOnReceipt(): bool { return $this->get('show_on_receipt'); }
     public function hasShowOnReceipt(): bool { return $this->has('show_on_receipt'); }
-    /** taxable
+    /** Whether the choice's price is subject to tax.
      * @return bool
      * @throws SdkError When taxable is omitted; use hasTaxable() or valueOrDefault().
      */
     public function getTaxable(): bool { return $this->get('taxable'); }
     public function hasTaxable(): bool { return $this->has('taxable'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** The amount the choice adds to the item's unit price. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When unit_price_delta_money is omitted; use hasUnitPriceDeltaMoney() or valueOrDefault().
      */

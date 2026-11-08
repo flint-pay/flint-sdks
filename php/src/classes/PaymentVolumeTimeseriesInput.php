@@ -37,19 +37,19 @@ final class PaymentVolumeTimeseriesInput extends Model {
      */
     public function getGranularity(): string { return $this->get('granularity'); }
     public function hasGranularity(): bool { return $this->has('granularity'); }
-    /** Exclusive resolved end instant. Omitted or future request ends resolve to the request time truncated to the second. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  Format: date-time.
+    /** Exclusive resolved end instant. Omitted or future request ends resolve to the request time truncated to the second. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When period_end_at is omitted; use hasPeriodEndAt() or valueOrDefault().
      */
     public function getPeriodEndAt(): string|\DateTimeInterface { return $this->get('period_end_at'); }
     public function hasPeriodEndAt(): bool { return $this->has('period_end_at'); }
-    /** Inclusive start instant. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  Format: date-time.
+    /** Inclusive start instant. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When period_start_at is omitted; use hasPeriodStartAt() or valueOrDefault().
      */
     public function getPeriodStartAt(): string|\DateTimeInterface { return $this->get('period_start_at'); }
     public function hasPeriodStartAt(): bool { return $this->has('period_start_at'); }
-    /** IANA timezone used only for local bucket boundaries. Defaults to UTC. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.
+    /** IANA timezone used only for local bucket boundaries. Defaults to the merchant's timezone, then UTC. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.
      * @return string
      * @throws SdkError When timezone is omitted; use hasTimezone() or valueOrDefault().
      */

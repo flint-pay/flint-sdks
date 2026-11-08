@@ -14,6 +14,9 @@ Signature: `create(params: DeliveryPreviewsCreateParams, options?: _SdkWithoutId
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [CreateDeliveryPreviewRequestInput](../models/CreateDeliveryPreviewRequest.md#createdeliverypreviewrequest) | The request body for: Create delivery preview. |
 
 Body model: [CreateDeliveryPreviewRequestInput](../models/CreateDeliveryPreviewRequest.md#createdeliverypreviewrequest).
@@ -58,7 +61,14 @@ The delivery options and prices Flint would offer for the supplied items and buy
 
 The result of a pickup locations preview: each pickup location and whether it can supply the order, with input requirements and merchant diagnostics.
 
-Field definitions: [shared fields](../models/DeliveryPickupAvailability.md#deliverypickupavailability). Models: [DeliveryInputRequirement](../models/DeliveryInputRequirement.md#deliveryinputrequirement), [DeliveryPickupAvailabilityLocationResource](../models/DeliveryPickupAvailabilityLocationResource.md#deliverypickupavailabilitylocationresource), [DeliveryPickupAvailabilityDiagnostic](../models/DeliveryPickupAvailabilityDiagnostic.md#deliverypickupavailabilitydiagnostic).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `evaluated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
+| `evaluation_status` | Required | string | Values: `"complete"`, `"incomplete"`, `"degraded"`. |
+| `input_requirements` | Required | Array of [DeliveryInputRequirement](../models/DeliveryInputRequirement.md#deliveryinputrequirement) |  |
+| `locations` | Required | Array of [DeliveryPickupAvailabilityLocationResource](../models/DeliveryPickupAvailabilityLocationResource.md#deliverypickupavailabilitylocationresource) | Up to 25 pickup locations, nearest first when Flint can place the buyer location, otherwise in the order the pickup methods list them. maxItems: `25`. |
+| `merchant_diagnostics` | Optional | Array of [DeliveryPickupAvailabilityDiagnostic](../models/DeliveryPickupAvailabilityDiagnostic.md#deliverypickupavailabilitydiagnostic) | Configured Locations the search left out, and listed Locations that cannot supply the order's tracked items. Always present with an API key or dashboard credential as an array, including when empty. |
+| `mode` | Required | string | The delivery question this preview answers. - `pickup_locations`: Lists the checkout session's pickup locations and whether each can supply its items. Values: `"pickup_locations"`. |
 
 #### Errors
 
@@ -69,7 +79,6 @@ Field definitions: [shared fields](../models/DeliveryPickupAvailability.md#deliv
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -90,7 +99,7 @@ Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#a
 #### Example
 
 ```typescript
-const result = await client.deliveryPreviews.create({currency: "USD", line_items: [{type: "variant", variant_id: "var_01ARZ3NDEKTSV4RRFFQ69G5FAV"}], mode: "delivery_options"}, {  });
+const result = await client.deliveryPreviews.create({currency: "USD", line_items: [{type: "variant", variant_id: "var_01KEZF7C004GSH2KT8CNYVMHGX"}], mode: "delivery_options"}, {  });
 ```
 
 [Complete runnable example](../examples/deliveryPreviews-create.mjs)

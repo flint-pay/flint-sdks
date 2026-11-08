@@ -8,7 +8,7 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.sandboxes.reset(
-  "test_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "test_01KEZF7C00JC77HTMTB2XHNPE0",
   {},
   { idempotencyKey: idempotencyKey },
 );

@@ -1,1 +1,1 @@
-{"shared":"InventorySettingsRequest","dependencies":["InventoryOriginPolicyRequest","InventorySettingsRequest"]}
+{"shared":"InventorySettingsRequest","dependencies":["InventoryOriginPolicyRequest","InventorySettingsRequest","SharedCodec772","SharedCodec773","SharedCodec774","SharedCodec777","SharedCodec778"]}

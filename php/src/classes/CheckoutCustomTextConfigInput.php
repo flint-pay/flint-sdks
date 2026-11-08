@@ -8,13 +8,13 @@ namespace Flint;
 final class CheckoutCustomTextConfigInput extends Model {
     /** @param array{'order_summary_message'?: string, 'shipping_address_label'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutCustomTextConfigInput')); }
-    /** order_summary_message
+    /** Message shown near the order summary in checkout.
      * @return string
      * @throws SdkError When order_summary_message is omitted; use hasOrderSummaryMessage() or valueOrDefault().
      */
     public function getOrderSummaryMessage(): string { return $this->get('order_summary_message'); }
     public function hasOrderSummaryMessage(): bool { return $this->has('order_summary_message'); }
-    /** shipping_address_label
+    /** Label shown for the shipping address in checkout.
      * @return string
      * @throws SdkError When shipping_address_label is omitted; use hasShippingAddressLabel() or valueOrDefault().
      */

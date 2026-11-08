@@ -67,7 +67,7 @@ final class DeliveryQuote extends Model {
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** delivery_quote_id
+    /** Unique identifier for this delivery quote, prefixed `dqt_`.
      * @return string
      */
     public function getDeliveryQuoteId(): string { return $this->get('delivery_quote_id'); }

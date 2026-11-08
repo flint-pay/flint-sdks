@@ -10,25 +10,25 @@ namespace Flint;
 final class RiskRuleAnalysisInput extends Model {
     /** @param array{'applicability': string, 'attributes_used': list<string>, 'list_aliases_used': list<string>, 'stage': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RiskRuleAnalysisInput')); }
-    /** Value enum: "all_payments", "on_session_only".
+    /** Which payments the rule applies to. Value enum: "all_payments", "on_session_only".
      * @return string
      * @throws SdkError When applicability is omitted; use hasApplicability() or valueOrDefault().
      */
     public function getApplicability(): string { return $this->get('applicability'); }
     public function hasApplicability(): bool { return $this->has('applicability'); }
-    /**  [] (Value): string.
+    /** Names of the payment attributes the rule reads. [] (Value): string.
      * @return list<string>
      * @throws SdkError When attributes_used is omitted; use hasAttributesUsed() or valueOrDefault().
      */
     public function getAttributesUsed(): array { return $this->get('attributes_used'); }
     public function hasAttributesUsed(): bool { return $this->has('attributes_used'); }
-    /**  [] (Value): string.
+    /** Aliases of the risk lists the rule references. [] (Value): string.
      * @return list<string>
      * @throws SdkError When list_aliases_used is omitted; use hasListAliasesUsed() or valueOrDefault().
      */
     public function getListAliasesUsed(): array { return $this->get('list_aliases_used'); }
     public function hasListAliasesUsed(): bool { return $this->has('list_aliases_used'); }
-    /** Value enum: "pre_authorization", "post_authorization".
+    /** When Flint evaluates the rule for a payment. Value enum: "pre_authorization", "post_authorization".
      * @return string
      * @throws SdkError When stage is omitted; use hasStage() or valueOrDefault().
      */

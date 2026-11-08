@@ -12,7 +12,7 @@ const idempotencyKey = crypto.randomUUID();
 
 const result = await client.me.createEmailChangeRequest(
   {
-    new_email: "example@example.invalid",
+    new_email: "alex.new@example.com",
   },
   { idempotencyKey: idempotencyKey },
 );

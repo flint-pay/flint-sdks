@@ -23,19 +23,19 @@ final class DeliveryProfileInput extends Model {
      */
     public function getConfiguration(): mixed { return $this->get('configuration'); }
     public function hasConfiguration(): bool { return $this->has('configuration'); }
-    /** Time the profile was created. Format: date-time.
+    /** Time the profile was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Immutable revision used for new line-item snapshots.
+    /** Immutable revision used for new line-item snapshots. Example: "dprofr_01KEZF7C00K1P3FXGHCF46YQ1F".
      * @return string
      * @throws SdkError When current_delivery_profile_revision_id is omitted; use hasCurrentDeliveryProfileRevisionId() or valueOrDefault().
      */
     public function getCurrentDeliveryProfileRevisionId(): string { return $this->get('current_delivery_profile_revision_id'); }
     public function hasCurrentDeliveryProfileRevisionId(): bool { return $this->has('current_delivery_profile_revision_id'); }
-    /** Stable delivery profile ID.
+    /** Stable delivery profile ID. Example: "dprof_01KEZF7C0020J13FQYNY9854R0".
      * @return string
      * @throws SdkError When delivery_profile_id is omitted; use hasDeliveryProfileId() or valueOrDefault().
      */
@@ -47,7 +47,7 @@ final class DeliveryProfileInput extends Model {
      */
     public function getDiagnostics(): mixed { return $this->get('diagnostics'); }
     public function hasDiagnostics(): bool { return $this->has('diagnostics'); }
-    /** Caller-owned identifier for this resource in an external system. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -71,7 +71,7 @@ final class DeliveryProfileInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Time the profile last changed. Format: date-time.
+    /** Time the profile last changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */

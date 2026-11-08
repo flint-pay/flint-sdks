@@ -16,8 +16,8 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->customers->linkGuestPurchases('cus_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
-  'customer_verification_id' => 'cver_01ARZ3NDEKTSV4RRFFQ69G5FAV',
+$result = $client->customers->linkGuestPurchases('cus_01KEZF7C006X9JK6NZNA2SM9XD', [
+  'customer_verification_id' => 'cver_01KEZF7C00E7S01991S7457CVK',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->customer_id . PHP_EOL;
 $client->close();

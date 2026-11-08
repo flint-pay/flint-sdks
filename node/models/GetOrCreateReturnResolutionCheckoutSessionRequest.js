@@ -1,11 +1,11 @@
-import { d4615 as c0 } from '../descriptors/data/198.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d617 as c1 } from '../descriptors/data/32.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d4621 as c2, d4622 as c3, d4623 as c4 } from '../descriptors/data/199.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d617 as d617 } from '../descriptors/data/32.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import { d5866 as c0 } from '../descriptors/data/258.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d647 as c1 } from '../descriptors/data/33.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d5874 as c2, d5875 as c3, d5876 as c4 } from '../descriptors/data/259.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d647 as d647 } from '../descriptors/data/33.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d617;
+const read = d647;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["CheckoutRedirectsRequest"]:c0(),["GetOrCreateReturnResolutionCheckoutSessionRequest"]:c1(),["SharedCodec138"]:c2(),["SharedCodec139"]:c3(),["SharedCodec140"]:c4()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["CheckoutRedirectsRequest"]:c0(),["GetOrCreateReturnResolutionCheckoutSessionRequest"]:c1(),["SharedCodec171"]:c2(),["SharedCodec172"]:c3(),["SharedCodec173"]:c4()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeGetOrCreateReturnResolutionCheckoutSessionRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

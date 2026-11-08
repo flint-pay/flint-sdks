@@ -22,7 +22,7 @@ namespace Flint;
  * @property-read list<string>|string $verification_status
  * Presence-aware input; omitted fields throw when accessed. */
 final class ReturnReceiptsListParams extends Model {
-    /** @param array{'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'external_reference_id'?: string, 'idempotency_key'?: string, 'page_size'?: int, 'page_token'?: string, 'query'?: string, 'received_after'?: string|\DateTimeInterface, 'received_before'?: string|\DateTimeInterface, 'receiving_location_id'?: string, 'return_id'?: string, 'return_line_item_id'?: string, 'shipment_id'?: string, 'source_system_type'?: list<string>|string, 'status'?: list<string>|string, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'verification_status'?: list<string>|string}|object $values */
+    /** @param array{'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'external_reference_id'?: string, 'idempotency_key'?: string, 'page_size'?: int, 'page_token'?: string, 'query'?: string, 'received_after'?: string|\DateTimeInterface, 'received_before'?: string|\DateTimeInterface, 'receiving_location_id'?: string, 'return_id'?: string, 'return_line_item_id'?: string, 'shipment_id'?: string, 'source_system_type'?: list<string>|string, 'status'?: list<string>|string, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'verification_status'?: list<string>|string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnReceiptsListParams')); }
     /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z".
      * @return string|\DateTimeInterface
@@ -36,7 +36,7 @@ final class ReturnReceiptsListParams extends Model {
      */
     public function getCreatedBefore(): string|\DateTimeInterface { return $this->get('created_before'); }
     public function hasCreatedBefore(): bool { return $this->has('created_before'); }
-    /** Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
+    /** Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -54,7 +54,7 @@ final class ReturnReceiptsListParams extends Model {
      */
     public function getPageSize(): int { return $this->get('page_size'); }
     public function hasPageSize(): bool { return $this->has('page_size'); }
-    /** Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error.
+    /** Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error.
      * @return string
      * @throws SdkError When page_token is omitted; use hasPageToken() or valueOrDefault().
      */
@@ -78,37 +78,37 @@ final class ReturnReceiptsListParams extends Model {
      */
     public function getReceivedBefore(): string|\DateTimeInterface { return $this->get('received_before'); }
     public function hasReceivedBefore(): bool { return $this->has('received_before'); }
-    /** Filter by receiving location id. Example: "loc_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Filter by receiving location id. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When receiving_location_id is omitted; use hasReceivingLocationId() or valueOrDefault().
      */
     public function getReceivingLocationId(): string { return $this->get('receiving_location_id'); }
     public function hasReceivingLocationId(): bool { return $this->has('receiving_location_id'); }
-    /** Filter by return id. Example: "ret_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Filter by return id. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
      * @return string
      * @throws SdkError When return_id is omitted; use hasReturnId() or valueOrDefault().
      */
     public function getReturnId(): string { return $this->get('return_id'); }
     public function hasReturnId(): bool { return $this->has('return_id'); }
-    /** Filter by return line item id. Example: "retli_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Filter by return line item id. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
      * @return string
      * @throws SdkError When return_line_item_id is omitted; use hasReturnLineItemId() or valueOrDefault().
      */
     public function getReturnLineItemId(): string { return $this->get('return_line_item_id'); }
     public function hasReturnLineItemId(): bool { return $this->has('return_line_item_id'); }
-    /** Filter by shipment id. Example: "shp_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Filter by shipment id. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
      * @return string
      * @throws SdkError When shipment_id is omitted; use hasShipmentId() or valueOrDefault().
      */
     public function getShipmentId(): string { return $this->get('shipment_id'); }
     public function hasShipmentId(): bool { return $this->has('shipment_id'); }
-    /** Filter by source system type. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "manual", "pos", "wms", "erp", "other", "flint". Value enum: "manual", "pos", "wms", "erp", "other", "flint". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "manual", "pos", "wms", "erp", "other", "flint". anyOf[1][] (Value): string.  Value enum: "manual", "pos", "wms", "erp", "other", "flint". anyOf[2] (Value): string.  Value enum: "manual", "pos", "wms", "erp", "other", "flint".
+    /** Filter by source system type. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "manual", "pos", "wms", "erp", "other", "flint". Value enum: "manual", "pos", "wms", "erp", "other", "flint". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "manual", "pos", "wms", "erp", "other", "flint". anyOf[1][] (Value): string.  Value enum: "manual", "pos", "wms", "erp", "other", "flint". anyOf[2] (Value): string.  Value enum: "manual", "pos", "wms", "erp", "other", "flint".
      * @return list<string>|string
      * @throws SdkError When source_system_type is omitted; use hasSourceSystemType() or valueOrDefault().
      */
     public function getSourceSystemType(): mixed { return $this->get('source_system_type'); }
     public function hasSourceSystemType(): bool { return $this->has('source_system_type'); }
-    /** Filter by status. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "current", "superseded". Value enum: "current", "superseded". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "current", "superseded". anyOf[1][] (Value): string.  Value enum: "current", "superseded". anyOf[2] (Value): string.  Value enum: "current", "superseded".
+    /** Filter by status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "current", "superseded". Value enum: "current", "superseded". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "current", "superseded". anyOf[1][] (Value): string.  Value enum: "current", "superseded". anyOf[2] (Value): string.  Value enum: "current", "superseded".
      * @return list<string>|string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
@@ -126,10 +126,28 @@ final class ReturnReceiptsListParams extends Model {
      */
     public function getUpdatedBefore(): string|\DateTimeInterface { return $this->get('updated_before'); }
     public function hasUpdatedBefore(): bool { return $this->has('updated_before'); }
-    /** Filter by verification status. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "matched", "unverified", "excess". Value enum: "matched", "unverified", "excess". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "matched", "unverified", "excess". anyOf[1][] (Value): string.  Value enum: "matched", "unverified", "excess". anyOf[2] (Value): string.  Value enum: "matched", "unverified", "excess".
+    /** Filter by verification status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "matched", "unverified", "excess". Value enum: "matched", "unverified", "excess". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "matched", "unverified", "excess". anyOf[1][] (Value): string.  Value enum: "matched", "unverified", "excess". anyOf[2] (Value): string.  Value enum: "matched", "unverified", "excess".
      * @return list<string>|string
      * @throws SdkError When verification_status is omitted; use hasVerificationStatus() or valueOrDefault().
      */
     public function getVerificationStatus(): mixed { return $this->get('verification_status'); }
     public function hasVerificationStatus(): bool { return $this->has('verification_status'); }
+    /** Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Merchant-Id is omitted; use hasFlintMerchantId() or valueOrDefault().
+     */
+    public function getFlintMerchantId(): string { return $this->get('Flint-Merchant-Id'); }
+    public function hasFlintMerchantId(): bool { return $this->has('Flint-Merchant-Id'); }
+    /** Mode of the request context, live or test. Optional; it must match the credential's mode. Value enum: "test", "live".
+     * @return string
+     * @throws SdkError When Flint-Mode is omitted; use hasFlintMode() or valueOrDefault().
+     */
+    public function getFlintMode(): string { return $this->get('Flint-Mode'); }
+    public function hasFlintMode(): bool { return $this->has('Flint-Mode'); }
+    /** Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Sandbox-Id is omitted; use hasFlintSandboxId() or valueOrDefault().
+     */
+    public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
+    public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
 }

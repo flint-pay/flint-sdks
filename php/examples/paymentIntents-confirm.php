@@ -16,12 +16,9 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->paymentIntents->confirm('pi_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
-  'credential_type' => 'stripe_confirmation_token',
-  'save_payment_method' => true,
-  'stripe' => (object) [
-    'confirmation_token' => 'ctoken_123',
-  ],
+$result = $client->paymentIntents->confirm('pi_01KEZF7C00G8H9D509YEV22P7R', [
+  'credential_type' => 'token',
+  'payment_source_token' => 'example',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo json_encode($result, JSON_THROW_ON_ERROR) . PHP_EOL;
 $client->close();

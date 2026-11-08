@@ -17,13 +17,13 @@ final class MerchantAccountSessionInput extends Model {
      */
     public function getClientSession(): mixed { return $this->get('client_session'); }
     public function hasClientSession(): bool { return $this->has('client_session'); }
-    /** minItems: 1. [] enum: "account_onboarding", "account_management", "payouts", "balances", "tax_documents", "notification_banner". [] (Value): string.  Value enum: "account_onboarding", "account_management", "payouts", "balances", "tax_documents", "notification_banner".
+    /** The components the session authorizes, in catalog order. minItems: 1. [] enum: "account_onboarding", "account_management", "payouts", "balances", "tax_documents", "notification_banner", "payments". [] (Value): string.  Value enum: "account_onboarding", "account_management", "payouts", "balances", "tax_documents", "notification_banner", "payments".
      * @return list<string>
      * @throws SdkError When components is omitted; use hasComponents() or valueOrDefault().
      */
     public function getComponents(): array { return $this->get('components'); }
     public function hasComponents(): bool { return $this->has('components'); }
-    /** The collection policy applied to a merchant account session: which requirements it targets, how they are collected, and whether future requirements are included.
+    /** The collection policy Flint applied to the session. The collection policy applied to a merchant account session: which requirements it targets, how they are collected, and whether future requirements are included.
      * @return MerchantAccountSessionEffectivePolicyInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When effective_policy is omitted; use hasEffectivePolicy() or valueOrDefault().
      */
@@ -35,7 +35,7 @@ final class MerchantAccountSessionInput extends Model {
      */
     public function getLaunchToken(): string { return $this->get('launch_token'); }
     public function hasLaunchToken(): bool { return $this->has('launch_token'); }
-    /** Expiry of launch_token in UTC. After expiry, create a new merchant account session. Format: date-time.
+    /** Expiry of launch_token in UTC. After expiry, create a new merchant account session. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When launch_token_expires_at is omitted; use hasLaunchTokenExpiresAt() or valueOrDefault().
      */

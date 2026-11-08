@@ -1,7 +1,7 @@
-import { d4142 as c0 } from '../descriptors/data/170.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d4142 as d4142 } from '../descriptors/data/170.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import { d5369 as c0 } from '../descriptors/data/230.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d5369 as d5369 } from '../descriptors/data/230.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d4142;
+const read = d5369;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["SubscriptionServiceLocationInputCustomerAddress"]:c0()}); }
 export { codec as _validate };

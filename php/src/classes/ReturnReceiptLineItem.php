@@ -28,17 +28,17 @@ final class ReturnReceiptLineItem extends Model {
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
-    /** return_line_item_id
+    /** ID of the Return line the units were matched to. Absent for unverified units.
      * @return ?string
      */
     public function getReturnLineItemId(): ?string { return $this->get('return_line_item_id'); }
     public function hasReturnLineItemId(): bool { return $this->has('return_line_item_id'); }
-    /** return_receipt_id
+    /** ID of the receipt the line belongs to.
      * @return string
      */
     public function getReturnReceiptId(): string { return $this->get('return_receipt_id'); }
     public function hasReturnReceiptId(): bool { return $this->has('return_receipt_id'); }
-    /** return_receipt_line_item_id
+    /** Unique identifier for this return receipt line item, prefixed `retrcli_`.
      * @return string
      */
     public function getReturnReceiptLineItemId(): string { return $this->get('return_receipt_line_item_id'); }
@@ -48,22 +48,22 @@ final class ReturnReceiptLineItem extends Model {
      */
     public function getSupportedActions(): array { return $this->get('supported_actions'); }
     public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
-    /** Merchandise received in a return that does not match an expected return line, described by name, SKU, and description.
+    /** What the operator recorded for units that match no line. Present on `unverified` lines. Merchandise received in a return that does not match an expected return line, described by name, SKU, and description.
      * @return ?ReturnUnverifiedItem
      */
     public function getUnverifiedItem(): ?ReturnUnverifiedItem { return $this->get('unverified_item'); }
     public function hasUnverifiedItem(): bool { return $this->has('unverified_item'); }
-    /** Value enum: "order_match_confirmed", "sku_match_confirmed", "inspection_confirmed", "merchant_review", "other".
+    /** Why the units were verified against the line. Value enum: "order_match_confirmed", "sku_match_confirmed", "inspection_confirmed", "merchant_review", "other".
      * @return ?string
      */
     public function getVerificationReason(): ?string { return $this->get('verification_reason'); }
     public function hasVerificationReason(): bool { return $this->has('verification_reason'); }
-    /** verification_reason_message
+    /** Detail about `verification_reason`.
      * @return ?string
      */
     public function getVerificationReasonMessage(): ?string { return $this->get('verification_reason_message'); }
     public function hasVerificationReasonMessage(): bool { return $this->has('verification_reason_message'); }
-    /** Value enum: "matched", "unverified", "excess".
+    /** Whether the units are matched to a line. Value enum: "matched", "unverified", "excess".
      * @return string
      */
     public function getVerificationStatus(): string { return $this->get('verification_status'); }
@@ -73,7 +73,7 @@ final class ReturnReceiptLineItem extends Model {
      */
     public function getVerifiedAt(): ?string { return $this->get('verified_at'); }
     public function hasVerifiedAt(): bool { return $this->has('verified_at'); }
-    /** Who performed a return action: a buyer, merchant, integration, or the system, with an optional ID.
+    /** Who verified the line. Who performed a return action: a buyer, merchant, integration, or the system, with an optional ID.
      * @return ?ReturnActor
      */
     public function getVerifiedBy(): ?ReturnActor { return $this->get('verified_by'); }

@@ -2,9 +2,9 @@
 
 ## InvoiceDeliveryAttempt
 
-One attempt to deliver an invoice by email, either the original send or a reminder, with its recipients and status.
+One attempt to email an invoice or an invoice reminder.
 
 Response model.
 
-Fields, types, descriptions and enum values: [InvoiceDeliveryAttemptInput](../models/InvoiceDeliveryAttemptInput.md#invoicedeliveryattemptinput).
+Fields, types, descriptions and enum values: [InvoiceDeliveryAttemptFailedMerchantEventDataObject](../models/InvoiceDeliveryAttemptFailedMerchantEventDataObject.md#invoicedeliveryattemptfailedmerchanteventdataobject).
 

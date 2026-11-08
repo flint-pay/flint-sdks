@@ -2,9 +2,12 @@
 
 ## OnboardingStartResult
 
-The result of starting onboarding: whether email verification began, plus the verification token and its expiry.
+The verification token and expiry returned after the verification email is accepted for asynchronous delivery. Success does not confirm email delivery.
 
 Response model.
 
-Fields, types, descriptions and enum values: [OnboardingStartResultInput](../models/OnboardingStartResultInput.md#onboardingstartresultinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `expires_at` | Required | string | Time the email verification expires. Start onboarding again to request a new code after this time. Format: `date-time`. |
+| `verification_token` | Required | string | Token identifying the email verification. Send it with the emailed code to POST /v1/onboarding/verify-email. |
 

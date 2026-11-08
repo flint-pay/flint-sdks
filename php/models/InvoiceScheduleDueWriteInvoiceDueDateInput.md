@@ -8,6 +8,6 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `due_at` | Optional | string | When this entry is due. Required for `date`. Not accepted for `at_issue` or `invoice_due_date`, which Flint resolves when the invoice is issued. Format: `date-time`. minLength: `1`. |
+| `due_date` | Optional | string | Calendar due date in YYYY-MM-DD format in the invoice timezone (UTC when absent). Required for date and must be today or later. Not accepted for at_issue or invoice_due_date, which resolve when the invoice is issued. Format: `date`. minLength: `1`. Example: `"2026-08-02"`. |
 | `type` | Required | string | How the entry's due time is set. Values: `"invoice_due_date"`. |
 

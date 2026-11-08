@@ -6,5 +6,9 @@ Shows that a subscription renewal is waiting for inventory, with the order and i
 
 Response model.
 
-Fields, types, descriptions and enum values: [SubscriptionInventoryWaitInput](../models/SubscriptionInventoryWaitInput.md#subscriptioninventorywaitinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `invoice_id` | Required | string |  |
+| `order_id` | Required | string |  |
+| `started_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 

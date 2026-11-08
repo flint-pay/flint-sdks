@@ -9,13 +9,13 @@ namespace Flint;
 final class PromotionScheduleInput extends Model {
     /** @param array{'ends_at'?: string|\DateTimeInterface, 'starts_at'?: string|\DateTimeInterface, 'timezone'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PromotionScheduleInput')); }
-    /** Time after which the promotion can no longer apply, as an absolute RFC3339 timestamp. Omitted when it has no end time. Format: date-time. minLength: 1.
+    /** Time after which the promotion can no longer apply, as an absolute RFC3339 timestamp. Omitted when it has no end time. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When ends_at is omitted; use hasEndsAt() or valueOrDefault().
      */
     public function getEndsAt(): string|\DateTimeInterface { return $this->get('ends_at'); }
     public function hasEndsAt(): bool { return $this->has('ends_at'); }
-    /** Earliest time the promotion can apply, as an absolute RFC3339 timestamp. Omitted when it has no start time. Format: date-time. minLength: 1.
+    /** Earliest time the promotion can apply, as an absolute RFC3339 timestamp. Omitted when it has no start time. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When starts_at is omitted; use hasStartsAt() or valueOrDefault().
      */

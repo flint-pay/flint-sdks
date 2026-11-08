@@ -17,8 +17,9 @@ $client = new Client(new ClientOptions(
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->subscriptionDeliveryMigrations->create([
-  'from_delivery_method_id' => 'dmet_01ARZ3NDEKTSV4RRFFQ69G5FAV',
-  'to_delivery_method_id' => 'dmet_01ARZ3NDEKTSV4RRFFQ69G5FAV',
+  'from_delivery_method_id' => 'dmet_01K1P6G4M7H2N8Q9R3S5T6V7WX',
+  'subscription_plan_id' => 'plan_01KEZF7C00S177Q3KK6BKXGXV7',
+  'to_delivery_method_id' => 'dmet_01KEZF7C00F34Q6CJF6MF7HWGT',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->from_delivery_method_id . PHP_EOL;
 echo $result->status . PHP_EOL;

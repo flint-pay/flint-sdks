@@ -8,5 +8,5 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `all` | Required | Array of [RiskPredicateNodeInput](../models/RiskPredicateNodeInput.md#riskpredicatenodeinput) | minItems: `1`. maxItems: `50`. |
+| `all` | Required | Array of [RiskPredicateNodeInput](../models/RiskPredicateNodeInput.md#riskpredicatenodeinput) | Predicates that must all match. minItems: `1`. maxItems: `50`. |
 

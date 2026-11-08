@@ -16,7 +16,7 @@ final class BuyerPaymentErrorSummaryInput extends Model {
      */
     public function getCode(): string { return $this->get('code'); }
     public function hasCode(): bool { return $this->has('code'); }
-    /** Time the payment attempt concluded in failure. Format: date-time.
+    /** Time the payment attempt concluded in failure. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When failed_at is omitted; use hasFailedAt() or valueOrDefault().
      */

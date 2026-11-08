@@ -8,8 +8,8 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.creditNotes.reverseAllocation(
-  "cn_01ARZ3NDEKTSV4RRFFQ69G5FAV",
-  "cna_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "cn_01KEZF7C00N1TRRCVDNY8S471H",
+  "cna_01KEZF7C00EH6DMS9BD8F72CMA",
   undefined,
   { idempotencyKey: idempotencyKey },
 );

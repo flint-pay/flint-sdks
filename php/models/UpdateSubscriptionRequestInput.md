@@ -13,9 +13,11 @@ Request input.
 | `billing_schedule` | Optional | [SubscriptionBillingScheduleUpdateRequestInput](../models/SubscriptionBillingScheduleUpdateRequestInput.md#subscriptionbillingscheduleupdaterequestinput) | A closed owner-specific billing schedule update. |
 | `cancel_at_period_end` | Optional | boolean | Values: `false`. |
 | `delivery` | Optional | [SubscriptionDeliveryRequestInput](../models/SubscriptionDeliveryRequestInput.md#subscriptiondeliveryrequestinput) | The delivery preference to set on a subscription: delivery method, type, destination, and recipient. |
-| `expected_version` | Optional | integer | Format: `uint64`. minimum: `1`. |
-| `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. |
+| `end_after` | Optional | [SubscriptionEndAfterRequestInput](../models/SubscriptionEndAfterRequestInput.md#subscriptionendafterrequestinput) or null | Replace the complete automatic end condition, or send null to clear it. Requires expected_version. Buyers cannot change this field. |
+| `expected_version` | Optional | integer | The current subscription version. Required when end_after is present. Format: `uint64`. minimum: `1`. |
+| `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. Example: `"warehouse-1842"`. |
 | `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequestInput.md#metadatapatchrequestinput) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. This operation also limits the metadata object you send, before merging: at most 50 keys, counting null deletions, each key 1 to 256 Unicode code points, and at most 32768 UTF-8 bytes of keys plus values. |
-| `payment_method_id` | Optional | string | minLength: `1`. |
+| `payment_method_id` | Optional | string | minLength: `1`. Example: `"pm_01KEZF7C0034B248TXXE4NXYFZ"`. |
 | `quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. minimum: `1`. maximum: `100`. |
+| `scheduled_plan_change` | Optional | null | Send null to cancel a scheduled plan change and keep the current plan. Omit to leave it unchanged. Schedule or replace through change-plan. |
 

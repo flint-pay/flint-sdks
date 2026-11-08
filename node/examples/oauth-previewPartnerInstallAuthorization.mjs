@@ -6,7 +6,7 @@ const client = new Client({
 });
 const result = await client.oauth.previewPartnerInstallAuthorization(
   {
-    client_id: "example",
+    client_id: "fpc_00112233445566778899aabbccddeeff",
     redirect_uri: "example",
     mode: "test",
   }

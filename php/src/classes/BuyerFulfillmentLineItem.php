@@ -9,7 +9,7 @@ namespace Flint;
 final class BuyerFulfillmentLineItem extends Model {
     /** @param array{'modifiers'?: list<mixed>, 'order_line_item_id': string, 'quantity': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerFulfillmentLineItem')); }
-    /** Modifier selections snapshotted from the order line for fulfillment. [] (Value): {@see BuyerOrderLineItemModifier}. A modifier on a buyer's order line item, either a catalog modifier or entered text, with its quantity and price change.
+    /** Modifier selections snapshotted from the order line for fulfillment. [] (Value): {@see BuyerOrderLineItemModifier}. A modifier selected on an order line item.
      * @return ?list<BuyerOrderLineItemModifier>
      */
     public function getModifiers(): ?array { return $this->get('modifiers'); }

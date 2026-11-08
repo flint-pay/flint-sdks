@@ -9,7 +9,7 @@ namespace Flint;
 final class UpdateSubscriptionLineItemRequestInput extends Model {
     /** @param array{'expected_version'?: int, 'quantity'?: int, 'variant_id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdateSubscriptionLineItemRequestInput')); }
-    /** Format: uint64. minimum: 1.
+    /** Version last read from the resource returned in `data` (the primary resource for a result object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on the operation and fields being changed. Format: uint64. minimum: 1.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */
@@ -21,7 +21,7 @@ final class UpdateSubscriptionLineItemRequestInput extends Model {
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
-    /** minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
+    /** minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
      * @return string
      * @throws SdkError When variant_id is omitted; use hasVariantId() or valueOrDefault().
      */

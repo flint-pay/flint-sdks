@@ -10,9 +10,10 @@ namespace Flint;
  * @property-read string $expires_at
  * @property-read ?string $phone_last_digits
  * @property-read string $purpose
+ * @property-read list<string> $supported_actions
  * Presence-aware response; omitted optional fields return null. */
 final class CheckoutSessionCustomerVerification extends Model {
-    /** @param array{'channel': string, 'checkout_session_customer_verification_id': string, 'checkout_session_id': string, 'created_at': string, 'email'?: string, 'expires_at': string, 'phone_last_digits'?: string, 'purpose': string, ...}|object $values */
+    /** @param array{'channel': string, 'checkout_session_customer_verification_id': string, 'checkout_session_id': string, 'created_at': string, 'email'?: string, 'expires_at': string, 'phone_last_digits'?: string, 'purpose': string, 'supported_actions': list<string>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutSessionCustomerVerification')); }
     /** How the code reached the buyer: email or sms. Value enum: "email", "sms".
      * @return string
@@ -54,4 +55,9 @@ final class CheckoutSessionCustomerVerification extends Model {
      */
     public function getPurpose(): string { return $this->get('purpose'); }
     public function hasPurpose(): bool { return $this->has('purpose'); }
+    /** Lifecycle actions available on this code request. Contains confirm before expires_at; empty once the code expires. A wrong code is refused without revealing whether a code was sent. [] enum: "confirm". [] (Value): string.  Value enum: "confirm".
+     * @return list<string>
+     */
+    public function getSupportedActions(): array { return $this->get('supported_actions'); }
+    public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
 }

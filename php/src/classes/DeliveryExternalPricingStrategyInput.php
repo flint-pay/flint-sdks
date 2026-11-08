@@ -11,13 +11,13 @@ namespace Flint;
 final class DeliveryExternalPricingStrategyInput extends Model {
     /** @param array{'delivery_rate_callback_id'?: string, 'delivery_rate_callback_revision_id'?: string, 'maximum_fee_currency_options': array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass, 'minimum_fee_currency_options': array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass, 'preview_enabled'?: bool}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryExternalPricingStrategyInput')); }
-    /** delivery_rate_callback_id
+    /** Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
      * @return string
      * @throws SdkError When delivery_rate_callback_id is omitted; use hasDeliveryRateCallbackId() or valueOrDefault().
      */
     public function getDeliveryRateCallbackId(): string { return $this->get('delivery_rate_callback_id'); }
     public function hasDeliveryRateCallbackId(): bool { return $this->has('delivery_rate_callback_id'); }
-    /** delivery_rate_callback_revision_id
+    /** Example: "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
      * @return string
      * @throws SdkError When delivery_rate_callback_revision_id is omitted; use hasDeliveryRateCallbackRevisionId() or valueOrDefault().
      */

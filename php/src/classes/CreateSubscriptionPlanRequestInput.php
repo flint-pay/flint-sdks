@@ -4,17 +4,19 @@ namespace Flint;
 /**
  * @property-read string $billing_interval
  * @property-read int $billing_interval_count
- * @property-read list<SubscriptionIntervalOptionInput|array<array-key, mixed>|\stdClass> $billing_interval_options
+ * @property-read list<SubscriptionIntervalOptionRequestInput|array<array-key, mixed>|\stdClass> $billing_interval_options
  * @property-read int $contract_term_months
  * @property-read string $currency
  * @property-read string $description
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $early_termination_fee_money
+ * @property-read array{'cycle_count': int, 'type': string}|object|null $end_after
  * @property-read string $external_reference_id
  * @property-read list<ImageRequestInput|array<array-key, mixed>|\stdClass> $images
  * @property-read InventoryRoutingSourceRequestInput|array<array-key, mixed>|\stdClass $inventory_routing_source
  * @property-read list<SubscriptionPlanLineItemRequestInput|array<array-key, mixed>|\stdClass> $line_items
  * @property-read MetadataRequestInput|array<array-key, mixed>|\stdClass $metadata
  * @property-read string $name
+ * @property-read list<SubscriptionPlanChangeOptionRequestInput|array<array-key, mixed>|\stdClass> $plan_change_options
  * @property-read list<int> $quantity_options
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $setup_fee_money
  * @property-read string $status
@@ -22,7 +24,7 @@ namespace Flint;
  * @property-read int $trial_period_days
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateSubscriptionPlanRequestInput extends Model {
-    /** @param array{'billing_interval': string, 'billing_interval_count': int, 'billing_interval_options'?: list<SubscriptionIntervalOptionInput|array<array-key, mixed>|\stdClass>, 'contract_term_months'?: int, 'currency': string, 'description'?: string, 'early_termination_fee_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'images'?: list<ImageRequestInput|array<array-key, mixed>|\stdClass>, 'inventory_routing_source'?: InventoryRoutingSourceRequestInput|array<array-key, mixed>|\stdClass, 'line_items': list<SubscriptionPlanLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'name': string, 'quantity_options'?: list<int>, 'setup_fee_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'status'?: string, 'subscription_delivery_method_ids'?: list<string>, 'trial_period_days'?: int}|object $values */
+    /** @param array{'billing_interval': string, 'billing_interval_count': int, 'billing_interval_options'?: list<SubscriptionIntervalOptionRequestInput|array<array-key, mixed>|\stdClass>, 'contract_term_months'?: int, 'currency': string, 'description'?: string, 'early_termination_fee_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'end_after'?: array{'cycle_count': int, 'type': string}|object|null, 'external_reference_id'?: string, 'images'?: list<ImageRequestInput|array<array-key, mixed>|\stdClass>, 'inventory_routing_source'?: InventoryRoutingSourceRequestInput|array<array-key, mixed>|\stdClass, 'line_items': list<SubscriptionPlanLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'name': string, 'plan_change_options'?: list<SubscriptionPlanChangeOptionRequestInput|array<array-key, mixed>|\stdClass>, 'quantity_options'?: list<int>, 'setup_fee_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'status'?: string, 'subscription_delivery_method_ids'?: list<string>, 'trial_period_days'?: int}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateSubscriptionPlanRequestInput')); }
     /** Value enum: "daily", "weekly", "monthly", "yearly".
      * @return string
@@ -36,8 +38,8 @@ final class CreateSubscriptionPlanRequestInput extends Model {
      */
     public function getBillingIntervalCount(): int { return $this->get('billing_interval_count'); }
     public function hasBillingIntervalCount(): bool { return $this->has('billing_interval_count'); }
-    /** maxItems: 12. uniqueItems: true. [] (Value): {@see SubscriptionIntervalOptionInput}. A billing interval, such as every 2 months, offered by a subscription plan.
-     * @return list<SubscriptionIntervalOptionInput|array<array-key, mixed>|\stdClass>
+    /** Offered billing interval and count pairs, including the plan's default pair. Every option bills the same line prices once per period. Use separate plans for different prices per interval. maxItems: 12. uniqueItems: true. [] (Value): {@see SubscriptionIntervalOptionRequestInput}. A billing cadence offered by a subscription plan or offer. Every option bills the same line prices once per period; prices are not scaled by the interval. For a different price per interval, create separate plans.
+     * @return list<SubscriptionIntervalOptionRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When billing_interval_options is omitted; use hasBillingIntervalOptions() or valueOrDefault().
      */
     public function getBillingIntervalOptions(): array { return $this->get('billing_interval_options'); }
@@ -66,7 +68,13 @@ final class CreateSubscriptionPlanRequestInput extends Model {
      */
     public function getEarlyTerminationFeeMoney(): mixed { return $this->get('early_termination_fee_money'); }
     public function hasEarlyTerminationFeeMoney(): bool { return $this->has('early_termination_fee_money'); }
-    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255.
+    /** Default automatic end for new subscriptions. Counts charged billing cycles, from 1 to 1200. Send null for no automatic end. Existing subscriptions keep their recorded condition. Null when no default automatic end is set. anyOf[1] (Value): {@see SubscriptionEndAfterCyclesRequestInput}. A subscription automatic end measured by the total number of charged billing cycles. anyOf[2] (Value): null.
+     * @return array{'cycle_count': int, 'type': string}|object|null
+     * @throws SdkError When end_after is omitted; use hasEndAfter() or valueOrDefault().
+     */
+    public function getEndAfter(): mixed { return $this->get('end_after'); }
+    public function hasEndAfter(): bool { return $this->has('end_after'); }
+    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -102,6 +110,12 @@ final class CreateSubscriptionPlanRequestInput extends Model {
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
+    /** Plans subscribers may switch to, in display order, with the billing timing for each target. Empty means plan changes are off. Omission on PATCH keeps the options; an array replaces them and requires expected_version. Send [] to clear. Null is invalid. maxItems: 25. [] (Value): {@see SubscriptionPlanChangeOptionRequestInput}. A target plan subscribers may switch to and the billing timing for that change.
+     * @return list<SubscriptionPlanChangeOptionRequestInput|array<array-key, mixed>|\stdClass>
+     * @throws SdkError When plan_change_options is omitted; use hasPlanChangeOptions() or valueOrDefault().
+     */
+    public function getPlanChangeOptions(): array { return $this->get('plan_change_options'); }
+    public function hasPlanChangeOptions(): bool { return $this->has('plan_change_options'); }
     /** maxItems: 10. uniqueItems: true. [] (Value): integer. minimum: 1. maximum: 100.
      * @return list<int>
      * @throws SdkError When quantity_options is omitted; use hasQuantityOptions() or valueOrDefault().
@@ -120,13 +134,13 @@ final class CreateSubscriptionPlanRequestInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /**  [] (Value): string. minLength: 1.
+    /**  [] (Value): string. minLength: 1. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
      * @return list<string>
      * @throws SdkError When subscription_delivery_method_ids is omitted; use hasSubscriptionDeliveryMethodIds() or valueOrDefault().
      */
     public function getSubscriptionDeliveryMethodIds(): array { return $this->get('subscription_delivery_method_ids'); }
     public function hasSubscriptionDeliveryMethodIds(): bool { return $this->has('subscription_delivery_method_ids'); }
-    /** Format: int32.
+    /** Days of free trial before the first charge, from 0 to 365; 0 means no trial. Not allowed on plans with lines that ship. Format: int32. minimum: 0. maximum: 365.
      * @return int
      * @throws SdkError When trial_period_days is omitted; use hasTrialPeriodDays() or valueOrDefault().
      */

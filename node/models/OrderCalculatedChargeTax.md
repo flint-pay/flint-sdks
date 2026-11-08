@@ -2,7 +2,7 @@
 
 ## OrderCalculatedChargeTax
 
-Tax settings for an order charge calculated by Flint or supplied by you, including the charge's tax category and whether it is taxable.
+
 
 
 
@@ -10,6 +10,18 @@ Tax settings for an order charge calculated by Flint or supplied by you, includi
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `charge_tax_category` | Optional | string | Tax category of the charge, which decides its automatic tax: shipping and delivery are taxed at the general rate, and a taxable charge in another category fails with AUTOMATIC_TAX_CHARGE_UNSUPPORTED. Omitted, the charge takes delivery from delivery_fee, shipping from shipping_fee, service_fee from service_fee, and handling from handling_fee; other types take none. The default follows type and is not returned. Values: `"service_fee"`, `"shipping"`, `"delivery"`, `"handling"`, `"surcharge"`. |
-| `taxable` | Optional | boolean |  |
+| `charge_tax_category` | Optional | string | Tax category of the charge, which decides its automatic tax: service_fee, shipping, delivery, handling, and surcharge are taxed at the general rate at the charge location, including the store for pickup. A taxable charge without a category fails with `INVALID_REQUEST` and a `NOT_ALLOWED` detail on the charge. Omitted, the charge takes delivery from delivery_fee, shipping from shipping_fee, service_fee from service_fee, and handling from handling_fee; other types take none. The default follows type and is not returned. Values: `"service_fee"`, `"shipping"`, `"delivery"`, `"handling"`, `"surcharge"`. |
+| `taxable` | Optional | boolean | Whether the charge is subject to tax. |
+
+### OrderCalculatedChargeTax variant 1
+
+anyOf variant 1: Declared schema OrderCalculatedChargeTax. Tax settings for an order charge calculated by Flint or supplied by you, including the charge's tax category and whether it is taxable..
+
+No additional constraints.
+
+### OrderCalculatedChargeTax variant 2
+
+anyOf variant 2: Declared schema OrderCalculatedChargeTaxRequest. Tax settings for an order charge calculated by Flint or supplied by you, including the charge's tax category and whether it is taxable..
+
+No additional constraints.
 

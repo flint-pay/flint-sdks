@@ -21,12 +21,12 @@ final class RiskListItem extends Model {
      */
     public function getCreatedBy(): ResourceReference|null { return $this->get('created_by'); }
     public function hasCreatedBy(): bool { return $this->has('created_by'); }
-    /** risk_list_id
+    /** ID of the risk list this value is on.
      * @return string
      */
     public function getRiskListId(): string { return $this->get('risk_list_id'); }
     public function hasRiskListId(): bool { return $this->has('risk_list_id'); }
-    /** risk_list_item_id
+    /** Unique identifier for this risk list item, prefixed `rli_`.
      * @return string
      */
     public function getRiskListItemId(): string { return $this->get('risk_list_item_id'); }

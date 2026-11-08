@@ -5,7 +5,7 @@ const client = new Client({
   allowInsecureHttp: !!baseUrl && ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
 });
 const result = await client.modifierSets.get(
-  "ms_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "ms_01KEZF7C007EWZVVFAWVJJM8NR"
 );
 console.log(result.modifier_set_id);
 console.log(result.status);

@@ -10,12 +10,12 @@ Response model.
 | --- | --- | --- | --- |
 | `evaluated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `expires_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `line_items` | Required | Array of [ReturnPolicyEvaluationLineItem](../models/ReturnPolicyEvaluationLineItem.md#returnpolicyevaluationlineitem) |  |
-| `reason` | Required | string | Values: [9 declared values](#returnpolicyevaluation-reason-values). |
-| `reason_message` | Required | string |  |
-| `return_policy_id` | Optional | string |  |
-| `return_policy_revision_id` | Optional | string |  |
-| `status` | Required | string | Values: `"eligible"`, `"ineligible"`, `"review_required"`. |
+| `line_items` | Required | Array of [ReturnPolicyEvaluationLineItem](../models/ReturnPolicyEvaluationLineItem.md#returnpolicyevaluationlineitem) | Eligibility of each line asked about. `line_items[]`: [field definitions](../models/CancelReturnResponse.md#cancelreturnresponsedatapolicy_evaluationline_items). |
+| `reason` | Required | string | Why the selection got this result. Values: [9 declared values](#returnpolicyevaluation-reason-values). |
+| `reason_message` | Required | string | Explanation of `reason`. |
+| `return_policy_id` | Optional | string | ID of the policy that judged the lines. Absent when none matched. |
+| `return_policy_revision_id` | Optional | string | ID of the policy revision that judged the lines. Absent when none matched. |
+| `status` | Required | string | Overall result for the selection. `review_required` when the lines differ. Values: `"eligible"`, `"ineligible"`, `"review_required"`. |
 
 #### ReturnPolicyEvaluation reason values
 
@@ -28,4 +28,8 @@ Response model.
 - `"reason_not_allowed"`
 - `"policy_conflict"`
 - `"no_matching_policy"`
+
+### ReturnPolicyEvaluation.line_items[]
+
+Field definitions: [CancelReturnResponse.data.policy_evaluation.line_items[]](../models/CancelReturnResponse.md#cancelreturnresponsedatapolicy_evaluationline_items).
 

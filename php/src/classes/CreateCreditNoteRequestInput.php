@@ -11,13 +11,13 @@ namespace Flint;
 final class CreateCreditNoteRequestInput extends Model {
     /** @param array{'external_reference_id'?: string, 'invoice_id': string, 'line_items'?: list<CreditNoteLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'memo'?: string, 'reason': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateCreditNoteRequestInput')); }
-    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** The invoice to correct. It has to be past draft and not voided. minLength: 1.
+    /** The invoice to correct. It has to be past draft and not voided. minLength: 1. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
      * @return string
      * @throws SdkError When invoice_id is omitted; use hasInvoiceId() or valueOrDefault().
      */

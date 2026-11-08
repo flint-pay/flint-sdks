@@ -23,7 +23,7 @@ final class ReturnReason extends Model {
      */
     public function getCategoryHandles(): array { return $this->get('category_handles'); }
     public function hasCategoryHandles(): bool { return $this->has('category_handles'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** When the reason was created. Built-in Flint reasons use their release time, 2026-07-27T00:00:00Z. Their updated_at is the merchant availability change time, or the same release time if unchanged. Format: date-time.
      * @return string
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
@@ -58,7 +58,7 @@ final class ReturnReason extends Model {
      */
     public function getReturnReasonId(): string { return $this->get('return_reason_id'); }
     public function hasReturnReasonId(): bool { return $this->has('return_reason_id'); }
-    /** Value enum: "flint", "merchant".
+    /** Whether Flint provides the reason or you created it. Value enum: "flint", "merchant".
      * @return string
      */
     public function getSource(): string { return $this->get('source'); }

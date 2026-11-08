@@ -3,13 +3,19 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read PromotionUpdatedMerchantEventDataObject $object
+ * @property-read ?array<array-key, mixed> $previous_attributes
  * Presence-aware response; omitted optional fields return null. */
 final class PromotionUpdatedMerchantEventData extends Model {
-    /** @param array{'object': object{'application_method': mixed, 'available': bool, 'codes'?: list<mixed>, 'codes_summary'?: mixed, 'combines_with': mixed, 'created_at'?: string, 'description'?: string, 'discount_class': string, 'display_name': string, 'eligibility_rules'?: mixed, 'exclusivity'?: mixed, 'external_reference_id'?: string, 'max_uses'?: int, 'merchant_id'?: string, 'metadata'?: mixed, 'name': string, 'promotion_id': string, 'redemption_type': string, 'schedule'?: mixed, 'status': string, 'unavailable_reason'?: string, 'updated_at'?: string, 'uses_count': int, 'version': int}, ...}|object $values */
+    /** @param array{'object': object{'application_method': mixed, 'available': bool, 'codes'?: list<mixed>, 'codes_summary'?: mixed, 'combines_with': mixed, 'created_at'?: string, 'description'?: string, 'discount_class': string, 'display_name': string, 'eligibility_rules'?: mixed, 'exclusivity'?: mixed, 'external_reference_id'?: string, 'max_uses'?: int, 'max_uses_per_customer': int|null, 'merchant_id'?: string, 'metadata'?: mixed, 'name': string, 'promotion_id': string, 'redemption_type': string, 'schedule'?: mixed, 'status': string, 'unavailable_reason'?: string, 'updated_at'?: string, 'uses_count': int, 'version': int}, 'previous_attributes'?: \stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PromotionUpdatedMerchantEventData')); }
-    /** Promotion evaluation order: manual discounts stay, do not count toward the cap, and are ignored by combines_with. Frozen subscription-term promotions are admitted first and are exempt from exclusivity, combines_with, and the cap. Candidates include codes being applied, existing promotion discounts, and qualifying automatic promotions. Each exclusivity group keeps its highest-priority member, then the larger standalone discount, earlier created_at, and lower promotion_id. Remaining candidates rank by standalone discount, then earlier created_at and lower promotion_id; each is admitted unless max_promotions_per_order is reached or both promotions do not allow each other's discount class. Admitted promotions price line item first, then order, then service charge. A zero-value promotion is dropped and selection runs again.
+    /** The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `codes`.
      * @return PromotionUpdatedMerchantEventDataObject
      */
     public function getObject(): PromotionUpdatedMerchantEventDataObject { return $this->get('object'); }
     public function hasObject(): bool { return $this->has('object'); }
+    /** Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
+     * @return ?array<array-key, mixed>
+     */
+    public function getPreviousAttributes(): ?array { return $this->get('previous_attributes'); }
+    public function hasPreviousAttributes(): bool { return $this->has('previous_attributes'); }
 }

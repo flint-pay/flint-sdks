@@ -8,7 +8,7 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.deliveryLocationSets.delete(
-  "dls_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "dls_01KEZF7C00C4WWN7RYTRF55C4H",
   {},
   { idempotencyKey: idempotencyKey },
 );

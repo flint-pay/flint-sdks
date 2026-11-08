@@ -1,0 +1,1 @@
+{"shared":"PartnerAppPlatformLimits","phpRepresentation":{"kind":"record","fields":{"live_merchant_limit":{"kind":"value","type":"int"},"monthly_volume_limit_currency_options":{"kind":"map","value":{"kind":"entity","name":"MoneyValue"}},"usage":{"kind":"entity","name":"PartnerAppPlatformUsage"}}},"dependencies":["MoneyValue","PartnerAppPlatformLimits","PartnerAppPlatformUsage"]}

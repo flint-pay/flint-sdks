@@ -16,11 +16,11 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->orders->removeDiscounts('ord_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
+$result = $client->orders->removeDiscounts('ord_01KEZF7C0054GQKJ142A8X367A', [
   'order_discount_ids' => [
     'ad_01JFXH8Z2K7QF9V3MB0N4T6RCP',
   ],
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
+echo $result->merchant_id . PHP_EOL;
 echo $result->order_id . PHP_EOL;
-echo $result->status . PHP_EOL;
 $client->close();

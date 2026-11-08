@@ -5,7 +5,7 @@ const client = new Client({
   allowInsecureHttp: !!baseUrl && ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
 });
 const result = await client.paymentReviews.get(
-  "rev_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "rev_01KEZF7C00BVBQ00XDFNKB1EF6"
 );
 console.log(result.payment_intent_id);
 console.log(result.payment_review_id);

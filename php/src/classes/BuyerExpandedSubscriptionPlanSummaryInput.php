@@ -32,13 +32,13 @@ final class BuyerExpandedSubscriptionPlanSummaryInput extends Model {
      */
     public function getBillingIntervalCount(): int { return $this->get('billing_interval_count'); }
     public function hasBillingIntervalCount(): bool { return $this->has('billing_interval_count'); }
-    /** maxItems: 12. uniqueItems: true. [] (Value): {@see SubscriptionIntervalOptionInput}. A billing interval, such as every 2 months, offered by a subscription plan.
+    /** Offered billing interval and count pairs, including the plan's default pair. Every option bills the same line prices once per period. Use separate plans for different prices per interval. maxItems: 12. uniqueItems: true. [] (Value): {@see SubscriptionIntervalOptionInput}. A billing cadence offered by a subscription plan or offer. Every option bills the same line prices once per period; prices are not scaled by the interval. For a different price per interval, create separate plans.
      * @return list<SubscriptionIntervalOptionInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When billing_interval_options is omitted; use hasBillingIntervalOptions() or valueOrDefault().
      */
     public function getBillingIntervalOptions(): array { return $this->get('billing_interval_options'); }
     public function hasBillingIntervalOptions(): bool { return $this->has('billing_interval_options'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
@@ -56,7 +56,7 @@ final class BuyerExpandedSubscriptionPlanSummaryInput extends Model {
      */
     public function getDescription(): string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /**  [] (Value): {@see BuyerSubscriptionPlanLineItemInput}. A line item of a subscription plan as a buyer sees it: the product, bundle, or variant, quantity, unit price, and swap variants.
+    /**  [] (Value): {@see BuyerSubscriptionPlanLineItemInput}. A line item on a subscription plan.
      * @return list<BuyerSubscriptionPlanLineItemInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When line_items is omitted; use hasLineItems() or valueOrDefault().
      */
@@ -86,7 +86,7 @@ final class BuyerExpandedSubscriptionPlanSummaryInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** subscription_plan_id
+    /** Unique identifier for this subscription plan, prefixed `plan_`. Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
      * @return string
      * @throws SdkError When subscription_plan_id is omitted; use hasSubscriptionPlanId() or valueOrDefault().
      */
@@ -98,7 +98,7 @@ final class BuyerExpandedSubscriptionPlanSummaryInput extends Model {
      */
     public function getTrialPeriodDays(): int { return $this->get('trial_period_days'); }
     public function hasTrialPeriodDays(): bool { return $this->has('trial_period_days'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */

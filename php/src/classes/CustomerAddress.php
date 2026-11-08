@@ -17,7 +17,7 @@ namespace Flint;
 final class CustomerAddress extends Model {
     /** @param array{'address': mixed, 'created_at': string, 'customer_address_id': string, 'customer_id': string, 'is_default_billing': bool, 'is_default_shipping': bool, 'label'?: string, 'phone'?: string, 'recipient_name': string, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerAddress')); }
-    /** A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country.
+    /** The postal address. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country.
      * @return Address
      */
     public function getAddress(): Address { return $this->get('address'); }
@@ -27,22 +27,22 @@ final class CustomerAddress extends Model {
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** customer_address_id
+    /** Unique identifier for this customer address, prefixed `caddr_`.
      * @return string
      */
     public function getCustomerAddressId(): string { return $this->get('customer_address_id'); }
     public function hasCustomerAddressId(): bool { return $this->has('customer_address_id'); }
-    /** customer_id
+    /** ID of the customer this address belongs to.
      * @return string
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** is_default_billing
+    /** Whether this is the customer's default billing address. At most one saved address holds each default.
      * @return bool
      */
     public function getIsDefaultBilling(): bool { return $this->get('is_default_billing'); }
     public function hasIsDefaultBilling(): bool { return $this->has('is_default_billing'); }
-    /** is_default_shipping
+    /** Whether this is the customer's default shipping address. At most one saved address holds each default.
      * @return bool
      */
     public function getIsDefaultShipping(): bool { return $this->get('is_default_shipping'); }
@@ -67,7 +67,7 @@ final class CustomerAddress extends Model {
      */
     public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** Format: uint64. minimum: 1.
+    /** Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. Format: uint64. minimum: 1.
      * @return int
      */
     public function getVersion(): int { return $this->get('version'); }

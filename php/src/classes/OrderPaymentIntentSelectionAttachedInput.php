@@ -14,7 +14,7 @@ final class OrderPaymentIntentSelectionAttachedInput extends Model {
      */
     public function getCredentialType(): string { return $this->get('credential_type'); }
     public function hasCredentialType(): bool { return $this->has('credential_type'); }
-    /** Payment intent to confirm. minLength: 1.
+    /** Payment intent to confirm. minLength: 1. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
      * @return string
      * @throws SdkError When payment_intent_id is omitted; use hasPaymentIntentId() or valueOrDefault().
      */

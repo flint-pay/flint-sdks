@@ -14,6 +14,7 @@ namespace Flint;
  * @property-read int $max_amount
  * @property-read string $currency
  * @property-read string $external_reference_id
+ * @property-read string $credit_note_id
  * @property-read string $return_id
  * @property-read string $return_resolution_id
  * @property-read string $query
@@ -26,7 +27,7 @@ namespace Flint;
  * @property-read list<string>|string $expand
  * Presence-aware input; omitted fields throw when accessed. */
 final class RefundsListParams extends Model {
-    /** @param array{'idempotency_key'?: string, 'page_size'?: int, 'page_token'?: string, 'order_id'?: string, 'payment_intent_id'?: string, 'customer_id'?: string, 'status'?: list<string>|string, 'reason'?: list<string>|string, 'min_amount'?: int, 'max_amount'?: int, 'currency'?: string, 'external_reference_id'?: string, 'return_id'?: string, 'return_resolution_id'?: string, 'query'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'expand'?: list<string>|string}|object $values */
+    /** @param array{'idempotency_key'?: string, 'page_size'?: int, 'page_token'?: string, 'order_id'?: string, 'payment_intent_id'?: string, 'customer_id'?: string, 'status'?: list<string>|string, 'reason'?: list<string>|string, 'min_amount'?: int, 'max_amount'?: int, 'currency'?: string, 'external_reference_id'?: string, 'credit_note_id'?: string, 'return_id'?: string, 'return_resolution_id'?: string, 'query'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'expand'?: list<string>|string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RefundsListParams')); }
     /** Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength: 255.
      * @return string
@@ -40,37 +41,37 @@ final class RefundsListParams extends Model {
      */
     public function getPageSize(): int { return $this->get('page_size'); }
     public function hasPageSize(): bool { return $this->has('page_size'); }
-    /** Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error.
+    /** Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error.
      * @return string
      * @throws SdkError When page_token is omitted; use hasPageToken() or valueOrDefault().
      */
     public function getPageToken(): string { return $this->get('page_token'); }
     public function hasPageToken(): bool { return $this->has('page_token'); }
-    /** Filter by order ID. Example: "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Filter by order ID. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** Filter by payment intent ID. Example: "pi_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Filter by payment intent ID. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
      * @return string
      * @throws SdkError When payment_intent_id is omitted; use hasPaymentIntentId() or valueOrDefault().
      */
     public function getPaymentIntentId(): string { return $this->get('payment_intent_id'); }
     public function hasPaymentIntentId(): bool { return $this->has('payment_intent_id'); }
-    /** Filter by customer ID. Example: "cus_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Filter by customer ID. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** Filter by refund status. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "pending", "succeeded", "partially_succeeded", "failed". Value enum: "pending", "succeeded", "partially_succeeded", "failed". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "pending", "succeeded", "partially_succeeded", "failed". anyOf[1][] (Value): string.  Value enum: "pending", "succeeded", "partially_succeeded", "failed". anyOf[2] (Value): string.  Value enum: "pending", "succeeded", "partially_succeeded", "failed".
+    /** Filter by refund status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "pending", "succeeded", "partially_succeeded", "failed". Value enum: "pending", "succeeded", "partially_succeeded", "failed". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "pending", "succeeded", "partially_succeeded", "failed". anyOf[1][] (Value): string.  Value enum: "pending", "succeeded", "partially_succeeded", "failed". anyOf[2] (Value): string.  Value enum: "pending", "succeeded", "partially_succeeded", "failed".
      * @return list<string>|string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
     public function getStatus(): mixed { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Filter by refund reasons. Accepts comma-separated values or repeated parameters; empty entries are rejected. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found", "accidental_order", "other". Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found", "accidental_order", "other". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found", "accidental_order", "other". anyOf[1][] (Value): string.  Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found", "accidental_order", "other". anyOf[2] (Value): string.  Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found", "accidental_order", "other".
+    /** Filter by refund reasons. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found", "accidental_order", "other", "out_of_stock". Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found", "accidental_order", "other", "out_of_stock". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found", "accidental_order", "other", "out_of_stock". anyOf[1][] (Value): string.  Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found", "accidental_order", "other", "out_of_stock". anyOf[2] (Value): string.  Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found", "accidental_order", "other", "out_of_stock".
      * @return list<string>|string
      * @throws SdkError When reason is omitted; use hasReason() or valueOrDefault().
      */
@@ -94,19 +95,25 @@ final class RefundsListParams extends Model {
      */
     public function getCurrency(): string { return $this->get('currency'); }
     public function hasCurrency(): bool { return $this->has('currency'); }
-    /** Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
+    /** Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Filter by linked Return ID. Example: "ret_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Exact match on the credit note whose credit was refunded. Unknown or other-merchant IDs return an empty page. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
+     * @return string
+     * @throws SdkError When credit_note_id is omitted; use hasCreditNoteId() or valueOrDefault().
+     */
+    public function getCreditNoteId(): string { return $this->get('credit_note_id'); }
+    public function hasCreditNoteId(): bool { return $this->has('credit_note_id'); }
+    /** Filter by linked Return ID. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
      * @return string
      * @throws SdkError When return_id is omitted; use hasReturnId() or valueOrDefault().
      */
     public function getReturnId(): string { return $this->get('return_id'); }
     public function hasReturnId(): bool { return $this->has('return_id'); }
-    /** Filter by linked ReturnResolution ID. Example: "retres_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Filter by linked ReturnResolution ID. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
      * @return string
      * @throws SdkError When return_resolution_id is omitted; use hasReturnResolutionId() or valueOrDefault().
      */
@@ -154,10 +161,28 @@ final class RefundsListParams extends Model {
      */
     public function getUpdatedBefore(): string|\DateTimeInterface { return $this->get('updated_before'); }
     public function hasUpdatedBefore(): bool { return $this->has('updated_before'); }
-    /** Supported expansions: customer, order, payment_intent. Include the requested related resources using scoped batch reads for this page. Each relationship requires its existing target read scopes. Expansion changes the representation without changing pagination tokens. Limits: at most 10 unique expand paths per request. Repeat expand, for example expand=customer&expand=order, or pass one comma-separated value. [] enum: "customer", "order", "payment_intent". Value enum: "customer", "order", "payment_intent". anyOf[1] (Value): Array of string.  [] enum: "customer", "order", "payment_intent". anyOf[1][] (Value): string.  Value enum: "customer", "order", "payment_intent". anyOf[2] (Value): string.  Value enum: "customer", "order", "payment_intent".
+    /** Include related objects in the response. Supported expansions: customer, order, payment_intent. Include the requested related resources using scoped batch reads for this page. Each relationship requires its existing target read scopes. Expansion changes the representation without changing pagination tokens. Limits: at most 10 unique expand paths per request. [] enum: "customer", "order", "payment_intent". Value enum: "customer", "order", "payment_intent". anyOf[1] (Value): Array of string.  [] enum: "customer", "order", "payment_intent". anyOf[1][] (Value): string.  Value enum: "customer", "order", "payment_intent". anyOf[2] (Value): string.  Value enum: "customer", "order", "payment_intent".
      * @return list<string>|string
      * @throws SdkError When expand is omitted; use hasExpand() or valueOrDefault().
      */
     public function getExpand(): mixed { return $this->get('expand'); }
     public function hasExpand(): bool { return $this->has('expand'); }
+    /** Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Merchant-Id is omitted; use hasFlintMerchantId() or valueOrDefault().
+     */
+    public function getFlintMerchantId(): string { return $this->get('Flint-Merchant-Id'); }
+    public function hasFlintMerchantId(): bool { return $this->has('Flint-Merchant-Id'); }
+    /** Mode of the request context, live or test. Optional; it must match the credential's mode. Value enum: "test", "live".
+     * @return string
+     * @throws SdkError When Flint-Mode is omitted; use hasFlintMode() or valueOrDefault().
+     */
+    public function getFlintMode(): string { return $this->get('Flint-Mode'); }
+    public function hasFlintMode(): bool { return $this->has('Flint-Mode'); }
+    /** Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Sandbox-Id is omitted; use hasFlintSandboxId() or valueOrDefault().
+     */
+    public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
+    public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
 }

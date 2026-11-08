@@ -16,8 +16,9 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->returns->waiveLineItemInspection('ret_01ARZ3NDEKTSV4RRFFQ69G5FAV', 'retli_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
-  'reason' => 'policy_override',
+$result = $client->returns->waiveLineItemInspection('ret_01KEZF7C00PG93650ZKVQNGF7X', 'retli_01KEZF7C00R813VR7ECXS062QG', [
+  'expected_version' => 3,
+  'reason' => 'trusted_in_store_handoff',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->order_id . PHP_EOL;
 echo $result->return_id . PHP_EOL;

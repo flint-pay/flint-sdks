@@ -1,0 +1,1 @@
+{"shared":"DeferredPromotion","phpRepresentation":{"kind":"record","fields":{"customer_facing_name":{"kind":"value","type":"string"},"deferred_promotion_id":{"kind":"value","type":"string"},"promotion_code":{"kind":"nullable","value":{"kind":"value","type":"string"}},"promotion_id":{"kind":"value","type":"string"}}},"dependencies":["DeferredPromotion"]}

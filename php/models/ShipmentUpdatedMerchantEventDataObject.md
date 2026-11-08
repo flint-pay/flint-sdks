@@ -2,9 +2,11 @@
 
 ## ShipmentUpdatedMerchantEventDataObject
 
-A shipment carrying fulfilled order items.
+The affected public resource without expansions, client authority fields, or fields computed for an individual caller.
+
+The resource snapshot, without expansions. Webhooks omit no additional fields.
 
 Response model.
 
-Fields, types, descriptions and enum values: [Shipment](../models/Shipment.md#shipment).
+Fields, types, descriptions and enum values: [ShipmentCreatedMerchantEventDataObject](../models/ShipmentCreatedMerchantEventDataObject.md#shipmentcreatedmerchanteventdataobject).
 

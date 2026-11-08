@@ -5,9 +5,9 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/deliveryPreviews.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import r0 from '../descriptors/resources/deliveryPreviews.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import settings from '../descriptors/settings.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createDeliveryPreview"]:r0});
 export class Client {
@@ -15,7 +15,11 @@ export class Client {
 constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.deliveryPreviews = Object.freeze({
-      create: async (params, options) => this.#runtime.request("createDeliveryPreview", _sdkRequestInput([], [], [], true, true, params, [
+      create: async (params, options) => this.#runtime.request("createDeliveryPreview", _sdkRequestInput([], [], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createDeliveryPreview", result, path))),
@@ -38,28 +42,23 @@ export { makeDeliveryBuyerLocationRequest } from '../models/DeliveryBuyerLocatio
 export { makeDeliveryCoordinateRequest } from '../models/DeliveryCoordinateRequest.js';
 export { makeDeliveryPickupAvailabilityMaximumDistanceRequest } from '../models/DeliveryPickupAvailabilityMaximumDistanceRequest.js';
 export { makeDeliveryPreviewRoutingSource } from '../models/DeliveryPreviewRoutingSource.js';
-export { makeDeliveryRecipientRequirement } from '../models/DeliveryRecipientRequirement.js';
 export { makeDeliveryWindowRequest } from '../models/DeliveryWindowRequest.js';
-export { makeDimensions } from '../models/Dimensions.js';
+export { makeDimensionsRequest } from '../models/DimensionsRequest.js';
 export { makeGiftCardPurchaseDetailsRequest } from '../models/GiftCardPurchaseDetailsRequest.js';
 export { makeGiftCardPurchaseRecipientRequest } from '../models/GiftCardPurchaseRecipientRequest.js';
 export { makeImageReferenceRequest } from '../models/ImageReferenceRequest.js';
-export { makeLineItemFulfillmentOriginRequest } from '../models/LineItemFulfillmentOriginRequest.js';
-export { makeLineItemFulfillmentRequest } from '../models/LineItemFulfillmentRequest.js';
+export { makeLineItemFulfillmentOriginRequestModel } from '../models/LineItemFulfillmentOriginRequestModel.js';
+export { makeLineItemFulfillmentRequestModel } from '../models/LineItemFulfillmentRequestModel.js';
 export { makeMetadataRequest } from '../models/MetadataRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makeOrderCalculatedLineItemTax } from '../models/OrderCalculatedLineItemTax.js';
 export { makeOrderDraftLineItemInventoryDemandRequest } from '../models/OrderDraftLineItemInventoryDemandRequest.js';
-export { makeOrderDraftLineItemTaxCalculationRequest } from '../models/OrderDraftLineItemTaxCalculationRequest.js';
-export { makeOrderDraftLineItemTaxRequest } from '../models/OrderDraftLineItemTaxRequest.js';
-export { makeOrderDraftTaxComponentRequest } from '../models/OrderDraftTaxComponentRequest.js';
-export { makeOrderDraftTaxJurisdictionRequest } from '../models/OrderDraftTaxJurisdictionRequest.js';
-export { makeOrderLineItemModifierInputCatalog } from '../models/OrderLineItemModifierInputCatalog.js';
-export { makeOrderLineItemModifierInputText } from '../models/OrderLineItemModifierInputText.js';
-export { makeOrderLineItemModifierRequest } from '../models/OrderLineItemModifierRequest.js';
-export { makeSubscribedLineRequest } from '../models/SubscribedLineRequest.js';
-export { makeTaxCalculationRequest } from '../models/TaxCalculationRequest.js';
-export { makeTaxComponentRequest } from '../models/TaxComponentRequest.js';
-export { makeTaxJurisdiction } from '../models/TaxJurisdiction.js';
+export { makeOrderDraftLineItemTaxCalculationRequestModel } from '../models/OrderDraftLineItemTaxCalculationRequestModel.js';
+export { makeOrderDraftLineItemTaxRequestModel } from '../models/OrderDraftLineItemTaxRequestModel.js';
+export { makeOrderDraftTaxComponentRequestModel } from '../models/OrderDraftTaxComponentRequestModel.js';
+export { makeOrderDraftTaxJurisdictionRequestModel } from '../models/OrderDraftTaxJurisdictionRequestModel.js';
+export { makeOrderLineItemModifierInputCatalogRequest } from '../models/OrderLineItemModifierInputCatalogRequest.js';
+export { makeOrderLineItemModifierInputTextRequest } from '../models/OrderLineItemModifierInputTextRequest.js';
+export { makeOrderLineItemModifierRequestModel } from '../models/OrderLineItemModifierRequestModel.js';
+export { makeSubscribedLineRequestModel } from '../models/SubscribedLineRequestModel.js';
 export { makeTextModifierRequest } from '../models/TextModifierRequest.js';
-export { makeWeight } from '../models/Weight.js';
+export { makeWeightRequest } from '../models/WeightRequest.js';

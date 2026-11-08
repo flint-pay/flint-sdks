@@ -59,25 +59,25 @@ final class WebhookEndpointsUpdateParams extends Model {
      */
     public function getInstalledMerchantModes(): array { return $this->get('installed_merchant_modes'); }
     public function hasInstalledMerchantModes(): bool { return $this->has('installed_merchant_modes'); }
-    /** Partner app that owns partner_app or installed_merchants event sources. minLength: 1. Example: "papp_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Partner app that owns partner_app or installed_merchants event sources. minLength: 1. Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
      * @return string
      * @throws SdkError When partner_app_id is omitted; use hasPartnerAppId() or valueOrDefault().
      */
     public function getPartnerAppId(): string { return $this->get('partner_app_id'); }
     public function hasPartnerAppId(): bool { return $this->has('partner_app_id'); }
-    /** Replaces the signing methods. Removing hmac deletes all shared secrets. Use rotate-secret to add hmac when no secret has been issued. Omit to leave unchanged. minItems: 1. uniqueItems: true. [] enum: "jwt", "hmac". [] (Value): {@see WebhookSigningMethodInput}. jwt uses Flint's public JWKS. hmac uses a shared secret and Standard Webhooks v1. Value enum: "jwt", "hmac".
+    /** Replaces the signing methods. Removing hmac deletes all shared secrets. Adding hmac when no secret exists issues the first secret and returns it once in this response. Omit to leave unchanged. minItems: 1. uniqueItems: true. [] enum: "jwt", "hmac". [] (Value): {@see WebhookSigningMethodInput}. How Flint signs requests to this endpoint. Value enum: "jwt", "hmac".
      * @return list<WebhookSigningMethodInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When signing_methods is omitted; use hasSigningMethods() or valueOrDefault().
      */
     public function getSigningMethods(): array { return $this->get('signing_methods'); }
     public function hasSigningMethods(): bool { return $this->has('signing_methods'); }
-    /** Value enum: "active", "inactive".
+    /** Whether this endpoint receives events. Setting inactive suppresses pending deliveries. Omit to leave unchanged. Value enum: "active", "inactive".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** minLength: 1.
+    /** Public HTTPS URL to receive webhook deliveries. Omit to leave unchanged. minLength: 1.
      * @return string
      * @throws SdkError When url is omitted; use hasUrl() or valueOrDefault().
      */

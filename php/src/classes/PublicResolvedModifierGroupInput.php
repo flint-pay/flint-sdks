@@ -57,7 +57,7 @@ final class PublicResolvedModifierGroupInput extends Model {
      */
     public function getMinSelected(): int { return $this->get('min_selected'); }
     public function hasMinSelected(): bool { return $this->has('min_selected'); }
-    /** modifier_group_id
+    /** Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
      * @return string
      * @throws SdkError When modifier_group_id is omitted; use hasModifierGroupId() or valueOrDefault().
      */
@@ -87,7 +87,7 @@ final class PublicResolvedModifierGroupInput extends Model {
      */
     public function getPosition(): int { return $this->get('position'); }
     public function hasPosition(): bool { return $this->has('position'); }
-    /** Value enum: "per_item", "per_line".
+    /** Value enum: "per_item".
      * @return string
      * @throws SdkError When pricing_scope is omitted; use hasPricingScope() or valueOrDefault().
      */

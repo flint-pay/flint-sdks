@@ -15,6 +15,9 @@ Signature: `get(return_receipt_id: InputValue<string>, params?: ReturnReceiptsGe
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `return_receipt_id` | Required | string | Flint return receipt id. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -28,7 +31,6 @@ Returned payload: [ReturnReceipt](../models/ReturnReceipt.md#returnreceipt).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -46,7 +48,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```typescript
-const result = await client.returnReceipts.get("retrc_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
+const result = await client.returnReceipts.get("retrc_01KEZF7C0052GWDW41D9AJAVJZ", {}, {  });
 ```
 
 [Complete runnable example](../examples/returnReceipts-get.mjs)
@@ -68,7 +70,7 @@ Signature: `list(params?: ReturnReceiptsListParams, options?: _SdkWithoutIdempot
 | `external_reference_id` | Optional | string | Exact-match filter on the caller-owned external reference ID. minLength: `1`. maxLength: `255`. |
 | `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. Format: `int32`. minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `query` | Optional | string | Search by return receipt ID or external reference ID. |
 | `received_after` | Optional | string | Inclusive lower bound on received_at. Format: `date-time`. |
 | `received_before` | Optional | string | Exclusive upper bound on received_at. Format: `date-time`. |
@@ -76,11 +78,14 @@ Signature: `list(params?: ReturnReceiptsListParams, options?: _SdkWithoutIdempot
 | `return_id` | Optional | string | Filter by return id. |
 | `return_line_item_id` | Optional | string | Filter by return line item id. |
 | `shipment_id` | Optional | string | Filter by shipment id. |
-| `source_system_type` | Optional | Array of string or string | Filter by source system type. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"manual"`, `"pos"`, `"wms"`, `"erp"`, `"other"`, `"flint"`. Values: `"manual"`, `"pos"`, `"wms"`, `"erp"`, `"other"`, `"flint"`. |
-| `status` | Optional | Array of string or string | Filter by status. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"current"`, `"superseded"`. Values: `"current"`, `"superseded"`. |
+| `source_system_type` | Optional | Array of string or string | Filter by source system type. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"manual"`, `"pos"`, `"wms"`, `"erp"`, `"other"`, `"flint"`. Values: `"manual"`, `"pos"`, `"wms"`, `"erp"`, `"other"`, `"flint"`. |
+| `status` | Optional | Array of string or string | Filter by status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"current"`, `"superseded"`. Values: `"current"`, `"superseded"`. |
 | `updated_after` | Optional | string | Inclusive lower bound on updated_at. Format: `date-time`. |
 | `updated_before` | Optional | string | Exclusive upper bound on updated_at. Format: `date-time`. |
-| `verification_status` | Optional | Array of string or string | Filter by verification status. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"matched"`, `"unverified"`, `"excess"`. Values: `"matched"`, `"unverified"`, `"excess"`. |
+| `verification_status` | Optional | Array of string or string | Filter by verification status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"matched"`, `"unverified"`, `"excess"`. Values: `"matched"`, `"unverified"`, `"excess"`. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -94,7 +99,6 @@ Returned payload: [ListReturnReceiptsResponse](../models/ListReturnReceiptsRespo
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -140,13 +144,21 @@ verifyLineItem(return_receipt_id: InputValue<string>,
 | --- | --- | --- | --- |
 | `return_receipt_id` | Required | string | Flint return receipt id. |
 | `return_receipt_line_item_id` | Required | string | Flint return receipt line item id. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [VerifyReturnReceiptLineItemRequestInput](../models/VerifyReturnReceiptLineItemRequest.md#verifyreturnreceiptlineitemrequest) | The request body for: Verify return receipt line item. |
 
 Body model: [VerifyReturnReceiptLineItemRequestInput](../models/VerifyReturnReceiptLineItemRequest.md#verifyreturnreceiptlineitemrequest).
 
 #### returnReceipts.verifyLineItem body fields
 
-Field definitions: [shared fields](../models/VerifyReturnReceiptLineItemRequest.md#verifyreturnreceiptlineitemrequest).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `expected_version` | Optional | integer | Optional version of the return receipt. A stale value returns VERSION_CONFLICT with the receipt ID and its current version. Format: `int64`. minimum: `1`. |
+| `return_line_item_id` | Required | string | ID of the Return line the units were matched to. Absent for unverified units. minLength: `1`. |
+| `verification_reason` | Required | string | Why the units were verified against the line. Values: `"order_match_confirmed"`, `"sku_match_confirmed"`, `"inspection_confirmed"`, `"merchant_review"`, `"other"`. |
+| `verification_reason_message` | Optional | string | Detail about `verification_reason`. minLength: `1`. |
 
 #### Response
 
@@ -161,7 +173,6 @@ Returned payload: [ReturnReceipt](../models/ReturnReceipt.md#returnreceipt).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -186,7 +197,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.returnReceipts.verifyLineItem("retrc_01ARZ3NDEKTSV4RRFFQ69G5FAV", "retrcli_01ARZ3NDEKTSV4RRFFQ69G5FAV", {return_line_item_id: "retli_01ARZ3NDEKTSV4RRFFQ69G5FAV", verification_reason: "order_match_confirmed"}, { idempotencyKey: idempotencyKey });
+const result = await client.returnReceipts.verifyLineItem("retrc_01KEZF7C0052GWDW41D9AJAVJZ", "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE", {expected_version: 1, return_line_item_id: "retli_01KEZF7C001NHF6JPD83VD0MRK", verification_reason: "sku_match_confirmed"}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/returnReceipts-verifyLineItem.mjs)

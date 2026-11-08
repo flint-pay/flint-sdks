@@ -26,13 +26,13 @@ final class CheckoutDerivedDeliveryResourceInput extends Model {
      */
     public function getChoiceGroups(): array { return $this->get('choice_groups'); }
     public function hasChoiceGroups(): bool { return $this->has('choice_groups'); }
-    /** delivery_quote_id
+    /** Example: "dqt_01KEZF7C009EB1AVCDJBN4BBVV".
      * @return string
      * @throws SdkError When delivery_quote_id is omitted; use hasDeliveryQuoteId() or valueOrDefault().
      */
     public function getDeliveryQuoteId(): string { return $this->get('delivery_quote_id'); }
     public function hasDeliveryQuoteId(): bool { return $this->has('delivery_quote_id'); }
-    /** Current delivery selection ID after reconciliation, or null when no selection is current. Assert this value with expected_delivery_selection_id on checkout delivery writes.
+    /** Current delivery selection ID after reconciliation, or null when no selection is current. Assert this value with expected_delivery_selection_id on checkout delivery writes. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
      * @return string|null
      * @throws SdkError When delivery_selection_id is omitted; use hasDeliverySelectionId() or valueOrDefault().
      */
@@ -44,7 +44,7 @@ final class CheckoutDerivedDeliveryResourceInput extends Model {
      */
     public function getEvaluationStatus(): string { return $this->get('evaluation_status'); }
     public function hasEvaluationStatus(): bool { return $this->has('evaluation_status'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When expires_at is omitted; use hasExpiresAt() or valueOrDefault().
      */

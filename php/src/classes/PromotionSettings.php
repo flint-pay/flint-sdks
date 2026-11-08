@@ -9,7 +9,7 @@ namespace Flint;
 final class PromotionSettings extends Model {
     /** @param array{'automatic_enabled'?: bool, 'codes_enabled'?: bool, 'max_promotions_per_order'?: int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PromotionSettings')); }
-    /** automatic_enabled
+    /** Whether automatic promotions apply to this merchant's orders, checkout sessions and payment links. Omitted means true. Explicit false stops them everywhere, and a checkout session or payment link can't turn them back on.
      * @return ?bool
      */
     public function getAutomaticEnabled(): ?bool { return $this->get('automatic_enabled'); }

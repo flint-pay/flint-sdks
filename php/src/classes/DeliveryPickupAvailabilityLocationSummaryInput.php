@@ -15,7 +15,7 @@ final class DeliveryPickupAvailabilityLocationSummaryInput extends Model {
      */
     public function getAddress(): mixed { return $this->get('address'); }
     public function hasAddress(): bool { return $this->has('address'); }
-    /** location_id
+    /** Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When location_id is omitted; use hasLocationId() or valueOrDefault().
      */

@@ -9,7 +9,7 @@ namespace Flint;
 final class MeSaveGiftCardInput extends Model {
     /** @param array{'body': array{'code': string, 'credential_type': string, 'grant_id'?: string, 'recipient_access_token'?: string}|object|array{'code'?: string, 'credential_type': string, 'grant_id': string, 'recipient_access_token': string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MeSaveGiftCardInput')); }
-    /** The request body for: Save a gift card to your account.
+    /** The request body for: Save a gift card to your account. Example: {"code":"0123456789AB1234","credential_type":"code"}.
      * @return array{'code': string, 'credential_type': string, 'grant_id'?: string, 'recipient_access_token'?: string}|object|array{'code'?: string, 'credential_type': string, 'grant_id': string, 'recipient_access_token': string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

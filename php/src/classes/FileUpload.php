@@ -20,7 +20,7 @@ final class FileUpload extends Model {
      */
     public function getHeaders(): array { return $this->get('headers'); }
     public function hasHeaders(): bool { return $this->has('headers'); }
-    /** Value enum: "PUT".
+    /** HTTP method to upload the bytes with. Value enum: "PUT".
      * @return string
      */
     public function getMethod(): string { return $this->get('method'); }

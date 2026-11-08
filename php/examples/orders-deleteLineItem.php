@@ -16,7 +16,7 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->orders->deleteLineItem('ord_01ARZ3NDEKTSV4RRFFQ69G5FAV', 'li_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->orders->deleteLineItem('ord_01KEZF7C0054GQKJ142A8X367A', 'li_01KEZF7C008YPRCK7VDKTGWR31', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+echo $result->merchant_id . PHP_EOL;
 echo $result->order_id . PHP_EOL;
-echo $result->status . PHP_EOL;
 $client->close();

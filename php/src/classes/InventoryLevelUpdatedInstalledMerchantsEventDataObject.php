@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read int $available_quantity
+ * @property-read int $backordered_quantity
  * @property-read int $claim_version
  * @property-read int $committed_quantity
  * @property-read string $created_at
@@ -24,13 +25,18 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class InventoryLevelUpdatedInstalledMerchantsEventDataObject extends Model {
-    /** @param array{'available_quantity': int, 'claim_version': int, 'committed_quantity': int, 'created_at': string, 'damaged_quantity': int, 'held_quantity': int, 'incoming_quantity': int, 'inventory_item'?: mixed, 'inventory_item_id': string, 'inventory_level_id': string, 'location_id': string, 'on_hand_quantity': int, 'physical_version': int, 'quality_control_quantity': int, 'quarantined_quantity': int, 'safety_stock_quantity': int, 'shortage_quantity': int, 'unavailable_on_hand_quantity': int, 'updated_at': string, 'version': int, ...}|object $values */
+    /** @param array{'available_quantity': int, 'backordered_quantity': int, 'claim_version': int, 'committed_quantity': int, 'created_at': string, 'damaged_quantity': int, 'held_quantity': int, 'incoming_quantity': int, 'inventory_item'?: mixed, 'inventory_item_id': string, 'inventory_level_id': string, 'location_id': string, 'on_hand_quantity': int, 'physical_version': int, 'quality_control_quantity': int, 'quarantined_quantity': int, 'safety_stock_quantity': int, 'shortage_quantity': int, 'unavailable_on_hand_quantity': int, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryLevelUpdatedInstalledMerchantsEventDataObject')); }
     /** Derived and never written: on_hand minus unavailable, held, committed, and safety stock, never below 0. See shortage_quantity for the excess. Whole-number quantity; fractional quantities are not supported. Format: int64.
      * @return int
      */
     public function getAvailableQuantity(): int { return $this->get('available_quantity'); }
     public function hasAvailableQuantity(): bool { return $this->has('available_quantity'); }
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. minimum: 0.
+     * @return int
+     */
+    public function getBackorderedQuantity(): int { return $this->get('backordered_quantity'); }
+    public function hasBackorderedQuantity(): bool { return $this->has('backordered_quantity'); }
     /** Advances only when held or committed quantities change. Format: int64. minimum: 0.
      * @return int
      */
@@ -66,17 +72,17 @@ final class InventoryLevelUpdatedInstalledMerchantsEventDataObject extends Model
      */
     public function getInventoryItem(): ?InventoryItem { return $this->get('inventory_item'); }
     public function hasInventoryItem(): bool { return $this->has('inventory_item'); }
-    /** inventory_item_id
+    /** ID of the inventory item the stock is for.
      * @return string
      */
     public function getInventoryItemId(): string { return $this->get('inventory_item_id'); }
     public function hasInventoryItemId(): bool { return $this->has('inventory_item_id'); }
-    /** inventory_level_id
+    /** Unique identifier for this inventory level, prefixed `invl_`.
      * @return string
      */
     public function getInventoryLevelId(): string { return $this->get('inventory_level_id'); }
     public function hasInventoryLevelId(): bool { return $this->has('inventory_level_id'); }
-    /** location_id
+    /** ID of the Location that holds the stock.
      * @return string
      */
     public function getLocationId(): string { return $this->get('location_id'); }

@@ -40,13 +40,13 @@ final class DeliverySelectionInput extends Model {
      */
     public function getBuyerLocation(): mixed { return $this->get('buyer_location'); }
     public function hasBuyerLocation(): bool { return $this->has('buyer_location'); }
-    /** Deadline after which calculated pricing evidence is no longer valid. Always present with an API key or dashboard credential. Format: date-time.
+    /** Deadline after which calculated pricing evidence is no longer valid. Always present with an API key or dashboard credential. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When calculation_expires_at is omitted; use hasCalculationExpiresAt() or valueOrDefault().
      */
     public function getCalculationExpiresAt(): string|\DateTimeInterface { return $this->get('calculation_expires_at'); }
     public function hasCalculationExpiresAt(): bool { return $this->has('calculation_expires_at'); }
-    /** Checkout session that owns the selection. Always present with an API key or dashboard credential.
+    /** Checkout session that owns the selection. Always present with an API key or dashboard credential. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
      * @return string
      * @throws SdkError When checkout_session_id is omitted; use hasCheckoutSessionId() or valueOrDefault().
      */
@@ -58,13 +58,13 @@ final class DeliverySelectionInput extends Model {
      */
     public function getChoices(): array { return $this->get('choices'); }
     public function hasChoices(): bool { return $this->has('choices'); }
-    /** Time the selection was created. Always present with an API key or dashboard credential. Format: date-time.
+    /** Time the selection was created. Always present with an API key or dashboard credential. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Quote from which this selection was made.
+    /** Quote from which this selection was made. Example: "dqt_01KEZF7C009EB1AVCDJBN4BBVV".
      * @return string
      * @throws SdkError When delivery_quote_id is omitted; use hasDeliveryQuoteId() or valueOrDefault().
      */
@@ -76,7 +76,7 @@ final class DeliverySelectionInput extends Model {
      */
     public function getDeliveryQuoteVersion(): int { return $this->get('delivery_quote_version'); }
     public function hasDeliveryQuoteVersion(): bool { return $this->has('delivery_quote_version'); }
-    /** Stable delivery selection ID.
+    /** Stable delivery selection ID. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
      * @return string
      * @throws SdkError When delivery_selection_id is omitted; use hasDeliverySelectionId() or valueOrDefault().
      */
@@ -94,7 +94,7 @@ final class DeliverySelectionInput extends Model {
      */
     public function getEligibilityContextVersion(): int { return $this->get('eligibility_context_version'); }
     public function hasEligibilityContextVersion(): bool { return $this->has('eligibility_context_version'); }
-    /** Deadline after which this provisional selection can no longer be committed. Format: date-time.
+    /** Deadline after which this provisional selection can no longer be committed. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When expires_at is omitted; use hasExpiresAt() or valueOrDefault().
      */
@@ -118,7 +118,7 @@ final class DeliverySelectionInput extends Model {
      */
     public function getLifecycleEvents(): array { return $this->get('lifecycle_events'); }
     public function hasLifecycleEvents(): bool { return $this->has('lifecycle_events'); }
-    /** Time the selection lifecycle last changed. Always present with an API key or dashboard credential. Format: date-time.
+    /** Time the selection lifecycle last changed. Always present with an API key or dashboard credential. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When lifecycle_updated_at is omitted; use hasLifecycleUpdatedAt() or valueOrDefault().
      */
@@ -130,7 +130,7 @@ final class DeliverySelectionInput extends Model {
      */
     public function getLimitingDeadlineReason(): string { return $this->get('limiting_deadline_reason'); }
     public function hasLimitingDeadlineReason(): bool { return $this->has('limiting_deadline_reason'); }
-    /** Order affected by the selection. Always present with an API key or dashboard credential.
+    /** Order affected by the selection. Always present with an API key or dashboard credential. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */
@@ -148,7 +148,7 @@ final class DeliverySelectionInput extends Model {
      */
     public function getRecipient(): mixed { return $this->get('recipient'); }
     public function hasRecipient(): bool { return $this->has('recipient'); }
-    /** Time merchant-private selection evidence was redacted. Format: date-time.
+    /** Time merchant-private selection evidence was redacted. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When redacted_at is omitted; use hasRedactedAt() or valueOrDefault().
      */

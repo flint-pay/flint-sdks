@@ -8,11 +8,10 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.partnerApps.revokeEnvironmentGrant(
-  "papp_01ARZ3NDEKTSV4RRFFQ69G5FAV",
-  "pinst_01ARZ3NDEKTSV4RRFFQ69G5FAV",
-  "egrt_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV",
+  "pinst_01KEZF7C003HVKZR3GZAW6AFAZ",
+  "egrt_01KEZF7C00MQQDDB7YWGXV3MXY",
   {},
   { idempotencyKey: idempotencyKey },
 );
-console.log(result.merchant_id);
-console.log(result.partner_app_id);
+console.log(result);

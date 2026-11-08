@@ -10,7 +10,7 @@ Request input.
 | --- | --- | --- | --- |
 | `allow_quantities` | Optional | boolean | Whether buyers can select more than one unit of a list modifier. |
 | `expected_version` | Optional | integer | Modifier group version last read by the caller. Required when modifiers is present. Format: `uint64`. minimum: `1`. |
-| `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. |
+| `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. Example: `"warehouse-1842"`. |
 | `max_quantity` | Optional | integer or null | Maximum whole-number quantity for each selected list modifier. Omit it to keep the current value; send null to clear it. Fractional quantities are not supported. Format: `int64`. |
 | `max_selected` | Optional | integer or null | Maximum number of distinct list modifiers buyers can select. Omit it to keep the current value; send null to remove the limit. Format: `int32`. |
 | `max_total_quantity` | Optional | integer or null | Maximum combined whole-number quantity across selected list modifiers. Omit it to keep the current value; send null to clear it. Fractional quantities are not supported. Format: `int64`. |

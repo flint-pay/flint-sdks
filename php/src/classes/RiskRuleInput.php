@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface|null $archived_at
  * @property-read list<string> $attributes_used
  * @property-read string|\DateTimeInterface $created_at
- * @property-read array{'resource_id': string, 'resource_type': ResourceTypeInput|array<array-key, mixed>|\stdClass}|object|null $created_by
+ * @property-read array{'resource_id': string, 'resource_type': string}|object|null $created_by
  * @property-read string $description
  * @property-read list<RiskRuleIssueInput|array<array-key, mixed>|\stdClass> $issues
  * @property-read string $origin
@@ -19,40 +19,40 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class RiskRuleInput extends Model {
-    /** @param array{'action': string, 'applicability': string, 'archived_at': string|\DateTimeInterface|null, 'attributes_used': list<string>, 'created_at': string|\DateTimeInterface, 'created_by': array{'resource_id': string, 'resource_type': ResourceTypeInput|array<array-key, mixed>|\stdClass}|object|null, 'description': string, 'issues': list<RiskRuleIssueInput|array<array-key, mixed>|\stdClass>, 'origin': string, 'predicate': RiskPredicateNodeInput|array<array-key, mixed>|\stdClass, 'risk_rule_id': string, 'stage': string, 'status': string, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
+    /** @param array{'action': string, 'applicability': string, 'archived_at': string|\DateTimeInterface|null, 'attributes_used': list<string>, 'created_at': string|\DateTimeInterface, 'created_by': array{'resource_id': string, 'resource_type': string}|object|null, 'description': string, 'issues': list<RiskRuleIssueInput|array<array-key, mixed>|\stdClass>, 'origin': string, 'predicate': RiskPredicateNodeInput|array<array-key, mixed>|\stdClass, 'risk_rule_id': string, 'stage': string, 'status': string, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RiskRuleInput')); }
-    /** Value enum: "allow", "block", "review", "require_3ds".
+    /** What Flint does with a payment the rule matches. Value enum: "allow", "block", "review", "require_3ds".
      * @return string
      * @throws SdkError When action is omitted; use hasAction() or valueOrDefault().
      */
     public function getAction(): string { return $this->get('action'); }
     public function hasAction(): bool { return $this->has('action'); }
-    /** Value enum: "all_payments", "on_session_only".
+    /** Which payments the rule applies to. Value enum: "all_payments", "on_session_only".
      * @return string
      * @throws SdkError When applicability is omitted; use hasApplicability() or valueOrDefault().
      */
     public function getApplicability(): string { return $this->get('applicability'); }
     public function hasApplicability(): bool { return $this->has('applicability'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. `null` when the resource isn't archived. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface|null
      * @throws SdkError When archived_at is omitted; use hasArchivedAt() or valueOrDefault().
      */
     public function getArchivedAt(): string|\DateTimeInterface|null { return $this->get('archived_at'); }
     public function hasArchivedAt(): bool { return $this->has('archived_at'); }
-    /**  [] (Value): string.
+    /** Names of the payment attributes the rule reads. [] (Value): string.
      * @return list<string>
      * @throws SdkError When attributes_used is omitted; use hasAttributesUsed() or valueOrDefault().
      */
     public function getAttributesUsed(): array { return $this->get('attributes_used'); }
     public function hasAttributesUsed(): bool { return $this->has('attributes_used'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
     /** The credential that created this rule. Null when Flint created it, as for Flint's default rules. The reference may name an API key in the other mode. anyOf[1] (Value): {@see ResourceReferenceInput}. A reference to another resource by `resource_type` and `resource_id`. anyOf[2] (Value): null.
-     * @return array{'resource_id': string, 'resource_type': ResourceTypeInput|array<array-key, mixed>|\stdClass}|object|null
+     * @return array{'resource_id': string, 'resource_type': string}|object|null
      * @throws SdkError When created_by is omitted; use hasCreatedBy() or valueOrDefault().
      */
     public function getCreatedBy(): mixed { return $this->get('created_by'); }
@@ -69,37 +69,37 @@ final class RiskRuleInput extends Model {
      */
     public function getIssues(): array { return $this->get('issues'); }
     public function hasIssues(): bool { return $this->has('issues'); }
-    /** Value enum: "system_default", "merchant".
+    /** Whether Flint manages the rule or you created it. Value enum: "system_default", "merchant".
      * @return string
      * @throws SdkError When origin is omitted; use hasOrigin() or valueOrDefault().
      */
     public function getOrigin(): string { return $this->get('origin'); }
     public function hasOrigin(): bool { return $this->has('origin'); }
-    /** A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not` group of other nodes.
+    /** The condition a payment must meet for the rule to match. A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not` group of other nodes.
      * @return RiskPredicateNodeInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When predicate is omitted; use hasPredicate() or valueOrDefault().
      */
     public function getPredicate(): mixed { return $this->get('predicate'); }
     public function hasPredicate(): bool { return $this->has('predicate'); }
-    /** risk_rule_id
+    /** ID of the saved rule to check. Example: "rule_01KEZF7C00FWGAQJXXA8CRA319".
      * @return string
      * @throws SdkError When risk_rule_id is omitted; use hasRiskRuleId() or valueOrDefault().
      */
     public function getRiskRuleId(): string { return $this->get('risk_rule_id'); }
     public function hasRiskRuleId(): bool { return $this->has('risk_rule_id'); }
-    /** Value enum: "pre_authorization", "post_authorization".
+    /** When Flint evaluates the rule for a payment. Value enum: "pre_authorization", "post_authorization".
      * @return string
      * @throws SdkError When stage is omitted; use hasStage() or valueOrDefault().
      */
     public function getStage(): string { return $this->get('stage'); }
     public function hasStage(): bool { return $this->has('stage'); }
-    /** Value enum: "active", "inactive", "archived".
+    /** Whether the rule runs. Value enum: "active", "inactive", "archived".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */

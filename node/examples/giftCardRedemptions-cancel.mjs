@@ -8,7 +8,7 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.giftCardRedemptions.cancel(
-  "gcr_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "gcr_01KEZF7C002YD2G2J734RRZTWT",
   undefined,
   { idempotencyKey: idempotencyKey },
 );

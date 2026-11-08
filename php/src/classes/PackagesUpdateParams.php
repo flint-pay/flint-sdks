@@ -17,7 +17,7 @@ namespace Flint;
  * @property-read array{'unit': string, 'value': int|float}|object|null $weight
  * Presence-aware input; omitted fields throw when accessed. */
 final class PackagesUpdateParams extends Model {
-    /** @param array{'carrier'?: string|null, 'dimensions'?: array{'height': int|float, 'length': int|float, 'unit': string, 'width': int|float}|object|null, 'expected_delivery_at'?: string|\DateTimeInterface|null, 'expected_version'?: int, 'external_reference_id'?: string|null, 'external_system'?: string|null, 'label_url'?: string|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'service_code'?: string|null, 'status_reason'?: string|null, 'tracking_number'?: string|null, 'tracking_url'?: string|null, 'weight'?: array{'unit': string, 'value': int|float}|object|null}|object $values */
+    /** @param array{'carrier'?: string|null, 'dimensions'?: array{'height': int|float, 'length': int|float, 'unit': string, 'width': int|float}|object|null, 'expected_delivery_at'?: string|\DateTimeInterface|null, 'expected_version'?: int, 'external_reference_id'?: string|null, 'external_system'?: string|null, 'label_url'?: string|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'service_code'?: string|null, 'status_reason'?: string|null, 'tracking_number'?: string|null, 'tracking_url'?: string|null, 'weight'?: array{'unit': string, 'value': int|float}|object|null, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PackagesUpdateParams')); }
     /** Send null to clear it. minLength: 1.
      * @return string|null
@@ -25,13 +25,13 @@ final class PackagesUpdateParams extends Model {
      */
     public function getCarrier(): string|null { return $this->get('carrier'); }
     public function hasCarrier(): bool { return $this->has('carrier'); }
-    /**  anyOf[1] (Value): {@see DimensionsInput}. Package or item dimensions as `length`, `width`, and `height` in the given `unit`. anyOf[2] (Value): null.
+    /** Dimensions of the package. anyOf[1] (Value): {@see DimensionsRequestInput}. Package or item dimensions as `length`, `width`, and `height` in the given `unit`. anyOf[2] (Value): null.
      * @return array{'height': int|float, 'length': int|float, 'unit': string, 'width': int|float}|object|null
      * @throws SdkError When dimensions is omitted; use hasDimensions() or valueOrDefault().
      */
     public function getDimensions(): mixed { return $this->get('dimensions'); }
     public function hasDimensions(): bool { return $this->has('dimensions'); }
-    /** When the carrier or merchant expects this package to arrive. Past dates are allowed. Send null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time. minLength: 1.
+    /** When the carrier or merchant expects this package to arrive. Past dates are allowed. Send null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface|null
      * @throws SdkError When expected_delivery_at is omitted; use hasExpectedDeliveryAt() or valueOrDefault().
      */
@@ -43,7 +43,7 @@ final class PackagesUpdateParams extends Model {
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** Caller-owned identifier for this resource in an external system. Requires external_system. External references are not unique. Use Idempotency-Key for retries. Send null to clear it. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. Requires external_system. External references are not unique. Use Idempotency-Key for retries. Send null to clear it. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string|null
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -91,10 +91,28 @@ final class PackagesUpdateParams extends Model {
      */
     public function getTrackingUrl(): string|null { return $this->get('tracking_url'); }
     public function hasTrackingUrl(): bool { return $this->has('tracking_url'); }
-    /**  anyOf[1] (Value): {@see WeightInput}. A weight value in grams, kilograms, ounces, or pounds, used in delivery profile configuration. anyOf[2] (Value): null.
+    /** Weight of the package. anyOf[1] (Value): {@see WeightRequestInput}. A weight value in grams, kilograms, ounces, or pounds, used in delivery profile configuration. anyOf[2] (Value): null.
      * @return array{'unit': string, 'value': int|float}|object|null
      * @throws SdkError When weight is omitted; use hasWeight() or valueOrDefault().
      */
     public function getWeight(): mixed { return $this->get('weight'); }
     public function hasWeight(): bool { return $this->has('weight'); }
+    /** Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Merchant-Id is omitted; use hasFlintMerchantId() or valueOrDefault().
+     */
+    public function getFlintMerchantId(): string { return $this->get('Flint-Merchant-Id'); }
+    public function hasFlintMerchantId(): bool { return $this->has('Flint-Merchant-Id'); }
+    /** Mode of the request context, live or test. Optional; it must match the credential's mode. Value enum: "test", "live".
+     * @return string
+     * @throws SdkError When Flint-Mode is omitted; use hasFlintMode() or valueOrDefault().
+     */
+    public function getFlintMode(): string { return $this->get('Flint-Mode'); }
+    public function hasFlintMode(): bool { return $this->has('Flint-Mode'); }
+    /** Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Sandbox-Id is omitted; use hasFlintSandboxId() or valueOrDefault().
+     */
+    public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
+    public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
 }

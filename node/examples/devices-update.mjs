@@ -15,4 +15,4 @@ const result = await client.devices.update(
   { idempotencyKey: idempotencyKey },
 );
 console.log(result.device_id);
-console.log(result.status);
+console.log(result.merchant_id);

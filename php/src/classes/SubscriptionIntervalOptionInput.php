@@ -8,13 +8,13 @@ namespace Flint;
 final class SubscriptionIntervalOptionInput extends Model {
     /** @param array{'billing_interval': string, 'billing_interval_count': int}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionIntervalOptionInput')); }
-    /** Value enum: "daily", "weekly", "monthly", "yearly".
+    /** Unit of the billing period. Every option bills the same line prices once per period. Value enum: "daily", "weekly", "monthly", "yearly".
      * @return string
      * @throws SdkError When billing_interval is omitted; use hasBillingInterval() or valueOrDefault().
      */
     public function getBillingInterval(): string { return $this->get('billing_interval'); }
     public function hasBillingInterval(): bool { return $this->has('billing_interval'); }
-    /** Format: int32. minimum: 1. maximum: 365.
+    /** Number of interval units per billing period, from 1 to 365. Does not multiply line prices. Format: int32. minimum: 1. maximum: 365.
      * @return int
      * @throws SdkError When billing_interval_count is omitted; use hasBillingIntervalCount() or valueOrDefault().
      */

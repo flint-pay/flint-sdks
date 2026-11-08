@@ -23,7 +23,7 @@ final class PromotionArchivedMerchantEventDataObjectApplicationMethodAmountOff e
      */
     public function getAmountOffMoney(): MoneyValue { return $this->get('amount_off_money'); }
     public function hasAmountOffMoney(): bool { return $this->has('amount_off_money'); }
-    /** Basis for merchandise promotion calculations. Omit for service_charge promotions because service-charge discounts are calculated from the targeted charges. Value enum: "subtotal_pre_tax", "subtotal_post_tax".
+    /** What a merchandise discount is calculated from. Omitted means `subtotal_pre_tax`. Not used by service_charge promotions; sending it there returns `400 INVALID_REQUEST`. Value enum: "subtotal_pre_tax", "subtotal_post_tax".
      * @return ?string
      */
     public function getCalculationBasis(): ?string { return $this->get('calculation_basis'); }
@@ -33,7 +33,7 @@ final class PromotionArchivedMerchantEventDataObjectApplicationMethodAmountOff e
      */
     public function getCurrencyOptions(): ?array { return $this->get('currency_options'); }
     public function hasCurrencyOptions(): bool { return $this->has('currency_options'); }
-    /** Which line items receive the discount. Required for service_charge promotions, and for line_item promotions whose eligibility_rules include any non-line-item condition (for example order.subtotal or a customer condition). It is optional only when eligibility_rules consist entirely of line_item.* conditions (plus matched_items.subtotal), in which case the matched items are used as the target. Omitting it otherwise returns DISCOUNTED_ITEM_RULES_REQUIRED. A rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no rules, or send null where the field is clearable. Responses list rules before nested groups. Under any, a nested group containing only one rule reads back as that rule. Under all, nested groups keep their boundaries to preserve matched_items.subtotal scope. These deterministic normalizations stabilize after one round trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the same all group, including its nested groups.
+    /** Which line items receive the discount. Required for service_charge promotions, and for line_item promotions whose eligibility_rules include any non-line-item condition (for example order.subtotal or a customer condition). It is optional only when eligibility_rules consist entirely of line_item.* conditions (plus matched_items.subtotal), in which case the matched items are used as the target. Omitting it otherwise returns `400 INVALID_REQUEST` with `param` naming this field. A rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no rules, or send null where the field is clearable. Responses list rules before nested groups. Under any, a nested group containing only one rule reads back as that rule. Under all, nested groups keep their boundaries to preserve matched_items.subtotal scope. These deterministic normalizations stabilize after one round trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the same all group, including its nested groups.
      * @return mixed
      */
     public function getDiscountedItemRules(): mixed { return $this->get('discounted_item_rules'); }

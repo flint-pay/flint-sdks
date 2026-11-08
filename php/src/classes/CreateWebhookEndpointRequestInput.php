@@ -8,20 +8,21 @@ namespace Flint;
  * @property-read list<string> $event_sources
  * @property-read list<string> $installed_merchant_modes
  * @property-read string $partner_app_id
+ * @property-read string $partner_app_install_id
  * @property-read list<WebhookSigningMethodInput|array<array-key, mixed>|\stdClass> $signing_methods
  * @property-read string $status
  * @property-read string $url
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateWebhookEndpointRequestInput extends Model {
-    /** @param array{'api_version'?: string, 'description'?: string, 'enabled_events': list<string>, 'event_sources'?: list<string>, 'installed_merchant_modes'?: list<string>, 'partner_app_id'?: string, 'signing_methods'?: list<WebhookSigningMethodInput|array<array-key, mixed>|\stdClass>, 'status'?: string, 'url': string}|object $values */
+    /** @param array{'api_version'?: string, 'description'?: string, 'enabled_events': list<string>, 'event_sources'?: list<string>, 'installed_merchant_modes'?: list<string>, 'partner_app_id'?: string, 'partner_app_install_id'?: string, 'signing_methods'?: list<WebhookSigningMethodInput|array<array-key, mixed>|\stdClass>, 'status'?: string, 'url': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateWebhookEndpointRequestInput')); }
-    /** Set default to follow the merchant default, or a supported YYYY-MM-DD version to pin this endpoint. Omission follows the merchant default. Null is not accepted. minLength: 1.
+    /** Set default to follow the merchant default, or a supported YYYY-MM-DD version to pin this endpoint. Omission pins the API version this create request is served at (Flint-Version, or the merchant default when the header is absent). Null is not accepted. minLength: 1.
      * @return string
      * @throws SdkError When api_version is omitted; use hasApiVersion() or valueOrDefault().
      */
     public function getApiVersion(): string { return $this->get('api_version'); }
     public function hasApiVersion(): bool { return $this->has('api_version'); }
-    /** minLength: 1.
+    /** Your description of this endpoint. `null` is the same as omitting the field. minLength: 1.
      * @return string
      * @throws SdkError When description is omitted; use hasDescription() or valueOrDefault().
      */
@@ -45,25 +46,31 @@ final class CreateWebhookEndpointRequestInput extends Model {
      */
     public function getInstalledMerchantModes(): array { return $this->get('installed_merchant_modes'); }
     public function hasInstalledMerchantModes(): bool { return $this->has('installed_merchant_modes'); }
-    /** Partner app that owns partner_app or installed_merchants event sources. minLength: 1.
+    /** Partner app that owns partner_app or installed_merchants event sources. minLength: 1. Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
      * @return string
      * @throws SdkError When partner_app_id is omitted; use hasPartnerAppId() or valueOrDefault().
      */
     public function getPartnerAppId(): string { return $this->get('partner_app_id'); }
     public function hasPartnerAppId(): bool { return $this->has('partner_app_id'); }
-    /** minItems: 1. uniqueItems: true. Default: ["jwt"]. [] enum: "jwt", "hmac". [] (Value): {@see WebhookSigningMethodInput}. jwt uses Flint's public JWKS. hmac uses a shared secret and Standard Webhooks v1. Value enum: "jwt", "hmac".
+    /** Links this endpoint to a connected app's install. Revoking the install, or its grant for this endpoint's environment, deletes the endpoint. The install must be active and authorized for this environment. Set only at creation; it never changes. Omit for an endpoint not tied to an app. Endpoints created by a linked key are linked to the same install. At most 25 endpoints may link to one install in each environment. minLength: 1. pattern: ^pinst_[0-9A-HJKMNP-TV-Z]{26}$. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+     * @return string
+     * @throws SdkError When partner_app_install_id is omitted; use hasPartnerAppInstallId() or valueOrDefault().
+     */
+    public function getPartnerAppInstallId(): string { return $this->get('partner_app_install_id'); }
+    public function hasPartnerAppInstallId(): bool { return $this->has('partner_app_install_id'); }
+    /** Methods Flint uses to sign deliveries. Defaults to jwt. Including hmac issues a shared secret returned once. minItems: 1. uniqueItems: true. Default: ["jwt"]. [] enum: "jwt", "hmac". [] (Value): {@see WebhookSigningMethodInput}. How Flint signs requests to this endpoint. Value enum: "jwt", "hmac".
      * @return list<WebhookSigningMethodInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When signing_methods is omitted; use hasSigningMethods() or valueOrDefault().
      */
     public function getSigningMethods(): array { return $this->get('signing_methods'); }
     public function hasSigningMethods(): bool { return $this->has('signing_methods'); }
-    /** Value enum: "active", "inactive".
+    /** Whether this endpoint receives events. Defaults to active. Value enum: "active", "inactive".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** minLength: 1.
+    /** Public HTTPS URL to receive webhook deliveries. minLength: 1.
      * @return string
      * @throws SdkError When url is omitted; use hasUrl() or valueOrDefault().
      */

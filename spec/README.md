@@ -1,6 +1,6 @@
 # Pinned SDK inputs
 
-`openapi.json` is the complete, unmodified public versioned API export at Flint `6cd24dfcae461df982718effa88460b3c732c1e2` on `main`, from the path and SHA-256 recorded in `../sdk.lock.json`. The API date is `2026-09-07`. All 621 operations and 251 incoming webhook declarations are retained. The packages select 620 operations, including the five form-encoded CLI/OAuth operations. `authorizePartnerInstall` is a browser consent redirect and is excluded; the handwritten partner OAuth helpers in `node/custom/` and `php/custom/` build its URL. The inventory test checks every selected operation and every explicit exclusion.
+`openapi.json` is the complete, unmodified public versioned API export at Flint `a29702bfbf8964316855b7d0a9daeeb367d82cdf` on `main`, from the path and SHA-256 recorded in `../sdk.lock.json`. The API date is `2026-09-07`. All 687 operations and 275 incoming webhook declarations are retained. The packages select 686 operations, including the five form-encoded CLI/OAuth operations. `authorizePartnerInstall` is a browser consent redirect and is excluded; the handwritten partner OAuth helpers in `node/custom/` and `php/custom/` build its URL. The inventory test checks every selected operation and every explicit exclusion.
 
 The profiles and synthetic HTTP/model cases originated in `flint-pay/sdk-generator` revision `314de2ee5975e3a5cc7cf385babd23b84eb489fa`, `tests/providers/flint/`. That fixture uses an earlier API revision; the export here stays pinned independently. The current generator revision is recorded in `../sdk.lock.json`. Package version `8.0.0-beta.2` is a prerelease from Flint `main`; stable releases pin the backend commit deployed to production.
 
@@ -13,7 +13,7 @@ The common profile's `overrides` are exact-equivalent provider corrections for c
 - Integer bounds of `2^63-1` on uint64/int64 inventory and error-detail fields are not safe integers. Each field is declared `int64` without the bound. The native-number profile enforces the safe integer range for counters at runtime.
 - Metadata `propertyNames` reject keys starting with `flint_` through `not`. They use the equivalent lookahead-free pattern instead.
 - Partner app credential branches forbid the other credential fields with `not: {}` schemas. They use `not` with `required` instead.
-- `DeliveryEligibilityExpression` and `DeliveryZoneConfiguration` select one operator through recursive `$ref` alternatives that TypeScript can't type. Each alternative is replaced by its single required key; the closed parent keeps exactly one operator per node.
+- `DeliveryEligibilityExpression` and `DeliveryZoneConfiguration`, and their `Input` request forms, select one operator through recursive `$ref` alternatives that TypeScript can't type. Each alternative is replaced by its single required key; the closed parent keeps exactly one operator per node.
 
 `../tests/full-http-cases.json` and `full-model-cases.json` are synthetic regression cases, not live transaction certification. `full-inventory.json` records the pinned export's inventory. Do not add private provider definitions or real request/response data.
 

@@ -13,7 +13,7 @@ namespace Flint;
 final class ProductOptionValueInput extends Model {
     /** @param array{'created_at'?: string|\DateTimeInterface, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'option_value_id': string, 'position': int, 'status'?: string, 'updated_at'?: string|\DateTimeInterface, 'value': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ProductOptionValueInput')); }
-    /** When this resource was created, as an RFC3339 timestamp. Format: date-time.
+    /** When this resource was created, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
@@ -25,7 +25,7 @@ final class ProductOptionValueInput extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Stable identifier of the option value.
+    /** Stable identifier of the option value. Example: "optv_01KEZF7C0078SVZ1T7PVRXQK7F".
      * @return string
      * @throws SdkError When option_value_id is omitted; use hasOptionValueId() or valueOrDefault().
      */
@@ -43,7 +43,7 @@ final class ProductOptionValueInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** When this resource last changed, as an RFC3339 timestamp. Format: date-time.
+    /** When this resource last changed, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */

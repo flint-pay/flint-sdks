@@ -5,7 +5,7 @@ const client = new Client({
   allowInsecureHttp: !!baseUrl && ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
 });
 const result = await client.refunds.get(
-  "ref_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "ref_01KEZF7C003DTD59WKYHEXYQ1K"
 );
+console.log(result.merchant_id);
 console.log(result.refund_id);
-console.log(result.status);

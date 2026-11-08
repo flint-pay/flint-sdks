@@ -5,7 +5,7 @@ const client = new Client({
   allowInsecureHttp: !!baseUrl && ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
 });
 const result = await client.inventoryLevels.get(
-  "invl_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "invl_01KEZF7C00H201XZXKRX5KMDDE"
 );
 console.log(result.inventory_item_id);
 console.log(result.inventory_level_id);

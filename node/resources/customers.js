@@ -5,17 +5,21 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/customers.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import r0 from '../descriptors/resources/customers.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import settings from '../descriptors/settings.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["createCustomer"]:r0,["createCustomerAccessLink"]:r0,["createCustomerAddress"]:r0,["deleteCustomerAddress"]:r0,["getCustomer"]:r0,["getCustomerAddress"]:r0,["linkCustomerGuestPurchases"]:r0,["listCustomerAddresses"]:r0,["listCustomers"]:r0,["revokeCustomerSessions"]:r0,["updateCustomer"]:r0,["updateCustomerAddress"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["createCustomer"]:r0,["createCustomerAccessLink"]:r0,["createCustomerAddress"]:r0,["createCustomerTaxExemption"]:r0,["deleteCustomerAddress"]:r0,["deleteCustomerTaxExemption"]:r0,["getCustomer"]:r0,["getCustomerAddress"]:r0,["getCustomerEmailPreferences"]:r0,["getCustomerTaxExemption"]:r0,["linkCustomerGuestPurchases"]:r0,["listCustomerAddresses"]:r0,["listCustomers"]:r0,["listCustomerTaxExemptions"]:r0,["revokeCustomerSessions"]:r0,["updateCustomer"]:r0,["updateCustomerAddress"]:r0,["updateCustomerTaxExemption"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.customers = Object.freeze({
-      create: async (params, options) => this.#runtime.request("createCustomer", _sdkRequestInput([], [], [], true, true, params, [
+      create: async (params, options) => this.#runtime.request("createCustomer", _sdkRequestInput([], [], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, false, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
@@ -29,25 +33,52 @@ this.customers = Object.freeze({
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createCustomerAccessLink", result, path))),
       createAddress: async (customer_id, params, options) => this.#runtime.request("createCustomerAddress", _sdkRequestInput([
   "customer_id"
-], [customer_id], [], true, true, params, [
+], [customer_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createCustomerAddress", result, path))),
+      createTaxExemption: async (customer_id, params, options) => this.#runtime.request("createCustomerTaxExemption", _sdkRequestInput([
+  "customer_id"
+], [customer_id], [], true, true, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createCustomerTaxExemption", result, path))),
       deleteAddress: async (customer_id, customer_address_id, params, options) => this.#runtime.request("deleteCustomerAddress", _sdkRequestInput([
   "customer_id",
   "customer_address_id"
 ], [customer_id, customer_address_id], [
-  "expected_version"
+  "expected_version",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("deleteCustomerAddress", result, path))),
+      deleteTaxExemption: async (customer_id, customer_tax_exemption_id, params, options) => this.#runtime.request("deleteCustomerTaxExemption", _sdkRequestInput([
+  "customer_id",
+  "customer_tax_exemption_id"
+], [customer_id, customer_tax_exemption_id], [
+  "expected_version"
+], false, false, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("deleteCustomerTaxExemption", result, path))),
       get: async (customer_id, params, options) => this.#runtime.request("getCustomer", _sdkRequestInput([
   "customer_id"
 ], [customer_id], [
-  "expand"
+  "expand",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -55,10 +86,31 @@ this.customers = Object.freeze({
       getAddress: async (customer_id, customer_address_id, params, options) => this.#runtime.request("getCustomerAddress", _sdkRequestInput([
   "customer_id",
   "customer_address_id"
-], [customer_id, customer_address_id], [], false, false, params, [
+], [customer_id, customer_address_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getCustomerAddress", result, path))),
+      getEmailPreferences: async (customer_id, params, options) => this.#runtime.request("getCustomerEmailPreferences", _sdkRequestInput([
+  "customer_id"
+], [customer_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getCustomerEmailPreferences", result, path))),
+      getTaxExemption: async (customer_id, customer_tax_exemption_id, params, options) => this.#runtime.request("getCustomerTaxExemption", _sdkRequestInput([
+  "customer_id",
+  "customer_tax_exemption_id"
+], [customer_id, customer_tax_exemption_id], [], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getCustomerTaxExemption", result, path))),
       linkGuestPurchases: async (customer_id, params, options) => this.#runtime.request("linkCustomerGuestPurchases", _sdkRequestInput([
   "customer_id"
 ], [customer_id], [], true, true, params, [
@@ -70,7 +122,10 @@ this.customers = Object.freeze({
   "customer_id"
 ], [customer_id], [
   "page_size",
-  "page_token"
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -79,7 +134,10 @@ this.customers = Object.freeze({
   "customer_id"
 ], [customer_id], [
   "page_size",
-  "page_token"
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -88,7 +146,10 @@ this.customers = Object.freeze({
   "customer_id"
 ], [customer_id], [
   "page_size",
-  "page_token"
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -100,6 +161,7 @@ this.customers = Object.freeze({
   "query",
   "external_reference_id",
   "email",
+  "price_list_id",
   "segment",
   "is_merchant_verified",
   "phone",
@@ -110,7 +172,10 @@ this.customers = Object.freeze({
   "created_before",
   "updated_after",
   "updated_before",
-  "expand"
+  "expand",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -122,6 +187,7 @@ this.customers = Object.freeze({
   "query",
   "external_reference_id",
   "email",
+  "price_list_id",
   "segment",
   "is_merchant_verified",
   "phone",
@@ -132,7 +198,10 @@ this.customers = Object.freeze({
   "created_before",
   "updated_after",
   "updated_before",
-  "expand"
+  "expand",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -144,6 +213,7 @@ this.customers = Object.freeze({
   "query",
   "external_reference_id",
   "email",
+  "price_list_id",
   "segment",
   "is_merchant_verified",
   "phone",
@@ -154,7 +224,40 @@ this.customers = Object.freeze({
   "created_before",
   "updated_after",
   "updated_before",
-  "expand"
+  "expand",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options),
+      listTaxExemptions: async (customer_id, params, options) => this.#runtime.request("listCustomerTaxExemptions", _sdkRequestInput([
+  "customer_id"
+], [customer_id], [
+  "page_size",
+  "page_token",
+  "status"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listCustomerTaxExemptions", result, path))),
+      listTaxExemptionsPages: (customer_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listCustomerTaxExemptions", _sdkRequestInput([
+  "customer_id"
+], [customer_id], [
+  "page_size",
+  "page_token",
+  "status"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options), [], (result, path) => this.#runtime.decodePayload("listCustomerTaxExemptions", result, path)),
+      listTaxExemptionsItems: (customer_id, params, options) => this.#runtime.items("listCustomerTaxExemptions", _sdkRequestInput([
+  "customer_id"
+], [customer_id], [
+  "page_size",
+  "page_token",
+  "status"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -168,7 +271,11 @@ this.customers = Object.freeze({
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("revokeCustomerSessions", result, path))),
       update: async (customer_id, params, options) => this.#runtime.request("updateCustomer", _sdkRequestInput([
   "customer_id"
-], [customer_id], [], true, true, params, [
+], [customer_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
@@ -176,19 +283,36 @@ this.customers = Object.freeze({
       updateAddress: async (customer_id, customer_address_id, params, options) => this.#runtime.request("updateCustomerAddress", _sdkRequestInput([
   "customer_id",
   "customer_address_id"
-], [customer_id, customer_address_id], [], true, true, params, [
+], [customer_id, customer_address_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateCustomerAddress", result, path))),
+      updateTaxExemption: async (customer_id, customer_tax_exemption_id, params, options) => this.#runtime.request("updateCustomerTaxExemption", _sdkRequestInput([
+  "customer_id",
+  "customer_tax_exemption_id"
+], [customer_id, customer_tax_exemption_id], [], true, true, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateCustomerTaxExemption", result, path))),
     });
 }
 [Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
 export { makeAddressRequest } from '../models/AddressRequest.js';
+export { makeCreateCustomerAccessLinkRequest } from '../models/CreateCustomerAccessLinkRequest.js';
 export { makeCreateCustomerAddressRequest } from '../models/CreateCustomerAddressRequest.js';
 export { makeCreateCustomerRequest } from '../models/CreateCustomerRequest.js';
+export { makeCreateCustomerTaxExemptionRequest } from '../models/CreateCustomerTaxExemptionRequest.js';
+export { makeCustomerTaxExemptionCoverageAllStatesRequest } from '../models/CustomerTaxExemptionCoverageAllStatesRequest.js';
+export { makeCustomerTaxExemptionCoverageRequest } from '../models/CustomerTaxExemptionCoverageRequest.js';
+export { makeCustomerTaxExemptionCoverageStatesRequest } from '../models/CustomerTaxExemptionCoverageStatesRequest.js';
 export { makeDocumentTaxIDRequest } from '../models/DocumentTaxIDRequest.js';
 export { makeLinkCustomerGuestPurchasesRequest } from '../models/LinkCustomerGuestPurchasesRequest.js';
 export { makeMetadataPatchRequest } from '../models/MetadataPatchRequest.js';
@@ -198,3 +322,4 @@ export { makeTaxIdentityPatch } from '../models/TaxIdentityPatch.js';
 export { makeTaxIdentityRequest } from '../models/TaxIdentityRequest.js';
 export { makeUpdateCustomerAddressRequest } from '../models/UpdateCustomerAddressRequest.js';
 export { makeUpdateCustomerRequest } from '../models/UpdateCustomerRequest.js';
+export { makeUpdateCustomerTaxExemptionRequest } from '../models/UpdateCustomerTaxExemptionRequest.js';

@@ -5,8 +5,8 @@ const client = new Client({
   allowInsecureHttp: !!baseUrl && ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
 });
 const result = await client.products.getVariant(
-  "prod_01ARZ3NDEKTSV4RRFFQ69G5FAV",
-  "var_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "prod_01KEZF7C00BVSHCNWVH528HB66",
+  "var_01KEZF7C004GSH2KT8CNYVMHGX"
 );
 console.log(result.product_id);
 console.log(result.status);

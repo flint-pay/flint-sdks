@@ -13,7 +13,7 @@ namespace Flint;
 final class ChangeSubscriptionPlanRequestInput extends Model {
     /** @param array{'billing_interval'?: string, 'billing_interval_count'?: int, 'billing_starts': string, 'expected_version'?: int, 'line_items'?: list<SubscriptionPlanChangeLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'quantity'?: int, 'subscription_plan_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ChangeSubscriptionPlanRequestInput')); }
-    /** Send with billing_interval_count to choose a target plan option. Omit both to keep the current interval. Value enum: "daily", "weekly", "monthly", "yearly".
+    /** Send with billing_interval_count to choose a target plan option. Omit both to keep the current interval if the target offers that pair, otherwise use the target plan's default interval and count. Value enum: "daily", "weekly", "monthly", "yearly".
      * @return string
      * @throws SdkError When billing_interval is omitted; use hasBillingInterval() or valueOrDefault().
      */
@@ -25,13 +25,13 @@ final class ChangeSubscriptionPlanRequestInput extends Model {
      */
     public function getBillingIntervalCount(): int { return $this->get('billing_interval_count'); }
     public function hasBillingIntervalCount(): bool { return $this->has('billing_interval_count'); }
-    /** now bills a new period with credit for unused paid item time. next_renewal changes the plan immediately and keeps the current paid period and next billing date. Value enum: "now", "next_renewal".
+    /** now bills a new period with credit for unused paid item time. next_renewal changes the plan immediately and keeps the current paid period and next billing date. period_end keeps the current plan until the next charged renewal, then applies and bills the scheduled terms. prorated_now charges the new terms for the rest of the current period, less unused paid item credit, and keeps the billing period and anchor. Value enum: "now", "next_renewal", "period_end", "prorated_now".
      * @return string
      * @throws SdkError When billing_starts is omitted; use hasBillingStarts() or valueOrDefault().
      */
     public function getBillingStarts(): string { return $this->get('billing_starts'); }
     public function hasBillingStarts(): bool { return $this->has('billing_starts'); }
-    /** Format: uint64. minimum: 1.
+    /** Version last read from the resource returned in `data` (the primary resource for a result object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on the operation and fields being changed. Format: uint64. minimum: 1.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */
@@ -49,7 +49,7 @@ final class ChangeSubscriptionPlanRequestInput extends Model {
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
-    /** minLength: 1. pattern: ^plan_[0-9A-HJKMNP-TV-Z]{26}$.
+    /** The target subscription plan. minLength: 1. pattern: ^plan_[0-9A-HJKMNP-TV-Z]{26}$. Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
      * @return string
      * @throws SdkError When subscription_plan_id is omitted; use hasSubscriptionPlanId() or valueOrDefault().
      */

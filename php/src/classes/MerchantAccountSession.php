@@ -16,12 +16,12 @@ final class MerchantAccountSession extends Model {
      */
     public function getClientSession(): MerchantAccountSessionClientSession { return $this->get('client_session'); }
     public function hasClientSession(): bool { return $this->has('client_session'); }
-    /** minItems: 1. [] enum: "account_onboarding", "account_management", "payouts", "balances", "tax_documents", "notification_banner". [] (Value): string.  Value enum: "account_onboarding", "account_management", "payouts", "balances", "tax_documents", "notification_banner".
+    /** The components the session authorizes, in catalog order. minItems: 1. [] enum: "account_onboarding", "account_management", "payouts", "balances", "tax_documents", "notification_banner", "payments". [] (Value): string.  Value enum: "account_onboarding", "account_management", "payouts", "balances", "tax_documents", "notification_banner", "payments".
      * @return list<string>
      */
     public function getComponents(): array { return $this->get('components'); }
     public function hasComponents(): bool { return $this->has('components'); }
-    /** The collection policy applied to a merchant account session: which requirements it targets, how they are collected, and whether future requirements are included.
+    /** The collection policy Flint applied to the session. The collection policy applied to a merchant account session: which requirements it targets, how they are collected, and whether future requirements are included.
      * @return MerchantAccountSessionEffectivePolicy
      */
     public function getEffectivePolicy(): MerchantAccountSessionEffectivePolicy { return $this->get('effective_policy'); }

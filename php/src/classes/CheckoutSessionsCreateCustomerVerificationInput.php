@@ -10,7 +10,7 @@ namespace Flint;
 final class CheckoutSessionsCreateCustomerVerificationInput extends Model {
     /** @param array{'checkout_session_id': string, 'body': array{'channel'?: string, 'email': string, 'purpose': string}|object|array{'channel': string, 'purpose': string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutSessionsCreateCustomerVerificationInput')); }
-    /** Flint checkout session ID. Example: "cs_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Flint checkout session ID. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
      * @return string
      * @throws SdkError When checkout_session_id is omitted; use hasCheckoutSessionId() or valueOrDefault().
      */

@@ -19,7 +19,7 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->checkoutSessions->createCustomerVerification('cs_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
+$result = $client->checkoutSessions->createCustomerVerification('cs_01KEZF7C004JRWFW43H037MQRN', [
   'email' => 'ada@example.com',
   'purpose' => 'use_saved_payment_methods',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));

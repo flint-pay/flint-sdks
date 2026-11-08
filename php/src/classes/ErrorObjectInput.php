@@ -8,15 +8,15 @@ namespace Flint;
  * @property-read string $error_source
  * @property-read string $message
  * @property-read string $param
- * @property-read array{'next_actions'?: list<NextActionInput|array<array-key, mixed>|\stdClass>, 'next_steps'?: string, 'retry': string, ...}|object|null $remediation
+ * @property-read ErrorRemediationInput|array<array-key, mixed>|\stdClass $remediation
  * @property-read string $request_id
  * @property-read string $request_log_url
  * @property-read string $type
  * Presence-aware input; omitted fields throw when accessed. */
 final class ErrorObjectInput extends Model {
-    /** @param array{'code': string, 'details'?: list<ErrorDetailInput|array<array-key, mixed>|\stdClass>, 'doc_url': string, 'error_source': string, 'message': string, 'param'?: string, 'remediation': array{'next_actions'?: list<NextActionInput|array<array-key, mixed>|\stdClass>, 'next_steps'?: string, 'retry': string, ...}|object|null, 'request_id': string, 'request_log_url'?: string, 'type': string, ...}|object $values */
+    /** @param array{'code': string, 'details'?: list<ErrorDetailInput|array<array-key, mixed>|\stdClass>, 'doc_url': string, 'error_source': string, 'message': string, 'param'?: string, 'remediation': ErrorRemediationInput|array<array-key, mixed>|\stdClass, 'request_id': string, 'request_log_url'?: string, 'type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ErrorObjectInput')); }
-    /** Stable Flint error code. Each operation lists its codes in x-flint-error-codes, and each error response lists the codes it can carry at that status. Value enum: "ACTION_NOT_ALLOWED", "ALREADY_EXISTS", "API_VERSION_RETIRED", "AUTHENTICATION_REQUIRED", "CONCURRENT_MODIFICATION", "DELIVERY_REQUOTE_REQUIRED", "EXTERNAL_SERVICE_ERROR", "FORBIDDEN", "GIFT_CARD_CHALLENGE_REQUIRED", "IDEMPOTENCY_KEY_IN_PROGRESS", "IDEMPOTENCY_KEY_REUSED", "IDEMPOTENCY_RECOVERY_REQUIRED", "IDENTITY_VERIFICATION_REQUIRED", "INSUFFICIENT_SCOPE", "INTERNAL_ERROR", "INVALID_CREDENTIAL", "INVALID_REQUEST", "INVALID_VALUE", "INVENTORY_INSUFFICIENT", "LIMIT_EXCEEDED", "LIMIT_REACHED", "MERCHANT_NOT_READY", "METHOD_NOT_ALLOWED", "NOT_ALLOWED", "OPERATION_IN_PROGRESS", "PAYMENT_ATTEMPT_ACTIVE", "PAYMENT_OPTION_UNAVAILABLE", "PAYMENT_PROCESSING_UNAVAILABLE", "PAYMENT_PROCESSOR_REJECTED", "PAYMENT_REVIEW_OPEN", "PROMOTION_DECLINED", "RATE_LIMIT_EXCEEDED", "REQUEST_BODY_TOO_LARGE", "REQUEST_CANCELED", "REQUEST_TIMEOUT", "REQUIRED", "RESOURCE_IN_USE", "RESOURCE_NOT_FOUND", "ROUTE_NOT_FOUND", "SERVICE_UNAVAILABLE", "UNKNOWN_FIELD", "UNSUPPORTED_CONTENT_TYPE", "VERSION_CONFLICT".
+    /** Stable Flint error code. Each operation lists its codes in x-flint-error-codes, and each error response lists the codes it can carry at that status. Value enum: "ACTION_NOT_ALLOWED", "ALREADY_EXISTS", "API_VERSION_RETIRED", "AUTHENTICATION_REQUIRED", "CONCURRENT_MODIFICATION", "CUSTOMER_EMAIL_REQUIRED", "DELIVERY_REQUOTE_REQUIRED", "EXTERNAL_SERVICE_ERROR", "FORBIDDEN", "GIFT_CARD_CHALLENGE_REQUIRED", "IDEMPOTENCY_KEY_IN_PROGRESS", "IDEMPOTENCY_KEY_REUSED", "IDEMPOTENCY_RECOVERY_REQUIRED", "IDENTITY_VERIFICATION_REQUIRED", "INSUFFICIENT_SCOPE", "INTERNAL_ERROR", "INVALID_CREDENTIAL", "INVALID_REQUEST", "INVENTORY_INSUFFICIENT", "LIMIT_EXCEEDED", "LIMIT_REACHED", "MERCHANT_NOT_READY", "METHOD_NOT_ALLOWED", "OPERATION_IN_PROGRESS", "PAYMENT_ATTEMPT_ACTIVE", "PAYMENT_OPTION_UNAVAILABLE", "PAYMENT_PROCESSING_UNAVAILABLE", "PAYMENT_PROCESSOR_REJECTED", "PAYMENT_REVIEW_OPEN", "PROMOTION_DECLINED", "RATE_LIMIT_EXCEEDED", "REQUEST_BODY_TOO_LARGE", "REQUEST_CANCELED", "REQUEST_TIMEOUT", "RESOURCE_IN_USE", "RESOURCE_NOT_FOUND", "ROUTE_NOT_FOUND", "SERVICE_UNAVAILABLE", "UNSUPPORTED_CONTENT_TYPE", "VERSION_CONFLICT".
      * @return string
      * @throws SdkError When code is omitted; use hasCode() or valueOrDefault().
      */
@@ -34,7 +34,7 @@ final class ErrorObjectInput extends Model {
      */
     public function getDocUrl(): string { return $this->get('doc_url'); }
     public function hasDocUrl(): bool { return $this->has('doc_url'); }
-    /** System boundary responsible for correcting the failure. Value enum: "merchant", "integration", "flint".
+    /** Who must act before the request can succeed. It depends only on code and details[0].reason; the errors reference lists the value for each. Use it to route the failure, and code and details[0].reason for the fix. Value enum: "caller", "merchant", "merchant_endpoint", "flint".
      * @return string
      * @throws SdkError When error_source is omitted; use hasErrorSource() or valueOrDefault().
      */
@@ -46,14 +46,14 @@ final class ErrorObjectInput extends Model {
      */
     public function getMessage(): string { return $this->get('message'); }
     public function hasMessage(): bool { return $this->has('message'); }
-    /** Public JSON request field path that caused the failure, such as line_items[0].name, when the failure concerns one field.
+    /** Path of the one input to change: a body path such as line_items[0].name or metadata.order_ref, a path or query parameter name, a header name such as Idempotency-Key, or body for the whole body. Present on every validation error and whenever one input is responsible.
      * @return string
      * @throws SdkError When param is omitted; use hasParam() or valueOrDefault().
      */
     public function getParam(): string { return $this->get('param'); }
     public function hasParam(): bool { return $this->has('param'); }
-    /** Recovery guidance: whether retrying can succeed and what to do next. anyOf[1] (Value): {@see ErrorRemediationInput}. Recovery guidance for an error: whether and how to `retry`, plus next steps and suggested actions. anyOf[2] (Value): null.
-     * @return array{'next_actions'?: list<NextActionInput|array<array-key, mixed>|\stdClass>, 'next_steps'?: string, 'retry': string, ...}|object|null
+    /** Recovery guidance: whether retrying can succeed and what to do next. Recovery guidance for an error: whether and how to `retry`, plus next steps and suggested actions.
+     * @return ErrorRemediationInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When remediation is omitted; use hasRemediation() or valueOrDefault().
      */
     public function getRemediation(): mixed { return $this->get('remediation'); }

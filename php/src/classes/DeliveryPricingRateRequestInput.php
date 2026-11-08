@@ -16,7 +16,7 @@ final class DeliveryPricingRateRequestInput extends Model {
      */
     public function getCurrencyOptions(): array|object { return $this->get('currency_options'); }
     public function hasCurrencyOptions(): bool { return $this->has('currency_options'); }
-    /** Stable rate identifier returned by Flint. Include it when updating or retaining an existing rate. minLength: 1.
+    /** Stable rate identifier returned by Flint. Include it when updating or retaining an existing rate. minLength: 1. Example: "drate_01KEZF7C00FD0B4QEC0M00MJ4S".
      * @return string
      * @throws SdkError When delivery_rate_id is omitted; use hasDeliveryRateId() or valueOrDefault().
      */

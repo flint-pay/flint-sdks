@@ -20,5 +20,5 @@ $result = $client->customers->update('cus_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
   'name' => 'Jordan Example',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->customer_id . PHP_EOL;
-echo $result->status . PHP_EOL;
+echo $result->merchant_id . PHP_EOL;
 $client->close();

@@ -10,6 +10,6 @@ Request input.
 | --- | --- | --- | --- |
 | `discount_money` | Required | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `name` | Required | string |  |
-| `promotion_id` | Required | string or null | Promotion ID for a promotion discount; null for unused-time credit. |
-| `source` | Required | string | Values: `"promotion"`, `"plan_change_credit"`. |
+| `promotion_id` | Required | string or null | Promotion ID for a promotion discount; null for unused-time credit or proration. Example: `"promo_01KEZF7C00QQ8EZ74BDYSZ315V"`. |
+| `source` | Required | string | Values: `"promotion"`, `"plan_change_credit"`, `"proration"`. |
 

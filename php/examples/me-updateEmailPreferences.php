@@ -22,5 +22,5 @@ $idempotencyKey = bin2hex(random_bytes(16));
 $result = $client->me->updateEmailPreferences([
   'checkout_reminders' => false,
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
-echo $result->customer_id . PHP_EOL;
+echo json_encode($result, JSON_THROW_ON_ERROR) . PHP_EOL;
 $client->close();

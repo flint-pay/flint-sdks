@@ -12,7 +12,7 @@ namespace Flint;
 final class DeliveryPickupAvailabilityInput extends Model {
     /** @param array{'evaluated_at': string|\DateTimeInterface, 'evaluation_status': string, 'input_requirements': list<DeliveryInputRequirementInput|array<array-key, mixed>|\stdClass>, 'locations': list<DeliveryPickupAvailabilityLocationResourceInput|array<array-key, mixed>|\stdClass>, 'merchant_diagnostics'?: list<DeliveryPickupAvailabilityDiagnosticInput|array<array-key, mixed>|\stdClass>, 'mode': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPickupAvailabilityInput')); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When evaluated_at is omitted; use hasEvaluatedAt() or valueOrDefault().
      */

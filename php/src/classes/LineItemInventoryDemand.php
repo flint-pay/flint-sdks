@@ -20,7 +20,7 @@ final class LineItemInventoryDemand extends Model {
      */
     public function getComponentSnapshotId(): ?string { return $this->get('component_snapshot_id'); }
     public function hasComponentSnapshotId(): bool { return $this->has('component_snapshot_id'); }
-    /** inventory_item_id
+    /** ID of the inventory item each unit of the line item uses.
      * @return string
      */
     public function getInventoryItemId(): string { return $this->get('inventory_item_id'); }

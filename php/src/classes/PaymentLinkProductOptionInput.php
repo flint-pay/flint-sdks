@@ -15,7 +15,7 @@ final class PaymentLinkProductOptionInput extends Model {
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** ID of the product option.
+    /** ID of the product option. Example: "opt_01KEZF7C008R5Q9BG9B4B4KQH8".
      * @return string
      * @throws SdkError When option_id is omitted; use hasOptionId() or valueOrDefault().
      */

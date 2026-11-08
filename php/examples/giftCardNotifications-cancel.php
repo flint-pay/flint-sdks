@@ -16,7 +16,7 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->giftCardNotifications->cancel('gcn_01ARZ3NDEKTSV4RRFFQ69G5FAV', null, new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->giftCardNotifications->cancel('gcn_01KEZF7C0023FN0HF9GH34RZA1', null, new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->gift_card_id . PHP_EOL;
 echo $result->gift_card_notification_id . PHP_EOL;
 $client->close();

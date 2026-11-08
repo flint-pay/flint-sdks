@@ -9,5 +9,5 @@ Request input.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `amount_money` | Required | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `value_settlement_id` | Required | string |  |
+| `value_settlement_id` | Required | string | Example: `"ovst_01KEZF7C00EMVZ016PM34KKFGY"`. |
 

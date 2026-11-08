@@ -20,5 +20,5 @@ $result = $client->categories->update('ctg_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
   'name' => 'Seasonal products',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->category_id . PHP_EOL;
-echo $result->status . PHP_EOL;
+echo $result->merchant_id . PHP_EOL;
 $client->close();

@@ -8,9 +8,9 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `environment` | Required | string | Values: `"sandbox"`, `"live"`. |
-| `id` | Required | string |  |
-| `merchant_id` | Required | string |  |
-| `name` | Required | string |  |
-| `sandbox_id` | Optional | string |  |
+| `environment` | Required | string | Whether the context is a sandbox or a live account. Values: `"sandbox"`, `"live"`. |
+| `id` | Required | string | ID of the context. Name it as `context_id` when you refresh a token. |
+| `merchant_id` | Required | string | ID of the merchant this resource belongs to. Example: `"mer_01KEZF7C00KPYH1DDFPCCX3B6E"`. |
+| `name` | Required | string | Name of the context. |
+| `sandbox_id` | Optional | string | ID of the sandbox this resource belongs to. Example: `"test_01KEZF7C00JC77HTMTB2XHNPE0"`. |
 

@@ -11,7 +11,7 @@ namespace Flint;
  * @property-read string $merchant_id
  * @property-read SignedMoneyInput|array<array-key, mixed>|\stdClass $net_money
  * @property-read string|\DateTimeInterface $occurred_at
- * @property-read array{'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': SettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null $order
+ * @property-read array{'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'deferred_promotions': list<DeferredPromotionInput|array<array-key, mixed>|\stdClass>, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'paid_at': string|\DateTimeInterface|null, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': OrderSettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'supported_actions': list<string>, 'updated_at'?: string|\DateTimeInterface, ...}|object|null $order
  * @property-read string $order_id
  * @property-read string $payout_id
  * @property-read list<string> $related_balance_transaction_ids
@@ -20,7 +20,7 @@ namespace Flint;
  * @property-read string $type
  * Presence-aware input; omitted fields throw when accessed. */
 final class BalanceTransactionInput extends Model {
-    /** @param array{'amount_money': SignedMoneyInput|array<array-key, mixed>|\stdClass, 'available_at'?: string|\DateTimeInterface, 'balance_transaction_id': string, 'currency': string, 'description'?: string, 'fee_money': SignedMoneyInput|array<array-key, mixed>|\stdClass, 'merchant_id': string, 'net_money': SignedMoneyInput|array<array-key, mixed>|\stdClass, 'occurred_at': string|\DateTimeInterface, 'order'?: array{'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': SettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'order_id'?: string, 'payout_id'?: string, 'related_balance_transaction_ids': list<string>, 'related_resource'?: ResourceReferenceInput|array<array-key, mixed>|\stdClass, 'status': string, 'type': string, ...}|object $values */
+    /** @param array{'amount_money': SignedMoneyInput|array<array-key, mixed>|\stdClass, 'available_at'?: string|\DateTimeInterface, 'balance_transaction_id': string, 'currency': string, 'description'?: string, 'fee_money': SignedMoneyInput|array<array-key, mixed>|\stdClass, 'merchant_id': string, 'net_money': SignedMoneyInput|array<array-key, mixed>|\stdClass, 'occurred_at': string|\DateTimeInterface, 'order'?: array{'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'deferred_promotions': list<DeferredPromotionInput|array<array-key, mixed>|\stdClass>, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'paid_at': string|\DateTimeInterface|null, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': OrderSettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'supported_actions': list<string>, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'order_id'?: string, 'payout_id'?: string, 'related_balance_transaction_ids': list<string>, 'related_resource'?: ResourceReferenceInput|array<array-key, mixed>|\stdClass, 'status': string, 'type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BalanceTransactionInput')); }
     /** Signed gross amount of this balance movement, before any fee. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return SignedMoneyInput|array<array-key, mixed>|\stdClass
@@ -28,13 +28,13 @@ final class BalanceTransactionInput extends Model {
      */
     public function getAmountMoney(): mixed { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** When the funds become, or became, available to pay out. Present on pending transactions as the expected time; status says whether they are available now. Format: date-time.
+    /** When the funds become, or became, available to pay out. Present on pending transactions as the expected time; status says whether they are available now. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When available_at is omitted; use hasAvailableAt() or valueOrDefault().
      */
     public function getAvailableAt(): string|\DateTimeInterface { return $this->get('available_at'); }
     public function hasAvailableAt(): bool { return $this->has('available_at'); }
-    /** Stable identifier of this balance transaction.
+    /** Stable identifier of this balance transaction. Example: "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ".
      * @return string
      * @throws SdkError When balance_transaction_id is omitted; use hasBalanceTransactionId() or valueOrDefault().
      */
@@ -58,7 +58,7 @@ final class BalanceTransactionInput extends Model {
      */
     public function getFeeMoney(): mixed { return $this->get('fee_money'); }
     public function hasFeeMoney(): bool { return $this->has('fee_money'); }
-    /** Merchant whose balance this transaction moved.
+    /** Merchant whose balance this transaction moved. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
      * @return string
      * @throws SdkError When merchant_id is omitted; use hasMerchantId() or valueOrDefault().
      */
@@ -70,31 +70,31 @@ final class BalanceTransactionInput extends Model {
      */
     public function getNetMoney(): mixed { return $this->get('net_money'); }
     public function hasNetMoney(): bool { return $this->has('net_money'); }
-    /** When the balance movement happened. Format: date-time.
+    /** When the balance movement happened. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When occurred_at is omitted; use hasOccurredAt() or valueOrDefault().
      */
     public function getOccurredAt(): string|\DateTimeInterface { return $this->get('occurred_at'); }
     public function hasOccurredAt(): bool { return $this->has('occurred_at'); }
     /** The order, inlined when you request expand=order. null when expanded and the transaction has no order_id. Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1] (Value): {@see ExpandedOrderSummaryInput}. An order's summary fields, including status, payment and refund status, and pricing and settlement amounts, returned when the order is expanded. anyOf[2] (Value): null.
-     * @return array{'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': SettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null
+     * @return array{'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'deferred_promotions': list<DeferredPromotionInput|array<array-key, mixed>|\stdClass>, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'paid_at': string|\DateTimeInterface|null, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': OrderSettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'supported_actions': list<string>, 'updated_at'?: string|\DateTimeInterface, ...}|object|null
      * @throws SdkError When order is omitted; use hasOrder() or valueOrDefault().
      */
     public function getOrder(): mixed { return $this->get('order'); }
     public function hasOrder(): bool { return $this->has('order'); }
-    /** The Flint order this movement relates to, such as the order a payment was for. Absent when the movement isn't tied to an order.
+    /** The Flint order this movement relates to, such as the order a payment was for. Absent when the movement isn't tied to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** The payout that carried this balance transaction to your bank. Set once, when that payout's contents are prepared, and never changed afterward, including if the payout later fails or is reversed. Absent until then, and on transactions no payout carries.
+    /** The payout that carried this balance transaction to your bank. Set once, when that payout's contents are prepared, and never changed afterward, including if the payout later fails or is reversed. Absent until then, and on transactions no payout carries. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV".
      * @return string
      * @throws SdkError When payout_id is omitted; use hasPayoutId() or valueOrDefault().
      */
     public function getPayoutId(): string { return $this->get('payout_id'); }
     public function hasPayoutId(): bool { return $this->has('payout_id'); }
-    /** Earlier balance transactions this one is linked to, such as the payout transaction that a payout_failure, payout_cancellation, or payout_reversal returns, or the collection a merchant_billing_collection_reversal reverses. Empty when there are none. [] (Value): string.
+    /** Earlier balance transactions this one is linked to, including the exact payment principal a refund returns, the payout transaction that a payout_failure, payout_cancellation, or payout_reversal returns, or the collection a merchant_billing_collection_reversal reverses. Empty when there are none. [] (Value): string. Example: "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ".
      * @return list<string>
      * @throws SdkError When related_balance_transaction_ids is omitted; use hasRelatedBalanceTransactionIds() or valueOrDefault().
      */

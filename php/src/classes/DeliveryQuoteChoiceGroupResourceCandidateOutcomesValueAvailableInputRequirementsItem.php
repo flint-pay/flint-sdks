@@ -38,7 +38,7 @@ final class DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueAvailableInput
      */
     public function getDeliveryOptionIds(): ?array { return $this->get('delivery_option_ids'); }
     public function hasDeliveryOptionIds(): bool { return $this->has('delivery_option_ids'); }
-    /** Value enum: "destination_address", "destination_address.line1", "destination_address.line2", "destination_address.city", "destination_address.country", "destination_address.state", "destination_address.postal_code", "buyer_location", "buyer_location.line1", "buyer_location.line2", "buyer_location.city", "buyer_location.country", "buyer_location.state", "buyer_location.postal_code", "buyer_location.coordinate", "recipient.name", "recipient.email", "recipient.phone", "choices[].input.delivery_window_id", "caller_supplied_rates".
+    /** Request property to fill in, using the same path as error params. Array templates use [] in place of an index. Value enum: "destination_address", "destination_address.line1", "destination_address.line2", "destination_address.city", "destination_address.country", "destination_address.state", "destination_address.postal_code", "buyer_location", "buyer_location.address.line1", "buyer_location.address.line2", "buyer_location.address.city", "buyer_location.address.country", "buyer_location.address.state", "buyer_location.address.postal_code", "buyer_location.coordinate", "recipient.name", "recipient.email", "recipient.phone", "choices[].input.delivery_window_id", "method_results".
      * @return string
      */
     public function getFieldPath(): string { return $this->get('field_path'); }

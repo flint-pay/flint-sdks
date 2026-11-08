@@ -4,7 +4,7 @@ namespace Flint;
 /**
  * @property-read Address|null $address
  * @property-read ?LocationCoordinate $coordinate
- * @property-read string|null $coordinate_source
+ * @property-read ?string $coordinate_source
  * @property-read string $created_at
  * @property-read ?string $external_reference_id
  * @property-read int $geography_version
@@ -12,30 +12,28 @@ namespace Flint;
  * @property-read string $location_id
  * @property-read array<array-key, string> $metadata
  * @property-read string $name
- * @property-read ?Address $normalized_address
  * @property-read string $status
  * @property-read string $timezone
  * @property-read string $updated_at
- * @property-read string $validation_status
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class Location extends Model {
-    /** @param array{'address': mixed, 'coordinate'?: mixed, 'coordinate_source'?: string|null, 'created_at': string, 'external_reference_id'?: string, 'geography_version': int, 'inventory_allocation_enabled': bool, 'location_id': string, 'metadata': mixed, 'name': string, 'normalized_address'?: mixed, 'status': string, 'timezone': string, 'updated_at': string, 'validation_status': string, 'version': int, ...}|object $values */
+    /** @param array{'address': mixed, 'coordinate'?: mixed, 'coordinate_source'?: string, 'created_at': string, 'external_reference_id'?: string, 'geography_version': int, 'inventory_allocation_enabled': bool, 'location_id': string, 'metadata': mixed, 'name': string, 'status': string, 'timezone': string, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('Location')); }
-    /** Published postal address. anyOf[1] (Value): {@see Address}. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. anyOf[2] (Value): null.
+    /** Published postal address. `null` when the Location has no address on record. anyOf[1] (Value): {@see Address}. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. anyOf[2] (Value): null.
      * @return Address|null
      */
     public function getAddress(): Address|null { return $this->get('address'); }
     public function hasAddress(): bool { return $this->has('address'); }
-    /** Published geographic coordinate. A latitude and longitude for a merchant location.
+    /** Latitude and longitude of the Location. Omitted when none was sent. A latitude and longitude for a merchant location.
      * @return ?LocationCoordinate
      */
     public function getCoordinate(): ?LocationCoordinate { return $this->get('coordinate'); }
     public function hasCoordinate(): bool { return $this->has('coordinate'); }
-    /** Source of the stored latitude and longitude. Value enum: "merchant_supplied", "geocoded", null.
-     * @return string|null
+    /** Where `coordinate` came from. Omitted when the Location has no coordinate. Value enum: "merchant_supplied", "geocoded".
+     * @return ?string
      */
-    public function getCoordinateSource(): string|null { return $this->get('coordinate_source'); }
+    public function getCoordinateSource(): ?string { return $this->get('coordinate_source'); }
     public function hasCoordinateSource(): bool { return $this->has('coordinate_source'); }
     /** Time the Location was created. Format: date-time.
      * @return string
@@ -72,11 +70,6 @@ final class Location extends Model {
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Provider-normalized address used for geography evaluation. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country.
-     * @return ?Address
-     */
-    public function getNormalizedAddress(): ?Address { return $this->get('normalized_address'); }
-    public function hasNormalizedAddress(): bool { return $this->has('normalized_address'); }
     /** Current Location lifecycle status. Value enum: "active", "inactive", "archived".
      * @return string
      */
@@ -92,11 +85,6 @@ final class Location extends Model {
      */
     public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** Address validation status. Value enum: "not_validated", "validated", "merchant_verified".
-     * @return string
-     */
-    public function getValidationStatus(): string { return $this->get('validation_status'); }
-    public function hasValidationStatus(): bool { return $this->has('validation_status'); }
     /** Optimistic-concurrency version that advances on every Location change. Format: uint64. minimum: 1.
      * @return int
      */

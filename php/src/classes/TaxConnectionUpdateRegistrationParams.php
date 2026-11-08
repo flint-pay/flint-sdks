@@ -10,7 +10,7 @@ namespace Flint;
 final class TaxConnectionUpdateRegistrationParams extends Model {
     /** @param mixed $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('TaxConnectionUpdateRegistrationParams')); }
-    /** Last day the registration applies, inclusive. Must be on or after start_date and today (UTC). Send null to clear the end date before the registration has ended. Format: date. minLength: 1.
+    /** Last day the registration applies, inclusive. Must be on or after start_date and today (UTC). Send null to clear the end date before the registration has ended. Format: date. minLength: 1. Example: "2026-08-02".
      * @return string|null
      * @throws SdkError When end_date is omitted; use hasEndDate() or valueOrDefault().
      */
@@ -28,7 +28,7 @@ final class TaxConnectionUpdateRegistrationParams extends Model {
      */
     public function getRegistrationNumber(): string { return $this->get('registration_number'); }
     public function hasRegistrationNumber(): bool { return $this->has('registration_number'); }
-    /** First day the registration applies, inclusive. Flint checks it against each sale's local date. Status and validation use the UTC date. May be up to 365 days in the future. Format: date. minLength: 1.
+    /** First day the registration applies, inclusive. Flint checks it against each sale's local date. Status and validation use the UTC date. May be up to 365 days in the future. Format: date. minLength: 1. Example: "2026-08-02".
      * @return string
      * @throws SdkError When start_date is omitted; use hasStartDate() or valueOrDefault().
      */

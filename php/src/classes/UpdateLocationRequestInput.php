@@ -34,13 +34,13 @@ final class UpdateLocationRequestInput extends Model {
      */
     public function getCoordinateSource(): string|null { return $this->get('coordinate_source'); }
     public function hasCoordinateSource(): bool { return $this->has('coordinate_source'); }
-    /** Format: uint64. minimum: 1.
+    /** Version last read from the resource returned in `data` (the primary resource for a result object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on the operation and fields being changed. Format: uint64. minimum: 1.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string|null
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -58,13 +58,13 @@ final class UpdateLocationRequestInput extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** minLength: 1. maxLength: 255.
+    /** Merchant-facing Location name, from 1 to 255 characters. minLength: 1. maxLength: 255.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Value enum: "active", "inactive".
+    /** New status for the Location. Omit it to leave the status unchanged. Value enum: "active", "inactive".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */

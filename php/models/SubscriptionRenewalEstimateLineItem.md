@@ -11,6 +11,6 @@ Response model.
 | `discount_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `name` | Required | string |  |
 | `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
-| `subscription_line_item_id` | Required | string or null | The saved subscription line ID; null when previewing replacement plan lines. |
+| `subscription_line_item_id` | Required | string or null | The saved subscription line ID; null when previewing new or replacement lines. |
 | `subtotal_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 

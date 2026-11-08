@@ -24,7 +24,7 @@ final class OrderGiftCardEstimateInput extends Model {
      */
     public function getGiftCardMoney(): mixed { return $this->get('gift_card_money'); }
     public function hasGiftCardMoney(): bool { return $this->has('gift_card_money'); }
-    /**  [] (Value): {@see OrderGiftCardAllocationInput}. The amount of an order that a gift card covers.
+    /** The gift cards the estimate draws from, each with the amount it covers. [] (Value): {@see OrderGiftCardAllocationInput}. The amount of an order that a gift card covers.
      * @return list<OrderGiftCardAllocationInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When gift_cards is omitted; use hasGiftCards() or valueOrDefault().
      */

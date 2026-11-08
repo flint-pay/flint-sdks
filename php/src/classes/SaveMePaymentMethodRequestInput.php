@@ -7,7 +7,7 @@ namespace Flint;
 final class SaveMePaymentMethodRequestInput extends Model {
     /** @param array{'type'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SaveMePaymentMethodRequestInput')); }
-    /** Value enum: "card".
+    /** Kind of payment method to save. card is the only value and the default. Value enum: "card".
      * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */

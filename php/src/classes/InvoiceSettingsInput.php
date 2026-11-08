@@ -13,10 +13,9 @@ namespace Flint;
  * @property-read InvoiceReminderPolicyInput|array<array-key, mixed>|\stdClass $reminder_policy
  * @property-read AddressInput|array<array-key, mixed>|\stdClass $remit_to_address
  * @property-read string $reply_to_email
- * @property-read string $timezone
  * Presence-aware input; omitted fields throw when accessed. */
 final class InvoiceSettingsInput extends Model {
-    /** @param array{'autopay_retry_policy'?: InvoiceAutopayRetryPolicyInput|array<array-key, mixed>|\stdClass, 'credit_note_number_prefix'?: string, 'default_collection_mode'?: string, 'default_footer'?: string, 'default_invoice_payment_term_id'?: string, 'default_memo'?: string, 'invoice_number_prefix'?: string, 'payment_policy'?: InvoicePaymentPolicyInput|array<array-key, mixed>|\stdClass, 'reminder_policy'?: InvoiceReminderPolicyInput|array<array-key, mixed>|\stdClass, 'remit_to_address'?: AddressInput|array<array-key, mixed>|\stdClass, 'reply_to_email'?: string, 'timezone'?: string}|object $values */
+    /** @param array{'autopay_retry_policy'?: InvoiceAutopayRetryPolicyInput|array<array-key, mixed>|\stdClass, 'credit_note_number_prefix'?: string, 'default_collection_mode'?: string, 'default_footer'?: string, 'default_invoice_payment_term_id'?: string, 'default_memo'?: string, 'invoice_number_prefix'?: string, 'payment_policy'?: InvoicePaymentPolicyInput|array<array-key, mixed>|\stdClass, 'reminder_policy'?: InvoiceReminderPolicyInput|array<array-key, mixed>|\stdClass, 'remit_to_address'?: AddressInput|array<array-key, mixed>|\stdClass, 'reply_to_email'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceSettingsInput')); }
     /** Replaced as a whole: send every field you want to keep. When to retry a failed automatic invoice payment, as a list of day offsets.
      * @return InvoiceAutopayRetryPolicyInput|array<array-key, mixed>|\stdClass
@@ -30,7 +29,7 @@ final class InvoiceSettingsInput extends Model {
      */
     public function getCreditNoteNumberPrefix(): string { return $this->get('credit_note_number_prefix'); }
     public function hasCreditNoteNumberPrefix(): bool { return $this->has('credit_note_number_prefix'); }
-    /** Value enum: "buyer_initiated", "automatic", "external".
+    /** How new invoices that ask for `merchant_default` collection are collected. Defaults to `buyer_initiated`. Value enum: "buyer_initiated", "automatic", "external".
      * @return string
      * @throws SdkError When default_collection_mode is omitted; use hasDefaultCollectionMode() or valueOrDefault().
      */
@@ -42,7 +41,7 @@ final class InvoiceSettingsInput extends Model {
      */
     public function getDefaultFooter(): string { return $this->get('default_footer'); }
     public function hasDefaultFooter(): bool { return $this->has('default_footer'); }
-    /** pattern: ^ipt_[0-9A-HJKMNP-TV-Z]{26}$.
+    /** ID of the invoice payment term that applies to your invoices created with `payment_due.type` set to `merchant_default`. pattern: ^ipt_[0-9A-HJKMNP-TV-Z]{26}$. Example: "ipt_01KEZF7C0064N1V301BBMQ37R4".
      * @return string
      * @throws SdkError When default_invoice_payment_term_id is omitted; use hasDefaultInvoicePaymentTermId() or valueOrDefault().
      */
@@ -78,16 +77,10 @@ final class InvoiceSettingsInput extends Model {
      */
     public function getRemitToAddress(): mixed { return $this->get('remit_to_address'); }
     public function hasRemitToAddress(): bool { return $this->has('remit_to_address'); }
-    /** Limited to 255 characters (Unicode code points), counted before normalization. Format: email. maxLength: 255.
+    /** Limited to 255 characters (Unicode code points), counted before normalization. Format: email. maxLength: 255. Example: "buyer@example.com".
      * @return string
      * @throws SdkError When reply_to_email is omitted; use hasReplyToEmail() or valueOrDefault().
      */
     public function getReplyToEmail(): string { return $this->get('reply_to_email'); }
     public function hasReplyToEmail(): bool { return $this->has('reply_to_email'); }
-    /** Limited to 255 characters (Unicode code points), counted before normalization. maxLength: 255.
-     * @return string
-     * @throws SdkError When timezone is omitted; use hasTimezone() or valueOrDefault().
-     */
-    public function getTimezone(): string { return $this->get('timezone'); }
-    public function hasTimezone(): bool { return $this->has('timezone'); }
 }

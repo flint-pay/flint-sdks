@@ -10,13 +10,13 @@ namespace Flint;
 final class CreateReturnRequestInput extends Model {
     /** @param array{'external_reference_id'?: string, 'line_items': list<ReturnLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'order_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateReturnRequestInput')); }
-    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** minItems: 1. [] (Value): {@see ReturnLineItemRequestInput}. An order line item to return, with the quantity, return reason, and optionally a note and the resolution the buyer wants.
+    /** The lines to check or return, each naming an order line item. minItems: 1. [] (Value): {@see ReturnLineItemRequestInput}. An order line item to return, with the quantity, return reason, and optionally a note and the resolution the buyer wants.
      * @return list<ReturnLineItemRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When line_items is omitted; use hasLineItems() or valueOrDefault().
      */
@@ -28,7 +28,7 @@ final class CreateReturnRequestInput extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** minLength: 1.
+    /** ID of the Order to return items from. minLength: 1. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */

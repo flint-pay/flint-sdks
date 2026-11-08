@@ -11,7 +11,7 @@ namespace Flint;
 final class CheckoutBuyerContactInput extends Model {
     /** @param array{'email': string|null, 'is_email_cleared': bool, 'is_phone_cleared': bool, 'phone': string|null, 'updated_at'?: string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutBuyerContactInput')); }
-    /** Email supplied for the buyer, exactly as sent. Null when no email is saved; is_email_cleared distinguishes an explicit clear. Format: email. maxLength: 255.
+    /** Email supplied for the buyer, exactly as sent. Null when no email is saved; is_email_cleared distinguishes an explicit clear. Format: email. maxLength: 255. Example: "buyer@example.com".
      * @return string|null
      * @throws SdkError When email is omitted; use hasEmail() or valueOrDefault().
      */
@@ -35,7 +35,7 @@ final class CheckoutBuyerContactInput extends Model {
      */
     public function getPhone(): string|null { return $this->get('phone'); }
     public function hasPhone(): bool { return $this->has('phone'); }
-    /** When the buyer last changed the saved checkout contact. Omitted on order buyer contact. Format: date-time.
+    /** When the buyer last changed the saved checkout contact. Omitted on order buyer contact. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */

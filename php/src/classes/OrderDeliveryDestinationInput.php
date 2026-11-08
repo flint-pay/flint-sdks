@@ -17,13 +17,13 @@ final class OrderDeliveryDestinationInput extends Model {
      */
     public function getAddress(): mixed { return $this->get('address'); }
     public function hasAddress(): bool { return $this->has('address'); }
-    /** Delivery selection that controls this destination, when checkout collected it.
+    /** Delivery selection that controls this destination, when checkout collected it. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
      * @return string
      * @throws SdkError When delivery_selection_id is omitted; use hasDeliverySelectionId() or valueOrDefault().
      */
     public function getDeliverySelectionId(): string { return $this->get('delivery_selection_id'); }
     public function hasDeliverySelectionId(): bool { return $this->has('delivery_selection_id'); }
-    /** Time payment froze this destination. Format: date-time.
+    /** Time payment froze this destination. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When frozen_at is omitted; use hasFrozenAt() or valueOrDefault().
      */

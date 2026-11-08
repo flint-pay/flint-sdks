@@ -4,11 +4,11 @@ namespace Flint;
 /**
  * @property-read string $completion_mode
  * @property-read int $expected_version
- * @property-read list<array{'decision'?: mixed, 'disposition'?: ReturnProcessDispositionRequestInput|array<array-key, mixed>|\stdClass, 'inspection'?: ReturnProcessInspectionRequestInput|array<array-key, mixed>|\stdClass, 'received_quantity'?: int, 'resolution'?: array{'external_reference_id'?: string, 'gift_card_refund_destination'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'pricing_basis'?: string, 'quantity': int, 'replacement_line_items'?: list<array{'bundle_id'?: string, 'description'?: string, 'name'?: string, 'quantity': int, 'sku'?: string, 'type': string, 'unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id': string}|object|array{'bundle_id': string, 'description'?: string, 'name'?: string, 'quantity': int, 'sku'?: string, 'type': string, 'unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id'?: string}|object|array{'bundle_id'?: string, 'description'?: string, 'name': string, 'quantity': int, 'sku'?: string, 'type': string, 'unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id'?: string}|object>, 'resolution_type': string}|object, 'return_line_item_id': string}|object> $line_items
- * @property-read array{'external_actor_id'?: string, 'external_reference_id'?: string, 'received_at': string|\DateTimeInterface, 'receiving_location_id': string, 'source_system'?: ReturnSourceSystemRequestInput|array<array-key, mixed>|\stdClass}|object $receipt
+ * @property-read list<ProcessExistingReturnLineItemRequestInput|array<array-key, mixed>|\stdClass> $line_items
+ * @property-read ReturnProcessReceiptRequestInput|array<array-key, mixed>|\stdClass $receipt
  * Presence-aware input; omitted fields throw when accessed. */
 final class ReturnsProcessParams extends Model {
-    /** @param array{'completion_mode'?: string, 'expected_version'?: int, 'line_items': list<array{'decision'?: mixed, 'disposition'?: ReturnProcessDispositionRequestInput|array<array-key, mixed>|\stdClass, 'inspection'?: ReturnProcessInspectionRequestInput|array<array-key, mixed>|\stdClass, 'received_quantity'?: int, 'resolution'?: array{'external_reference_id'?: string, 'gift_card_refund_destination'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'pricing_basis'?: string, 'quantity': int, 'replacement_line_items'?: list<array{'bundle_id'?: string, 'description'?: string, 'name'?: string, 'quantity': int, 'sku'?: string, 'type': string, 'unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id': string}|object|array{'bundle_id': string, 'description'?: string, 'name'?: string, 'quantity': int, 'sku'?: string, 'type': string, 'unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id'?: string}|object|array{'bundle_id'?: string, 'description'?: string, 'name': string, 'quantity': int, 'sku'?: string, 'type': string, 'unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id'?: string}|object>, 'resolution_type': string}|object, 'return_line_item_id': string}|object>, 'receipt'?: array{'external_actor_id'?: string, 'external_reference_id'?: string, 'received_at': string|\DateTimeInterface, 'receiving_location_id': string, 'source_system'?: ReturnSourceSystemRequestInput|array<array-key, mixed>|\stdClass}|object}|object $values */
+    /** @param array{'completion_mode'?: string, 'expected_version'?: int, 'line_items': list<ProcessExistingReturnLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'receipt'?: ReturnProcessReceiptRequestInput|array<array-key, mixed>|\stdClass, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnsProcessParams')); }
     /** Omit to use the mode shared by all pinned policies that set completion_mode, or automatic when no pinned policy sets one. Conflicting pinned policy modes return 400 naming completion_mode only when completion_mode is omitted. An explicit manual or automatic value is used as sent. On an open Return, omit to keep its committed mode. Sending that mode is accepted; a different mode returns 409 ACTION_NOT_ALLOWED with reason field_locked and param completion_mode. Value enum: "manual", "automatic".
      * @return string
@@ -16,22 +16,40 @@ final class ReturnsProcessParams extends Model {
      */
     public function getCompletionMode(): string { return $this->get('completion_mode'); }
     public function hasCompletionMode(): bool { return $this->has('completion_mode'); }
-    /** Format: int64. minimum: 1.
+    /** Version last read from the resource returned in `data` (the primary resource for a result object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on the operation and fields being changed. Format: int64. minimum: 1.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** minItems: 1. [] (Value): {@see ProcessExistingReturnLineItemRequestInput}. How to process one line of an existing return: the received quantity, inspection, decision, disposition, and resolution.
-     * @return list<array{'decision'?: mixed, 'disposition'?: ReturnProcessDispositionRequestInput|array<array-key, mixed>|\stdClass, 'inspection'?: ReturnProcessInspectionRequestInput|array<array-key, mixed>|\stdClass, 'received_quantity'?: int, 'resolution'?: array{'external_reference_id'?: string, 'gift_card_refund_destination'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'pricing_basis'?: string, 'quantity': int, 'replacement_line_items'?: list<array{'bundle_id'?: string, 'description'?: string, 'name'?: string, 'quantity': int, 'sku'?: string, 'type': string, 'unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id': string}|object|array{'bundle_id': string, 'description'?: string, 'name'?: string, 'quantity': int, 'sku'?: string, 'type': string, 'unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id'?: string}|object|array{'bundle_id'?: string, 'description'?: string, 'name': string, 'quantity': int, 'sku'?: string, 'type': string, 'unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id'?: string}|object>, 'resolution_type': string}|object, 'return_line_item_id': string}|object>
+    /** One decision for each line. minItems: 1. [] (Value): {@see ProcessExistingReturnLineItemRequestInput}. How to process one line of an existing return: the received quantity, inspection, decision, disposition, and resolution.
+     * @return list<ProcessExistingReturnLineItemRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When line_items is omitted; use hasLineItems() or valueOrDefault().
      */
     public function getLineItems(): array { return $this->get('line_items'); }
     public function hasLineItems(): bool { return $this->has('line_items'); }
-    /** The receipt of returned merchandise, with when and where it was received, supplied when processing an existing return.
-     * @return array{'external_actor_id'?: string, 'external_reference_id'?: string, 'received_at': string|\DateTimeInterface, 'receiving_location_id': string, 'source_system'?: ReturnSourceSystemRequestInput|array<array-key, mixed>|\stdClass}|object
+    /** A receipt to record for the Return. The receipt of returned merchandise, with when and where it was received, supplied when processing an existing return.
+     * @return ReturnProcessReceiptRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When receipt is omitted; use hasReceipt() or valueOrDefault().
      */
-    public function getReceipt(): array|object { return $this->get('receipt'); }
+    public function getReceipt(): mixed { return $this->get('receipt'); }
     public function hasReceipt(): bool { return $this->has('receipt'); }
+    /** Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Merchant-Id is omitted; use hasFlintMerchantId() or valueOrDefault().
+     */
+    public function getFlintMerchantId(): string { return $this->get('Flint-Merchant-Id'); }
+    public function hasFlintMerchantId(): bool { return $this->has('Flint-Merchant-Id'); }
+    /** Mode of the request context, live or test. Optional; it must match the credential's mode. Value enum: "test", "live".
+     * @return string
+     * @throws SdkError When Flint-Mode is omitted; use hasFlintMode() or valueOrDefault().
+     */
+    public function getFlintMode(): string { return $this->get('Flint-Mode'); }
+    public function hasFlintMode(): bool { return $this->has('Flint-Mode'); }
+    /** Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Sandbox-Id is omitted; use hasFlintSandboxId() or valueOrDefault().
+     */
+    public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
+    public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
 }

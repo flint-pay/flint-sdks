@@ -7,11 +7,12 @@ namespace Flint;
  * @property-read int $canceled_quantity
  * @property-read int $failed_quantity
  * @property-read int $fulfilled_quantity
+ * @property-read int $removed_quantity
  * @property-read int $required_quantity
  * @property-read int $unassigned_quantity
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrderLineItemFulfillmentQuantitiesInput extends Model {
-    /** @param array{'assigned_quantity': int, 'bundle_component_id'?: string, 'canceled_quantity': int, 'failed_quantity': int, 'fulfilled_quantity': int, 'required_quantity': int, 'unassigned_quantity': int, ...}|object $values */
+    /** @param array{'assigned_quantity': int, 'bundle_component_id'?: string, 'canceled_quantity': int, 'failed_quantity': int, 'fulfilled_quantity': int, 'removed_quantity': int, 'required_quantity': int, 'unassigned_quantity': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderLineItemFulfillmentQuantitiesInput')); }
     /** Whole-number quantity; fractional quantities are not supported. Quantity owned by a non-terminal fulfillment, including a fulfillment on hold. Format: int64.
      * @return int
@@ -19,7 +20,7 @@ final class OrderLineItemFulfillmentQuantitiesInput extends Model {
      */
     public function getAssignedQuantity(): int { return $this->get('assigned_quantity'); }
     public function hasAssignedQuantity(): bool { return $this->has('assigned_quantity'); }
-    /** ID of the bundle component these quantities describe. Omitted for a single item.
+    /** ID of the bundle component these quantities describe. Omitted for a single item. Example: "bunc_01KEZF7C00CQASEZGAPEANTGD1".
      * @return string
      * @throws SdkError When bundle_component_id is omitted; use hasBundleComponentId() or valueOrDefault().
      */
@@ -43,13 +44,19 @@ final class OrderLineItemFulfillmentQuantitiesInput extends Model {
      */
     public function getFulfilledQuantity(): int { return $this->get('fulfilled_quantity'); }
     public function hasFulfilledQuantity(): bool { return $this->has('fulfilled_quantity'); }
-    /** Whole-number quantity; fractional quantities are not supported. Total quantity requiring fulfillment, in line units for a single item or component units for a bundle component. Equals the sum of the other five quantity fields. Format: int64.
+    /** Whole-number quantity; fractional quantities are not supported. Quantity removed by paid-order edits, in line units for a single item or component units for a bundle component. Removed units cannot be assigned to a fulfillment. Format: int64.
+     * @return int
+     * @throws SdkError When removed_quantity is omitted; use hasRemovedQuantity() or valueOrDefault().
+     */
+    public function getRemovedQuantity(): int { return $this->get('removed_quantity'); }
+    public function hasRemovedQuantity(): bool { return $this->has('removed_quantity'); }
+    /** Whole-number quantity; fractional quantities are not supported. Original quantity requiring fulfillment, in line units for a single item or component units for a bundle component. Equals the sum of the other six quantity fields. Format: int64.
      * @return int
      * @throws SdkError When required_quantity is omitted; use hasRequiredQuantity() or valueOrDefault().
      */
     public function getRequiredQuantity(): int { return $this->get('required_quantity'); }
     public function hasRequiredQuantity(): bool { return $this->has('required_quantity'); }
-    /** Whole-number quantity; fractional quantities are not supported. Required quantity owned by no fulfillment, in any resolution mode. Includes quantity released by a failed fulfillment. Format: int64.
+    /** Whole-number quantity; fractional quantities are not supported. Required quantity still available for assignment to a fulfillment, in any resolution mode. Includes quantity released by a failed fulfillment. Format: int64.
      * @return int
      * @throws SdkError When unassigned_quantity is omitted; use hasUnassignedQuantity() or valueOrDefault().
      */

@@ -11,9 +11,9 @@ Identifies a payment intent to confirm for an order and the credential to use: a
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `credential_type` | Required | string |  |
-| `payment_intent_id` | Required | string | Payment intent to confirm. minLength: `1`. |
+| `payment_intent_id` | Required | string | Payment intent to confirm. minLength: `1`. Example: `"pi_01KEZF7C00G8H9D509YEV22P7R"`. |
 | `token` | Conditional | string | Opaque processor or browser payment source token. minLength: `1`. |
-| `payment_method_id` | Conditional | string | Saved Flint payment method ID belonging to the customer making this payment. minLength: `1`. |
+| `payment_method_id` | Conditional | string | Saved Flint payment method ID belonging to the customer making this payment. minLength: `1`. Example: `"pm_01KEZF7C0034B248TXXE4NXYFZ"`. |
 | `stripe` | Conditional | object | Stripe credential collected for this payment. `stripe`: [field definitions](../models/ConfirmPaymentIntentRequest.md#confirmpaymentintentrequest-variant-3stripe). |
 
 ### OrderPaymentIntentSelection variant 1: `credential_type` = `"token"`

@@ -389,3 +389,113 @@ export async function revokeToken(client, params, options) {
     options,
   );
 }
+
+const MERCHANT_ID = /^mer_[0-9A-HJKMNP-TV-Z]{26}$/;
+const REFRESH_RETRY_MS = 5000;
+
+function partnerAppCredentials(client, { clientAssertion, mode, merchantId, refreshBeforeSeconds }) {
+  let cached;
+  let flight;
+  const mint = async () => {
+    const token = await client.oauth.exchangeToken({
+      grant_type: "client_credentials",
+      mode,
+      ...(merchantId === undefined ? {} : { merchant_id: merchantId }),
+      ...(await clientAuthentication(clientAssertion)),
+    });
+    if (
+      typeof token?.access_token !== "string" ||
+      !token.access_token ||
+      token.token_type !== "Bearer" ||
+      !Number.isSafeInteger(token.expires_in) ||
+      token.expires_in <= 0
+    )
+      throw new errors.ConfigurationError("The token endpoint returned no usable partner app token", {
+        code: "credential_invalid",
+      });
+    const lifetime = token.expires_in * 1000;
+    return { value: token.access_token, expiresAt: new Date(Date.now() + lifetime), lifetime };
+  };
+  const fresh = (token) =>
+    token.expiresAt.getTime() - Date.now() >
+    Math.min(refreshBeforeSeconds * 1000, token.lifetime / 2);
+  const unexpired = (token) => token.expiresAt.getTime() > Date.now();
+  // After a failed refresh, keep serving the unexpired token and wait before minting again.
+  let retryAt = 0;
+  const result = (token) => ({ value: token.value, expiresAt: token.expiresAt });
+  const provider = {
+    mode,
+    ...(merchantId === undefined ? {} : { merchantId }),
+    async getCredential() {
+      if (cached && (fresh(cached) || (Date.now() < retryAt && unexpired(cached))))
+        return result(cached);
+      try {
+        // One mint at a time: concurrent requests share the pending token.
+        return result(
+          await (flight ??= mint()
+            .then((minted) => {
+              retryAt = 0;
+              return (cached = minted);
+            })
+            .finally(() => (flight = undefined))),
+        );
+      } catch (error) {
+        if (!cached || !unexpired(cached)) throw error;
+        retryAt = Date.now() + REFRESH_RETRY_MS;
+        return result(cached);
+      }
+    },
+    /** Drop the cached token; the SDK calls this after a 401 on a replay-safe request and retries once. */
+    invalidate() {
+      cached = undefined;
+    },
+    toJSON: () => ({ mode, ...(merchantId === undefined ? {} : { merchantId }) }),
+    [Symbol.for("nodejs.util.inspect.custom")]: () => provider.toJSON(),
+  };
+  return Object.freeze(provider);
+}
+
+/**
+ * Partner app token credentials (`client_credentials`) for one mode. Each token is
+ * minted with a fresh client assertion, cached until `refreshBeforeSeconds` (default
+ * 60, at most half the lifetime) before it expires, and minted again once at a time.
+ * `forMerchant(merchantId)` returns a merchant-bound provider for a client's
+ * `token` option, so requests need no `Flint-Merchant-Id`; `app()` returns an
+ * app-level provider whose requests must name the merchant in `Flint-Merchant-Id`.
+ */
+export function partnerAppTokens(client, options) {
+  record(options, "options");
+  if (!client?.oauth || typeof client.oauth.exchangeToken !== "function")
+    fail("client", "client must be a Flint Client");
+  if (!options.clientAssertion || typeof options.clientAssertion.getAssertion !== "function")
+    fail("clientAssertion", "clientAssertion must have clientId and getAssertion()", "REQUIRED");
+  if (options.mode !== "test" && options.mode !== "live")
+    fail(
+      "mode",
+      options.mode === undefined ? "mode is required" : 'mode must be "test" or "live"',
+      options.mode === undefined ? "REQUIRED" : "INVALID_VALUE",
+    );
+  const refreshBeforeSeconds = options.refreshBeforeSeconds ?? 60;
+  if (!Number.isSafeInteger(refreshBeforeSeconds) || refreshBeforeSeconds < 0 || refreshBeforeSeconds > 600)
+    fail("refreshBeforeSeconds", "refreshBeforeSeconds must be an integer from 0 to 600");
+  const settings = { clientAssertion: options.clientAssertion, mode: options.mode, refreshBeforeSeconds };
+  const merchants = new Map();
+  let app;
+  return Object.freeze({
+    mode: options.mode,
+    forMerchant(merchantId) {
+      if (!MERCHANT_ID.test(text(merchantId, "merchantId")))
+        fail("merchantId", "merchantId must be a Flint merchant ID such as mer_01KEZF7C00KPYH1DDFPCCX3B6E");
+      if (!merchants.has(merchantId))
+        merchants.set(merchantId, partnerAppCredentials(client, { ...settings, merchantId }));
+      return merchants.get(merchantId);
+    },
+    app() {
+      return (app ??= partnerAppCredentials(client, settings));
+    },
+    toJSON: () => ({ mode: options.mode, merchants: merchants.size }),
+    [Symbol.for("nodejs.util.inspect.custom")]() {
+      return this.toJSON();
+    },
+  });
+}

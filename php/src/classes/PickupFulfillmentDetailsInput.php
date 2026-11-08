@@ -33,13 +33,13 @@ final class PickupFulfillmentDetailsInput extends Model {
      */
     public function getCurbsideInstructions(): string { return $this->get('curbside_instructions'); }
     public function hasCurbsideInstructions(): bool { return $this->has('curbside_instructions'); }
-    /** Buyer-reported arrival time for curbside or counter pickup. Format: date-time.
+    /** Buyer-reported arrival time for curbside or counter pickup. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When customer_arrived_at is omitted; use hasCustomerArrivedAt() or valueOrDefault().
      */
     public function getCustomerArrivedAt(): string|\DateTimeInterface { return $this->get('customer_arrived_at'); }
     public function hasCustomerArrivedAt(): bool { return $this->has('customer_arrived_at'); }
-    /** Deadline after which an uncollected pickup should enter merchant review. Format: date-time.
+    /** Deadline after which an uncollected pickup should enter merchant review. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When expires_at is omitted; use hasExpiresAt() or valueOrDefault().
      */
@@ -57,7 +57,7 @@ final class PickupFulfillmentDetailsInput extends Model {
      */
     public function getLocationName(): string { return $this->get('location_name'); }
     public function hasLocationName(): bool { return $this->has('location_name'); }
-    /** When the recipient collected the items, in RFC3339 format. Format: date-time.
+    /** When the recipient collected the items, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When picked_up_at is omitted; use hasPickedUpAt() or valueOrDefault().
      */
@@ -81,13 +81,13 @@ final class PickupFulfillmentDetailsInput extends Model {
      */
     public function getPrepTimeDurationSeconds(): int { return $this->get('prep_time_duration_seconds'); }
     public function hasPrepTimeDurationSeconds(): bool { return $this->has('prep_time_duration_seconds'); }
-    /** When the items became ready for pickup, in RFC3339 format. Format: date-time.
+    /** When the items became ready for pickup, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When ready_at is omitted; use hasReadyAt() or valueOrDefault().
      */
     public function getReadyAt(): string|\DateTimeInterface { return $this->get('ready_at'); }
     public function hasReadyAt(): bool { return $this->has('ready_at'); }
-    /** Timezone used to display the pickup window.
+    /** Timezone used to display the pickup window. Uses an IANA time zone name.
      * @return string
      * @throws SdkError When timezone is omitted; use hasTimezone() or valueOrDefault().
      */
@@ -99,13 +99,13 @@ final class PickupFulfillmentDetailsInput extends Model {
      */
     public function getVehicleDescription(): string { return $this->get('vehicle_description'); }
     public function hasVehicleDescription(): bool { return $this->has('vehicle_description'); }
-    /** End of the promised pickup window, in RFC3339 format. Format: date-time.
+    /** End of the promised pickup window, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When window_end_at is omitted; use hasWindowEndAt() or valueOrDefault().
      */
     public function getWindowEndAt(): string|\DateTimeInterface { return $this->get('window_end_at'); }
     public function hasWindowEndAt(): bool { return $this->has('window_end_at'); }
-    /** Start of the promised pickup window, in RFC3339 format. Format: date-time.
+    /** Start of the promised pickup window, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When window_start_at is omitted; use hasWindowStartAt() or valueOrDefault().
      */

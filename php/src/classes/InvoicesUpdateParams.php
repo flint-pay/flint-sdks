@@ -20,7 +20,7 @@ namespace Flint;
  * @property-read string|null $service_date
  * Presence-aware input; omitted fields throw when accessed. */
 final class InvoicesUpdateParams extends Model {
-    /** @param array{'cc_emails'?: list<string>, 'collection'?: InvoiceCollectionRequestInput|array<array-key, mixed>|\stdClass, 'expected_version'?: int, 'external_reference_id'?: string|null, 'footer'?: string|null, 'memo'?: string|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'payment_due'?: InvoicePaymentDueRequestInput|array<array-key, mixed>|\stdClass, 'po_number'?: string|null, 'recipient_email'?: string|null, 'reference'?: string|null, 'reminders_paused'?: bool, 'remit_to_address'?: AddressRequestInput|array<array-key, mixed>|\stdClass, 'schedule_entries'?: list<InvoiceScheduleEntryWriteInput|array<array-key, mixed>|\stdClass>, 'scheduled_issue_at'?: string|\DateTimeInterface|null, 'service_date'?: string|null}|object $values */
+    /** @param array{'cc_emails'?: list<string>, 'collection'?: InvoiceCollectionRequestInput|array<array-key, mixed>|\stdClass, 'expected_version'?: int, 'external_reference_id'?: string|null, 'footer'?: string|null, 'memo'?: string|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'payment_due'?: InvoicePaymentDueRequestInput|array<array-key, mixed>|\stdClass, 'po_number'?: string|null, 'recipient_email'?: string|null, 'reference'?: string|null, 'reminders_paused'?: bool, 'remit_to_address'?: AddressRequestInput|array<array-key, mixed>|\stdClass, 'schedule_entries'?: list<InvoiceScheduleEntryWriteInput|array<array-key, mixed>|\stdClass>, 'scheduled_issue_at'?: string|\DateTimeInterface|null, 'service_date'?: string|null, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoicesUpdateParams')); }
     /** Additional addresses copied on the invoice email and every reminder. Send the complete list; [] removes every address. [] (Value): string. minLength: 1.
      * @return list<string>
@@ -40,7 +40,7 @@ final class InvoicesUpdateParams extends Model {
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** Caller-owned identifier for this resource in an external system. Use it as your sync key: it isn't printed on the invoice, and GET /v1/invoices filters on it by exact match. Send null to clear it. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. Use it as your sync key: it isn't printed on the invoice, and GET /v1/invoices filters on it by exact match. Send null to clear it. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string|null
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -64,7 +64,7 @@ final class InvoicesUpdateParams extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** When the invoice is due. Send the invoice's payment_due object back unchanged, or a new one. Sending payment_terms captures the term's current revision again. When an invoice is due, used when creating or updating an invoice: no due date, a fixed time, payment terms, or a default.
+    /** When the invoice is due. Send the invoice's payment_due object back unchanged, or a new one. Sending payment_terms captures the term's current revision again. When an invoice is due, used when creating or updating an invoice: no due date, a calendar date, payment terms, or a default.
      * @return InvoicePaymentDueRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When payment_due is omitted; use hasPaymentDue() or valueOrDefault().
      */
@@ -76,7 +76,7 @@ final class InvoicesUpdateParams extends Model {
      */
     public function getPoNumber(): string|null { return $this->get('po_number'); }
     public function hasPoNumber(): bool { return $this->has('po_number'); }
-    /** Where Flint emails the invoice and its reminders. Required at issue when delivery resolves to email, and when you schedule the issue. Send null to clear it. minLength: 1.
+    /** Where Flint emails the invoice and its reminders. Defaults to the linked customer's email when omitted at creation. Send null to leave it unset at creation; PATCH null clears it. Required at issue when delivery resolves to email, and when you schedule the issue. Send null to clear it. minLength: 1.
      * @return string|null
      * @throws SdkError When recipient_email is omitted; use hasRecipientEmail() or valueOrDefault().
      */
@@ -106,16 +106,34 @@ final class InvoicesUpdateParams extends Model {
      */
     public function getScheduleEntries(): array { return $this->get('schedule_entries'); }
     public function hasScheduleEntries(): bool { return $this->has('schedule_entries'); }
-    /** When Flint issues and delivers this draft, as an RFC 3339 timestamp in the future. A scheduled issue delivers by email, so the draft needs recipient_email. Clearing it cancels the scheduled issue. Send null to clear it. Format: date-time. minLength: 1.
+    /** When Flint issues and delivers this draft, as an RFC 3339 timestamp in the future. A scheduled issue delivers by email, so the draft needs recipient_email. Clearing it cancels the scheduled issue. Send null to clear it. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface|null
      * @throws SdkError When scheduled_issue_at is omitted; use hasScheduledIssueAt() or valueOrDefault().
      */
     public function getScheduledIssueAt(): string|\DateTimeInterface|null { return $this->get('scheduled_issue_at'); }
     public function hasScheduledIssueAt(): bool { return $this->has('scheduled_issue_at'); }
-    /** The calendar date of the billed service, in YYYY-MM-DD format. The invoice and PDF print it as written, without timezone conversion. Send null to clear it. Format: date. minLength: 1.
+    /** The calendar date of the billed service, in YYYY-MM-DD format. The invoice and PDF print it as written, without timezone conversion. Send null to clear it. Format: date. minLength: 1. Example: "2026-08-02".
      * @return string|null
      * @throws SdkError When service_date is omitted; use hasServiceDate() or valueOrDefault().
      */
     public function getServiceDate(): string|null { return $this->get('service_date'); }
     public function hasServiceDate(): bool { return $this->has('service_date'); }
+    /** Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Merchant-Id is omitted; use hasFlintMerchantId() or valueOrDefault().
+     */
+    public function getFlintMerchantId(): string { return $this->get('Flint-Merchant-Id'); }
+    public function hasFlintMerchantId(): bool { return $this->has('Flint-Merchant-Id'); }
+    /** Mode of the request context, live or test. Optional; it must match the credential's mode. Value enum: "test", "live".
+     * @return string
+     * @throws SdkError When Flint-Mode is omitted; use hasFlintMode() or valueOrDefault().
+     */
+    public function getFlintMode(): string { return $this->get('Flint-Mode'); }
+    public function hasFlintMode(): bool { return $this->has('Flint-Mode'); }
+    /** Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Sandbox-Id is omitted; use hasFlintSandboxId() or valueOrDefault().
+     */
+    public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
+    public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
 }

@@ -16,7 +16,7 @@ final class IssueCreditNoteResultInput extends Model {
      */
     public function getCreditNote(): mixed { return $this->get('credit_note'); }
     public function hasCreditNote(): bool { return $this->has('credit_note'); }
-    /** The linked allocation, present when allocation was requested. Its idempotency_key is issue: followed by the issue request's Idempotency-Key. One application of credit to the invoice. Allocations are append-only: a reversal sets reversed_at rather than removing the row.
+    /** The linked allocation, present when allocation was requested. Its idempotency_key is the issue request's Idempotency-Key. One application of credit to the invoice. Allocations are append-only: a reversal sets reversed_at rather than removing the row.
      * @return CreditNoteAllocationInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When credit_note_allocation is omitted; use hasCreditNoteAllocation() or valueOrDefault().
      */

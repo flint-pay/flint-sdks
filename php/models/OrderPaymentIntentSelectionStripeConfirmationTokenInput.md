@@ -9,7 +9,7 @@ Request input.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `credential_type` | Required | string | Values: `"stripe_confirmation_token"`. |
-| `payment_intent_id` | Required | string | Payment intent to confirm. minLength: `1`. |
+| `payment_intent_id` | Required | string | Payment intent to confirm. minLength: `1`. Example: `"pi_01KEZF7C00G8H9D509YEV22P7R"`. |
 | `stripe` | Required | object | Stripe credential collected for this payment. `stripe`: [field definitions](../models/ConfirmPaymentIntentRequestInput.md#confirmpaymentintentrequestinput-variant-3stripe). |
 
 ### OrderPaymentIntentSelectionStripeConfirmationTokenInput.stripe

@@ -32,7 +32,7 @@ final class MeListReturnsParams extends Model {
      */
     public function getCreatedBefore(): string|\DateTimeInterface { return $this->get('created_before'); }
     public function hasCreatedBefore(): bool { return $this->has('created_before'); }
-    /** Filter by decision status. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "pending", "approved", "partially_approved", "declined". Value enum: "pending", "approved", "partially_approved", "declined". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "pending", "approved", "partially_approved", "declined". anyOf[1][] (Value): string.  Value enum: "pending", "approved", "partially_approved", "declined". anyOf[2] (Value): string.  Value enum: "pending", "approved", "partially_approved", "declined".
+    /** Filter by decision status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "pending", "approved", "partially_approved", "declined". Value enum: "pending", "approved", "partially_approved", "declined". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "pending", "approved", "partially_approved", "declined". anyOf[1][] (Value): string.  Value enum: "pending", "approved", "partially_approved", "declined". anyOf[2] (Value): string.  Value enum: "pending", "approved", "partially_approved", "declined".
      * @return list<string>|string
      * @throws SdkError When decision_status is omitted; use hasDecisionStatus() or valueOrDefault().
      */
@@ -44,13 +44,13 @@ final class MeListReturnsParams extends Model {
      */
     public function getIdempotencyKey(): string { return $this->get('idempotency_key'); }
     public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
-    /** Filter by merchandise status. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "not_required", "awaiting_handoff", "in_transit", "partially_received", "inspection_required", "partially_inspected", "inspection_review_required", "disposition_required", "resolved", "exception". Value enum: "not_required", "awaiting_handoff", "in_transit", "partially_received", "inspection_required", "partially_inspected", "inspection_review_required", "disposition_required", "resolved", "exception". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "not_required", "awaiting_handoff", "in_transit", "partially_received", "inspection_required", "partially_inspected", "inspection_review_required", "disposition_required", "resolved", "exception". anyOf[1][] (Value): string.  Value enum: "not_required", "awaiting_handoff", "in_transit", "partially_received", "inspection_required", "partially_inspected", "inspection_review_required", "disposition_required", "resolved", "exception". anyOf[2] (Value): string.  Value enum: "not_required", "awaiting_handoff", "in_transit", "partially_received", "inspection_required", "partially_inspected", "inspection_review_required", "disposition_required", "resolved", "exception".
+    /** Filter by merchandise status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "not_required", "awaiting_handoff", "in_transit", "partially_received", "inspection_required", "partially_inspected", "inspection_review_required", "disposition_required", "resolved", "exception". Value enum: "not_required", "awaiting_handoff", "in_transit", "partially_received", "inspection_required", "partially_inspected", "inspection_review_required", "disposition_required", "resolved", "exception". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "not_required", "awaiting_handoff", "in_transit", "partially_received", "inspection_required", "partially_inspected", "inspection_review_required", "disposition_required", "resolved", "exception". anyOf[1][] (Value): string.  Value enum: "not_required", "awaiting_handoff", "in_transit", "partially_received", "inspection_required", "partially_inspected", "inspection_review_required", "disposition_required", "resolved", "exception". anyOf[2] (Value): string.  Value enum: "not_required", "awaiting_handoff", "in_transit", "partially_received", "inspection_required", "partially_inspected", "inspection_review_required", "disposition_required", "resolved", "exception".
      * @return list<string>|string
      * @throws SdkError When merchandise_status is omitted; use hasMerchandiseStatus() or valueOrDefault().
      */
     public function getMerchandiseStatus(): mixed { return $this->get('merchandise_status'); }
     public function hasMerchandiseStatus(): bool { return $this->has('merchandise_status'); }
-    /** Filter by order id. Example: "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Filter by order id. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */
@@ -62,13 +62,13 @@ final class MeListReturnsParams extends Model {
      */
     public function getPageSize(): int { return $this->get('page_size'); }
     public function hasPageSize(): bool { return $this->has('page_size'); }
-    /** Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error.
+    /** Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error.
      * @return string
      * @throws SdkError When page_token is omitted; use hasPageToken() or valueOrDefault().
      */
     public function getPageToken(): string { return $this->get('page_token'); }
     public function hasPageToken(): bool { return $this->has('page_token'); }
-    /** Filter by resolution status. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "not_selected", "pending", "partially_fulfilled", "requires_action", "fulfilled", "failed". Value enum: "not_selected", "pending", "partially_fulfilled", "requires_action", "fulfilled", "failed". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "not_selected", "pending", "partially_fulfilled", "requires_action", "fulfilled", "failed". anyOf[1][] (Value): string.  Value enum: "not_selected", "pending", "partially_fulfilled", "requires_action", "fulfilled", "failed". anyOf[2] (Value): string.  Value enum: "not_selected", "pending", "partially_fulfilled", "requires_action", "fulfilled", "failed".
+    /** Filter by resolution status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "not_selected", "pending", "partially_fulfilled", "requires_action", "fulfilled", "failed". Value enum: "not_selected", "pending", "partially_fulfilled", "requires_action", "fulfilled", "failed". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "not_selected", "pending", "partially_fulfilled", "requires_action", "fulfilled", "failed". anyOf[1][] (Value): string.  Value enum: "not_selected", "pending", "partially_fulfilled", "requires_action", "fulfilled", "failed". anyOf[2] (Value): string.  Value enum: "not_selected", "pending", "partially_fulfilled", "requires_action", "fulfilled", "failed".
      * @return list<string>|string
      * @throws SdkError When resolution_status is omitted; use hasResolutionStatus() or valueOrDefault().
      */
@@ -80,13 +80,13 @@ final class MeListReturnsParams extends Model {
      */
     public function getReturnNumber(): string { return $this->get('return_number'); }
     public function hasReturnNumber(): bool { return $this->has('return_number'); }
-    /** Filter by return reason id. Example: "rrsn_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Filter by return reason id. Example: "rrsn_01KEZF7C00SEE2T4EYP1NXAH3E".
      * @return string
      * @throws SdkError When return_reason_id is omitted; use hasReturnReasonId() or valueOrDefault().
      */
     public function getReturnReasonId(): string { return $this->get('return_reason_id'); }
     public function hasReturnReasonId(): bool { return $this->has('return_reason_id'); }
-    /** Filter by status. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "requested", "open", "completed", "declined", "canceled". Value enum: "requested", "open", "completed", "declined", "canceled". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "requested", "open", "completed", "declined", "canceled". anyOf[1][] (Value): string.  Value enum: "requested", "open", "completed", "declined", "canceled". anyOf[2] (Value): string.  Value enum: "requested", "open", "completed", "declined", "canceled".
+    /** Filter by status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "requested", "open", "completed", "declined", "canceled". Value enum: "requested", "open", "completed", "declined", "canceled". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "requested", "open", "completed", "declined", "canceled". anyOf[1][] (Value): string.  Value enum: "requested", "open", "completed", "declined", "canceled". anyOf[2] (Value): string.  Value enum: "requested", "open", "completed", "declined", "canceled".
      * @return list<string>|string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */

@@ -4,7 +4,7 @@ namespace Flint;
 /**
  * @property-read string $buyer_notification_behavior
  * @property-read string $carrier
- * @property-read DimensionsInput|array<array-key, mixed>|\stdClass $dimensions
+ * @property-read DimensionsRequestInput|array<array-key, mixed>|\stdClass $dimensions
  * @property-read string|\DateTimeInterface|null $expected_delivery_at
  * @property-read string $external_reference_id
  * @property-read string $external_system
@@ -18,10 +18,10 @@ namespace Flint;
  * @property-read string $status_reason
  * @property-read string $tracking_number
  * @property-read string $tracking_url
- * @property-read WeightInput|array<array-key, mixed>|\stdClass $weight
+ * @property-read WeightRequestInput|array<array-key, mixed>|\stdClass $weight
  * Presence-aware input; omitted fields throw when accessed. */
 final class PackageCreateInputShippedInput extends Model {
-    /** @param array{'buyer_notification_behavior'?: string, 'carrier'?: string, 'dimensions'?: DimensionsInput|array<array-key, mixed>|\stdClass, 'expected_delivery_at'?: string|\DateTimeInterface|null, 'external_reference_id'?: string, 'external_system'?: string, 'items'?: list<CreatePackageItemRequestInput|array<array-key, mixed>|\stdClass>, 'label_url'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'return_line_items'?: list<ReturnShipmentLineItemAllocationRequestInput|array<array-key, mixed>|\stdClass>, 'service_code'?: string, 'shipped_at'?: string|\DateTimeInterface, 'status': string, 'status_reason'?: string, 'tracking_number'?: string, 'tracking_url'?: string, 'weight'?: WeightInput|array<array-key, mixed>|\stdClass}|object $values */
+    /** @param array{'buyer_notification_behavior'?: string, 'carrier'?: string, 'dimensions'?: DimensionsRequestInput|array<array-key, mixed>|\stdClass, 'expected_delivery_at'?: string|\DateTimeInterface|null, 'external_reference_id'?: string, 'external_system'?: string, 'items'?: list<CreatePackageItemRequestInput|array<array-key, mixed>|\stdClass>, 'label_url'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'return_line_items'?: list<ReturnShipmentLineItemAllocationRequestInput|array<array-key, mixed>|\stdClass>, 'service_code'?: string, 'shipped_at'?: string|\DateTimeInterface, 'status': string, 'status_reason'?: string, 'tracking_number'?: string, 'tracking_url'?: string, 'weight'?: WeightRequestInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PackageCreateInputShippedInput')); }
     /** Controls buyer email handling. Omit or use send to send when recipient, template, and deduplication rules allow it. Use suppress when another system owns buyer messaging. Value enum: "send", "suppress".
      * @return string
@@ -29,25 +29,25 @@ final class PackageCreateInputShippedInput extends Model {
      */
     public function getBuyerNotificationBehavior(): string { return $this->get('buyer_notification_behavior'); }
     public function hasBuyerNotificationBehavior(): bool { return $this->has('buyer_notification_behavior'); }
-    /** minLength: 1.
+    /** Carrier that handles the package. minLength: 1.
      * @return string
      * @throws SdkError When carrier is omitted; use hasCarrier() or valueOrDefault().
      */
     public function getCarrier(): string { return $this->get('carrier'); }
     public function hasCarrier(): bool { return $this->has('carrier'); }
-    /** Package or item dimensions as `length`, `width`, and `height` in the given `unit`.
-     * @return DimensionsInput|array<array-key, mixed>|\stdClass
+    /** Dimensions of the package. Package or item dimensions as `length`, `width`, and `height` in the given `unit`.
+     * @return DimensionsRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When dimensions is omitted; use hasDimensions() or valueOrDefault().
      */
     public function getDimensions(): mixed { return $this->get('dimensions'); }
     public function hasDimensions(): bool { return $this->has('dimensions'); }
-    /** When the carrier or merchant expects this package to arrive. Past dates are allowed. Send null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time. minLength: 1.
+    /** When the carrier or merchant expects this package to arrive. Past dates are allowed. Send null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface|null
      * @throws SdkError When expected_delivery_at is omitted; use hasExpectedDeliveryAt() or valueOrDefault().
      */
     public function getExpectedDeliveryAt(): string|\DateTimeInterface|null { return $this->get('expected_delivery_at'); }
     public function hasExpectedDeliveryAt(): bool { return $this->has('expected_delivery_at'); }
-    /** Caller-owned identifier for this resource in an external system. Requires external_system. External references are not unique. Use Idempotency-Key for retries. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. Requires external_system. External references are not unique. Use Idempotency-Key for retries. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -83,13 +83,13 @@ final class PackageCreateInputShippedInput extends Model {
      */
     public function getReturnLineItems(): array { return $this->get('return_line_items'); }
     public function hasReturnLineItems(): bool { return $this->has('return_line_items'); }
-    /** minLength: 1.
+    /** Carrier's code for the shipping service used. minLength: 1.
      * @return string
      * @throws SdkError When service_code is omitted; use hasServiceCode() or valueOrDefault().
      */
     public function getServiceCode(): string { return $this->get('service_code'); }
     public function hasServiceCode(): bool { return $this->has('service_code'); }
-    /** Package handoff time. Defaults to request time. Only allowed with status shipped. Format: date-time. minLength: 1.
+    /** Package handoff time. Defaults to request time. Only allowed with status shipped. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When shipped_at is omitted; use hasShippedAt() or valueOrDefault().
      */
@@ -107,7 +107,7 @@ final class PackageCreateInputShippedInput extends Model {
      */
     public function getStatusReason(): string { return $this->get('status_reason'); }
     public function hasStatusReason(): bool { return $this->has('status_reason'); }
-    /** minLength: 1.
+    /** Carrier tracking number for the package. minLength: 1.
      * @return string
      * @throws SdkError When tracking_number is omitted; use hasTrackingNumber() or valueOrDefault().
      */
@@ -119,8 +119,8 @@ final class PackageCreateInputShippedInput extends Model {
      */
     public function getTrackingUrl(): string { return $this->get('tracking_url'); }
     public function hasTrackingUrl(): bool { return $this->has('tracking_url'); }
-    /** A weight value in grams, kilograms, ounces, or pounds, used in delivery profile configuration.
-     * @return WeightInput|array<array-key, mixed>|\stdClass
+    /** Weight of the package. A weight value in grams, kilograms, ounces, or pounds, used in delivery profile configuration.
+     * @return WeightRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When weight is omitted; use hasWeight() or valueOrDefault().
      */
     public function getWeight(): mixed { return $this->get('weight'); }

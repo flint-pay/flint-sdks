@@ -8,9 +8,10 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.returnDispositions.retry(
-  "retdsp_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "retdsp_01KEZF7C007H87J66PH2EEK1VW",
   {
-    reason: "dependency_recovered",
+    expected_version: 2,
+    reason: "mapping_corrected",
   },
   { idempotencyKey: idempotencyKey },
 );

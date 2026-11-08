@@ -35,7 +35,6 @@ Returned payload: [MerchantBillingInvoice](../models/MerchantBillingInvoice.md#m
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -53,7 +52,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```typescript
-const result = await client.merchantBillingInvoices.get("msinv_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
+const result = await client.merchantBillingInvoices.get("msinv_01KEZF7C00MB754KPEPACGRMNP", {}, {  });
 ```
 
 [Complete runnable example](../examples/merchantBillingInvoices-get.mjs)
@@ -70,9 +69,9 @@ Signature: `list(params?: MerchantBillingInvoicesListParams, options?: _SdkWitho
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `status` | Optional | Array of string or string | Filter by one or more merchant billing invoice statuses. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"open"`, `"paid"`, `"written_off"`. Values: `"open"`, `"paid"`, `"written_off"`. |
+| `status` | Optional | Array of string or string | Filter by one or more merchant billing invoice statuses. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"open"`, `"paid"`, `"written_off"`. Values: `"open"`, `"paid"`, `"written_off"`. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 
 #### Response
 
@@ -86,7 +85,6 @@ Returned payload: [MerchantBillingInvoiceListResponse](../models/MerchantBilling
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |

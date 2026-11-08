@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string|\DateTimeInterface $created_at
+ * @property-read string $initial_onboarding
  * @property-read bool $is_default
  * @property-read string $name
  * @property-read string $replaced_by_sandbox_id
@@ -12,14 +13,20 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $updated_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class SandboxInput extends Model {
-    /** @param array{'created_at'?: string|\DateTimeInterface, 'is_default': bool, 'name': string, 'replaced_by_sandbox_id'?: string, 'replaces_sandbox_id'?: string, 'sandbox_id': string, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object $values */
+    /** @param array{'created_at': string|\DateTimeInterface, 'initial_onboarding': string, 'is_default': bool, 'name': string, 'replaced_by_sandbox_id'?: string, 'replaces_sandbox_id'?: string, 'sandbox_id': string, 'status': string, 'updated_at': string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SandboxInput')); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
+    /** The onboarding state the sandbox starts in, and returns to when you reset it. `complete` prefills a verified test identity; `not_started` leaves requirements due so you can rehearse onboarding. Value enum: "complete", "not_started".
+     * @return string
+     * @throws SdkError When initial_onboarding is omitted; use hasInitialOnboarding() or valueOrDefault().
+     */
+    public function getInitialOnboarding(): string { return $this->get('initial_onboarding'); }
+    public function hasInitialOnboarding(): bool { return $this->has('initial_onboarding'); }
     /** is_default
      * @return bool
      * @throws SdkError When is_default is omitted; use hasIsDefault() or valueOrDefault().
@@ -32,19 +39,19 @@ final class SandboxInput extends Model {
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** ID of the replacement created when this sandbox was reset and archived. Omitted when this sandbox has not been replaced by a reset.
+    /** ID of the replacement created when this sandbox was reset and archived. Omitted when this sandbox has not been replaced by a reset. Example: "test_01KEZF7C00JC77HTMTB2XHNPE0".
      * @return string
      * @throws SdkError When replaced_by_sandbox_id is omitted; use hasReplacedBySandboxId() or valueOrDefault().
      */
     public function getReplacedBySandboxId(): string { return $this->get('replaced_by_sandbox_id'); }
     public function hasReplacedBySandboxId(): bool { return $this->has('replaced_by_sandbox_id'); }
-    /** ID of the sandbox this sandbox replaced during a reset. Omitted when this sandbox was not created by a reset.
+    /** ID of the sandbox this sandbox replaced during a reset. Omitted when this sandbox was not created by a reset. Example: "test_01KEZF7C00JC77HTMTB2XHNPE0".
      * @return string
      * @throws SdkError When replaces_sandbox_id is omitted; use hasReplacesSandboxId() or valueOrDefault().
      */
     public function getReplacesSandboxId(): string { return $this->get('replaces_sandbox_id'); }
     public function hasReplacesSandboxId(): bool { return $this->has('replaces_sandbox_id'); }
-    /** sandbox_id
+    /** Unique identifier for this sandbox, prefixed `test_`. Example: "test_01KEZF7C00JC77HTMTB2XHNPE0".
      * @return string
      * @throws SdkError When sandbox_id is omitted; use hasSandboxId() or valueOrDefault().
      */
@@ -56,7 +63,7 @@ final class SandboxInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */

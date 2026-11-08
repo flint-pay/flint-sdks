@@ -33,7 +33,7 @@ final class CreateDeliveryMethodRequestInput extends Model {
      */
     public function getDisplayPosition(): int { return $this->get('display_position'); }
     public function hasDisplayPosition(): bool { return $this->has('display_position'); }
-    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -57,7 +57,7 @@ final class CreateDeliveryMethodRequestInput extends Model {
      */
     public function getRecommendationPriority(): int { return $this->get('recommendation_priority'); }
     public function hasRecommendationPriority(): bool { return $this->has('recommendation_priority'); }
-    /** Value enum: "inactive", "active".
+    /** Whether this method is available for new delivery quotes. Defaults to inactive. Default: "inactive". Value enum: "inactive", "active".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */

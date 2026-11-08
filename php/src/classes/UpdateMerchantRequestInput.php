@@ -6,19 +6,20 @@ namespace Flint;
  * @property-read string $api_version
  * @property-read string $business_name
  * @property-read string|null $email
+ * @property-read string $expected_api_version
  * @property-read int $expected_version
  * @property-read array{'alt'?: string, 'file_id'?: string, 'source_reference'?: string, 'source_url': string}|object|array{'alt'?: string, 'file_id': string, 'source_reference'?: string, 'source_url'?: string}|object|null $icon
  * @property-read array{'alt'?: string, 'file_id'?: string, 'source_reference'?: string, 'source_url': string}|object|array{'alt'?: string, 'file_id': string, 'source_reference'?: string, 'source_url'?: string}|object|null $logo
  * @property-read array<array-key, string|null>|\stdClass|null $metadata
  * @property-read string|null $phone
- * @property-read string $reporting_timezone
  * @property-read string|null $support_email
  * @property-read string|null $support_phone
  * @property-read string|null $support_url
+ * @property-read string $timezone
  * @property-read string|null $website_url
  * Presence-aware input; omitted fields throw when accessed. */
 final class UpdateMerchantRequestInput extends Model {
-    /** @param array{'address'?: AddressRequestInput|array<array-key, mixed>|\stdClass, 'api_version'?: string, 'business_name'?: string, 'email'?: string|null, 'expected_version'?: int, 'icon'?: array{'alt'?: string, 'file_id'?: string, 'source_reference'?: string, 'source_url': string}|object|array{'alt'?: string, 'file_id': string, 'source_reference'?: string, 'source_url'?: string}|object|null, 'logo'?: array{'alt'?: string, 'file_id'?: string, 'source_reference'?: string, 'source_url': string}|object|array{'alt'?: string, 'file_id': string, 'source_reference'?: string, 'source_url'?: string}|object|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'phone'?: string|null, 'reporting_timezone'?: string, 'support_email'?: string|null, 'support_phone'?: string|null, 'support_url'?: string|null, 'website_url'?: string|null}|object $values */
+    /** @param array{'address'?: AddressRequestInput|array<array-key, mixed>|\stdClass, 'api_version'?: string, 'business_name'?: string, 'email'?: string|null, 'expected_api_version'?: string, 'expected_version'?: int, 'icon'?: array{'alt'?: string, 'file_id'?: string, 'source_reference'?: string, 'source_url': string}|object|array{'alt'?: string, 'file_id': string, 'source_reference'?: string, 'source_url'?: string}|object|null, 'logo'?: array{'alt'?: string, 'file_id'?: string, 'source_reference'?: string, 'source_url': string}|object|array{'alt'?: string, 'file_id': string, 'source_reference'?: string, 'source_url'?: string}|object|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'phone'?: string|null, 'support_email'?: string|null, 'support_phone'?: string|null, 'support_url'?: string|null, 'timezone'?: string, 'website_url'?: string|null}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdateMerchantRequestInput')); }
     /** This field is shared across live and all sandboxes. Writing it requires a live-mode credential or a Dashboard session in any selected environment. Test credentials receive 403 FORBIDDEN with reason live_mode_required, including for nulls and metadata changes. A complete postal address. State and postal_code are required for US addresses and optional for other countries. Send null or omit line2, state, and postal_code when the address has none.
      * @return AddressRequestInput|array<array-key, mixed>|\stdClass
@@ -38,12 +39,18 @@ final class UpdateMerchantRequestInput extends Model {
      */
     public function getBusinessName(): string { return $this->get('business_name'); }
     public function hasBusinessName(): bool { return $this->has('business_name'); }
-    /** Send null to clear it. This field is shared across live and all sandboxes. Writing it requires a live-mode credential or a Dashboard session in any selected environment. Test credentials receive 403 FORBIDDEN with reason live_mode_required, including for nulls and metadata changes. minLength: 1.
+    /** One bare email address with no display name or whitespace, a valid host, and at most 320 characters. Send null to clear it. This field is shared across live and all sandboxes. Writing it requires a live-mode credential or a Dashboard session in any selected environment. Test credentials receive 403 FORBIDDEN with reason live_mode_required, including for nulls and metadata changes. minLength: 1.
      * @return string|null
      * @throws SdkError When email is omitted; use hasEmail() or valueOrDefault().
      */
     public function getEmail(): string|null { return $this->get('email'); }
     public function hasEmail(): bool { return $this->has('email'); }
+    /** Requires api_version in the same request. The merchant’s current API version must match this value; otherwise returns VERSION_CONFLICT with current_api_version. It guards only api_version, which is shared across live and all sandboxes. Writing api_version requires a live-mode credential or a Dashboard session in any selected environment. Test credentials receive 403 FORBIDDEN with reason live_mode_required. minLength: 1.
+     * @return string
+     * @throws SdkError When expected_api_version is omitted; use hasExpectedApiVersion() or valueOrDefault().
+     */
+    public function getExpectedApiVersion(): string { return $this->get('expected_api_version'); }
+    public function hasExpectedApiVersion(): bool { return $this->has('expected_api_version'); }
     /** Merchant profile version last read. A different current version returns 409 VERSION_CONFLICT. Send this value when saving a logo or icon to detect concurrent profile edits. Format: int64. minimum: 1.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
@@ -74,13 +81,7 @@ final class UpdateMerchantRequestInput extends Model {
      */
     public function getPhone(): string|null { return $this->get('phone'); }
     public function hasPhone(): bool { return $this->has('phone'); }
-    /** This field is shared across live and all sandboxes. Writing it requires a live-mode credential or a Dashboard session in any selected environment. Test credentials receive 403 FORBIDDEN with reason live_mode_required, including for nulls and metadata changes. minLength: 1.
-     * @return string
-     * @throws SdkError When reporting_timezone is omitted; use hasReportingTimezone() or valueOrDefault().
-     */
-    public function getReportingTimezone(): string { return $this->get('reporting_timezone'); }
-    public function hasReportingTimezone(): bool { return $this->has('reporting_timezone'); }
-    /** Send null to clear it. This field is shared across live and all sandboxes. Writing it requires a live-mode credential or a Dashboard session in any selected environment. Test credentials receive 403 FORBIDDEN with reason live_mode_required, including for nulls and metadata changes. minLength: 1.
+    /** One bare support email address with no display name or whitespace, a valid host, and at most 320 characters. Send null to clear it. This field is shared across live and all sandboxes. Writing it requires a live-mode credential or a Dashboard session in any selected environment. Test credentials receive 403 FORBIDDEN with reason live_mode_required, including for nulls and metadata changes. minLength: 1.
      * @return string|null
      * @throws SdkError When support_email is omitted; use hasSupportEmail() or valueOrDefault().
      */
@@ -98,6 +99,12 @@ final class UpdateMerchantRequestInput extends Model {
      */
     public function getSupportUrl(): string|null { return $this->get('support_url'); }
     public function hasSupportUrl(): bool { return $this->has('support_url'); }
+    /** Business IANA time zone, such as America/New_York. Defaults for new invoice deadlines, locations, notifications, and reporting use this zone unless a request supplies one. Existing resources keep their saved time zone. Omit to leave unchanged; null and empty values are not accepted. This field is shared across live and all sandboxes. Writing it requires a live-mode credential or a Dashboard session in any selected environment. Test credentials receive 403 FORBIDDEN with reason live_mode_required, including for nulls and metadata changes. minLength: 1.
+     * @return string
+     * @throws SdkError When timezone is omitted; use hasTimezone() or valueOrDefault().
+     */
+    public function getTimezone(): string { return $this->get('timezone'); }
+    public function hasTimezone(): bool { return $this->has('timezone'); }
     /** Send null to clear it. This field is shared across live and all sandboxes. Writing it requires a live-mode credential or a Dashboard session in any selected environment. Test credentials receive 403 FORBIDDEN with reason live_mode_required, including for nulls and metadata changes. minLength: 1.
      * @return string|null
      * @throws SdkError When website_url is omitted; use hasWebsiteUrl() or valueOrDefault().

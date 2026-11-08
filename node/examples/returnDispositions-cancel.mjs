@@ -8,8 +8,9 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.returnDispositions.cancel(
-  "retdsp_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "retdsp_01KEZF7C007H87J66PH2EEK1VW",
   {
+    expected_version: 1,
     reason: "created_in_error",
   },
   { idempotencyKey: idempotencyKey },

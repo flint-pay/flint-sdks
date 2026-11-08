@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read CreateInventoryBackorderPolicyRequestInput|array<array-key, mixed>|\stdClass $backorder
  * @property-read string $barcode
  * @property-read string $external_reference_id
  * @property-read MetadataRequestInput|array<array-key, mixed>|\stdClass $metadata
@@ -10,15 +11,21 @@ namespace Flint;
  * @property-read string $status
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateInventoryItemRequestInput extends Model {
-    /** @param array{'barcode'?: string, 'external_reference_id'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'name': string, 'sku'?: string, 'status'?: string}|object $values */
+    /** @param array{'backorder'?: CreateInventoryBackorderPolicyRequestInput|array<array-key, mixed>|\stdClass, 'barcode'?: string, 'external_reference_id'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'name': string, 'sku'?: string, 'status'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateInventoryItemRequestInput')); }
-    /** minLength: 1.
+    /** Backorder settings to apply to this inventory item. Patch object: fields you send are applied, fields you omit are unchanged. minProperties: 1.
+     * @return CreateInventoryBackorderPolicyRequestInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When backorder is omitted; use hasBackorder() or valueOrDefault().
+     */
+    public function getBackorder(): mixed { return $this->get('backorder'); }
+    public function hasBackorder(): bool { return $this->has('backorder'); }
+    /** Optional searchable barcode. minLength: 1.
      * @return string
      * @throws SdkError When barcode is omitted; use hasBarcode() or valueOrDefault().
      */
     public function getBarcode(): string { return $this->get('barcode'); }
     public function hasBarcode(): bool { return $this->has('barcode'); }
-    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -30,19 +37,19 @@ final class CreateInventoryItemRequestInput extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** minLength: 1.
+    /** Merchant-facing inventory item name. minLength: 1.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** minLength: 1.
+    /** Optional searchable stock-keeping unit. minLength: 1.
      * @return string
      * @throws SdkError When sku is omitted; use hasSku() or valueOrDefault().
      */
     public function getSku(): string { return $this->get('sku'); }
     public function hasSku(): bool { return $this->has('sku'); }
-    /** Default: "active". Value enum: "active", "inactive".
+    /** Status the inventory item starts in. Defaults to `active`. Default: "active". Value enum: "active", "inactive".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */

@@ -10,9 +10,9 @@ Compares two payment options on an invoice and shows the estimated savings from 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `compared_with_payment_option` | Required | string | Values: `"card"`, `"apple_pay"`, `"google_pay"`, `"affirm"`, `"ach_debit"`. |
+| `compared_with_payment_option` | Required | string | Payment option used as the baseline for estimated_savings_money. Values: `"card"`, `"apple_pay"`, `"google_pay"`, `"affirm"`, `"ach_debit"`. |
 | `estimated_savings_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Estimated savings for the merchant, as a positive amount. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `estimated_savings_money`: [field definitions](../models/InvoicePaymentOptionCostComparison.md#invoicepaymentoptioncostcomparisonestimated_savings_money). |
-| `lower_cost_payment_option` | Required | string | Values: `"card"`, `"apple_pay"`, `"google_pay"`, `"affirm"`, `"ach_debit"`. |
+| `lower_cost_payment_option` | Required | string | Payment option estimated to cost the merchant less for this invoice. Values: `"card"`, `"apple_pay"`, `"google_pay"`, `"affirm"`, `"ach_debit"`. |
 
 ### InvoicePaymentOptionCostComparison.estimated_savings_money
 

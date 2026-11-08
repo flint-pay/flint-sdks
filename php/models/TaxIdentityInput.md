@@ -8,7 +8,7 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `legal_name` | Required | string or null | minLength: `1`. maxLength: `255`. |
-| `registered_address` | Required | [AddressInput](../models/AddressInput.md#addressinput) or null | Replaced as a whole: send every field you want to keep. |
-| `tax_ids` | Required | Array of [DocumentTaxIDInput](../models/DocumentTaxIDInput.md#documenttaxidinput) | maxItems: `20`. |
+| `legal_name` | Required | string or null | The merchant's legal name, printed on invoices and credit notes. `null` when no legal name is set. minLength: `1`. maxLength: `255`. |
+| `registered_address` | Required | [AddressInput](../models/AddressInput.md#addressinput) or null | The merchant's registered business address, printed on invoices and credit notes. `null` when no address is set. |
+| `tax_ids` | Required | Array of [DocumentTaxIDInput](../models/DocumentTaxIDInput.md#documenttaxidinput) | Tax IDs printed on invoices and credit notes, in display order. Empty when none are set. maxItems: `20`. |
 

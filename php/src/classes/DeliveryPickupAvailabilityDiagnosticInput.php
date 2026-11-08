@@ -21,19 +21,19 @@ final class DeliveryPickupAvailabilityDiagnosticInput extends Model {
      */
     public function getCode(): string { return $this->get('code'); }
     public function hasCode(): bool { return $this->has('code'); }
-    /** diagnostic_id
+    /** Example: "ddiag_01KEZF7C002JPVD08857RGDGPC".
      * @return string
      * @throws SdkError When diagnostic_id is omitted; use hasDiagnosticId() or valueOrDefault().
      */
     public function getDiagnosticId(): string { return $this->get('diagnostic_id'); }
     public function hasDiagnosticId(): bool { return $this->has('diagnostic_id'); }
-    /** location_id
+    /** Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When location_id is omitted; use hasLocationId() or valueOrDefault().
      */
     public function getLocationId(): string { return $this->get('location_id'); }
     public function hasLocationId(): bool { return $this->has('location_id'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When occurred_at is omitted; use hasOccurredAt() or valueOrDefault().
      */

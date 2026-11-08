@@ -13,27 +13,27 @@ namespace Flint;
  * @property-read string $timezone
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateLocationRequestInput extends Model {
-    /** @param array{'address': AddressRequestInput|array<array-key, mixed>|\stdClass, 'coordinate'?: LocationCoordinateRequestInput|array<array-key, mixed>|\stdClass, 'coordinate_source'?: string|null, 'external_reference_id'?: string, 'inventory_allocation_enabled'?: bool, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'name': string, 'status'?: string, 'timezone': string}|object $values */
+    /** @param array{'address': AddressRequestInput|array<array-key, mixed>|\stdClass, 'coordinate'?: LocationCoordinateRequestInput|array<array-key, mixed>|\stdClass, 'coordinate_source'?: string|null, 'external_reference_id'?: string, 'inventory_allocation_enabled'?: bool, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'name': string, 'status'?: string, 'timezone'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateLocationRequestInput')); }
-    /** A complete postal address. State and postal_code are required for US addresses and optional for other countries. Send null or omit line2, state, and postal_code when the address has none.
+    /** Postal address of the Location. A complete postal address. State and postal_code are required for US addresses and optional for other countries. Send null or omit line2, state, and postal_code when the address has none.
      * @return AddressRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When address is omitted; use hasAddress() or valueOrDefault().
      */
     public function getAddress(): mixed { return $this->get('address'); }
     public function hasAddress(): bool { return $this->has('address'); }
-    /** A latitude and longitude for a merchant location.
+    /** Latitude and longitude of the Location. Send it with `coordinate_source`. A latitude and longitude for a merchant location.
      * @return LocationCoordinateRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When coordinate is omitted; use hasCoordinate() or valueOrDefault().
      */
     public function getCoordinate(): mixed { return $this->get('coordinate'); }
     public function hasCoordinate(): bool { return $this->has('coordinate'); }
-    /** Send null to clear it. Value enum: "merchant_supplied", "geocoded", null.
+    /** Where `coordinate` came from: `merchant_supplied` if you chose or measured it, `geocoded` if you got it by geocoding the address. Required with `coordinate`, and rejected without it. `null` is the same as omitting the field. Value enum: "merchant_supplied", "geocoded", null.
      * @return string|null
      * @throws SdkError When coordinate_source is omitted; use hasCoordinateSource() or valueOrDefault().
      */
     public function getCoordinateSource(): string|null { return $this->get('coordinate_source'); }
     public function hasCoordinateSource(): bool { return $this->has('coordinate_source'); }
-    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -51,19 +51,19 @@ final class CreateLocationRequestInput extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** minLength: 1. maxLength: 255.
+    /** Merchant-facing Location name, from 1 to 255 characters. minLength: 1. maxLength: 255.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Default: "active". Value enum: "active", "inactive".
+    /** Status the Location starts in. Defaults to `active`. Default: "active". Value enum: "active", "inactive".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** minLength: 1.
+    /** IANA time zone for the Location's local schedules, such as `America/New_York`. Defaults to the merchant's timezone, then UTC, and is saved on the Location at creation. minLength: 1.
      * @return string
      * @throws SdkError When timezone is omitted; use hasTimezone() or valueOrDefault().
      */

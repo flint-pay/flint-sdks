@@ -8,12 +8,12 @@ namespace Flint;
 final class ReturnWindow extends Model {
     /** @param array{'duration_seconds': int, 'starts_at_event': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnWindow')); }
-    /** Format: int64.
+    /** Length of the window in seconds, above 0 and at most 158,112,000 (1,830 days). Format: int64.
      * @return int
      */
     public function getDurationSeconds(): int { return $this->get('duration_seconds'); }
     public function hasDurationSeconds(): bool { return $this->has('duration_seconds'); }
-    /** Value enum: "fulfilled", "delivered", "picked_up", "service_completed".
+    /** The fulfillment event the window counts from. Value enum: "fulfilled", "delivered", "picked_up", "service_completed".
      * @return string
      */
     public function getStartsAtEvent(): string { return $this->get('starts_at_event'); }

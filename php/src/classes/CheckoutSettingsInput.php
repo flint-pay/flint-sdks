@@ -15,7 +15,7 @@ namespace Flint;
 final class CheckoutSettingsInput extends Model {
     /** @param array{'default_delivery_method_ids'?: list<string>, 'default_expires_in_seconds'?: int, 'enabled_payment_options'?: list<string>, 'promotion_codes_enabled'?: bool, 'recovery_email'?: CheckoutRecoveryEmailSettingsInput|array<array-key, mixed>|\stdClass, 'require_billing_address'?: bool, 'require_email'?: bool, 'require_phone'?: bool, 'saved_payment_details'?: CheckoutSavedPaymentDetailsSettingsInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutSettingsInput')); }
-    /** Default delivery methods for checkout creation requests that omit delivery_method_ids, payment links without delivery_method_ids, and invoice checkouts. The default applies only when the order has items to deliver; otherwise no methods are assigned. Methods and their dependencies must be active when saved. Send [] to clear this default; null is rejected. Each checkout pins its assigned methods when created. [] (Value): string. minLength: 1.
+    /** Default delivery methods for checkout creation requests that omit delivery_method_ids, payment links without delivery_method_ids, and invoice checkouts. The default applies only when the order has items to deliver; otherwise no methods are assigned. Methods and their dependencies must be active when saved. Send [] to clear this default; null is rejected. Each checkout pins its assigned methods when created. [] (Value): string. minLength: 1. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
      * @return list<string>
      * @throws SdkError When default_delivery_method_ids is omitted; use hasDefaultDeliveryMethodIds() or valueOrDefault().
      */
@@ -45,19 +45,19 @@ final class CheckoutSettingsInput extends Model {
      */
     public function getRecoveryEmail(): mixed { return $this->get('recovery_email'); }
     public function hasRecoveryEmail(): bool { return $this->has('recovery_email'); }
-    /** require_billing_address
+    /** Whether hosted checkout requires the buyer's billing address before payment. A checkout session or payment link can override it with `buyer_fields`.
      * @return bool
      * @throws SdkError When require_billing_address is omitted; use hasRequireBillingAddress() or valueOrDefault().
      */
     public function getRequireBillingAddress(): bool { return $this->get('require_billing_address'); }
     public function hasRequireBillingAddress(): bool { return $this->has('require_billing_address'); }
-    /** require_email
+    /** Whether hosted checkout requires the buyer's email address before payment. A checkout session or payment link can override it with `buyer_fields`.
      * @return bool
      * @throws SdkError When require_email is omitted; use hasRequireEmail() or valueOrDefault().
      */
     public function getRequireEmail(): bool { return $this->get('require_email'); }
     public function hasRequireEmail(): bool { return $this->has('require_email'); }
-    /** require_phone
+    /** Whether hosted checkout requires the buyer's phone number before payment. A checkout session or payment link can override it with `buyer_fields`.
      * @return bool
      * @throws SdkError When require_phone is omitted; use hasRequirePhone() or valueOrDefault().
      */

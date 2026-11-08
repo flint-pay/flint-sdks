@@ -15,7 +15,10 @@ Signature: `get(fraud_warning_id: InputValue<string>, params?: FraudWarningsGetP
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `fraud_warning_id` | Required | string | Flint fraud warning ID. |
-| `expand` | Optional | Array of string or string | Supported expansions: dispute, payment_intent. Expansion requires risk.read plus the read scope for each expanded resource. Limits: at most 10 unique expand paths per request. Repeat expand, for example expand=dispute&expand=payment_intent, or pass one comma-separated value. Items values: `"dispute"`, `"payment_intent"`. Values: `"dispute"`, `"payment_intent"`. |
+| `expand` | Optional | Array of string or string | Include related objects in the response. Supported expansions: dispute, payment_intent. Expansion requires risk.read plus the read scope for each expanded resource. Limits: at most 10 unique expand paths per request. Items values: `"dispute"`, `"payment_intent"`. Values: `"dispute"`, `"payment_intent"`. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -29,7 +32,6 @@ Returned payload: [FraudWarning](../models/FraudWarning.md#fraudwarning).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -47,7 +49,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```typescript
-const result = await client.fraudWarnings.get("frw_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
+const result = await client.fraudWarnings.get("frw_01KEZF7C00WD6W4TAFS0FH851W", {}, {  });
 ```
 
 [Complete runnable example](../examples/fraudWarnings-get.mjs)
@@ -69,8 +71,11 @@ Signature: `list(params?: FraudWarningsListParams, options?: _SdkWithoutIdempote
 | `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
 | `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
-| `expand` | Optional | Array of string or string | Supported expansions: dispute, payment_intent. Include the requested related resources using scoped batch reads for this page. Each relationship requires its existing target read scopes. Expansion changes the representation without changing pagination tokens. Limits: at most 10 unique expand paths per request. Repeat expand, for example expand=dispute&expand=payment_intent, or pass one comma-separated value. Items values: `"dispute"`, `"payment_intent"`. Values: `"dispute"`, `"payment_intent"`. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
+| `expand` | Optional | Array of string or string | Include related objects in the response. Supported expansions: dispute, payment_intent. Include the requested related resources using scoped batch reads for this page. Each relationship requires its existing target read scopes. Expansion changes the representation without changing pagination tokens. Limits: at most 10 unique expand paths per request. Items values: `"dispute"`, `"payment_intent"`. Values: `"dispute"`, `"payment_intent"`. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -84,7 +89,6 @@ Returned payload: [FraudWarningListResponse](../models/FraudWarningListResponse.
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |

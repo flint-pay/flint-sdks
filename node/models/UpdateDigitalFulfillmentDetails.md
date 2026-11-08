@@ -10,6 +10,6 @@ Digital fulfillment fields to change when updating a fulfillment: delivery time 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `delivered_at` | Optional | string or null | RFC3339 timestamp. Send null to clear it. Format: `date-time`. minLength: `1`. |
+| `delivered_at` | Optional | string or null | RFC3339 timestamp. Send null to clear it. Format: `date-time`. minLength: `1`. Example: `"2026-08-02T16:00:00Z"`. |
 | `delivery_url` | Optional | string or null | Send null to clear it. minLength: `1`. |
 

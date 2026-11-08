@@ -18,15 +18,15 @@ namespace Flint;
  * @property-read int $quantity
  * @property-read list<SelectedProductOptionInput|array<array-key, mixed>|\stdClass> $selected_options
  * @property-read string $sku
- * @property-read string $source_type
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $subtotal_money
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $tax_money
- * @property-read SignedMoneyInput|array<array-key, mixed>|\stdClass $total_money
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $total_money
+ * @property-read string $type
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $unit_price_money
  * @property-read string $variant_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class InvoiceLineItemInput extends Model {
-    /** @param array{'base_subtotal_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'bundle_components'?: list<BundleComponentInput|array<array-key, mixed>|\stdClass>, 'bundle_id'?: string, 'categories'?: list<CategoryReferenceInput|array<array-key, mixed>|\stdClass>, 'description'?: string, 'discount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'image'?: ImageInput|array<array-key, mixed>|\stdClass, 'invoice_line_item_id': string, 'modifier_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'modifiers'?: list<OrderLineItemModifierInput|array<array-key, mixed>|\stdClass>, 'name': string, 'order_line_item_id'?: string, 'product_id'?: string, 'quantity': int, 'selected_options'?: list<SelectedProductOptionInput|array<array-key, mixed>|\stdClass>, 'sku'?: string, 'source_type'?: string, 'subtotal_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'tax_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'total_money': SignedMoneyInput|array<array-key, mixed>|\stdClass, 'unit_price_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id'?: string, ...}|object $values */
+    /** @param array{'base_subtotal_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'bundle_components'?: list<BundleComponentInput|array<array-key, mixed>|\stdClass>, 'bundle_id'?: string, 'categories'?: list<CategoryReferenceInput|array<array-key, mixed>|\stdClass>, 'description'?: string, 'discount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'image'?: ImageInput|array<array-key, mixed>|\stdClass, 'invoice_line_item_id': string, 'modifier_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'modifiers'?: list<OrderLineItemModifierInput|array<array-key, mixed>|\stdClass>, 'name': string, 'order_line_item_id'?: string, 'product_id'?: string, 'quantity': int, 'selected_options'?: list<SelectedProductOptionInput|array<array-key, mixed>|\stdClass>, 'sku'?: string, 'subtotal_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'tax_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'type': string, 'unit_price_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceLineItemInput')); }
     /** unit_price_money × quantity. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
@@ -40,7 +40,7 @@ final class InvoiceLineItemInput extends Model {
      */
     public function getBundleComponents(): array { return $this->get('bundle_components'); }
     public function hasBundleComponents(): bool { return $this->has('bundle_components'); }
-    /** The catalog bundle the line was sold from. Absent unless source_type is bundle.
+    /** The catalog bundle the line was sold from. Absent unless type is bundle. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
      * @return string
      * @throws SdkError When bundle_id is omitted; use hasBundleId() or valueOrDefault().
      */
@@ -64,13 +64,13 @@ final class InvoiceLineItemInput extends Model {
      */
     public function getDiscountMoney(): mixed { return $this->get('discount_money'); }
     public function hasDiscountMoney(): bool { return $this->has('discount_money'); }
-    /** Line item image. An image with its `url`, `width`, and `height`, and optional `alt` text.
+    /** Line item image. An image with its URL, size, and alt text.
      * @return ImageInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When image is omitted; use hasImage() or valueOrDefault().
      */
     public function getImage(): mixed { return $this->get('image'); }
     public function hasImage(): bool { return $this->has('image'); }
-    /** Flint invoice line item ID, stable across draft edits and issue while the backing order line keeps its ID. Credit notes credit lines by this ID.
+    /** Flint invoice line item ID, stable across draft edits and issue while the backing order line keeps its ID. Credit notes credit lines by this ID. Example: "invli_01KEZF7C00H767MAT1DY7ZWSVW".
      * @return string
      * @throws SdkError When invoice_line_item_id is omitted; use hasInvoiceLineItemId() or valueOrDefault().
      */
@@ -82,7 +82,7 @@ final class InvoiceLineItemInput extends Model {
      */
     public function getModifierTotalMoney(): mixed { return $this->get('modifier_total_money'); }
     public function hasModifierTotalMoney(): bool { return $this->has('modifier_total_money'); }
-    /** The line's modifiers, as billed. [] (Value): {@see OrderLineItemModifierInput}. A modifier selected on an order line item, with its quantity, price change, total, and display flags.
+    /** The line's modifiers, as billed. [] (Value): {@see OrderLineItemModifierInput}. A modifier selected on an order line item.
      * @return list<OrderLineItemModifierInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When modifiers is omitted; use hasModifiers() or valueOrDefault().
      */
@@ -94,13 +94,13 @@ final class InvoiceLineItemInput extends Model {
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** The backing order's line item. Tax rows in snapshot.tax_breakdowns reference the line by this ID.
+    /** The backing order's line item. Tax rows in snapshot.tax_breakdowns reference the line by this ID. Example: "li_01KEZF7C008YPRCK7VDKTGWR31".
      * @return string
      * @throws SdkError When order_line_item_id is omitted; use hasOrderLineItemId() or valueOrDefault().
      */
     public function getOrderLineItemId(): string { return $this->get('order_line_item_id'); }
     public function hasOrderLineItemId(): bool { return $this->has('order_line_item_id'); }
-    /** Parent product of the line's variant. Absent on bundle and custom lines.
+    /** Parent product of the line's variant. Absent on bundle and custom lines. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
      * @return string
      * @throws SdkError When product_id is omitted; use hasProductId() or valueOrDefault().
      */
@@ -124,12 +124,6 @@ final class InvoiceLineItemInput extends Model {
      */
     public function getSku(): string { return $this->get('sku'); }
     public function hasSku(): bool { return $this->has('sku'); }
-    /** The catalog item the line was sold from. Absent on custom lines. Value enum: "variant", "bundle".
-     * @return string
-     * @throws SdkError When source_type is omitted; use hasSourceType() or valueOrDefault().
-     */
-    public function getSourceType(): string { return $this->get('source_type'); }
-    public function hasSourceType(): bool { return $this->has('source_type'); }
     /** base_subtotal_money + modifier_total_money. For a tax-inclusive price, it includes the tax. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When subtotal_money is omitted; use hasSubtotalMoney() or valueOrDefault().
@@ -142,19 +136,25 @@ final class InvoiceLineItemInput extends Model {
      */
     public function getTaxMoney(): mixed { return $this->get('tax_money'); }
     public function hasTaxMoney(): bool { return $this->has('tax_money'); }
-    /** What the line bills. For a tax-inclusive price, subtotal_money - discount_money; otherwise subtotal_money - discount_money + tax_money. In both cases the tax-exclusive value is total_money - tax_money. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * @return SignedMoneyInput|array<array-key, mixed>|\stdClass
+    /** What the line bills. For a tax-inclusive price, subtotal_money - discount_money; otherwise subtotal_money - discount_money + tax_money. In both cases the tax-exclusive value is total_money - tax_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When total_money is omitted; use hasTotalMoney() or valueOrDefault().
      */
     public function getTotalMoney(): mixed { return $this->get('total_money'); }
     public function hasTotalMoney(): bool { return $this->has('total_money'); }
+    /** Whether the line was sold from a catalog variant, a bundle, or a custom item. Value enum: "variant", "bundle", "custom".
+     * @return string
+     * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
+     */
+    public function getType(): string { return $this->get('type'); }
+    public function hasType(): bool { return $this->has('type'); }
     /** Price of one unit, before modifiers and discounts. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When unit_price_money is omitted; use hasUnitPriceMoney() or valueOrDefault().
      */
     public function getUnitPriceMoney(): mixed { return $this->get('unit_price_money'); }
     public function hasUnitPriceMoney(): bool { return $this->has('unit_price_money'); }
-    /** The catalog variant the line was sold from. Absent unless source_type is variant.
+    /** The catalog variant the line was sold from. Absent unless type is variant. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
      * @return string
      * @throws SdkError When variant_id is omitted; use hasVariantId() or valueOrDefault().
      */

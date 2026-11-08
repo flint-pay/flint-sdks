@@ -6,12 +6,14 @@ namespace Flint;
  * @property-read ImageInput|array<array-key, mixed>|\stdClass $image
  * @property-read bool $is_sold_out
  * @property-read string $name
+ * @property-read string $product_id
+ * @property-read list<QuantityPriceBreakInput|array<array-key, mixed>|\stdClass> $quantity_price_breaks
  * @property-read list<SelectedProductOptionInput|array<array-key, mixed>|\stdClass> $selected_options
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $unit_price_money
  * @property-read string $variant_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentLinkAvailableVariantInput extends Model {
-    /** @param array{'available_modifiers'?: list<PublicResolvedModifierGroupInput|array<array-key, mixed>|\stdClass>, 'image'?: ImageInput|array<array-key, mixed>|\stdClass, 'is_sold_out': bool, 'name': string, 'selected_options': list<SelectedProductOptionInput|array<array-key, mixed>|\stdClass>, 'unit_price_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id': string, ...}|object $values */
+    /** @param array{'available_modifiers'?: list<PublicResolvedModifierGroupInput|array<array-key, mixed>|\stdClass>, 'image'?: ImageInput|array<array-key, mixed>|\stdClass, 'is_sold_out': bool, 'name': string, 'product_id': string, 'quantity_price_breaks': list<QuantityPriceBreakInput|array<array-key, mixed>|\stdClass>, 'selected_options': list<SelectedProductOptionInput|array<array-key, mixed>|\stdClass>, 'unit_price_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentLinkAvailableVariantInput')); }
     /** Modifier groups available for this variant's effective modifier set. Omitted when the variant has none. [] (Value): {@see PublicResolvedModifierGroupInput}. A modifier group as resolved for a payment link line item, with its selection limits, display flags, and options or text settings.
      * @return list<PublicResolvedModifierGroupInput|array<array-key, mixed>|\stdClass>
@@ -19,7 +21,7 @@ final class PaymentLinkAvailableVariantInput extends Model {
      */
     public function getAvailableModifiers(): array { return $this->get('available_modifiers'); }
     public function hasAvailableModifiers(): bool { return $this->has('available_modifiers'); }
-    /** Effective primary variant image, inherited from the product when the variant has none. Omitted when neither has an image. An image with its `url`, `width`, and `height`, and optional `alt` text.
+    /** Effective primary variant image, inherited from the product when the variant has none. Omitted when neither has an image. An image with its URL, size, and alt text.
      * @return ImageInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When image is omitted; use hasImage() or valueOrDefault().
      */
@@ -37,19 +39,31 @@ final class PaymentLinkAvailableVariantInput extends Model {
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
+    /** Identifier of the product the offered variant belongs to. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
+     * @return string
+     * @throws SdkError When product_id is omitted; use hasProductId() or valueOrDefault().
+     */
+    public function getProductId(): string { return $this->get('product_id'); }
+    public function hasProductId(): bool { return $this->has('product_id'); }
+    /** Default variant quantity breaks. Use the largest minimum_quantity not above this line's own quantity; an empty array uses the base price. [] (Value): {@see QuantityPriceBreakInput}. A net unit price that applies when one catalog line reaches minimum_quantity.
+     * @return list<QuantityPriceBreakInput|array<array-key, mixed>|\stdClass>
+     * @throws SdkError When quantity_price_breaks is omitted; use hasQuantityPriceBreaks() or valueOrDefault().
+     */
+    public function getQuantityPriceBreaks(): array { return $this->get('quantity_price_breaks'); }
+    public function hasQuantityPriceBreaks(): bool { return $this->has('quantity_price_breaks'); }
     /** The variant's product option values, in product option position order. Empty when the product has no options. [] (Value): {@see SelectedProductOptionInput}. An option and value chosen for a product variant, such as size Large.
      * @return list<SelectedProductOptionInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When selected_options is omitted; use hasSelectedOptions() or valueOrDefault().
      */
     public function getSelectedOptions(): array { return $this->get('selected_options'); }
     public function hasSelectedOptions(): bool { return $this->has('selected_options'); }
-    /** Current catalog unit price in the line currency. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Current catalog base unit price in the line currency. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When unit_price_money is omitted; use hasUnitPriceMoney() or valueOrDefault().
      */
     public function getUnitPriceMoney(): mixed { return $this->get('unit_price_money'); }
     public function hasUnitPriceMoney(): bool { return $this->has('unit_price_money'); }
-    /** ID of the offered product variant.
+    /** ID of the offered product variant. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
      * @return string
      * @throws SdkError When variant_id is omitted; use hasVariantId() or valueOrDefault().
      */

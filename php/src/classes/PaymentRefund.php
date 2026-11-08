@@ -8,11 +8,12 @@ namespace Flint;
  * @property-read ?string $payment_intent_id
  * @property-read MoneyValue $refunded_tip_money
  * @property-read string $status
+ * @property-read ?string $succeeded_at
  * Presence-aware response; omitted optional fields return null. */
 final class PaymentRefund extends Model {
-    /** @param array{'amount_money': mixed, 'failure_reason'?: string, 'payment_intent'?: mixed, 'payment_intent_id'?: string, 'refunded_tip_money': mixed, 'status': string, ...}|object $values */
+    /** @param array{'amount_money': mixed, 'failure_reason'?: string, 'payment_intent'?: mixed, 'payment_intent_id'?: string, 'refunded_tip_money': mixed, 'status': string, 'succeeded_at'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentRefund')); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Amount refunded through this payment, including `refunded_tip_money`. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getAmountMoney(): MoneyValue { return $this->get('amount_money'); }
@@ -27,12 +28,12 @@ final class PaymentRefund extends Model {
      */
     public function getPaymentIntent(): ExpandedPaymentIntentSummary|null { return $this->get('payment_intent'); }
     public function hasPaymentIntent(): bool { return $this->has('payment_intent'); }
-    /** payment_intent_id
+    /** The payment this part of the refund returned money through.
      * @return ?string
      */
     public function getPaymentIntentId(): ?string { return $this->get('payment_intent_id'); }
     public function hasPaymentIntentId(): bool { return $this->has('payment_intent_id'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Share of `amount_money` that refunds tips. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getRefundedTipMoney(): MoneyValue { return $this->get('refunded_tip_money'); }
@@ -42,4 +43,9 @@ final class PaymentRefund extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
+    /** When this payment refund's `status` first became `succeeded`, as Flint recorded the processor's outcome. It keeps that time if the part fails and later succeeds again. The refund's `tender_allocations` entry for the same payment has the same value. Present only while `status` is `succeeded`. Format: date-time.
+     * @return ?string
+     */
+    public function getSucceededAt(): ?string { return $this->get('succeeded_at'); }
+    public function hasSucceededAt(): bool { return $this->has('succeeded_at'); }
 }

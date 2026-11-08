@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string $buyer_notification_behavior
- * @property-read ?string $created_at
+ * @property-read string $created_at
  * @property-read ?string $current_status
  * @property-read ?array<array-key, string> $custom_details
  * @property-read string $event_type
@@ -27,7 +27,7 @@ namespace Flint;
  * @property-read string $subject_type
  * Presence-aware response; omitted optional fields return null. */
 final class FulfillmentEventCreatedMerchantEventDataObject extends Model {
-    /** @param array{'buyer_notification_behavior': string, 'created_at'?: string, 'current_status'?: string, 'custom_details'?: \stdClass, 'event_type': string, 'external_event_id'?: string, 'external_status'?: string, 'external_system'?: string, 'fulfillment_event_id': string, 'fulfillment_id': string, 'location_description'?: string, 'message'?: string, 'occurred_at'?: string, 'order'?: mixed, 'order_id': string, 'package_id'?: string, 'previous_status'?: string, 'quantity_effect'?: string, 'reason'?: string, 'reason_message'?: string, 'received_at'?: string, 'shipment_id'?: string, 'subject_type': string, ...}|object $values */
+    /** @param array{'buyer_notification_behavior': string, 'created_at': string, 'current_status'?: string, 'custom_details'?: \stdClass, 'event_type': string, 'external_event_id'?: string, 'external_status'?: string, 'external_system'?: string, 'fulfillment_event_id': string, 'fulfillment_id': string, 'location_description'?: string, 'message'?: string, 'occurred_at'?: string, 'order'?: mixed, 'order_id': string, 'package_id'?: string, 'previous_status'?: string, 'quantity_effect'?: string, 'reason'?: string, 'reason_message'?: string, 'received_at'?: string, 'shipment_id'?: string, 'subject_type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('FulfillmentEventCreatedMerchantEventDataObject')); }
     /** Controls buyer email handling. Omit or use send to send when recipient, template, and deduplication rules allow it. Use suppress when another system owns buyer messaging. Value enum: "send", "suppress".
      * @return string
@@ -35,21 +35,21 @@ final class FulfillmentEventCreatedMerchantEventDataObject extends Model {
     public function getBuyerNotificationBehavior(): string { return $this->get('buyer_notification_behavior'); }
     public function hasBuyerNotificationBehavior(): bool { return $this->has('buyer_notification_behavior'); }
     /** Timeline entry creation timestamp. Format: date-time.
-     * @return ?string
+     * @return string
      */
-    public function getCreatedAt(): ?string { return $this->get('created_at'); }
+    public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
     /** Subject status after the recorded transition. Value enum: "pending", "on_hold", "in_progress", "ready", "completed", "canceled", "failed", "scheduled", "accepted", "preparing", "picked", "packed", "dispatched", "no_show", "created", "shipped", "in_transit", "out_for_delivery", "delivered", "delivery_attempted", "exception", "returned", "voided".
      * @return ?string
      */
     public function getCurrentStatus(): ?string { return $this->get('current_status'); }
     public function hasCurrentStatus(): bool { return $this->has('current_status'); }
-    /**  * (Value): string.
+    /** Free-form details attached to the event. * (Value): string.
      * @return ?array<array-key, string>
      */
     public function getCustomDetails(): ?array { return $this->get('custom_details'); }
     public function hasCustomDetails(): bool { return $this->has('custom_details'); }
-    /** The delivery or fulfillment event recorded by this entry. Value enum: "carrier_scan", "status_changed", "shipped", "in_transit", "out_for_delivery", "delivered", "delivery_attempted", "tracking_updated", "exception", "returned", "custom", "accepted", "preparing", "picked", "packed", "ready", "dispatched", "completed", "canceled", "failed", "no_show".
+    /** The delivery or fulfillment event recorded by this entry. Value enum: "carrier_scan", "status_changed", "shipped", "in_transit", "out_for_delivery", "delivered", "delivery_attempted", "tracking_updated", "exception", "returned", "custom".
      * @return string
      */
     public function getEventType(): string { return $this->get('event_type'); }
@@ -69,22 +69,22 @@ final class FulfillmentEventCreatedMerchantEventDataObject extends Model {
      */
     public function getExternalSystem(): ?string { return $this->get('external_system'); }
     public function hasExternalSystem(): bool { return $this->has('external_system'); }
-    /** fulfillment_event_id
+    /** Unique identifier for this fulfillment event, prefixed `fev_`.
      * @return string
      */
     public function getFulfillmentEventId(): string { return $this->get('fulfillment_event_id'); }
     public function hasFulfillmentEventId(): bool { return $this->has('fulfillment_event_id'); }
-    /** fulfillment_id
+    /** ID of the fulfillment the event belongs to.
      * @return string
      */
     public function getFulfillmentId(): string { return $this->get('fulfillment_id'); }
     public function hasFulfillmentId(): bool { return $this->has('fulfillment_id'); }
-    /** location_description
+    /** Where the event happened, such as `Louisville, KY`.
      * @return ?string
      */
     public function getLocationDescription(): ?string { return $this->get('location_description'); }
     public function hasLocationDescription(): bool { return $this->has('location_description'); }
-    /** message
+    /** Human-readable text describing the event.
      * @return ?string
      */
     public function getMessage(): ?string { return $this->get('message'); }
@@ -99,12 +99,12 @@ final class FulfillmentEventCreatedMerchantEventDataObject extends Model {
      */
     public function getOrder(): ExpandedOrderSummary|null { return $this->get('order'); }
     public function hasOrder(): bool { return $this->has('order'); }
-    /** order_id
+    /** ID of the order the fulfillment belongs to.
      * @return string
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** package_id
+    /** ID of the package the event is attached to. Absent when it isn't attached to a package.
      * @return ?string
      */
     public function getPackageId(): ?string { return $this->get('package_id'); }
@@ -119,7 +119,7 @@ final class FulfillmentEventCreatedMerchantEventDataObject extends Model {
      */
     public function getQuantityEffect(): ?string { return $this->get('quantity_effect'); }
     public function hasQuantityEffect(): bool { return $this->has('quantity_effect'); }
-    /** Value enum: "address_issue", "customer_no_show", "customer_request", "fraud_review", "inventory_issue", "location_unavailable", "other", "payment_review", "provider_issue", "provider_no_show", "scheduling_error", "scheduling_issue".
+    /** Why the fulfillment was paused or an appointment was missed, when the transition recorded a reason. Value enum: "address_issue", "customer_no_show", "customer_request", "fraud_review", "inventory_issue", "location_unavailable", "other", "payment_review", "provider_issue", "provider_no_show", "scheduling_error", "scheduling_issue".
      * @return ?string
      */
     public function getReason(): ?string { return $this->get('reason'); }
@@ -134,7 +134,7 @@ final class FulfillmentEventCreatedMerchantEventDataObject extends Model {
      */
     public function getReceivedAt(): ?string { return $this->get('received_at'); }
     public function hasReceivedAt(): bool { return $this->has('received_at'); }
-    /** shipment_id
+    /** ID of the shipment the event is attached to. Absent when it isn't attached to a shipment.
      * @return ?string
      */
     public function getShipmentId(): ?string { return $this->get('shipment_id'); }

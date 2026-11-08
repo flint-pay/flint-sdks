@@ -10,13 +10,13 @@ namespace Flint;
 final class TextModifierConfigRequestInput extends Model {
     /** @param array{'max_length'?: int, 'min_length'?: int, 'multiline'?: bool, 'required'?: bool}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('TextModifierConfigRequestInput')); }
-    /** Maximum length of the buyer's text in UTF-8 bytes after trimming surrounding whitespace. Format: int32.
+    /** Maximum length of the buyer's text in UTF-8 bytes after trimming surrounding whitespace, from 1 to 500. Format: int32. minimum: 1. maximum: 500.
      * @return int
      * @throws SdkError When max_length is omitted; use hasMaxLength() or valueOrDefault().
      */
     public function getMaxLength(): int { return $this->get('max_length'); }
     public function hasMaxLength(): bool { return $this->has('max_length'); }
-    /** Minimum length of the buyer's text in UTF-8 bytes after trimming surrounding whitespace. Format: int32.
+    /** Minimum length of the buyer's text in UTF-8 bytes after trimming surrounding whitespace. Must be 0 or more, and no more than `max_length`. Format: int32. minimum: 0.
      * @return int
      * @throws SdkError When min_length is omitted; use hasMinLength() or valueOrDefault().
      */

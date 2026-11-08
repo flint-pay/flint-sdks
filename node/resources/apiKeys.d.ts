@@ -10,10 +10,10 @@ import type {
     ApiKeysRevokeParams,
     ApiKeysUpdateParams
 } from '../declarations/types-0.js';
-import type { ClientOptions } from '../declarations/types-5.js';
-import type { CreateAPIKeyResponse } from '../declarations/types-6.js';
-import type { RequestOptions } from '../declarations/types-48.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+import type { ClientOptions } from '../declarations/types-6.js';
+import type { CreateAPIKeyResponse } from '../declarations/types-7.js';
+import type { RequestOptions } from '../declarations/types-51.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -40,30 +40,29 @@ export type {
     ApiKeysUpdateParams,
     AuthMode
 } from '../declarations/types-0.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference, ResourceType } from '../declarations/types-48.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
 export type {
     CreateAPIKeyResponse,
     CreateAPIKeyRequestInput,
     CreateAPIKeyRequestFullInput,
     CreateAPIKeyRequestReadOnlyInput,
-    CreateAPIKeyRequestRestrictedInput,
-    ConfigurationVersionRequestInput
-} from '../declarations/types-6.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { ClientOptions } from '../declarations/types-5.js';
-export type { Credentials } from '../declarations/types-12.js';
-export type { NextAction, MoneyValue } from '../declarations/types-35.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
-export type { UpdateAPIKeyRequestInput } from '../declarations/types-58.js';
+    CreateAPIKeyRequestRestrictedInput
+} from '../declarations/types-7.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+export type { ClientOptions, ConfigurationVersionRequestInput } from '../declarations/types-6.js';
+export type { Credentials } from '../declarations/types-13.js';
+export type { NextAction, MoneyValue } from '../declarations/types-37.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
+export type { UpdateAPIKeyRequestInput } from '../declarations/types-62.js';
 export {
     makeConfigurationVersionRequest,
     makeCreateAPIKeyRequest,
     makeCreateAPIKeyRequestFull,
     makeCreateAPIKeyRequestReadOnly,
     makeCreateAPIKeyRequestRestricted
-} from '../declarations/types-63.js';
-export { makeMoneyValue } from '../declarations/types-70.js';
-export { makeUpdateAPIKeyRequest } from '../declarations/types-74.js';
+} from '../declarations/types-68.js';
+export { makeMoneyValue } from '../declarations/types-75.js';
+export { makeUpdateAPIKeyRequest } from '../declarations/types-79.js';
 export interface ApiKeysResource {
     /**
  * Creates a merchant-bound external API key. secret_key is returned only in the initial successful
@@ -89,7 +88,7 @@ export interface ApiKeysResource {
  * @see https://developers.withflintpay.com/docs/api/api-keys#getAPIKey
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.apiKeys.get("key_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.apiKeys.get("key_01KEZF7C008CTC2G5V6J08M6S7")
  */
     get(api_key_id: InputValue<string>, params?: ApiKeysGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<APIKey, APIKeyResponse>>;
     /**
@@ -121,7 +120,7 @@ export interface ApiKeysResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.apiKeys.revoke("key_01ARZ3NDEKTSV4RRFFQ69G5FAV", undefined, { idempotencyKey:
+ * client.apiKeys.revoke("key_01KEZF7C008CTC2G5V6J08M6S7", undefined, { idempotencyKey:
  * idempotencyKey })
  */
     revoke(api_key_id: InputValue<string>, params?: ApiKeysRevokeParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<APIKey, APIKeyResponse>>;

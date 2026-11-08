@@ -10,8 +10,8 @@ Request input.
 | --- | --- | --- | --- |
 | `damaged_quantity` | Conditional | integer | Absolute damaged quantity to record. Omit to leave it unchanged. Whole-number quantity; fractional quantities are not supported. Format: `int64`. minimum: `0`. |
 | `expected_physical_version` | Optional | integer | Refuse the line unless the level's `physical_version` still equals this value. A level that doesn't exist yet has physical version 0. Holds and commitments do not change it. Format: `int64`. minimum: `0`. |
-| `inventory_item_id` | Required | string | minLength: `1`. |
-| `location_id` | Required | string | minLength: `1`. |
+| `inventory_item_id` | Required | string | ID of the inventory item the stock is for. minLength: `1`. Example: `"invi_01KEZF7C00A6YEM25MTHW2MPZY"`. |
+| `location_id` | Required | string | ID of the Location that holds the stock. minLength: `1`. Example: `"loc_01KEZF7C00CMHRRYA3MV996JB2"`. |
 | `on_hand_quantity` | Conditional | integer | Absolute on-hand quantity to record. Omit to leave it unchanged. Whole-number quantity; fractional quantities are not supported. Format: `int64`. minimum: `0`. |
 | `quality_control_quantity` | Conditional | integer | Absolute quality-control quantity to record. Omit to leave it unchanged. Whole-number quantity; fractional quantities are not supported. Format: `int64`. minimum: `0`. |
 | `quarantined_quantity` | Conditional | integer | Absolute quarantined quantity to record. Omit to leave it unchanged. Whole-number quantity; fractional quantities are not supported. Format: `int64`. minimum: `0`. |

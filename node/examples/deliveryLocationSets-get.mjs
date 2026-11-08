@@ -5,7 +5,7 @@ const client = new Client({
   allowInsecureHttp: !!baseUrl && ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
 });
 const result = await client.deliveryLocationSets.get(
-  "dls_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "dls_01KEZF7C00C4WWN7RYTRF55C4H"
 );
 console.log(result.current_delivery_location_set_revision_id);
 console.log(result.delivery_location_set_id);

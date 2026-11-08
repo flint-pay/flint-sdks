@@ -9,19 +9,19 @@ namespace Flint;
 final class ReturnRestockingFeePolicyInput extends Model {
     /** @param array{'calculation_type': string, 'flat_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'percent'?: int|float}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnRestockingFeePolicyInput')); }
-    /** Value enum: "flat", "percent".
+    /** How the fee is worked out. Value enum: "flat", "percent".
      * @return string
      * @throws SdkError When calculation_type is omitted; use hasCalculationType() or valueOrDefault().
      */
     public function getCalculationType(): string { return $this->get('calculation_type'); }
     public function hasCalculationType(): bool { return $this->has('calculation_type'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Fixed fee proposed for each line, whatever the quantity. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When flat_money is omitted; use hasFlatMoney() or valueOrDefault().
      */
     public function getFlatMoney(): mixed { return $this->get('flat_money'); }
     public function hasFlatMoney(): bool { return $this->has('flat_money'); }
-    /** Format: double. multipleOf: 0.0001.
+    /** Percentage points of the returned units' subtotal, from 1 to 100 with up to four decimal places. `10` means 10%. Format: double. multipleOf: 0.0001.
      * @return int|float
      * @throws SdkError When percent is omitted; use hasPercent() or valueOrDefault().
      */

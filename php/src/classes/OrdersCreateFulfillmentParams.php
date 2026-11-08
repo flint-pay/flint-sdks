@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read string $device_id
  * @property-read CreateDigitalFulfillmentDetailsInput|array<array-key, mixed>|\stdClass $digital_details
  * @property-read string $external_reference_id
- * @property-read list<array{'order_line_item_id': string, 'quantity': int}|object> $line_items
+ * @property-read list<FulfillmentLineItemRequestInput|array<array-key, mixed>|\stdClass> $line_items
  * @property-read CreateDeliveryFulfillmentDetailsInput|array<array-key, mixed>|\stdClass $local_delivery_details
  * @property-read string $location_id
  * @property-read MetadataRequestInput|array<array-key, mixed>|\stdClass $metadata
@@ -17,45 +17,45 @@ namespace Flint;
  * @property-read string $type
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrdersCreateFulfillmentParams extends Model {
-    /** @param array{'customer_id'?: string, 'device_id'?: string, 'digital_details'?: CreateDigitalFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'line_items': list<array{'order_line_item_id': string, 'quantity': int}|object>, 'local_delivery_details'?: CreateDeliveryFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'location_id'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'pickup_details'?: CreatePickupFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'recipient'?: FulfillmentRecipientRequestInput|array<array-key, mixed>|\stdClass, 'service_details'?: CreateServiceFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'shipment'?: FulfillmentPackagingRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object $values */
+    /** @param array{'customer_id'?: string, 'device_id'?: string, 'digital_details'?: CreateDigitalFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'line_items': list<FulfillmentLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'local_delivery_details'?: CreateDeliveryFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'location_id'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'pickup_details'?: CreatePickupFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'recipient'?: FulfillmentRecipientRequestInput|array<array-key, mixed>|\stdClass, 'service_details'?: CreateServiceFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'shipment'?: FulfillmentPackagingRequestInput|array<array-key, mixed>|\stdClass, 'type': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrdersCreateFulfillmentParams')); }
-    /** minLength: 1. Example: "cus_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Customer receiving this fulfillment, when one is set. minLength: 1. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** Device used for this fulfillment. It must be active. When location_id is also set, the device must belong to that Location. minLength: 1. Example: "dev_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Device used for this fulfillment. It must be active. When location_id is also set, the device must belong to that Location. minLength: 1. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6".
      * @return string
      * @throws SdkError When device_id is omitted; use hasDeviceId() or valueOrDefault().
      */
     public function getDeviceId(): string { return $this->get('device_id'); }
     public function hasDeviceId(): bool { return $this->has('device_id'); }
-    /** Digital fulfillment details you supply when creating a fulfillment: the delivery URL.
+    /** Details of a `digital` fulfillment, such as the download link. Digital fulfillment details you supply when creating a fulfillment: the delivery URL.
      * @return CreateDigitalFulfillmentDetailsInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When digital_details is omitted; use hasDigitalDetails() or valueOrDefault().
      */
     public function getDigitalDetails(): mixed { return $this->get('digital_details'); }
     public function hasDigitalDetails(): bool { return $this->has('digital_details'); }
-    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** minItems: 1. [] (Value): {@see FulfillmentLineItemRequestInput}. An order line item and quantity to include when creating a fulfillment.
-     * @return list<array{'order_line_item_id': string, 'quantity': int}|object>
+    /** Order line items, with the quantity of each, that this fulfillment covers. minItems: 1. [] (Value): {@see FulfillmentLineItemRequestInput}. An order line item and quantity to include when creating a fulfillment.
+     * @return list<FulfillmentLineItemRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When line_items is omitted; use hasLineItems() or valueOrDefault().
      */
     public function getLineItems(): array { return $this->get('line_items'); }
     public function hasLineItems(): bool { return $this->has('line_items'); }
-    /** Local delivery details you supply when creating a fulfillment: courier, timing window, instructions, and tracking.
+    /** Details of a `local_delivery` fulfillment, such as the courier's tracking link. Local delivery details you supply when creating a fulfillment: courier, timing window, instructions, and tracking.
      * @return CreateDeliveryFulfillmentDetailsInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When local_delivery_details is omitted; use hasLocalDeliveryDetails() or valueOrDefault().
      */
     public function getLocalDeliveryDetails(): mixed { return $this->get('local_delivery_details'); }
     public function hasLocalDeliveryDetails(): bool { return $this->has('local_delivery_details'); }
-    /** minLength: 1. Example: "loc_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Merchant location responsible for this fulfillment. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When location_id is omitted; use hasLocationId() or valueOrDefault().
      */
@@ -67,19 +67,19 @@ final class OrdersCreateFulfillmentParams extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Pickup details you supply when creating a fulfillment: the pickup address, location, window, instructions, and curbside details.
+    /** Details of a `pickup` fulfillment. Pickup details you supply when creating a fulfillment: the pickup address, location, window, instructions, and curbside details.
      * @return CreatePickupFulfillmentDetailsInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When pickup_details is omitted; use hasPickupDetails() or valueOrDefault().
      */
     public function getPickupDetails(): mixed { return $this->get('pickup_details'); }
     public function hasPickupDetails(): bool { return $this->has('pickup_details'); }
-    /** Recipient details you supply when creating or updating a fulfillment: name, email, phone, address, and handling instructions.
+    /** Who receives the fulfillment. Recipient details you supply when creating or updating a fulfillment: name, email, phone, address, and handling instructions.
      * @return FulfillmentRecipientRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When recipient is omitted; use hasRecipient() or valueOrDefault().
      */
     public function getRecipient(): mixed { return $this->get('recipient'); }
     public function hasRecipient(): bool { return $this->has('recipient'); }
-    /** Service details you supply when creating a fulfillment: the scheduled start and end, timezone, and notes.
+    /** Details of a `service` fulfillment. Service details you supply when creating a fulfillment: the scheduled start and end, timezone, and notes.
      * @return CreateServiceFulfillmentDetailsInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When service_details is omitted; use hasServiceDetails() or valueOrDefault().
      */
@@ -91,10 +91,28 @@ final class OrdersCreateFulfillmentParams extends Model {
      */
     public function getShipment(): mixed { return $this->get('shipment'); }
     public function hasShipment(): bool { return $this->has('shipment'); }
-    /** Value enum: "shipment", "pickup", "local_delivery", "digital", "service".
+    /** The kind of fulfillment. Value enum: "shipment", "pickup", "local_delivery", "digital", "service".
      * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */
     public function getType(): string { return $this->get('type'); }
     public function hasType(): bool { return $this->has('type'); }
+    /** Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Merchant-Id is omitted; use hasFlintMerchantId() or valueOrDefault().
+     */
+    public function getFlintMerchantId(): string { return $this->get('Flint-Merchant-Id'); }
+    public function hasFlintMerchantId(): bool { return $this->has('Flint-Merchant-Id'); }
+    /** Mode of the request context, live or test. Optional; it must match the credential's mode. Value enum: "test", "live".
+     * @return string
+     * @throws SdkError When Flint-Mode is omitted; use hasFlintMode() or valueOrDefault().
+     */
+    public function getFlintMode(): string { return $this->get('Flint-Mode'); }
+    public function hasFlintMode(): bool { return $this->has('Flint-Mode'); }
+    /** Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Sandbox-Id is omitted; use hasFlintSandboxId() or valueOrDefault().
+     */
+    public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
+    public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
 }

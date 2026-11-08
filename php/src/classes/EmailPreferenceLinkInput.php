@@ -10,25 +10,25 @@ namespace Flint;
 final class EmailPreferenceLinkInput extends Model {
     /** @param array{'customer_id': string|null, 'email': string, 'email_preference': string, 'enabled': bool, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('EmailPreferenceLinkInput')); }
-    /** Flint customer ID when the email belongs to an active customer in this merchant environment. Null for a guest email.
+    /** Flint customer ID when the email belongs to an active customer in this merchant environment. `null` when the email belongs to a guest. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * @return string|null
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */
     public function getCustomerId(): string|null { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** email
+    /** The email address the preference applies to.
      * @return string
      * @throws SdkError When email is omitted; use hasEmail() or valueOrDefault().
      */
     public function getEmail(): string { return $this->get('email'); }
     public function hasEmail(): bool { return $this->has('email'); }
-    /** Value enum: "shipping_updates", "checkout_reminders".
+    /** The kind of email the preference controls. Value enum: "shipping_updates", "checkout_reminders".
      * @return string
      * @throws SdkError When email_preference is omitted; use hasEmailPreference() or valueOrDefault().
      */
     public function getEmailPreference(): string { return $this->get('email_preference'); }
     public function hasEmailPreference(): bool { return $this->has('email_preference'); }
-    /** enabled
+    /** Whether Flint sends this kind of email to the address.
      * @return bool
      * @throws SdkError When enabled is omitted; use hasEnabled() or valueOrDefault().
      */

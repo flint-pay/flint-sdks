@@ -16,8 +16,9 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->returnDispositions->retry('retdsp_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
-  'reason' => 'dependency_recovered',
+$result = $client->returnDispositions->retry('retdsp_01KEZF7C007H87J66PH2EEK1VW', [
+  'expected_version' => 2,
+  'reason' => 'mapping_corrected',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->return_disposition_id . PHP_EOL;
 echo $result->return_id . PHP_EOL;

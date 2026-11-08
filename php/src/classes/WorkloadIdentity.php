@@ -59,7 +59,7 @@ final class WorkloadIdentity extends Model {
      */
     public function getLastUsedAt(): ?string { return $this->get('last_used_at'); }
     public function hasLastUsedAt(): bool { return $this->has('last_used_at'); }
-    /** Value enum: "test", "live".
+    /** Environment used for this resource or request. Value enum: "test", "live".
      * @return string
      */
     public function getMode(): string { return $this->get('mode'); }
@@ -109,7 +109,7 @@ final class WorkloadIdentity extends Model {
      */
     public function getVersion(): int { return $this->get('version'); }
     public function hasVersion(): bool { return $this->has('version'); }
-    /** workload_identity_id
+    /** Unique identifier for this workload identity, prefixed `wid_`.
      * @return string
      */
     public function getWorkloadIdentityId(): string { return $this->get('workload_identity_id'); }

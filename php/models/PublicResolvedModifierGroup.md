@@ -17,10 +17,14 @@ Response model.
 | `modifier_group_id` | Required | string |  |
 | `modifier_group_type` | Required | string | Values: `"list"`, `"text"`. |
 | `name` | Required | string |  |
-| `options` | Optional | Array of [PublicResolvedModifierOption](../models/PublicResolvedModifierOption.md#publicresolvedmodifieroption) |  |
+| `options` | Optional | Array of [PublicResolvedModifierOption](../models/PublicResolvedModifierOption.md#publicresolvedmodifieroption) | `options[]`: [field definitions](../models/PublicPaymentLinkResponse.md#publicpaymentlinkresponsedataresolved_line_itemsavailable_modifiersoptions). |
 | `position` | Optional | integer | Format: `int32`. |
-| `pricing_scope` | Optional | string | Values: `"per_item"`, `"per_line"`. |
+| `pricing_scope` | Optional | string | Values: `"per_item"`. |
 | `show_on_fulfillment` | Optional | boolean |  |
 | `show_on_receipt` | Optional | boolean |  |
 | `text` | Optional | [PublicResolvedTextModifier](../models/PublicResolvedTextModifier.md#publicresolvedtextmodifier) | Input rules for a free-text modifier group on a payment link line item: required, multiline, and length limits. |
+
+### PublicResolvedModifierGroup.options[]
+
+Field definitions: [PublicPaymentLinkResponse.data.resolved_line_items[].available_modifiers[].options[]](../models/PublicPaymentLinkResponse.md#publicpaymentlinkresponsedataresolved_line_itemsavailable_modifiersoptions).
 

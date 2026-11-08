@@ -6,5 +6,5 @@ Legal settings for a checkout: whether buyers must accept terms, and links to th
 
 Response model.
 
-Fields, types, descriptions and enum values: [LegalSettingsInput](../models/LegalSettingsInput.md#legalsettingsinput).
+Fields, types, descriptions and enum values: [CheckoutLegalConfigInput](../models/CheckoutLegalConfigInput.md#checkoutlegalconfiginput).
 

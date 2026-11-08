@@ -9,7 +9,7 @@ namespace Flint;
 final class MeGetInvoiceInput extends Model {
     /** @param array{'invoice_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MeGetInvoiceInput')); }
-    /** Flint invoice ID. Example: "inv_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Flint invoice ID. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
      * @return string
      * @throws SdkError When invoice_id is omitted; use hasInvoiceId() or valueOrDefault().
      */

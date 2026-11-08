@@ -16,9 +16,7 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->subscriptions->skipCycle('sub_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
-  'initiated_by' => 'merchant',
-], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->subscriptions->skipCycle('sub_01KEZF7C00BVRE8YDBXQB74BBM', null, new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->customer_id . PHP_EOL;
-echo $result->payment_method_id . PHP_EOL;
+echo $result->merchant_id . PHP_EOL;
 $client->close();

@@ -10,7 +10,7 @@ namespace Flint;
 final class FileUploadInput extends Model {
     /** @param array{'expires_at': string|\DateTimeInterface, 'headers': array<array-key, string>|\stdClass, 'method': string, 'url': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('FileUploadInput')); }
-    /** When the signed upload URL expires, 15 minutes after creation. Create a new file if it expires. Format: date-time.
+    /** When the signed upload URL expires, 15 minutes after creation. Create a new file if it expires. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When expires_at is omitted; use hasExpiresAt() or valueOrDefault().
      */
@@ -22,13 +22,13 @@ final class FileUploadInput extends Model {
      */
     public function getHeaders(): array|object { return $this->get('headers'); }
     public function hasHeaders(): bool { return $this->has('headers'); }
-    /** Value enum: "PUT".
+    /** HTTP method to upload the bytes with. Value enum: "PUT".
      * @return string
      * @throws SdkError When method is omitted; use hasMethod() or valueOrDefault().
      */
     public function getMethod(): string { return $this->get('method'); }
     public function hasMethod(): bool { return $this->has('method'); }
-    /** A signed upload target. Send the bytes with method and headers verbatim; keep the URL out of logs. Format: uri.
+    /** A signed upload target. Send the bytes with method and headers verbatim; keep the URL out of logs. Format: uri. Example: "https://example.com/receipt".
      * @return string
      * @throws SdkError When url is omitted; use hasUrl() or valueOrDefault().
      */

@@ -11,10 +11,8 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.me.cancelReturn(
-  "ret_01ARZ3NDEKTSV4RRFFQ69G5FAV",
-  {
-    reason: "buyer_request",
-  },
+  "ret_01KEZF7C00PG93650ZKVQNGF7X",
+  undefined,
   { idempotencyKey: idempotencyKey },
 );
 console.log(result.order_id);

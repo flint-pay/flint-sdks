@@ -9,17 +9,17 @@ namespace Flint;
 final class OnboardingStartResponse extends Model {
     /** @param array{'data': mixed, 'meta'?: mixed, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OnboardingStartResponse')); }
-    /** The result of starting onboarding: whether email verification began, plus the verification token and its expiry.
+    /** Resource, collection, or operation result returned by this request. The verification token and expiry returned after the verification email is accepted for asynchronous delivery. Success does not confirm email delivery.
      * @return OnboardingStartResult
      */
     public function getData(): OnboardingStartResult { return $this->get('data'); }
     public function hasData(): bool { return $this->has('data'); }
-    /** Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+    /** Additional information about this response. Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
      * @return ?ResponseMeta
      */
     public function getMeta(): ?ResponseMeta { return $this->get('meta'); }
     public function hasMeta(): bool { return $this->has('meta'); }
-    /** maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$.
+    /** Identifier of this API request, used to correlate logs and support requests. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$.
      * @return string
      */
     public function getRequestId(): string { return $this->get('request_id'); }

@@ -8,7 +8,7 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.bundles.delete(
-  "bun_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "bun_01KEZF7C00TQ6S76Z6CVQF5SVN",
   {},
   { idempotencyKey: idempotencyKey },
 );

@@ -10,16 +10,18 @@ Fields shared by merchant webhook payloads.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `api_version` | Required | string | Format: `date`. |
-| `created_at` | Required | string | Format: `date-time`. |
-| `data` | Required | object | `data`: [field definitions](../models/MerchantWebhookEnvelope.md#merchantwebhookenvelopedata). |
-| `event_type` | Required | string | Values: [245 declared values](#merchantwebhookenvelope-event_type-values). |
-| `merchant_id` | Required | string |  |
-| `mode` | Required | string | Values: `"test"`, `"live"`. |
+| `api_version` | Required | string | API version used to render this delivery attempt. The older of the event version and the endpoint version when the attempt runs, with default resolved to the merchant pin. Format: `date`. Example: `"2026-08-02"`. |
+| `created_at` | Required | string | When Flint recorded the event. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
+| `data` | Required | object | The resource snapshot recorded for this event and rendered at the delivery API version. `data`: [field definitions](../models/MerchantWebhookEnvelope.md#merchantwebhookenvelopedata). |
+| `event_source` | Required | string | The origin of the event. Selects the webhook envelope and the fields in source. Values: `"merchant"`. |
+| `event_type` | Required | string | The resource change or condition this event announces. Values: [269 declared values](#merchantwebhookenvelope-event_type-values). |
+| `merchant_id` | Required | string | ID of the merchant this resource belongs to. Example: `"mer_01KEZF7C00KPYH1DDFPCCX3B6E"`. |
+| `mode` | Required | string | Environment used for this resource or request. Values: `"test"`, `"live"`. |
 | `payload_version` | Required | integer | 2 for every current event. 1 only for an event queued before 2026-10-16 and delivered afterwards, which keeps its previous data shape. Values: `1`, `2`. |
-| `request` | Required | object or null | `request`: [field definitions](../models/BalanceTransactionCreatedEvent.md#balancetransactioncreatedeventrequest). |
+| `request` | Required | object or null | The originating request. `null` when the event has no originating request ID. `request`: [field definitions](../models/BalanceTransactionCreatedMerchantEvent.md#balancetransactioncreatedmerchanteventrequest). |
+| `sandbox_id` | Optional | string | Public sandbox ID for this event. Present exactly when mode is test; omitted in live mode. Example: `"test_01KEZF7C00JC77HTMTB2XHNPE0"`. |
 | `test` | Required | boolean | true for a synthetic event sent from the test-events endpoint, false otherwise. |
-| `webhook_event_id` | Required | string |  |
+| `webhook_event_id` | Required | string | Stable ID of the recorded webhook event, shared by its delivery attempts. Example: `"whev_01KEZF7C00362MS3HV970TRZGS"`. |
 
 #### MerchantWebhookEnvelope event_type values
 
@@ -46,6 +48,9 @@ Fields shared by merchant webhook payloads.
 - `"bundle.created"`
 - `"bundle.updated"`
 - `"bundle.archived"`
+- `"price_list.created"`
+- `"price_list.updated"`
+- `"price_list.archived"`
 - `"category.created"`
 - `"category.updated"`
 - `"category.deleted"`
@@ -66,6 +71,7 @@ Fields shared by merchant webhook payloads.
 - `"balance_transaction.updated"`
 - `"checkout_session.partially_paid"`
 - `"checkout_session.created"`
+- `"checkout_session.updated"`
 - `"checkout_session.paid"`
 - `"checkout_session.closed"`
 - `"checkout_session.expired"`
@@ -76,6 +82,7 @@ Fields shared by merchant webhook payloads.
 - `"credit_note.issued"`
 - `"credit_note.updated"`
 - `"credit_note.voided"`
+- `"customer_email_preferences.updated"`
 - `"customer.created"`
 - `"customer_deletion_request.completed"`
 - `"customer_deletion_request.rejected"`
@@ -93,6 +100,10 @@ Fields shared by merchant webhook payloads.
 - `"dispute.won"`
 - `"fraud_warning.created"`
 - `"fraud_warning.updated"`
+- `"ticket.created"`
+- `"ticket.voided"`
+- `"ticket.checked_in"`
+- `"ticket.updated"`
 - `"gift_card.created"`
 - `"gift_card.updated"`
 - `"gift_card_load.created"`
@@ -103,10 +114,15 @@ Fields shared by merchant webhook payloads.
 - `"gift_card_redemption.updated"`
 - `"gift_card_transaction.created"`
 - `"delivery_rate_callback.archived"`
+- `"tax_calculation_callback.archived"`
 - `"delivery_rate_callback.created"`
+- `"tax_calculation_callback.created"`
 - `"delivery_rate_callback.deactivated"`
+- `"tax_calculation_callback.deactivated"`
 - `"delivery_rate_callback.activated"`
+- `"tax_calculation_callback.activated"`
 - `"delivery_rate_callback.updated"`
+- `"tax_calculation_callback.updated"`
 - `"delivery_method.archived"`
 - `"delivery_method.created"`
 - `"delivery_method.deactivated"`
@@ -179,6 +195,7 @@ Fields shared by merchant webhook payloads.
 - `"merchant_billing_invoice.updated"`
 - `"order.partially_refunded"`
 - `"order.closed"`
+- `"order_edit.created"`
 - `"order.created"`
 - `"fulfillment.completed"`
 - `"fulfillment.created"`
@@ -194,6 +211,7 @@ Fields shared by merchant webhook payloads.
 - `"order.paid"`
 - `"order.refunded"`
 - `"order.updated"`
+- `"payment_intent.authorization_expiring"`
 - `"payment_intent.expired"`
 - `"payment_intent.updated"`
 - `"payment_intent.created"`
@@ -209,10 +227,11 @@ Fields shared by merchant webhook payloads.
 - `"payment_method.archived"`
 - `"payment_method.failed"`
 - `"payment_method.activated"`
+- `"payment_method.updated"`
 - `"payout.canceled"`
 - `"payout.created"`
 - `"payout.failed"`
-- `"payout.paid"`
+- `"payout.succeeded"`
 - `"payout.reversed"`
 - `"payout.updated"`
 - `"payout_destination.created"`
@@ -259,8 +278,11 @@ Fields shared by merchant webhook payloads.
 - `"subscription_payment_retry.failed"`
 - `"subscription.reactivated"`
 - `"subscription.resumed"`
+- `"subscription.end_upcoming"`
 - `"subscription.renewal_upcoming"`
 - `"subscription.trial_ending"`
+- `"subscription.plan_change_scheduled"`
+- `"subscription.plan_change_canceled"`
 - `"subscription.plan_changed"`
 - `"subscription.updated"`
 - `"subscription.delivery_action_required"`
@@ -268,14 +290,21 @@ Fields shared by merchant webhook payloads.
 - `"subscription.delivery_updated"`
 - `"subscription.cycle_skipped"`
 - `"subscription_delivery_migration.completed"`
+- `"partner_app.updated"`
+- `"partner_app.platform_approved"`
+- `"partner_app.platform_limited"`
+- `"partner_app.platform_rejected"`
 
 ### MerchantWebhookEnvelope.data
 
+The resource snapshot recorded for this event and rendered at the delivery API version.
+
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `object` | Required | object |  |
+| `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. |
+| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
 
 ### MerchantWebhookEnvelope.request
 
-Field definitions: [BalanceTransactionCreatedEvent.request](../models/BalanceTransactionCreatedEvent.md#balancetransactioncreatedeventrequest).
+Field definitions: [BalanceTransactionCreatedMerchantEvent.request](../models/BalanceTransactionCreatedMerchantEvent.md#balancetransactioncreatedmerchanteventrequest).
 

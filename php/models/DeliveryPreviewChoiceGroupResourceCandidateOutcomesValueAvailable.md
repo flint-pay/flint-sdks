@@ -16,10 +16,11 @@ Response model.
 | `option` | Required | [DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueAvailableOption](../models/DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueAvailableOption.md#deliverypreviewchoicegroupresourcecandidateoutcomesvalueavailableoption) | A delivery option in a quote or preview: its price, type, timing, delivery plan, execution legs, and shipment, pickup, or local delivery details. `option`: [field definitions](../models/DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueAvailable.md#deliverypreviewchoicegroupresourcecandidateoutcomesvalueavailableoption-fields-1). |
 | `retryable` | Optional | boolean |  |
 | `type` | Required | string | Values: `"available"`. |
-| `unavailable_reason` | Optional | string | Why the method is unavailable and the action that can make it eligible. - `destination_not_served`: Use a destination covered by this method or choose another method. - `pickup_unavailable`: Choose an available pickup method or location. - `no_window_available`: Choose another offered window or a method with availability for the requested time. - `eligibility_no_match`: Inspect eligibility_mismatches, then change the relevant buyer facts or method eligibility rule. - `method_type_not_allowed`: Choose a method type allowed by every line item in the choice group. - `pricing_unavailable`: Add or activate a matching rate, or provide the required caller-supplied price. - `inventory_unavailable`: Choose an origin or method backed by available inventory. Values: [7 declared values](#deliverypreviewchoicegroupresourcecandidateoutcomesvalueavailable-unavailable_reason-values). |
+| `unavailable_reason` | Optional | string | Why the method is unavailable and the action that can make it eligible. - `dependency_revoked`: The method revision or a dependency was revoked. Publish a corrected revision, rotate the callback signing secret, or choose another method. - `destination_not_served`: Use a destination covered by this method or choose another method. - `pickup_unavailable`: Choose an available pickup method or location. - `no_window_available`: Choose another offered window or a method with availability for the requested time. - `eligibility_no_match`: Inspect eligibility_mismatches, then change the relevant buyer facts or method eligibility rule. - `method_type_not_allowed`: Choose a method type allowed by every line item in the choice group. - `pricing_unavailable`: Add or activate a matching rate, or provide the required caller-supplied price. - `inventory_unavailable`: The origin or pickup location cannot supply the requested inventory. Reduce the quantity, replenish inventory, or choose another origin or method. Values: [8 declared values](#deliverypreviewchoicegroupresourcecandidateoutcomesvalueavailable-unavailable_reason-values). |
 
 #### DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueAvailable unavailable_reason values
 
+- `"dependency_revoked"`
 - `"destination_not_served"`
 - `"pickup_unavailable"`
 - `"no_window_available"`
@@ -32,5 +33,21 @@ Response model.
 
 A delivery option in a quote or preview: its price, type, timing, delivery plan, execution legs, and shipment, pickup, or local delivery details.
 
-Field definitions: [shared fields](DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueAvailable.md#deliveryquotechoicegroupresourcecandidateoutcomesvalueavailableoption-fields-1).
+Field definitions: [shared fields](CheckoutSessionResponse.md#checkoutsessionresponsedatadeliverychoice_groupscandidate_outcomesoption).
+
+### DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueAvailable.option fields 1.arrival_estimate
+
+Field definitions: [CheckoutSessionResponse.data.delivery.choice_groups[].candidate_outcomes{}.option.arrival_estimate](../models/CheckoutSessionResponse.md#checkoutsessionresponsedatadeliverychoice_groupscandidate_outcomesoptionarrival_estimate).
+
+### DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueAvailable.option fields 1.delivery_plan
+
+Field definitions: [CheckoutSessionResponse.data.delivery.choice_groups[].candidate_outcomes{}.option.delivery_plan](../models/CheckoutSessionResponse.md#checkoutsessionresponsedatadeliverychoice_groupscandidate_outcomesoptiondelivery_plan).
+
+### DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueAvailable.option fields 1.execution_legs[]
+
+Field definitions: [CheckoutSessionResponse.data.delivery.choice_groups[].candidate_outcomes{}.option.execution_legs[]](../models/CheckoutSessionResponse.md#checkoutsessionresponsedatadeliverychoice_groupscandidate_outcomesoptionexecution_legs).
+
+### DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueAvailable.option fields 1.offered_windows[]
+
+Field definitions: [CheckoutSessionResponse.data.delivery.choice_groups[].candidate_outcomes{}.input_requirements[].constraint.offered_windows[]](../models/CheckoutSessionResponse.md#checkoutsessionresponsedatadeliverychoice_groupscandidate_outcomesinput_requirementsconstraintoffered_windows).
 

@@ -15,5 +15,9 @@ Response model.
 | `partner_app_version` | Required | integer | The app’s version. It changes whenever the app is edited. Format: `int64`. |
 | `redirect_uri` | Required | string | The registered redirect URI Flint sends the merchant back to after they approve or deny. |
 | `requested_permission_ids` | Required | Array of string | IDs of the requested permissions, sorted. They are the permissions named in scope, or the app's default requested permissions when scope is omitted, plus every required permission. |
-| `requested_permissions` | Required | Array of [PartnerAuthorizePreviewPermission](../models/PartnerAuthorizePreviewPermission.md#partnerauthorizepreviewpermission) | The requested permissions with the title, description, and scopes the consent screen shows, in the same order as requested_permission_ids. |
+| `requested_permissions` | Required | Array of [PartnerAuthorizePreviewPermission](../models/PartnerAuthorizePreviewPermission.md#partnerauthorizepreviewpermission) | The requested permissions with the title, description, and scopes the consent screen shows, in the same order as requested_permission_ids. `requested_permissions[]`: [field definitions](../models/PartnerAuthorizePreviewResponse.md#partnerauthorizepreviewresponsedatarequested_permissions). |
+
+### PartnerAuthorizePreview.requested_permissions[]
+
+Field definitions: [PartnerAuthorizePreviewResponse.data.requested_permissions[]](../models/PartnerAuthorizePreviewResponse.md#partnerauthorizepreviewresponsedatarequested_permissions).
 

@@ -13,5 +13,6 @@ Request input.
 | `default_requested_permissions` | Optional | Array of string | IDs of the permissions requested when an authorization request sends no scope. Each must be in permission_manifest. Defaults to every permission that isn't optional. Items: minLength: `1`. |
 | `name` | Required | string | The app's name, shown to merchants on the consent screen. minLength: `1`. |
 | `permission_manifest` | Required | Array of [PartnerAppPermissionManifestEntryRequestInput](../models/PartnerAppPermissionManifestEntryRequestInput.md#partnerapppermissionmanifestentryrequestinput) | Permissions the app can request from merchants. At least one is required. Each lists the Flint scopes it grants. |
+| `platform_profile` | Optional | [PartnerAppPlatformProfileRequestInput](../models/PartnerAppPlatformProfileRequestInput.md#partnerappplatformprofilerequestinput) | The platform profile Flint reviews before it approves the app as a platform. Optional; set it now or later with PATCH. The whole platform profile. Every field is required except support_phone, and a write replaces the profile whole. |
 | `redirect_uris` | Required | Array of string | Redirect URIs the app can use after authorization. Each must be an absolute HTTPS URL, or HTTP on localhost or a loopback address, with no fragment. At least one is required. Items: minLength: `1`. |
 

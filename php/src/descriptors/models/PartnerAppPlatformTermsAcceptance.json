@@ -1,0 +1,1 @@
+{"shared":"PartnerAppPlatformTermsAcceptance","phpRepresentation":{"kind":"record","fields":{"accepted_at":{"kind":"value","type":"string"},"accepted_by":{"kind":"entity","name":"ResourceReference"},"platform_terms_version":{"kind":"value","type":"string"}}},"dependencies":["PartnerAppPlatformTermsAcceptance","ResourceReference","ResourceType"]}

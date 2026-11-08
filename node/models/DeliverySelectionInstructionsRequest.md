@@ -10,6 +10,6 @@ Buyer input for a selected delivery option: a `delivery_window_id` where the opt
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `delivery_window_id` | Optional | string | minLength: `1`. |
+| `delivery_window_id` | Optional | string | minLength: `1`. Example: `"fwin_f3539d59e7d8e9ea803c681d0d155ecdce9de54aa27b90aec630cae8f086b31d"`. |
 | `instructions` | Optional | string | Buyer instructions for the selected option, without leading or trailing whitespace. Send this field only when buyer_instructions.enabled is true. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. minLength: `1`. maxLength: `2000`. |
 

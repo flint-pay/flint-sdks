@@ -17,25 +17,25 @@ final class DeliveryWindowRequestInput extends Model {
      */
     public function getAmountMoney(): mixed { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** minLength: 1.
+    /** minLength: 1. Example: "fwin_f3539d59e7d8e9ea803c681d0d155ecdce9de54aa27b90aec630cae8f086b31d".
      * @return string
      * @throws SdkError When delivery_window_id is omitted; use hasDeliveryWindowId() or valueOrDefault().
      */
     public function getDeliveryWindowId(): string { return $this->get('delivery_window_id'); }
     public function hasDeliveryWindowId(): bool { return $this->has('delivery_window_id'); }
-    /** RFC3339 timestamp. Format: date-time. minLength: 1.
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When end_at is omitted; use hasEndAt() or valueOrDefault().
      */
     public function getEndAt(): string|\DateTimeInterface { return $this->get('end_at'); }
     public function hasEndAt(): bool { return $this->has('end_at'); }
-    /** RFC3339 timestamp. Format: date-time. minLength: 1.
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When expires_at is omitted; use hasExpiresAt() or valueOrDefault().
      */
     public function getExpiresAt(): string|\DateTimeInterface { return $this->get('expires_at'); }
     public function hasExpiresAt(): bool { return $this->has('expires_at'); }
-    /** RFC3339 timestamp. Format: date-time. minLength: 1.
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When start_at is omitted; use hasStartAt() or valueOrDefault().
      */

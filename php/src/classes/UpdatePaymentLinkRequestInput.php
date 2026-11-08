@@ -52,19 +52,19 @@ final class UpdatePaymentLinkRequestInput extends Model {
      */
     public function getCustomFields(): array { return $this->get('custom_fields'); }
     public function hasCustomFields(): bool { return $this->has('custom_fields'); }
-    /** Changes to a payment link's custom checkout text. Send null to clear a field.
+    /** Custom text for checkouts started from this link. Changes to a payment link's custom checkout text. Send null to clear a field.
      * @return PaymentLinkCustomTextPatchRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When custom_text is omitted; use hasCustomText() or valueOrDefault().
      */
     public function getCustomText(): mixed { return $this->get('custom_text'); }
     public function hasCustomText(): bool { return $this->has('custom_text'); }
-    /** Complete delivery method selection for the link. A link without delivery methods offers settings.checkout.default_delivery_method_ids when its order has items to deliver. Send an empty array to clear the selection. Omit it on PATCH to leave the selection unchanged. Null and duplicate IDs are not accepted. maxItems: 25. uniqueItems: true. [] (Value): string. minLength: 1.
+    /** Complete delivery method selection for the link. A link without delivery methods offers settings.checkout.default_delivery_method_ids when its order has items to deliver. Send an empty array to clear the selection. Omit it on PATCH to leave the selection unchanged. Null and duplicate IDs are not accepted. Create, activation, and edits to items, delivery methods, or inventory routing require explicit methods or checkout defaults to cover the items' delivery profiles; otherwise ACTION_NOT_ALLOWED with reason configuration_required is returned. maxItems: 25. uniqueItems: true. [] (Value): string. minLength: 1. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
      * @return list<string>
      * @throws SdkError When delivery_method_ids is omitted; use hasDeliveryMethodIds() or valueOrDefault().
      */
     public function getDeliveryMethodIds(): array { return $this->get('delivery_method_ids'); }
     public function hasDeliveryMethodIds(): bool { return $this->has('delivery_method_ids'); }
-    /** Send null to clear. minLength: 1. maxLength: 2048.
+    /** Text about what the link sells, returned to buyers when they open it. Send null to clear. minLength: 1. maxLength: 2048.
      * @return string|null
      * @throws SdkError When description is omitted; use hasDescription() or valueOrDefault().
      */
@@ -100,31 +100,31 @@ final class UpdatePaymentLinkRequestInput extends Model {
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** Caller-owned identifier for this resource in an external system. Send null to clear. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. Send null to clear. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string|null
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
     public function getExternalReferenceId(): string|null { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Send null to clear. anyOf[1] (Value): {@see ImageRequestInput}. An image you supply by `source_url`, with optional `alt` text and external reference. anyOf[2] (Value): null.
+    /** Image shown to buyers with the link. Send null to clear. anyOf[1] (Value): {@see ImageRequestInput}. An image you supply by `source_url`, with optional `alt` text and external reference. anyOf[2] (Value): null.
      * @return array{'alt'?: string, 'file_id'?: string, 'source_reference'?: string, 'source_url': string}|object|array{'alt'?: string, 'file_id': string, 'source_reference'?: string, 'source_url'?: string}|object|null
      * @throws SdkError When image is omitted; use hasImage() or valueOrDefault().
      */
     public function getImage(): mixed { return $this->get('image'); }
     public function hasImage(): bool { return $this->has('image'); }
-    /** Send null to clear. minLength: 1. maxLength: 500.
+    /** Message to show the buyer when the link is inactive. Send null to clear. minLength: 1. maxLength: 500.
      * @return string|null
      * @throws SdkError When inactive_message is omitted; use hasInactiveMessage() or valueOrDefault().
      */
     public function getInactiveMessage(): string|null { return $this->get('inactive_message'); }
     public function hasInactiveMessage(): bool { return $this->has('inactive_message'); }
-    /** Where you want inventory routed from: a fixed Location, an inventory allocation policy, or one policy revision, selected by `type`.
+    /** Routing source for tracked demand. Create, activation, and sellability edits require at least one active routing location with inventory_allocation_enabled; temporary stock shortages do not prevent these writes. Where you want inventory routed from: a fixed Location, an inventory allocation policy, or one policy revision, selected by `type`.
      * @return InventoryRoutingSourceRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When inventory_routing_source is omitted; use hasInventoryRoutingSource() or valueOrDefault().
      */
     public function getInventoryRoutingSource(): mixed { return $this->get('inventory_routing_source'); }
     public function hasInventoryRoutingSource(): bool { return $this->has('inventory_routing_source'); }
-    /** Changes to a payment link's legal links and terms setting. Send null on a URL to clear it.
+    /** The terms and policy links checkouts started from this link show the buyer. Changes to a payment link's legal links and terms setting. Send null on a URL to clear it.
      * @return PaymentLinkLegalPatchRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When legal is omitted; use hasLegal() or valueOrDefault().
      */
@@ -136,31 +136,31 @@ final class UpdatePaymentLinkRequestInput extends Model {
      */
     public function getLineItems(): array { return $this->get('line_items'); }
     public function hasLineItems(): bool { return $this->has('line_items'); }
-    /** Send null to clear. Format: int32.
+    /** Most payments the link accepts, counted by `completed_count`. Absent means no limit. Once the limit is reached, resolving the link fails with a request error. It can't be set below `completed_count`. Send null to clear. Format: int32.
      * @return int|null
      * @throws SdkError When max_completions is omitted; use hasMaxCompletions() or valueOrDefault().
      */
     public function getMaxCompletions(): int|null { return $this->get('max_completions'); }
     public function hasMaxCompletions(): bool { return $this->has('max_completions'); }
-    /** Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Send null to clear. Metadata pairs plus custom fields must not exceed 44; 6 of the order's 50 pairs are reserved for Flint. Metadata keys and values, custom_field_ keys and largest possible answers, and Flint metadata must fit within 32768 UTF-8 bytes. Text and textarea answers are budgeted at four bytes per Unicode code point, including optional fields. Each checkbox answer is budgeted at five bytes (the length of false). If the combined budget is exceeded, lower max_length on some fields, use fewer custom fields, or reduce metadata. These limits apply to standard and plan links and are checked against the merged configuration on update. This operation also limits the metadata object you send, before merging: at most 50 keys, counting null deletions, each key 1 to 256 Unicode code points, and at most 32768 UTF-8 bytes of keys plus values. anyOf[1] (Value): {@see MetadataPatchRequestInput}. Changes to a caller-owned metadata map. Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes the key, and an empty object makes no change; send null for the whole field to clear all caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not exist is allowed, so the number of operations is not itself the stored-map limit. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: 50. Changes to a caller-owned metadata map. Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes the key, and an empty object makes no change; send null for the whole field to clear all caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not exist is allowed, so the number of operations is not itself the stored-map limit. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[1].* (Value): string or null. minLength: 1. maxLength: 4096. anyOf[2] (Value): null.
+    /** Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Send null to clear. At most 44 pairs, because Flint reserves 6 of the order's 50 metadata pairs. Metadata keys and values plus Flint's metadata must fit within 32768 UTF-8 bytes. Custom fields don't count toward either limit. These limits apply to standard and plan links and are checked against the merged configuration on update. This operation also limits the metadata object you send, before merging: at most 50 keys, counting null deletions, each key 1 to 256 Unicode code points, and at most 32768 UTF-8 bytes of keys plus values. anyOf[1] (Value): {@see MetadataPatchRequestInput}. Changes to a caller-owned metadata map. Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes the key, and an empty object makes no change; send null for the whole field to clear all caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not exist is allowed, so the number of operations is not itself the stored-map limit. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: 50. Changes to a caller-owned metadata map. Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes the key, and an empty object makes no change; send null for the whole field to clear all caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not exist is allowed, so the number of operations is not itself the stored-map limit. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[1].* (Value): string or null. minLength: 1. maxLength: 4096. anyOf[2] (Value): null.
      * @return array<array-key, string|null>|\stdClass|null
      * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** minLength: 1. maxLength: 255.
+    /** Name of the payment link. minLength: 1. maxLength: 255.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Changes to a payment link's payment settings. Send null on the payment note to clear it.
+    /** Payment options for checkouts started from this link. Changes to a payment link's payment settings. Send null on the payment note to clear it.
      * @return PaymentLinkPaymentPatchRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When payments is omitted; use hasPayments() or valueOrDefault().
      */
     public function getPayments(): mixed { return $this->get('payments'); }
     public function hasPayments(): bool { return $this->has('payments'); }
-    /** Promotion settings for a checkout: whether automatic promotions apply and whether the buyer can apply promotion codes.
+    /** Whether automatic promotions apply to checkouts started from this link and whether buyers can enter promotion codes. Promotion settings for a checkout: whether automatic promotions apply and whether the buyer can apply promotion codes.
      * @return CheckoutPromotionConfigRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When promotion_config is omitted; use hasPromotionConfig() or valueOrDefault().
      */
@@ -172,31 +172,31 @@ final class UpdatePaymentLinkRequestInput extends Model {
      */
     public function getRedirects(): mixed { return $this->get('redirects'); }
     public function hasRedirects(): bool { return $this->has('redirects'); }
-    /** RFC3339 timestamp after which the link stops starting checkouts and resolve returns PAYMENT_LINK_SALES_ENDED. Unset means sales do not end on their own, except that an event link without sales_end_at stops selling at event_config.event_at. A checkout opened before the end can still start payment for up to 15 minutes after it. Send null to clear it. Format: date-time. minLength: 1.
+    /** RFC3339 timestamp after which the link stops starting checkouts and resolve fails with `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end on their own, except that an event link without sales_end_at stops selling at event_config.event_at. A checkout opened before the end can still start payment for up to 15 minutes after it. Send null to clear it. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface|null
      * @throws SdkError When sales_end_at is omitted; use hasSalesEndAt() or valueOrDefault().
      */
     public function getSalesEndAt(): string|\DateTimeInterface|null { return $this->get('sales_end_at'); }
     public function hasSalesEndAt(): bool { return $this->has('sales_end_at'); }
-    /** Value enum: "active", "inactive".
+    /** Whether the link can start new checkouts. Value enum: "active", "inactive".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Whether tax is collected for a checkout session or payment link.
+    /** Tax settings for checkouts started from this link. Whether tax is collected for a checkout session or payment link.
      * @return CheckoutTaxConfigRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When tax is omitted; use hasTax() or valueOrDefault().
      */
     public function getTax(): mixed { return $this->get('tax'); }
     public function hasTax(): bool { return $this->has('tax'); }
-    /** Changes to a payment link's checkout theme. Send null on a field to clear it.
+    /** The title and colors for checkouts started from this link, over your branding settings. Changes to a payment link's checkout theme. Send null on a field to clear it.
      * @return PaymentLinkThemePatchRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When theme is omitted; use hasTheme() or valueOrDefault().
      */
     public function getTheme(): mixed { return $this->get('theme'); }
     public function hasTheme(): bool { return $this->has('theme'); }
-    /** Tip settings for a checkout: whether tips are enabled, the percent or fixed amount options, the default tip, and custom tips.
+    /** Tip options for checkouts started from this link. Tip settings for a checkout: whether tips are enabled, the percent or fixed amount options, the default tip, and custom tips.
      * @return CheckoutTipConfigRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When tip is omitted; use hasTip() or valueOrDefault().
      */

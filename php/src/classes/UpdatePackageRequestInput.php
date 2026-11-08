@@ -25,13 +25,13 @@ final class UpdatePackageRequestInput extends Model {
      */
     public function getCarrier(): string|null { return $this->get('carrier'); }
     public function hasCarrier(): bool { return $this->has('carrier'); }
-    /**  anyOf[1] (Value): {@see DimensionsInput}. Package or item dimensions as `length`, `width`, and `height` in the given `unit`. anyOf[2] (Value): null.
+    /** Dimensions of the package. anyOf[1] (Value): {@see DimensionsRequestInput}. Package or item dimensions as `length`, `width`, and `height` in the given `unit`. anyOf[2] (Value): null.
      * @return array{'height': int|float, 'length': int|float, 'unit': string, 'width': int|float}|object|null
      * @throws SdkError When dimensions is omitted; use hasDimensions() or valueOrDefault().
      */
     public function getDimensions(): mixed { return $this->get('dimensions'); }
     public function hasDimensions(): bool { return $this->has('dimensions'); }
-    /** When the carrier or merchant expects this package to arrive. Past dates are allowed. Send null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time. minLength: 1.
+    /** When the carrier or merchant expects this package to arrive. Past dates are allowed. Send null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface|null
      * @throws SdkError When expected_delivery_at is omitted; use hasExpectedDeliveryAt() or valueOrDefault().
      */
@@ -43,7 +43,7 @@ final class UpdatePackageRequestInput extends Model {
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** Caller-owned identifier for this resource in an external system. Requires external_system. External references are not unique. Use Idempotency-Key for retries. Send null to clear it. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. Requires external_system. External references are not unique. Use Idempotency-Key for retries. Send null to clear it. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string|null
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -91,7 +91,7 @@ final class UpdatePackageRequestInput extends Model {
      */
     public function getTrackingUrl(): string|null { return $this->get('tracking_url'); }
     public function hasTrackingUrl(): bool { return $this->has('tracking_url'); }
-    /**  anyOf[1] (Value): {@see WeightInput}. A weight value in grams, kilograms, ounces, or pounds, used in delivery profile configuration. anyOf[2] (Value): null.
+    /** Weight of the package. anyOf[1] (Value): {@see WeightRequestInput}. A weight value in grams, kilograms, ounces, or pounds, used in delivery profile configuration. anyOf[2] (Value): null.
      * @return array{'unit': string, 'value': int|float}|object|null
      * @throws SdkError When weight is omitted; use hasWeight() or valueOrDefault().
      */

@@ -6,7 +6,7 @@ const client = new Client({
 });
 const result = await client.analytics.getSubscription(
   {
-    period_start_at: "2026-01-01T00:00:00Z",
+    period_start_at: "2026-08-02T16:00:00Z",
   }
 );
 console.log(result);

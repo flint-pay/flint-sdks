@@ -2,7 +2,6 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read bool $available_for_sale
  * @property-read string $barcode
  * @property-read string $bundle_id
  * @property-read list<CategoryReferenceInput|array<array-key, mixed>|\stdClass> $categories
@@ -13,6 +12,7 @@ namespace Flint;
  * @property-read string $description
  * @property-read string $external_reference_id
  * @property-read list<ImageAttachmentInput|array<array-key, mixed>|\stdClass> $images
+ * @property-read bool $is_available_for_sale
  * @property-read string $merchant_id
  * @property-read MetadataMapInput|array<array-key, mixed>|\stdClass $metadata
  * @property-read array{'created_at'?: string|\DateTimeInterface, 'external_reference_id'?: string, 'merchant_id'?: string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'modifier_groups': list<ModifierSetGroupInput|array<array-key, mixed>|\stdClass>, 'modifier_set_id': string, 'name': string, 'status': string, 'updated_at'?: string|\DateTimeInterface, 'version': int, ...}|object|null $modifier_set
@@ -25,21 +25,15 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class BundleInput extends Model {
-    /** @param array{'available_for_sale': bool, 'barcode'?: string, 'bundle_id': string, 'categories': list<CategoryReferenceInput|array<array-key, mixed>|\stdClass>, 'component_count': int, 'components': list<BundleComponentInput|array<array-key, mixed>|\stdClass>, 'created_at'?: string|\DateTimeInterface, 'delivery_configuration_status': string, 'description'?: string, 'external_reference_id'?: string, 'images': list<ImageAttachmentInput|array<array-key, mixed>|\stdClass>, 'merchant_id'?: string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'modifier_set'?: array{'created_at'?: string|\DateTimeInterface, 'external_reference_id'?: string, 'merchant_id'?: string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'modifier_groups': list<ModifierSetGroupInput|array<array-key, mixed>|\stdClass>, 'modifier_set_id': string, 'name': string, 'status': string, 'updated_at'?: string|\DateTimeInterface, 'version': int, ...}|object|null, 'modifier_set_id': string|null, 'name': string, 'sku'?: string, 'status': string, 'unit_price_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'updated_at'?: string|\DateTimeInterface, 'version': int, ...}|object $values */
+    /** @param array{'barcode'?: string, 'bundle_id': string, 'categories': list<CategoryReferenceInput|array<array-key, mixed>|\stdClass>, 'component_count': int, 'components': list<BundleComponentInput|array<array-key, mixed>|\stdClass>, 'created_at'?: string|\DateTimeInterface, 'delivery_configuration_status': string, 'description'?: string, 'external_reference_id'?: string, 'images': list<ImageAttachmentInput|array<array-key, mixed>|\stdClass>, 'is_available_for_sale': bool, 'merchant_id'?: string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'modifier_set'?: array{'created_at'?: string|\DateTimeInterface, 'external_reference_id'?: string, 'merchant_id'?: string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'modifier_groups': list<ModifierSetGroupInput|array<array-key, mixed>|\stdClass>, 'modifier_set_id': string, 'name': string, 'status': string, 'updated_at'?: string|\DateTimeInterface, 'version': int, ...}|object|null, 'modifier_set_id': string|null, 'name': string, 'sku'?: string, 'status': string, 'unit_price_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'updated_at'?: string|\DateTimeInterface, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BundleInput')); }
-    /** Whether the bundle can be sold now: it is `active`, has at least one component, every component's variant and product are `active`, and `delivery_configuration_status` isn't `action_required`. Stock isn't considered.
-     * @return bool
-     * @throws SdkError When available_for_sale is omitted; use hasAvailableForSale() or valueOrDefault().
-     */
-    public function getAvailableForSale(): bool { return $this->get('available_for_sale'); }
-    public function hasAvailableForSale(): bool { return $this->has('available_for_sale'); }
     /** Barcode assigned to this sellable item.
      * @return string
      * @throws SdkError When barcode is omitted; use hasBarcode() or valueOrDefault().
      */
     public function getBarcode(): string { return $this->get('barcode'); }
     public function hasBarcode(): bool { return $this->has('barcode'); }
-    /** Stable identifier of the bundle.
+    /** Stable identifier of the bundle. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
      * @return string
      * @throws SdkError When bundle_id is omitted; use hasBundleId() or valueOrDefault().
      */
@@ -63,7 +57,7 @@ final class BundleInput extends Model {
      */
     public function getComponents(): array { return $this->get('components'); }
     public function hasComponents(): bool { return $this->has('components'); }
-    /** When this resource was created, as an RFC3339 timestamp. Format: date-time.
+    /** When this resource was created, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
@@ -81,7 +75,7 @@ final class BundleInput extends Model {
      */
     public function getDescription(): string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** Caller-owned identifier for this resource in an external system. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -93,7 +87,13 @@ final class BundleInput extends Model {
      */
     public function getImages(): array { return $this->get('images'); }
     public function hasImages(): bool { return $this->has('images'); }
-    /** Identifier of the merchant that owns this resource.
+    /** Whether the bundle can be sold now: it is `active`, has at least one component, every component's variant and product are `active`, and `delivery_configuration_status` isn't `action_required`. Stock isn't considered.
+     * @return bool
+     * @throws SdkError When is_available_for_sale is omitted; use hasIsAvailableForSale() or valueOrDefault().
+     */
+    public function getIsAvailableForSale(): bool { return $this->get('is_available_for_sale'); }
+    public function hasIsAvailableForSale(): bool { return $this->has('is_available_for_sale'); }
+    /** Identifier of the merchant that owns this resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
      * @return string
      * @throws SdkError When merchant_id is omitted; use hasMerchantId() or valueOrDefault().
      */
@@ -111,7 +111,7 @@ final class BundleInput extends Model {
      */
     public function getModifierSet(): mixed { return $this->get('modifier_set'); }
     public function hasModifierSet(): bool { return $this->has('modifier_set'); }
-    /** Attached modifier set. Send null on update to remove it.
+    /** Attached modifier set. Send null on update to remove it. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR".
      * @return string|null
      * @throws SdkError When modifier_set_id is omitted; use hasModifierSetId() or valueOrDefault().
      */
@@ -141,7 +141,7 @@ final class BundleInput extends Model {
      */
     public function getUnitPriceMoney(): mixed { return $this->get('unit_price_money'); }
     public function hasUnitPriceMoney(): bool { return $this->has('unit_price_money'); }
-    /** When this resource last changed, as an RFC3339 timestamp. Format: date-time.
+    /** When this resource last changed, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */

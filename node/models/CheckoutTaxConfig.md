@@ -28,11 +28,11 @@ anyOf variant 2: Declared schema CheckoutSavedPaymentDetailsSettingsRequest. Sav
 
 anyOf variant 3: Declared schema CheckoutTaxConfig. Whether tax is collected for a checkout session or payment link..
 
-No additional constraints.
+- Constraints for `enabled`: Whether Flint calculates automatic tax on the order it creates for this checkout. Omit to use tax.default_enabled from your settings.
 
 ### CheckoutTaxConfig variant 4
 
 anyOf variant 4: Declared schema CheckoutTaxConfigRequest. Whether tax is collected for a checkout session or payment link..
 
-No additional constraints.
+- Constraints for `enabled`: Whether Flint calculates automatic tax on the order it creates for this checkout. Omit to use tax.default_enabled from your settings.
 

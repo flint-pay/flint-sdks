@@ -10,27 +10,27 @@
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `contract_url` | Optional | string or null | Send null to clear it. |
-| `refund_policy_url` | Optional | string or null | Send null to clear it. |
-| `require_terms_of_service` | Optional | boolean |  |
-| `shipping_policy_url` | Optional | string or null | Send null to clear it. |
-| `terms_of_service_url` | Optional | string or null | Send null to clear it. |
+| `contract_url` | Optional | string or null |  |
+| `refund_policy_url` | Optional | string or null |  |
+| `require_terms_of_service` | Optional | boolean | Whether the buyer must accept the terms of service before paying. |
+| `shipping_policy_url` | Optional | string or null |  |
+| `terms_of_service_url` | Optional | string or null |  |
 
 ### LegalSettingsRequest variant 1
 
 anyOf variant 1: Declared schema LegalSettingsRequest. Changes to a merchant's legal settings. Send null on a URL to clear it..
 
-- Constraints for `contract_url`: minLength: `1`.
-- Constraints for `refund_policy_url`: minLength: `1`.
-- Constraints for `shipping_policy_url`: minLength: `1`.
-- Constraints for `terms_of_service_url`: minLength: `1`.
+- Constraints for `contract_url`: An `https://` URL of at most 2,048 bytes. Send null to clear it. minLength: `1`.
+- Constraints for `refund_policy_url`: An `https://` URL of at most 2,048 bytes. Send null to clear it. minLength: `1`.
+- Constraints for `shipping_policy_url`: An `https://` URL of at most 2,048 bytes. Send null to clear it. minLength: `1`.
+- Constraints for `terms_of_service_url`: An `https://` URL of at most 2,048 bytes. Send null to clear it. minLength: `1`.
 
 ### LegalSettingsRequest variant 2
 
 anyOf variant 2: Declared schema PaymentLinkLegalPatchRequest. Changes to a payment link's legal links and terms setting. Send null on a URL to clear it..
 
-- Constraints for `contract_url`: minLength: `1`. maxLength: `2048`.
-- Constraints for `refund_policy_url`: minLength: `1`. maxLength: `2048`.
-- Constraints for `shipping_policy_url`: minLength: `1`. maxLength: `2048`.
-- Constraints for `terms_of_service_url`: minLength: `1`. maxLength: `2048`.
+- Constraints for `contract_url`: Send null to clear it. minLength: `1`. maxLength: `2048`.
+- Constraints for `refund_policy_url`: Send null to clear it. minLength: `1`. maxLength: `2048`.
+- Constraints for `shipping_policy_url`: Send null to clear it. minLength: `1`. maxLength: `2048`.
+- Constraints for `terms_of_service_url`: Send null to clear it. minLength: `1`. maxLength: `2048`.
 

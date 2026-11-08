@@ -8,7 +8,7 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.customDomains.validate(
-  "cdom_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "cdom_01KEZF7C00483JTTKHZVFQHKS8",
   {},
   { idempotencyKey: idempotencyKey },
 );

@@ -16,61 +16,61 @@ namespace Flint;
 final class InvoicePaymentTermInput extends Model {
     /** @param array{'calculation': InvoicePaymentTermCalculationInput|array<array-key, mixed>|\stdClass, 'created_at': string|\DateTimeInterface, 'external_reference_id'?: string, 'invoice_payment_term_id': string, 'late_fee_policy'?: InvoiceLateFeePolicyInput|array<array-key, mixed>|\stdClass, 'merchant_id': string, 'name': string, 'status': string, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoicePaymentTermInput')); }
-    /** How an invoice due date is calculated from payment terms, such as on receipt, net days, or a day of the month.
+    /** Rule used to calculate the invoice's due date when it is issued. How an invoice due date is calculated from payment terms, such as on receipt, net days, or a day of the month.
      * @return InvoicePaymentTermCalculationInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When calculation is omitted; use hasCalculation() or valueOrDefault().
      */
     public function getCalculation(): mixed { return $this->get('calculation'); }
     public function hasCalculation(): bool { return $this->has('calculation'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Caller-owned identifier for this resource in an external system. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** invoice_payment_term_id
+    /** ID of the payment term captured on this invoice. Example: "ipt_01KEZF7C0064N1V301BBMQ37R4".
      * @return string
      * @throws SdkError When invoice_payment_term_id is omitted; use hasInvoicePaymentTermId() or valueOrDefault().
      */
     public function getInvoicePaymentTermId(): string { return $this->get('invoice_payment_term_id'); }
     public function hasInvoicePaymentTermId(): bool { return $this->has('invoice_payment_term_id'); }
-    /** A late fee for overdue invoices: a fixed amount or a percentage, a grace period in days, and whether Flint applies it automatically.
+    /** One-time late fee policy captured with this term. Absent when no late fee policy applies. A late fee for overdue invoices: a fixed amount or a percentage, a grace period in days, and whether Flint applies it automatically.
      * @return InvoiceLateFeePolicyInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When late_fee_policy is omitted; use hasLateFeePolicy() or valueOrDefault().
      */
     public function getLateFeePolicy(): mixed { return $this->get('late_fee_policy'); }
     public function hasLateFeePolicy(): bool { return $this->has('late_fee_policy'); }
-    /** merchant_id
+    /** ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
      * @return string
      * @throws SdkError When merchant_id is omitted; use hasMerchantId() or valueOrDefault().
      */
     public function getMerchantId(): string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** name
+    /** Name of the payment term shown on invoices.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Value enum: "active", "archived".
+    /** Whether the term can be selected for new invoices. Archiving preserves terms captured on existing invoices. Value enum: "active", "archived".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */
     public function getUpdatedAt(): string|\DateTimeInterface { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** Format: int32.
+    /** Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. Format: int32.
      * @return int
      * @throws SdkError When version is omitted; use hasVersion() or valueOrDefault().
      */

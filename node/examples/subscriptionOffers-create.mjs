@@ -9,13 +9,15 @@ const idempotencyKey = crypto.randomUUID();
 
 const result = await client.subscriptionOffers.create(
   {
-    name: "example",
     billing_interval_options: [
       {
-        billing_interval: "daily",
+        billing_interval: "monthly",
         billing_interval_count: 1,
       },
     ],
+    name: "Monthly coffee",
+    product_ids: ["prod_01KEZF7C00027JTCXQ7TQF86X8"],
+    status: "active",
   },
   { idempotencyKey: idempotencyKey },
 );

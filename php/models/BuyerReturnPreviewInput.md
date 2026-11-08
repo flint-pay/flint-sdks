@@ -8,9 +8,9 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `eligibility` | Conditional | [BuyerReturnEligibilityPreviewInput](../models/BuyerReturnEligibilityPreviewInput.md#buyerreturneligibilitypreviewinput) | The buyer's Return eligibility preview for an order, including eligible items and policy evaluation results. |
-| `mode` | Required | string | Values: `"eligibility"`, `"resolution"`. |
-| `resolution` | Conditional | [BuyerReturnResolutionPreviewInput](../models/BuyerReturnResolutionPreviewInput.md#buyerreturnresolutionpreviewinput) | The buyer's preview of a Return resolution, including returned items, replacements, adjustments, and the amounts to refund or collect. |
+| `eligibility` | Conditional | [BuyerReturnEligibilityPreviewInput](../models/BuyerReturnEligibilityPreviewInput.md#buyerreturneligibilitypreviewinput) | The eligibility check. Present when `mode` is `eligibility`. The buyer's Return eligibility preview for an order, including eligible items and policy evaluation results. |
+| `mode` | Required | string | Which preview to run. Values: `"eligibility"`, `"resolution"`. |
+| `resolution` | Conditional | [BuyerReturnResolutionPreviewInput](../models/BuyerReturnResolutionPreviewInput.md#buyerreturnresolutionpreviewinput) | The priced resolution. Present when `mode` is `resolution`. The buyer's preview of a Return resolution, including returned items, replacements, adjustments, and the amounts to refund or collect. |
 
 ### BuyerReturnPreviewInput variant 1: `mode` = `"eligibility"`
 

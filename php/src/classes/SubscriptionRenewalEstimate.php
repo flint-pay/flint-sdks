@@ -56,7 +56,7 @@ final class SubscriptionRenewalEstimate extends Model {
      */
     public function getSubtotalMoney(): MoneyValue { return $this->get('subtotal_money'); }
     public function hasSubtotalMoney(): bool { return $this->has('subtotal_money'); }
-    /** Estimated tax; null when no tax address is available. anyOf[1] (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
+    /** Estimated tax; null when tax can't be calculated yet. anyOf[1] (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
      * @return MoneyValue|null
      */
     public function getTaxMoney(): MoneyValue|null { return $this->get('tax_money'); }

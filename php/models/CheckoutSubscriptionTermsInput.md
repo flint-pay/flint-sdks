@@ -14,12 +14,25 @@ Request input.
 | `contract_term_months` | Optional | integer | The term agreed with the buyer, in months, when configured. Flint records it on the subscription and does not stop the buyer from canceling earlier. Format: `int32`. |
 | `delivery_required` | Required | boolean | Whether any line in the subscription plan's frozen checkout terms requires delivery. Available before delivery selection. One-time order lines do not affect this value. |
 | `early_termination_fee_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | The fee agreed for canceling before the recorded term ends, when configured. Flint records it on the subscription but never charges it. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `line_items` | Required | Array of object | Identified frozen plan lines with buyer quantity permissions and bounds. `line_items[]`: [field definitions](../models/CheckoutSubscriptionTermsInput.md#checkoutsubscriptiontermsinputline_items). |
 | `plan_name` | Required | string | Plan name shown to the buyer. |
 | `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
 | `quantity_options` | Required | Array of integer | minItems: `1`. Items: Format: `int32`. |
 | `recurring_shipping` | Optional | [CheckoutSubscriptionRecurringShippingInput](../models/CheckoutSubscriptionRecurringShippingInput.md#checkoutsubscriptionrecurringshippinginput) | Recurring shipping charged on a checkout's subscription: the delivery method name, whether the price is fixed or quoted, and the amount. |
 | `recurring_total_money` | Required | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Charge for one billing interval before tax: each line's unit price times its quantity, plus modifiers. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `setup_fee_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | One-time fee charged with the first payment, when the plan has one. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `subscription_plan_id` | Required | string | Flint subscription plan ID the terms come from. |
+| `subscription_plan_id` | Required | string | Flint subscription plan ID the terms come from. Example: `"plan_01KEZF7C004CY5ZR33XST2AASV"`. |
 | `trial_period_days` | Optional | integer | Days before the first recurring charge, when the plan has a trial. Format: `int32`. |
+
+### CheckoutSubscriptionTermsInput.line_items[]
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `allow_quantity_adjustment` | Required | boolean | Whether the buyer may adjust this line quantity. |
+| `max_quantity` | Required | integer | Maximum buyer quantity, defaulting to 9999. Whole-number quantity; fractional quantities are not supported. Format: `int32`. minimum: `1`. maximum: `9999`. |
+| `min_quantity` | Required | integer | Minimum buyer quantity, defaulting to 1. Whole-number quantity; fractional quantities are not supported. Format: `int32`. minimum: `1`. maximum: `9999`. |
+| `name` | Required | string | The captured line name. |
+| `quantity` | Required | integer | The line quantity, before the subscription quantity multiplier. Whole-number quantity; fractional quantities are not supported. Format: `int32`. minimum: `1`. maximum: `9999`. |
+| `subscription_plan_line_item_id` | Optional | string | The plan line whose terms were captured. Absent when an older snapshot did not record its plan line ID. pattern: `^spli_[0-9A-HJKMNP-TV-Z]{26}$`. Example: `"spli_01KEZF7C00H9FGC2KBRF82H87N"`. |
+| `unit_price_money` | Required | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | The captured unit price. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 

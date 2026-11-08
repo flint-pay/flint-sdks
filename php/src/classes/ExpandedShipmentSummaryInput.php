@@ -12,18 +12,19 @@ namespace Flint;
  * @property-read string $shipment_id
  * @property-read string|\DateTimeInterface $shipped_at
  * @property-read string $status
+ * @property-read list<string> $supported_actions
  * @property-read string|\DateTimeInterface $updated_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class ExpandedShipmentSummaryInput extends Model {
-    /** @param array{'created_at'?: string|\DateTimeInterface, 'delivered_at'?: string|\DateTimeInterface, 'direction': string, 'fulfillment_id': string, 'handed_off_at'?: string|\DateTimeInterface, 'package_count': int, 'return_id'?: string, 'shipment_id': string, 'shipped_at'?: string|\DateTimeInterface, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object $values */
+    /** @param array{'created_at'?: string|\DateTimeInterface, 'delivered_at'?: string|\DateTimeInterface, 'direction': string, 'fulfillment_id': string, 'handed_off_at'?: string|\DateTimeInterface, 'package_count': int, 'return_id'?: string, 'shipment_id': string, 'shipped_at'?: string|\DateTimeInterface, 'status': string, 'supported_actions': list<string>, 'updated_at'?: string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ExpandedShipmentSummaryInput')); }
-    /** When the shipment was created, in RFC3339 format. Format: date-time.
+    /** When the shipment was created, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** When the shipment was delivered, in RFC3339 format. Format: date-time.
+    /** When the shipment was delivered, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When delivered_at is omitted; use hasDeliveredAt() or valueOrDefault().
      */
@@ -35,13 +36,13 @@ final class ExpandedShipmentSummaryInput extends Model {
      */
     public function getDirection(): string { return $this->get('direction'); }
     public function hasDirection(): bool { return $this->has('direction'); }
-    /** Fulfillment associated with this shipment.
+    /** Fulfillment associated with this shipment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
      * @return string
      * @throws SdkError When fulfillment_id is omitted; use hasFulfillmentId() or valueOrDefault().
      */
     public function getFulfillmentId(): string { return $this->get('fulfillment_id'); }
     public function hasFulfillmentId(): bool { return $this->has('fulfillment_id'); }
-    /** When the carrier accepted the shipment, in RFC3339 format. Format: date-time.
+    /** When the carrier accepted the shipment, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When handed_off_at is omitted; use hasHandedOffAt() or valueOrDefault().
      */
@@ -53,19 +54,19 @@ final class ExpandedShipmentSummaryInput extends Model {
      */
     public function getPackageCount(): int { return $this->get('package_count'); }
     public function hasPackageCount(): bool { return $this->has('package_count'); }
-    /** ID of the Return this shipment sends back. Present only on return shipments.
+    /** ID of the Return this shipment sends back. Present only on return shipments. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
      * @return string
      * @throws SdkError When return_id is omitted; use hasReturnId() or valueOrDefault().
      */
     public function getReturnId(): string { return $this->get('return_id'); }
     public function hasReturnId(): bool { return $this->has('return_id'); }
-    /** Stable identifier of the expanded shipment.
+    /** Stable identifier of the expanded shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
      * @return string
      * @throws SdkError When shipment_id is omitted; use hasShipmentId() or valueOrDefault().
      */
     public function getShipmentId(): string { return $this->get('shipment_id'); }
     public function hasShipmentId(): bool { return $this->has('shipment_id'); }
-    /** When the shipment was shipped, in RFC3339 format. Format: date-time.
+    /** When the shipment was shipped, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When shipped_at is omitted; use hasShippedAt() or valueOrDefault().
      */
@@ -77,7 +78,13 @@ final class ExpandedShipmentSummaryInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** When the shipment was last updated, in RFC3339 format. Format: date-time.
+    /** Lifecycle actions Flint accepts now, independent of permissions. Contains void while the shipment and its fulfillment permit voiding. [] enum: "void". [] (Value): string.  Value enum: "void".
+     * @return list<string>
+     * @throws SdkError When supported_actions is omitted; use hasSupportedActions() or valueOrDefault().
+     */
+    public function getSupportedActions(): array { return $this->get('supported_actions'); }
+    public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
+    /** When the shipment was last updated, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */

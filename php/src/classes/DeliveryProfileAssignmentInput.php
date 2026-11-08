@@ -15,7 +15,7 @@ final class DeliveryProfileAssignmentInput extends Model {
      */
     public function getBundleComponentsUpdated(): int { return $this->get('bundle_components_updated'); }
     public function hasBundleComponentsUpdated(): bool { return $this->has('bundle_components_updated'); }
-    /** Delivery profile assigned to each updated catalog item.
+    /** Delivery profile assigned to each updated catalog item. Example: "dprof_01KEZF7C0020J13FQYNY9854R0".
      * @return string
      * @throws SdkError When delivery_profile_id is omitted; use hasDeliveryProfileId() or valueOrDefault().
      */

@@ -55,7 +55,7 @@ final class ProductOption extends Model {
      */
     public function getUpdatedAt(): ?string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** Values offered for this option, such as Small, Medium, and Large for Size. [] (Value): {@see ProductOptionValue}. One value of a product option, such as a size or color, with its position and status.
+    /** Values offered for this option, such as Small, Medium, and Large for Size. [] (Value): {@see ProductOptionValue}. One value of a product option, such as a size or color.
      * @return ?list<ProductOptionValue>
      */
     public function getValues(): ?array { return $this->get('values'); }

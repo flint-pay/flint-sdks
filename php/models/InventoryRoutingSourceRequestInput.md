@@ -8,10 +8,10 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `location_id` | Conditional | string | minLength: `1`. |
-| `type` | Required | string |  |
-| `inventory_allocation_policy_id` | Conditional | string | minLength: `1`. |
-| `inventory_allocation_policy_revision_id` | Conditional | string | minLength: `1`. |
+| `location_id` | Conditional | string | ID of the fixed Location that serves all demand. minLength: `1`. Example: `"loc_01KEZF7C00CMHRRYA3MV996JB2"`. |
+| `type` | Required | string | How Flint routes demand to Locations. |
+| `inventory_allocation_policy_id` | Conditional | string | ID of the allocation policy that routes demand. minLength: `1`. Example: `"invp_01KEZF7C0076BZX855WAGC5SQK"`. |
+| `inventory_allocation_policy_revision_id` | Conditional | string | ID of the allocation policy revision that routes demand. minLength: `1`. Example: `"invpv_01KEZF7C00JSFTTBKC1JY614JJ"`. |
 
 ### InventoryRoutingSourceRequestInput variant 1: `type` = `"fixed_location"`
 

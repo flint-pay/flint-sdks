@@ -8,7 +8,7 @@ const client = new Client({
   customerToken,
 });
 const result = await client.me.getRefund(
-  "ref_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "ref_01KEZF7C003DTD59WKYHEXYQ1K"
 );
 console.log(result.refund_id);
 console.log(result.status);

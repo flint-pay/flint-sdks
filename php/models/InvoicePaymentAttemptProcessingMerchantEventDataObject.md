@@ -2,9 +2,11 @@
 
 ## InvoicePaymentAttemptProcessingMerchantEventDataObject
 
-An attempt to collect payment for an invoice.
+The affected public resource without expansions, client authority fields, or fields computed for an individual caller.
+
+The resource snapshot, without expansions. Webhooks omit no additional fields.
 
 Response model.
 
-Fields, types, descriptions and enum values: [InvoicePaymentAttempt](../models/InvoicePaymentAttempt.md#invoicepaymentattempt).
+Fields, types, descriptions and enum values: [InvoicePaymentAttemptCanceledMerchantEventDataObject](../models/InvoicePaymentAttemptCanceledMerchantEventDataObject.md#invoicepaymentattemptcanceledmerchanteventdataobject).
 

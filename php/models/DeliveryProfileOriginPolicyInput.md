@@ -8,6 +8,6 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `location_id` | Optional | string |  |
+| `location_id` | Optional | string | Example: `"loc_01KEZF7C00CMHRRYA3MV996JB2"`. |
 | `type` | Required | string | Values: `"fixed_location"`, `"inventory_routing"`, `"method_origin"`. |
 

@@ -5,12 +5,13 @@ namespace Flint;
  * @property-read string $created_at
  * @property-read ?string $display_reason
  * @property-read ?string $held_by
+ * @property-read string $initiated_by
  * @property-read string $previous_status
  * @property-read string $reason
  * @property-read ?string $reason_notes
  * Presence-aware response; omitted optional fields return null. */
 final class FulfillmentHold extends Model {
-    /** @param array{'created_at': string, 'display_reason'?: string, 'held_by'?: string, 'previous_status': string, 'reason': string, 'reason_notes'?: string, ...}|object $values */
+    /** @param array{'created_at': string, 'display_reason'?: string, 'held_by'?: string, 'initiated_by': string, 'previous_status': string, 'reason': string, 'reason_notes'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('FulfillmentHold')); }
     /** Time the hold became active. Format: date-time.
      * @return string
@@ -27,6 +28,11 @@ final class FulfillmentHold extends Model {
      */
     public function getHeldBy(): ?string { return $this->get('held_by'); }
     public function hasHeldBy(): bool { return $this->has('held_by'); }
+    /** Who placed this hold: merchant for the merchant or its integration, or flint for a Flint payment hold. Value enum: "merchant", "flint".
+     * @return string
+     */
+    public function getInitiatedBy(): string { return $this->get('initiated_by'); }
+    public function hasInitiatedBy(): bool { return $this->has('initiated_by'); }
     /** Status before this hold. Never on_hold or terminal. The release_hold action restores this status. Value enum: "pending", "accepted", "in_progress", "ready", "scheduled", "preparing", "picked", "packed", "dispatched".
      * @return string
      */

@@ -7,7 +7,7 @@ namespace Flint;
 final class ReturnShippingPolicy extends Model {
     /** @param array{'payer': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnShippingPolicy')); }
-    /** Value enum: "merchant", "buyer".
+    /** Who pays for shipping the goods back. This states your policy and charges nothing. Value enum: "merchant", "buyer".
      * @return string
      */
     public function getPayer(): string { return $this->get('payer'); }

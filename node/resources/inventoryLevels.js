@@ -5,9 +5,9 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/inventoryLevels.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import r0 from '../descriptors/resources/inventoryLevels.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import settings from '../descriptors/settings.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["getInventoryLevel"]:r0,["listInventoryLevels"]:r0,["updateInventoryLevel"]:r0});
 export class Client {
@@ -18,7 +18,10 @@ this.inventoryLevels = Object.freeze({
       get: async (inventory_level_id, params, options) => this.#runtime.request("getInventoryLevel", _sdkRequestInput([
   "inventory_level_id"
 ], [inventory_level_id], [
-  "expand"
+  "expand",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -37,7 +40,10 @@ this.inventoryLevels = Object.freeze({
   "max_available_quantity",
   "updated_after",
   "updated_before",
-  "expand"
+  "expand",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -56,7 +62,10 @@ this.inventoryLevels = Object.freeze({
   "max_available_quantity",
   "updated_after",
   "updated_before",
-  "expand"
+  "expand",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -75,14 +84,21 @@ this.inventoryLevels = Object.freeze({
   "max_available_quantity",
   "updated_after",
   "updated_before",
-  "expand"
+  "expand",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
 ]), options),
       update: async (inventory_level_id, params, options) => this.#runtime.request("updateInventoryLevel", _sdkRequestInput([
   "inventory_level_id"
-], [inventory_level_id], [], true, true, params, [
+], [inventory_level_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"

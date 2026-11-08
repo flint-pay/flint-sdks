@@ -10,7 +10,7 @@ namespace Flint;
 final class BuyerReturnReplacementLineItemInputBundleInput extends Model {
     /** @param array{'bundle_id': string, 'quantity': int, 'type': string, 'variant_id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerReturnReplacementLineItemInputBundleInput')); }
-    /** minLength: 1.
+    /** ID of the bundle to send. Used when `type` is `bundle`. minLength: 1. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
      * @return string
      * @throws SdkError When bundle_id is omitted; use hasBundleId() or valueOrDefault().
      */
@@ -28,7 +28,7 @@ final class BuyerReturnReplacementLineItemInputBundleInput extends Model {
      */
     public function getType(): string { return $this->get('type'); }
     public function hasType(): bool { return $this->has('type'); }
-    /** minLength: 1.
+    /** ID of the variant to send. Used when `type` is `variant`. minLength: 1. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
      * @return string
      * @throws SdkError When variant_id is omitted; use hasVariantId() or valueOrDefault().
      */

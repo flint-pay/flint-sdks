@@ -14,7 +14,7 @@ final class CLIContextsResponseInput extends Model {
      */
     public function getContexts(): array { return $this->get('contexts'); }
     public function hasContexts(): bool { return $this->has('contexts'); }
-    /** oauth_session_id
+    /** Example: "session_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa".
      * @return string
      * @throws SdkError When oauth_session_id is omitted; use hasOauthSessionId() or valueOrDefault().
      */

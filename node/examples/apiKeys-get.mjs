@@ -5,7 +5,7 @@ const client = new Client({
   allowInsecureHttp: !!baseUrl && ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
 });
 const result = await client.apiKeys.get(
-  "key_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "key_01KEZF7C008CTC2G5V6J08M6S7"
 );
 console.log(result.api_key_id);
-console.log(result.status);
+console.log(result.merchant_id);

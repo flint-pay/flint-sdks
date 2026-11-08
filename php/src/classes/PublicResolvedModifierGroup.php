@@ -76,7 +76,7 @@ final class PublicResolvedModifierGroup extends Model {
      */
     public function getPosition(): ?int { return $this->get('position'); }
     public function hasPosition(): bool { return $this->has('position'); }
-    /** Value enum: "per_item", "per_line".
+    /** Value enum: "per_item".
      * @return ?string
      */
     public function getPricingScope(): ?string { return $this->get('pricing_scope'); }

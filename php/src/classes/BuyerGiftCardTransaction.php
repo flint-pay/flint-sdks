@@ -14,27 +14,27 @@ namespace Flint;
 final class BuyerGiftCardTransaction extends Model {
     /** @param array{'amount_money': mixed, 'balance_after_money': mixed, 'balance_before_money': mixed, 'gift_card_id': string, 'gift_card_transaction_id': string, 'posted_at': string, 'sequence': int, 'transaction_type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerGiftCardTransaction')); }
-    /** Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Signed change to the card's balance: positive amounts add value and negative amounts remove it. `funding_loss_accepted` records a decision and moves 0. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return SignedMoney
      */
     public function getAmountMoney(): SignedMoney { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** The card's balance immediately after this transaction. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getBalanceAfterMoney(): MoneyValue { return $this->get('balance_after_money'); }
     public function hasBalanceAfterMoney(): bool { return $this->has('balance_after_money'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** The card's balance immediately before this transaction. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getBalanceBeforeMoney(): MoneyValue { return $this->get('balance_before_money'); }
     public function hasBalanceBeforeMoney(): bool { return $this->has('balance_before_money'); }
-    /** gift_card_id
+    /** ID of the gift card whose balance this transaction changed.
      * @return string
      */
     public function getGiftCardId(): string { return $this->get('gift_card_id'); }
     public function hasGiftCardId(): bool { return $this->has('gift_card_id'); }
-    /** gift_card_transaction_id
+    /** Unique identifier for this gift card transaction, prefixed `gct_`.
      * @return string
      */
     public function getGiftCardTransactionId(): string { return $this->get('gift_card_transaction_id'); }
@@ -44,12 +44,12 @@ final class BuyerGiftCardTransaction extends Model {
      */
     public function getPostedAt(): string { return $this->get('posted_at'); }
     public function hasPostedAt(): bool { return $this->has('posted_at'); }
-    /** Format: int64.
+    /** Position of this transaction in the card's history. It increases by one with each transaction posted to the card. Format: int64.
      * @return int
      */
     public function getSequence(): int { return $this->get('sequence'); }
     public function hasSequence(): bool { return $this->has('sequence'); }
-    /** Value enum: "load", "import", "redeem", "refund", "refund_transfer", "adjustment", "cash_out", "purchase_reversal", "funding_loss_accepted", "purchase_refund_recovery", "purchase_refund_recovery_transfer".
+    /** Kind of movement, such as load, redeem, refund, adjustment, or cash_out. Value enum: "load", "import", "redeem", "refund", "refund_transfer", "adjustment", "cash_out", "purchase_reversal", "funding_loss_accepted", "purchase_refund_recovery", "purchase_refund_recovery_transfer".
      * @return string
      */
     public function getTransactionType(): string { return $this->get('transaction_type'); }

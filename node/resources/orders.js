@@ -5,11 +5,11 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/orders.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import r0 from '../descriptors/resources/orders.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import settings from '../descriptors/settings.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["applyOrderDiscount"]:r0,["applyOrderGiftCard"]:r0,["cancelOrderPaymentAttempt"]:r0,["closeOrder"]:r0,["createFulfillment"]:r0,["createOrder"]:r0,["createOrderAccessLink"]:r0,["createOrderCharge"]:r0,["createOrderLineItems"]:r0,["createOrderPaymentIntent"]:r0,["deleteOrderCharge"]:r0,["deleteOrderLineItem"]:r0,["getOrder"]:r0,["getOrderCurrentDeliverySelection"]:r0,["getOrderPaymentAttempt"]:r0,["listOrderActivities"]:r0,["listOrderPaymentAttempts"]:r0,["listOrders"]:r0,["payOrder"]:r0,["removeOrderDiscounts"]:r0,["removeOrderGiftCard"]:r0,["repriceOrderDiscounts"]:r0,["resolveOrderInventoryException"]:r0,["sendOrderReceipt"]:r0,["updateOrder"]:r0,["updateOrderCharge"]:r0,["updateOrderLineItem"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["applyOrderDiscount"]:r0,["applyOrderGiftCard"]:r0,["cancelOrderPaymentAttempt"]:r0,["closeOrder"]:r0,["createFulfillment"]:r0,["createOrder"]:r0,["createOrderAccessLink"]:r0,["createOrderCharge"]:r0,["createOrderEdit"]:r0,["createOrderLineItems"]:r0,["createOrderPaymentIntent"]:r0,["deleteOrderCharge"]:r0,["deleteOrderLineItem"]:r0,["getOrder"]:r0,["getOrderCurrentDeliverySelection"]:r0,["getOrderEdit"]:r0,["getOrderPaymentAttempt"]:r0,["getOrderReceiptPDF"]:r0,["listOrderActivities"]:r0,["listOrderEdits"]:r0,["listOrderPaymentAttempts"]:r0,["listOrders"]:r0,["payOrder"]:r0,["removeOrderDiscounts"]:r0,["removeOrderGiftCard"]:r0,["repriceOrderDiscounts"]:r0,["resolveOrderInventoryException"]:r0,["retryOrderEditRefund"]:r0,["sendOrderReceipt"]:r0,["updateOrder"]:r0,["updateOrderCharge"]:r0,["updateOrderLineItem"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
@@ -17,7 +17,11 @@ this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.orders = Object.freeze({
       applyDiscount: async (order_id, params, options) => this.#runtime.request("applyOrderDiscount", _sdkRequestInput([
   "order_id"
-], [order_id], [], true, true, params, [
+], [order_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
@@ -25,7 +29,10 @@ this.orders = Object.freeze({
       applyGiftCard: async (order_id, params, options) => this.#runtime.request("applyOrderGiftCard", _sdkRequestInput([
   "order_id"
 ], [order_id], [
-  "Flint-Gift-Card-Challenge"
+  "Flint-Gift-Card-Challenge",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
@@ -34,54 +41,97 @@ this.orders = Object.freeze({
       cancelPaymentAttempt: async (order_id, order_payment_attempt_id, params, options) => this.#runtime.request("cancelOrderPaymentAttempt", _sdkRequestInput([
   "order_id",
   "order_payment_attempt_id"
-], [order_id, order_payment_attempt_id], [], true, false, params, [
+], [order_id, order_payment_attempt_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, false, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("cancelOrderPaymentAttempt", result, path))),
       close: async (order_id, params, options) => this.#runtime.request("closeOrder", _sdkRequestInput([
   "order_id"
-], [order_id], [], true, false, params, [
+], [order_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, false, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("closeOrder", result, path))),
       createFulfillment: async (order_id, params, options) => this.#runtime.request("createFulfillment", _sdkRequestInput([
   "order_id"
-], [order_id], [], true, true, params, [
+], [order_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createFulfillment", result, path))),
-      create: async (params, options) => this.#runtime.request("createOrder", _sdkRequestInput([], [], [], true, true, params, [
+      create: async (params, options) => this.#runtime.request("createOrder", _sdkRequestInput([], [], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createOrder", result, path))),
       createAccessLink: async (order_id, params, options) => this.#runtime.request("createOrderAccessLink", _sdkRequestInput([
   "order_id"
-], [order_id], [], true, false, params, [
+], [order_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, false, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createOrderAccessLink", result, path))),
       createCharge: async (order_id, params, options) => this.#runtime.request("createOrderCharge", _sdkRequestInput([
   "order_id"
-], [order_id], [], true, true, params, [
+], [order_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createOrderCharge", result, path))),
+      createEdit: async (order_id, params, options) => this.#runtime.request("createOrderEdit", _sdkRequestInput([
+  "order_id"
+], [order_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createOrderEdit", result, path))),
       createLineItems: async (order_id, params, options) => this.#runtime.request("createOrderLineItems", _sdkRequestInput([
   "order_id"
-], [order_id], [], true, true, params, [
+], [order_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createOrderLineItems", result, path))),
       createPaymentIntent: async (order_id, params, options) => this.#runtime.request("createOrderPaymentIntent", _sdkRequestInput([
   "order_id"
-], [order_id], [], true, true, params, [
+], [order_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, false, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
@@ -90,7 +140,10 @@ this.orders = Object.freeze({
   "order_id",
   "order_charge_id"
 ], [order_id, order_charge_id], [
-  "expected_version"
+  "expected_version",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Idempotency-Key",
   "Flint-Version",
@@ -100,7 +153,10 @@ this.orders = Object.freeze({
   "order_id",
   "order_line_item_id"
 ], [order_id, order_line_item_id], [
-  "expected_version"
+  "expected_version",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Idempotency-Key",
   "Flint-Version",
@@ -109,31 +165,66 @@ this.orders = Object.freeze({
       get: async (order_id, params, options) => this.#runtime.request("getOrder", _sdkRequestInput([
   "order_id"
 ], [order_id], [
-  "expand"
+  "expand",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getOrder", result, path))),
       getCurrentDeliverySelection: async (order_id, params, options) => this.#runtime.request("getOrderCurrentDeliverySelection", _sdkRequestInput([
   "order_id"
-], [order_id], [], false, false, params, [
+], [order_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getOrderCurrentDeliverySelection", result, path))),
+      getEdit: async (order_id, order_edit_id, params, options) => this.#runtime.request("getOrderEdit", _sdkRequestInput([
+  "order_id",
+  "order_edit_id"
+], [order_id, order_edit_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getOrderEdit", result, path))),
       getPaymentAttempt: async (order_id, order_payment_attempt_id, params, options) => this.#runtime.request("getOrderPaymentAttempt", _sdkRequestInput([
   "order_id",
   "order_payment_attempt_id"
-], [order_id, order_payment_attempt_id], [], false, false, params, [
+], [order_id, order_payment_attempt_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getOrderPaymentAttempt", result, path))),
+      getReceiptPDF: async (order_id, params, options) => this.#runtime.request("getOrderReceiptPDF", _sdkRequestInput([
+  "order_id"
+], [order_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options),
       listActivities: async (order_id, params, options) => this.#runtime.request("listOrderActivities", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "page_size",
   "page_token",
   "sort_direction",
-  "activity_type"
+  "activity_type",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -144,7 +235,10 @@ this.orders = Object.freeze({
   "page_size",
   "page_token",
   "sort_direction",
-  "activity_type"
+  "activity_type",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -155,7 +249,52 @@ this.orders = Object.freeze({
   "page_size",
   "page_token",
   "sort_direction",
-  "activity_type"
+  "activity_type",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options),
+      listEdits: async (order_id, params, options) => this.#runtime.request("listOrderEdits", _sdkRequestInput([
+  "order_id"
+], [order_id], [
+  "page_size",
+  "page_token",
+  "created_after",
+  "created_before",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listOrderEdits", result, path))),
+      listEditsPages: (order_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listOrderEdits", _sdkRequestInput([
+  "order_id"
+], [order_id], [
+  "page_size",
+  "page_token",
+  "created_after",
+  "created_before",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options), [], (result, path) => this.#runtime.decodePayload("listOrderEdits", result, path)),
+      listEditsItems: (order_id, params, options) => this.#runtime.items("listOrderEdits", _sdkRequestInput([
+  "order_id"
+], [order_id], [
+  "page_size",
+  "page_token",
+  "created_after",
+  "created_before",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -165,7 +304,10 @@ this.orders = Object.freeze({
 ], [order_id], [
   "idempotency_key",
   "page_size",
-  "page_token"
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -175,7 +317,10 @@ this.orders = Object.freeze({
 ], [order_id], [
   "idempotency_key",
   "page_size",
-  "page_token"
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -185,7 +330,10 @@ this.orders = Object.freeze({
 ], [order_id], [
   "idempotency_key",
   "page_size",
-  "page_token"
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -194,6 +342,9 @@ this.orders = Object.freeze({
   "page_size",
   "page_token",
   "customer_id",
+  "product_id",
+  "variant_id",
+  "email",
   "order_id",
   "closed_reason",
   "status",
@@ -201,6 +352,7 @@ this.orders = Object.freeze({
   "refund_status",
   "fulfillment_status",
   "order_number",
+  "has_backordered_quantity",
   "has_unassigned_fulfillment_quantity",
   "has_open_fulfillment",
   "external_reference_id",
@@ -220,7 +372,10 @@ this.orders = Object.freeze({
   "created_before",
   "updated_after",
   "updated_before",
-  "expand"
+  "expand",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -229,6 +384,9 @@ this.orders = Object.freeze({
   "page_size",
   "page_token",
   "customer_id",
+  "product_id",
+  "variant_id",
+  "email",
   "order_id",
   "closed_reason",
   "status",
@@ -236,6 +394,7 @@ this.orders = Object.freeze({
   "refund_status",
   "fulfillment_status",
   "order_number",
+  "has_backordered_quantity",
   "has_unassigned_fulfillment_quantity",
   "has_open_fulfillment",
   "external_reference_id",
@@ -255,7 +414,10 @@ this.orders = Object.freeze({
   "created_before",
   "updated_after",
   "updated_before",
-  "expand"
+  "expand",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -264,6 +426,9 @@ this.orders = Object.freeze({
   "page_size",
   "page_token",
   "customer_id",
+  "product_id",
+  "variant_id",
+  "email",
   "order_id",
   "closed_reason",
   "status",
@@ -271,6 +436,7 @@ this.orders = Object.freeze({
   "refund_status",
   "fulfillment_status",
   "order_number",
+  "has_backordered_quantity",
   "has_unassigned_fulfillment_quantity",
   "has_open_fulfillment",
   "external_reference_id",
@@ -290,7 +456,10 @@ this.orders = Object.freeze({
   "created_before",
   "updated_after",
   "updated_before",
-  "expand"
+  "expand",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -298,7 +467,10 @@ this.orders = Object.freeze({
       pay: async (order_id, params, options) => this.#runtime.request("payOrder", _sdkRequestInput([
   "order_id"
 ], [order_id], [
-  "Flint-Buyer-Device"
+  "Flint-Buyer-Device",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
@@ -306,7 +478,11 @@ this.orders = Object.freeze({
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("payOrder", result, path))),
       removeDiscounts: async (order_id, params, options) => this.#runtime.request("removeOrderDiscounts", _sdkRequestInput([
   "order_id"
-], [order_id], [], true, true, params, [
+], [order_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
@@ -315,7 +491,10 @@ this.orders = Object.freeze({
   "order_id",
   "gift_card_id"
 ], [order_id, gift_card_id], [
-  "expected_version"
+  "expected_version",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Idempotency-Key",
   "Flint-Version",
@@ -323,28 +502,56 @@ this.orders = Object.freeze({
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("removeOrderGiftCard", result, path))),
       repriceDiscounts: async (order_id, params, options) => this.#runtime.request("repriceOrderDiscounts", _sdkRequestInput([
   "order_id"
-], [order_id], [], true, false, params, [
+], [order_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, false, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("repriceOrderDiscounts", result, path))),
       resolveInventoryException: async (order_id, params, options) => this.#runtime.request("resolveOrderInventoryException", _sdkRequestInput([
   "order_id"
-], [order_id], [], true, false, params, [
+], [order_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, false, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("resolveOrderInventoryException", result, path))),
+      retryEditRefund: async (order_id, order_edit_id, params, options) => this.#runtime.request("retryOrderEditRefund", _sdkRequestInput([
+  "order_id",
+  "order_edit_id"
+], [order_id, order_edit_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, false, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("retryOrderEditRefund", result, path))),
       sendReceipt: async (order_id, params, options) => this.#runtime.request("sendOrderReceipt", _sdkRequestInput([
   "order_id"
-], [order_id], [], true, false, params, [
+], [order_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, false, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("sendOrderReceipt", result, path))),
       update: async (order_id, params, options) => this.#runtime.request("updateOrder", _sdkRequestInput([
   "order_id"
-], [order_id], [], true, true, params, [
+], [order_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
@@ -352,7 +559,11 @@ this.orders = Object.freeze({
       updateCharge: async (order_id, order_charge_id, params, options) => this.#runtime.request("updateOrderCharge", _sdkRequestInput([
   "order_id",
   "order_charge_id"
-], [order_id, order_charge_id], [], true, true, params, [
+], [order_id, order_charge_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
@@ -360,7 +571,11 @@ this.orders = Object.freeze({
       updateLineItem: async (order_id, order_line_item_id, params, options) => this.#runtime.request("updateOrderLineItem", _sdkRequestInput([
   "order_id",
   "order_line_item_id"
-], [order_id, order_line_item_id], [], true, true, params, [
+], [order_id, order_line_item_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
@@ -391,6 +606,7 @@ export { makeCreateFulfillmentRequestShipment } from '../models/CreateFulfillmen
 export { makeCreateOrderDiscount } from '../models/CreateOrderDiscount.js';
 export { makeCreateOrderDiscountManual } from '../models/CreateOrderDiscountManual.js';
 export { makeCreateOrderDiscountPromotion } from '../models/CreateOrderDiscountPromotion.js';
+export { makeCreateOrderEditRequest } from '../models/CreateOrderEditRequest.js';
 export { makeCreateOrderLineItemInputBundle } from '../models/CreateOrderLineItemInputBundle.js';
 export { makeCreateOrderLineItemInputCustom } from '../models/CreateOrderLineItemInputCustom.js';
 export { makeCreateOrderLineItemInputVariant } from '../models/CreateOrderLineItemInputVariant.js';
@@ -403,10 +619,10 @@ export { makeCreateOrderTipPercent } from '../models/CreateOrderTipPercent.js';
 export { makeCreatePackageItemRequest } from '../models/CreatePackageItemRequest.js';
 export { makeCreatePickupFulfillmentDetails } from '../models/CreatePickupFulfillmentDetails.js';
 export { makeCreateServiceFulfillmentDetails } from '../models/CreateServiceFulfillmentDetails.js';
-export { makeDeliveryPreviewRoutingSource } from '../models/DeliveryPreviewRoutingSource.js';
+export { makeDeliveryChargeTaxCalculationRequestModel } from '../models/DeliveryChargeTaxCalculationRequestModel.js';
 export { makeDeliverySelectionInstructionsRequest } from '../models/DeliverySelectionInstructionsRequest.js';
 export { makeDeliveryWindowRequest } from '../models/DeliveryWindowRequest.js';
-export { makeDimensions } from '../models/Dimensions.js';
+export { makeDimensionsRequest } from '../models/DimensionsRequest.js';
 export { makeFulfillmentItemizedPackagesRequest } from '../models/FulfillmentItemizedPackagesRequest.js';
 export { makeFulfillmentLineItemRequest } from '../models/FulfillmentLineItemRequest.js';
 export { makeFulfillmentPackagingRequest } from '../models/FulfillmentPackagingRequest.js';
@@ -416,14 +632,18 @@ export { makeGiftCardPurchaseDetailsRequest } from '../models/GiftCardPurchaseDe
 export { makeGiftCardPurchaseRecipientPatchRequest } from '../models/GiftCardPurchaseRecipientPatchRequest.js';
 export { makeGiftCardPurchaseRecipientRequest } from '../models/GiftCardPurchaseRecipientRequest.js';
 export { makeImageReferenceRequest } from '../models/ImageReferenceRequest.js';
-export { makeLineItemFulfillmentOriginRequest } from '../models/LineItemFulfillmentOriginRequest.js';
-export { makeLineItemFulfillmentRequest } from '../models/LineItemFulfillmentRequest.js';
+export { makeInventoryRoutingSourceInputFixedLocation } from '../models/InventoryRoutingSourceInputFixedLocation.js';
+export { makeInventoryRoutingSourceInputPolicy } from '../models/InventoryRoutingSourceInputPolicy.js';
+export { makeInventoryRoutingSourceInputPolicyRevision } from '../models/InventoryRoutingSourceInputPolicyRevision.js';
+export { makeInventoryRoutingSourceRequest } from '../models/InventoryRoutingSourceRequest.js';
+export { makeLineItemFulfillmentOriginRequestModel } from '../models/LineItemFulfillmentOriginRequestModel.js';
+export { makeLineItemFulfillmentRequestModel } from '../models/LineItemFulfillmentRequestModel.js';
 export { makeManualDiscountRequest } from '../models/ManualDiscountRequest.js';
 export { makeMetadataPatchRequest } from '../models/MetadataPatchRequest.js';
 export { makeMetadataRequest } from '../models/MetadataRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makeOrderCalculatedChargeTax } from '../models/OrderCalculatedChargeTax.js';
-export { makeOrderCalculatedLineItemTax } from '../models/OrderCalculatedLineItemTax.js';
+export { makeOrderCalculatedChargeTaxRequest } from '../models/OrderCalculatedChargeTaxRequest.js';
+export { makeOrderCalculatedLineItemTaxRequest } from '../models/OrderCalculatedLineItemTaxRequest.js';
 export { makeOrderChargeInputAmount } from '../models/OrderChargeInputAmount.js';
 export { makeOrderChargeInputPercent } from '../models/OrderChargeInputPercent.js';
 export { makeOrderChargeRequest } from '../models/OrderChargeRequest.js';
@@ -431,16 +651,15 @@ export { makeOrderChargeTaxAssignment } from '../models/OrderChargeTaxAssignment
 export { makeOrderDeliveryDestinationRecipientRequest } from '../models/OrderDeliveryDestinationRecipientRequest.js';
 export { makeOrderDeliveryDestinationRequest } from '../models/OrderDeliveryDestinationRequest.js';
 export { makeOrderDraftLineItemInventoryDemandRequest } from '../models/OrderDraftLineItemInventoryDemandRequest.js';
-export { makeOrderDraftLineItemTaxCalculationRequest } from '../models/OrderDraftLineItemTaxCalculationRequest.js';
-export { makeOrderDraftLineItemTaxRequest } from '../models/OrderDraftLineItemTaxRequest.js';
-export { makeOrderDraftTaxComponentRequest } from '../models/OrderDraftTaxComponentRequest.js';
-export { makeOrderDraftTaxJurisdictionRequest } from '../models/OrderDraftTaxJurisdictionRequest.js';
+export { makeOrderDraftLineItemTaxCalculationRequestModel } from '../models/OrderDraftLineItemTaxCalculationRequestModel.js';
+export { makeOrderDraftLineItemTaxRequestModel } from '../models/OrderDraftLineItemTaxRequestModel.js';
+export { makeOrderDraftTaxComponentRequestModel } from '../models/OrderDraftTaxComponentRequestModel.js';
+export { makeOrderDraftTaxJurisdictionRequestModel } from '../models/OrderDraftTaxJurisdictionRequestModel.js';
+export { makeOrderEditRemovalRequest } from '../models/OrderEditRemovalRequest.js';
 export { makeOrderGiftCardAllocationAcceptance } from '../models/OrderGiftCardAllocationAcceptance.js';
-export { makeOrderInventoryRoutingSourceRequest } from '../models/OrderInventoryRoutingSourceRequest.js';
-export { makeOrderLineItemModifierInputCatalog } from '../models/OrderLineItemModifierInputCatalog.js';
-export { makeOrderLineItemModifierInputText } from '../models/OrderLineItemModifierInputText.js';
-export { makeOrderLineItemModifierRequest } from '../models/OrderLineItemModifierRequest.js';
-export { makeOrderLineItemTax } from '../models/OrderLineItemTax.js';
+export { makeOrderLineItemModifierInputCatalogRequest } from '../models/OrderLineItemModifierInputCatalogRequest.js';
+export { makeOrderLineItemModifierInputTextRequest } from '../models/OrderLineItemModifierInputTextRequest.js';
+export { makeOrderLineItemModifierRequestModel } from '../models/OrderLineItemModifierRequestModel.js';
 export { makeOrderLineItemTaxAssignment } from '../models/OrderLineItemTaxAssignment.js';
 export { makeOrderPaymentIntentSelection } from '../models/OrderPaymentIntentSelection.js';
 export { makeOrderPaymentIntentSelectionAttached } from '../models/OrderPaymentIntentSelectionAttached.js';
@@ -476,24 +695,26 @@ export { makePayOrderRequestSetup } from '../models/PayOrderRequestSetup.js';
 export { makePromotionRefInputPromotionCode } from '../models/PromotionRefInputPromotionCode.js';
 export { makePromotionRefInputPromotionID } from '../models/PromotionRefInputPromotionID.js';
 export { makePromotionRefRequest } from '../models/PromotionRefRequest.js';
+export { makeRefundCharge } from '../models/RefundCharge.js';
+export { makeRefundDestinations } from '../models/RefundDestinations.js';
 export { makeRemoveDiscountsRequest } from '../models/RemoveDiscountsRequest.js';
 export { makeRepriceDiscountsRequest } from '../models/RepriceDiscountsRequest.js';
 export { makeResolveOrderInventoryExceptionRequest } from '../models/ResolveOrderInventoryExceptionRequest.js';
+export { makeRetryOrderEditRefundRequest } from '../models/RetryOrderEditRefundRequest.js';
 export { makeReturnShipmentLineItemAllocationRequest } from '../models/ReturnShipmentLineItemAllocationRequest.js';
 export { makeSendOrderReceiptRequest } from '../models/SendOrderReceiptRequest.js';
 export { makeSinglePackageCreateInputCreated } from '../models/SinglePackageCreateInputCreated.js';
 export { makeSinglePackageCreateInputShipped } from '../models/SinglePackageCreateInputShipped.js';
 export { makeSinglePackageCreateRequest } from '../models/SinglePackageCreateRequest.js';
-export { makeSubscribedLineRequest } from '../models/SubscribedLineRequest.js';
-export { makeSubscriptionIntervalOption } from '../models/SubscriptionIntervalOption.js';
-export { makeTaxCalculationRequest } from '../models/TaxCalculationRequest.js';
+export { makeSubscribedLineRequestModel } from '../models/SubscribedLineRequestModel.js';
 export { makeTaxCalculationRequestModel } from '../models/TaxCalculationRequestModel.js';
-export { makeTaxComponentRequest } from '../models/TaxComponentRequest.js';
+export { makeTaxCalculationRequestRequest } from '../models/TaxCalculationRequestRequest.js';
 export { makeTaxComponentRequestModel } from '../models/TaxComponentRequestModel.js';
-export { makeTaxJurisdiction } from '../models/TaxJurisdiction.js';
+export { makeTaxComponentRequestRequest } from '../models/TaxComponentRequestRequest.js';
 export { makeTaxJurisdictionRequest } from '../models/TaxJurisdictionRequest.js';
+export { makeTaxJurisdictionRequestModel } from '../models/TaxJurisdictionRequestModel.js';
 export { makeTextModifierRequest } from '../models/TextModifierRequest.js';
 export { makeUpdateLineItemRequest } from '../models/UpdateLineItemRequest.js';
 export { makeUpdateOrderChargeRequest } from '../models/UpdateOrderChargeRequest.js';
 export { makeUpdateOrderRequest } from '../models/UpdateOrderRequest.js';
-export { makeWeight } from '../models/Weight.js';
+export { makeWeightRequest } from '../models/WeightRequest.js';

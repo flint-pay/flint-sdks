@@ -9,7 +9,7 @@ namespace Flint;
 final class TestClocksGetInput extends Model {
     /** @param array{'test_clock_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('TestClocksGetInput')); }
-    /** ID of the test clock. Example: "tclk_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** ID of the test clock. Example: "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
      * @return string
      * @throws SdkError When test_clock_id is omitted; use hasTestClockId() or valueOrDefault().
      */

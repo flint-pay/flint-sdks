@@ -18,27 +18,27 @@ final class ExpandedCustomerSummary extends Model {
      */
     public function getCreatedAt(): ?string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** customer_id
+    /** Unique identifier for this customer, prefixed `cus_`.
      * @return string
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** Customer email, or null when the customer has none. Unique among the environment's customers.
+    /** Customer email. `null` when the customer has none. Unique among the environment's customers.
      * @return string|null
      */
     public function getEmail(): string|null { return $this->get('email'); }
     public function hasEmail(): bool { return $this->has('email'); }
-    /** Customer name, or null when none.
+    /** Customer name. `null` when none is set.
      * @return string|null
      */
     public function getName(): string|null { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Customer phone number, or null when none.
+    /** Customer phone number. `null` when none is set.
      * @return string|null
      */
     public function getPhone(): string|null { return $this->get('phone'); }
     public function hasPhone(): bool { return $this->has('phone'); }
-    /** Value enum: "active", "deletion_processing", "deleted".
+    /** Where the customer is in the deletion lifecycle. Value enum: "active", "deletion_processing", "deleted".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }

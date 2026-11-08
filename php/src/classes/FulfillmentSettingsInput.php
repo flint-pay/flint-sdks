@@ -7,7 +7,7 @@ namespace Flint;
 final class FulfillmentSettingsInput extends Model {
     /** @param array{'approval_required'?: bool, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('FulfillmentSettingsInput')); }
-    /** approval_required
+    /** Whether a new fulfillment must be accepted before it can move into preparation, movement, or completion. Defaults to false.
      * @return bool
      * @throws SdkError When approval_required is omitted; use hasApprovalRequired() or valueOrDefault().
      */

@@ -4,49 +4,57 @@ namespace Flint;
 /**
  * @property-read string $api_version
  * @property-read string|\DateTimeInterface $created_at
- * @property-read array{'object': array{'correction_reason'?: string, 'correction_reason_message'?: string, 'created_at': string|\DateTimeInterface, 'external_actor_id'?: string, 'external_reference_id'?: string, 'generated_dispositions': list<ReturnDispositionInput|array<array-key, mixed>|\stdClass>, 'line_items': list<ReturnReceiptLineItemInput|array<array-key, mixed>|\stdClass>, 'received_at': string|\DateTimeInterface, 'receiving_location_id': string, 'return_id': string, 'return_receipt_id': string, 'shipment_id'?: string, 'source_system': array{'external_source_id'?: string, 'source_system_type': string}|object|null, 'status': string, 'superseded_at'?: string|\DateTimeInterface, 'superseded_by_return_receipt_id'?: string, 'supersedes_return_receipt_id'?: string, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object}|object $data
+ * @property-read array{'object': array{'correction_reason'?: string, 'correction_reason_message'?: string, 'created_at': string|\DateTimeInterface, 'external_actor_id'?: string, 'external_reference_id'?: string, 'generated_dispositions': list<ReturnDispositionInput|array<array-key, mixed>|\stdClass>, 'line_items': list<ReturnReceiptLineItemInput|array<array-key, mixed>|\stdClass>, 'received_at': string|\DateTimeInterface, 'receiving_location_id': string, 'return_id': string, 'return_receipt_id': string, 'shipment_id'?: string, 'source_system': array{'external_source_id'?: string, 'source_system_type': string}|object|null, 'status': string, 'superseded_at'?: string|\DateTimeInterface, 'superseded_by_return_receipt_id'?: string, 'supersedes_return_receipt_id'?: string, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object, 'previous_attributes'?: array<array-key, mixed>|\stdClass}|object $data
+ * @property-read string $event_source
  * @property-read string $event_type
  * @property-read string $merchant_id
  * @property-read string $mode
  * @property-read int $payload_version
  * @property-read array{'id': string, 'idempotency_key'?: string}|object|null $request
+ * @property-read string $sandbox_id
  * @property-read bool $test
  * @property-read string $webhook_event_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class ReturnReceiptVerifiedMerchantEventInput extends Model {
-    /** @param array{'api_version': string, 'created_at': string|\DateTimeInterface, 'data': array{'object': array{'correction_reason'?: string, 'correction_reason_message'?: string, 'created_at': string|\DateTimeInterface, 'external_actor_id'?: string, 'external_reference_id'?: string, 'generated_dispositions': list<ReturnDispositionInput|array<array-key, mixed>|\stdClass>, 'line_items': list<ReturnReceiptLineItemInput|array<array-key, mixed>|\stdClass>, 'received_at': string|\DateTimeInterface, 'receiving_location_id': string, 'return_id': string, 'return_receipt_id': string, 'shipment_id'?: string, 'source_system': array{'external_source_id'?: string, 'source_system_type': string}|object|null, 'status': string, 'superseded_at'?: string|\DateTimeInterface, 'superseded_by_return_receipt_id'?: string, 'supersedes_return_receipt_id'?: string, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object}|object, 'event_type': string, 'merchant_id': string, 'mode': string, 'payload_version': int, 'request': array{'id': string, 'idempotency_key'?: string}|object|null, 'test': bool, 'webhook_event_id': string, ...}|object $values */
+    /** @param array{'api_version': string, 'created_at': string|\DateTimeInterface, 'data': array{'object': array{'correction_reason'?: string, 'correction_reason_message'?: string, 'created_at': string|\DateTimeInterface, 'external_actor_id'?: string, 'external_reference_id'?: string, 'generated_dispositions': list<ReturnDispositionInput|array<array-key, mixed>|\stdClass>, 'line_items': list<ReturnReceiptLineItemInput|array<array-key, mixed>|\stdClass>, 'received_at': string|\DateTimeInterface, 'receiving_location_id': string, 'return_id': string, 'return_receipt_id': string, 'shipment_id'?: string, 'source_system': array{'external_source_id'?: string, 'source_system_type': string}|object|null, 'status': string, 'superseded_at'?: string|\DateTimeInterface, 'superseded_by_return_receipt_id'?: string, 'supersedes_return_receipt_id'?: string, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object, 'previous_attributes'?: array<array-key, mixed>|\stdClass}|object, 'event_source': string, 'event_type': string, 'merchant_id': string, 'mode': string, 'payload_version': int, 'request': array{'id': string, 'idempotency_key'?: string}|object|null, 'sandbox_id'?: string, 'test': bool, 'webhook_event_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnReceiptVerifiedMerchantEventInput')); }
-    /** Format: date.
+    /** API version used to render this delivery attempt. The older of the event version and the endpoint version when the attempt runs, with default resolved to the merchant pin. Format: date. Example: "2026-08-02".
      * @return string
      * @throws SdkError When api_version is omitted; use hasApiVersion() or valueOrDefault().
      */
     public function getApiVersion(): string { return $this->get('api_version'); }
     public function hasApiVersion(): bool { return $this->has('api_version'); }
-    /** Format: date-time.
+    /** When Flint recorded the event. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /**  object (Required): object and {@see ReturnReceiptInput}. A record of returned items arriving at a location. object.correction_reason (Optional): string.  Value enum: "entry_error", "duplicate_observation", "source_correction", "reconciliation_correction", "other". object.correction_reason_message (Optional): string. object.created_at (Required): string. RFC3339 timestamp. Format: date-time. object.external_actor_id (Optional): string. Your identifier for the actor who recorded the event. Don't put secrets in this field. maxLength: 255. object.external_reference_id (Optional): string. Caller-owned identifier for this resource in an external system. maxLength: 255. object.generated_dispositions (Required): Array of {@see ReturnDispositionInput}. object.generated_dispositions[] (Value): {@see ReturnDispositionInput}. A decision about how returned merchandise will be handled. object.line_items (Required): Array of {@see ReturnReceiptLineItemInput}. object.line_items[] (Value): {@see ReturnReceiptLineItemInput}. A returned item recorded as received. object.received_at (Required): string. RFC3339 timestamp. Format: date-time. object.receiving_location_id (Required): string. object.return_id (Required): string. object.return_receipt_id (Required): string. object.shipment_id (Optional): string. object.source_system (Required): {@see ReturnSourceSystemInput} or null. object.source_system.anyOf[1] (Value): {@see ReturnSourceSystemInput}. The system a return event came from, such as a point of sale or warehouse system, with its own identifier. object.source_system.anyOf[2] (Value): null. object.status (Required): string.  Value enum: "current", "superseded". object.superseded_at (Optional): string. RFC3339 timestamp. Format: date-time. object.superseded_by_return_receipt_id (Optional): string. object.supersedes_return_receipt_id (Optional): string. object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. object.version (Required): integer. Format: int64. minimum: 1.
-     * @return array{'object': array{'correction_reason'?: string, 'correction_reason_message'?: string, 'created_at': string|\DateTimeInterface, 'external_actor_id'?: string, 'external_reference_id'?: string, 'generated_dispositions': list<ReturnDispositionInput|array<array-key, mixed>|\stdClass>, 'line_items': list<ReturnReceiptLineItemInput|array<array-key, mixed>|\stdClass>, 'received_at': string|\DateTimeInterface, 'receiving_location_id': string, 'return_id': string, 'return_receipt_id': string, 'shipment_id'?: string, 'source_system': array{'external_source_id'?: string, 'source_system_type': string}|object|null, 'status': string, 'superseded_at'?: string|\DateTimeInterface, 'superseded_by_return_receipt_id'?: string, 'supersedes_return_receipt_id'?: string, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object}|object
+    /** The resource snapshot recorded for this event and rendered at the delivery API version. object (Required): object. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. object.correction_reason (Optional): string. Why this observation replaces an earlier one. Send with `supersedes_return_receipt_id` or `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation", "source_correction", "reconciliation_correction", "other". object.correction_reason_message (Optional): string. Detail about `correction_reason`. object.created_at (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.external_actor_id (Optional): string. Your identifier for the actor who recorded the event. Don't put secrets in this field. maxLength: 255. Example: "warehouse-1842". object.external_reference_id (Optional): string. Caller-owned identifier for this resource in an external system. maxLength: 255. Example: "warehouse-1842". object.generated_dispositions (Required): Array of {@see ReturnDispositionInput}. Dispositions Flint created when it recorded this observation. Empty unless the policy's `receipt_disposition_mode` is `automatic`. object.generated_dispositions[] (Value): {@see ReturnDispositionInput}. A decision about how returned merchandise will be handled. object.line_items (Required): Array of {@see ReturnReceiptLineItemInput}. The lines recorded. object.line_items[] (Value): {@see ReturnReceiptLineItemInput}. A returned item recorded as received. object.received_at (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.receiving_location_id (Required): string. ID of the Location that received the goods. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". object.return_id (Required): string. ID of the Return the goods belong to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". object.return_receipt_id (Required): string. Unique identifier for this return receipt, prefixed `retrc_`. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". object.shipment_id (Optional): string. ID of the return shipment the goods arrived in. Absent when the receipt isn't tied to a shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". object.source_system (Required): {@see ReturnSourceSystemInput} or null. System that recorded the observation. `null` when no source system was recorded. object.source_system.anyOf[1] (Value): {@see ReturnSourceSystemInput}. The system a return event came from, such as a point of sale or warehouse system, with its own identifier. object.source_system.anyOf[2] (Value): null. object.status (Required): string. Whether this is the current observation of these units or a correction replaced it. Value enum: "current", "superseded". object.superseded_at (Optional): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.superseded_by_return_receipt_id (Optional): string. ID of the receipt that corrected this one. Absent while it is current. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". object.supersedes_return_receipt_id (Optional): string. ID of the receipt this one corrects. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. Format: int64. minimum: 1. previous_attributes (Optional): object. Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
+     * @return array{'object': array{'correction_reason'?: string, 'correction_reason_message'?: string, 'created_at': string|\DateTimeInterface, 'external_actor_id'?: string, 'external_reference_id'?: string, 'generated_dispositions': list<ReturnDispositionInput|array<array-key, mixed>|\stdClass>, 'line_items': list<ReturnReceiptLineItemInput|array<array-key, mixed>|\stdClass>, 'received_at': string|\DateTimeInterface, 'receiving_location_id': string, 'return_id': string, 'return_receipt_id': string, 'shipment_id'?: string, 'source_system': array{'external_source_id'?: string, 'source_system_type': string}|object|null, 'status': string, 'superseded_at'?: string|\DateTimeInterface, 'superseded_by_return_receipt_id'?: string, 'supersedes_return_receipt_id'?: string, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object, 'previous_attributes'?: array<array-key, mixed>|\stdClass}|object
      * @throws SdkError When data is omitted; use hasData() or valueOrDefault().
      */
     public function getData(): array|object { return $this->get('data'); }
     public function hasData(): bool { return $this->has('data'); }
-    /** Value enum: "return_receipt.verified".
+    /** The origin of the event. Selects the webhook envelope and the fields in source. Value enum: "merchant".
+     * @return string
+     * @throws SdkError When event_source is omitted; use hasEventSource() or valueOrDefault().
+     */
+    public function getEventSource(): string { return $this->get('event_source'); }
+    public function hasEventSource(): bool { return $this->has('event_source'); }
+    /** The resource change or condition this event announces. Value enum: "return_receipt.verified".
      * @return string
      * @throws SdkError When event_type is omitted; use hasEventType() or valueOrDefault().
      */
     public function getEventType(): string { return $this->get('event_type'); }
     public function hasEventType(): bool { return $this->has('event_type'); }
-    /** merchant_id
+    /** ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
      * @return string
      * @throws SdkError When merchant_id is omitted; use hasMerchantId() or valueOrDefault().
      */
     public function getMerchantId(): string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** Value enum: "test", "live".
+    /** Environment used for this resource or request. Value enum: "test", "live".
      * @return string
      * @throws SdkError When mode is omitted; use hasMode() or valueOrDefault().
      */
@@ -58,19 +66,25 @@ final class ReturnReceiptVerifiedMerchantEventInput extends Model {
      */
     public function getPayloadVersion(): int { return $this->get('payload_version'); }
     public function hasPayloadVersion(): bool { return $this->has('payload_version'); }
-    /**  id (Required): string. idempotency_key (Optional): string. The Idempotency-Key the originating request sent. Absent when it sent none.
+    /** The originating request. `null` when the event has no originating request ID. id (Required): string. Request ID of the request that caused the event. idempotency_key (Optional): string. The Idempotency-Key the originating request sent. Absent when it sent none.
      * @return array{'id': string, 'idempotency_key'?: string}|object|null
      * @throws SdkError When request is omitted; use hasRequest() or valueOrDefault().
      */
     public function getRequest(): array|object|null { return $this->get('request'); }
     public function hasRequest(): bool { return $this->has('request'); }
+    /** Public sandbox ID for this event. Present exactly when mode is test; omitted in live mode. Example: "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     * @return string
+     * @throws SdkError When sandbox_id is omitted; use hasSandboxId() or valueOrDefault().
+     */
+    public function getSandboxId(): string { return $this->get('sandbox_id'); }
+    public function hasSandboxId(): bool { return $this->has('sandbox_id'); }
     /** true for a synthetic event sent from the test-events endpoint, false otherwise.
      * @return bool
      * @throws SdkError When test is omitted; use hasTest() or valueOrDefault().
      */
     public function getTest(): bool { return $this->get('test'); }
     public function hasTest(): bool { return $this->has('test'); }
-    /** webhook_event_id
+    /** Stable ID of the recorded webhook event, shared by its delivery attempts. Example: "whev_01KEZF7C00362MS3HV970TRZGS".
      * @return string
      * @throws SdkError When webhook_event_id is omitted; use hasWebhookEventId() or valueOrDefault().
      */

@@ -2,9 +2,11 @@
 
 ## PaymentLinkUpdatedInstalledMerchantsEventDataObject
 
-A reusable link that opens checkout.
+The affected public resource without expansions, client authority fields, or fields computed for an individual caller.
+
+The resource snapshot, without expansions. Webhooks omit no additional fields.
 
 Response model.
 
-Fields, types, descriptions and enum values: [PaymentLink](../models/PaymentLink.md#paymentlink).
+Fields, types, descriptions and enum values: [PaymentLinkCreatedMerchantEventDataObject](../models/PaymentLinkCreatedMerchantEventDataObject.md#paymentlinkcreatedmerchanteventdataobject).
 

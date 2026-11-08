@@ -11,7 +11,7 @@ namespace Flint;
 final class CancelReturnLineItemRequestInput extends Model {
     /** @param array{'expected_version'?: int, 'handback_quantity'?: int, 'quantity': int, 'reason': string, 'reason_message'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CancelReturnLineItemRequestInput')); }
-    /** Format: int64. minimum: 1.
+    /** Version last read from the resource returned in `data` (the primary resource for a result object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on the operation and fields being changed. Format: int64. minimum: 1.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */
@@ -29,13 +29,13 @@ final class CancelReturnLineItemRequestInput extends Model {
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
-    /** Value enum: "buyer_request", "merchant_request", "expired", "created_in_error", "other".
+    /** Why it is being canceled. Value enum: "buyer_request", "merchant_request", "expired", "created_in_error", "other".
      * @return string
      * @throws SdkError When reason is omitted; use hasReason() or valueOrDefault().
      */
     public function getReason(): string { return $this->get('reason'); }
     public function hasReason(): bool { return $this->has('reason'); }
-    /** minLength: 1.
+    /** Optional detail about `reason`, kept with the record. minLength: 1.
      * @return string
      * @throws SdkError When reason_message is omitted; use hasReasonMessage() or valueOrDefault().
      */

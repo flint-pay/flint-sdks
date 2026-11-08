@@ -8,6 +8,6 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `gift_card` | Required | [GiftCardInput](../models/GiftCardInput.md#giftcardinput) | Merchant-issued purchased gift card. Posted balance includes reserved value; available value is balance minus reservations. Frozen value remains part of outstanding liability. Gift cards are independent resources and cannot be transferred across merchants or currencies. |
-| `gift_card_transactions` | Required | Array of [GiftCardTransactionInput](../models/GiftCardTransactionInput.md#giftcardtransactioninput) |  |
+| `gift_card` | Required | [GiftCardInput](../models/GiftCardInput.md#giftcardinput) | The gift card after the cash-out. Merchant-issued purchased gift card. Posted balance includes reserved value; available value is balance minus reservations. Frozen value remains part of outstanding liability. Gift cards are independent resources and cannot be transferred across merchants or currencies. |
+| `gift_card_transactions` | Required | Array of [GiftCardTransactionInput](../models/GiftCardTransactionInput.md#giftcardtransactioninput) | The transactions the cash-out posted to the card. |
 

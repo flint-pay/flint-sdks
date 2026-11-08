@@ -10,41 +10,43 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `api_version` | Required | string | Format: `date`. |
-| `created_at` | Required | string | Format: `date-time`. |
-| `data` | Required | [EnvironmentGrantCreatedEventData](../models/EnvironmentGrantCreatedEventData.md#environmentgrantcreatedeventdata) | `data`: [field definitions](../models/EnvironmentGrantCreatedEvent.md#environmentgrantcreatedeventdata-fields-1). |
-| `event_type` | Required | string | Values: `"environment_grant.created"`. |
-| `partner_app_id` | Required | string |  |
+| `api_version` | Required | string | API version used to render this delivery attempt. The older of the event version and the endpoint version when the attempt runs, with default resolved to the merchant pin. Format: `date`. |
+| `created_at` | Required | string | When Flint recorded the event. Format: `date-time`. |
+| `data` | Required | [EnvironmentGrantCreatedEventData](../models/EnvironmentGrantCreatedEventData.md#environmentgrantcreatedeventdata) | The resource snapshot recorded for this event and rendered at the delivery API version. `data`: [field definitions](../models/EnvironmentGrantCreatedEvent.md#environmentgrantcreatedeventdata-fields-1). |
+| `event_source` | Required | string | The origin of the event. Selects the webhook envelope and the fields in source. Values: `"partner_app"`. |
+| `event_type` | Required | string | The resource change or condition this event announces. Values: `"environment_grant.created"`. |
+| `partner_app_id` | Required | string | ID of the partner app that owns the receiving endpoint. |
 | `payload_version` | Required | integer | 2 for every current event. 1 only for an event queued before 2026-10-16 and delivered afterwards, which keeps its previous data shape. Values: `1`, `2`. |
-| `source` | Required | Alternative shapes (see declared variants) and object | The source of a partner webhook event, selected by type. `source`: [declared alternatives](../models/EnvironmentGrantCreatedEvent.md#environmentgrantcreatedeventsource). |
+| `source` | Required | [EnvironmentGrantCreatedEventSource](../models/EnvironmentGrantCreatedEventSource.md#environmentgrantcreatedeventsource) | The merchant and partner app install this event concerns, with environment details for installed-merchant events. The merchant and partner app install the event concerns. Environment fields are present for installed-merchant events. `source`: [field definitions](../models/EnvironmentGrantCreatedEvent.md#environmentgrantcreatedeventsource-fields-1). |
 | `test` | Required | boolean | true for a synthetic event sent from the test-events endpoint, false otherwise. |
-| `webhook_event_id` | Required | string |  |
+| `webhook_event_id` | Required | string | Stable ID of the recorded webhook event, shared by its delivery attempts. |
 
 ### EnvironmentGrantCreatedEvent.data fields 1
 
+The resource snapshot recorded for this event and rendered at the delivery API version.
+
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `object` | Required | object and [PartnerEnvironmentGrant](../models/PartnerEnvironmentGrant.md#partnerenvironmentgrant) | A partner application's authorization to access an environment. `object`: [field definitions](../models/EnvironmentGrantCreatedEvent.md#environmentgrantcreatedeventdata-fields-1object). |
+| `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. `object`: [field definitions](../models/EnvironmentGrantCreatedEvent.md#environmentgrantcreatedeventdata-fields-1object). |
+| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
 
 ### EnvironmentGrantCreatedEvent.data fields 1.object
 
-A partner application's authorization to access an environment.
+The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields.
 
 Field definitions: [shared fields](PartnerEnvironmentGrant.md#partnerenvironmentgrant).
 
-### EnvironmentGrantCreatedEvent.source
+### EnvironmentGrantCreatedEvent.data fields 1.object.granted_permissions[]
 
-The source of a partner webhook event, selected by type.
+Field definitions: [PartnerAppResponse.data.permission_manifest[]](../models/PartnerAppResponse.md#partnerappresponsedatapermission_manifest).
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `merchant_id` | Required | string |  |
-| `partner_app_install_id` | Required | string |  |
-| `type` | Required | string | Values: `"partner_app"`. |
+### EnvironmentGrantCreatedEvent.data fields 1.object.merchant_readiness
 
-### EnvironmentGrantCreatedEvent.source variant 1: `type` = `"partner_app"`
+Field definitions: [PartnerAppInstallResponse.data.environment_grants[].merchant_readiness](../models/PartnerAppInstallResponse.md#partnerappinstallresponsedataenvironment_grantsmerchant_readiness).
 
-oneOf with type: "partner_app": The partner_app source of a partner webhook event..
+### EnvironmentGrantCreatedEvent.source fields 1
 
-No additional constraints.
+The merchant and partner app install this event concerns, with environment details for installed-merchant events. The merchant and partner app install the event concerns. Environment fields are present for installed-merchant events.
+
+Field definitions: [shared fields](PartnerWebhookEnvelopeSourceInput.md#partnerwebhookenvelopesourceinput).
 

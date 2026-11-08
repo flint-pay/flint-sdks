@@ -15,7 +15,7 @@ Response model.
 | `diagnostics` | Optional | [DeliveryProfileDiagnostics](../models/DeliveryProfileDiagnostics.md#deliveryprofilediagnostics) | Read-only catalog and delivery-method compatibility diagnostics. Read-only coverage checks for a delivery profile, such as how many active Locations have no compatible delivery method and how many countries its zones name. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
 | `is_default` | Required | boolean | True only when this profile is the current physical catalog default. Response only. |
-| `metadata` | Optional | Map of string | Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/LocationResponse.md#locationresponsedatametadata). |
+| `metadata` | Optional | Map of string | Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoicemetadata). |
 | `name` | Required | string | Merchant-facing profile name. |
 | `status` | Required | string | Current profile lifecycle status. Values: `"active"`, `"archived"`. |
 | `updated_at` | Required | string | Time the profile last changed. Format: `date-time`. |
@@ -23,5 +23,5 @@ Response model.
 
 ### DeliveryProfile.metadata
 
-Field definitions: [LocationResponse.data.metadata](../models/LocationResponse.md#locationresponsedatametadata).
+Field definitions: [CollectInvoiceResponse.data.invoice.metadata](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoicemetadata).
 

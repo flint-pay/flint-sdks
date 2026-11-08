@@ -2,22 +2,22 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read array{'amount': string, 'currency': string}|object $gift_card_money
- * @property-read list<array{'amount_money': array{'amount': string, 'currency': string}|object, 'gift_card_id': string}|object> $gift_cards
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $gift_card_money
+ * @property-read list<array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'gift_card_id': string}|object> $gift_cards
  * @property-read int $order_version
- * @property-read array{'amount': string, 'currency': string}|object $processor_money
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $processor_money
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrderGiftCardAllocationAcceptanceInput extends Model {
-    /** @param array{'gift_card_money': array{'amount': string, 'currency': string}|object, 'gift_cards': list<array{'amount_money': array{'amount': string, 'currency': string}|object, 'gift_card_id': string}|object>, 'order_version': int, 'processor_money': array{'amount': string, 'currency': string}|object}|object $values */
+    /** @param array{'gift_card_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'gift_cards': list<array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'gift_card_id': string}|object>, 'order_version': int, 'processor_money': MoneyValueInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderGiftCardAllocationAcceptanceInput')); }
-    /**  amount (Required): integer string. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 0. currency (Required): string.  Value enum: "USD".
-     * @return array{'amount': string, 'currency': string}|object
+    /** Order balance allocated to the selected gift cards. Currency must be USD. Amount must be nonnegative; zero is allowed. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When gift_card_money is omitted; use hasGiftCardMoney() or valueOrDefault().
      */
-    public function getGiftCardMoney(): array|object { return $this->get('gift_card_money'); }
+    public function getGiftCardMoney(): mixed { return $this->get('gift_card_money'); }
     public function hasGiftCardMoney(): bool { return $this->has('gift_card_money'); }
-    /** minItems: 1. maxItems: 20. [] (Value): object. [].amount_money (Required): object. [].amount_money.amount (Required): integer string. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 0. [].amount_money.currency (Required): string.  Value enum: "USD". [].gift_card_id (Required): string. minLength: 1. maxLength: 64.
-     * @return list<array{'amount_money': array{'amount': string, 'currency': string}|object, 'gift_card_id': string}|object>
+    /** The gift cards the allocation draws from, each with the amount it covers. Copy them from the order's `gift_card_estimate`. minItems: 1. maxItems: 20. [] (Value): object. [].amount_money (Required): {@see MoneyValueInput}. Order balance allocated to this gift card. Currency must be USD. Amount must be nonnegative; zero is allowed. Monetary amount represented as integer minor units plus an ISO 4217 currency code. [].gift_card_id (Required): string. ID of the gift card the amount is taken from. minLength: 1. maxLength: 64. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
+     * @return list<array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'gift_card_id': string}|object>
      * @throws SdkError When gift_cards is omitted; use hasGiftCards() or valueOrDefault().
      */
     public function getGiftCards(): array { return $this->get('gift_cards'); }
@@ -28,10 +28,10 @@ final class OrderGiftCardAllocationAcceptanceInput extends Model {
      */
     public function getOrderVersion(): int { return $this->get('order_version'); }
     public function hasOrderVersion(): bool { return $this->has('order_version'); }
-    /**  amount (Required): integer string. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 0. currency (Required): string.  Value enum: "USD".
-     * @return array{'amount': string, 'currency': string}|object
+    /** Order balance remaining for the payment processor. Currency must be USD. Amount must be nonnegative; zero is allowed. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When processor_money is omitted; use hasProcessorMoney() or valueOrDefault().
      */
-    public function getProcessorMoney(): array|object { return $this->get('processor_money'); }
+    public function getProcessorMoney(): mixed { return $this->get('processor_money'); }
     public function hasProcessorMoney(): bool { return $this->has('processor_money'); }
 }

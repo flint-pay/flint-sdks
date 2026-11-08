@@ -14,7 +14,7 @@ final class CheckoutPaymentConfigRequestInput extends Model {
      */
     public function getEnabledPaymentOptions(): array { return $this->get('enabled_payment_options'); }
     public function hasEnabledPaymentOptions(): bool { return $this->has('enabled_payment_options'); }
-    /** minLength: 1.
+    /** A note shown to the buyer with the payment options. minLength: 1.
      * @return string
      * @throws SdkError When payment_note is omitted; use hasPaymentNote() or valueOrDefault().
      */

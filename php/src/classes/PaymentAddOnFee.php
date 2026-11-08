@@ -8,7 +8,7 @@ namespace Flint;
 final class PaymentAddOnFee extends Model {
     /** @param array{'amount_money': mixed, 'fee_type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentAddOnFee')); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Amount of this fee. Added to the payment's `fee_money` on its balance transaction. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getAmountMoney(): MoneyValue { return $this->get('amount_money'); }

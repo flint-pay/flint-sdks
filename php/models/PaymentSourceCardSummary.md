@@ -6,5 +6,9 @@ Display details for a card payment source: brand, last four digits, and payment 
 
 Response model.
 
-Fields, types, descriptions and enum values: [PaymentSourceCardSummaryInput](../models/PaymentSourceCardSummaryInput.md#paymentsourcecardsummaryinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `brand` | Optional | string | Values: `"visa"`, `"mastercard"`, `"amex"`, `"discover"`, `"diners"`, `"jcb"`, `"unionpay"`. |
+| `last4` | Optional | string |  |
+| `payment_method_id` | Optional | string |  |
 

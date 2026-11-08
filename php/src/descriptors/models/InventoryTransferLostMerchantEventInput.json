@@ -1,1 +1,1 @@
-{"shared":"InventoryTransferLostMerchantEvent","dependencies":["InventoryTransfer","InventoryTransferLine","InventoryTransferLostMerchantEvent","SharedCodec14","SharedCodec15","SharedCodec16","SharedCodec687"]}
+{"shared":"InventoryTransferLostMerchantEvent","dependencies":["InventoryTransfer","InventoryTransferLine","InventoryTransferLostMerchantEvent","SharedCodec18","SharedCodec23","SharedCodec24","SharedCodec25","SharedCodec26","SharedCodec784","SharedCodec790"]}

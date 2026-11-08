@@ -23,17 +23,17 @@ namespace Flint;
 final class DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemBundle extends Model {
     /** @param array{'bundle_id': string, 'description'?: string, 'fulfillment'?: mixed, 'gift_card_purchase'?: mixed, 'image'?: mixed, 'inventory_demands'?: list<mixed>, 'metadata'?: mixed, 'modifiers'?: list<\stdClass>, 'name'?: string, 'quantity'?: int, 'subscription'?: mixed, 'tax'?: mixed, 'type': string, 'unit_dimensions'?: mixed, 'unit_price_money'?: mixed, 'unit_weight'?: mixed, 'variant_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemBundle')); }
-    /** bundle_id
+    /** ID of the bundle to add. A catalog line item sends this or `variant_id`; a custom line item sends neither.
      * @return string
      */
     public function getBundleId(): string { return $this->get('bundle_id'); }
     public function hasBundleId(): bool { return $this->has('bundle_id'); }
-    /** description
+    /** Description of the item as it appears on the order.
      * @return ?string
      */
     public function getDescription(): ?string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** Required on line items without variant_id or bundle_id, and rejected on catalog lines, which use the catalog's delivery settings. Send {"requirement": "none"} for services, digital goods, and items handed over at the point of sale. Fulfillment requirements you supply for an order line item, such as allowed fulfillment types, package size and weight, and origin.
+    /** Required on line items without variant_id or bundle_id, and rejected on catalog lines, which use the catalog's delivery settings. Send {"requirement": "none"} when nothing is delivered. For manual digital or service delivery, send requirement required, resolution_mode manual, and allowed_types containing digital or service. Fulfillment requirements you supply for an order line item, such as allowed fulfillment types, package size and weight, and origin.
      * @return ?DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemBundleFulfillment
      */
     public function getFulfillment(): ?DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemBundleFulfillment { return $this->get('fulfillment'); }
@@ -43,12 +43,12 @@ final class DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemBundle extend
      */
     public function getGiftCardPurchase(): ?DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemBundleGiftCardPurchase { return $this->get('gift_card_purchase'); }
     public function hasGiftCardPurchase(): bool { return $this->has('gift_card_purchase'); }
-    /** A reference to an image by `url`, with optional `alt` text, used on an order line item.
+    /** Image of the item as it appears on the order. A reference to an image by `url`, with optional `alt` text, used on an order line item.
      * @return ?DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemBundleImage
      */
     public function getImage(): ?DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemBundleImage { return $this->get('image'); }
     public function hasImage(): bool { return $this->has('image'); }
-    /**  [] (Value): {@see DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemBundleInventoryDemandsItem}. The quantity of one inventory item that each unit of a draft order line item uses, supplied when creating the line item.
+    /** Inventory items and quantities each unit of the line takes from stock. [] (Value): {@see DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemBundleInventoryDemandsItem}. The quantity of one inventory item that each unit of a draft order line item uses, supplied when creating the line item.
      * @return ?list<DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemBundleInventoryDemandsItem>
      */
     public function getInventoryDemands(): ?array { return $this->get('inventory_demands'); }
@@ -58,12 +58,12 @@ final class DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemBundle extend
      */
     public function getMetadata(): ?array { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /**  [] (Value): {@see OrderLineItemModifierRequest}. A modifier selection you supply on a line item: a catalog modifier by ID or a text modifier, with a quantity. [].metadata (Optional): {@see MetadataRequest}. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: 50. [].modifier_id (Optional): string. ID of the existing modifier. Treated as an opaque resource reference; accepted spellings follow resource ID validation. Its resolved price and the resulting line subtotal must satisfy the order money ceiling. The amount and every computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment option limits can apply. minLength: 1. [].order_line_item_modifier_id (Optional): string. Existing selection ID to retain during replacement. minLength: 1. pattern: ^olim_[0-9A-HJKMNP-TV-Z]{26}$. [].quantity (Optional): integer. Whole-number quantity; fractional quantities are not supported. Format: int64. [].text (Optional): {@see TextModifierRequest}. Text a buyer entered for a text modifier group on an order line item. [].type (Required): string. Selects the type branch. Value enum: "catalog", "text". [].oneOf[1] (Value): {@see OrderLineItemModifierInputCatalog}. The `catalog` variant of `OrderLineItemModifierInput`. [].oneOf[2] (Value): {@see OrderLineItemModifierInputText}. The `text` variant of `OrderLineItemModifierInput`.
+    /** Modifiers sold with the item, each chosen from the catalog or typed as text. [] (Value): {@see OrderLineItemModifierRequest}. A modifier selection you supply on a line item: a catalog modifier by ID or a text modifier, with a quantity. [].metadata (Optional): {@see MetadataRequest}. Caller-owned metadata for this selection, returned on the order line item's modifier. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: 50. [].modifier_id (Optional): string. ID of the existing modifier. Treated as an opaque resource reference; accepted spellings follow resource ID validation. Its resolved price and the resulting line subtotal must satisfy the order money ceiling. The amount and every computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment option limits can apply. minLength: 1. [].order_line_item_modifier_id (Optional): string. Existing selection ID to retain during replacement. minLength: 1. pattern: ^olim_[0-9A-HJKMNP-TV-Z]{26}$. [].quantity (Optional): integer. Whole-number quantity; fractional quantities are not supported. Format: int64. [].text (Optional): {@see TextModifierRequest}. The text to use. Send it with a `text` modifier. Text a buyer entered for a text modifier group on an order line item. [].type (Required): string. Selects the type branch. Value enum: "catalog", "text". [].oneOf[1] (Value): {@see OrderLineItemModifierInputCatalog}. The `catalog` variant of `OrderLineItemModifierInput`. [].oneOf[2] (Value): {@see OrderLineItemModifierInputText}. The `text` variant of `OrderLineItemModifierInput`.
      * @return list<DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemBundleModifiersItemCatalog|DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemBundleModifiersItemText|\stdClass>|null
      */
     public function getModifiers(): ?array { return $this->get('modifiers'); }
     public function hasModifiers(): bool { return $this->has('modifiers'); }
-    /** name
+    /** Name of the item as it appears on the order.
      * @return ?string
      */
     public function getName(): ?string { return $this->get('name'); }
@@ -78,7 +78,7 @@ final class DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemBundle extend
      */
     public function getSubscription(): ?DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemBundleSubscription { return $this->get('subscription'); }
     public function hasSubscription(): bool { return $this->has('subscription'); }
-    /** Tax settings you supply for a draft order line item: its tax category, whether it is taxable, and an optional tax calculation.
+    /** How tax applies to this line item. Tax settings you supply for a draft order line item: its tax category, whether it is taxable, and an optional tax calculation.
      * @return ?DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemBundleTax
      */
     public function getTax(): ?DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemBundleTax { return $this->get('tax'); }
@@ -103,7 +103,7 @@ final class DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemBundle extend
      */
     public function getUnitWeight(): ?DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemBundleUnitWeight { return $this->get('unit_weight'); }
     public function hasUnitWeight(): bool { return $this->has('unit_weight'); }
-    /** variant_id
+    /** ID of the product variant to add. A catalog line item sends this or `bundle_id`; a custom line item sends neither.
      * @return ?string
      */
     public function getVariantId(): ?string { return $this->get('variant_id'); }

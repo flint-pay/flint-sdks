@@ -10,13 +10,13 @@ namespace Flint;
 final class DeliveryPlanInput extends Model {
     /** @param array{'complete_by_at'?: string|\DateTimeInterface, 'first_arrival_at'?: string|\DateTimeInterface, 'planned_delivery_count'?: int, 'type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPlanInput')); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When complete_by_at is omitted; use hasCompleteByAt() or valueOrDefault().
      */
     public function getCompleteByAt(): string|\DateTimeInterface { return $this->get('complete_by_at'); }
     public function hasCompleteByAt(): bool { return $this->has('complete_by_at'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When first_arrival_at is omitted; use hasFirstArrivalAt() or valueOrDefault().
      */

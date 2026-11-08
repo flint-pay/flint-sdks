@@ -8,8 +8,8 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.invoices.waiveLateFee(
-  "inv_01ARZ3NDEKTSV4RRFFQ69G5FAV",
-  "inlf_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "inv_01KEZF7C00A5GEBMWHEAJFSAR4",
+  "inlf_01KEZF7C00NVR97MBH5AHR4W1X",
   {
     reason_message: "Courtesy waiver",
   },

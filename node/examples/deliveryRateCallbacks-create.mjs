@@ -9,10 +9,11 @@ const idempotencyKey = crypto.randomUUID();
 
 const result = await client.deliveryRateCallbacks.create(
   {
-    name: "example",
     configuration: {
-      url: "example",
+      url: "https://merchant.example/delivery-rates",
     },
+    name: "Live delivery rates",
+    signing_methods: ["jwt"],
   },
   { idempotencyKey: idempotencyKey },
 );

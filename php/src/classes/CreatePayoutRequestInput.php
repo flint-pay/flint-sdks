@@ -32,7 +32,7 @@ final class CreatePayoutRequestInput extends Model {
      */
     public function getDescription(): string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -44,13 +44,13 @@ final class CreatePayoutRequestInput extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Payout method. Only standard is accepted; omitted defaults to standard. Value enum: "standard".
+    /** Only `standard`. Flint doesn't offer instant payouts. Value enum: "standard".
      * @return string
      * @throws SdkError When method is omitted; use hasMethod() or valueOrDefault().
      */
     public function getMethod(): string { return $this->get('method'); }
     public function hasMethod(): bool { return $this->has('method'); }
-    /** Destination to pay. It must be active and in the payout's currency. Omit it to pay the currency's default destination. minLength: 1.
+    /** Destination to pay. It must be active and in the payout's currency. Omit it to pay the currency's default destination. minLength: 1. Example: "pdest_01KEZF7C00M55HZDZXZP6YVE6B".
      * @return string
      * @throws SdkError When payout_destination_id is omitted; use hasPayoutDestinationId() or valueOrDefault().
      */

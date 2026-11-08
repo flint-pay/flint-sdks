@@ -12,7 +12,7 @@ namespace Flint;
  * @property-read string $related_request_id
  * @property-read list<string> $related_resource_ids
  * @property-read string $reporter_kind
- * @property-read FeedbackReportingClientInput|array<array-key, mixed>|\stdClass $reporting_client
+ * @property-read FeedbackReportingClientRequestInput|array<array-key, mixed>|\stdClass $reporting_client
  * @property-read list<string> $reproduction_steps
  * @property-read string $sentiment
  * @property-read string $summary
@@ -20,7 +20,7 @@ namespace Flint;
  * @property-read string $surface_route
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateFeedbackReportRequestInput extends Model {
-    /** @param array{'actual_behavior'?: string, 'canonical_command'?: string, 'code_location'?: string, 'component'?: string, 'description'?: string, 'expected_behavior'?: string, 'kind': string, 'related_request_id'?: string, 'related_resource_ids'?: list<string>, 'reporter_kind'?: string, 'reporting_client'?: FeedbackReportingClientInput|array<array-key, mixed>|\stdClass, 'reproduction_steps'?: list<string>, 'sentiment': string, 'summary'?: string, 'surface': string, 'surface_route'?: string}|object|array{'actual_behavior'?: string, 'canonical_command'?: string, 'code_location'?: string, 'component'?: string, 'description'?: string, 'expected_behavior'?: string, 'kind': string, 'related_request_id'?: string, 'related_resource_ids'?: list<string>, 'reporter_kind'?: string, 'reporting_client'?: FeedbackReportingClientInput|array<array-key, mixed>|\stdClass, 'reproduction_steps'?: list<string>, 'sentiment'?: string, 'summary': string, 'surface': string, 'surface_route'?: string}|object $values */
+    /** @param array{'actual_behavior'?: string, 'canonical_command'?: string, 'code_location'?: string, 'component'?: string, 'description'?: string, 'expected_behavior'?: string, 'kind': string, 'related_request_id'?: string, 'related_resource_ids'?: list<string>, 'reporter_kind'?: string, 'reporting_client'?: FeedbackReportingClientRequestInput|array<array-key, mixed>|\stdClass, 'reproduction_steps'?: list<string>, 'sentiment': string, 'summary'?: string, 'surface': string, 'surface_route'?: string}|object|array{'actual_behavior'?: string, 'canonical_command'?: string, 'code_location'?: string, 'component'?: string, 'description'?: string, 'expected_behavior'?: string, 'kind': string, 'related_request_id'?: string, 'related_resource_ids'?: list<string>, 'reporter_kind'?: string, 'reporting_client'?: FeedbackReportingClientRequestInput|array<array-key, mixed>|\stdClass, 'reproduction_steps'?: list<string>, 'sentiment'?: string, 'summary': string, 'surface': string, 'surface_route'?: string}|object $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateFeedbackReportRequestInput')); }
     /** Optional observed outcome. Limited to 4000 characters (Unicode code points), counted before whitespace and line-ending normalization. minLength: 1. maxLength: 4000.
      * @return string
@@ -34,7 +34,7 @@ final class CreateFeedbackReportRequestInput extends Model {
      */
     public function getCanonicalCommand(): string { return $this->get('canonical_command'); }
     public function hasCanonicalCommand(): bool { return $this->has('canonical_command'); }
-    /** Location in the reporting code associated with this feedback. Limited to 500 characters (Unicode code points), counted before whitespace and line-ending normalization. minLength: 1. maxLength: 500.
+    /** One file path relative to your repository root, optionally followed by `:line` or `:line:column`, such as `src/sync/products.ts:42`. Absolute paths, `..` segments, and backslashes are rejected. Limited to 500 characters (Unicode code points), counted before whitespace and line-ending normalization. minLength: 1. maxLength: 500.
      * @return string
      * @throws SdkError When code_location is omitted; use hasCodeLocation() or valueOrDefault().
      */
@@ -64,13 +64,13 @@ final class CreateFeedbackReportRequestInput extends Model {
      */
     public function getKind(): string { return $this->get('kind'); }
     public function hasKind(): bool { return $this->has('kind'); }
-    /** Flint request ID associated with this feedback. Limited to 255 characters (Unicode code points), counted before whitespace and line-ending normalization. minLength: 1. maxLength: 255.
+    /** Flint request ID associated with this feedback. Limited to 255 characters (Unicode code points), counted before whitespace and line-ending normalization. minLength: 1. maxLength: 255. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      * @return string
      * @throws SdkError When related_request_id is omitted; use hasRelatedRequestId() or valueOrDefault().
      */
     public function getRelatedRequestId(): string { return $this->get('related_request_id'); }
     public function hasRelatedRequestId(): bool { return $this->has('related_request_id'); }
-    /** Existing public resources associated with this feedback, with at most 20 unique IDs. maxItems: 20. uniqueItems: true. [] (Value): string. minLength: 1.
+    /** Flint IDs of the resources this feedback is about, at most 20 and all different. Flint checks only that each ID has the format of a Flint resource ID, not that the resource exists or that you can read it. maxItems: 20. uniqueItems: true. [] (Value): string. minLength: 1. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return list<string>
      * @throws SdkError When related_resource_ids is omitted; use hasRelatedResourceIds() or valueOrDefault().
      */
@@ -83,7 +83,7 @@ final class CreateFeedbackReportRequestInput extends Model {
     public function getReporterKind(): string { return $this->get('reporter_kind'); }
     public function hasReporterKind(): bool { return $this->has('reporter_kind'); }
     /** Tool submitting the feedback, independently of the product being discussed. Its name is required when present. The client that submits a feedback report, with its name, platform, version, and schema version.
-     * @return FeedbackReportingClientInput|array<array-key, mixed>|\stdClass
+     * @return FeedbackReportingClientRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When reporting_client is omitted; use hasReportingClient() or valueOrDefault().
      */
     public function getReportingClient(): mixed { return $this->get('reporting_client'); }
@@ -112,7 +112,7 @@ final class CreateFeedbackReportRequestInput extends Model {
      */
     public function getSurface(): string { return $this->get('surface'); }
     public function hasSurface(): bool { return $this->has('surface'); }
-    /** Relevant route in the product being discussed. Limited to 500 characters (Unicode code points), counted before whitespace and line-ending normalization. minLength: 1. maxLength: 500.
+    /** A public API route template exactly as the API reference shows it, such as `/v1/orders/{order_id}`, with no host, query string, or real IDs. Omit it for feedback that isn't about an API route; any other value returns `400 INVALID_REQUEST`. Limited to 500 characters (Unicode code points), counted before whitespace and line-ending normalization. minLength: 1. maxLength: 500.
      * @return string
      * @throws SdkError When surface_route is omitted; use hasSurfaceRoute() or valueOrDefault().
      */

@@ -17,9 +17,10 @@ $client = new Client(new ClientOptions(
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->giftCardNotifications->create([
-  'gift_card_id' => 'gc_01ARZ3NDEKTSV4RRFFQ69G5FAV',
+  'gift_card_id' => 'gc_01KEZF7C00Z8CQGX4BKKBJ3B5S',
   'recipient' => (object) [
-    'email' => 'example@example.invalid',
+    'email' => 'alex@example.com',
+    'name' => 'Alex Morgan',
   ],
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->gift_card_id . PHP_EOL;

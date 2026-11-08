@@ -16,19 +16,19 @@ final class BuyerFlintWalletStoreSetupInput extends Model {
      */
     public function getClientSetup(): mixed { return $this->get('client_setup'); }
     public function hasClientSetup(): bool { return $this->has('client_setup'); }
-    /** payment_method_id
+    /** ID of the store's card copy this setup creates. The copy can be used for payments once `status` is `active`. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
      * @return string
      * @throws SdkError When payment_method_id is omitted; use hasPaymentMethodId() or valueOrDefault().
      */
     public function getPaymentMethodId(): string { return $this->get('payment_method_id'); }
     public function hasPaymentMethodId(): bool { return $this->has('payment_method_id'); }
-    /** Value enum: "pending", "active", "failed", "expired".
+    /** Whether the store's copy of the card is ready to use. Value enum: "pending", "active", "failed", "expired".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** store_setup_id
+    /** Unique identifier for this flint wallet store setup, prefixed `fwss_`. Example: "fwss_01KEZF7C003N5D2C3AVYZ5VMEQ".
      * @return string
      * @throws SdkError When store_setup_id is omitted; use hasStoreSetupId() or valueOrDefault().
      */

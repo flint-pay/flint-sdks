@@ -8,8 +8,8 @@ const client = new Client({
   customerToken,
 });
 const result = await client.me.getSubscriptionPaymentRetry(
-  "sub_01ARZ3NDEKTSV4RRFFQ69G5FAV",
-  "spr_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "sub_01KEZF7C00BVRE8YDBXQB74BBM",
+  "spr_01KEZF7C00YXMSBXGYEMYDD0AA"
 );
 console.log(result.status);
 console.log(result.subscription_id);

@@ -1,1 +1,1 @@
-{"shared":"InvoiceManualPaymentReversedMerchantEvent","dependencies":["InvoiceManualPayment","InvoiceManualPaymentReversedMerchantEvent","MoneyValue","SharedCodec14","SharedCodec15","SharedCodec16","SharedCodec755"]}
+{"shared":"InvoiceManualPaymentReversedMerchantEvent","dependencies":["InvoiceManualPayment","InvoiceManualPaymentReversedMerchantEvent","MoneyValue","SharedCodec18","SharedCodec23","SharedCodec24","SharedCodec25","SharedCodec26","SharedCodec843","SharedCodec844"]}

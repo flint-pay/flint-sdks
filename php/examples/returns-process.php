@@ -16,10 +16,10 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->returns->process('ret_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
+$result = $client->returns->process('ret_01KEZF7C00PG93650ZKVQNGF7X', [
   'line_items' => [
     (object) [
-      'return_line_item_id' => 'retli_01ARZ3NDEKTSV4RRFFQ69G5FAV',
+      'return_line_item_id' => 'retli_01KEZF7C00R813VR7ECXS062QG',
     ],
   ],
 ], new RequestOptions(idempotencyKey: $idempotencyKey));

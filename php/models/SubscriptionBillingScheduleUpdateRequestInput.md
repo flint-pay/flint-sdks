@@ -9,7 +9,7 @@ Request input.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `billing_anchor_day` | Conditional | integer | UTC day of the month used for monthly and yearly billing. Overrides the day inferred from a moved next_billing_at. Format: `int32`. minimum: `1`. maximum: `31`. |
-| `next_billing_at` | Conditional | Varies by condition | Format: `date-time`. minLength: `1`. |
+| `next_billing_at` | Conditional | Varies by condition | Format: `date-time`. minLength: `1`. Example: `"2026-08-02T16:00:00Z"`. |
 | `owner` | Required | string |  |
 
 ### SubscriptionBillingScheduleUpdateRequestInput variant 1: `owner` = `"flint"`

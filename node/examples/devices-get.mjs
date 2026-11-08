@@ -5,7 +5,7 @@ const client = new Client({
   allowInsecureHttp: !!baseUrl && ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
 });
 const result = await client.devices.get(
-  "dev_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "dev_01KEZF7C0051ZP8MZSGHP989F6"
 );
 console.log(result.device_id);
-console.log(result.status);
+console.log(result.merchant_id);

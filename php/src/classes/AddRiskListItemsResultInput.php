@@ -7,7 +7,7 @@ namespace Flint;
 final class AddRiskListItemsResultInput extends Model {
     /** @param array{'additions': list<RiskListItemAdditionInput|array<array-key, mixed>|\stdClass>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('AddRiskListItemsResultInput')); }
-    /**  [] (Value): {@see RiskListItemAdditionInput}. The risk list item matched or created for one requested value, and its creation outcome.
+    /** One entry for each value you sent, in request order. [] (Value): {@see RiskListItemAdditionInput}. The risk list item matched or created for one requested value, and its creation outcome.
      * @return list<RiskListItemAdditionInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When additions is omitted; use hasAdditions() or valueOrDefault().
      */

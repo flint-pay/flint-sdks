@@ -20,6 +20,6 @@ $result = $client->taxConnection->disconnect([
   'expected_version' => 1793016000,
   'tax_default_behavior' => 'turn_off',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
+echo $result->settings->merchant_id . PHP_EOL;
 echo $result->settings->settings_id . PHP_EOL;
-echo $result->tax_connection->status . PHP_EOL;
 $client->close();

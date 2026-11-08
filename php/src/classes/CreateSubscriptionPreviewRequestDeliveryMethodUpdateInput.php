@@ -15,7 +15,7 @@ final class CreateSubscriptionPreviewRequestDeliveryMethodUpdateInput extends Mo
      */
     public function getDeliveryMethod(): mixed { return $this->get('delivery_method'); }
     public function hasDeliveryMethod(): bool { return $this->has('delivery_method'); }
-    /** minLength: 1. pattern: ^dmet_[0-9A-HJKMNP-TV-Z]{26}$.
+    /** minLength: 1. pattern: ^dmet_[0-9A-HJKMNP-TV-Z]{26}$. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
      * @return string
      * @throws SdkError When delivery_method_id is omitted; use hasDeliveryMethodId() or valueOrDefault().
      */

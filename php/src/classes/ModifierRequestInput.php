@@ -36,7 +36,7 @@ final class ModifierRequestInput extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Stable identifier of the modifier. In a replacement request, include it to retain a modifier or omit it to create one. minLength: 1.
+    /** Stable identifier of the modifier. In a replacement request, include it to retain a modifier or omit it to create one. minLength: 1. Example: "mod_01KEZF7C00SAWDZBQJX5H0XW1S".
      * @return string
      * @throws SdkError When modifier_id is omitted; use hasModifierId() or valueOrDefault().
      */

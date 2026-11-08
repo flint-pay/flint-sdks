@@ -5,7 +5,7 @@ const client = new Client({
   allowInsecureHttp: !!baseUrl && ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
 });
 const result = await client.orders.getCurrentDeliverySelection(
-  "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "ord_01KEZF7C0054GQKJ142A8X367A"
 );
 console.log(result.delivery_quote_id);
 console.log(result.delivery_selection_id);

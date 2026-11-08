@@ -13,7 +13,7 @@ namespace Flint;
 final class ReturnProcessResolutionRequestInput extends Model {
     /** @param array{'external_reference_id'?: string, 'gift_card_refund_destination'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'pricing_basis'?: string, 'quantity': int, 'replacement_line_items'?: list<ReturnReplacementLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'resolution_type': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnProcessResolutionRequestInput')); }
-    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -25,13 +25,13 @@ final class ReturnProcessResolutionRequestInput extends Model {
      */
     public function getGiftCardRefundDestination(): string { return $this->get('gift_card_refund_destination'); }
     public function hasGiftCardRefundDestination(): bool { return $this->has('gift_card_refund_destination'); }
-    /** Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: 50.
+    /** Caller-owned key-value data. See `MetadataInput` for key, value, and size rules. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: 50.
      * @return MetadataRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Value enum: "original_price", "current_price", "merchant_agreed_price".
+    /** Required for merchant exchange and replacement requests. original_price preserves the selected units' net paid amounts using refund allocation; current_price uses catalog prices; merchant_agreed_price uses each supplied unit_price_money. Buyer requests must omit pricing_basis: replacements use original_price; exchanges use original_price when every replacement matches selected returned merchandise by variant, bundle, or product, otherwise current_price. Value enum: "original_price", "current_price", "merchant_agreed_price".
      * @return string
      * @throws SdkError When pricing_basis is omitted; use hasPricingBasis() or valueOrDefault().
      */
@@ -43,13 +43,13 @@ final class ReturnProcessResolutionRequestInput extends Model {
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
-    /**  [] (Value): {@see ReturnReplacementLineItemRequestInput}. A replacement item to include in a return resolution, from a variant, a bundle, or a custom name and price.
+    /** Merchandise the buyer receives instead, up to 100. Send with `exchange` or `replacement`. [] (Value): {@see ReturnReplacementLineItemRequestInput}. A replacement item to include in a return resolution, from a variant, a bundle, or a custom name and price.
      * @return list<ReturnReplacementLineItemRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When replacement_line_items is omitted; use hasReplacementLineItems() or valueOrDefault().
      */
     public function getReplacementLineItems(): array { return $this->get('replacement_line_items'); }
     public function hasReplacementLineItems(): bool { return $this->has('replacement_line_items'); }
-    /** Value enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit".
+    /** What the buyer gets for the approved quantity. Value enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit".
      * @return string
      * @throws SdkError When resolution_type is omitted; use hasResolutionType() or valueOrDefault().
      */

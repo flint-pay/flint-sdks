@@ -8,5 +8,5 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `modifiers` | Optional | Array of [ResolvePaymentLinkLineItemModifierRequestInput](../models/ResolvePaymentLinkLineItemModifierRequestInput.md#resolvepaymentlinklineitemmodifierrequestinput) |  |
+| `modifiers` | Optional | Array of [ResolvePaymentLinkLineItemModifierRequestInput](../models/ResolvePaymentLinkLineItemModifierRequestInput.md#resolvepaymentlinklineitemmodifierrequestinput) | The buyer's modifier selections for the line item. Required, and `null` is not accepted. Send an empty array when the buyer chose none. |
 

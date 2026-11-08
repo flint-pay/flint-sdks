@@ -11,33 +11,34 @@ namespace Flint;
  * @property-read string $name
  * @property-read string $on_email_conflict
  * @property-read string $phone
+ * @property-read string|null $price_list_id
  * @property-read string $segment
  * @property-read bool $tax_exempt
  * @property-read TaxIdentityPatchInput|array<array-key, mixed>|\stdClass $tax_identity
  * @property-read string $test_clock_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateCustomerRequestInput extends Model {
-    /** @param array{'default_invoice_payment_term_id'?: string, 'email'?: string, 'external_reference_id'?: string, 'internal_note'?: string, 'is_merchant_verified'?: bool, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'name'?: string, 'on_email_conflict'?: string, 'phone'?: string, 'segment'?: string, 'tax_exempt'?: bool, 'tax_identity'?: TaxIdentityPatchInput|array<array-key, mixed>|\stdClass, 'test_clock_id'?: string}|object $values */
+    /** @param array{'default_invoice_payment_term_id'?: string, 'email'?: string, 'external_reference_id'?: string, 'internal_note'?: string, 'is_merchant_verified'?: bool, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'name'?: string, 'on_email_conflict'?: string, 'phone'?: string, 'price_list_id'?: string|null, 'segment'?: string, 'tax_exempt'?: bool, 'tax_identity'?: TaxIdentityPatchInput|array<array-key, mixed>|\stdClass, 'test_clock_id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateCustomerRequestInput')); }
-    /** minLength: 1.
+    /** ID of the invoice payment term that applies to this customer's invoices created with `payment_due.type` set to `customer_default`. minLength: 1. Example: "ipt_01KEZF7C0064N1V301BBMQ37R4".
      * @return string
      * @throws SdkError When default_invoice_payment_term_id is omitted; use hasDefaultInvoicePaymentTermId() or valueOrDefault().
      */
     public function getDefaultInvoicePaymentTermId(): string { return $this->get('default_invoice_payment_term_id'); }
     public function hasDefaultInvoicePaymentTermId(): bool { return $this->has('default_invoice_payment_term_id'); }
-    /** Format: email. minLength: 1. maxLength: 320.
+    /** Customer email, unique among the environment's customers. Required when `on_email_conflict` is `return_existing`. Format: email. minLength: 1. maxLength: 320. Example: "buyer@example.com".
      * @return string
      * @throws SdkError When email is omitted; use hasEmail() or valueOrDefault().
      */
     public function getEmail(): string { return $this->get('email'); }
     public function hasEmail(): bool { return $this->has('email'); }
-    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** minLength: 1.
+    /** Internal note about this customer. Not returned to customer sessions. minLength: 1.
      * @return string
      * @throws SdkError When internal_note is omitted; use hasInternalNote() or valueOrDefault().
      */
@@ -55,7 +56,7 @@ final class CreateCustomerRequestInput extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** minLength: 1.
+    /** Customer name, up to 255 characters (Unicode code points) after trimming surrounding whitespace. minLength: 1.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
@@ -67,31 +68,37 @@ final class CreateCustomerRequestInput extends Model {
      */
     public function getOnEmailConflict(): string { return $this->get('on_email_conflict'); }
     public function hasOnEmailConflict(): bool { return $this->has('on_email_conflict'); }
-    /** minLength: 1.
+    /** Customer phone number. minLength: 1.
      * @return string
      * @throws SdkError When phone is omitted; use hasPhone() or valueOrDefault().
      */
     public function getPhone(): string { return $this->get('phone'); }
     public function hasPhone(): bool { return $this->has('phone'); }
+    /** ID of a wholesale price list in this merchant environment. An inactive list can be assigned but does not apply. An archived list returns 409 ACTION_NOT_ALLOWED; a missing list returns 404 RESOURCE_NOT_FOUND. Omit or send null for no direct list. minLength: 1. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
+     * @return string|null
+     * @throws SdkError When price_list_id is omitted; use hasPriceListId() or valueOrDefault().
+     */
+    public function getPriceListId(): string|null { return $this->get('price_list_id'); }
+    public function hasPriceListId(): bool { return $this->has('price_list_id'); }
     /** Free-form label you assign, such as wholesale, so promotion and delivery rules can match groups of customers. It is not an ID; Flint does not check it against any resource. minLength: 1.
      * @return string
      * @throws SdkError When segment is omitted; use hasSegment() or valueOrDefault().
      */
     public function getSegment(): string { return $this->get('segment'); }
     public function hasSegment(): bool { return $this->has('segment'); }
-    /** tax_exempt
+    /** Whether Flint treats this customer as exempt from tax on their orders, so it skips tax calculation for them. Defaults to `false`.
      * @return bool
      * @throws SdkError When tax_exempt is omitted; use hasTaxExempt() or valueOrDefault().
      */
     public function getTaxExempt(): bool { return $this->get('tax_exempt'); }
     public function hasTaxExempt(): bool { return $this->has('tax_exempt'); }
-    /** Merchant-provided legal identity displayed on invoices and credit notes. Does not verify IDs or change tax treatment. Tax IDs are an owned collection in display order; replacing the array requires the parent's expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add one.
+    /** Legal name, registered address and tax IDs printed on this customer's invoices and credit notes. Merchant-provided legal identity displayed on invoices and credit notes. Does not verify IDs or change tax treatment. Tax IDs are an owned collection in display order; replacing the array requires the parent's expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add one.
      * @return TaxIdentityPatchInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When tax_identity is omitted; use hasTaxIdentity() or valueOrDefault().
      */
     public function getTaxIdentity(): mixed { return $this->get('tax_identity'); }
     public function hasTaxIdentity(): bool { return $this->has('tax_identity'); }
-    /** Sandbox only. ID of a test clock to create the customer on. The customer, and every subscription created for it, read the clock's time instead of real time. A customer can't be moved to another clock or taken off one. A live credential gets `403 FORBIDDEN` with reason `test_mode_required`. minLength: 1.
+    /** Sandbox only. ID of a test clock to create the customer on. The customer, and every subscription created for it, read the clock's time instead of real time. A customer can't be moved to another clock or taken off one. A live credential gets `403 FORBIDDEN` with reason `test_mode_required`. minLength: 1. Example: "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
      * @return string
      * @throws SdkError When test_clock_id is omitted; use hasTestClockId() or valueOrDefault().
      */

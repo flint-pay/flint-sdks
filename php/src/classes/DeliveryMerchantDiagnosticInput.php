@@ -17,25 +17,25 @@ namespace Flint;
 final class DeliveryMerchantDiagnosticInput extends Model {
     /** @param array{'code': string, 'delivery_method_id'?: string, 'delivery_method_revision_id'?: string, 'diagnostic_id': string, 'eligibility_mismatches'?: list<DeliveryEligibilityMismatchInput|array<array-key, mixed>|\stdClass>, 'occurred_at': string|\DateTimeInterface, 'outcome': string, 'recommended_action': string, 'retryable': bool, 'scope': string, 'summary': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryMerchantDiagnosticInput')); }
-    /** Stable reason the method did not produce an option. - `eligibility_no_match`: The configured eligibility expression excluded the method. - `method_unavailable`: The method was unavailable for this evaluation. - `input_required`: The buyer or caller must provide more information to evaluate the method. - `checkout_context_required`: A checkout session is required to evaluate the method. - `dependency_failure`: Flint could not check whether the method is available. Value enum: "eligibility_no_match", "method_unavailable", "input_required", "checkout_context_required", "dependency_failure".
+    /** Stable reason the method did not produce an option. - `eligibility_no_match`: The configured eligibility expression excluded the method. - `method_unavailable`: The method was unavailable for this evaluation. - `input_required`: The buyer or caller must provide more information to evaluate the method. - `checkout_context_required`: A checkout session is required to evaluate the method. - `dependency_failure`: Flint could not check whether the method is available. - `dependency_revoked`: The method revision or a dependency was revoked. Publish a corrected revision, rotate the callback signing secret, or choose another method. Value enum: "eligibility_no_match", "method_unavailable", "input_required", "checkout_context_required", "dependency_failure", "dependency_revoked".
      * @return string
      * @throws SdkError When code is omitted; use hasCode() or valueOrDefault().
      */
     public function getCode(): string { return $this->get('code'); }
     public function hasCode(): bool { return $this->has('code'); }
-    /** delivery_method_id
+    /** Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
      * @return string
      * @throws SdkError When delivery_method_id is omitted; use hasDeliveryMethodId() or valueOrDefault().
      */
     public function getDeliveryMethodId(): string { return $this->get('delivery_method_id'); }
     public function hasDeliveryMethodId(): bool { return $this->has('delivery_method_id'); }
-    /** delivery_method_revision_id
+    /** Example: "dmetr_01KEZF7C001ZF9D92DY1G51GV9".
      * @return string
      * @throws SdkError When delivery_method_revision_id is omitted; use hasDeliveryMethodRevisionId() or valueOrDefault().
      */
     public function getDeliveryMethodRevisionId(): string { return $this->get('delivery_method_revision_id'); }
     public function hasDeliveryMethodRevisionId(): bool { return $this->has('delivery_method_revision_id'); }
-    /** diagnostic_id
+    /** Example: "ddiag_01KEZF7C002JPVD08857RGDGPC".
      * @return string
      * @throws SdkError When diagnostic_id is omitted; use hasDiagnosticId() or valueOrDefault().
      */
@@ -47,7 +47,7 @@ final class DeliveryMerchantDiagnosticInput extends Model {
      */
     public function getEligibilityMismatches(): array { return $this->get('eligibility_mismatches'); }
     public function hasEligibilityMismatches(): bool { return $this->has('eligibility_mismatches'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When occurred_at is omitted; use hasOccurredAt() or valueOrDefault().
      */

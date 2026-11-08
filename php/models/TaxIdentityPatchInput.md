@@ -8,7 +8,7 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `legal_name` | Optional | string or null | Send null to clear it. minLength: `1`. maxLength: `255`. |
-| `registered_address` | Optional | [AddressRequestInput](../models/AddressRequestInput.md#addressrequestinput) or null | Replaced as a whole: send every field you want to keep. |
-| `tax_ids` | Optional | Array of [DocumentTaxIDRequestInput](../models/DocumentTaxIDRequestInput.md#documenttaxidrequestinput) | maxItems: `20`. |
+| `legal_name` | Optional | string or null | The merchant's legal name, printed on invoices and credit notes. minLength: `1`. maxLength: `255`. |
+| `registered_address` | Optional | [AddressRequestInput](../models/AddressRequestInput.md#addressrequestinput) or null | Replaced as a whole: send every field you want to keep. The merchant's registered business address, printed on invoices and credit notes. |
+| `tax_ids` | Optional | Array of [DocumentTaxIDRequestInput](../models/DocumentTaxIDRequestInput.md#documenttaxidrequestinput) | Tax IDs printed on invoices and credit notes, in display order. The list you send replaces the stored one: keep an entry by sending its `document_tax_id`, add one by omitting it, and remove one by leaving the entry out. Send `[]` to remove every tax ID. maxItems: `20`. |
 

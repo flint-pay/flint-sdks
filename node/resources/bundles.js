@@ -5,9 +5,9 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/bundles.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import r0 from '../descriptors/resources/bundles.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import settings from '../descriptors/settings.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createBundle"]:r0,["deleteBundle"]:r0,["getBundle"]:r0,["listBundleComponents"]:r0,["listBundles"]:r0,["updateBundle"]:r0});
 export class Client {
@@ -15,7 +15,11 @@ export class Client {
 constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.bundles = Object.freeze({
-      create: async (params, options) => this.#runtime.request("createBundle", _sdkRequestInput([], [], [], true, true, params, [
+      create: async (params, options) => this.#runtime.request("createBundle", _sdkRequestInput([], [], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
@@ -23,7 +27,10 @@ this.bundles = Object.freeze({
       delete: async (bundle_id, params, options) => this.#runtime.request("deleteBundle", _sdkRequestInput([
   "bundle_id"
 ], [bundle_id], [
-  "expected_version"
+  "expected_version",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Idempotency-Key",
   "Flint-Version",
@@ -32,7 +39,10 @@ this.bundles = Object.freeze({
       get: async (bundle_id, params, options) => this.#runtime.request("getBundle", _sdkRequestInput([
   "bundle_id"
 ], [bundle_id], [
-  "expand"
+  "expand",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -43,7 +53,10 @@ this.bundles = Object.freeze({
   "page_size",
   "page_token",
   "delivery_profile_id",
-  "delivery_configuration_status"
+  "delivery_configuration_status",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -54,7 +67,10 @@ this.bundles = Object.freeze({
   "page_size",
   "page_token",
   "delivery_profile_id",
-  "delivery_configuration_status"
+  "delivery_configuration_status",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -65,7 +81,10 @@ this.bundles = Object.freeze({
   "page_size",
   "page_token",
   "delivery_profile_id",
-  "delivery_configuration_status"
+  "delivery_configuration_status",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -86,7 +105,10 @@ this.bundles = Object.freeze({
   "created_before",
   "updated_after",
   "updated_before",
-  "expand"
+  "expand",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -107,7 +129,10 @@ this.bundles = Object.freeze({
   "created_before",
   "updated_after",
   "updated_before",
-  "expand"
+  "expand",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -128,14 +153,21 @@ this.bundles = Object.freeze({
   "created_before",
   "updated_after",
   "updated_before",
-  "expand"
+  "expand",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
 ]), options),
       update: async (bundle_id, params, options) => this.#runtime.request("updateBundle", _sdkRequestInput([
   "bundle_id"
-], [bundle_id], [], true, true, params, [
+], [bundle_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
@@ -152,7 +184,6 @@ export { makeImageInputSourceURL } from '../models/ImageInputSourceURL.js';
 export { makeImageRequest } from '../models/ImageRequest.js';
 export { makeMetadataPatchRequest } from '../models/MetadataPatchRequest.js';
 export { makeMetadataRequest } from '../models/MetadataRequest.js';
-export { makeModifierOverride } from '../models/ModifierOverride.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
 export { makeUpdateBundleComponentRequest } from '../models/UpdateBundleComponentRequest.js';
 export { makeUpdateBundleRequest } from '../models/UpdateBundleRequest.js';

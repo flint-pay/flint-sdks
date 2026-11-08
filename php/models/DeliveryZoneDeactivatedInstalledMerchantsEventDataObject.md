@@ -2,9 +2,11 @@
 
 ## DeliveryZoneDeactivatedInstalledMerchantsEventDataObject
 
-A geographic area served by a delivery method.
+The affected public resource without expansions, client authority fields, or fields computed for an individual caller.
+
+The resource snapshot, without expansions. Webhooks omit no additional fields.
 
 Response model.
 
-Fields, types, descriptions and enum values: [DeliveryZone](../models/DeliveryZone.md#deliveryzone).
+Fields, types, descriptions and enum values: [DeliveryZoneActivatedMerchantEventDataObject](../models/DeliveryZoneActivatedMerchantEventDataObject.md#deliveryzoneactivatedmerchanteventdataobject).
 

@@ -1,5 +1,5 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-5.js';
+import type { ClientOptions } from '../declarations/types-6.js';
 import type {
     FeedbackReport,
     FeedbackReportListResponse,
@@ -7,9 +7,9 @@ import type {
     FeedbackReportsCreateParams,
     FeedbackReportsGetParams,
     FeedbackReportsListParams
-} from '../declarations/types-21.js';
-import type { RequestOptions } from '../declarations/types-48.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-23.js';
+import type { RequestOptions } from '../declarations/types-51.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -31,30 +31,30 @@ export type {
     FeedbackReportsGetParams,
     FeedbackReportsListParams,
     FeedbackReportListResponse,
-    FeedbackReportingClientInput,
+    FeedbackReportingClientRequestInput,
     FeedbackReportingClient,
     FeedbackReportRating,
     FeedbackReportNarrative
-} from '../declarations/types-21.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { ClientOptions, CheckoutSessionsListDeliverySelectionsParams } from '../declarations/types-5.js';
+} from '../declarations/types-23.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+export type { ClientOptions } from '../declarations/types-6.js';
 export type {
     CreateFeedbackReportRequestInput,
     CreateFeedbackReportRatingInput,
     CreateFeedbackReportNarrativeInput
-} from '../declarations/types-7.js';
+} from '../declarations/types-8.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-12.js';
-export type { NextAction, MoneyValue } from '../declarations/types-35.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
+export type { Credentials } from '../declarations/types-13.js';
+export type { NextAction, MoneyValue } from '../declarations/types-37.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
 export {
     makeCreateFeedbackReportNarrative,
     makeCreateFeedbackReportRating,
     makeCreateFeedbackReportRequest
-} from '../declarations/types-64.js';
-export { makeFeedbackReportingClient } from '../declarations/types-67.js';
-export { makeMoneyValue } from '../declarations/types-70.js';
+} from '../declarations/types-69.js';
+export { makeFeedbackReportingClientRequest } from '../declarations/types-73.js';
+export { makeMoneyValue } from '../declarations/types-75.js';
 export interface FeedbackReportsResource {
     /**
  * Stores one immutable occurrence of Flint feedback. Use one report per root cause and include
@@ -66,8 +66,8 @@ export interface FeedbackReportsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.feedbackReports.create({kind: "rating", surface: "api", sentiment: "positive"}, {
- * idempotencyKey: idempotencyKey })
+ * client.feedbackReports.create({kind: "feature_request", reporter_kind: "human", summary: "Show
+ * the remaining credit before a refund", surface: "api"}, { idempotencyKey: idempotencyKey })
  */
     create(params: FeedbackReportsCreateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<FeedbackReport, FeedbackReportResponse>>;
     /**
@@ -78,7 +78,7 @@ export interface FeedbackReportsResource {
  * @see https://developers.withflintpay.com/docs/api/feedback-reports#getFeedbackReport
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.feedbackReports.get("fbr_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.feedbackReports.get("fbr_01KEZF7C00CFKWW2MH94F39D7B")
  */
     get(feedback_report_id: InputValue<string>, params?: FeedbackReportsGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<FeedbackReport, FeedbackReportResponse>>;
     /**

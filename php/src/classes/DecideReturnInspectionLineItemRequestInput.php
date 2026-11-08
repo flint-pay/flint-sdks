@@ -10,19 +10,19 @@ namespace Flint;
 final class DecideReturnInspectionLineItemRequestInput extends Model {
     /** @param array{'acceptance_decision_reason': string, 'acceptance_decision_reason_message'?: string, 'acceptance_status': string, 'expected_version'?: int}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DecideReturnInspectionLineItemRequestInput')); }
-    /** Value enum: "inspection_result", "return_policy", "manual_review", "other".
+    /** Why the units were accepted or rejected after review. Value enum: "inspection_result", "return_policy", "manual_review", "other".
      * @return string
      * @throws SdkError When acceptance_decision_reason is omitted; use hasAcceptanceDecisionReason() or valueOrDefault().
      */
     public function getAcceptanceDecisionReason(): string { return $this->get('acceptance_decision_reason'); }
     public function hasAcceptanceDecisionReason(): bool { return $this->has('acceptance_decision_reason'); }
-    /** minLength: 1.
+    /** Detail about `acceptance_decision_reason`. minLength: 1.
      * @return string
      * @throws SdkError When acceptance_decision_reason_message is omitted; use hasAcceptanceDecisionReasonMessage() or valueOrDefault().
      */
     public function getAcceptanceDecisionReasonMessage(): string { return $this->get('acceptance_decision_reason_message'); }
     public function hasAcceptanceDecisionReasonMessage(): bool { return $this->has('acceptance_decision_reason_message'); }
-    /** Value enum: "accepted", "rejected".
+    /** Whether the inspected units were accepted, rejected, or need a merchant's decision. Value enum: "accepted", "rejected".
      * @return string
      * @throws SdkError When acceptance_status is omitted; use hasAcceptanceStatus() or valueOrDefault().
      */

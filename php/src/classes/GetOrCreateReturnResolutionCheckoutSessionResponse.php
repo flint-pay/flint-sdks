@@ -9,17 +9,17 @@ namespace Flint;
 final class GetOrCreateReturnResolutionCheckoutSessionResponse extends Model {
     /** @param array{'data': mixed, 'meta'?: mixed, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GetOrCreateReturnResolutionCheckoutSessionResponse')); }
-    /** The checkout session with its checkout credential. For hosted checkout, send the buyer to url. For embedded checkout, pass checkout_auth_token to your checkout client. A session in which a buyer completes an order's payment.
+    /** Resource, collection, or operation result returned by this request. The checkout session with any newly issued checkout credential. Hosted launches return url without checkout_auth_token. Embedded launches return checkout_auth_token without url. Customer binding confirmation returns its newly issued credential for either surface. A session in which a buyer completes an order's payment.
      * @return CheckoutSessionWithSecret
      */
     public function getData(): CheckoutSessionWithSecret { return $this->get('data'); }
     public function hasData(): bool { return $this->has('data'); }
-    /** Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+    /** Additional information about this response. Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
      * @return ?ResponseMeta
      */
     public function getMeta(): ?ResponseMeta { return $this->get('meta'); }
     public function hasMeta(): bool { return $this->has('meta'); }
-    /** maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$.
+    /** Identifier of this API request, used to correlate logs and support requests. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$.
      * @return string
      */
     public function getRequestId(): string { return $this->get('request_id'); }

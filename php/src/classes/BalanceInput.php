@@ -29,7 +29,7 @@ final class BalanceInput extends Model {
      */
     public function getAvailableMoney(): mixed { return $this->get('available_money'); }
     public function hasAvailableMoney(): bool { return $this->has('available_money'); }
-    /** Stable identifier of this currency's balance.
+    /** Stable identifier of this currency's balance. Example: "bal_01KEZF7C00DE593X12REV5EFHZ".
      * @return string
      * @throws SdkError When balance_id is omitted; use hasBalanceId() or valueOrDefault().
      */
@@ -47,19 +47,19 @@ final class BalanceInput extends Model {
      */
     public function getHeldMoney(): mixed { return $this->get('held_money'); }
     public function hasHeldMoney(): bool { return $this->has('held_money'); }
-    /** Merchant whose balance this is.
+    /** Merchant whose balance this is. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
      * @return string
      * @throws SdkError When merchant_id is omitted; use hasMerchantId() or valueOrDefault().
      */
     public function getMerchantId(): string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** When Flint observed these amounts, as an RFC 3339 UTC instant at second precision. Stored balances retain their observation time; a fresh provider read uses the time of that read. Format: date-time.
+    /** When Flint observed these amounts, as an RFC 3339 UTC instant at second precision. Stored balances retain their observation time; a fresh provider read uses the time of that read. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When observed_at is omitted; use hasObservedAt() or valueOrDefault().
      */
     public function getObservedAt(): string|\DateTimeInterface { return $this->get('observed_at'); }
     public function hasObservedAt(): bool { return $this->has('observed_at'); }
-    /** Whether your account can receive payouts. While it is false, payments can still succeed, and their funds wait in your balance.
+    /** Whether payouts are ready for this balance currency, including an active default payout destination and account readiness. While it is false, payments can still succeed, and their funds wait in your balance.
      * @return bool
      * @throws SdkError When payouts_enabled is omitted; use hasPayoutsEnabled() or valueOrDefault().
      */

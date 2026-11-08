@@ -10,13 +10,13 @@ namespace Flint;
 final class UpdateDeviceRequestInput extends Model {
     /** @param array{'expected_version'?: int, 'location_id'?: string|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'name'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdateDeviceRequestInput')); }
-    /** Format: uint64. minimum: 1.
+    /** The device version you last read. A different current version returns `409 VERSION_CONFLICT`. Format: uint64. minimum: 1.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** Send null to clear it. minLength: 1.
+    /** Send null to clear it. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string|null
      * @throws SdkError When location_id is omitted; use hasLocationId() or valueOrDefault().
      */
@@ -28,7 +28,7 @@ final class UpdateDeviceRequestInput extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** minLength: 1.
+    /** New name for the device. minLength: 1.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */

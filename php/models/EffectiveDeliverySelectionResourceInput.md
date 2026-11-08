@@ -10,6 +10,6 @@ Request input.
 | --- | --- | --- | --- |
 | `delivery_selection` | Required | [DeliverySelectionInput](../models/DeliverySelectionInput.md#deliveryselectioninput) or null |  |
 | `mutable` | Required | boolean |  |
-| `originating_checkout_session_id` | Optional | string |  |
+| `originating_checkout_session_id` | Optional | string | Example: `"cs_01KEZF7C004JRWFW43H037MQRN"`. |
 | `source` | Required | string | Values: `"none"`, `"provisional"`, `"committed"`. |
 

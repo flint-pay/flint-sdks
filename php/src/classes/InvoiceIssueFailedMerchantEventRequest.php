@@ -8,7 +8,7 @@ namespace Flint;
 final class InvoiceIssueFailedMerchantEventRequest extends Model {
     /** @param object{'id': string, 'idempotency_key'?: string} $values */
     public function __construct(array|object $values, array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceIssueFailedMerchantEventRequest')); }
-    /** id
+    /** Request ID of the request that caused the event.
      * @return string
      */
     public function getId(): string { return $this->get('id'); }

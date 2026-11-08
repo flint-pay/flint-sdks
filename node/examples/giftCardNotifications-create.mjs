@@ -9,9 +9,10 @@ const idempotencyKey = crypto.randomUUID();
 
 const result = await client.giftCardNotifications.create(
   {
-    gift_card_id: "gc_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+    gift_card_id: "gc_01KEZF7C00Z8CQGX4BKKBJ3B5S",
     recipient: {
-      email: "example@example.invalid",
+      email: "alex@example.com",
+      name: "Alex Morgan",
     },
   },
   { idempotencyKey: idempotencyKey },

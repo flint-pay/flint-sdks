@@ -16,9 +16,10 @@ namespace Flint;
  * @property-read ?InvoiceTip $requested_tip
  * @property-read TaxIdentity|null $seller_tax_identity
  * @property-read list<InvoiceSnapshotTaxBreakdownsItemPercentage|InvoiceSnapshotTaxBreakdownsItemFlatAmount|\stdClass> $tax_breakdowns
+ * @property-read list<TaxCurrencyConversion> $tax_currency_conversions
  * Presence-aware response; omitted optional fields return null. */
 final class InvoiceSnapshot extends Model {
-    /** @param array{'billing_address'?: mixed, 'buyer_note'?: string, 'buyer_tax_identity': mixed, 'charges'?: list<mixed>, 'customer_display_name'?: string, 'customer_email'?: string, 'discounts'?: list<mixed>, 'internal_note'?: string, 'line_items'?: list<mixed>, 'merchant_display_name'?: string, 'pricing_amounts': mixed, 'requested_tip'?: mixed, 'seller_tax_identity': mixed, 'tax_breakdowns': list<mixed>, ...}|object $values */
+    /** @param array{'billing_address'?: mixed, 'buyer_note'?: string, 'buyer_tax_identity': mixed, 'charges'?: list<mixed>, 'customer_display_name'?: string, 'customer_email'?: string, 'discounts'?: list<mixed>, 'internal_note'?: string, 'line_items'?: list<mixed>, 'merchant_display_name'?: string, 'pricing_amounts': mixed, 'requested_tip'?: mixed, 'seller_tax_identity': mixed, 'tax_breakdowns': list<mixed>, 'tax_currency_conversions': list<mixed>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceSnapshot')); }
     /** Billing address captured on the invoice. Kept after the customer is deleted, because an issued invoice must keep it. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country.
      * @return ?Address
@@ -30,7 +31,7 @@ final class InvoiceSnapshot extends Model {
      */
     public function getBuyerNote(): ?string { return $this->get('buyer_note'); }
     public function hasBuyerNote(): bool { return $this->has('buyer_note'); }
-    /** Buyer tax identity captured on the invoice. Kept after the customer is deleted, because an issued invoice must keep it. anyOf[1] (Value): {@see TaxIdentity}. Merchant-provided legal identity displayed on invoices and credit notes. Does not verify IDs or change tax treatment. Tax IDs are an owned collection in display order; replacing the array requires the parent's expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add one. anyOf[2] (Value): null.
+    /** Buyer tax identity for this invoice. Drafts preview the customer's current identity. Issue freezes the identity, which later profile edits and customer deletion preserve. `null` when no buyer tax identity is available, including after customer deletion while the invoice is a draft. anyOf[1] (Value): {@see TaxIdentity}. Merchant-provided legal identity displayed on invoices and credit notes. Does not verify IDs or change tax treatment. Tax IDs are an owned collection in display order; replacing the array requires the parent's expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add one. anyOf[2] (Value): null.
      * @return TaxIdentity|null
      */
     public function getBuyerTaxIdentity(): TaxIdentity|null { return $this->get('buyer_tax_identity'); }
@@ -60,7 +61,7 @@ final class InvoiceSnapshot extends Model {
      */
     public function getInternalNote(): ?string { return $this->get('internal_note'); }
     public function hasInternalNote(): bool { return $this->has('internal_note'); }
-    /** The billed line items, frozen at issue. A draft previews the backing order's lines. [] (Value): {@see InvoiceLineItem}. A line item on an invoice, with its quantity, unit price, discount, tax, and totals, and the product, variant, or bundle it came from.
+    /** The billed line items, frozen at issue. A draft previews the backing order's lines. [] (Value): {@see InvoiceLineItem}. A line item on an invoice.
      * @return ?list<InvoiceLineItem>
      */
     public function getLineItems(): ?array { return $this->get('line_items'); }
@@ -80,7 +81,7 @@ final class InvoiceSnapshot extends Model {
      */
     public function getRequestedTip(): ?InvoiceTip { return $this->get('requested_tip'); }
     public function hasRequestedTip(): bool { return $this->has('requested_tip'); }
-    /** Identity frozen on the source invoice at issue. Later profile edits do not change this document. anyOf[1] (Value): {@see TaxIdentity}. Merchant-provided legal identity displayed on invoices and credit notes. Does not verify IDs or change tax treatment. Tax IDs are an owned collection in display order; replacing the array requires the parent's expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add one. anyOf[2] (Value): null.
+    /** Identity frozen on the source invoice at issue. Later profile edits do not change this document. `null` when no seller tax identity was captured. anyOf[1] (Value): {@see TaxIdentity}. Merchant-provided legal identity displayed on invoices and credit notes. Does not verify IDs or change tax treatment. Tax IDs are an owned collection in display order; replacing the array requires the parent's expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add one. anyOf[2] (Value): null.
      * @return TaxIdentity|null
      */
     public function getSellerTaxIdentity(): TaxIdentity|null { return $this->get('seller_tax_identity'); }
@@ -90,4 +91,9 @@ final class InvoiceSnapshot extends Model {
      */
     public function getTaxBreakdowns(): array { return $this->get('tax_breakdowns'); }
     public function hasTaxBreakdowns(): bool { return $this->has('tax_breakdowns'); }
+    /** VAT stated in the currency of the country that charges it, one entry per currency, frozen at issue. EU member states require their national currency and the UK requires sterling. Each entry gives the converted VAT, the converted taxable amount, and the rate with its source and date. Present for VAT above zero charged by an EU member state or the UK; always [] otherwise, including reverse charge, invoices in that currency already, and invoices issued before conversions were recorded. The invoice PDF prints the same figures. [] (Value): {@see TaxCurrencyConversion}. VAT on an issued document converted into the currency of the country whose VAT is charged.
+     * @return list<TaxCurrencyConversion>
+     */
+    public function getTaxCurrencyConversions(): array { return $this->get('tax_currency_conversions'); }
+    public function hasTaxCurrencyConversions(): bool { return $this->has('tax_currency_conversions'); }
 }

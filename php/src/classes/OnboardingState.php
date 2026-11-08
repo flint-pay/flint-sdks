@@ -14,32 +14,32 @@ namespace Flint;
 final class OnboardingState extends Model {
     /** @param array{'can_issue_api_key': bool, 'country'?: string, 'default_sandbox_id'?: string, 'merchant_id': string, 'next_step'?: mixed, 'profile': mixed, 'requested_capabilities'?: list<string>, 'status': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OnboardingState')); }
-    /** can_issue_api_key
+    /** Whether you can issue the merchant's first API key with `POST /v1/onboarding/api-key`. True while the merchant has no external API key and a default sandbox exists.
      * @return bool
      */
     public function getCanIssueApiKey(): bool { return $this->get('can_issue_api_key'); }
     public function hasCanIssueApiKey(): bool { return $this->has('can_issue_api_key'); }
-    /** Immutable business country for the selected stable provider-account target. Omitted until the target has selected an effective country. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Value enum: "US".
+    /** Immutable business country for the selected stable provider-account target. Omitted until the target has selected an effective country. Uses ISO 3166-1 alpha-2 country codes. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Value enum: "US".
      * @return ?string
      */
     public function getCountry(): ?string { return $this->get('country'); }
     public function hasCountry(): bool { return $this->has('country'); }
-    /** default_sandbox_id
+    /** ID of the merchant's default sandbox. Omitted when the merchant has no default sandbox.
      * @return ?string
      */
     public function getDefaultSandboxId(): ?string { return $this->get('default_sandbox_id'); }
     public function hasDefaultSandboxId(): bool { return $this->has('default_sandbox_id'); }
-    /** merchant_id
+    /** ID of the merchant this resource belongs to.
      * @return string
      */
     public function getMerchantId(): string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** A step that moves a merchant capability or readiness axis forward, with the party that must do it (`owner`) and any required fields.
+    /** The step to take next. Omitted when no step is pending, such as while Flint prepares the sandbox. A step that moves a merchant capability or readiness axis forward, with the party that must do it (`owner`) and any required fields.
      * @return ?ReadinessAction
      */
     public function getNextStep(): ?ReadinessAction { return $this->get('next_step'); }
     public function hasNextStep(): bool { return $this->has('next_step'); }
-    /** Contact and website details recorded for a merchant during onboarding.
+    /** Contact and website details recorded for onboarding. Contact and website details recorded for a merchant during onboarding.
      * @return OnboardingProfile
      */
     public function getProfile(): OnboardingProfile { return $this->get('profile'); }

@@ -24,7 +24,7 @@ final class AuthContext extends Model {
      */
     public function getApiKeyId(): ?string { return $this->get('api_key_id'); }
     public function hasApiKeyId(): bool { return $this->has('api_key_id'); }
-    /** Value enum: "api_key", "oauth", "workload_identity".
+    /** Value enum: "api_key", "oauth", "workload_identity", "partner_app".
      * @return string
      */
     public function getAuthType(): string { return $this->get('auth_type'); }
@@ -44,7 +44,7 @@ final class AuthContext extends Model {
      */
     public function getExpiresAt(): ?string { return $this->get('expires_at'); }
     public function hasExpiresAt(): bool { return $this->has('expires_at'); }
-    /** merchant_id
+    /** ID of the merchant this resource belongs to.
      * @return string
      */
     public function getMerchantId(): string { return $this->get('merchant_id'); }
@@ -69,7 +69,7 @@ final class AuthContext extends Model {
      */
     public function getOrganizationId(): ?string { return $this->get('organization_id'); }
     public function hasOrganizationId(): bool { return $this->has('organization_id'); }
-    /** sandbox_id
+    /** ID of the sandbox this resource belongs to.
      * @return ?string
      */
     public function getSandboxId(): ?string { return $this->get('sandbox_id'); }

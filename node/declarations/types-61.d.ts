@@ -1,4667 +1,1816 @@
-import type { ImageRequestInput } from './types-25.js';
-import type { InventoryRoutingSourceRequestInput } from './types-28.js';
-import type { MetadataPatchRequestInput, MoneyValueInput, MetadataPatchRequest } from './types-35.js';
-import type { SubscriptionIntervalOptionInput, SubscriptionDeliveryRequest, SubscriptionDeliveryRequestInput } from './types-55.js';
-import type { UpdateSubscriptionPlanLineItemRequestInput } from './types-60.js';
-import type { SubscriptionBillingScheduleUpdateRequest, SubscriptionBillingScheduleUpdateRequestInput } from './types-54.js';
-import type { WorkloadIdentityClaimConditionRequest, WorkloadIdentityClaimConditionRequestInput } from './types-62.js';
-import type { KnownWebhookEvent } from './types-32.js';
-import type { GetReturnReceiptResponse, GetReturnResponse } from './types-23.js';
-import type { ResponseMeta, ResendWebhookDeliveryRequestInput, ResourceType } from './types-48.js';
-import type { Package } from './types-39.js';
-import type { Shipment, RotateWebhookSecretRequestInput } from './types-53.js';
-import type { InputValue, EventStream } from '../runtime.js';
+import type { InputValue } from '../runtime.js';
+import type { RenewSubscriptionRequestInput, ResponseMeta } from './types-51.js';
+import type { InvoicesMarkUncollectibleParams } from './types-33.js';
+import type { SkipSubscriptionCycleRequestInput } from './types-57.js';
 import type {
-    CreateWebhookDeliveryRequestInput,
-    CreateWebhookEndpointRequestInput,
-    CreateWebhookTestEventRequestInput
-} from './types-12.js';
-import type { CheckoutSessionsListDeliverySelectionsParams } from './types-5.js';
-/** The request body for: Update subscription plan. */
-export type UpdateSubscriptionPlanRequestInput = ({
-    /** Value enum: "daily", "weekly", "monthly", "yearly". */
-    "billing_interval"?: "daily" | "weekly" | "monthly" | "yearly";
-    /** Format: int32. */
-    "billing_interval_count"?: number;
+    UpdateSubscriptionLineItemRequestInput,
+    UpdateSubscriptionRequestInput,
+    UpdateTaxCalculationCallbackRequestInput,
+    UpdateTaxRegistrationRequestInput
+} from './types-65.js';
+import type { MoneyValue, MoneyValueInput } from './types-37.js';
+import type { MerchantWebhookEnvelope } from './types-36.js';
+import type { CreateTaxCalculationCallbackRequestInput, CreateTaxRegistrationRequestInput } from './types-13.js';
+import type { Address, AddressRequest, AddressRequestInput } from './types-0.js';
+import type { ConnectTaxConnectionRequestInput } from './types-7.js';
+import type { DisconnectTaxConnectionRequestInput } from './types-22.js';
+import type { DocumentTaxID, DocumentTaxIDRequestInput } from './types-23.js';
+export type SubscriptionsRenewParams = (InputValue<RenewSubscriptionRequestInput> | {
+    "expected_version"?: never;
+})
+    & {
     /**
-     * Omission leaves the choices unchanged. Send [] to reset to the plan’s default billing
-     * interval and count. Null is invalid. maxItems: 12. uniqueItems: true. [] (Value): {@link
-     * SubscriptionIntervalOptionInput}. A billing interval, such as every 2 months, offered by a
-     * subscription plan.
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
      */
-    "billing_interval_options"?: Array<SubscriptionIntervalOptionInput>;
+    "Flint-Merchant-Id"?: InputValue<string>;
     /**
-     * A commitment period you agree with the buyer, 1 to 120 months. Flint shows it at checkout
-     * and records it on each new subscription (contract_start_at, contract_end_at). Flint does not
-     * stop the buyer from canceling earlier. Format: int32. minimum: 1. maximum: 120.
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
      */
-    "contract_term_months"?: number;
-    /** Omission leaves this field unchanged. Null clears it. minLength: 1. */
-    "description"?: string | null;
+    "Flint-Mode"?: InputValue<"test" | "live">;
     /**
-     * A fee you agree the buyer owes for canceling before the contract term ends. Flint shows it
-     * at checkout and records it on each new subscription, but never charges it. To collect it,
-     * charge the buyer yourself, for example with an order on their saved payment method. Requires
-     * contract_term_months. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
      */
-    "early_termination_fee_money"?: MoneyValueInput;
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type SubscriptionsResumeParams = InvoicesMarkUncollectibleParams;
+export type SubscriptionsSkipCycleParams = (InputValue<SkipSubscriptionCycleRequestInput>
+    | {
+    "expected_version"?: never;
+    "initiated_by"?: never;
+})
+    & {
     /**
-     * Resource version last read by the caller. Required when replacing an owned collection.
-     * Required when any of these fields is present: images, line_items. Format: uint64. minimum:
-     * 1.
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
      */
-    "expected_version"?: number;
+    "Flint-Merchant-Id"?: InputValue<string>;
     /**
-     * Caller-owned identifier for this resource in an external system. Omission leaves this field
-     * unchanged. Null clears it. minLength: 1. maxLength: 255.
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
      */
-    "external_reference_id"?: string | null;
+    "Flint-Mode"?: InputValue<"test" | "live">;
     /**
-     * The complete desired gallery in display order. The first image is primary. Send [] to clear
-     * the gallery. minItems: 0. maxItems: 8. [] (Value): {@link ImageRequestInput}. An image you
-     * supply by `source_url`, with optional `alt` text and external reference.
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
      */
-    "images"?: Array<ImageRequestInput>;
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type SubscriptionsUpdateLineItemParams = (InputValue<UpdateSubscriptionLineItemRequestInput>)
+    & {
     /**
-     * Replaces the plan's routing source. Subscriptions and payment links that already exist keep
-     * the source they copied. It can't be cleared. Where you want inventory routed from: a fixed
-     * Location, an inventory allocation policy, or one policy revision, selected by `type`.
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
      */
-    "inventory_routing_source"?: InventoryRoutingSourceRequestInput;
+    "Flint-Merchant-Id"?: InputValue<string>;
     /**
-     * Replaces all owned plan line items atomically. Requires expected_version. Omission leaves
-     * items unchanged; an empty array or null is invalid. Include subscription_plan_line_item_id
-     * to retain an item; omit it for a new server-generated ID. Omitted members are removed.
-     * Existing subscriptions keep their snapshots. Retained catalog items with the same source
-     * keep their catalog snapshot; omitted modifiers keep their recorded choices. minItems: 1. []
-     * (Value): {@link UpdateSubscriptionPlanLineItemRequestInput}. A line item to keep or add when
-     * updating a subscription plan. Include `subscription_plan_line_item_id` to keep an existing
-     * one.
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
      */
-    "line_items"?: Array<UpdateSubscriptionPlanLineItemRequestInput>;
+    "Flint-Mode"?: InputValue<"test" | "live">;
     /**
-     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
-     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
-     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
-     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
-     * API. This operation also limits the metadata object you send, before merging: at most 50
-     * keys, counting null deletions, each key 1 to 256 Unicode code points, and at most 32768
-     * UTF-8 bytes of keys plus values. anyOf[1] (Value): {@link MetadataPatchRequestInput}.
-     * Changes to a caller-owned metadata map. Omit the field to leave metadata unchanged. Each key
-     * sets a value, a null value deletes the key, and an empty object makes no change; send null
-     * for the whole field to clear all caller-owned metadata. The resulting map is limited the
-     * same way as MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points,
-     * values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8
-     * bytes. Deleting a key that does not exist is allowed, so the number of operations is not
-     * itself the stored-map limit. Values can't be empty strings, and keys starting with flint_
-     * are reserved for Flint. maxProperties: 50. Changes to a caller-owned metadata map. Omit the
-     * field to leave metadata unchanged. Each key sets a value, a null value deletes the key, and
-     * an empty object makes no change; send null for the whole field to clear all caller-owned
-     * metadata. The resulting map is limited the same way as MetadataInput: Up to 50 key-value
-     * pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and
-     * keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not exist is
-     * allowed, so the number of operations is not itself the stored-map limit. Values can't be
-     * empty strings, and keys starting with flint_ are reserved for Flint. anyOf[1].* (Value):
-     * string or null. minLength: 1. maxLength: 4096. anyOf[2] (Value): null.
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
      */
-    "metadata"?: (((Exclude<MetadataPatchRequestInput & object, readonly unknown[]>)) | (null));
-    /** minLength: 1. */
-    "name"?: string;
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type SubscriptionsUpdateParams = (InputValue<UpdateSubscriptionRequestInput>)
+    & {
     /**
-     * Omission leaves the choices unchanged. Send [] to reset to [1]. Null is invalid. maxItems:
-     * 10. uniqueItems: true. [] (Value): integer. minimum: 1. maximum: 100.
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
      */
-    "quantity_options"?: Array<number>;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "setup_fee_money"?: MoneyValueInput;
+    "Flint-Merchant-Id"?: InputValue<string>;
     /**
-     * Active plans accept new signups. Inactive plans refuse new signups with ACTION_NOT_ALLOWED
-     * while existing subscriptions keep renewing. Archived plans are read-only and their status is
-     * set only by DELETE /v1/subscription-plans/{subscription_plan_id}. Value enum: "active",
-     * "inactive".
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
      */
-    "status"?: "active" | "inactive";
+    "Flint-Mode"?: InputValue<"test" | "live">;
     /**
-     * Omission leaves the delivery methods unchanged. Send [] to remove all delivery methods. Null
-     * is invalid. [] (Value): string. minLength: 1.
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
      */
-    "subscription_delivery_method_ids"?: Array<string>;
-    /** Format: int32. */
-    "trial_period_days"?: number;
-});
-/** The request body for: Update subscription. */
-export type UpdateSubscriptionRequest = ({
-    /** Value enum: "daily", "weekly", "monthly", "yearly". */
-    "billing_interval"?: "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-    /** minimum: 1. maximum: 365. */
-    "billing_interval_count"?: number;
-    /** A closed owner-specific billing schedule update. */
-    "billing_schedule"?: SubscriptionBillingScheduleUpdateRequest;
-    /** Value enum: false. */
-    "cancel_at_period_end"?: boolean;
-    /**
-     * The delivery preference to set on a subscription: delivery method, type, destination, and
-     * recipient.
-     */
-    "delivery"?: SubscriptionDeliveryRequest;
-    /** Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /**
-     * Caller-owned identifier for this resource in an external system. Send null to clear it.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
-     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
-     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
-     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
-     * API. This operation also limits the metadata object you send, before merging: at most 50
-     * keys, counting null deletions, each key 1 to 256 Unicode code points, and at most 32768
-     * UTF-8 bytes of keys plus values. anyOf[1] (Value): {@link MetadataPatchRequest}. Changes to
-     * a caller-owned metadata map. Omit the field to leave metadata unchanged. Each key sets a
-     * value, a null value deletes the key, and an empty object makes no change; send null for the
-     * whole field to clear all caller-owned metadata. The resulting map is limited the same way as
-     * MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
-     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Deleting
-     * a key that does not exist is allowed, so the number of operations is not itself the
-     * stored-map limit. Values can't be empty strings, and keys starting with flint_ are reserved
-     * for Flint. maxProperties: 50. Changes to a caller-owned metadata map. Omit the field to
-     * leave metadata unchanged. Each key sets a value, a null value deletes the key, and an empty
-     * object makes no change; send null for the whole field to clear all caller-owned metadata.
-     * The resulting map is limited the same way as MetadataInput: Up to 50 key-value pairs. Keys
-     * are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus
-     * values total at most 32768 UTF-8 bytes. Deleting a key that does not exist is allowed, so
-     * the number of operations is not itself the stored-map limit. Values can't be empty strings,
-     * and keys starting with flint_ are reserved for Flint. anyOf[1].* (Value): string or null.
-     * minLength: 1. maxLength: 4096. anyOf[2] (Value): null.
-     */
-    "metadata"?: (((Exclude<MetadataPatchRequest & object, readonly unknown[]>)) | (null) | (unknown));
-    /** minLength: 1. */
-    "payment_method_id"?: string;
-    /** Whole-number quantity; fractional quantities are not supported. minimum: 1. maximum: 100. */
-    "quantity"?: number;
-});
-/** The request body for: Update subscription. */
-export type UpdateSubscriptionRequestInput = ({
-    /** Value enum: "daily", "weekly", "monthly", "yearly". */
-    "billing_interval"?: "daily" | "weekly" | "monthly" | "yearly";
-    /** minimum: 1. maximum: 365. */
-    "billing_interval_count"?: number;
-    /** A closed owner-specific billing schedule update. */
-    "billing_schedule"?: SubscriptionBillingScheduleUpdateRequestInput;
-    /** Value enum: false. */
-    "cancel_at_period_end"?: false;
-    /**
-     * The delivery preference to set on a subscription: delivery method, type, destination, and
-     * recipient.
-     */
-    "delivery"?: SubscriptionDeliveryRequestInput;
-    /** Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /**
-     * Caller-owned identifier for this resource in an external system. Send null to clear it.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
-     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
-     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
-     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
-     * API. This operation also limits the metadata object you send, before merging: at most 50
-     * keys, counting null deletions, each key 1 to 256 Unicode code points, and at most 32768
-     * UTF-8 bytes of keys plus values. anyOf[1] (Value): {@link MetadataPatchRequestInput}.
-     * Changes to a caller-owned metadata map. Omit the field to leave metadata unchanged. Each key
-     * sets a value, a null value deletes the key, and an empty object makes no change; send null
-     * for the whole field to clear all caller-owned metadata. The resulting map is limited the
-     * same way as MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points,
-     * values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8
-     * bytes. Deleting a key that does not exist is allowed, so the number of operations is not
-     * itself the stored-map limit. Values can't be empty strings, and keys starting with flint_
-     * are reserved for Flint. maxProperties: 50. Changes to a caller-owned metadata map. Omit the
-     * field to leave metadata unchanged. Each key sets a value, a null value deletes the key, and
-     * an empty object makes no change; send null for the whole field to clear all caller-owned
-     * metadata. The resulting map is limited the same way as MetadataInput: Up to 50 key-value
-     * pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and
-     * keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not exist is
-     * allowed, so the number of operations is not itself the stored-map limit. Values can't be
-     * empty strings, and keys starting with flint_ are reserved for Flint. anyOf[1].* (Value):
-     * string or null. minLength: 1. maxLength: 4096. anyOf[2] (Value): null.
-     */
-    "metadata"?: (((Exclude<MetadataPatchRequestInput & object, readonly unknown[]>)) | (null));
-    /** minLength: 1. */
-    "payment_method_id"?: string;
-    /** Whole-number quantity; fractional quantities are not supported. minimum: 1. maximum: 100. */
-    "quantity"?: number;
-});
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
 /**
- * Update at least one of registration_number, start_date or end_date. Pending and rejected
- * registrations allow all three fields; registration_number and start_date require a connection
- * that is not active. Scheduled and active registrations allow only end_date. A pending or
- * rejected registration whose tax-account copy exists or may have been created cannot change
- * start_date; delete it and create it again. Ended registrations cannot be changed. A version
- * fence by itself is not a change.
+ * The tax calculated for one jurisdiction on an order, line item, or charge, with the taxable
+ * amount, rate or flat amount, and tax.
  */
-export type UpdateTaxRegistrationRequest = ({
+export type TaxBreakdown = ({
     /**
-     * Last day the registration applies, inclusive. Must be on or after start_date and today
-     * (UTC). Send null to clear the end date before the registration has ended. Format: date.
-     * minLength: 1.
+     * How the tax is figured: a percentage of the taxable amount, or a fixed amount. Value enum:
+     * "percentage", "flat_amount".
      */
-    "end_date"?: string | null;
+    "calculation_type": "percentage" | "flat_amount" | (string & {});
     /**
-     * Resource version last read by the caller. Omit to apply the change to the current resource.
-     * Format: uint64. minimum: 1.
+     * The fixed tax amount. Present on `flat_amount` rows. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
      */
-    "expected_version"?: number;
+    "flat_money"?: MoneyValue;
+    /** Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8". */
+    "fulfillment_choice_group_id"?: string;
     /**
-     * First day the registration applies, inclusive. Flint checks it against each sale's local
-     * date. Status and validation use the UTC date. May be up to 365 days in the future. Format:
-     * date. minLength: 1.
+     * The taxing authority this row's tax is owed to. A taxing jurisdiction with its level, such
+     * as state or city, name, state, and country.
      */
-    "start_date"?: string;
+    "jurisdiction": TaxJurisdiction;
+    /** Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
+    "location_id"?: string;
+    /**
+     * ID of the order charge this row taxes. Absent on rows for a line item or a flat order tax.
+     * Example: "och_01KEZF7C00XX8AKACP0GHKFWWT".
+     */
+    "order_charge_id"?: string;
+    /**
+     * ID of the order line item this row taxes. Absent on rows for a charge or a flat order tax.
+     * Example: "li_01KEZF7C008YPRCK7VDKTGWR31".
+     */
+    "order_line_item_id"?: string;
+    /**
+     * Tax rate in percentage points, from 0 to 100 with up to four decimal places: `6.5` is 6.5%.
+     * Present on `percentage` rows. minimum: 0. maximum: 100. multipleOf: 0.0001.
+     */
+    "percent"?: number;
+    /**
+     * Whether the price this row taxes already includes the tax. Value enum: "additive",
+     * "inclusive".
+     */
+    "price_mode": "additive" | "inclusive" | (string & {});
+    /**
+     * ID of this tax row. A refund names it in `tax_breakdown_refunds` to reverse this row's tax.
+     * Example: "txb_01KEZF7C00SHMN8QWCA8PT1HSB".
+     */
+    "tax_breakdown_id": string;
+    /**
+     * The tax this row adds up to. Zero when the amount isn't taxable or the customer is
+     * tax-exempt. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "tax_money": MoneyValue;
+    /**
+     * The kind of tax this row collects. Value enum: "sales_tax", "use_tax",
+     * "retail_delivery_fee", "vat", "gst", "hst", "pst", "qst".
+     */
+    "tax_type": "sales_tax"
+        | "use_tax"
+        | "retail_delivery_fee"
+        | "vat"
+        | "gst"
+        | "hst"
+        | "pst"
+        | "qst"
+        | (string & {});
+    /**
+     * Why the row's tax is what it is. Value enum: "standard_rated", "not_taxable",
+     * "customer_exempt", "tax_disabled", "location_required", "calculation_incomplete",
+     * "reverse_charge".
+     */
+    "taxability_reason": "standard_rated"
+        | "not_taxable"
+        | "customer_exempt"
+        | "tax_disabled"
+        | "location_required"
+        | "calculation_incomplete"
+        | "reverse_charge"
+        | (string & {});
+    /**
+     * The amount this row's tax is based on. On an additive percentage row it is the price, on an
+     * inclusive row it is the price minus the tax in it, and on a flat row it is the order's
+     * taxable amount. Zero when the amount isn't taxable. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "taxable_money": MoneyValue;
 })
-    & ((unknown)
-    | ({
-    /**
-     * First day the registration applies, inclusive. Flint checks it against each sale's local
-     * date. Status and validation use the UTC date. May be up to 365 days in the future. Format:
-     * date. minLength: 1.
-     */
-    "start_date": string;
-})
-    | ({
-    /**
-     * Last day the registration applies, inclusive. Must be on or after start_date and today
-     * (UTC). Send null to clear the end date before the registration has ended. Format: date.
-     * minLength: 1.
-     */
-    "end_date": string | null;
-})
+    & ((Exclude<TaxBreakdownPercentage & object, readonly unknown[]>)
+    | (Exclude<TaxBreakdownFlatAmount & object, readonly unknown[]>)
     | (Record<string, unknown>));
-/**
- * Update at least one of registration_number, start_date or end_date. Pending and rejected
- * registrations allow all three fields; registration_number and start_date require a connection
- * that is not active. Scheduled and active registrations allow only end_date. A pending or
- * rejected registration whose tax-account copy exists or may have been created cannot change
- * start_date; delete it and create it again. Ended registrations cannot be changed. A version
- * fence by itself is not a change.
- */
-export type UpdateTaxRegistrationRequestInput = ({
+/** The `flat_amount` variant of `TaxBreakdown`. */
+export type TaxBreakdownFlatAmount = ({
     /**
-     * Last day the registration applies, inclusive. Must be on or after start_date and today
-     * (UTC). Send null to clear the end date before the registration has ended. Format: date.
-     * minLength: 1.
+     * How the tax is figured: a percentage of the taxable amount, or a fixed amount. Value enum:
+     * "flat_amount".
      */
-    "end_date"?: string | null;
+    "calculation_type": "flat_amount" | (string & {});
     /**
-     * Resource version last read by the caller. Omit to apply the change to the current resource.
-     * Format: uint64. minimum: 1.
+     * The fixed tax amount. Present on `flat_amount` rows. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
      */
-    "expected_version"?: number;
+    "flat_money": MoneyValue;
+    /** Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8". */
+    "fulfillment_choice_group_id"?: string;
     /**
-     * Seller's tax registration number. Write-only; responses return only its last four
-     * characters. minLength: 1. maxLength: 255.
+     * The taxing authority this row's tax is owed to. A taxing jurisdiction with its level, such
+     * as state or city, name, state, and country.
      */
-    "registration_number"?: string;
+    "jurisdiction": TaxJurisdiction;
+    /** Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
+    "location_id"?: string;
     /**
-     * First day the registration applies, inclusive. Flint checks it against each sale's local
-     * date. Status and validation use the UTC date. May be up to 365 days in the future. Format:
-     * date. minLength: 1.
+     * ID of the order charge this row taxes. Absent on rows for a line item or a flat order tax.
+     * Example: "och_01KEZF7C00XX8AKACP0GHKFWWT".
      */
-    "start_date"?: string;
+    "order_charge_id"?: string;
+    /**
+     * ID of the order line item this row taxes. Absent on rows for a charge or a flat order tax.
+     * Example: "li_01KEZF7C008YPRCK7VDKTGWR31".
+     */
+    "order_line_item_id"?: string;
+    /**
+     * Tax rate in percentage points, from 0 to 100 with up to four decimal places: `6.5` is 6.5%.
+     * Present on `percentage` rows. minimum: 0. maximum: 100. multipleOf: 0.0001.
+     */
+    "percent"?: number;
+    /**
+     * Whether the price this row taxes already includes the tax. Value enum: "additive",
+     * "inclusive".
+     */
+    "price_mode": "additive" | "inclusive" | (string & {});
+    /**
+     * ID of this tax row. A refund names it in `tax_breakdown_refunds` to reverse this row's tax.
+     * Example: "txb_01KEZF7C00SHMN8QWCA8PT1HSB".
+     */
+    "tax_breakdown_id": string;
+    /**
+     * The tax this row adds up to. Zero when the amount isn't taxable or the customer is
+     * tax-exempt. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "tax_money": MoneyValue;
+    /**
+     * The kind of tax this row collects. Value enum: "sales_tax", "use_tax",
+     * "retail_delivery_fee", "vat", "gst", "hst", "pst", "qst".
+     */
+    "tax_type": "sales_tax"
+        | "use_tax"
+        | "retail_delivery_fee"
+        | "vat"
+        | "gst"
+        | "hst"
+        | "pst"
+        | "qst"
+        | (string & {});
+    /**
+     * Why the row's tax is what it is. Value enum: "standard_rated", "not_taxable",
+     * "customer_exempt", "tax_disabled", "location_required", "calculation_incomplete",
+     * "reverse_charge".
+     */
+    "taxability_reason": "standard_rated"
+        | "not_taxable"
+        | "customer_exempt"
+        | "tax_disabled"
+        | "location_required"
+        | "calculation_incomplete"
+        | "reverse_charge"
+        | (string & {});
+    /**
+     * The amount this row's tax is based on. On an additive percentage row it is the price, on an
+     * inclusive row it is the price minus the tax in it, and on a flat row it is the order's
+     * taxable amount. Zero when the amount isn't taxable. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "taxable_money": MoneyValue;
 })
     & (({
     /**
-     * Seller's tax registration number. Write-only; responses return only its last four
-     * characters. minLength: 1. maxLength: 255.
+     * How the tax is figured: a percentage of the taxable amount, or a fixed amount. Value enum:
+     * "flat_amount".
      */
-    "registration_number": string;
-})
-    | ({
+    "calculation_type"?: "flat_amount" | (string & {});
     /**
-     * First day the registration applies, inclusive. Flint checks it against each sale's local
-     * date. Status and validation use the UTC date. May be up to 365 days in the future. Format:
-     * date. minLength: 1.
+     * The fixed tax amount. Present on `flat_amount` rows. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
      */
-    "start_date": string;
-})
-    | ({
-    /**
-     * Last day the registration applies, inclusive. Must be on or after start_date and today
-     * (UTC). Send null to clear the end date before the registration has ended. Format: date.
-     * minLength: 1.
-     */
-    "end_date": string | null;
+    "flat_money": MoneyValue;
 }));
-/** The request body for: Update webhook endpoint. */
-export type UpdateWebhookEndpointRequest = ({
+/** The `percentage` variant of `TaxBreakdown`. */
+export type TaxBreakdownPercentage = ({
     /**
-     * Set default to follow the merchant default, or a supported YYYY-MM-DD version to pin this
-     * endpoint. Omit to leave unchanged. Null is not accepted. Switching between a pin and default
-     * clears the rollback offer. minLength: 1.
+     * How the tax is figured: a percentage of the taxable amount, or a fixed amount. Value enum:
+     * "percentage".
      */
-    "api_version"?: string;
+    "calculation_type": "percentage" | (string & {});
     /**
-     * Endpoint description. Omit to leave unchanged; null clears it. Send null to clear it.
-     * minLength: 1. maxLength: 500.
+     * The fixed tax amount. Present on `flat_amount` rows. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
      */
-    "description"?: string | null;
+    "flat_money"?: MoneyValue;
+    /** Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8". */
+    "fulfillment_choice_group_id"?: string;
     /**
-     * Event types to deliver. Send ["*"] for every type the endpoint's event_sources deliver,
-     * including types added later; * must be the only entry and is not available with
-     * installed_merchants. At least one entry is required. Use only current event type names;
-     * previous and removed names are rejected. Stored subscriptions map previous names permanently
-     * and drop removed names on read. See the [changelog](/docs/changelog). minItems: 1. []
-     * (Value): string. minLength: 1.
+     * The taxing authority this row's tax is owed to. A taxing jurisdiction with its level, such
+     * as state or city, name, state, and country.
      */
-    "enabled_events"?: Array<string>;
+    "jurisdiction": TaxJurisdiction;
+    /** Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
+    "location_id"?: string;
     /**
-     * Event sources this endpoint receives. Defaults to merchant. Use partner_app for app
-     * lifecycle events and installed_merchants for events from merchants that installed the
-     * partner app. [] enum: "merchant", "partner_app", "installed_merchants". [] (Value): string.
-     * Value enum: "merchant", "partner_app", "installed_merchants".
+     * ID of the order charge this row taxes. Absent on rows for a line item or a flat order tax.
+     * Example: "och_01KEZF7C00XX8AKACP0GHKFWWT".
      */
-    "event_sources"?: Array<"merchant" | "partner_app" | "installed_merchants" | (string & {})>;
+    "order_charge_id"?: string;
     /**
-     * Apply api_version only if this matches the resource's current api_version. A mismatch
-     * returns HTTP 409. Requires api_version; null is not accepted. minLength: 1.
+     * ID of the order line item this row taxes. Absent on rows for a charge or a flat order tax.
+     * Example: "li_01KEZF7C008YPRCK7VDKTGWR31".
      */
-    "expected_api_version"?: string;
+    "order_line_item_id"?: string;
     /**
-     * Resource version last read by the caller. Required when enabled_events, event_sources,
-     * installed_merchant_modes, or signing_methods is present, including an empty array. Optional
-     * for scalar updates. Format: uint64. minimum: 1.
+     * Tax rate in percentage points, from 0 to 100 with up to four decimal places: `6.5` is 6.5%.
+     * Present on `percentage` rows. minimum: 0. maximum: 100. multipleOf: 0.0001.
      */
-    "expected_version"?: number;
+    "percent": number;
     /**
-     * Modes of installed-merchant events this endpoint receives. Required when event_sources
-     * includes installed_merchants and omitted otherwise. Partner app lifecycle events are
-     * delivered regardless of these modes. minItems: 1. maxItems: 2. uniqueItems: true. [] enum:
-     * "test", "live". [] (Value): string. Value enum: "test", "live".
+     * Whether the price this row taxes already includes the tax. Value enum: "additive",
+     * "inclusive".
      */
-    "installed_merchant_modes"?: Array<"test" | "live" | (string & {})>;
-    /** Partner app that owns partner_app or installed_merchants event sources. minLength: 1. */
-    "partner_app_id"?: string;
+    "price_mode": "additive" | "inclusive" | (string & {});
     /**
-     * Replaces the signing methods. Removing hmac deletes all shared secrets. Use rotate-secret to
-     * add hmac when no secret has been issued. Omit to leave unchanged. minItems: 1. uniqueItems:
-     * true. [] enum: "jwt", "hmac". [] (Value): {@link WebhookSigningMethod}. jwt uses Flint's
-     * public JWKS. hmac uses a shared secret and Standard Webhooks v1. Value enum: "jwt", "hmac".
+     * ID of this tax row. A refund names it in `tax_breakdown_refunds` to reverse this row's tax.
+     * Example: "txb_01KEZF7C00SHMN8QWCA8PT1HSB".
      */
-    "signing_methods"?: Array<WebhookSigningMethod>;
-    /** Value enum: "active", "inactive". */
-    "status"?: "active" | "inactive" | (string & {});
-    /** minLength: 1. */
-    "url"?: string;
-});
-/** The request body for: Update webhook endpoint. */
-export type UpdateWebhookEndpointRequestInput = ({
+    "tax_breakdown_id": string;
     /**
-     * Set default to follow the merchant default, or a supported YYYY-MM-DD version to pin this
-     * endpoint. Omit to leave unchanged. Null is not accepted. Switching between a pin and default
-     * clears the rollback offer. minLength: 1.
+     * The tax this row adds up to. Zero when the amount isn't taxable or the customer is
+     * tax-exempt. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
      */
-    "api_version"?: string;
+    "tax_money": MoneyValue;
     /**
-     * Endpoint description. Omit to leave unchanged; null clears it. Send null to clear it.
-     * minLength: 1. maxLength: 500.
+     * The kind of tax this row collects. Value enum: "sales_tax", "use_tax",
+     * "retail_delivery_fee", "vat", "gst", "hst", "pst", "qst".
      */
-    "description"?: string | null;
-    /**
-     * Event types to deliver. Send ["*"] for every type the endpoint's event_sources deliver,
-     * including types added later; * must be the only entry and is not available with
-     * installed_merchants. At least one entry is required. Use only current event type names;
-     * previous and removed names are rejected. Stored subscriptions map previous names permanently
-     * and drop removed names on read. See the [changelog](/docs/changelog). minItems: 1. []
-     * (Value): string. minLength: 1.
-     */
-    "enabled_events"?: Array<string>;
-    /**
-     * Event sources this endpoint receives. Defaults to merchant. Use partner_app for app
-     * lifecycle events and installed_merchants for events from merchants that installed the
-     * partner app. [] enum: "merchant", "partner_app", "installed_merchants". [] (Value): string.
-     * Value enum: "merchant", "partner_app", "installed_merchants".
-     */
-    "event_sources"?: Array<"merchant" | "partner_app" | "installed_merchants">;
-    /**
-     * Apply api_version only if this matches the resource's current api_version. A mismatch
-     * returns HTTP 409. Requires api_version; null is not accepted. minLength: 1.
-     */
-    "expected_api_version"?: string;
-    /**
-     * Resource version last read by the caller. Required when enabled_events, event_sources,
-     * installed_merchant_modes, or signing_methods is present, including an empty array. Optional
-     * for scalar updates. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Modes of installed-merchant events this endpoint receives. Required when event_sources
-     * includes installed_merchants and omitted otherwise. Partner app lifecycle events are
-     * delivered regardless of these modes. minItems: 1. maxItems: 2. uniqueItems: true. [] enum:
-     * "test", "live". [] (Value): string. Value enum: "test", "live".
-     */
-    "installed_merchant_modes"?: Array<"test" | "live">;
-    /** Partner app that owns partner_app or installed_merchants event sources. minLength: 1. */
-    "partner_app_id"?: string;
-    /**
-     * Replaces the signing methods. Removing hmac deletes all shared secrets. Use rotate-secret to
-     * add hmac when no secret has been issued. Omit to leave unchanged. minItems: 1. uniqueItems:
-     * true. [] enum: "jwt", "hmac". [] (Value): {@link WebhookSigningMethodInput}. jwt uses
-     * Flint's public JWKS. hmac uses a shared secret and Standard Webhooks v1. Value enum: "jwt",
-     * "hmac".
-     */
-    "signing_methods"?: Array<WebhookSigningMethodInput>;
-    /** Value enum: "active", "inactive". */
-    "status"?: "active" | "inactive";
-    /** minLength: 1. */
-    "url"?: string;
-});
-/** The request body for: Update a workload identity. */
-export type UpdateWorkloadIdentityRequest = ({
-    /**
-     * Bounded value array, at most 10. Defaults to []. Any glob requires an exact claim condition;
-     * shared issuers require tenant pinning. maxItems: 10. uniqueItems: true. [] (Value): {@link
-     * WorkloadIdentityClaimConditionRequest}. A condition to match one top-level scalar claim in
-     * the workload's identity token. Omitted match defaults to exact.
-     */
-    "claim_conditions"?: Array<WorkloadIdentityClaimConditionRequest>;
-    /**
-     * Version most recently read. Required when claim_conditions or scopes is supplied; optional
-     * for scalar updates. Format: int64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /** minLength: 1. maxLength: 100. */
-    "name"?: string;
-    /**
-     * Complete scope set to grant. Machine callers may grant only scopes they hold in the same
-     * environment. [] enum: "accounts.api_keys.read", "accounts.api_keys.write",
-     * "accounts.devices.read", "accounts.devices.write", "accounts.organizations.read",
-     * "accounts.organizations.write", "accounts.workload_identities.read",
-     * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
-     * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
-     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
-     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
-     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
-     * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
-     * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
-     * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
-     * "commerce.inventory.policies.write", "commerce.inventory.read", "commerce.inventory.write",
-     * "commerce.invoices.read", "commerce.invoices.write", "commerce.orders.read",
-     * "commerce.orders.write", "commerce.products.read", "commerce.products.write",
-     * "commerce.promotions.read", "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.returns.operations.write", "commerce.returns.policies.write",
-     * "commerce.returns.read", "commerce.returns.reasons.write",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "customers.read",
-     * "customers.sessions.write", "customers.write", "developer.feedback_reports.read",
-     * "developer.feedback_reports.write", "developer.partner_apps.read",
-     * "developer.partner_apps.write", "developer.request_logs.read",
-     * "developer.request_logs.self.read", "developer.resource_timelines.read",
-     * "developer.sandboxes.read", "developer.sandboxes.write", "developer.test_clocks.read",
-     * "developer.test_clocks.write", "merchant_billing.read", "merchants.account_sessions.write",
-     * "merchants.locations.read", "merchants.locations.write", "merchants.onboarding.read",
-     * "merchants.onboarding.write", "merchants.profile.read", "merchants.profile.write",
-     * "money_movement.balance_transactions.read", "money_movement.balances.read",
-     * "money_movement.payout_settings.read", "money_movement.payout_settings.write",
-     * "money_movement.payouts.read", "money_movement.payouts.write", "payments.disputes.read",
-     * "payments.disputes.write", "payments.payment_intents.read",
-     * "payments.payment_intents.write", "payments.payment_method_domains.read",
-     * "payments.payment_method_domains.write", "payments.payment_methods.read",
-     * "payments.payment_methods.write", "reports.read", "reports.write", "risk.controls.write",
-     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
-     * "webhooks.write". [] (Value): string. Value enum: "accounts.api_keys.read",
-     * "accounts.api_keys.write", "accounts.devices.read", "accounts.devices.write",
-     * "accounts.organizations.read", "accounts.organizations.write",
-     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
-     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
-     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
-     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
-     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
-     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
-     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
-     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
-     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
-     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
-     * "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write",
-     * "commerce.products.read", "commerce.products.write", "commerce.promotions.read",
-     * "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.returns.operations.write", "commerce.returns.policies.write",
-     * "commerce.returns.read", "commerce.returns.reasons.write",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "customers.read",
-     * "customers.sessions.write", "customers.write", "developer.feedback_reports.read",
-     * "developer.feedback_reports.write", "developer.partner_apps.read",
-     * "developer.partner_apps.write", "developer.request_logs.read",
-     * "developer.request_logs.self.read", "developer.resource_timelines.read",
-     * "developer.sandboxes.read", "developer.sandboxes.write", "developer.test_clocks.read",
-     * "developer.test_clocks.write", "merchant_billing.read", "merchants.account_sessions.write",
-     * "merchants.locations.read", "merchants.locations.write", "merchants.onboarding.read",
-     * "merchants.onboarding.write", "merchants.profile.read", "merchants.profile.write",
-     * "money_movement.balance_transactions.read", "money_movement.balances.read",
-     * "money_movement.payout_settings.read", "money_movement.payout_settings.write",
-     * "money_movement.payouts.read", "money_movement.payouts.write", "payments.disputes.read",
-     * "payments.disputes.write", "payments.payment_intents.read",
-     * "payments.payment_intents.write", "payments.payment_method_domains.read",
-     * "payments.payment_method_domains.write", "payments.payment_methods.read",
-     * "payments.payment_methods.write", "reports.read", "reports.write", "risk.controls.write",
-     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
-     * "webhooks.write".
-     */
-    "scopes"?: Array<"accounts.api_keys.read"
-        | "accounts.api_keys.write"
-        | "accounts.devices.read"
-        | "accounts.devices.write"
-        | "accounts.organizations.read"
-        | "accounts.organizations.write"
-        | "accounts.workload_identities.read"
-        | "accounts.workload_identities.write"
-        | "analytics.read"
-        | "checkouts.checkout_sessions.read"
-        | "checkouts.checkout_sessions.write"
-        | "checkouts.payment_links.read"
-        | "checkouts.payment_links.write"
-        | "commerce.bundles.read"
-        | "commerce.bundles.write"
-        | "commerce.catalog.read"
-        | "commerce.catalog.write"
-        | "commerce.credit_notes.read"
-        | "commerce.credit_notes.write"
-        | "commerce.delivery.read"
-        | "commerce.delivery.write"
-        | "commerce.gift_cards.adjustments.write"
-        | "commerce.gift_cards.read"
-        | "commerce.gift_cards.redemptions.write"
-        | "commerce.gift_cards.secrets.write"
-        | "commerce.gift_cards.write"
-        | "commerce.inventory.allocation.write"
-        | "commerce.inventory.policies.write"
-        | "commerce.inventory.read"
-        | "commerce.inventory.write"
-        | "commerce.invoices.read"
-        | "commerce.invoices.write"
-        | "commerce.orders.read"
-        | "commerce.orders.write"
-        | "commerce.products.read"
-        | "commerce.products.write"
-        | "commerce.promotions.read"
-        | "commerce.promotions.write"
-        | "commerce.refunds.read"
-        | "commerce.refunds.tax_overrides.write"
-        | "commerce.refunds.write"
-        | "commerce.returns.operations.write"
-        | "commerce.returns.policies.write"
-        | "commerce.returns.read"
-        | "commerce.returns.reasons.write"
-        | "commerce.returns.resolutions.write"
-        | "commerce.returns.write"
-        | "commerce.subscription_plans.read"
-        | "commerce.subscription_plans.write"
-        | "commerce.subscriptions.read"
-        | "commerce.subscriptions.write"
-        | "customers.read"
-        | "customers.sessions.write"
-        | "customers.write"
-        | "developer.feedback_reports.read"
-        | "developer.feedback_reports.write"
-        | "developer.partner_apps.read"
-        | "developer.partner_apps.write"
-        | "developer.request_logs.read"
-        | "developer.request_logs.self.read"
-        | "developer.resource_timelines.read"
-        | "developer.sandboxes.read"
-        | "developer.sandboxes.write"
-        | "developer.test_clocks.read"
-        | "developer.test_clocks.write"
-        | "merchant_billing.read"
-        | "merchants.account_sessions.write"
-        | "merchants.locations.read"
-        | "merchants.locations.write"
-        | "merchants.onboarding.read"
-        | "merchants.onboarding.write"
-        | "merchants.profile.read"
-        | "merchants.profile.write"
-        | "money_movement.balance_transactions.read"
-        | "money_movement.balances.read"
-        | "money_movement.payout_settings.read"
-        | "money_movement.payout_settings.write"
-        | "money_movement.payouts.read"
-        | "money_movement.payouts.write"
-        | "payments.disputes.read"
-        | "payments.disputes.write"
-        | "payments.payment_intents.read"
-        | "payments.payment_intents.write"
-        | "payments.payment_method_domains.read"
-        | "payments.payment_method_domains.write"
-        | "payments.payment_methods.read"
-        | "payments.payment_methods.write"
-        | "reports.read"
-        | "reports.write"
-        | "risk.controls.write"
-        | "risk.read"
-        | "risk.reviews.write"
-        | "settings.read"
-        | "settings.write"
-        | "webhooks.read"
-        | "webhooks.write"
-        | (string & {})>;
-    /** Value enum: "active", "inactive". */
-    "status"?: "active" | "inactive" | (string & {});
-    /** minLength: 1. maxLength: 1024. */
-    "subject"?: string;
-    /** Default: "exact". Value enum: "exact", "glob". */
-    "subject_match"?: "exact" | "glob" | (string & {});
-});
-/** The request body for: Update a workload identity. */
-export type UpdateWorkloadIdentityRequestInput = ({
-    /**
-     * Bounded value array, at most 10. Defaults to []. Any glob requires an exact claim condition;
-     * shared issuers require tenant pinning. maxItems: 10. uniqueItems: true. [] (Value): {@link
-     * WorkloadIdentityClaimConditionRequestInput}. A condition to match one top-level scalar claim
-     * in the workload's identity token. Omitted match defaults to exact.
-     */
-    "claim_conditions"?: Array<WorkloadIdentityClaimConditionRequestInput>;
-    /**
-     * Version most recently read. Required when claim_conditions or scopes is supplied; optional
-     * for scalar updates. Format: int64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /** minLength: 1. maxLength: 100. */
-    "name"?: string;
-    /**
-     * Complete scope set to grant. Machine callers may grant only scopes they hold in the same
-     * environment. [] enum: "accounts.api_keys.read", "accounts.api_keys.write",
-     * "accounts.devices.read", "accounts.devices.write", "accounts.organizations.read",
-     * "accounts.organizations.write", "accounts.workload_identities.read",
-     * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
-     * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
-     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
-     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
-     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
-     * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
-     * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
-     * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
-     * "commerce.inventory.policies.write", "commerce.inventory.read", "commerce.inventory.write",
-     * "commerce.invoices.read", "commerce.invoices.write", "commerce.orders.read",
-     * "commerce.orders.write", "commerce.products.read", "commerce.products.write",
-     * "commerce.promotions.read", "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.returns.operations.write", "commerce.returns.policies.write",
-     * "commerce.returns.read", "commerce.returns.reasons.write",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "customers.read",
-     * "customers.sessions.write", "customers.write", "developer.feedback_reports.read",
-     * "developer.feedback_reports.write", "developer.partner_apps.read",
-     * "developer.partner_apps.write", "developer.request_logs.read",
-     * "developer.request_logs.self.read", "developer.resource_timelines.read",
-     * "developer.sandboxes.read", "developer.sandboxes.write", "developer.test_clocks.read",
-     * "developer.test_clocks.write", "merchant_billing.read", "merchants.account_sessions.write",
-     * "merchants.locations.read", "merchants.locations.write", "merchants.onboarding.read",
-     * "merchants.onboarding.write", "merchants.profile.read", "merchants.profile.write",
-     * "money_movement.balance_transactions.read", "money_movement.balances.read",
-     * "money_movement.payout_settings.read", "money_movement.payout_settings.write",
-     * "money_movement.payouts.read", "money_movement.payouts.write", "payments.disputes.read",
-     * "payments.disputes.write", "payments.payment_intents.read",
-     * "payments.payment_intents.write", "payments.payment_method_domains.read",
-     * "payments.payment_method_domains.write", "payments.payment_methods.read",
-     * "payments.payment_methods.write", "reports.read", "reports.write", "risk.controls.write",
-     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
-     * "webhooks.write". [] (Value): string. Value enum: "accounts.api_keys.read",
-     * "accounts.api_keys.write", "accounts.devices.read", "accounts.devices.write",
-     * "accounts.organizations.read", "accounts.organizations.write",
-     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
-     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
-     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
-     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
-     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
-     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
-     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
-     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
-     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
-     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
-     * "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write",
-     * "commerce.products.read", "commerce.products.write", "commerce.promotions.read",
-     * "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.returns.operations.write", "commerce.returns.policies.write",
-     * "commerce.returns.read", "commerce.returns.reasons.write",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "customers.read",
-     * "customers.sessions.write", "customers.write", "developer.feedback_reports.read",
-     * "developer.feedback_reports.write", "developer.partner_apps.read",
-     * "developer.partner_apps.write", "developer.request_logs.read",
-     * "developer.request_logs.self.read", "developer.resource_timelines.read",
-     * "developer.sandboxes.read", "developer.sandboxes.write", "developer.test_clocks.read",
-     * "developer.test_clocks.write", "merchant_billing.read", "merchants.account_sessions.write",
-     * "merchants.locations.read", "merchants.locations.write", "merchants.onboarding.read",
-     * "merchants.onboarding.write", "merchants.profile.read", "merchants.profile.write",
-     * "money_movement.balance_transactions.read", "money_movement.balances.read",
-     * "money_movement.payout_settings.read", "money_movement.payout_settings.write",
-     * "money_movement.payouts.read", "money_movement.payouts.write", "payments.disputes.read",
-     * "payments.disputes.write", "payments.payment_intents.read",
-     * "payments.payment_intents.write", "payments.payment_method_domains.read",
-     * "payments.payment_method_domains.write", "payments.payment_methods.read",
-     * "payments.payment_methods.write", "reports.read", "reports.write", "risk.controls.write",
-     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
-     * "webhooks.write".
-     */
-    "scopes"?: Array<"accounts.api_keys.read"
-        | "accounts.api_keys.write"
-        | "accounts.devices.read"
-        | "accounts.devices.write"
-        | "accounts.organizations.read"
-        | "accounts.organizations.write"
-        | "accounts.workload_identities.read"
-        | "accounts.workload_identities.write"
-        | "analytics.read"
-        | "checkouts.checkout_sessions.read"
-        | "checkouts.checkout_sessions.write"
-        | "checkouts.payment_links.read"
-        | "checkouts.payment_links.write"
-        | "commerce.bundles.read"
-        | "commerce.bundles.write"
-        | "commerce.catalog.read"
-        | "commerce.catalog.write"
-        | "commerce.credit_notes.read"
-        | "commerce.credit_notes.write"
-        | "commerce.delivery.read"
-        | "commerce.delivery.write"
-        | "commerce.gift_cards.adjustments.write"
-        | "commerce.gift_cards.read"
-        | "commerce.gift_cards.redemptions.write"
-        | "commerce.gift_cards.secrets.write"
-        | "commerce.gift_cards.write"
-        | "commerce.inventory.allocation.write"
-        | "commerce.inventory.policies.write"
-        | "commerce.inventory.read"
-        | "commerce.inventory.write"
-        | "commerce.invoices.read"
-        | "commerce.invoices.write"
-        | "commerce.orders.read"
-        | "commerce.orders.write"
-        | "commerce.products.read"
-        | "commerce.products.write"
-        | "commerce.promotions.read"
-        | "commerce.promotions.write"
-        | "commerce.refunds.read"
-        | "commerce.refunds.tax_overrides.write"
-        | "commerce.refunds.write"
-        | "commerce.returns.operations.write"
-        | "commerce.returns.policies.write"
-        | "commerce.returns.read"
-        | "commerce.returns.reasons.write"
-        | "commerce.returns.resolutions.write"
-        | "commerce.returns.write"
-        | "commerce.subscription_plans.read"
-        | "commerce.subscription_plans.write"
-        | "commerce.subscriptions.read"
-        | "commerce.subscriptions.write"
-        | "customers.read"
-        | "customers.sessions.write"
-        | "customers.write"
-        | "developer.feedback_reports.read"
-        | "developer.feedback_reports.write"
-        | "developer.partner_apps.read"
-        | "developer.partner_apps.write"
-        | "developer.request_logs.read"
-        | "developer.request_logs.self.read"
-        | "developer.resource_timelines.read"
-        | "developer.sandboxes.read"
-        | "developer.sandboxes.write"
-        | "developer.test_clocks.read"
-        | "developer.test_clocks.write"
-        | "merchant_billing.read"
-        | "merchants.account_sessions.write"
-        | "merchants.locations.read"
-        | "merchants.locations.write"
-        | "merchants.onboarding.read"
-        | "merchants.onboarding.write"
-        | "merchants.profile.read"
-        | "merchants.profile.write"
-        | "money_movement.balance_transactions.read"
-        | "money_movement.balances.read"
-        | "money_movement.payout_settings.read"
-        | "money_movement.payout_settings.write"
-        | "money_movement.payouts.read"
-        | "money_movement.payouts.write"
-        | "payments.disputes.read"
-        | "payments.disputes.write"
-        | "payments.payment_intents.read"
-        | "payments.payment_intents.write"
-        | "payments.payment_method_domains.read"
-        | "payments.payment_method_domains.write"
-        | "payments.payment_methods.read"
-        | "payments.payment_methods.write"
-        | "reports.read"
-        | "reports.write"
-        | "risk.controls.write"
-        | "risk.read"
-        | "risk.reviews.write"
-        | "settings.read"
-        | "settings.write"
-        | "webhooks.read"
-        | "webhooks.write">;
-    /** Value enum: "active", "inactive". */
-    "status"?: "active" | "inactive";
-    /** minLength: 1. maxLength: 1024. */
-    "subject"?: string;
-    /** Default: "exact". Value enum: "exact", "glob". */
-    "subject_match"?: "exact" | "glob";
-});
-/** A user with access to merchant accounts. */
-export type User = {
-    /** RFC3339 timestamp. Format: date-time. */
-    "created_at"?: string;
-    "default_merchant_id"?: string;
-    "email": string;
-    "first_name": string;
-    "last_name": string;
-    /** Value enum: "active", "deactivated". */
-    "status": "active" | "deactivated" | (string & {});
-    /** RFC3339 timestamp. Format: date-time. */
-    "updated_at"?: string;
-    "user_id": string;
-};
-export type VerifiedWebhook = {
-    known: true;
-    event: KnownWebhookEvent;
-}
-    | {
-    known: false;
-    event: unknown;
-    reason: "unknown_event" | "unmatched_envelope";
-};
-/** The request body for: Verify return receipt line item. */
-export type VerifyReturnReceiptLineItemRequest = {
-    /**
-     * Optional version of the return receipt. A stale value returns VERSION_CONFLICT with the
-     * receipt ID and its current version. Format: int64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /** minLength: 1. */
-    "return_line_item_id": string;
-    /**
-     * Value enum: "order_match_confirmed", "sku_match_confirmed", "inspection_confirmed",
-     * "merchant_review", "other".
-     */
-    "verification_reason": "order_match_confirmed"
-        | "sku_match_confirmed"
-        | "inspection_confirmed"
-        | "merchant_review"
-        | "other"
+    "tax_type": "sales_tax"
+        | "use_tax"
+        | "retail_delivery_fee"
+        | "vat"
+        | "gst"
+        | "hst"
+        | "pst"
+        | "qst"
         | (string & {});
-    /** minLength: 1. */
-    "verification_reason_message"?: string;
-};
-/** The request body for: Verify return receipt line item. */
-export type VerifyReturnReceiptLineItemRequestInput = {
     /**
-     * Optional version of the return receipt. A stale value returns VERSION_CONFLICT with the
-     * receipt ID and its current version. Format: int64. minimum: 1.
+     * Why the row's tax is what it is. Value enum: "standard_rated", "not_taxable",
+     * "customer_exempt", "tax_disabled", "location_required", "calculation_incomplete",
+     * "reverse_charge".
      */
-    "expected_version"?: number;
-    /** minLength: 1. */
-    "return_line_item_id": string;
+    "taxability_reason": "standard_rated"
+        | "not_taxable"
+        | "customer_exempt"
+        | "tax_disabled"
+        | "location_required"
+        | "calculation_incomplete"
+        | "reverse_charge"
+        | (string & {});
     /**
-     * Value enum: "order_match_confirmed", "sku_match_confirmed", "inspection_confirmed",
-     * "merchant_review", "other".
+     * The amount this row's tax is based on. On an additive percentage row it is the price, on an
+     * inclusive row it is the price minus the tax in it, and on a flat row it is the order's
+     * taxable amount. Zero when the amount isn't taxable. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
      */
-    "verification_reason": "order_match_confirmed"
-        | "sku_match_confirmed"
-        | "inspection_confirmed"
-        | "merchant_review"
-        | "other";
-    /** minLength: 1. */
-    "verification_reason_message"?: string;
-};
-export type VerifyReturnReceiptLineItemResponse = GetReturnReceiptResponse;
-/** The request body for: Void package. */
-export type VoidPackageRequest = {
+    "taxable_money": MoneyValue;
+})
+    & (({
     /**
-     * Controls buyer email handling. Omit or use send to send when recipient, template, and
-     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
-     * enum: "send", "suppress".
+     * How the tax is figured: a percentage of the taxable amount, or a fixed amount. Value enum:
+     * "percentage".
      */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /** Optional resource version last read by the caller. Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /** Void event timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string;
-    /** Your note explaining this action. minLength: 1. */
-    "reason_message"?: string;
-};
-/** The request body for: Void package. */
-export type VoidPackageRequestInput = {
+    "calculation_type"?: "percentage" | (string & {});
     /**
-     * Controls buyer email handling. Omit or use send to send when recipient, template, and
-     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
-     * enum: "send", "suppress".
+     * Tax rate in percentage points, from 0 to 100 with up to four decimal places: `6.5` is 6.5%.
+     * Present on `percentage` rows. minimum: 0. maximum: 100. multipleOf: 0.0001.
      */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /** Optional resource version last read by the caller. Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /** Void event timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string | globalThis.Date;
-    /** Your note explaining this action. minLength: 1. */
-    "reason_message"?: string;
-};
-/** The request body for: Void shipment. */
-export type VoidShipmentRequestInput = VoidPackageRequestInput;
-/** A response containing `VoidShipmentResult` data. */
-export type VoidShipmentResponse = {
+    "percent": number;
+}));
+/** An endpoint that supplies tax calculations. */
+export type TaxCalculationCallback = {
     /**
-     * The voided shipment and its affected packages. The shipment is the primary resource and
-     * expected_version target.
+     * Consecutive failed requests to the endpoint for the current revision. A valid response
+     * resets it. minimum: 0.
      */
-    "data": VoidShipmentResult;
+    "circuit_failure_count": number;
     /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
+     * Whether Flint is calling the endpoint, for the current revision. - `closed`: Flint calls the
+     * endpoint. - `open`: Flint stopped calling the endpoint after 30 consecutive failed requests.
+     * - `half_open`: 30 seconds after opening, the next request is a probe: a valid response
+     * closes the circuit, and a failure opens it again. Value enum: "closed", "open", "half_open".
      */
-    "meta"?: ResponseMeta;
+    "circuit_state": "closed" | "open" | "half_open" | (string & {});
     /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     * The endpoint URL and request limits. Settings for a tax calculation callback: the endpoint
+     * `url` Flint calls, request timeout, request and response size limits, and redirect policy.
      */
-    "request_id": string;
-};
-/**
- * The voided shipment and its affected packages. The shipment is the primary resource and
- * expected_version target.
- */
-export type VoidShipmentResult = {
-    /**  [] (Value): {@link Package}. A package within a shipment. */
-    "packages": Array<Package>;
-    /** A shipment carrying fulfilled order items. */
-    "shipment": Shipment;
-};
-/** The request body for: Waive an unpaid invoice late fee. */
-export type WaiveInvoiceLateFeeRequest = {
-    /** Your note explaining this action. minLength: 1. maxLength: 4096. */
-    "reason_message": string;
-};
-/** The request body for: Waive an unpaid invoice late fee. */
-export type WaiveInvoiceLateFeeRequestInput = WaiveInvoiceLateFeeRequest;
-/** The request body for: Waive return line inspection. */
-export type WaiveReturnLineInspectionRequest = {
-    /**
-     * Optional. The Return's current version, not the line's; a stale value returns 409
-     * VERSION_CONFLICT. Format: int64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /** Value enum: "policy_override", "trusted_in_store_handoff", "merchant_review", "other". */
-    "reason": "policy_override" | "trusted_in_store_handoff" | "merchant_review" | "other" | (string & {});
-    /** minLength: 1. */
-    "reason_message"?: string;
-};
-/** The request body for: Waive return line inspection. */
-export type WaiveReturnLineInspectionRequestInput = {
-    /**
-     * Optional. The Return's current version, not the line's; a stale value returns 409
-     * VERSION_CONFLICT. Format: int64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /** Value enum: "policy_override", "trusted_in_store_handoff", "merchant_review", "other". */
-    "reason": "policy_override" | "trusted_in_store_handoff" | "merchant_review" | "other";
-    /** minLength: 1. */
-    "reason_message"?: string;
-};
-export type WaiveReturnLineInspectionResponse = GetReturnResponse;
-export type WebhookDeliveriesCreateParams = (InputValue<CreateWebhookDeliveryRequestInput>);
-export type WebhookDeliveriesGetParams = {};
-export type WebhookDeliveriesListAttemptsParams = CheckoutSessionsListDeliverySelectionsParams;
-export type WebhookDeliveriesListParams = {
-    /**
-     * Filter by an exact webhook event ID. Returns 404 if the event is not visible. Example:
-     * "whev_01ARZ3NDEKTSV4RRFFQ69G5FAV".
-     */
-    "webhook_event_id"?: InputValue<string>;
-    /**
-     * Filter by an exact webhook endpoint ID. Returns 404 if the endpoint is not visible. Example:
-     * "whep_01ARZ3NDEKTSV4RRFFQ69G5FAV".
-     */
-    "webhook_endpoint_id"?: InputValue<string>;
-    /**
-     * Filter by delivery status. Accepts repeated keys, comma-separated values, or mixtures.
-     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
-     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum:
-     * "pending", "delivered", "failed", "suppressed". Value enum: "pending", "delivered",
-     * "failed", "suppressed". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "pending",
-     * "delivered", "failed", "suppressed". anyOf[1][] (Value): string. Value enum: "pending",
-     * "delivered", "failed", "suppressed". anyOf[2] (Value): string. Value enum: "pending",
-     * "delivered", "failed", "suppressed".
-     */
-    "status"?: InputValue<("pending" | "delivered" | "failed" | "suppressed")
-        | readonly ("pending" | "delivered" | "failed" | "suppressed")[]>;
-    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque next_page_token from the previous response. Omit on the first request. You may change
-     * `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request
-     * context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns
-     * a validation error.
-     */
-    "page_token"?: InputValue<string>;
-};
-export type WebhookDeliveriesResendParams = (InputValue<ResendWebhookDeliveryRequestInput>);
-/** An attempt to deliver an event to a webhook endpoint. */
-export type WebhookDelivery = {
-    /**
-     * Attempts made by Flint's automatic schedule. Manual resends and the first attempt of a
-     * delivery you create don't count. Format: int32.
-     */
-    "automatic_attempt_count": number;
-    /**
-     * When the delivery was created: when Flint prepared the event, or when you created it.
-     * Format: date-time.
-     */
+    "configuration": TaxCalculationCallbackConfiguration;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "created_at": string;
-    /** RFC3339 timestamp. Format: date-time. */
-    "delivered_at"?: string;
     /**
-     * The kind of failure on the most recent failed attempt. Absent before any attempt, and when
-     * delivered or suppressed. Value enum: "webhook_timeout", "webhook_dns", "webhook_tls",
-     * "webhook_connection", "webhook_blocked_target", "webhook_request", "webhook_redirect",
-     * "webhook_http_4xx", "webhook_http_5xx", "webhook_payload_render", "webhook_delivery".
+     * ID of the callback's current revision, beginning with `tcbr_`. It changes whenever
+     * `configuration` or `signing_methods` changes, and each revision has its own circuit.
+     * Example: "tcbr_01KEZF7C00V2GHWCXVV2NCWX29".
      */
-    "error_category"?: "webhook_timeout"
-        | "webhook_dns"
-        | "webhook_tls"
-        | "webhook_connection"
-        | "webhook_blocked_target"
-        | "webhook_request"
-        | "webhook_redirect"
-        | "webhook_http_4xx"
-        | "webhook_http_5xx"
-        | "webhook_payload_render"
-        | "webhook_delivery"
-        | (string & {});
+    "current_tax_calculation_callback_revision_id": string;
     /**
-     * A concise explanation of the failed attempt. Absent before any attempt, and when delivered
-     * or suppressed.
+     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
+     * "warehouse-1842".
      */
-    "error_summary"?: string;
-    /** Format: int32. */
-    "last_response_code"?: number;
-    /** Maximum automatic attempts. Format: int32. */
-    "max_attempts": number;
-    /** RFC3339 timestamp. Format: date-time. */
-    "next_retry_at"?: string;
-    /** The next step to resolve the failed delivery attempt. */
-    "recommended_action"?: string;
+    "external_reference_id"?: string;
     /**
-     * Whether sending this delivery again without changing your endpoint is likely to succeed.
-     * While the delivery is pending, Flint retries automatically either way.
+     * ID of the HMAC signing key that goes with `secret`. Returned only in the response that
+     * returns `secret`, so it is omitted on reads, lists, and updates, and for a JWT-only
+     * callback. Example: "cbkey_00112233445566778899aabb".
      */
-    "retryable"?: boolean;
-    /** Value enum: "pending", "delivered", "failed", "suppressed". */
-    "status": "pending" | "delivered" | "failed" | "suppressed" | (string & {});
+    "key_id"?: string;
+    /** Your label for the callback. */
+    "name": string;
+    /** Initial HMAC shared secret, returned once when hmac is included in signing_methods. */
+    "secret"?: string;
     /**
-     * Why this delivery was suppressed. Present exactly when status is suppressed. Suppressed
-     * deliveries have no failure explanation. Value enum: "endpoint_inactive", "endpoint_deleted",
-     * "authorization_revoked", "scope_missing", "event_not_allowed".
-     */
-    "suppression_reason"?: "endpoint_inactive"
-        | "endpoint_deleted"
-        | "authorization_revoked"
-        | "scope_missing"
-        | "event_not_allowed"
-        | (string & {});
-    /** RFC3339 timestamp. Format: date-time. */
-    "updated_at": string;
-    "webhook_delivery_id": string;
-    "webhook_endpoint_id": string;
-    "webhook_event_id": string;
-};
-/**
- * The result of a webhook delivery action, such as a resend: the delivery, attempt, status, and
- * any error details.
- */
-export type WebhookDeliveryAction = {
-    /** Format: int32. */
-    "attempt_number": number;
-    /** Value enum: "queued", "sending", "delivered", "failed". */
-    "attempt_status": "queued" | "sending" | "delivered" | "failed" | (string & {});
-    /** RFC3339 timestamp. Format: date-time. */
-    "completed_at"?: string;
-    /** Value enum: "pending", "delivered", "failed", "suppressed". */
-    "delivery_status": "pending" | "delivered" | "failed" | "suppressed" | (string & {});
-    /**
-     * Value enum: "automatic_delivery", "automatic_retry", "manual_resend", "manual_delivery",
-     * "test_event".
-     */
-    "delivery_trigger": "automatic_delivery"
-        | "automatic_retry"
-        | "manual_resend"
-        | "manual_delivery"
-        | "test_event"
-        | (string & {});
-    /** Format: int64. */
-    "duration_milliseconds"?: number;
-    /**
-     * The kind of failure on the most recent failed attempt. Absent before any attempt, and when
-     * delivered or suppressed. Value enum: "webhook_timeout", "webhook_dns", "webhook_tls",
-     * "webhook_connection", "webhook_blocked_target", "webhook_request", "webhook_redirect",
-     * "webhook_http_4xx", "webhook_http_5xx", "webhook_payload_render", "webhook_delivery".
-     */
-    "error_category"?: "webhook_timeout"
-        | "webhook_dns"
-        | "webhook_tls"
-        | "webhook_connection"
-        | "webhook_blocked_target"
-        | "webhook_request"
-        | "webhook_redirect"
-        | "webhook_http_4xx"
-        | "webhook_http_5xx"
-        | "webhook_payload_render"
-        | "webhook_delivery"
-        | (string & {});
-    /**
-     * A concise explanation of the failed attempt. Absent before any attempt, and when delivered
-     * or suppressed.
-     */
-    "error_summary"?: string;
-    /** The note supplied when this action was requested. */
-    "reason_message"?: string;
-    /** The next step to resolve the failed delivery attempt. */
-    "recommended_action"?: string;
-    /** Receiver response body excerpt. Omitted unless the caller can read the event's resource. */
-    "response_body_excerpt"?: string;
-    /** Receiver response content type. Omitted unless the caller can read the event's resource. */
-    "response_content_type"?: string;
-    /**
-     * Receiver response headers, keyed by lowercase header name. Repeated values are joined with
-     * ", ". Sensitive values read [REDACTED]. Absent when no response was received, after the
-     * 14-day response-detail retention, or unless the caller can read the event's resource. *
-     * (Value): string.
-     */
-    "response_headers"?: Record<string, string>;
-    /**
-     * Whether sending this delivery again without changing your endpoint is likely to succeed.
-     * While the delivery is pending, Flint retries automatically either way.
-     */
-    "retryable"?: boolean;
-    /** RFC3339 timestamp. Format: date-time. */
-    "started_at"?: string;
-    /** Format: int32. */
-    "status_code"?: number;
-    "webhook_delivery_attempt_id": string;
-    "webhook_delivery_id": string;
-    "webhook_event_id": string;
-};
-/** A response containing `WebhookDeliveryAction` data. */
-export type WebhookDeliveryActionResponse = {
-    /**
-     * The result of a webhook delivery action, such as a resend: the delivery, attempt, status,
-     * and any error details.
-     */
-    "data": WebhookDeliveryAction;
-    /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * One attempt to deliver a webhook event to an endpoint, with its status, timing, response code,
- * and error details.
- */
-export type WebhookDeliveryAttempt = {
-    /**
-     * API version used for this delivery attempt. Omitted when the version was not recorded or
-     * payload rendering failed. Format: date.
-     */
-    "api_version"?: string;
-    /** Format: int32. */
-    "attempt_number": number;
-    /** RFC3339 timestamp. Format: date-time. */
-    "completed_at"?: string;
-    /**
-     * Value enum: "automatic_delivery", "automatic_retry", "manual_resend", "manual_delivery",
-     * "test_event".
-     */
-    "delivery_trigger": "automatic_delivery"
-        | "automatic_retry"
-        | "manual_resend"
-        | "manual_delivery"
-        | "test_event"
-        | (string & {});
-    /** Format: int64. */
-    "duration_milliseconds"?: number;
-    /**
-     * The kind of failure on the most recent failed attempt. Absent before any attempt, and when
-     * delivered or suppressed. Value enum: "webhook_timeout", "webhook_dns", "webhook_tls",
-     * "webhook_connection", "webhook_blocked_target", "webhook_request", "webhook_redirect",
-     * "webhook_http_4xx", "webhook_http_5xx", "webhook_payload_render", "webhook_delivery".
-     */
-    "error_category"?: "webhook_timeout"
-        | "webhook_dns"
-        | "webhook_tls"
-        | "webhook_connection"
-        | "webhook_blocked_target"
-        | "webhook_request"
-        | "webhook_redirect"
-        | "webhook_http_4xx"
-        | "webhook_http_5xx"
-        | "webhook_payload_render"
-        | "webhook_delivery"
-        | (string & {});
-    /**
-     * A concise explanation of the failed attempt. Absent before any attempt, and when delivered
-     * or suppressed.
-     */
-    "error_summary"?: string;
-    /** The note supplied when this action was requested. */
-    "reason_message"?: string;
-    /** The next step to resolve the failed delivery attempt. */
-    "recommended_action"?: string;
-    /** Receiver response body excerpt. Omitted unless the caller can read the event's resource. */
-    "response_body_excerpt"?: string;
-    /** Receiver response content type. Omitted unless the caller can read the event's resource. */
-    "response_content_type"?: string;
-    /**
-     * Receiver response headers, keyed by lowercase header name. Repeated values are joined with
-     * ", ". Sensitive values read [REDACTED]. Absent when no response was received, after the
-     * 14-day response-detail retention, or unless the caller can read the event's resource. *
-     * (Value): string.
-     */
-    "response_headers"?: Record<string, string>;
-    /**
-     * Whether sending this delivery again without changing your endpoint is likely to succeed.
-     * While the delivery is pending, Flint retries automatically either way.
-     */
-    "retryable"?: boolean;
-    /** RFC3339 timestamp. Format: date-time. */
-    "started_at"?: string;
-    /** Value enum: "queued", "sending", "delivered", "failed". */
-    "status": "queued" | "sending" | "delivered" | "failed" | (string & {});
-    /** Format: int32. */
-    "status_code"?: number;
-    "webhook_delivery_attempt_id": string;
-    "webhook_delivery_id": string;
-    "webhook_event_id": string;
-};
-/** A page of `WebhookDeliveryAttempt` objects. */
-export type WebhookDeliveryAttemptListResponse = {
-    /**
-     *  [] (Value): {@link WebhookDeliveryAttempt}. One attempt to deliver a webhook event to an
-     * endpoint, with its status, timing, response code, and error details.
-     */
-    "data": Array<WebhookDeliveryAttempt>;
-    /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    "next_page_token"?: string;
-    /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A page of `WebhookDelivery` objects. */
-export type WebhookDeliveryListResponse = {
-    /**
-     *  [] (Value): {@link WebhookDelivery}. An attempt to deliver an event to a webhook endpoint.
-     */
-    "data": Array<WebhookDelivery>;
-    /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    "next_page_token"?: string;
-    /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A response containing `WebhookDelivery` data. */
-export type WebhookDeliveryResponse = {
-    /** An attempt to deliver an event to a webhook endpoint. */
-    "data": WebhookDelivery;
-    /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * A merchant webhook endpoint belongs to the live mode or sandbox of the credential that created
- * it and receives only that environment's events. Partner endpoints select sources with
- * event_sources and installed_merchant_modes.
- */
-export type WebhookEndpoint = ({
-    /**
-     * A dated API version pins this endpoint. The value default follows the endpoint owner's
-     * merchant default at delivery time, including retries. Deliveries never use a newer version
-     * than the event's recorded version.
-     */
-    "api_version": string;
-    /** When api_version last changed. Format: date-time. */
-    "api_version_changed_at"?: string;
-    /**
-     * Version this endpoint used before its last upgrade. Present while a rollback is available.
-     * To roll back, send it as api_version.
-     */
-    "api_version_previous"?: string;
-    /**
-     * When the rollback offer for api_version_previous ends. You can still set any supported
-     * version afterward. Format: date-time.
-     */
-    "api_version_rollback_expires_at"?: string;
-    /** RFC3339 timestamp. Format: date-time. */
-    "created_at"?: string;
-    "description"?: string;
-    /**
-     * Subscribed event types. ["*"] includes every type the endpoint's event_sources deliver,
-     * including types added later; * is not available with installed_merchants. Stored
-     * subscriptions map previous names permanently and drop removed names on read. Empty when no
-     * current subscriptions remain. See the [changelog](/docs/changelog). [] (Value): string.
-     * minLength: 1.
-     */
-    "enabled_events": Array<string>;
-    /**
-     * Event sources this endpoint receives. Defaults to merchant. Use partner_app for app
-     * lifecycle events and installed_merchants for events from merchants that installed the
-     * partner app. [] enum: "merchant", "partner_app", "installed_merchants". [] (Value): string.
-     * Value enum: "merchant", "partner_app", "installed_merchants".
-     */
-    "event_sources"?: Array<"merchant" | "partner_app" | "installed_merchants" | (string & {})>;
-    /**
-     * Modes of installed-merchant events this endpoint receives. Required when event_sources
-     * includes installed_merchants and omitted otherwise. Partner app lifecycle events are
-     * delivered regardless of these modes. minItems: 1. maxItems: 2. uniqueItems: true. [] enum:
-     * "test", "live". [] (Value): string. Value enum: "test", "live".
-     */
-    "installed_merchant_modes"?: Array<"test" | "live" | (string & {})>;
-    /** Partner app that owns partner_app or installed_merchants event sources. */
-    "partner_app_id"?: string;
-    /**
-     * When the replaced signing secret stops signing deliveries. Present only during a rotation
-     * overlap. Until then each delivery carries a signature from both secrets. Format: date-time.
-     */
-    "previous_secret_expires_at"?: string;
-    /**
-     * minItems: 1. uniqueItems: true. [] enum: "jwt", "hmac". [] (Value): string. jwt uses Flint's
-     * public JWKS. hmac uses a shared secret and Standard Webhooks v1. Value enum: "jwt", "hmac".
+     * How Flint signs requests to your endpoint: `jwt` for a bearer JWT you verify with Flint's
+     * public keys, `hmac` for a shared secret, or both. minItems: 1. uniqueItems: true. [] enum:
+     * "jwt", "hmac". [] (Value): string. How Flint signs requests to this endpoint. Value enum:
+     * "jwt", "hmac".
      */
     "signing_methods": Array<"jwt" | "hmac" | (string & {})>;
     /**
-     * Availability of this endpoint. Deleted is returned only by DELETE. Value enum: "active",
-     * "inactive", "deleted".
+     * Whether the callback can be selected in `tax.calculation_callback_id`. - `inactive`: Not
+     * selectable in settings. New callbacks start here. Connection checks and test deliveries
+     * still run. - `active`: Can be selected in `tax.calculation_callback_id`. - `archived`:
+     * Retired with `DELETE`. Still readable by ID, but it can't be changed, activated, or tested
+     * again. Value enum: "inactive", "active", "archived".
      */
-    "status": "active" | "inactive" | "deleted" | (string & {});
-    /** RFC3339 timestamp. Format: date-time. */
-    "updated_at"?: string;
-    "url": string;
-    /** Format: uint64. minimum: 1. */
+    "status": "inactive" | "active" | "archived" | (string & {});
+    /**
+     * Unique identifier for this tax calculation callback, prefixed `tcb_`. Example:
+     * "tcb_01KEZF7C00N7SER74Y2E6D1ZGT".
+     */
+    "tax_calculation_callback_id": string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /**
+     * Advances on every write. Send it as `expected_version` when you update `configuration` or
+     * `signing_methods`. Format: uint64. minimum: 0.
+     */
     "version": number;
-    "webhook_endpoint_id": string;
+};
+export type TaxCalculationCallbackActivatedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "circuit_failure_count": number;
+            "circuit_state": "closed" | "open" | "half_open" | (string & {});
+            "configuration": TaxCalculationCallbackConfiguration;
+            "created_at": string;
+            "current_tax_calculation_callback_revision_id": string;
+            "external_reference_id"?: string;
+            "key_id"?: string;
+            "name": string;
+            "secret"?: string;
+            "signing_methods": Array<"jwt" | "hmac" | (string & {})>;
+            "status": "inactive" | "active" | "archived" | (string & {});
+            "tax_calculation_callback_id": string;
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<TaxCalculationCallback>;
+    };
+    "event_source"?: "merchant" | (string & {});
+    "event_type"?: "tax_calculation_callback.activated";
+})
+    & {
+    "event_type": "tax_calculation_callback.activated";
 });
-/** A page of `WebhookEndpoint` objects. */
-export type WebhookEndpointListResponse = {
+export type TaxCalculationCallbackArchivedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "circuit_failure_count": number;
+            "circuit_state": "closed" | "open" | "half_open" | (string & {});
+            "configuration": TaxCalculationCallbackConfiguration;
+            "created_at": string;
+            "current_tax_calculation_callback_revision_id": string;
+            "external_reference_id"?: string;
+            "key_id"?: string;
+            "name": string;
+            "secret"?: string;
+            "signing_methods": Array<"jwt" | "hmac" | (string & {})>;
+            "status": "inactive" | "active" | "archived" | (string & {});
+            "tax_calculation_callback_id": string;
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<TaxCalculationCallback>;
+    };
+    "event_source"?: "merchant" | (string & {});
+    "event_type"?: "tax_calculation_callback.archived";
+})
+    & {
+    "event_type": "tax_calculation_callback.archived";
+});
+/**
+ * Settings for a tax calculation callback: the endpoint `url` Flint calls, request timeout,
+ * request and response size limits, and redirect policy.
+ */
+export type TaxCalculationCallbackConfiguration = {
     /**
-     *  [] (Value): {@link WebhookEndpoint}. A merchant webhook endpoint belongs to the live mode
-     * or sandbox of the credential that created it and receives only that environment's events.
-     * Partner endpoints select sources with event_sources and installed_merchant_modes.
+     * Largest request body Flint sends to your endpoint, in bytes, from 1 to 1048576. Defaults to
+     * 262144. minimum: 1. maximum: 1048576. Default: 262144.
      */
-    "data": Array<WebhookEndpoint>;
+    "maximum_request_bytes"?: number;
     /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
+     * Largest response body Flint accepts from your endpoint, in bytes, from 1 to 1048576.
+     * Defaults to 262144. minimum: 1. maximum: 1048576. Default: 262144.
+     */
+    "maximum_response_bytes"?: number;
+    /**
+     * How Flint treats a redirect from your endpoint. Flint never follows redirects, so `reject`
+     * is the only value. Default: "reject". Value enum: "reject".
+     */
+    "redirect_policy"?: "reject" | (string & {});
+    /**
+     * How long Flint waits for each request to your endpoint, in seconds, from 0.1 to 10. Defaults
+     * to 3. minimum: 0.1. maximum: 10. Default: 3.
+     */
+    "request_timeout_seconds"?: number;
+    /**
+     * HTTPS endpoint that receives signed callback requests. Format: uri. minLength: 1. pattern:
+     * ^https://. Example: "https://example.com/receipt".
+     */
+    "url": string;
+};
+/**
+ * Changes to a tax calculation callback's configuration. Only the keys you send change; keys you
+ * leave out keep their current values. Null restores an optional key's default. Requires
+ * expected_version. minProperties: 1.
+ */
+export type TaxCalculationCallbackConfigurationPatchRequest = {
+    /**
+     * Largest request body Flint sends to your endpoint, in bytes, from 1 to 1048576. Defaults to
+     * 262144. Null restores 262144 bytes. minimum: 1. maximum: 1048576.
+     */
+    "maximum_request_bytes"?: number | null;
+    /**
+     * Largest response body Flint accepts from your endpoint, in bytes, from 1 to 1048576.
+     * Defaults to 262144. Null restores 262144 bytes. minimum: 1. maximum: 1048576.
+     */
+    "maximum_response_bytes"?: number | null;
+    /**
+     * How Flint treats a redirect from your endpoint. Flint never follows redirects, so `reject`
+     * is the only value. Value enum: "reject", null.
+     */
+    "redirect_policy"?: "reject" | null | (string & {}) | null;
+    /**
+     * How long Flint waits for each request to your endpoint, in seconds, from 0.1 to 10. Defaults
+     * to 3. Null restores 3 seconds. minimum: 0.1. maximum: 10.
+     */
+    "request_timeout_seconds"?: number | null;
+    /**
+     * HTTPS endpoint that receives signed callback requests. Null is invalid. Format: uri.
+     * minLength: 1. pattern: ^https://. Example: "https://example.com/receipt".
+     */
+    "url"?: string;
+};
+/**
+ * Changes to a tax calculation callback's configuration. Only the keys you send change; keys you
+ * leave out keep their current values. Null restores an optional key's default. Requires
+ * expected_version. minProperties: 1.
+ */
+export type TaxCalculationCallbackConfigurationPatchRequestInput = {
+    /**
+     * Largest request body Flint sends to your endpoint, in bytes, from 1 to 1048576. Defaults to
+     * 262144. Null restores 262144 bytes. minimum: 1. maximum: 1048576.
+     */
+    "maximum_request_bytes"?: number | null;
+    /**
+     * Largest response body Flint accepts from your endpoint, in bytes, from 1 to 1048576.
+     * Defaults to 262144. Null restores 262144 bytes. minimum: 1. maximum: 1048576.
+     */
+    "maximum_response_bytes"?: number | null;
+    /**
+     * How Flint treats a redirect from your endpoint. Flint never follows redirects, so `reject`
+     * is the only value. Value enum: "reject", null.
+     */
+    "redirect_policy"?: "reject" | null;
+    /**
+     * How long Flint waits for each request to your endpoint, in seconds, from 0.1 to 10. Defaults
+     * to 3. Null restores 3 seconds. minimum: 0.1. maximum: 10.
+     */
+    "request_timeout_seconds"?: number | null;
+    /**
+     * HTTPS endpoint that receives signed callback requests. Null is invalid. Format: uri.
+     * minLength: 1. pattern: ^https://. Example: "https://example.com/receipt".
+     */
+    "url"?: string;
+};
+/**
+ * Settings for a tax calculation callback: the endpoint `url` Flint calls, request timeout,
+ * request and response size limits, and redirect policy.
+ */
+export type TaxCalculationCallbackConfigurationRequestInput = {
+    /**
+     * Largest request body Flint sends to your endpoint, in bytes, from 1 to 1048576. Defaults to
+     * 262144. minimum: 1. maximum: 1048576. Default: 262144.
+     */
+    "maximum_request_bytes"?: number;
+    /**
+     * Largest response body Flint accepts from your endpoint, in bytes, from 1 to 1048576.
+     * Defaults to 262144. minimum: 1. maximum: 1048576. Default: 262144.
+     */
+    "maximum_response_bytes"?: number;
+    /**
+     * How Flint treats a redirect from your endpoint. Flint never follows redirects, so `reject`
+     * is the only value. Default: "reject". Value enum: "reject".
+     */
+    "redirect_policy"?: "reject";
+    /**
+     * How long Flint waits for each request to your endpoint, in seconds, from 0.1 to 10. Defaults
+     * to 3. minimum: 0.1. maximum: 10. Default: 3.
+     */
+    "request_timeout_seconds"?: number;
+    /**
+     * HTTPS endpoint that receives signed callback requests. Format: uri. minLength: 1. pattern:
+     * ^https://. Example: "https://example.com/receipt".
+     */
+    "url": string;
+};
+/**
+ * Result of checking the connection to a tax calculation callback endpoint, with its status,
+ * latency, HTTP status code, and failure category if it failed.
+ */
+export type TaxCalculationCallbackConnectionCheck = {
+    /** When Flint sent the connection check. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "checked_at": string;
+    /**
+     * Why the callback request failed and the action that can make the next one succeed. -
+     * `authentication_or_http_error`: Return a 2xx status after verifying the enabled signing
+     * methods. For a 401, check JWT verification with Flint's JWKS, issuer,
+     * tax_calculation_callback_id audience, expiration, and body_sha256 of the exact request
+     * bytes. For HMAC, check the shared secret and verify the raw body before parsing it. -
+     * `blocked_target`: Use a public HTTPS callback target allowed by Flint's outbound network
+     * policy. - `connection_error`: Restore network connectivity to the callback host, then test
+     * again. - `dns_error`: Fix the callback hostname or its DNS records, then test again. -
+     * `invalid_response`: Return a 2xx application/json response within maximum_response_bytes.
+     * For a test delivery, the body must also echo tax_calculation_evaluation_id with empty
+     * line_item_calculations and charge_calculations. Then test again. - `request_error`: Flint
+     * couldn't complete the request for another reason. Check the URL and your server logs, then
+     * test again. - `timeout`: Acknowledge the callback within its configured timeout, then test
+     * again. - `tls_error`: Fix the callback certificate and TLS configuration, then test again.
+     * Value enum: "authentication_or_http_error", "blocked_target", "connection_error",
+     * "dns_error", "invalid_response", "request_error", "timeout", "tls_error".
+     */
+    "failure_category"?: "authentication_or_http_error"
+        | "blocked_target"
+        | "connection_error"
+        | "dns_error"
+        | "invalid_response"
+        | "request_error"
+        | "timeout"
+        | "tls_error"
+        | (string & {});
+    /** HTTP status code your endpoint returned. Omitted when it returned no response. */
+    "http_status_code"?: number;
+    /**
+     * ID of the HMAC signing key that signed this request. Empty for a JWT-only callback, which
+     * has no shared secret. Example: "cbkey_00112233445566778899aabb".
+     */
+    "key_id": string;
+    /** How long your endpoint took to answer, in milliseconds. Format: int64. */
+    "latency_milliseconds": number;
+    /**
+     * Whether your endpoint answered as the callback requires. - `succeeded`: Your endpoint
+     * answered as the request requires. - `failed`: The request failed. See `failure_category`.
+     * Value enum: "succeeded", "failed".
+     */
+    "status": "succeeded" | "failed" | (string & {});
+    /**
+     * ID of the callback that was called, beginning with `tcb_`. Example:
+     * "tcb_01KEZF7C00N7SER74Y2E6D1ZGT".
+     */
+    "tax_calculation_callback_id": string;
+    /**
+     * ID of the callback revision that was called, beginning with `tcbr_`. Example:
+     * "tcbr_01KEZF7C00V2GHWCXVV2NCWX29".
+     */
+    "tax_calculation_callback_revision_id": string;
+};
+/** A response containing `TaxCalculationCallbackConnectionCheck` data. */
+export type TaxCalculationCallbackConnectionCheckResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. Result of checking the
+     * connection to a tax calculation callback endpoint, with its status, latency, HTTP status
+     * code, and failure category if it failed.
+     */
+    "data": TaxCalculationCallbackConnectionCheck;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
      */
     "meta"?: ResponseMeta;
-    "next_page_token"?: string;
     /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
     "request_id": string;
 };
-/** A response containing `WebhookEndpoint` data. */
-export type WebhookEndpointResponse = {
+export type TaxCalculationCallbackCreatedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "circuit_failure_count": number;
+            "circuit_state": "closed" | "open" | "half_open" | (string & {});
+            "configuration": TaxCalculationCallbackConfiguration;
+            "created_at": string;
+            "current_tax_calculation_callback_revision_id": string;
+            "external_reference_id"?: string;
+            "key_id"?: string;
+            "name": string;
+            "secret"?: string;
+            "signing_methods": Array<"jwt" | "hmac" | (string & {})>;
+            "status": "inactive" | "active" | "archived" | (string & {});
+            "tax_calculation_callback_id": string;
+            "updated_at": string;
+            "version": number;
+        };
+    };
+    "event_source"?: "merchant" | (string & {});
+    "event_type"?: "tax_calculation_callback.created";
+})
+    & {
+    "event_type": "tax_calculation_callback.created";
+});
+export type TaxCalculationCallbackDeactivatedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "circuit_failure_count": number;
+            "circuit_state": "closed" | "open" | "half_open" | (string & {});
+            "configuration": TaxCalculationCallbackConfiguration;
+            "created_at": string;
+            "current_tax_calculation_callback_revision_id": string;
+            "external_reference_id"?: string;
+            "key_id"?: string;
+            "name": string;
+            "secret"?: string;
+            "signing_methods": Array<"jwt" | "hmac" | (string & {})>;
+            "status": "inactive" | "active" | "archived" | (string & {});
+            "tax_calculation_callback_id": string;
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<TaxCalculationCallback>;
+    };
+    "event_source"?: "merchant" | (string & {});
+    "event_type"?: "tax_calculation_callback.deactivated";
+})
+    & {
+    "event_type": "tax_calculation_callback.deactivated";
+});
+/** A page of `TaxCalculationCallback` objects. */
+export type TaxCalculationCallbackListResponse = {
     /**
-     * A merchant webhook endpoint belongs to the live mode or sandbox of the credential that
-     * created it and receives only that environment's events. Partner endpoints select sources
-     * with event_sources and installed_merchant_modes.
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * TaxCalculationCallback}. An endpoint that supplies tax calculations.
      */
-    "data": WebhookEndpoint;
+    "data": Array<TaxCalculationCallback>;
     /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
      */
     "meta"?: ResponseMeta;
     /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `TaxCalculationCallback` data. */
+export type TaxCalculationCallbackResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. An endpoint that
+     * supplies tax calculations.
+     */
+    "data": TaxCalculationCallback;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
     "request_id": string;
 };
 /**
- * A webhook endpoint with its one-time signing secret, returned when the endpoint is created or
- * its secret is rotated. A merchant webhook endpoint belongs to the live mode or sandbox of the
- * credential that created it and receives only that environment's events. Partner endpoints select
- * sources with event_sources and installed_merchant_modes.
+ * Result of rotating a tax calculation callback's HMAC secret, including the new `key_id` and the
+ * new `secret`, which is returned only in this response.
  */
-export type WebhookEndpointWithSecret = (Exclude<WebhookEndpoint & object, readonly unknown[]>)
-    & ({
+export type TaxCalculationCallbackSigningKey = {
+    /** ID of the new HMAC signing key. Example: "cbkey_00112233445566778899aabb". */
+    "key_id": string;
+    /** New HMAC shared secret. Returned only by this response. */
+    "secret": string;
     /**
-     * One-time signing secret. Present on create only when hmac is enabled, and on rotation;
-     * omitted on an idempotent replay after the secret retention period.
+     * ID of the callback whose secret was issued or rotated, beginning with `tcb_`. Example:
+     * "tcb_01KEZF7C00N7SER74Y2E6D1ZGT".
      */
-    "secret"?: string;
-});
-/** A response containing `WebhookEndpointWithSecret` data. */
-export type WebhookEndpointWithSecretResponse = {
+    "tax_calculation_callback_id": string;
+};
+/** A response containing `TaxCalculationCallbackSigningKey` data. */
+export type TaxCalculationCallbackSigningKeyRotationResponse = {
     /**
-     * A webhook endpoint with its one-time signing secret, returned when the endpoint is created
-     * or its secret is rotated. A merchant webhook endpoint belongs to the live mode or sandbox of
-     * the credential that created it and receives only that environment's events. Partner
-     * endpoints select sources with event_sources and installed_merchant_modes.
+     * Resource, collection, or operation result returned by this request. Result of rotating a tax
+     * calculation callback's HMAC secret, including the new `key_id` and the new `secret`, which
+     * is returned only in this response.
      */
-    "data": WebhookEndpointWithSecret;
+    "data": TaxCalculationCallbackSigningKey;
     /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
      */
     "meta"?: ResponseMeta;
     /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
     "request_id": string;
 };
-export type WebhookEndpointsCreateParams = (InputValue<CreateWebhookEndpointRequestInput>);
-export type WebhookEndpointsCreateTestEventParams = (InputValue<CreateWebhookTestEventRequestInput>);
-export type WebhookEndpointsDeleteParams = {
-    /** Optional configuration version last read by the caller. Format: uint64. minimum: 1. */
+/**
+ * Result of sending a test delivery to a tax calculation callback, with its status, latency, HTTP
+ * status code, and failure category if it failed.
+ */
+export type TaxCalculationCallbackTestDelivery = {
+    /**
+     * Why the callback request failed and the action that can make the next one succeed. -
+     * `authentication_or_http_error`: Return a 2xx status after verifying the enabled signing
+     * methods. For a 401, check JWT verification with Flint's JWKS, issuer,
+     * tax_calculation_callback_id audience, expiration, and body_sha256 of the exact request
+     * bytes. For HMAC, check the shared secret and verify the raw body before parsing it. -
+     * `blocked_target`: Use a public HTTPS callback target allowed by Flint's outbound network
+     * policy. - `connection_error`: Restore network connectivity to the callback host, then test
+     * again. - `dns_error`: Fix the callback hostname or its DNS records, then test again. -
+     * `invalid_response`: Return a 2xx application/json response within maximum_response_bytes.
+     * For a test delivery, the body must also echo tax_calculation_evaluation_id with empty
+     * line_item_calculations and charge_calculations. Then test again. - `request_error`: Flint
+     * couldn't complete the request for another reason. Check the URL and your server logs, then
+     * test again. - `timeout`: Acknowledge the callback within its configured timeout, then test
+     * again. - `tls_error`: Fix the callback certificate and TLS configuration, then test again.
+     * Value enum: "authentication_or_http_error", "blocked_target", "connection_error",
+     * "dns_error", "invalid_response", "request_error", "timeout", "tls_error".
+     */
+    "failure_category"?: "authentication_or_http_error"
+        | "blocked_target"
+        | "connection_error"
+        | "dns_error"
+        | "invalid_response"
+        | "request_error"
+        | "timeout"
+        | "tls_error"
+        | (string & {});
+    /** HTTP status code your endpoint returned. Omitted when it returned no response. */
+    "http_status_code"?: number;
+    /**
+     * ID of the HMAC signing key that signed this request. Empty for a JWT-only callback, which
+     * has no shared secret. Example: "cbkey_00112233445566778899aabb".
+     */
+    "key_id": string;
+    /** How long your endpoint took to answer, in milliseconds. Format: int64. */
+    "latency_milliseconds": number;
+    /**
+     * Whether your endpoint answered as the callback requires. - `succeeded`: Your endpoint
+     * answered as the request requires. - `failed`: The request failed. See `failure_category`.
+     * Value enum: "succeeded", "failed".
+     */
+    "status": "succeeded" | "failed" | (string & {});
+    /**
+     * ID of the callback that was called, beginning with `tcb_`. Example:
+     * "tcb_01KEZF7C00N7SER74Y2E6D1ZGT".
+     */
+    "tax_calculation_callback_id": string;
+    /**
+     * ID of the callback revision that was called, beginning with `tcbr_`. Example:
+     * "tcbr_01KEZF7C00V2GHWCXVV2NCWX29".
+     */
+    "tax_calculation_callback_revision_id": string;
+    /** When Flint sent the test delivery. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "tested_at": string;
+};
+/** A response containing `TaxCalculationCallbackTestDelivery` data. */
+export type TaxCalculationCallbackTestDeliveryResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. Result of sending a test
+     * delivery to a tax calculation callback, with its status, latency, HTTP status code, and
+     * failure category if it failed.
+     */
+    "data": TaxCalculationCallbackTestDelivery;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type TaxCalculationCallbackUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "circuit_failure_count": number;
+            "circuit_state": "closed" | "open" | "half_open" | (string & {});
+            "configuration": TaxCalculationCallbackConfiguration;
+            "created_at": string;
+            "current_tax_calculation_callback_revision_id": string;
+            "external_reference_id"?: string;
+            "key_id"?: string;
+            "name": string;
+            "secret"?: string;
+            "signing_methods": Array<"jwt" | "hmac" | (string & {})>;
+            "status": "inactive" | "active" | "archived" | (string & {});
+            "tax_calculation_callback_id": string;
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<TaxCalculationCallback>;
+    };
+    "event_source"?: "merchant" | (string & {});
+    "event_type"?: "tax_calculation_callback.updated";
+})
+    & {
+    "event_type": "tax_calculation_callback.updated";
+});
+export type TaxCalculationCallbacksCheckConnectionParams = {};
+export type TaxCalculationCallbacksCreateParams = (InputValue<CreateTaxCalculationCallbackRequestInput>);
+export type TaxCalculationCallbacksCreateTestDeliveryParams = {};
+export type TaxCalculationCallbacksDeleteParams = {
+    /** Current callback version. Format: uint64. minimum: 1. */
     "expected_version"?: InputValue<number>;
 };
-export type WebhookEndpointsGetParams = {};
-export type WebhookEndpointsListParams = {
+export type TaxCalculationCallbacksGetParams = {};
+export type TaxCalculationCallbacksListParams = {
     /**
      * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
      * 100. Default: 20.
      */
     "page_size"?: InputValue<number>;
     /**
-     * Opaque next_page_token from the previous response. Omit on the first request. You may change
-     * `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request
-     * context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns
-     * a validation error.
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
      */
     "page_token"?: InputValue<string>;
+    /** Search tax_calculation_callback_id, name, and external_reference_id. maxLength: 255. */
+    "query"?: InputValue<string>;
+    /** Match the external reference ID. minLength: 1. maxLength: 255. Example: "warehouse-1842". */
+    "external_reference_id"?: InputValue<string>;
     /**
-     * Filter by status. Repeat the parameter or send comma-separated values to match any of
-     * several. Omitted, the list leaves out deleted rows; name deleted to include them. Accepts
-     * repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in
-     * first-seen order; empty or unknown entries are rejected. Values within this filter are ORed;
-     * separate filters are ANDed. [] enum: "active", "inactive", "deleted". Value enum: "active",
-     * "inactive", "deleted". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "active",
-     * "inactive", "deleted". anyOf[1][] (Value): string. Value enum: "active", "inactive",
-     * "deleted". anyOf[2] (Value): string. Value enum: "active", "inactive", "deleted".
+     * Filter by status. Omitted, the list leaves out archived rows; name archived to include them.
+     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
+     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "active",
+     * "inactive", "archived". Value enum: "active", "inactive", "archived". anyOf[1] (Value):
+     * Array of string. minItems: 1. [] enum: "active", "inactive", "archived". anyOf[1][] (Value):
+     * string. Value enum: "active", "inactive", "archived". anyOf[2] (Value): string. Value enum:
+     * "active", "inactive", "archived".
      */
-    "status"?: InputValue<("active" | "inactive" | "deleted") | readonly ("active" | "inactive" | "deleted")[]>;
-    /**
-     * Filter by webhook endpoint event sources. Accepts repeated keys, comma-separated values, or
-     * mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries
-     * are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum:
-     * "merchant", "partner_app", "installed_merchants". Value enum: "merchant", "partner_app",
-     * "installed_merchants". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "merchant",
-     * "partner_app", "installed_merchants". anyOf[1][] (Value): string. Value enum: "merchant",
-     * "partner_app", "installed_merchants". anyOf[2] (Value): string. Value enum: "merchant",
-     * "partner_app", "installed_merchants".
-     */
-    "event_sources"?: InputValue<("merchant" | "partner_app" | "installed_merchants")
-        | readonly ("merchant" | "partner_app" | "installed_merchants")[]>;
-    /**
-     * Filter by partner app ID for partner-source webhook endpoints. Example:
-     * "papp_01ARZ3NDEKTSV4RRFFQ69G5FAV".
-     */
-    "partner_app_id"?: InputValue<string>;
+    "status"?: InputValue<("active" | "inactive" | "archived") | readonly ("active" | "inactive" | "archived")[]>;
 };
-export type WebhookEndpointsRotateSecretParams = (InputValue<RotateWebhookSecretRequestInput>);
-export type WebhookEndpointsUpdateParams = (InputValue<UpdateWebhookEndpointRequestInput>);
-/** An event prepared for delivery to webhook endpoints. */
-export type WebhookEvent = {
-    "api_request_log_id"?: string;
+export type TaxCalculationCallbacksRotateSecretParams = {};
+export type TaxCalculationCallbacksUpdateParams = (UpdateTaxCalculationCallbackRequestInput);
+/**
+ * Tax you calculated yourself for a line or charge: whether prices include tax, and the tax
+ * components.
+ */
+export type TaxCalculationRequest = {
     /**
-     * API version of the event data. Stored data follows the same versioning rules as webhook
-     * deliveries. Format: date.
+     * The tax for this line item or charge, one component per jurisdiction and tax type. Each is a
+     * `percentage` tax. minItems: 1. [] (Value): {@link TaxComponentRequest}. One tax component in
+     * a `TaxCalculationInput`: a jurisdiction, tax type, and percent.
      */
-    "api_version": string;
-    /** RFC3339 timestamp. Format: date-time. */
-    "created_at": string;
+    "components": Array<TaxComponentRequest>;
     /**
-     * The delivered envelope's data, including its payload-version-specific shape. Omitted from
-     * list responses and from detail responses when the caller lacks read access to the attributed
-     * resource or the payload has expired after 14 days.
+     * Whether the price this tax applies to already includes the tax. Value enum: "additive",
+     * "inclusive".
      */
-    "data"?: {
-        [key: string]: unknown;
-    };
-    /** Value enum: "merchant", "partner_app", "installed_merchants". */
-    "event_source"?: "merchant" | "partner_app" | "installed_merchants" | (string & {});
-    /**
-     * Value enum: "balance.updated", "balance_transaction.created", "balance_transaction.updated",
-     * "bundle.archived", "bundle.created", "bundle.updated", "category.created",
-     * "category.deleted", "category.updated", "checkout_session.closed",
-     * "checkout_session.created", "checkout_session.expired", "checkout_session.invalidated",
-     * "checkout_session.paid", "checkout_session.partially_paid", "credit_note.created",
-     * "credit_note.issued", "credit_note.updated", "credit_note.voided",
-     * "credit_note_allocation.created", "credit_note_allocation.reversed",
-     * "custom_domain.archived", "custom_domain.updated", "customer.created", "customer.deleted",
-     * "customer.updated", "customer_deletion_request.completed",
-     * "customer_deletion_request.created", "customer_deletion_request.failed",
-     * "customer_deletion_request.processing", "customer_deletion_request.rejected",
-     * "delivery_location_set.activated", "delivery_location_set.archived",
-     * "delivery_location_set.created", "delivery_location_set.deactivated",
-     * "delivery_location_set.updated", "delivery_method.activated", "delivery_method.archived",
-     * "delivery_method.created", "delivery_method.deactivated", "delivery_method.updated",
-     * "delivery_profile.activated", "delivery_profile.archived", "delivery_profile.created",
-     * "delivery_profile.deactivated", "delivery_profile.updated",
-     * "delivery_rate_callback.activated", "delivery_rate_callback.archived",
-     * "delivery_rate_callback.created", "delivery_rate_callback.deactivated",
-     * "delivery_rate_callback.updated", "delivery_revocation.created",
-     * "delivery_selection.committed", "delivery_zone.activated", "delivery_zone.archived",
-     * "delivery_zone.created", "delivery_zone.deactivated", "delivery_zone.updated",
-     * "dispute.created", "dispute.inquiry_closed", "dispute.lost", "dispute.needs_response",
-     * "dispute.prevented", "dispute.updated", "dispute.won", "environment_grant.created",
-     * "environment_grant.revoked", "fraud_warning.created", "fraud_warning.updated",
-     * "fulfillment.canceled", "fulfillment.completed", "fulfillment.created",
-     * "fulfillment.failed", "fulfillment.updated", "fulfillment_event.created",
-     * "gift_card.created", "gift_card.updated", "gift_card_load.created",
-     * "gift_card_load.updated", "gift_card_notification.created",
-     * "gift_card_notification.updated", "gift_card_redemption.created",
-     * "gift_card_redemption.updated", "gift_card_transaction.created", "inventory_count.applied",
-     * "inventory_level.shortage_detected", "inventory_level.updated", "inventory_receipt.created",
-     * "inventory_reservation.action_required", "inventory_reservation.at_risk",
-     * "inventory_reservation.closed", "inventory_reservation.committed",
-     * "inventory_reservation.consumed", "inventory_reservation.created",
-     * "inventory_reservation.hold_expired", "inventory_reservation.released",
-     * "inventory_transfer.closed", "inventory_transfer.departed", "inventory_transfer.lost",
-     * "inventory_transfer.received", "inventory_transfer.returned",
-     * "invoice.collection_block_resolved", "invoice.collection_blocked", "invoice.created",
-     * "invoice.credited", "invoice.issue_failed", "invoice.issued", "invoice.late_fee_assessed",
-     * "invoice.late_fee_due", "invoice.late_fee_waived", "invoice.marked_uncollectible",
-     * "invoice.overdue", "invoice.paid", "invoice.partially_paid", "invoice.partially_refunded",
-     * "invoice.refunded", "invoice.reminder_due", "invoice.reopened", "invoice.sent",
-     * "invoice.updated", "invoice.voided", "invoice_delivery_attempt.failed",
-     * "invoice_delivery_attempt.sent", "invoice_delivery_attempt.suppressed",
-     * "invoice_manual_payment.created", "invoice_manual_payment.reversed",
-     * "invoice_payment_attempt.canceled", "invoice_payment_attempt.expired",
-     * "invoice_payment_attempt.failed", "invoice_payment_attempt.processing",
-     * "invoice_payment_attempt.settled", "merchant.readiness_updated", "merchant.updated",
-     * "merchant_billing_balance.updated", "merchant_billing_invoice.issued",
-     * "merchant_billing_invoice.updated", "modifier_group.archived", "modifier_group.created",
-     * "modifier_group.updated", "modifier_set.archived", "modifier_set.created",
-     * "modifier_set.updated", "order.closed", "order.created",
-     * "order.inventory_exception_created", "order.inventory_exception_resolved", "order.paid",
-     * "order.partially_paid", "order.partially_refunded", "order.refunded", "order.updated",
-     * "package.created", "package.updated", "partner_app_install.created",
-     * "partner_app_install.permissions_updated", "partner_app_install.revoked",
-     * "partner_app_install.updated", "payment_intent.canceled", "payment_intent.created",
-     * "payment_intent.expired", "payment_intent.fulfillment_hold_updated",
-     * "payment_intent.payment_failed", "payment_intent.processing",
-     * "payment_intent.requires_action", "payment_intent.requires_capture",
-     * "payment_intent.succeeded", "payment_intent.updated", "payment_link.created",
-     * "payment_link.updated", "payment_method.activated", "payment_method.archived",
-     * "payment_method.failed", "payment_review.closed", "payment_review.opened",
-     * "payment_review.reopened", "payout.canceled", "payout.created", "payout.failed",
-     * "payout.paid", "payout.reversed", "payout.updated", "payout_destination.archived",
-     * "payout_destination.created", "payout_destination.disabled", "payout_destination.updated",
-     * "payout_settings.updated", "product.archived", "product.created", "product.updated",
-     * "product_variant.archived", "product_variant.created", "product_variant.updated",
-     * "promotion.archived", "promotion.created", "promotion.updated", "promotion_code.archived",
-     * "promotion_code.created", "promotion_code.updated", "refund.created", "refund.failed",
-     * "refund.partially_succeeded", "refund.succeeded", "refund.updated", "report.failed",
-     * "report.succeeded", "return.canceled", "return.completed", "return.created",
-     * "return.decision_recorded", "return.reopened", "return.updated",
-     * "return_disposition.created", "return_disposition.updated",
-     * "return_inspection.acceptance_decided", "return_inspection.created",
-     * "return_inspection.superseded", "return_receipt.created", "return_receipt.superseded",
-     * "return_receipt.verified", "return_resolution.created", "return_resolution.updated",
-     * "shipment.created", "shipment.updated", "subscription.activated", "subscription.canceled",
-     * "subscription.cancellation_scheduled", "subscription.created", "subscription.cycle_skipped",
-     * "subscription.delivery_action_required", "subscription.delivery_pause_upcoming",
-     * "subscription.delivery_updated", "subscription.dunning_exhausted", "subscription.past_due",
-     * "subscription.paused", "subscription.payment_succeeded", "subscription.plan_changed",
-     * "subscription.reactivated", "subscription.renewal_upcoming", "subscription.resumed",
-     * "subscription.trial_ending", "subscription.updated",
-     * "subscription_delivery_migration.completed", "subscription_payment_retry.created",
-     * "subscription_payment_retry.failed", "subscription_payment_retry.succeeded",
-     * "tax_connection.updated", "test_clock.advancing", "test_clock.archived",
-     * "test_clock.created", "test_clock.failed", "test_clock.ready".
-     */
-    "event_type": "balance.updated"
-        | "balance_transaction.created"
-        | "balance_transaction.updated"
-        | "bundle.archived"
-        | "bundle.created"
-        | "bundle.updated"
-        | "category.created"
-        | "category.deleted"
-        | "category.updated"
-        | "checkout_session.closed"
-        | "checkout_session.created"
-        | "checkout_session.expired"
-        | "checkout_session.invalidated"
-        | "checkout_session.paid"
-        | "checkout_session.partially_paid"
-        | "credit_note.created"
-        | "credit_note.issued"
-        | "credit_note.updated"
-        | "credit_note.voided"
-        | "credit_note_allocation.created"
-        | "credit_note_allocation.reversed"
-        | "custom_domain.archived"
-        | "custom_domain.updated"
-        | "customer.created"
-        | "customer.deleted"
-        | "customer.updated"
-        | "customer_deletion_request.completed"
-        | "customer_deletion_request.created"
-        | "customer_deletion_request.failed"
-        | "customer_deletion_request.processing"
-        | "customer_deletion_request.rejected"
-        | "delivery_location_set.activated"
-        | "delivery_location_set.archived"
-        | "delivery_location_set.created"
-        | "delivery_location_set.deactivated"
-        | "delivery_location_set.updated"
-        | "delivery_method.activated"
-        | "delivery_method.archived"
-        | "delivery_method.created"
-        | "delivery_method.deactivated"
-        | "delivery_method.updated"
-        | "delivery_profile.activated"
-        | "delivery_profile.archived"
-        | "delivery_profile.created"
-        | "delivery_profile.deactivated"
-        | "delivery_profile.updated"
-        | "delivery_rate_callback.activated"
-        | "delivery_rate_callback.archived"
-        | "delivery_rate_callback.created"
-        | "delivery_rate_callback.deactivated"
-        | "delivery_rate_callback.updated"
-        | "delivery_revocation.created"
-        | "delivery_selection.committed"
-        | "delivery_zone.activated"
-        | "delivery_zone.archived"
-        | "delivery_zone.created"
-        | "delivery_zone.deactivated"
-        | "delivery_zone.updated"
-        | "dispute.created"
-        | "dispute.inquiry_closed"
-        | "dispute.lost"
-        | "dispute.needs_response"
-        | "dispute.prevented"
-        | "dispute.updated"
-        | "dispute.won"
-        | "environment_grant.created"
-        | "environment_grant.revoked"
-        | "fraud_warning.created"
-        | "fraud_warning.updated"
-        | "fulfillment.canceled"
-        | "fulfillment.completed"
-        | "fulfillment.created"
-        | "fulfillment.failed"
-        | "fulfillment.updated"
-        | "fulfillment_event.created"
-        | "gift_card.created"
-        | "gift_card.updated"
-        | "gift_card_load.created"
-        | "gift_card_load.updated"
-        | "gift_card_notification.created"
-        | "gift_card_notification.updated"
-        | "gift_card_redemption.created"
-        | "gift_card_redemption.updated"
-        | "gift_card_transaction.created"
-        | "inventory_count.applied"
-        | "inventory_level.shortage_detected"
-        | "inventory_level.updated"
-        | "inventory_receipt.created"
-        | "inventory_reservation.action_required"
-        | "inventory_reservation.at_risk"
-        | "inventory_reservation.closed"
-        | "inventory_reservation.committed"
-        | "inventory_reservation.consumed"
-        | "inventory_reservation.created"
-        | "inventory_reservation.hold_expired"
-        | "inventory_reservation.released"
-        | "inventory_transfer.closed"
-        | "inventory_transfer.departed"
-        | "inventory_transfer.lost"
-        | "inventory_transfer.received"
-        | "inventory_transfer.returned"
-        | "invoice.collection_block_resolved"
-        | "invoice.collection_blocked"
-        | "invoice.created"
-        | "invoice.credited"
-        | "invoice.issue_failed"
-        | "invoice.issued"
-        | "invoice.late_fee_assessed"
-        | "invoice.late_fee_due"
-        | "invoice.late_fee_waived"
-        | "invoice.marked_uncollectible"
-        | "invoice.overdue"
-        | "invoice.paid"
-        | "invoice.partially_paid"
-        | "invoice.partially_refunded"
-        | "invoice.refunded"
-        | "invoice.reminder_due"
-        | "invoice.reopened"
-        | "invoice.sent"
-        | "invoice.updated"
-        | "invoice.voided"
-        | "invoice_delivery_attempt.failed"
-        | "invoice_delivery_attempt.sent"
-        | "invoice_delivery_attempt.suppressed"
-        | "invoice_manual_payment.created"
-        | "invoice_manual_payment.reversed"
-        | "invoice_payment_attempt.canceled"
-        | "invoice_payment_attempt.expired"
-        | "invoice_payment_attempt.failed"
-        | "invoice_payment_attempt.processing"
-        | "invoice_payment_attempt.settled"
-        | "merchant.readiness_updated"
-        | "merchant.updated"
-        | "merchant_billing_balance.updated"
-        | "merchant_billing_invoice.issued"
-        | "merchant_billing_invoice.updated"
-        | "modifier_group.archived"
-        | "modifier_group.created"
-        | "modifier_group.updated"
-        | "modifier_set.archived"
-        | "modifier_set.created"
-        | "modifier_set.updated"
-        | "order.closed"
-        | "order.created"
-        | "order.inventory_exception_created"
-        | "order.inventory_exception_resolved"
-        | "order.paid"
-        | "order.partially_paid"
-        | "order.partially_refunded"
-        | "order.refunded"
-        | "order.updated"
-        | "package.created"
-        | "package.updated"
-        | "partner_app_install.created"
-        | "partner_app_install.permissions_updated"
-        | "partner_app_install.revoked"
-        | "partner_app_install.updated"
-        | "payment_intent.canceled"
-        | "payment_intent.created"
-        | "payment_intent.expired"
-        | "payment_intent.fulfillment_hold_updated"
-        | "payment_intent.payment_failed"
-        | "payment_intent.processing"
-        | "payment_intent.requires_action"
-        | "payment_intent.requires_capture"
-        | "payment_intent.succeeded"
-        | "payment_intent.updated"
-        | "payment_link.created"
-        | "payment_link.updated"
-        | "payment_method.activated"
-        | "payment_method.archived"
-        | "payment_method.failed"
-        | "payment_review.closed"
-        | "payment_review.opened"
-        | "payment_review.reopened"
-        | "payout.canceled"
-        | "payout.created"
-        | "payout.failed"
-        | "payout.paid"
-        | "payout.reversed"
-        | "payout.updated"
-        | "payout_destination.archived"
-        | "payout_destination.created"
-        | "payout_destination.disabled"
-        | "payout_destination.updated"
-        | "payout_settings.updated"
-        | "product.archived"
-        | "product.created"
-        | "product.updated"
-        | "product_variant.archived"
-        | "product_variant.created"
-        | "product_variant.updated"
-        | "promotion.archived"
-        | "promotion.created"
-        | "promotion.updated"
-        | "promotion_code.archived"
-        | "promotion_code.created"
-        | "promotion_code.updated"
-        | "refund.created"
-        | "refund.failed"
-        | "refund.partially_succeeded"
-        | "refund.succeeded"
-        | "refund.updated"
-        | "report.failed"
-        | "report.succeeded"
-        | "return.canceled"
-        | "return.completed"
-        | "return.created"
-        | "return.decision_recorded"
-        | "return.reopened"
-        | "return.updated"
-        | "return_disposition.created"
-        | "return_disposition.updated"
-        | "return_inspection.acceptance_decided"
-        | "return_inspection.created"
-        | "return_inspection.superseded"
-        | "return_receipt.created"
-        | "return_receipt.superseded"
-        | "return_receipt.verified"
-        | "return_resolution.created"
-        | "return_resolution.updated"
-        | "shipment.created"
-        | "shipment.updated"
-        | "subscription.activated"
-        | "subscription.canceled"
-        | "subscription.cancellation_scheduled"
-        | "subscription.created"
-        | "subscription.cycle_skipped"
-        | "subscription.delivery_action_required"
-        | "subscription.delivery_pause_upcoming"
-        | "subscription.delivery_updated"
-        | "subscription.dunning_exhausted"
-        | "subscription.past_due"
-        | "subscription.paused"
-        | "subscription.payment_succeeded"
-        | "subscription.plan_changed"
-        | "subscription.reactivated"
-        | "subscription.renewal_upcoming"
-        | "subscription.resumed"
-        | "subscription.trial_ending"
-        | "subscription.updated"
-        | "subscription_delivery_migration.completed"
-        | "subscription_payment_retry.created"
-        | "subscription_payment_retry.failed"
-        | "subscription_payment_retry.succeeded"
-        | "tax_connection.updated"
-        | "test_clock.advancing"
-        | "test_clock.archived"
-        | "test_clock.created"
-        | "test_clock.failed"
-        | "test_clock.ready"
-        | (string & {});
-    "merchant_id"?: string;
-    /** Value enum: "test", "live". */
-    "mode"?: "test" | "live" | (string & {});
-    "partner_app_id"?: string;
-    /**
-     * Envelope payload version. Present only while the stored payload is retained. Value enum: 1,
-     * 2.
-     */
-    "payload_version"?: number;
-    /**
-     * Originating merchant request, or null for a background event. The idempotency key is
-     * included only on an authorized detail read while the payload is retained. Omitted for
-     * partner events. id (Required): string. idempotency_key (Optional): string. The
-     * Idempotency-Key the originating request sent. Absent when it sent none.
-     */
-    "request"?: {
-        "id": string;
-        /** The Idempotency-Key the originating request sent. Absent when it sent none. */
-        "idempotency_key"?: string;
-    }
-        | null;
-    "resource_id"?: string;
-    /**
-     * Public resource type: the resource's ID field name without `_id`. Clients must accept values
-     * added in future releases. Value enum: "api_key", "api_request_log", "balance",
-     * "balance_transaction", "bundle", "bundle_component", "category", "checkout_session",
-     * "checkout_session_customer_verification", "credit_note", "credit_note_allocation",
-     * "custom_domain", "customer", "customer_address", "customer_deletion_request",
-     * "customer_email_preferences", "customer_session", "customer_verification",
-     * "delivery_location_set", "delivery_method", "delivery_profile", "delivery_quote",
-     * "delivery_rate", "delivery_rate_callback", "delivery_revocation", "delivery_selection",
-     * "delivery_zone", "demo_session", "device", "discount", "dispute", "email_change_request",
-     * "environment_grant", "feedback_report", "file", "flint_wallet", "flint_wallet_card",
-     * "fraud_warning", "fulfillment", "fulfillment_event", "fulfillment_notification",
-     * "gift_card", "gift_card_funding_disposition", "gift_card_load", "gift_card_notification",
-     * "gift_card_redemption", "gift_card_transaction", "image", "inventory_adjustment",
-     * "inventory_allocation_policy", "inventory_allocation_policy_revision", "inventory_count",
-     * "inventory_item", "inventory_level", "inventory_movement", "inventory_receipt",
-     * "inventory_reservation", "inventory_reservation_line", "inventory_transfer",
-     * "inventory_transfer_line", "invoice", "invoice_delivery_attempt", "invoice_late_fee",
-     * "invoice_line_item", "invoice_manual_payment", "invoice_payment_attempt",
-     * "invoice_payment_term", "location", "merchant", "merchant_billing_balance",
-     * "merchant_billing_entry", "merchant_billing_invoice", "modifier", "modifier_group",
-     * "modifier_set", "order", "order_charge", "order_line_item", "order_line_item_modifier",
-     * "order_payment_attempt", "organization", "package", "package_item", "partner_app",
-     * "partner_app_credential", "partner_app_install", "payment_intent", "payment_link",
-     * "payment_link_custom_field", "payment_link_line_item", "payment_method",
-     * "payment_method_domain", "payment_review", "payout", "payout_destination",
-     * "payout_settings", "product", "product_option", "product_option_value", "product_variant",
-     * "promotion", "promotion_code", "purchase_refund_allocation", "refund", "refund_allocation",
-     * "refund_line_item_adjustment", "report", "report_download", "return", "return_activity",
-     * "return_disposition", "return_inspection", "return_inspection_line_item",
-     * "return_line_item", "return_policy", "return_policy_revision", "return_reason",
-     * "return_receipt", "return_receipt_line_item", "return_resolution", "risk_list",
-     * "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "subscription",
-     * "subscription_delivery_migration", "subscription_line_item", "subscription_offer",
-     * "subscription_payment_retry", "subscription_plan", "subscription_plan_line_item",
-     * "tax_connection", "tax_registration", "test_clock", "user", "webhook_delivery",
-     * "webhook_endpoint", "webhook_event", "workload_identity".
-     */
-    "resource_type"?: ResourceType;
-    /**
-     * Partner envelope source. Present only for partner events while the stored payload is
-     * retained. The source of a partner webhook event, selected by type.
-     */
-    "source"?: WebhookEventSource;
-    "test": boolean;
-    "webhook_event_id": string;
+    "price_mode": "additive" | "inclusive" | (string & {});
 };
-/** A page of `WebhookEvent` objects. */
-export type WebhookEventListResponse = {
-    /**  [] (Value): {@link WebhookEvent}. An event prepared for delivery to webhook endpoints. */
-    "data": Array<WebhookEvent>;
+/**
+ * Tax you calculated yourself for a line or charge: whether prices include tax, and the tax
+ * components.
+ */
+export type TaxCalculationRequestModelInput = {
     /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
+     * The tax for this line item or charge, one component per jurisdiction and tax type. Each is a
+     * `percentage` tax. minItems: 1. [] (Value): {@link TaxComponentRequestModelInput}. One tax
+     * component in a `TaxCalculationInput`: a jurisdiction, tax type, and percent.
      */
-    "meta"?: ResponseMeta;
-    "next_page_token"?: string;
+    "components": Array<TaxComponentRequestModelInput>;
     /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     * Whether the price this tax applies to already includes the tax. Value enum: "additive",
+     * "inclusive".
      */
-    "request_id": string;
+    "price_mode": "additive" | "inclusive";
 };
-/** A response containing `WebhookEvent` data. */
-export type WebhookEventResponse = {
-    /** An event prepared for delivery to webhook endpoints. */
-    "data": WebhookEvent;
+/**
+ * Tax you calculated yourself for a line or charge: whether prices include tax, and the tax
+ * components.
+ */
+export type TaxCalculationRequestRequestInput = {
     /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
+     * The tax for this line item or charge, one component per jurisdiction and tax type. Each is a
+     * `percentage` tax. minItems: 1. [] (Value): {@link TaxComponentRequestRequestInput}. One tax
+     * component in a `TaxCalculationInput`: a jurisdiction, tax type, and percent.
      */
-    "meta"?: ResponseMeta;
+    "components": Array<TaxComponentRequestRequestInput>;
     /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     * Whether the price this tax applies to already includes the tax. Value enum: "additive",
+     * "inclusive".
      */
-    "request_id": string;
+    "price_mode": "additive" | "inclusive";
 };
-/** The source of a partner webhook event, selected by type. */
-export type WebhookEventSource = ((WebhookEventSourcePartnerApp) | (WebhookEventSourceInstalledMerchants) | (Record<string, unknown>));
-/** The installed_merchants source of a partner webhook event. */
-export type WebhookEventSourceInstalledMerchants = ({
-    "environment_grant_id": string;
-    "merchant_id": string;
-    /** Value enum: "test", "live". */
-    "mode": "test" | "live" | (string & {});
-    "partner_app_install_id": string;
-    "sandbox_id"?: string;
-    /** Value enum: "installed_merchants". */
-    "type": "installed_merchants" | (string & {});
+/** One tax component in a `TaxCalculationInput`: a jurisdiction, tax type, and percent. */
+export type TaxComponentRequest = ({
+    /**
+     * How the tax is figured: a percentage of the taxable amount, or a fixed amount. Value enum:
+     * "percentage".
+     */
+    "calculation_type"?: "percentage" | (string & {});
+    /**
+     * The fixed tax amount in the order currency. Send it with a `flat_amount` component; a
+     * `percentage` component doesn't take it. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code.
+     */
+    "flat_money"?: MoneyValue;
+    /**
+     * The taxing jurisdiction this component's tax is owed to. A taxing jurisdiction with its
+     * level, such as state or city, name, state, and country.
+     */
+    "jurisdiction": TaxJurisdiction;
+    /**
+     * Tax rate in percentage points, from 0 to 100 with up to four decimal places: `6.5` is 6.5%.
+     * Send it with a `percentage` component; a `flat_amount` component doesn't take it. minimum:
+     * 0. maximum: 100. multipleOf: 0.0001.
+     */
+    "percent": number;
+    /**
+     * The kind of tax this component collects. Value enum: "sales_tax", "use_tax", "vat", "gst",
+     * "hst", "pst", "qst".
+     */
+    "tax_type": "sales_tax" | "use_tax" | "vat" | "gst" | "hst" | "pst" | "qst" | (string & {});
+    /**
+     * Optional reverse-charge treatment. Requires percent 0 and a non-US jurisdiction. Value enum:
+     * "reverse_charge".
+     */
+    "taxability_reason"?: "reverse_charge" | (string & {});
 });
-/** The partner_app source of a partner webhook event. */
-export type WebhookEventSourcePartnerApp = {
-    "merchant_id": string;
-    "partner_app_install_id": string;
-    /** Value enum: "partner_app". */
-    "type": "partner_app" | (string & {});
+/** One tax component in a `TaxCalculationInput`: a jurisdiction, tax type, and percent. */
+export type TaxComponentRequestModelInput = ({
+    /**
+     * How the tax is figured: a percentage of the taxable amount, or a fixed amount. Default:
+     * "percentage". Value enum: "percentage".
+     */
+    "calculation_type"?: "percentage";
+    /**
+     * The fixed tax amount in the order currency. Send it with a `flat_amount` component; a
+     * `percentage` component doesn't take it. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code.
+     */
+    "flat_money"?: MoneyValueInput;
+    /**
+     * The taxing jurisdiction this component's tax is owed to. A taxing jurisdiction with its
+     * level, such as state or city, name, state, and country.
+     */
+    "jurisdiction": TaxJurisdictionRequestModelInput;
+    /**
+     * Tax rate in percentage points, from 0 to 100 with up to four decimal places: `6.5` is 6.5%.
+     * Send it with a `percentage` component; a `flat_amount` component doesn't take it. minimum:
+     * 0. maximum: 100. multipleOf: 0.0001.
+     */
+    "percent": number;
+    /**
+     * The kind of tax this component collects. Value enum: "sales_tax", "use_tax", "vat", "gst",
+     * "hst", "pst", "qst".
+     */
+    "tax_type": "sales_tax" | "use_tax" | "vat" | "gst" | "hst" | "pst" | "qst";
+    /**
+     * Optional reverse-charge treatment. Requires percent 0 and a non-US jurisdiction. Value enum:
+     * "reverse_charge".
+     */
+    "taxability_reason"?: "reverse_charge";
+})
+    & ({
+    "flat_money"?: never;
+});
+/** One tax component in a `TaxCalculationInput`: a jurisdiction, tax type, and percent. */
+export type TaxComponentRequestRequestInput = ({
+    /**
+     * How the tax is figured: a percentage of the taxable amount, or a fixed amount. Value enum:
+     * "percentage".
+     */
+    "calculation_type"?: "percentage";
+    /**
+     * The fixed tax amount in the order currency. Send it with a `flat_amount` component; a
+     * `percentage` component doesn't take it. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code.
+     */
+    "flat_money"?: MoneyValueInput;
+    /**
+     * The taxing jurisdiction this component's tax is owed to. A taxing jurisdiction with its
+     * level, such as state or city, name, state, and country.
+     */
+    "jurisdiction": TaxJurisdictionRequestInput;
+    /**
+     * Tax rate in percentage points, from 0 to 100 with up to four decimal places: `6.5` is 6.5%.
+     * Send it with a `percentage` component; a `flat_amount` component doesn't take it. minimum:
+     * 0. maximum: 100. multipleOf: 0.0001.
+     */
+    "percent": number;
+    /**
+     * The kind of tax this component collects. Value enum: "sales_tax", "use_tax", "vat", "gst",
+     * "hst", "pst", "qst".
+     */
+    "tax_type": "sales_tax" | "use_tax" | "vat" | "gst" | "hst" | "pst" | "qst";
+    /**
+     * Optional reverse-charge treatment. Requires percent 0 and a non-US jurisdiction. Value enum:
+     * "reverse_charge".
+     */
+    "taxability_reason"?: "reverse_charge";
+})
+    & ({
+    "flat_money"?: never;
+});
+/**
+ * The environment's automatic sales tax connection. Before a record exists, identity, version and
+ * timestamps are omitted. Read-time business-detail changes and provider pauses do not advance
+ * version or send webhooks. Status_reason and supported_actions can also change with the clock as
+ * registrations end, without a version change or webhook.
+ */
+export type TaxConnection = {
+    /**
+     * Current automatic-tax coverage, independent of the seller's registrations. Sorted by
+     * country. Unsupported countries or categories require external tax. [] (Value): {@link
+     * TaxCountryCoverage}. A country and the categories automatic tax can calculate there.
+     */
+    "coverage": Array<TaxCountryCoverage>;
+    /**
+     * When the connection record was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "created_at"?: string;
+    /**
+     * Current statements the seller must agree to before connecting. Ordered seller disclosure
+     * rendered with the merchant's effective automatic tax fee.
+     */
+    "disclosure": TaxConnectionDisclosure;
+    /**
+     * Legal business address used as the tax origin. In live mode, comes from processor-verified
+     * onboarding details before connect and the tax account snapshot once connected. In sandboxes,
+     * comes from the merchant profile. `null` when no legal address is available or the sandbox
+     * profile address is incomplete. anyOf[1] (Value): {@link Address}. A postal address. Every
+     * address has country. Addresses Flint checked as complete (customer and saved addresses,
+     * merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient
+     * and pickup addresses) always have line1 and city, and US ones always have state and
+     * postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold
+     * only what was provided, such as postal_code and country. anyOf[2] (Value): null.
+     */
+    "legal_address": ((Address) | (null));
+    /**
+     * Legal business name verified by the payment processor, which can differ from the
+     * merchant-entered Merchant.business_name. Before connect, comes from verified onboarding
+     * details; once connected, comes from the tax account snapshot. In sandboxes, comes from the
+     * merchant profile. Omitted when no name is available.
+     */
+    "legal_business_name"?: string;
+    /**
+     * The seller's recorded agreement to the disclosure. `null` when no connect has recorded one.
+     * anyOf[1] (Value): {@link TaxConnectionSellerAttestation}. The disclosure the seller agreed
+     * to and when Flint recorded that agreement. anyOf[2] (Value): null.
+     */
+    "seller_attestation": ((TaxConnectionSellerAttestation) | (null));
+    /**
+     * Whether automatic tax is connected and can calculate tax. Value enum: "not_connected",
+     * "provisioning", "active", "attention_required", "disabled".
+     */
+    "status": "not_connected" | "provisioning" | "active" | "attention_required" | "disabled" | (string & {});
+    /**
+     * Machine-readable detail for `not_connected` or `attention_required`. `null` when no reason
+     * applies. Unknown reasons normalize to `other`. Value enum: "not_offered",
+     * "onboarding_required", "tax_category_required", "registration_required",
+     * "temporarily_unavailable", "setup_incomplete", "registration_rejected",
+     * "business_details_changed", "support_required", "disconnected", "other", null.
+     */
+    "status_reason": "not_offered"
+        | "onboarding_required"
+        | "tax_category_required"
+        | "registration_required"
+        | "temporarily_unavailable"
+        | "setup_incomplete"
+        | "registration_rejected"
+        | "business_details_changed"
+        | "support_required"
+        | "disconnected"
+        | "other"
+        | null
+        | (string & {})
+        | null;
+    /**
+     * Lists connect when setup can complete and disconnect when automatic tax can be turned off,
+     * based on the connection state for every credential. An empty array means neither action is
+     * available. Performing either action requires settings.write. [] enum: "connect",
+     * "disconnect". [] (Value): string. Value enum: "connect", "disconnect".
+     */
+    "supported_actions": Array<"connect" | "disconnect" | (string & {})>;
+    /**
+     * Flint tax connection ID. Present once the first registration or connection creates a record.
+     * Example: "tcn_01KEZF7C007Y42FMVNHV3P27QN".
+     */
+    "tax_connection_id"?: string;
+    /**
+     * When the connection record's public state last changed. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "updated_at"?: string;
+    /**
+     * Current resource version. Send as expected_version to reject a write based on an older
+     * version. Format: uint64. minimum: 1.
+     */
+    "version"?: number;
 };
-/** A webhook event type, with a description and the event sources where it is valid. */
-export type WebhookEventType = {
-    /** Concise semantics for the state transition or event occurrence. */
-    "description": string;
+export type TaxConnectionConnectParams = (InputValue<ConnectTaxConnectionRequestInput>);
+export type TaxConnectionCreateRegistrationParams = (InputValue<CreateTaxRegistrationRequestInput>);
+export type TaxConnectionDeleteRegistrationParams = {
     /**
-     * Event source buckets where this event type is valid. [] enum: "merchant", "partner_app",
-     * "installed_merchants". [] (Value): string. Value enum: "merchant", "partner_app",
-     * "installed_merchants".
+     * Registration version last read by the caller. Omit to delete the current registration.
+     * Format: uint64. minimum: 1.
      */
-    "event_sources": Array<"merchant" | "partner_app" | "installed_merchants" | (string & {})>;
-    /**
-     * Webhook event type string accepted by compatible endpoint enabled_events values and webhook
-     * event filters. Value enum: "balance.updated", "balance_transaction.created",
-     * "balance_transaction.updated", "bundle.archived", "bundle.created", "bundle.updated",
-     * "category.created", "category.deleted", "category.updated", "checkout_session.closed",
-     * "checkout_session.created", "checkout_session.expired", "checkout_session.invalidated",
-     * "checkout_session.paid", "checkout_session.partially_paid", "credit_note.created",
-     * "credit_note.issued", "credit_note.updated", "credit_note.voided",
-     * "credit_note_allocation.created", "credit_note_allocation.reversed",
-     * "custom_domain.archived", "custom_domain.updated", "customer.created", "customer.deleted",
-     * "customer.updated", "customer_deletion_request.completed",
-     * "customer_deletion_request.created", "customer_deletion_request.failed",
-     * "customer_deletion_request.processing", "customer_deletion_request.rejected",
-     * "delivery_location_set.activated", "delivery_location_set.archived",
-     * "delivery_location_set.created", "delivery_location_set.deactivated",
-     * "delivery_location_set.updated", "delivery_method.activated", "delivery_method.archived",
-     * "delivery_method.created", "delivery_method.deactivated", "delivery_method.updated",
-     * "delivery_profile.activated", "delivery_profile.archived", "delivery_profile.created",
-     * "delivery_profile.deactivated", "delivery_profile.updated",
-     * "delivery_rate_callback.activated", "delivery_rate_callback.archived",
-     * "delivery_rate_callback.created", "delivery_rate_callback.deactivated",
-     * "delivery_rate_callback.updated", "delivery_revocation.created",
-     * "delivery_selection.committed", "delivery_zone.activated", "delivery_zone.archived",
-     * "delivery_zone.created", "delivery_zone.deactivated", "delivery_zone.updated",
-     * "dispute.created", "dispute.inquiry_closed", "dispute.lost", "dispute.needs_response",
-     * "dispute.prevented", "dispute.updated", "dispute.won", "environment_grant.created",
-     * "environment_grant.revoked", "fraud_warning.created", "fraud_warning.updated",
-     * "fulfillment.canceled", "fulfillment.completed", "fulfillment.created",
-     * "fulfillment.failed", "fulfillment.updated", "fulfillment_event.created",
-     * "gift_card.created", "gift_card.updated", "gift_card_load.created",
-     * "gift_card_load.updated", "gift_card_notification.created",
-     * "gift_card_notification.updated", "gift_card_redemption.created",
-     * "gift_card_redemption.updated", "gift_card_transaction.created", "inventory_count.applied",
-     * "inventory_level.shortage_detected", "inventory_level.updated", "inventory_receipt.created",
-     * "inventory_reservation.action_required", "inventory_reservation.at_risk",
-     * "inventory_reservation.closed", "inventory_reservation.committed",
-     * "inventory_reservation.consumed", "inventory_reservation.created",
-     * "inventory_reservation.hold_expired", "inventory_reservation.released",
-     * "inventory_transfer.closed", "inventory_transfer.departed", "inventory_transfer.lost",
-     * "inventory_transfer.received", "inventory_transfer.returned",
-     * "invoice.collection_block_resolved", "invoice.collection_blocked", "invoice.created",
-     * "invoice.credited", "invoice.issue_failed", "invoice.issued", "invoice.late_fee_assessed",
-     * "invoice.late_fee_due", "invoice.late_fee_waived", "invoice.marked_uncollectible",
-     * "invoice.overdue", "invoice.paid", "invoice.partially_paid", "invoice.partially_refunded",
-     * "invoice.refunded", "invoice.reminder_due", "invoice.reopened", "invoice.sent",
-     * "invoice.updated", "invoice.voided", "invoice_delivery_attempt.failed",
-     * "invoice_delivery_attempt.sent", "invoice_delivery_attempt.suppressed",
-     * "invoice_manual_payment.created", "invoice_manual_payment.reversed",
-     * "invoice_payment_attempt.canceled", "invoice_payment_attempt.expired",
-     * "invoice_payment_attempt.failed", "invoice_payment_attempt.processing",
-     * "invoice_payment_attempt.settled", "merchant.readiness_updated", "merchant.updated",
-     * "merchant_billing_balance.updated", "merchant_billing_invoice.issued",
-     * "merchant_billing_invoice.updated", "modifier_group.archived", "modifier_group.created",
-     * "modifier_group.updated", "modifier_set.archived", "modifier_set.created",
-     * "modifier_set.updated", "order.closed", "order.created",
-     * "order.inventory_exception_created", "order.inventory_exception_resolved", "order.paid",
-     * "order.partially_paid", "order.partially_refunded", "order.refunded", "order.updated",
-     * "package.created", "package.updated", "partner_app_install.created",
-     * "partner_app_install.permissions_updated", "partner_app_install.revoked",
-     * "partner_app_install.updated", "payment_intent.canceled", "payment_intent.created",
-     * "payment_intent.expired", "payment_intent.fulfillment_hold_updated",
-     * "payment_intent.payment_failed", "payment_intent.processing",
-     * "payment_intent.requires_action", "payment_intent.requires_capture",
-     * "payment_intent.succeeded", "payment_intent.updated", "payment_link.created",
-     * "payment_link.updated", "payment_method.activated", "payment_method.archived",
-     * "payment_method.failed", "payment_review.closed", "payment_review.opened",
-     * "payment_review.reopened", "payout.canceled", "payout.created", "payout.failed",
-     * "payout.paid", "payout.reversed", "payout.updated", "payout_destination.archived",
-     * "payout_destination.created", "payout_destination.disabled", "payout_destination.updated",
-     * "payout_settings.updated", "product.archived", "product.created", "product.updated",
-     * "product_variant.archived", "product_variant.created", "product_variant.updated",
-     * "promotion.archived", "promotion.created", "promotion.updated", "promotion_code.archived",
-     * "promotion_code.created", "promotion_code.updated", "refund.created", "refund.failed",
-     * "refund.partially_succeeded", "refund.succeeded", "refund.updated", "report.failed",
-     * "report.succeeded", "return.canceled", "return.completed", "return.created",
-     * "return.decision_recorded", "return.reopened", "return.updated",
-     * "return_disposition.created", "return_disposition.updated",
-     * "return_inspection.acceptance_decided", "return_inspection.created",
-     * "return_inspection.superseded", "return_receipt.created", "return_receipt.superseded",
-     * "return_receipt.verified", "return_resolution.created", "return_resolution.updated",
-     * "shipment.created", "shipment.updated", "subscription.activated", "subscription.canceled",
-     * "subscription.cancellation_scheduled", "subscription.created", "subscription.cycle_skipped",
-     * "subscription.delivery_action_required", "subscription.delivery_pause_upcoming",
-     * "subscription.delivery_updated", "subscription.dunning_exhausted", "subscription.past_due",
-     * "subscription.paused", "subscription.payment_succeeded", "subscription.plan_changed",
-     * "subscription.reactivated", "subscription.renewal_upcoming", "subscription.resumed",
-     * "subscription.trial_ending", "subscription.updated",
-     * "subscription_delivery_migration.completed", "subscription_payment_retry.created",
-     * "subscription_payment_retry.failed", "subscription_payment_retry.succeeded",
-     * "tax_connection.updated", "test_clock.advancing", "test_clock.archived",
-     * "test_clock.created", "test_clock.failed", "test_clock.ready".
-     */
-    "event_type": "balance.updated"
-        | "balance_transaction.created"
-        | "balance_transaction.updated"
-        | "bundle.archived"
-        | "bundle.created"
-        | "bundle.updated"
-        | "category.created"
-        | "category.deleted"
-        | "category.updated"
-        | "checkout_session.closed"
-        | "checkout_session.created"
-        | "checkout_session.expired"
-        | "checkout_session.invalidated"
-        | "checkout_session.paid"
-        | "checkout_session.partially_paid"
-        | "credit_note.created"
-        | "credit_note.issued"
-        | "credit_note.updated"
-        | "credit_note.voided"
-        | "credit_note_allocation.created"
-        | "credit_note_allocation.reversed"
-        | "custom_domain.archived"
-        | "custom_domain.updated"
-        | "customer.created"
-        | "customer.deleted"
-        | "customer.updated"
-        | "customer_deletion_request.completed"
-        | "customer_deletion_request.created"
-        | "customer_deletion_request.failed"
-        | "customer_deletion_request.processing"
-        | "customer_deletion_request.rejected"
-        | "delivery_location_set.activated"
-        | "delivery_location_set.archived"
-        | "delivery_location_set.created"
-        | "delivery_location_set.deactivated"
-        | "delivery_location_set.updated"
-        | "delivery_method.activated"
-        | "delivery_method.archived"
-        | "delivery_method.created"
-        | "delivery_method.deactivated"
-        | "delivery_method.updated"
-        | "delivery_profile.activated"
-        | "delivery_profile.archived"
-        | "delivery_profile.created"
-        | "delivery_profile.deactivated"
-        | "delivery_profile.updated"
-        | "delivery_rate_callback.activated"
-        | "delivery_rate_callback.archived"
-        | "delivery_rate_callback.created"
-        | "delivery_rate_callback.deactivated"
-        | "delivery_rate_callback.updated"
-        | "delivery_revocation.created"
-        | "delivery_selection.committed"
-        | "delivery_zone.activated"
-        | "delivery_zone.archived"
-        | "delivery_zone.created"
-        | "delivery_zone.deactivated"
-        | "delivery_zone.updated"
-        | "dispute.created"
-        | "dispute.inquiry_closed"
-        | "dispute.lost"
-        | "dispute.needs_response"
-        | "dispute.prevented"
-        | "dispute.updated"
-        | "dispute.won"
-        | "environment_grant.created"
-        | "environment_grant.revoked"
-        | "fraud_warning.created"
-        | "fraud_warning.updated"
-        | "fulfillment.canceled"
-        | "fulfillment.completed"
-        | "fulfillment.created"
-        | "fulfillment.failed"
-        | "fulfillment.updated"
-        | "fulfillment_event.created"
-        | "gift_card.created"
-        | "gift_card.updated"
-        | "gift_card_load.created"
-        | "gift_card_load.updated"
-        | "gift_card_notification.created"
-        | "gift_card_notification.updated"
-        | "gift_card_redemption.created"
-        | "gift_card_redemption.updated"
-        | "gift_card_transaction.created"
-        | "inventory_count.applied"
-        | "inventory_level.shortage_detected"
-        | "inventory_level.updated"
-        | "inventory_receipt.created"
-        | "inventory_reservation.action_required"
-        | "inventory_reservation.at_risk"
-        | "inventory_reservation.closed"
-        | "inventory_reservation.committed"
-        | "inventory_reservation.consumed"
-        | "inventory_reservation.created"
-        | "inventory_reservation.hold_expired"
-        | "inventory_reservation.released"
-        | "inventory_transfer.closed"
-        | "inventory_transfer.departed"
-        | "inventory_transfer.lost"
-        | "inventory_transfer.received"
-        | "inventory_transfer.returned"
-        | "invoice.collection_block_resolved"
-        | "invoice.collection_blocked"
-        | "invoice.created"
-        | "invoice.credited"
-        | "invoice.issue_failed"
-        | "invoice.issued"
-        | "invoice.late_fee_assessed"
-        | "invoice.late_fee_due"
-        | "invoice.late_fee_waived"
-        | "invoice.marked_uncollectible"
-        | "invoice.overdue"
-        | "invoice.paid"
-        | "invoice.partially_paid"
-        | "invoice.partially_refunded"
-        | "invoice.refunded"
-        | "invoice.reminder_due"
-        | "invoice.reopened"
-        | "invoice.sent"
-        | "invoice.updated"
-        | "invoice.voided"
-        | "invoice_delivery_attempt.failed"
-        | "invoice_delivery_attempt.sent"
-        | "invoice_delivery_attempt.suppressed"
-        | "invoice_manual_payment.created"
-        | "invoice_manual_payment.reversed"
-        | "invoice_payment_attempt.canceled"
-        | "invoice_payment_attempt.expired"
-        | "invoice_payment_attempt.failed"
-        | "invoice_payment_attempt.processing"
-        | "invoice_payment_attempt.settled"
-        | "merchant.readiness_updated"
-        | "merchant.updated"
-        | "merchant_billing_balance.updated"
-        | "merchant_billing_invoice.issued"
-        | "merchant_billing_invoice.updated"
-        | "modifier_group.archived"
-        | "modifier_group.created"
-        | "modifier_group.updated"
-        | "modifier_set.archived"
-        | "modifier_set.created"
-        | "modifier_set.updated"
-        | "order.closed"
-        | "order.created"
-        | "order.inventory_exception_created"
-        | "order.inventory_exception_resolved"
-        | "order.paid"
-        | "order.partially_paid"
-        | "order.partially_refunded"
-        | "order.refunded"
-        | "order.updated"
-        | "package.created"
-        | "package.updated"
-        | "partner_app_install.created"
-        | "partner_app_install.permissions_updated"
-        | "partner_app_install.revoked"
-        | "partner_app_install.updated"
-        | "payment_intent.canceled"
-        | "payment_intent.created"
-        | "payment_intent.expired"
-        | "payment_intent.fulfillment_hold_updated"
-        | "payment_intent.payment_failed"
-        | "payment_intent.processing"
-        | "payment_intent.requires_action"
-        | "payment_intent.requires_capture"
-        | "payment_intent.succeeded"
-        | "payment_intent.updated"
-        | "payment_link.created"
-        | "payment_link.updated"
-        | "payment_method.activated"
-        | "payment_method.archived"
-        | "payment_method.failed"
-        | "payment_review.closed"
-        | "payment_review.opened"
-        | "payment_review.reopened"
-        | "payout.canceled"
-        | "payout.created"
-        | "payout.failed"
-        | "payout.paid"
-        | "payout.reversed"
-        | "payout.updated"
-        | "payout_destination.archived"
-        | "payout_destination.created"
-        | "payout_destination.disabled"
-        | "payout_destination.updated"
-        | "payout_settings.updated"
-        | "product.archived"
-        | "product.created"
-        | "product.updated"
-        | "product_variant.archived"
-        | "product_variant.created"
-        | "product_variant.updated"
-        | "promotion.archived"
-        | "promotion.created"
-        | "promotion.updated"
-        | "promotion_code.archived"
-        | "promotion_code.created"
-        | "promotion_code.updated"
-        | "refund.created"
-        | "refund.failed"
-        | "refund.partially_succeeded"
-        | "refund.succeeded"
-        | "refund.updated"
-        | "report.failed"
-        | "report.succeeded"
-        | "return.canceled"
-        | "return.completed"
-        | "return.created"
-        | "return.decision_recorded"
-        | "return.reopened"
-        | "return.updated"
-        | "return_disposition.created"
-        | "return_disposition.updated"
-        | "return_inspection.acceptance_decided"
-        | "return_inspection.created"
-        | "return_inspection.superseded"
-        | "return_receipt.created"
-        | "return_receipt.superseded"
-        | "return_receipt.verified"
-        | "return_resolution.created"
-        | "return_resolution.updated"
-        | "shipment.created"
-        | "shipment.updated"
-        | "subscription.activated"
-        | "subscription.canceled"
-        | "subscription.cancellation_scheduled"
-        | "subscription.created"
-        | "subscription.cycle_skipped"
-        | "subscription.delivery_action_required"
-        | "subscription.delivery_pause_upcoming"
-        | "subscription.delivery_updated"
-        | "subscription.dunning_exhausted"
-        | "subscription.past_due"
-        | "subscription.paused"
-        | "subscription.payment_succeeded"
-        | "subscription.plan_changed"
-        | "subscription.reactivated"
-        | "subscription.renewal_upcoming"
-        | "subscription.resumed"
-        | "subscription.trial_ending"
-        | "subscription.updated"
-        | "subscription_delivery_migration.completed"
-        | "subscription_payment_retry.created"
-        | "subscription_payment_retry.failed"
-        | "subscription_payment_retry.succeeded"
-        | "tax_connection.updated"
-        | "test_clock.advancing"
-        | "test_clock.archived"
-        | "test_clock.created"
-        | "test_clock.failed"
-        | "test_clock.ready"
-        | (string & {});
-    /**
-     * Whether the event records a resource snapshot or asks you to fetch current state. Value
-     * enum: "snapshot", "notification".
-     */
-    "kind": "snapshot" | "notification" | (string & {});
-    /**
-     * Previous names of this type, retained permanently for reading stored events. Inputs accept
-     * only the current event_type. Empty when the type has never been renamed. [] (Value): string.
-     */
-    "previous_names": Array<string>;
-    /**
-     * Public resource type: the resource's ID field name without `_id`. Clients must accept values
-     * added in future releases. Value enum: "api_key", "api_request_log", "balance",
-     * "balance_transaction", "bundle", "bundle_component", "category", "checkout_session",
-     * "checkout_session_customer_verification", "credit_note", "credit_note_allocation",
-     * "custom_domain", "customer", "customer_address", "customer_deletion_request",
-     * "customer_email_preferences", "customer_session", "customer_verification",
-     * "delivery_location_set", "delivery_method", "delivery_profile", "delivery_quote",
-     * "delivery_rate", "delivery_rate_callback", "delivery_revocation", "delivery_selection",
-     * "delivery_zone", "demo_session", "device", "discount", "dispute", "email_change_request",
-     * "environment_grant", "feedback_report", "file", "flint_wallet", "flint_wallet_card",
-     * "fraud_warning", "fulfillment", "fulfillment_event", "fulfillment_notification",
-     * "gift_card", "gift_card_funding_disposition", "gift_card_load", "gift_card_notification",
-     * "gift_card_redemption", "gift_card_transaction", "image", "inventory_adjustment",
-     * "inventory_allocation_policy", "inventory_allocation_policy_revision", "inventory_count",
-     * "inventory_item", "inventory_level", "inventory_movement", "inventory_receipt",
-     * "inventory_reservation", "inventory_reservation_line", "inventory_transfer",
-     * "inventory_transfer_line", "invoice", "invoice_delivery_attempt", "invoice_late_fee",
-     * "invoice_line_item", "invoice_manual_payment", "invoice_payment_attempt",
-     * "invoice_payment_term", "location", "merchant", "merchant_billing_balance",
-     * "merchant_billing_entry", "merchant_billing_invoice", "modifier", "modifier_group",
-     * "modifier_set", "order", "order_charge", "order_line_item", "order_line_item_modifier",
-     * "order_payment_attempt", "organization", "package", "package_item", "partner_app",
-     * "partner_app_credential", "partner_app_install", "payment_intent", "payment_link",
-     * "payment_link_custom_field", "payment_link_line_item", "payment_method",
-     * "payment_method_domain", "payment_review", "payout", "payout_destination",
-     * "payout_settings", "product", "product_option", "product_option_value", "product_variant",
-     * "promotion", "promotion_code", "purchase_refund_allocation", "refund", "refund_allocation",
-     * "refund_line_item_adjustment", "report", "report_download", "return", "return_activity",
-     * "return_disposition", "return_inspection", "return_inspection_line_item",
-     * "return_line_item", "return_policy", "return_policy_revision", "return_reason",
-     * "return_receipt", "return_receipt_line_item", "return_resolution", "risk_list",
-     * "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "subscription",
-     * "subscription_delivery_migration", "subscription_line_item", "subscription_offer",
-     * "subscription_payment_retry", "subscription_plan", "subscription_plan_line_item",
-     * "tax_connection", "tax_registration", "test_clock", "user", "webhook_delivery",
-     * "webhook_endpoint", "webhook_event", "workload_identity".
-     */
-    "resource_type": ResourceType;
+    "expected_version"?: InputValue<number>;
 };
-/** A page of `WebhookEventType` objects. */
-export type WebhookEventTypeListResponse = {
+/** Ordered seller disclosure rendered with the merchant's effective automatic tax fee. */
+export type TaxConnectionDisclosure = {
     /**
-     *  [] (Value): {@link WebhookEventType}. A webhook event type, with a description and the
-     * event sources where it is valid.
+     * Statements in display order. The seller must agree to every statement. [] (Value): {@link
+     * TaxDisclosureStatement}. One statement of the seller disclosure.
      */
-    "data": Array<WebhookEventType>;
-    /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    "next_page_token"?: string;
-    /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
+    "statements": Array<TaxDisclosureStatement>;
+    /** Opaque version of the exact rendered statements. Do not parse it. */
+    "version": string;
 };
-export type WebhookEventTypesListParams = {
+export type TaxConnectionDisconnectParams = (InputValue<DisconnectTaxConnectionRequestInput>);
+export type TaxConnectionGetParams = {};
+export type TaxConnectionGetRegistrationParams = {};
+export type TaxConnectionListRegistrationsParams = {
     /**
      * Maximum number of results to return, from 1 to 100. Defaults to 100. minimum: 1. maximum:
      * 100. Default: 100.
      */
     "page_size"?: InputValue<number>;
     /**
-     * Opaque next_page_token from the previous response. Omit on the first request. You may change
-     * `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request
-     * context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns
-     * a validation error.
-     */
-    "page_token"?: InputValue<string>;
-};
-export type WebhookEventsGetParams = {};
-export type WebhookEventsListParams = {
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque next_page_token from the previous response. Omit on the first request. You may change
-     * `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request
-     * context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns
-     * a validation error.
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
      */
     "page_token"?: InputValue<string>;
     /**
-     * Filter to events that have a delivery for this webhook endpoint. Example:
-     * "whep_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+     * Return registrations with these statuses. Removed registrations never list. Values are
+     * trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values
+     * within this filter are ORed; separate filters are ANDed. [] enum: "pending", "scheduled",
+     * "active", "ended", "rejected", "removed". Value enum: "pending", "scheduled", "active",
+     * "ended", "rejected", "removed". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
+     * "pending", "scheduled", "active", "ended", "rejected", "removed". anyOf[1][] (Value):
+     * string. Value enum: "pending", "scheduled", "active", "ended", "rejected", "removed".
+     * anyOf[2] (Value): string. Value enum: "pending", "scheduled", "active", "ended", "rejected",
+     * "removed".
      */
-    "webhook_endpoint_id"?: InputValue<string>;
+    "status"?: InputValue<("pending" | "scheduled" | "active" | "ended" | "rejected" | "removed")
+        | readonly ("pending" | "scheduled" | "active" | "ended" | "rejected" | "removed")[]>;
     /**
-     * Filter to events that have a delivery with this status. Accepts repeated keys,
-     * comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen
-     * order; empty or unknown entries are rejected. Values within this filter are ORed; separate
-     * filters are ANDed. [] enum: "pending", "delivered", "failed", "suppressed". Value enum:
-     * "pending", "delivered", "failed", "suppressed". anyOf[1] (Value): Array of string. minItems:
-     * 1. [] enum: "pending", "delivered", "failed", "suppressed". anyOf[1][] (Value): string.
-     * Value enum: "pending", "delivered", "failed", "suppressed". anyOf[2] (Value): string. Value
-     * enum: "pending", "delivered", "failed", "suppressed".
+     * Return registrations in these US states, given by two-letter ISO 3166-2 code without the
+     * `US-` prefix. Values match case-sensitively and intersect the status filter. Values are
+     * trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values
+     * within this filter are ORed; separate filters are ANDed. [] enum: "BC", "MB", "QC", "SK",
+     * "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DC", "FL", "GA", "HI", "ID", "IL", "IN", "IA",
+     * "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "NE", "NV", "NJ", "NM", "NY",
+     * "NC", "ND", "OH", "OK", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV",
+     * "WI", "WY". Value enum: "BC", "MB", "QC", "SK", "AL", "AK", "AZ", "AR", "CA", "CO", "CT",
+     * "DC", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI",
+     * "MN", "MS", "MO", "NE", "NV", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "PA", "RI", "SC",
+     * "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY". anyOf[1] (Value): Array of
+     * string. minItems: 1. [] enum: "BC", "MB", "QC", "SK", "AL", "AK", "AZ", "AR", "CA", "CO",
+     * "CT", "DC", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA",
+     * "MI", "MN", "MS", "MO", "NE", "NV", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "PA", "RI",
+     * "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY". anyOf[1][] (Value):
+     * string. A US state, given by its two-letter ISO 3166-2 code without the `US-` prefix. Value
+     * enum: "BC", "MB", "QC", "SK", "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DC", "FL", "GA",
+     * "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO",
+     * "NE", "NV", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "PA", "RI", "SC", "SD", "TN", "TX",
+     * "UT", "VT", "VA", "WA", "WV", "WI", "WY". anyOf[2] (Value): string. A US state, given by its
+     * two-letter ISO 3166-2 code without the `US-` prefix. Value enum: "BC", "MB", "QC", "SK",
+     * "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DC", "FL", "GA", "HI", "ID", "IL", "IN", "IA",
+     * "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "NE", "NV", "NJ", "NM", "NY",
+     * "NC", "ND", "OH", "OK", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV",
+     * "WI", "WY".
      */
-    "delivery_status"?: InputValue<("pending" | "delivered" | "failed" | "suppressed")
-        | readonly ("pending" | "delivered" | "failed" | "suppressed")[]>;
-    /**
-     * Filter by webhook event source. Accepts repeated keys, comma-separated values, or mixtures.
-     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
-     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum:
-     * "merchant", "partner_app", "installed_merchants". Value enum: "merchant", "partner_app",
-     * "installed_merchants". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "merchant",
-     * "partner_app", "installed_merchants". anyOf[1][] (Value): string. Value enum: "merchant",
-     * "partner_app", "installed_merchants". anyOf[2] (Value): string. Value enum: "merchant",
-     * "partner_app", "installed_merchants".
-     */
-    "event_source"?: InputValue<("merchant" | "partner_app" | "installed_merchants")
-        | readonly ("merchant" | "partner_app" | "installed_merchants")[]>;
-    /**
-     * Filter by partner app ID for partner-source webhook events. Example:
-     * "papp_01ARZ3NDEKTSV4RRFFQ69G5FAV".
-     */
-    "partner_app_id"?: InputValue<string>;
-    /**
-     * Filter by webhook event type. Accepts repeated keys, comma-separated values, or mixtures.
-     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
-     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum:
-     * "balance.updated", "balance_transaction.created", "balance_transaction.updated",
-     * "bundle.archived", "bundle.created", "bundle.updated", "category.created",
-     * "category.deleted", "category.updated", "checkout_session.closed",
-     * "checkout_session.created", "checkout_session.expired", "checkout_session.invalidated",
-     * "checkout_session.paid", "checkout_session.partially_paid", "credit_note.created",
-     * "credit_note.issued", "credit_note.updated", "credit_note.voided",
-     * "credit_note_allocation.created", "credit_note_allocation.reversed",
-     * "custom_domain.archived", "custom_domain.updated", "customer.created", "customer.deleted",
-     * "customer.updated", "customer_deletion_request.completed",
-     * "customer_deletion_request.created", "customer_deletion_request.failed",
-     * "customer_deletion_request.processing", "customer_deletion_request.rejected",
-     * "delivery_location_set.activated", "delivery_location_set.archived",
-     * "delivery_location_set.created", "delivery_location_set.deactivated",
-     * "delivery_location_set.updated", "delivery_method.activated", "delivery_method.archived",
-     * "delivery_method.created", "delivery_method.deactivated", "delivery_method.updated",
-     * "delivery_profile.activated", "delivery_profile.archived", "delivery_profile.created",
-     * "delivery_profile.deactivated", "delivery_profile.updated",
-     * "delivery_rate_callback.activated", "delivery_rate_callback.archived",
-     * "delivery_rate_callback.created", "delivery_rate_callback.deactivated",
-     * "delivery_rate_callback.updated", "delivery_revocation.created",
-     * "delivery_selection.committed", "delivery_zone.activated", "delivery_zone.archived",
-     * "delivery_zone.created", "delivery_zone.deactivated", "delivery_zone.updated",
-     * "dispute.created", "dispute.inquiry_closed", "dispute.lost", "dispute.needs_response",
-     * "dispute.prevented", "dispute.updated", "dispute.won", "environment_grant.created",
-     * "environment_grant.revoked", "fraud_warning.created", "fraud_warning.updated",
-     * "fulfillment.canceled", "fulfillment.completed", "fulfillment.created",
-     * "fulfillment.failed", "fulfillment.updated", "fulfillment_event.created",
-     * "gift_card.created", "gift_card.updated", "gift_card_load.created",
-     * "gift_card_load.updated", "gift_card_notification.created",
-     * "gift_card_notification.updated", "gift_card_redemption.created",
-     * "gift_card_redemption.updated", "gift_card_transaction.created", "inventory_count.applied",
-     * "inventory_level.shortage_detected", "inventory_level.updated", "inventory_receipt.created",
-     * "inventory_reservation.action_required", "inventory_reservation.at_risk",
-     * "inventory_reservation.closed", "inventory_reservation.committed",
-     * "inventory_reservation.consumed", "inventory_reservation.created",
-     * "inventory_reservation.hold_expired", "inventory_reservation.released",
-     * "inventory_transfer.closed", "inventory_transfer.departed", "inventory_transfer.lost",
-     * "inventory_transfer.received", "inventory_transfer.returned",
-     * "invoice.collection_block_resolved", "invoice.collection_blocked", "invoice.created",
-     * "invoice.credited", "invoice.issue_failed", "invoice.issued", "invoice.late_fee_assessed",
-     * "invoice.late_fee_due", "invoice.late_fee_waived", "invoice.marked_uncollectible",
-     * "invoice.overdue", "invoice.paid", "invoice.partially_paid", "invoice.partially_refunded",
-     * "invoice.refunded", "invoice.reminder_due", "invoice.reopened", "invoice.sent",
-     * "invoice.updated", "invoice.voided", "invoice_delivery_attempt.failed",
-     * "invoice_delivery_attempt.sent", "invoice_delivery_attempt.suppressed",
-     * "invoice_manual_payment.created", "invoice_manual_payment.reversed",
-     * "invoice_payment_attempt.canceled", "invoice_payment_attempt.expired",
-     * "invoice_payment_attempt.failed", "invoice_payment_attempt.processing",
-     * "invoice_payment_attempt.settled", "merchant.readiness_updated", "merchant.updated",
-     * "merchant_billing_balance.updated", "merchant_billing_invoice.issued",
-     * "merchant_billing_invoice.updated", "modifier_group.archived", "modifier_group.created",
-     * "modifier_group.updated", "modifier_set.archived", "modifier_set.created",
-     * "modifier_set.updated", "order.closed", "order.created",
-     * "order.inventory_exception_created", "order.inventory_exception_resolved", "order.paid",
-     * "order.partially_paid", "order.partially_refunded", "order.refunded", "order.updated",
-     * "package.created", "package.updated", "partner_app_install.created",
-     * "partner_app_install.permissions_updated", "partner_app_install.revoked",
-     * "partner_app_install.updated", "payment_intent.canceled", "payment_intent.created",
-     * "payment_intent.expired", "payment_intent.fulfillment_hold_updated",
-     * "payment_intent.payment_failed", "payment_intent.processing",
-     * "payment_intent.requires_action", "payment_intent.requires_capture",
-     * "payment_intent.succeeded", "payment_intent.updated", "payment_link.created",
-     * "payment_link.updated", "payment_method.activated", "payment_method.archived",
-     * "payment_method.failed", "payment_review.closed", "payment_review.opened",
-     * "payment_review.reopened", "payout.canceled", "payout.created", "payout.failed",
-     * "payout.paid", "payout.reversed", "payout.updated", "payout_destination.archived",
-     * "payout_destination.created", "payout_destination.disabled", "payout_destination.updated",
-     * "payout_settings.updated", "product.archived", "product.created", "product.updated",
-     * "product_variant.archived", "product_variant.created", "product_variant.updated",
-     * "promotion.archived", "promotion.created", "promotion.updated", "promotion_code.archived",
-     * "promotion_code.created", "promotion_code.updated", "refund.created", "refund.failed",
-     * "refund.partially_succeeded", "refund.succeeded", "refund.updated", "report.failed",
-     * "report.succeeded", "return.canceled", "return.completed", "return.created",
-     * "return.decision_recorded", "return.reopened", "return.updated",
-     * "return_disposition.created", "return_disposition.updated",
-     * "return_inspection.acceptance_decided", "return_inspection.created",
-     * "return_inspection.superseded", "return_receipt.created", "return_receipt.superseded",
-     * "return_receipt.verified", "return_resolution.created", "return_resolution.updated",
-     * "shipment.created", "shipment.updated", "subscription.activated", "subscription.canceled",
-     * "subscription.cancellation_scheduled", "subscription.created", "subscription.cycle_skipped",
-     * "subscription.delivery_action_required", "subscription.delivery_pause_upcoming",
-     * "subscription.delivery_updated", "subscription.dunning_exhausted", "subscription.past_due",
-     * "subscription.paused", "subscription.payment_succeeded", "subscription.plan_changed",
-     * "subscription.reactivated", "subscription.renewal_upcoming", "subscription.resumed",
-     * "subscription.trial_ending", "subscription.updated",
-     * "subscription_delivery_migration.completed", "subscription_payment_retry.created",
-     * "subscription_payment_retry.failed", "subscription_payment_retry.succeeded",
-     * "tax_connection.updated", "test_clock.advancing", "test_clock.archived",
-     * "test_clock.created", "test_clock.failed", "test_clock.ready". Value enum:
-     * "balance.updated", "balance_transaction.created", "balance_transaction.updated",
-     * "bundle.archived", "bundle.created", "bundle.updated", "category.created",
-     * "category.deleted", "category.updated", "checkout_session.closed",
-     * "checkout_session.created", "checkout_session.expired", "checkout_session.invalidated",
-     * "checkout_session.paid", "checkout_session.partially_paid", "credit_note.created",
-     * "credit_note.issued", "credit_note.updated", "credit_note.voided",
-     * "credit_note_allocation.created", "credit_note_allocation.reversed",
-     * "custom_domain.archived", "custom_domain.updated", "customer.created", "customer.deleted",
-     * "customer.updated", "customer_deletion_request.completed",
-     * "customer_deletion_request.created", "customer_deletion_request.failed",
-     * "customer_deletion_request.processing", "customer_deletion_request.rejected",
-     * "delivery_location_set.activated", "delivery_location_set.archived",
-     * "delivery_location_set.created", "delivery_location_set.deactivated",
-     * "delivery_location_set.updated", "delivery_method.activated", "delivery_method.archived",
-     * "delivery_method.created", "delivery_method.deactivated", "delivery_method.updated",
-     * "delivery_profile.activated", "delivery_profile.archived", "delivery_profile.created",
-     * "delivery_profile.deactivated", "delivery_profile.updated",
-     * "delivery_rate_callback.activated", "delivery_rate_callback.archived",
-     * "delivery_rate_callback.created", "delivery_rate_callback.deactivated",
-     * "delivery_rate_callback.updated", "delivery_revocation.created",
-     * "delivery_selection.committed", "delivery_zone.activated", "delivery_zone.archived",
-     * "delivery_zone.created", "delivery_zone.deactivated", "delivery_zone.updated",
-     * "dispute.created", "dispute.inquiry_closed", "dispute.lost", "dispute.needs_response",
-     * "dispute.prevented", "dispute.updated", "dispute.won", "environment_grant.created",
-     * "environment_grant.revoked", "fraud_warning.created", "fraud_warning.updated",
-     * "fulfillment.canceled", "fulfillment.completed", "fulfillment.created",
-     * "fulfillment.failed", "fulfillment.updated", "fulfillment_event.created",
-     * "gift_card.created", "gift_card.updated", "gift_card_load.created",
-     * "gift_card_load.updated", "gift_card_notification.created",
-     * "gift_card_notification.updated", "gift_card_redemption.created",
-     * "gift_card_redemption.updated", "gift_card_transaction.created", "inventory_count.applied",
-     * "inventory_level.shortage_detected", "inventory_level.updated", "inventory_receipt.created",
-     * "inventory_reservation.action_required", "inventory_reservation.at_risk",
-     * "inventory_reservation.closed", "inventory_reservation.committed",
-     * "inventory_reservation.consumed", "inventory_reservation.created",
-     * "inventory_reservation.hold_expired", "inventory_reservation.released",
-     * "inventory_transfer.closed", "inventory_transfer.departed", "inventory_transfer.lost",
-     * "inventory_transfer.received", "inventory_transfer.returned",
-     * "invoice.collection_block_resolved", "invoice.collection_blocked", "invoice.created",
-     * "invoice.credited", "invoice.issue_failed", "invoice.issued", "invoice.late_fee_assessed",
-     * "invoice.late_fee_due", "invoice.late_fee_waived", "invoice.marked_uncollectible",
-     * "invoice.overdue", "invoice.paid", "invoice.partially_paid", "invoice.partially_refunded",
-     * "invoice.refunded", "invoice.reminder_due", "invoice.reopened", "invoice.sent",
-     * "invoice.updated", "invoice.voided", "invoice_delivery_attempt.failed",
-     * "invoice_delivery_attempt.sent", "invoice_delivery_attempt.suppressed",
-     * "invoice_manual_payment.created", "invoice_manual_payment.reversed",
-     * "invoice_payment_attempt.canceled", "invoice_payment_attempt.expired",
-     * "invoice_payment_attempt.failed", "invoice_payment_attempt.processing",
-     * "invoice_payment_attempt.settled", "merchant.readiness_updated", "merchant.updated",
-     * "merchant_billing_balance.updated", "merchant_billing_invoice.issued",
-     * "merchant_billing_invoice.updated", "modifier_group.archived", "modifier_group.created",
-     * "modifier_group.updated", "modifier_set.archived", "modifier_set.created",
-     * "modifier_set.updated", "order.closed", "order.created",
-     * "order.inventory_exception_created", "order.inventory_exception_resolved", "order.paid",
-     * "order.partially_paid", "order.partially_refunded", "order.refunded", "order.updated",
-     * "package.created", "package.updated", "partner_app_install.created",
-     * "partner_app_install.permissions_updated", "partner_app_install.revoked",
-     * "partner_app_install.updated", "payment_intent.canceled", "payment_intent.created",
-     * "payment_intent.expired", "payment_intent.fulfillment_hold_updated",
-     * "payment_intent.payment_failed", "payment_intent.processing",
-     * "payment_intent.requires_action", "payment_intent.requires_capture",
-     * "payment_intent.succeeded", "payment_intent.updated", "payment_link.created",
-     * "payment_link.updated", "payment_method.activated", "payment_method.archived",
-     * "payment_method.failed", "payment_review.closed", "payment_review.opened",
-     * "payment_review.reopened", "payout.canceled", "payout.created", "payout.failed",
-     * "payout.paid", "payout.reversed", "payout.updated", "payout_destination.archived",
-     * "payout_destination.created", "payout_destination.disabled", "payout_destination.updated",
-     * "payout_settings.updated", "product.archived", "product.created", "product.updated",
-     * "product_variant.archived", "product_variant.created", "product_variant.updated",
-     * "promotion.archived", "promotion.created", "promotion.updated", "promotion_code.archived",
-     * "promotion_code.created", "promotion_code.updated", "refund.created", "refund.failed",
-     * "refund.partially_succeeded", "refund.succeeded", "refund.updated", "report.failed",
-     * "report.succeeded", "return.canceled", "return.completed", "return.created",
-     * "return.decision_recorded", "return.reopened", "return.updated",
-     * "return_disposition.created", "return_disposition.updated",
-     * "return_inspection.acceptance_decided", "return_inspection.created",
-     * "return_inspection.superseded", "return_receipt.created", "return_receipt.superseded",
-     * "return_receipt.verified", "return_resolution.created", "return_resolution.updated",
-     * "shipment.created", "shipment.updated", "subscription.activated", "subscription.canceled",
-     * "subscription.cancellation_scheduled", "subscription.created", "subscription.cycle_skipped",
-     * "subscription.delivery_action_required", "subscription.delivery_pause_upcoming",
-     * "subscription.delivery_updated", "subscription.dunning_exhausted", "subscription.past_due",
-     * "subscription.paused", "subscription.payment_succeeded", "subscription.plan_changed",
-     * "subscription.reactivated", "subscription.renewal_upcoming", "subscription.resumed",
-     * "subscription.trial_ending", "subscription.updated",
-     * "subscription_delivery_migration.completed", "subscription_payment_retry.created",
-     * "subscription_payment_retry.failed", "subscription_payment_retry.succeeded",
-     * "tax_connection.updated", "test_clock.advancing", "test_clock.archived",
-     * "test_clock.created", "test_clock.failed", "test_clock.ready". anyOf[1] (Value): Array of
-     * string. minItems: 1. [] enum: "balance.updated", "balance_transaction.created",
-     * "balance_transaction.updated", "bundle.archived", "bundle.created", "bundle.updated",
-     * "category.created", "category.deleted", "category.updated", "checkout_session.closed",
-     * "checkout_session.created", "checkout_session.expired", "checkout_session.invalidated",
-     * "checkout_session.paid", "checkout_session.partially_paid", "credit_note.created",
-     * "credit_note.issued", "credit_note.updated", "credit_note.voided",
-     * "credit_note_allocation.created", "credit_note_allocation.reversed",
-     * "custom_domain.archived", "custom_domain.updated", "customer.created", "customer.deleted",
-     * "customer.updated", "customer_deletion_request.completed",
-     * "customer_deletion_request.created", "customer_deletion_request.failed",
-     * "customer_deletion_request.processing", "customer_deletion_request.rejected",
-     * "delivery_location_set.activated", "delivery_location_set.archived",
-     * "delivery_location_set.created", "delivery_location_set.deactivated",
-     * "delivery_location_set.updated", "delivery_method.activated", "delivery_method.archived",
-     * "delivery_method.created", "delivery_method.deactivated", "delivery_method.updated",
-     * "delivery_profile.activated", "delivery_profile.archived", "delivery_profile.created",
-     * "delivery_profile.deactivated", "delivery_profile.updated",
-     * "delivery_rate_callback.activated", "delivery_rate_callback.archived",
-     * "delivery_rate_callback.created", "delivery_rate_callback.deactivated",
-     * "delivery_rate_callback.updated", "delivery_revocation.created",
-     * "delivery_selection.committed", "delivery_zone.activated", "delivery_zone.archived",
-     * "delivery_zone.created", "delivery_zone.deactivated", "delivery_zone.updated",
-     * "dispute.created", "dispute.inquiry_closed", "dispute.lost", "dispute.needs_response",
-     * "dispute.prevented", "dispute.updated", "dispute.won", "environment_grant.created",
-     * "environment_grant.revoked", "fraud_warning.created", "fraud_warning.updated",
-     * "fulfillment.canceled", "fulfillment.completed", "fulfillment.created",
-     * "fulfillment.failed", "fulfillment.updated", "fulfillment_event.created",
-     * "gift_card.created", "gift_card.updated", "gift_card_load.created",
-     * "gift_card_load.updated", "gift_card_notification.created",
-     * "gift_card_notification.updated", "gift_card_redemption.created",
-     * "gift_card_redemption.updated", "gift_card_transaction.created", "inventory_count.applied",
-     * "inventory_level.shortage_detected", "inventory_level.updated", "inventory_receipt.created",
-     * "inventory_reservation.action_required", "inventory_reservation.at_risk",
-     * "inventory_reservation.closed", "inventory_reservation.committed",
-     * "inventory_reservation.consumed", "inventory_reservation.created",
-     * "inventory_reservation.hold_expired", "inventory_reservation.released",
-     * "inventory_transfer.closed", "inventory_transfer.departed", "inventory_transfer.lost",
-     * "inventory_transfer.received", "inventory_transfer.returned",
-     * "invoice.collection_block_resolved", "invoice.collection_blocked", "invoice.created",
-     * "invoice.credited", "invoice.issue_failed", "invoice.issued", "invoice.late_fee_assessed",
-     * "invoice.late_fee_due", "invoice.late_fee_waived", "invoice.marked_uncollectible",
-     * "invoice.overdue", "invoice.paid", "invoice.partially_paid", "invoice.partially_refunded",
-     * "invoice.refunded", "invoice.reminder_due", "invoice.reopened", "invoice.sent",
-     * "invoice.updated", "invoice.voided", "invoice_delivery_attempt.failed",
-     * "invoice_delivery_attempt.sent", "invoice_delivery_attempt.suppressed",
-     * "invoice_manual_payment.created", "invoice_manual_payment.reversed",
-     * "invoice_payment_attempt.canceled", "invoice_payment_attempt.expired",
-     * "invoice_payment_attempt.failed", "invoice_payment_attempt.processing",
-     * "invoice_payment_attempt.settled", "merchant.readiness_updated", "merchant.updated",
-     * "merchant_billing_balance.updated", "merchant_billing_invoice.issued",
-     * "merchant_billing_invoice.updated", "modifier_group.archived", "modifier_group.created",
-     * "modifier_group.updated", "modifier_set.archived", "modifier_set.created",
-     * "modifier_set.updated", "order.closed", "order.created",
-     * "order.inventory_exception_created", "order.inventory_exception_resolved", "order.paid",
-     * "order.partially_paid", "order.partially_refunded", "order.refunded", "order.updated",
-     * "package.created", "package.updated", "partner_app_install.created",
-     * "partner_app_install.permissions_updated", "partner_app_install.revoked",
-     * "partner_app_install.updated", "payment_intent.canceled", "payment_intent.created",
-     * "payment_intent.expired", "payment_intent.fulfillment_hold_updated",
-     * "payment_intent.payment_failed", "payment_intent.processing",
-     * "payment_intent.requires_action", "payment_intent.requires_capture",
-     * "payment_intent.succeeded", "payment_intent.updated", "payment_link.created",
-     * "payment_link.updated", "payment_method.activated", "payment_method.archived",
-     * "payment_method.failed", "payment_review.closed", "payment_review.opened",
-     * "payment_review.reopened", "payout.canceled", "payout.created", "payout.failed",
-     * "payout.paid", "payout.reversed", "payout.updated", "payout_destination.archived",
-     * "payout_destination.created", "payout_destination.disabled", "payout_destination.updated",
-     * "payout_settings.updated", "product.archived", "product.created", "product.updated",
-     * "product_variant.archived", "product_variant.created", "product_variant.updated",
-     * "promotion.archived", "promotion.created", "promotion.updated", "promotion_code.archived",
-     * "promotion_code.created", "promotion_code.updated", "refund.created", "refund.failed",
-     * "refund.partially_succeeded", "refund.succeeded", "refund.updated", "report.failed",
-     * "report.succeeded", "return.canceled", "return.completed", "return.created",
-     * "return.decision_recorded", "return.reopened", "return.updated",
-     * "return_disposition.created", "return_disposition.updated",
-     * "return_inspection.acceptance_decided", "return_inspection.created",
-     * "return_inspection.superseded", "return_receipt.created", "return_receipt.superseded",
-     * "return_receipt.verified", "return_resolution.created", "return_resolution.updated",
-     * "shipment.created", "shipment.updated", "subscription.activated", "subscription.canceled",
-     * "subscription.cancellation_scheduled", "subscription.created", "subscription.cycle_skipped",
-     * "subscription.delivery_action_required", "subscription.delivery_pause_upcoming",
-     * "subscription.delivery_updated", "subscription.dunning_exhausted", "subscription.past_due",
-     * "subscription.paused", "subscription.payment_succeeded", "subscription.plan_changed",
-     * "subscription.reactivated", "subscription.renewal_upcoming", "subscription.resumed",
-     * "subscription.trial_ending", "subscription.updated",
-     * "subscription_delivery_migration.completed", "subscription_payment_retry.created",
-     * "subscription_payment_retry.failed", "subscription_payment_retry.succeeded",
-     * "tax_connection.updated", "test_clock.advancing", "test_clock.archived",
-     * "test_clock.created", "test_clock.failed", "test_clock.ready". anyOf[1][] (Value): string.
-     * Value enum: "balance.updated", "balance_transaction.created", "balance_transaction.updated",
-     * "bundle.archived", "bundle.created", "bundle.updated", "category.created",
-     * "category.deleted", "category.updated", "checkout_session.closed",
-     * "checkout_session.created", "checkout_session.expired", "checkout_session.invalidated",
-     * "checkout_session.paid", "checkout_session.partially_paid", "credit_note.created",
-     * "credit_note.issued", "credit_note.updated", "credit_note.voided",
-     * "credit_note_allocation.created", "credit_note_allocation.reversed",
-     * "custom_domain.archived", "custom_domain.updated", "customer.created", "customer.deleted",
-     * "customer.updated", "customer_deletion_request.completed",
-     * "customer_deletion_request.created", "customer_deletion_request.failed",
-     * "customer_deletion_request.processing", "customer_deletion_request.rejected",
-     * "delivery_location_set.activated", "delivery_location_set.archived",
-     * "delivery_location_set.created", "delivery_location_set.deactivated",
-     * "delivery_location_set.updated", "delivery_method.activated", "delivery_method.archived",
-     * "delivery_method.created", "delivery_method.deactivated", "delivery_method.updated",
-     * "delivery_profile.activated", "delivery_profile.archived", "delivery_profile.created",
-     * "delivery_profile.deactivated", "delivery_profile.updated",
-     * "delivery_rate_callback.activated", "delivery_rate_callback.archived",
-     * "delivery_rate_callback.created", "delivery_rate_callback.deactivated",
-     * "delivery_rate_callback.updated", "delivery_revocation.created",
-     * "delivery_selection.committed", "delivery_zone.activated", "delivery_zone.archived",
-     * "delivery_zone.created", "delivery_zone.deactivated", "delivery_zone.updated",
-     * "dispute.created", "dispute.inquiry_closed", "dispute.lost", "dispute.needs_response",
-     * "dispute.prevented", "dispute.updated", "dispute.won", "environment_grant.created",
-     * "environment_grant.revoked", "fraud_warning.created", "fraud_warning.updated",
-     * "fulfillment.canceled", "fulfillment.completed", "fulfillment.created",
-     * "fulfillment.failed", "fulfillment.updated", "fulfillment_event.created",
-     * "gift_card.created", "gift_card.updated", "gift_card_load.created",
-     * "gift_card_load.updated", "gift_card_notification.created",
-     * "gift_card_notification.updated", "gift_card_redemption.created",
-     * "gift_card_redemption.updated", "gift_card_transaction.created", "inventory_count.applied",
-     * "inventory_level.shortage_detected", "inventory_level.updated", "inventory_receipt.created",
-     * "inventory_reservation.action_required", "inventory_reservation.at_risk",
-     * "inventory_reservation.closed", "inventory_reservation.committed",
-     * "inventory_reservation.consumed", "inventory_reservation.created",
-     * "inventory_reservation.hold_expired", "inventory_reservation.released",
-     * "inventory_transfer.closed", "inventory_transfer.departed", "inventory_transfer.lost",
-     * "inventory_transfer.received", "inventory_transfer.returned",
-     * "invoice.collection_block_resolved", "invoice.collection_blocked", "invoice.created",
-     * "invoice.credited", "invoice.issue_failed", "invoice.issued", "invoice.late_fee_assessed",
-     * "invoice.late_fee_due", "invoice.late_fee_waived", "invoice.marked_uncollectible",
-     * "invoice.overdue", "invoice.paid", "invoice.partially_paid", "invoice.partially_refunded",
-     * "invoice.refunded", "invoice.reminder_due", "invoice.reopened", "invoice.sent",
-     * "invoice.updated", "invoice.voided", "invoice_delivery_attempt.failed",
-     * "invoice_delivery_attempt.sent", "invoice_delivery_attempt.suppressed",
-     * "invoice_manual_payment.created", "invoice_manual_payment.reversed",
-     * "invoice_payment_attempt.canceled", "invoice_payment_attempt.expired",
-     * "invoice_payment_attempt.failed", "invoice_payment_attempt.processing",
-     * "invoice_payment_attempt.settled", "merchant.readiness_updated", "merchant.updated",
-     * "merchant_billing_balance.updated", "merchant_billing_invoice.issued",
-     * "merchant_billing_invoice.updated", "modifier_group.archived", "modifier_group.created",
-     * "modifier_group.updated", "modifier_set.archived", "modifier_set.created",
-     * "modifier_set.updated", "order.closed", "order.created",
-     * "order.inventory_exception_created", "order.inventory_exception_resolved", "order.paid",
-     * "order.partially_paid", "order.partially_refunded", "order.refunded", "order.updated",
-     * "package.created", "package.updated", "partner_app_install.created",
-     * "partner_app_install.permissions_updated", "partner_app_install.revoked",
-     * "partner_app_install.updated", "payment_intent.canceled", "payment_intent.created",
-     * "payment_intent.expired", "payment_intent.fulfillment_hold_updated",
-     * "payment_intent.payment_failed", "payment_intent.processing",
-     * "payment_intent.requires_action", "payment_intent.requires_capture",
-     * "payment_intent.succeeded", "payment_intent.updated", "payment_link.created",
-     * "payment_link.updated", "payment_method.activated", "payment_method.archived",
-     * "payment_method.failed", "payment_review.closed", "payment_review.opened",
-     * "payment_review.reopened", "payout.canceled", "payout.created", "payout.failed",
-     * "payout.paid", "payout.reversed", "payout.updated", "payout_destination.archived",
-     * "payout_destination.created", "payout_destination.disabled", "payout_destination.updated",
-     * "payout_settings.updated", "product.archived", "product.created", "product.updated",
-     * "product_variant.archived", "product_variant.created", "product_variant.updated",
-     * "promotion.archived", "promotion.created", "promotion.updated", "promotion_code.archived",
-     * "promotion_code.created", "promotion_code.updated", "refund.created", "refund.failed",
-     * "refund.partially_succeeded", "refund.succeeded", "refund.updated", "report.failed",
-     * "report.succeeded", "return.canceled", "return.completed", "return.created",
-     * "return.decision_recorded", "return.reopened", "return.updated",
-     * "return_disposition.created", "return_disposition.updated",
-     * "return_inspection.acceptance_decided", "return_inspection.created",
-     * "return_inspection.superseded", "return_receipt.created", "return_receipt.superseded",
-     * "return_receipt.verified", "return_resolution.created", "return_resolution.updated",
-     * "shipment.created", "shipment.updated", "subscription.activated", "subscription.canceled",
-     * "subscription.cancellation_scheduled", "subscription.created", "subscription.cycle_skipped",
-     * "subscription.delivery_action_required", "subscription.delivery_pause_upcoming",
-     * "subscription.delivery_updated", "subscription.dunning_exhausted", "subscription.past_due",
-     * "subscription.paused", "subscription.payment_succeeded", "subscription.plan_changed",
-     * "subscription.reactivated", "subscription.renewal_upcoming", "subscription.resumed",
-     * "subscription.trial_ending", "subscription.updated",
-     * "subscription_delivery_migration.completed", "subscription_payment_retry.created",
-     * "subscription_payment_retry.failed", "subscription_payment_retry.succeeded",
-     * "tax_connection.updated", "test_clock.advancing", "test_clock.archived",
-     * "test_clock.created", "test_clock.failed", "test_clock.ready". anyOf[2] (Value): string.
-     * Value enum: "balance.updated", "balance_transaction.created", "balance_transaction.updated",
-     * "bundle.archived", "bundle.created", "bundle.updated", "category.created",
-     * "category.deleted", "category.updated", "checkout_session.closed",
-     * "checkout_session.created", "checkout_session.expired", "checkout_session.invalidated",
-     * "checkout_session.paid", "checkout_session.partially_paid", "credit_note.created",
-     * "credit_note.issued", "credit_note.updated", "credit_note.voided",
-     * "credit_note_allocation.created", "credit_note_allocation.reversed",
-     * "custom_domain.archived", "custom_domain.updated", "customer.created", "customer.deleted",
-     * "customer.updated", "customer_deletion_request.completed",
-     * "customer_deletion_request.created", "customer_deletion_request.failed",
-     * "customer_deletion_request.processing", "customer_deletion_request.rejected",
-     * "delivery_location_set.activated", "delivery_location_set.archived",
-     * "delivery_location_set.created", "delivery_location_set.deactivated",
-     * "delivery_location_set.updated", "delivery_method.activated", "delivery_method.archived",
-     * "delivery_method.created", "delivery_method.deactivated", "delivery_method.updated",
-     * "delivery_profile.activated", "delivery_profile.archived", "delivery_profile.created",
-     * "delivery_profile.deactivated", "delivery_profile.updated",
-     * "delivery_rate_callback.activated", "delivery_rate_callback.archived",
-     * "delivery_rate_callback.created", "delivery_rate_callback.deactivated",
-     * "delivery_rate_callback.updated", "delivery_revocation.created",
-     * "delivery_selection.committed", "delivery_zone.activated", "delivery_zone.archived",
-     * "delivery_zone.created", "delivery_zone.deactivated", "delivery_zone.updated",
-     * "dispute.created", "dispute.inquiry_closed", "dispute.lost", "dispute.needs_response",
-     * "dispute.prevented", "dispute.updated", "dispute.won", "environment_grant.created",
-     * "environment_grant.revoked", "fraud_warning.created", "fraud_warning.updated",
-     * "fulfillment.canceled", "fulfillment.completed", "fulfillment.created",
-     * "fulfillment.failed", "fulfillment.updated", "fulfillment_event.created",
-     * "gift_card.created", "gift_card.updated", "gift_card_load.created",
-     * "gift_card_load.updated", "gift_card_notification.created",
-     * "gift_card_notification.updated", "gift_card_redemption.created",
-     * "gift_card_redemption.updated", "gift_card_transaction.created", "inventory_count.applied",
-     * "inventory_level.shortage_detected", "inventory_level.updated", "inventory_receipt.created",
-     * "inventory_reservation.action_required", "inventory_reservation.at_risk",
-     * "inventory_reservation.closed", "inventory_reservation.committed",
-     * "inventory_reservation.consumed", "inventory_reservation.created",
-     * "inventory_reservation.hold_expired", "inventory_reservation.released",
-     * "inventory_transfer.closed", "inventory_transfer.departed", "inventory_transfer.lost",
-     * "inventory_transfer.received", "inventory_transfer.returned",
-     * "invoice.collection_block_resolved", "invoice.collection_blocked", "invoice.created",
-     * "invoice.credited", "invoice.issue_failed", "invoice.issued", "invoice.late_fee_assessed",
-     * "invoice.late_fee_due", "invoice.late_fee_waived", "invoice.marked_uncollectible",
-     * "invoice.overdue", "invoice.paid", "invoice.partially_paid", "invoice.partially_refunded",
-     * "invoice.refunded", "invoice.reminder_due", "invoice.reopened", "invoice.sent",
-     * "invoice.updated", "invoice.voided", "invoice_delivery_attempt.failed",
-     * "invoice_delivery_attempt.sent", "invoice_delivery_attempt.suppressed",
-     * "invoice_manual_payment.created", "invoice_manual_payment.reversed",
-     * "invoice_payment_attempt.canceled", "invoice_payment_attempt.expired",
-     * "invoice_payment_attempt.failed", "invoice_payment_attempt.processing",
-     * "invoice_payment_attempt.settled", "merchant.readiness_updated", "merchant.updated",
-     * "merchant_billing_balance.updated", "merchant_billing_invoice.issued",
-     * "merchant_billing_invoice.updated", "modifier_group.archived", "modifier_group.created",
-     * "modifier_group.updated", "modifier_set.archived", "modifier_set.created",
-     * "modifier_set.updated", "order.closed", "order.created",
-     * "order.inventory_exception_created", "order.inventory_exception_resolved", "order.paid",
-     * "order.partially_paid", "order.partially_refunded", "order.refunded", "order.updated",
-     * "package.created", "package.updated", "partner_app_install.created",
-     * "partner_app_install.permissions_updated", "partner_app_install.revoked",
-     * "partner_app_install.updated", "payment_intent.canceled", "payment_intent.created",
-     * "payment_intent.expired", "payment_intent.fulfillment_hold_updated",
-     * "payment_intent.payment_failed", "payment_intent.processing",
-     * "payment_intent.requires_action", "payment_intent.requires_capture",
-     * "payment_intent.succeeded", "payment_intent.updated", "payment_link.created",
-     * "payment_link.updated", "payment_method.activated", "payment_method.archived",
-     * "payment_method.failed", "payment_review.closed", "payment_review.opened",
-     * "payment_review.reopened", "payout.canceled", "payout.created", "payout.failed",
-     * "payout.paid", "payout.reversed", "payout.updated", "payout_destination.archived",
-     * "payout_destination.created", "payout_destination.disabled", "payout_destination.updated",
-     * "payout_settings.updated", "product.archived", "product.created", "product.updated",
-     * "product_variant.archived", "product_variant.created", "product_variant.updated",
-     * "promotion.archived", "promotion.created", "promotion.updated", "promotion_code.archived",
-     * "promotion_code.created", "promotion_code.updated", "refund.created", "refund.failed",
-     * "refund.partially_succeeded", "refund.succeeded", "refund.updated", "report.failed",
-     * "report.succeeded", "return.canceled", "return.completed", "return.created",
-     * "return.decision_recorded", "return.reopened", "return.updated",
-     * "return_disposition.created", "return_disposition.updated",
-     * "return_inspection.acceptance_decided", "return_inspection.created",
-     * "return_inspection.superseded", "return_receipt.created", "return_receipt.superseded",
-     * "return_receipt.verified", "return_resolution.created", "return_resolution.updated",
-     * "shipment.created", "shipment.updated", "subscription.activated", "subscription.canceled",
-     * "subscription.cancellation_scheduled", "subscription.created", "subscription.cycle_skipped",
-     * "subscription.delivery_action_required", "subscription.delivery_pause_upcoming",
-     * "subscription.delivery_updated", "subscription.dunning_exhausted", "subscription.past_due",
-     * "subscription.paused", "subscription.payment_succeeded", "subscription.plan_changed",
-     * "subscription.reactivated", "subscription.renewal_upcoming", "subscription.resumed",
-     * "subscription.trial_ending", "subscription.updated",
-     * "subscription_delivery_migration.completed", "subscription_payment_retry.created",
-     * "subscription_payment_retry.failed", "subscription_payment_retry.succeeded",
-     * "tax_connection.updated", "test_clock.advancing", "test_clock.archived",
-     * "test_clock.created", "test_clock.failed", "test_clock.ready".
-     */
-    "event_type"?: InputValue<("balance.updated"
-        | "balance_transaction.created"
-        | "balance_transaction.updated"
-        | "bundle.archived"
-        | "bundle.created"
-        | "bundle.updated"
-        | "category.created"
-        | "category.deleted"
-        | "category.updated"
-        | "checkout_session.closed"
-        | "checkout_session.created"
-        | "checkout_session.expired"
-        | "checkout_session.invalidated"
-        | "checkout_session.paid"
-        | "checkout_session.partially_paid"
-        | "credit_note.created"
-        | "credit_note.issued"
-        | "credit_note.updated"
-        | "credit_note.voided"
-        | "credit_note_allocation.created"
-        | "credit_note_allocation.reversed"
-        | "custom_domain.archived"
-        | "custom_domain.updated"
-        | "customer.created"
-        | "customer.deleted"
-        | "customer.updated"
-        | "customer_deletion_request.completed"
-        | "customer_deletion_request.created"
-        | "customer_deletion_request.failed"
-        | "customer_deletion_request.processing"
-        | "customer_deletion_request.rejected"
-        | "delivery_location_set.activated"
-        | "delivery_location_set.archived"
-        | "delivery_location_set.created"
-        | "delivery_location_set.deactivated"
-        | "delivery_location_set.updated"
-        | "delivery_method.activated"
-        | "delivery_method.archived"
-        | "delivery_method.created"
-        | "delivery_method.deactivated"
-        | "delivery_method.updated"
-        | "delivery_profile.activated"
-        | "delivery_profile.archived"
-        | "delivery_profile.created"
-        | "delivery_profile.deactivated"
-        | "delivery_profile.updated"
-        | "delivery_rate_callback.activated"
-        | "delivery_rate_callback.archived"
-        | "delivery_rate_callback.created"
-        | "delivery_rate_callback.deactivated"
-        | "delivery_rate_callback.updated"
-        | "delivery_revocation.created"
-        | "delivery_selection.committed"
-        | "delivery_zone.activated"
-        | "delivery_zone.archived"
-        | "delivery_zone.created"
-        | "delivery_zone.deactivated"
-        | "delivery_zone.updated"
-        | "dispute.created"
-        | "dispute.inquiry_closed"
-        | "dispute.lost"
-        | "dispute.needs_response"
-        | "dispute.prevented"
-        | "dispute.updated"
-        | "dispute.won"
-        | "environment_grant.created"
-        | "environment_grant.revoked"
-        | "fraud_warning.created"
-        | "fraud_warning.updated"
-        | "fulfillment.canceled"
-        | "fulfillment.completed"
-        | "fulfillment.created"
-        | "fulfillment.failed"
-        | "fulfillment.updated"
-        | "fulfillment_event.created"
-        | "gift_card.created"
-        | "gift_card.updated"
-        | "gift_card_load.created"
-        | "gift_card_load.updated"
-        | "gift_card_notification.created"
-        | "gift_card_notification.updated"
-        | "gift_card_redemption.created"
-        | "gift_card_redemption.updated"
-        | "gift_card_transaction.created"
-        | "inventory_count.applied"
-        | "inventory_level.shortage_detected"
-        | "inventory_level.updated"
-        | "inventory_receipt.created"
-        | "inventory_reservation.action_required"
-        | "inventory_reservation.at_risk"
-        | "inventory_reservation.closed"
-        | "inventory_reservation.committed"
-        | "inventory_reservation.consumed"
-        | "inventory_reservation.created"
-        | "inventory_reservation.hold_expired"
-        | "inventory_reservation.released"
-        | "inventory_transfer.closed"
-        | "inventory_transfer.departed"
-        | "inventory_transfer.lost"
-        | "inventory_transfer.received"
-        | "inventory_transfer.returned"
-        | "invoice.collection_block_resolved"
-        | "invoice.collection_blocked"
-        | "invoice.created"
-        | "invoice.credited"
-        | "invoice.issue_failed"
-        | "invoice.issued"
-        | "invoice.late_fee_assessed"
-        | "invoice.late_fee_due"
-        | "invoice.late_fee_waived"
-        | "invoice.marked_uncollectible"
-        | "invoice.overdue"
-        | "invoice.paid"
-        | "invoice.partially_paid"
-        | "invoice.partially_refunded"
-        | "invoice.refunded"
-        | "invoice.reminder_due"
-        | "invoice.reopened"
-        | "invoice.sent"
-        | "invoice.updated"
-        | "invoice.voided"
-        | "invoice_delivery_attempt.failed"
-        | "invoice_delivery_attempt.sent"
-        | "invoice_delivery_attempt.suppressed"
-        | "invoice_manual_payment.created"
-        | "invoice_manual_payment.reversed"
-        | "invoice_payment_attempt.canceled"
-        | "invoice_payment_attempt.expired"
-        | "invoice_payment_attempt.failed"
-        | "invoice_payment_attempt.processing"
-        | "invoice_payment_attempt.settled"
-        | "merchant.readiness_updated"
-        | "merchant.updated"
-        | "merchant_billing_balance.updated"
-        | "merchant_billing_invoice.issued"
-        | "merchant_billing_invoice.updated"
-        | "modifier_group.archived"
-        | "modifier_group.created"
-        | "modifier_group.updated"
-        | "modifier_set.archived"
-        | "modifier_set.created"
-        | "modifier_set.updated"
-        | "order.closed"
-        | "order.created"
-        | "order.inventory_exception_created"
-        | "order.inventory_exception_resolved"
-        | "order.paid"
-        | "order.partially_paid"
-        | "order.partially_refunded"
-        | "order.refunded"
-        | "order.updated"
-        | "package.created"
-        | "package.updated"
-        | "partner_app_install.created"
-        | "partner_app_install.permissions_updated"
-        | "partner_app_install.revoked"
-        | "partner_app_install.updated"
-        | "payment_intent.canceled"
-        | "payment_intent.created"
-        | "payment_intent.expired"
-        | "payment_intent.fulfillment_hold_updated"
-        | "payment_intent.payment_failed"
-        | "payment_intent.processing"
-        | "payment_intent.requires_action"
-        | "payment_intent.requires_capture"
-        | "payment_intent.succeeded"
-        | "payment_intent.updated"
-        | "payment_link.created"
-        | "payment_link.updated"
-        | "payment_method.activated"
-        | "payment_method.archived"
-        | "payment_method.failed"
-        | "payment_review.closed"
-        | "payment_review.opened"
-        | "payment_review.reopened"
-        | "payout.canceled"
-        | "payout.created"
-        | "payout.failed"
-        | "payout.paid"
-        | "payout.reversed"
-        | "payout.updated"
-        | "payout_destination.archived"
-        | "payout_destination.created"
-        | "payout_destination.disabled"
-        | "payout_destination.updated"
-        | "payout_settings.updated"
-        | "product.archived"
-        | "product.created"
-        | "product.updated"
-        | "product_variant.archived"
-        | "product_variant.created"
-        | "product_variant.updated"
-        | "promotion.archived"
-        | "promotion.created"
-        | "promotion.updated"
-        | "promotion_code.archived"
-        | "promotion_code.created"
-        | "promotion_code.updated"
-        | "refund.created"
-        | "refund.failed"
-        | "refund.partially_succeeded"
-        | "refund.succeeded"
-        | "refund.updated"
-        | "report.failed"
-        | "report.succeeded"
-        | "return.canceled"
-        | "return.completed"
-        | "return.created"
-        | "return.decision_recorded"
-        | "return.reopened"
-        | "return.updated"
-        | "return_disposition.created"
-        | "return_disposition.updated"
-        | "return_inspection.acceptance_decided"
-        | "return_inspection.created"
-        | "return_inspection.superseded"
-        | "return_receipt.created"
-        | "return_receipt.superseded"
-        | "return_receipt.verified"
-        | "return_resolution.created"
-        | "return_resolution.updated"
-        | "shipment.created"
-        | "shipment.updated"
-        | "subscription.activated"
-        | "subscription.canceled"
-        | "subscription.cancellation_scheduled"
-        | "subscription.created"
-        | "subscription.cycle_skipped"
-        | "subscription.delivery_action_required"
-        | "subscription.delivery_pause_upcoming"
-        | "subscription.delivery_updated"
-        | "subscription.dunning_exhausted"
-        | "subscription.past_due"
-        | "subscription.paused"
-        | "subscription.payment_succeeded"
-        | "subscription.plan_changed"
-        | "subscription.reactivated"
-        | "subscription.renewal_upcoming"
-        | "subscription.resumed"
-        | "subscription.trial_ending"
-        | "subscription.updated"
-        | "subscription_delivery_migration.completed"
-        | "subscription_payment_retry.created"
-        | "subscription_payment_retry.failed"
-        | "subscription_payment_retry.succeeded"
-        | "tax_connection.updated"
-        | "test_clock.advancing"
-        | "test_clock.archived"
-        | "test_clock.created"
-        | "test_clock.failed"
-        | "test_clock.ready")
-        | readonly ("balance.updated"
-        | "balance_transaction.created"
-        | "balance_transaction.updated"
-        | "bundle.archived"
-        | "bundle.created"
-        | "bundle.updated"
-        | "category.created"
-        | "category.deleted"
-        | "category.updated"
-        | "checkout_session.closed"
-        | "checkout_session.created"
-        | "checkout_session.expired"
-        | "checkout_session.invalidated"
-        | "checkout_session.paid"
-        | "checkout_session.partially_paid"
-        | "credit_note.created"
-        | "credit_note.issued"
-        | "credit_note.updated"
-        | "credit_note.voided"
-        | "credit_note_allocation.created"
-        | "credit_note_allocation.reversed"
-        | "custom_domain.archived"
-        | "custom_domain.updated"
-        | "customer.created"
-        | "customer.deleted"
-        | "customer.updated"
-        | "customer_deletion_request.completed"
-        | "customer_deletion_request.created"
-        | "customer_deletion_request.failed"
-        | "customer_deletion_request.processing"
-        | "customer_deletion_request.rejected"
-        | "delivery_location_set.activated"
-        | "delivery_location_set.archived"
-        | "delivery_location_set.created"
-        | "delivery_location_set.deactivated"
-        | "delivery_location_set.updated"
-        | "delivery_method.activated"
-        | "delivery_method.archived"
-        | "delivery_method.created"
-        | "delivery_method.deactivated"
-        | "delivery_method.updated"
-        | "delivery_profile.activated"
-        | "delivery_profile.archived"
-        | "delivery_profile.created"
-        | "delivery_profile.deactivated"
-        | "delivery_profile.updated"
-        | "delivery_rate_callback.activated"
-        | "delivery_rate_callback.archived"
-        | "delivery_rate_callback.created"
-        | "delivery_rate_callback.deactivated"
-        | "delivery_rate_callback.updated"
-        | "delivery_revocation.created"
-        | "delivery_selection.committed"
-        | "delivery_zone.activated"
-        | "delivery_zone.archived"
-        | "delivery_zone.created"
-        | "delivery_zone.deactivated"
-        | "delivery_zone.updated"
-        | "dispute.created"
-        | "dispute.inquiry_closed"
-        | "dispute.lost"
-        | "dispute.needs_response"
-        | "dispute.prevented"
-        | "dispute.updated"
-        | "dispute.won"
-        | "environment_grant.created"
-        | "environment_grant.revoked"
-        | "fraud_warning.created"
-        | "fraud_warning.updated"
-        | "fulfillment.canceled"
-        | "fulfillment.completed"
-        | "fulfillment.created"
-        | "fulfillment.failed"
-        | "fulfillment.updated"
-        | "fulfillment_event.created"
-        | "gift_card.created"
-        | "gift_card.updated"
-        | "gift_card_load.created"
-        | "gift_card_load.updated"
-        | "gift_card_notification.created"
-        | "gift_card_notification.updated"
-        | "gift_card_redemption.created"
-        | "gift_card_redemption.updated"
-        | "gift_card_transaction.created"
-        | "inventory_count.applied"
-        | "inventory_level.shortage_detected"
-        | "inventory_level.updated"
-        | "inventory_receipt.created"
-        | "inventory_reservation.action_required"
-        | "inventory_reservation.at_risk"
-        | "inventory_reservation.closed"
-        | "inventory_reservation.committed"
-        | "inventory_reservation.consumed"
-        | "inventory_reservation.created"
-        | "inventory_reservation.hold_expired"
-        | "inventory_reservation.released"
-        | "inventory_transfer.closed"
-        | "inventory_transfer.departed"
-        | "inventory_transfer.lost"
-        | "inventory_transfer.received"
-        | "inventory_transfer.returned"
-        | "invoice.collection_block_resolved"
-        | "invoice.collection_blocked"
-        | "invoice.created"
-        | "invoice.credited"
-        | "invoice.issue_failed"
-        | "invoice.issued"
-        | "invoice.late_fee_assessed"
-        | "invoice.late_fee_due"
-        | "invoice.late_fee_waived"
-        | "invoice.marked_uncollectible"
-        | "invoice.overdue"
-        | "invoice.paid"
-        | "invoice.partially_paid"
-        | "invoice.partially_refunded"
-        | "invoice.refunded"
-        | "invoice.reminder_due"
-        | "invoice.reopened"
-        | "invoice.sent"
-        | "invoice.updated"
-        | "invoice.voided"
-        | "invoice_delivery_attempt.failed"
-        | "invoice_delivery_attempt.sent"
-        | "invoice_delivery_attempt.suppressed"
-        | "invoice_manual_payment.created"
-        | "invoice_manual_payment.reversed"
-        | "invoice_payment_attempt.canceled"
-        | "invoice_payment_attempt.expired"
-        | "invoice_payment_attempt.failed"
-        | "invoice_payment_attempt.processing"
-        | "invoice_payment_attempt.settled"
-        | "merchant.readiness_updated"
-        | "merchant.updated"
-        | "merchant_billing_balance.updated"
-        | "merchant_billing_invoice.issued"
-        | "merchant_billing_invoice.updated"
-        | "modifier_group.archived"
-        | "modifier_group.created"
-        | "modifier_group.updated"
-        | "modifier_set.archived"
-        | "modifier_set.created"
-        | "modifier_set.updated"
-        | "order.closed"
-        | "order.created"
-        | "order.inventory_exception_created"
-        | "order.inventory_exception_resolved"
-        | "order.paid"
-        | "order.partially_paid"
-        | "order.partially_refunded"
-        | "order.refunded"
-        | "order.updated"
-        | "package.created"
-        | "package.updated"
-        | "partner_app_install.created"
-        | "partner_app_install.permissions_updated"
-        | "partner_app_install.revoked"
-        | "partner_app_install.updated"
-        | "payment_intent.canceled"
-        | "payment_intent.created"
-        | "payment_intent.expired"
-        | "payment_intent.fulfillment_hold_updated"
-        | "payment_intent.payment_failed"
-        | "payment_intent.processing"
-        | "payment_intent.requires_action"
-        | "payment_intent.requires_capture"
-        | "payment_intent.succeeded"
-        | "payment_intent.updated"
-        | "payment_link.created"
-        | "payment_link.updated"
-        | "payment_method.activated"
-        | "payment_method.archived"
-        | "payment_method.failed"
-        | "payment_review.closed"
-        | "payment_review.opened"
-        | "payment_review.reopened"
-        | "payout.canceled"
-        | "payout.created"
-        | "payout.failed"
-        | "payout.paid"
-        | "payout.reversed"
-        | "payout.updated"
-        | "payout_destination.archived"
-        | "payout_destination.created"
-        | "payout_destination.disabled"
-        | "payout_destination.updated"
-        | "payout_settings.updated"
-        | "product.archived"
-        | "product.created"
-        | "product.updated"
-        | "product_variant.archived"
-        | "product_variant.created"
-        | "product_variant.updated"
-        | "promotion.archived"
-        | "promotion.created"
-        | "promotion.updated"
-        | "promotion_code.archived"
-        | "promotion_code.created"
-        | "promotion_code.updated"
-        | "refund.created"
-        | "refund.failed"
-        | "refund.partially_succeeded"
-        | "refund.succeeded"
-        | "refund.updated"
-        | "report.failed"
-        | "report.succeeded"
-        | "return.canceled"
-        | "return.completed"
-        | "return.created"
-        | "return.decision_recorded"
-        | "return.reopened"
-        | "return.updated"
-        | "return_disposition.created"
-        | "return_disposition.updated"
-        | "return_inspection.acceptance_decided"
-        | "return_inspection.created"
-        | "return_inspection.superseded"
-        | "return_receipt.created"
-        | "return_receipt.superseded"
-        | "return_receipt.verified"
-        | "return_resolution.created"
-        | "return_resolution.updated"
-        | "shipment.created"
-        | "shipment.updated"
-        | "subscription.activated"
-        | "subscription.canceled"
-        | "subscription.cancellation_scheduled"
-        | "subscription.created"
-        | "subscription.cycle_skipped"
-        | "subscription.delivery_action_required"
-        | "subscription.delivery_pause_upcoming"
-        | "subscription.delivery_updated"
-        | "subscription.dunning_exhausted"
-        | "subscription.past_due"
-        | "subscription.paused"
-        | "subscription.payment_succeeded"
-        | "subscription.plan_changed"
-        | "subscription.reactivated"
-        | "subscription.renewal_upcoming"
-        | "subscription.resumed"
-        | "subscription.trial_ending"
-        | "subscription.updated"
-        | "subscription_delivery_migration.completed"
-        | "subscription_payment_retry.created"
-        | "subscription_payment_retry.failed"
-        | "subscription_payment_retry.succeeded"
-        | "tax_connection.updated"
-        | "test_clock.advancing"
-        | "test_clock.archived"
-        | "test_clock.created"
-        | "test_clock.failed"
-        | "test_clock.ready")[]>;
-    /**
-     * Filter by affected resource type. Accepts repeated keys, comma-separated values, or
-     * mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries
-     * are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum:
-     * "balance", "balance_transaction", "bundle", "category", "checkout_session", "credit_note",
-     * "credit_note_allocation", "custom_domain", "customer", "customer_deletion_request",
-     * "delivery_location_set", "delivery_method", "delivery_profile", "delivery_rate_callback",
-     * "delivery_revocation", "delivery_selection", "delivery_zone", "dispute",
-     * "environment_grant", "fraud_warning", "fulfillment", "fulfillment_event", "gift_card",
-     * "gift_card_load", "gift_card_notification", "gift_card_redemption", "gift_card_transaction",
-     * "inventory_count", "inventory_level", "inventory_receipt", "inventory_reservation",
-     * "inventory_transfer", "invoice", "invoice_delivery_attempt", "invoice_manual_payment",
-     * "invoice_payment_attempt", "merchant", "merchant_billing_balance",
-     * "merchant_billing_invoice", "modifier_group", "modifier_set", "order", "package",
-     * "partner_app_install", "payment_intent", "payment_link", "payment_method", "payment_review",
-     * "payout", "payout_destination", "payout_settings", "product", "product_variant",
-     * "promotion", "promotion_code", "refund", "report", "return", "return_disposition",
-     * "return_inspection", "return_receipt", "return_resolution", "shipment", "subscription",
-     * "subscription_delivery_migration", "subscription_payment_retry", "tax_connection",
-     * "test_clock". Value enum: "balance", "balance_transaction", "bundle", "category",
-     * "checkout_session", "credit_note", "credit_note_allocation", "custom_domain", "customer",
-     * "customer_deletion_request", "delivery_location_set", "delivery_method", "delivery_profile",
-     * "delivery_rate_callback", "delivery_revocation", "delivery_selection", "delivery_zone",
-     * "dispute", "environment_grant", "fraud_warning", "fulfillment", "fulfillment_event",
-     * "gift_card", "gift_card_load", "gift_card_notification", "gift_card_redemption",
-     * "gift_card_transaction", "inventory_count", "inventory_level", "inventory_receipt",
-     * "inventory_reservation", "inventory_transfer", "invoice", "invoice_delivery_attempt",
-     * "invoice_manual_payment", "invoice_payment_attempt", "merchant", "merchant_billing_balance",
-     * "merchant_billing_invoice", "modifier_group", "modifier_set", "order", "package",
-     * "partner_app_install", "payment_intent", "payment_link", "payment_method", "payment_review",
-     * "payout", "payout_destination", "payout_settings", "product", "product_variant",
-     * "promotion", "promotion_code", "refund", "report", "return", "return_disposition",
-     * "return_inspection", "return_receipt", "return_resolution", "shipment", "subscription",
-     * "subscription_delivery_migration", "subscription_payment_retry", "tax_connection",
-     * "test_clock". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "balance",
-     * "balance_transaction", "bundle", "category", "checkout_session", "credit_note",
-     * "credit_note_allocation", "custom_domain", "customer", "customer_deletion_request",
-     * "delivery_location_set", "delivery_method", "delivery_profile", "delivery_rate_callback",
-     * "delivery_revocation", "delivery_selection", "delivery_zone", "dispute",
-     * "environment_grant", "fraud_warning", "fulfillment", "fulfillment_event", "gift_card",
-     * "gift_card_load", "gift_card_notification", "gift_card_redemption", "gift_card_transaction",
-     * "inventory_count", "inventory_level", "inventory_receipt", "inventory_reservation",
-     * "inventory_transfer", "invoice", "invoice_delivery_attempt", "invoice_manual_payment",
-     * "invoice_payment_attempt", "merchant", "merchant_billing_balance",
-     * "merchant_billing_invoice", "modifier_group", "modifier_set", "order", "package",
-     * "partner_app_install", "payment_intent", "payment_link", "payment_method", "payment_review",
-     * "payout", "payout_destination", "payout_settings", "product", "product_variant",
-     * "promotion", "promotion_code", "refund", "report", "return", "return_disposition",
-     * "return_inspection", "return_receipt", "return_resolution", "shipment", "subscription",
-     * "subscription_delivery_migration", "subscription_payment_retry", "tax_connection",
-     * "test_clock". anyOf[1][] (Value): string. Value enum: "balance", "balance_transaction",
-     * "bundle", "category", "checkout_session", "credit_note", "credit_note_allocation",
-     * "custom_domain", "customer", "customer_deletion_request", "delivery_location_set",
-     * "delivery_method", "delivery_profile", "delivery_rate_callback", "delivery_revocation",
-     * "delivery_selection", "delivery_zone", "dispute", "environment_grant", "fraud_warning",
-     * "fulfillment", "fulfillment_event", "gift_card", "gift_card_load", "gift_card_notification",
-     * "gift_card_redemption", "gift_card_transaction", "inventory_count", "inventory_level",
-     * "inventory_receipt", "inventory_reservation", "inventory_transfer", "invoice",
-     * "invoice_delivery_attempt", "invoice_manual_payment", "invoice_payment_attempt", "merchant",
-     * "merchant_billing_balance", "merchant_billing_invoice", "modifier_group", "modifier_set",
-     * "order", "package", "partner_app_install", "payment_intent", "payment_link",
-     * "payment_method", "payment_review", "payout", "payout_destination", "payout_settings",
-     * "product", "product_variant", "promotion", "promotion_code", "refund", "report", "return",
-     * "return_disposition", "return_inspection", "return_receipt", "return_resolution",
-     * "shipment", "subscription", "subscription_delivery_migration", "subscription_payment_retry",
-     * "tax_connection", "test_clock". anyOf[2] (Value): string. Value enum: "balance",
-     * "balance_transaction", "bundle", "category", "checkout_session", "credit_note",
-     * "credit_note_allocation", "custom_domain", "customer", "customer_deletion_request",
-     * "delivery_location_set", "delivery_method", "delivery_profile", "delivery_rate_callback",
-     * "delivery_revocation", "delivery_selection", "delivery_zone", "dispute",
-     * "environment_grant", "fraud_warning", "fulfillment", "fulfillment_event", "gift_card",
-     * "gift_card_load", "gift_card_notification", "gift_card_redemption", "gift_card_transaction",
-     * "inventory_count", "inventory_level", "inventory_receipt", "inventory_reservation",
-     * "inventory_transfer", "invoice", "invoice_delivery_attempt", "invoice_manual_payment",
-     * "invoice_payment_attempt", "merchant", "merchant_billing_balance",
-     * "merchant_billing_invoice", "modifier_group", "modifier_set", "order", "package",
-     * "partner_app_install", "payment_intent", "payment_link", "payment_method", "payment_review",
-     * "payout", "payout_destination", "payout_settings", "product", "product_variant",
-     * "promotion", "promotion_code", "refund", "report", "return", "return_disposition",
-     * "return_inspection", "return_receipt", "return_resolution", "shipment", "subscription",
-     * "subscription_delivery_migration", "subscription_payment_retry", "tax_connection",
-     * "test_clock".
-     */
-    "resource_type"?: InputValue<("balance"
-        | "balance_transaction"
-        | "bundle"
-        | "category"
-        | "checkout_session"
-        | "credit_note"
-        | "credit_note_allocation"
-        | "custom_domain"
-        | "customer"
-        | "customer_deletion_request"
-        | "delivery_location_set"
-        | "delivery_method"
-        | "delivery_profile"
-        | "delivery_rate_callback"
-        | "delivery_revocation"
-        | "delivery_selection"
-        | "delivery_zone"
-        | "dispute"
-        | "environment_grant"
-        | "fraud_warning"
-        | "fulfillment"
-        | "fulfillment_event"
-        | "gift_card"
-        | "gift_card_load"
-        | "gift_card_notification"
-        | "gift_card_redemption"
-        | "gift_card_transaction"
-        | "inventory_count"
-        | "inventory_level"
-        | "inventory_receipt"
-        | "inventory_reservation"
-        | "inventory_transfer"
-        | "invoice"
-        | "invoice_delivery_attempt"
-        | "invoice_manual_payment"
-        | "invoice_payment_attempt"
-        | "merchant"
-        | "merchant_billing_balance"
-        | "merchant_billing_invoice"
-        | "modifier_group"
-        | "modifier_set"
-        | "order"
-        | "package"
-        | "partner_app_install"
-        | "payment_intent"
-        | "payment_link"
-        | "payment_method"
-        | "payment_review"
-        | "payout"
-        | "payout_destination"
-        | "payout_settings"
-        | "product"
-        | "product_variant"
-        | "promotion"
-        | "promotion_code"
-        | "refund"
-        | "report"
-        | "return"
-        | "return_disposition"
-        | "return_inspection"
-        | "return_receipt"
-        | "return_resolution"
-        | "shipment"
-        | "subscription"
-        | "subscription_delivery_migration"
-        | "subscription_payment_retry"
-        | "tax_connection"
-        | "test_clock")
-        | readonly ("balance"
-        | "balance_transaction"
-        | "bundle"
-        | "category"
-        | "checkout_session"
-        | "credit_note"
-        | "credit_note_allocation"
-        | "custom_domain"
-        | "customer"
-        | "customer_deletion_request"
-        | "delivery_location_set"
-        | "delivery_method"
-        | "delivery_profile"
-        | "delivery_rate_callback"
-        | "delivery_revocation"
-        | "delivery_selection"
-        | "delivery_zone"
-        | "dispute"
-        | "environment_grant"
-        | "fraud_warning"
-        | "fulfillment"
-        | "fulfillment_event"
-        | "gift_card"
-        | "gift_card_load"
-        | "gift_card_notification"
-        | "gift_card_redemption"
-        | "gift_card_transaction"
-        | "inventory_count"
-        | "inventory_level"
-        | "inventory_receipt"
-        | "inventory_reservation"
-        | "inventory_transfer"
-        | "invoice"
-        | "invoice_delivery_attempt"
-        | "invoice_manual_payment"
-        | "invoice_payment_attempt"
-        | "merchant"
-        | "merchant_billing_balance"
-        | "merchant_billing_invoice"
-        | "modifier_group"
-        | "modifier_set"
-        | "order"
-        | "package"
-        | "partner_app_install"
-        | "payment_intent"
-        | "payment_link"
-        | "payment_method"
-        | "payment_review"
-        | "payout"
-        | "payout_destination"
-        | "payout_settings"
-        | "product"
-        | "product_variant"
-        | "promotion"
-        | "promotion_code"
-        | "refund"
-        | "report"
-        | "return"
-        | "return_disposition"
-        | "return_inspection"
-        | "return_receipt"
-        | "return_resolution"
-        | "shipment"
-        | "subscription"
-        | "subscription_delivery_migration"
-        | "subscription_payment_retry"
-        | "tax_connection"
-        | "test_clock")[]>;
-    /** Filter by affected resource ID. Example: "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV". */
-    "resource_id"?: InputValue<string>;
-    /**
-     * Filter by API request log ID associated with the event. Example:
-     * "rlog_01ARZ3NDEKTSV4RRFFQ69G5FAV".
-     */
-    "api_request_log_id"?: InputValue<string>;
-    /**
-     * Filter by request ID associated with the event. Example: "req_01ARZ3NDEKTSV4RRFFQ69G5FAV".
-     */
-    "request_id"?: InputValue<string>;
-    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
-    /**
-     * Optional comma-separated expansions. Use test_events to include synthetic webhook test
-     * events. [] enum: "test_events". [] (Value): string. Value enum: "test_events".
-     */
-    "include"?: InputValue<Array<"test_events">>;
+    "state"?: InputValue<("BC"
+        | "MB"
+        | "QC"
+        | "SK"
+        | "AL"
+        | "AK"
+        | "AZ"
+        | "AR"
+        | "CA"
+        | "CO"
+        | "CT"
+        | "DC"
+        | "FL"
+        | "GA"
+        | "HI"
+        | "ID"
+        | "IL"
+        | "IN"
+        | "IA"
+        | "KS"
+        | "KY"
+        | "LA"
+        | "ME"
+        | "MD"
+        | "MA"
+        | "MI"
+        | "MN"
+        | "MS"
+        | "MO"
+        | "NE"
+        | "NV"
+        | "NJ"
+        | "NM"
+        | "NY"
+        | "NC"
+        | "ND"
+        | "OH"
+        | "OK"
+        | "PA"
+        | "RI"
+        | "SC"
+        | "SD"
+        | "TN"
+        | "TX"
+        | "UT"
+        | "VT"
+        | "VA"
+        | "WA"
+        | "WV"
+        | "WI"
+        | "WY")
+        | readonly ("BC"
+        | "MB"
+        | "QC"
+        | "SK"
+        | "AL"
+        | "AK"
+        | "AZ"
+        | "AR"
+        | "CA"
+        | "CO"
+        | "CT"
+        | "DC"
+        | "FL"
+        | "GA"
+        | "HI"
+        | "ID"
+        | "IL"
+        | "IN"
+        | "IA"
+        | "KS"
+        | "KY"
+        | "LA"
+        | "ME"
+        | "MD"
+        | "MA"
+        | "MI"
+        | "MN"
+        | "MS"
+        | "MO"
+        | "NE"
+        | "NV"
+        | "NJ"
+        | "NM"
+        | "NY"
+        | "NC"
+        | "ND"
+        | "OH"
+        | "OK"
+        | "PA"
+        | "RI"
+        | "SC"
+        | "SD"
+        | "TN"
+        | "TX"
+        | "UT"
+        | "VT"
+        | "VA"
+        | "WA"
+        | "WV"
+        | "WI"
+        | "WY")[]>;
 };
-export type WebhookEventsStreamParams = {
+/** A response containing `TaxConnection` data. */
+export type TaxConnectionResponse = {
     /**
-     * Filter by canonical merchant webhook event type. Accepts repeated keys, comma-separated
-     * values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or
-     * unknown entries are rejected. Values within this filter are ORed; separate filters are
-     * ANDed. [] enum: "balance.updated", "balance_transaction.created",
-     * "balance_transaction.updated", "bundle.archived", "bundle.created", "bundle.updated",
-     * "category.created", "category.deleted", "category.updated", "checkout_session.closed",
-     * "checkout_session.created", "checkout_session.expired", "checkout_session.invalidated",
-     * "checkout_session.paid", "checkout_session.partially_paid", "credit_note.created",
-     * "credit_note.issued", "credit_note.updated", "credit_note.voided",
-     * "credit_note_allocation.created", "credit_note_allocation.reversed",
-     * "custom_domain.archived", "custom_domain.updated", "customer.created", "customer.deleted",
-     * "customer.updated", "customer_deletion_request.completed",
-     * "customer_deletion_request.created", "customer_deletion_request.failed",
-     * "customer_deletion_request.processing", "customer_deletion_request.rejected",
-     * "delivery_location_set.activated", "delivery_location_set.archived",
-     * "delivery_location_set.created", "delivery_location_set.deactivated",
-     * "delivery_location_set.updated", "delivery_method.activated", "delivery_method.archived",
-     * "delivery_method.created", "delivery_method.deactivated", "delivery_method.updated",
-     * "delivery_profile.activated", "delivery_profile.archived", "delivery_profile.created",
-     * "delivery_profile.deactivated", "delivery_profile.updated",
-     * "delivery_rate_callback.activated", "delivery_rate_callback.archived",
-     * "delivery_rate_callback.created", "delivery_rate_callback.deactivated",
-     * "delivery_rate_callback.updated", "delivery_revocation.created",
-     * "delivery_selection.committed", "delivery_zone.activated", "delivery_zone.archived",
-     * "delivery_zone.created", "delivery_zone.deactivated", "delivery_zone.updated",
-     * "dispute.created", "dispute.inquiry_closed", "dispute.lost", "dispute.needs_response",
-     * "dispute.prevented", "dispute.updated", "dispute.won", "fraud_warning.created",
-     * "fraud_warning.updated", "fulfillment.canceled", "fulfillment.completed",
-     * "fulfillment.created", "fulfillment.failed", "fulfillment.updated",
-     * "fulfillment_event.created", "gift_card.created", "gift_card.updated",
-     * "gift_card_load.created", "gift_card_load.updated", "gift_card_notification.created",
-     * "gift_card_notification.updated", "gift_card_redemption.created",
-     * "gift_card_redemption.updated", "gift_card_transaction.created", "inventory_count.applied",
-     * "inventory_level.shortage_detected", "inventory_level.updated", "inventory_receipt.created",
-     * "inventory_reservation.action_required", "inventory_reservation.at_risk",
-     * "inventory_reservation.closed", "inventory_reservation.committed",
-     * "inventory_reservation.consumed", "inventory_reservation.created",
-     * "inventory_reservation.hold_expired", "inventory_reservation.released",
-     * "inventory_transfer.closed", "inventory_transfer.departed", "inventory_transfer.lost",
-     * "inventory_transfer.received", "inventory_transfer.returned",
-     * "invoice.collection_block_resolved", "invoice.collection_blocked", "invoice.created",
-     * "invoice.credited", "invoice.issue_failed", "invoice.issued", "invoice.late_fee_assessed",
-     * "invoice.late_fee_due", "invoice.late_fee_waived", "invoice.marked_uncollectible",
-     * "invoice.overdue", "invoice.paid", "invoice.partially_paid", "invoice.partially_refunded",
-     * "invoice.refunded", "invoice.reminder_due", "invoice.reopened", "invoice.sent",
-     * "invoice.updated", "invoice.voided", "invoice_delivery_attempt.failed",
-     * "invoice_delivery_attempt.sent", "invoice_delivery_attempt.suppressed",
-     * "invoice_manual_payment.created", "invoice_manual_payment.reversed",
-     * "invoice_payment_attempt.canceled", "invoice_payment_attempt.expired",
-     * "invoice_payment_attempt.failed", "invoice_payment_attempt.processing",
-     * "invoice_payment_attempt.settled", "merchant.readiness_updated", "merchant.updated",
-     * "merchant_billing_balance.updated", "merchant_billing_invoice.issued",
-     * "merchant_billing_invoice.updated", "modifier_group.archived", "modifier_group.created",
-     * "modifier_group.updated", "modifier_set.archived", "modifier_set.created",
-     * "modifier_set.updated", "order.closed", "order.created",
-     * "order.inventory_exception_created", "order.inventory_exception_resolved", "order.paid",
-     * "order.partially_paid", "order.partially_refunded", "order.refunded", "order.updated",
-     * "package.created", "package.updated", "payment_intent.canceled", "payment_intent.created",
-     * "payment_intent.expired", "payment_intent.fulfillment_hold_updated",
-     * "payment_intent.payment_failed", "payment_intent.processing",
-     * "payment_intent.requires_action", "payment_intent.requires_capture",
-     * "payment_intent.succeeded", "payment_intent.updated", "payment_link.created",
-     * "payment_link.updated", "payment_method.activated", "payment_method.archived",
-     * "payment_method.failed", "payment_review.closed", "payment_review.opened",
-     * "payment_review.reopened", "payout.canceled", "payout.created", "payout.failed",
-     * "payout.paid", "payout.reversed", "payout.updated", "payout_destination.archived",
-     * "payout_destination.created", "payout_destination.disabled", "payout_destination.updated",
-     * "payout_settings.updated", "product.archived", "product.created", "product.updated",
-     * "product_variant.archived", "product_variant.created", "product_variant.updated",
-     * "promotion.archived", "promotion.created", "promotion.updated", "promotion_code.archived",
-     * "promotion_code.created", "promotion_code.updated", "refund.created", "refund.failed",
-     * "refund.partially_succeeded", "refund.succeeded", "refund.updated", "report.failed",
-     * "report.succeeded", "return.canceled", "return.completed", "return.created",
-     * "return.decision_recorded", "return.reopened", "return.updated",
-     * "return_disposition.created", "return_disposition.updated",
-     * "return_inspection.acceptance_decided", "return_inspection.created",
-     * "return_inspection.superseded", "return_receipt.created", "return_receipt.superseded",
-     * "return_receipt.verified", "return_resolution.created", "return_resolution.updated",
-     * "shipment.created", "shipment.updated", "subscription.activated", "subscription.canceled",
-     * "subscription.cancellation_scheduled", "subscription.created", "subscription.cycle_skipped",
-     * "subscription.delivery_action_required", "subscription.delivery_pause_upcoming",
-     * "subscription.delivery_updated", "subscription.dunning_exhausted", "subscription.past_due",
-     * "subscription.paused", "subscription.payment_succeeded", "subscription.plan_changed",
-     * "subscription.reactivated", "subscription.renewal_upcoming", "subscription.resumed",
-     * "subscription.trial_ending", "subscription.updated",
-     * "subscription_delivery_migration.completed", "subscription_payment_retry.created",
-     * "subscription_payment_retry.failed", "subscription_payment_retry.succeeded",
-     * "tax_connection.updated", "test_clock.advancing", "test_clock.archived",
-     * "test_clock.created", "test_clock.failed", "test_clock.ready". Value enum:
-     * "balance.updated", "balance_transaction.created", "balance_transaction.updated",
-     * "bundle.archived", "bundle.created", "bundle.updated", "category.created",
-     * "category.deleted", "category.updated", "checkout_session.closed",
-     * "checkout_session.created", "checkout_session.expired", "checkout_session.invalidated",
-     * "checkout_session.paid", "checkout_session.partially_paid", "credit_note.created",
-     * "credit_note.issued", "credit_note.updated", "credit_note.voided",
-     * "credit_note_allocation.created", "credit_note_allocation.reversed",
-     * "custom_domain.archived", "custom_domain.updated", "customer.created", "customer.deleted",
-     * "customer.updated", "customer_deletion_request.completed",
-     * "customer_deletion_request.created", "customer_deletion_request.failed",
-     * "customer_deletion_request.processing", "customer_deletion_request.rejected",
-     * "delivery_location_set.activated", "delivery_location_set.archived",
-     * "delivery_location_set.created", "delivery_location_set.deactivated",
-     * "delivery_location_set.updated", "delivery_method.activated", "delivery_method.archived",
-     * "delivery_method.created", "delivery_method.deactivated", "delivery_method.updated",
-     * "delivery_profile.activated", "delivery_profile.archived", "delivery_profile.created",
-     * "delivery_profile.deactivated", "delivery_profile.updated",
-     * "delivery_rate_callback.activated", "delivery_rate_callback.archived",
-     * "delivery_rate_callback.created", "delivery_rate_callback.deactivated",
-     * "delivery_rate_callback.updated", "delivery_revocation.created",
-     * "delivery_selection.committed", "delivery_zone.activated", "delivery_zone.archived",
-     * "delivery_zone.created", "delivery_zone.deactivated", "delivery_zone.updated",
-     * "dispute.created", "dispute.inquiry_closed", "dispute.lost", "dispute.needs_response",
-     * "dispute.prevented", "dispute.updated", "dispute.won", "fraud_warning.created",
-     * "fraud_warning.updated", "fulfillment.canceled", "fulfillment.completed",
-     * "fulfillment.created", "fulfillment.failed", "fulfillment.updated",
-     * "fulfillment_event.created", "gift_card.created", "gift_card.updated",
-     * "gift_card_load.created", "gift_card_load.updated", "gift_card_notification.created",
-     * "gift_card_notification.updated", "gift_card_redemption.created",
-     * "gift_card_redemption.updated", "gift_card_transaction.created", "inventory_count.applied",
-     * "inventory_level.shortage_detected", "inventory_level.updated", "inventory_receipt.created",
-     * "inventory_reservation.action_required", "inventory_reservation.at_risk",
-     * "inventory_reservation.closed", "inventory_reservation.committed",
-     * "inventory_reservation.consumed", "inventory_reservation.created",
-     * "inventory_reservation.hold_expired", "inventory_reservation.released",
-     * "inventory_transfer.closed", "inventory_transfer.departed", "inventory_transfer.lost",
-     * "inventory_transfer.received", "inventory_transfer.returned",
-     * "invoice.collection_block_resolved", "invoice.collection_blocked", "invoice.created",
-     * "invoice.credited", "invoice.issue_failed", "invoice.issued", "invoice.late_fee_assessed",
-     * "invoice.late_fee_due", "invoice.late_fee_waived", "invoice.marked_uncollectible",
-     * "invoice.overdue", "invoice.paid", "invoice.partially_paid", "invoice.partially_refunded",
-     * "invoice.refunded", "invoice.reminder_due", "invoice.reopened", "invoice.sent",
-     * "invoice.updated", "invoice.voided", "invoice_delivery_attempt.failed",
-     * "invoice_delivery_attempt.sent", "invoice_delivery_attempt.suppressed",
-     * "invoice_manual_payment.created", "invoice_manual_payment.reversed",
-     * "invoice_payment_attempt.canceled", "invoice_payment_attempt.expired",
-     * "invoice_payment_attempt.failed", "invoice_payment_attempt.processing",
-     * "invoice_payment_attempt.settled", "merchant.readiness_updated", "merchant.updated",
-     * "merchant_billing_balance.updated", "merchant_billing_invoice.issued",
-     * "merchant_billing_invoice.updated", "modifier_group.archived", "modifier_group.created",
-     * "modifier_group.updated", "modifier_set.archived", "modifier_set.created",
-     * "modifier_set.updated", "order.closed", "order.created",
-     * "order.inventory_exception_created", "order.inventory_exception_resolved", "order.paid",
-     * "order.partially_paid", "order.partially_refunded", "order.refunded", "order.updated",
-     * "package.created", "package.updated", "payment_intent.canceled", "payment_intent.created",
-     * "payment_intent.expired", "payment_intent.fulfillment_hold_updated",
-     * "payment_intent.payment_failed", "payment_intent.processing",
-     * "payment_intent.requires_action", "payment_intent.requires_capture",
-     * "payment_intent.succeeded", "payment_intent.updated", "payment_link.created",
-     * "payment_link.updated", "payment_method.activated", "payment_method.archived",
-     * "payment_method.failed", "payment_review.closed", "payment_review.opened",
-     * "payment_review.reopened", "payout.canceled", "payout.created", "payout.failed",
-     * "payout.paid", "payout.reversed", "payout.updated", "payout_destination.archived",
-     * "payout_destination.created", "payout_destination.disabled", "payout_destination.updated",
-     * "payout_settings.updated", "product.archived", "product.created", "product.updated",
-     * "product_variant.archived", "product_variant.created", "product_variant.updated",
-     * "promotion.archived", "promotion.created", "promotion.updated", "promotion_code.archived",
-     * "promotion_code.created", "promotion_code.updated", "refund.created", "refund.failed",
-     * "refund.partially_succeeded", "refund.succeeded", "refund.updated", "report.failed",
-     * "report.succeeded", "return.canceled", "return.completed", "return.created",
-     * "return.decision_recorded", "return.reopened", "return.updated",
-     * "return_disposition.created", "return_disposition.updated",
-     * "return_inspection.acceptance_decided", "return_inspection.created",
-     * "return_inspection.superseded", "return_receipt.created", "return_receipt.superseded",
-     * "return_receipt.verified", "return_resolution.created", "return_resolution.updated",
-     * "shipment.created", "shipment.updated", "subscription.activated", "subscription.canceled",
-     * "subscription.cancellation_scheduled", "subscription.created", "subscription.cycle_skipped",
-     * "subscription.delivery_action_required", "subscription.delivery_pause_upcoming",
-     * "subscription.delivery_updated", "subscription.dunning_exhausted", "subscription.past_due",
-     * "subscription.paused", "subscription.payment_succeeded", "subscription.plan_changed",
-     * "subscription.reactivated", "subscription.renewal_upcoming", "subscription.resumed",
-     * "subscription.trial_ending", "subscription.updated",
-     * "subscription_delivery_migration.completed", "subscription_payment_retry.created",
-     * "subscription_payment_retry.failed", "subscription_payment_retry.succeeded",
-     * "tax_connection.updated", "test_clock.advancing", "test_clock.archived",
-     * "test_clock.created", "test_clock.failed", "test_clock.ready". anyOf[1] (Value): Array of
-     * string. minItems: 1. [] enum: "balance.updated", "balance_transaction.created",
-     * "balance_transaction.updated", "bundle.archived", "bundle.created", "bundle.updated",
-     * "category.created", "category.deleted", "category.updated", "checkout_session.closed",
-     * "checkout_session.created", "checkout_session.expired", "checkout_session.invalidated",
-     * "checkout_session.paid", "checkout_session.partially_paid", "credit_note.created",
-     * "credit_note.issued", "credit_note.updated", "credit_note.voided",
-     * "credit_note_allocation.created", "credit_note_allocation.reversed",
-     * "custom_domain.archived", "custom_domain.updated", "customer.created", "customer.deleted",
-     * "customer.updated", "customer_deletion_request.completed",
-     * "customer_deletion_request.created", "customer_deletion_request.failed",
-     * "customer_deletion_request.processing", "customer_deletion_request.rejected",
-     * "delivery_location_set.activated", "delivery_location_set.archived",
-     * "delivery_location_set.created", "delivery_location_set.deactivated",
-     * "delivery_location_set.updated", "delivery_method.activated", "delivery_method.archived",
-     * "delivery_method.created", "delivery_method.deactivated", "delivery_method.updated",
-     * "delivery_profile.activated", "delivery_profile.archived", "delivery_profile.created",
-     * "delivery_profile.deactivated", "delivery_profile.updated",
-     * "delivery_rate_callback.activated", "delivery_rate_callback.archived",
-     * "delivery_rate_callback.created", "delivery_rate_callback.deactivated",
-     * "delivery_rate_callback.updated", "delivery_revocation.created",
-     * "delivery_selection.committed", "delivery_zone.activated", "delivery_zone.archived",
-     * "delivery_zone.created", "delivery_zone.deactivated", "delivery_zone.updated",
-     * "dispute.created", "dispute.inquiry_closed", "dispute.lost", "dispute.needs_response",
-     * "dispute.prevented", "dispute.updated", "dispute.won", "fraud_warning.created",
-     * "fraud_warning.updated", "fulfillment.canceled", "fulfillment.completed",
-     * "fulfillment.created", "fulfillment.failed", "fulfillment.updated",
-     * "fulfillment_event.created", "gift_card.created", "gift_card.updated",
-     * "gift_card_load.created", "gift_card_load.updated", "gift_card_notification.created",
-     * "gift_card_notification.updated", "gift_card_redemption.created",
-     * "gift_card_redemption.updated", "gift_card_transaction.created", "inventory_count.applied",
-     * "inventory_level.shortage_detected", "inventory_level.updated", "inventory_receipt.created",
-     * "inventory_reservation.action_required", "inventory_reservation.at_risk",
-     * "inventory_reservation.closed", "inventory_reservation.committed",
-     * "inventory_reservation.consumed", "inventory_reservation.created",
-     * "inventory_reservation.hold_expired", "inventory_reservation.released",
-     * "inventory_transfer.closed", "inventory_transfer.departed", "inventory_transfer.lost",
-     * "inventory_transfer.received", "inventory_transfer.returned",
-     * "invoice.collection_block_resolved", "invoice.collection_blocked", "invoice.created",
-     * "invoice.credited", "invoice.issue_failed", "invoice.issued", "invoice.late_fee_assessed",
-     * "invoice.late_fee_due", "invoice.late_fee_waived", "invoice.marked_uncollectible",
-     * "invoice.overdue", "invoice.paid", "invoice.partially_paid", "invoice.partially_refunded",
-     * "invoice.refunded", "invoice.reminder_due", "invoice.reopened", "invoice.sent",
-     * "invoice.updated", "invoice.voided", "invoice_delivery_attempt.failed",
-     * "invoice_delivery_attempt.sent", "invoice_delivery_attempt.suppressed",
-     * "invoice_manual_payment.created", "invoice_manual_payment.reversed",
-     * "invoice_payment_attempt.canceled", "invoice_payment_attempt.expired",
-     * "invoice_payment_attempt.failed", "invoice_payment_attempt.processing",
-     * "invoice_payment_attempt.settled", "merchant.readiness_updated", "merchant.updated",
-     * "merchant_billing_balance.updated", "merchant_billing_invoice.issued",
-     * "merchant_billing_invoice.updated", "modifier_group.archived", "modifier_group.created",
-     * "modifier_group.updated", "modifier_set.archived", "modifier_set.created",
-     * "modifier_set.updated", "order.closed", "order.created",
-     * "order.inventory_exception_created", "order.inventory_exception_resolved", "order.paid",
-     * "order.partially_paid", "order.partially_refunded", "order.refunded", "order.updated",
-     * "package.created", "package.updated", "payment_intent.canceled", "payment_intent.created",
-     * "payment_intent.expired", "payment_intent.fulfillment_hold_updated",
-     * "payment_intent.payment_failed", "payment_intent.processing",
-     * "payment_intent.requires_action", "payment_intent.requires_capture",
-     * "payment_intent.succeeded", "payment_intent.updated", "payment_link.created",
-     * "payment_link.updated", "payment_method.activated", "payment_method.archived",
-     * "payment_method.failed", "payment_review.closed", "payment_review.opened",
-     * "payment_review.reopened", "payout.canceled", "payout.created", "payout.failed",
-     * "payout.paid", "payout.reversed", "payout.updated", "payout_destination.archived",
-     * "payout_destination.created", "payout_destination.disabled", "payout_destination.updated",
-     * "payout_settings.updated", "product.archived", "product.created", "product.updated",
-     * "product_variant.archived", "product_variant.created", "product_variant.updated",
-     * "promotion.archived", "promotion.created", "promotion.updated", "promotion_code.archived",
-     * "promotion_code.created", "promotion_code.updated", "refund.created", "refund.failed",
-     * "refund.partially_succeeded", "refund.succeeded", "refund.updated", "report.failed",
-     * "report.succeeded", "return.canceled", "return.completed", "return.created",
-     * "return.decision_recorded", "return.reopened", "return.updated",
-     * "return_disposition.created", "return_disposition.updated",
-     * "return_inspection.acceptance_decided", "return_inspection.created",
-     * "return_inspection.superseded", "return_receipt.created", "return_receipt.superseded",
-     * "return_receipt.verified", "return_resolution.created", "return_resolution.updated",
-     * "shipment.created", "shipment.updated", "subscription.activated", "subscription.canceled",
-     * "subscription.cancellation_scheduled", "subscription.created", "subscription.cycle_skipped",
-     * "subscription.delivery_action_required", "subscription.delivery_pause_upcoming",
-     * "subscription.delivery_updated", "subscription.dunning_exhausted", "subscription.past_due",
-     * "subscription.paused", "subscription.payment_succeeded", "subscription.plan_changed",
-     * "subscription.reactivated", "subscription.renewal_upcoming", "subscription.resumed",
-     * "subscription.trial_ending", "subscription.updated",
-     * "subscription_delivery_migration.completed", "subscription_payment_retry.created",
-     * "subscription_payment_retry.failed", "subscription_payment_retry.succeeded",
-     * "tax_connection.updated", "test_clock.advancing", "test_clock.archived",
-     * "test_clock.created", "test_clock.failed", "test_clock.ready". anyOf[1][] (Value): string.
-     * Value enum: "balance.updated", "balance_transaction.created", "balance_transaction.updated",
-     * "bundle.archived", "bundle.created", "bundle.updated", "category.created",
-     * "category.deleted", "category.updated", "checkout_session.closed",
-     * "checkout_session.created", "checkout_session.expired", "checkout_session.invalidated",
-     * "checkout_session.paid", "checkout_session.partially_paid", "credit_note.created",
-     * "credit_note.issued", "credit_note.updated", "credit_note.voided",
-     * "credit_note_allocation.created", "credit_note_allocation.reversed",
-     * "custom_domain.archived", "custom_domain.updated", "customer.created", "customer.deleted",
-     * "customer.updated", "customer_deletion_request.completed",
-     * "customer_deletion_request.created", "customer_deletion_request.failed",
-     * "customer_deletion_request.processing", "customer_deletion_request.rejected",
-     * "delivery_location_set.activated", "delivery_location_set.archived",
-     * "delivery_location_set.created", "delivery_location_set.deactivated",
-     * "delivery_location_set.updated", "delivery_method.activated", "delivery_method.archived",
-     * "delivery_method.created", "delivery_method.deactivated", "delivery_method.updated",
-     * "delivery_profile.activated", "delivery_profile.archived", "delivery_profile.created",
-     * "delivery_profile.deactivated", "delivery_profile.updated",
-     * "delivery_rate_callback.activated", "delivery_rate_callback.archived",
-     * "delivery_rate_callback.created", "delivery_rate_callback.deactivated",
-     * "delivery_rate_callback.updated", "delivery_revocation.created",
-     * "delivery_selection.committed", "delivery_zone.activated", "delivery_zone.archived",
-     * "delivery_zone.created", "delivery_zone.deactivated", "delivery_zone.updated",
-     * "dispute.created", "dispute.inquiry_closed", "dispute.lost", "dispute.needs_response",
-     * "dispute.prevented", "dispute.updated", "dispute.won", "fraud_warning.created",
-     * "fraud_warning.updated", "fulfillment.canceled", "fulfillment.completed",
-     * "fulfillment.created", "fulfillment.failed", "fulfillment.updated",
-     * "fulfillment_event.created", "gift_card.created", "gift_card.updated",
-     * "gift_card_load.created", "gift_card_load.updated", "gift_card_notification.created",
-     * "gift_card_notification.updated", "gift_card_redemption.created",
-     * "gift_card_redemption.updated", "gift_card_transaction.created", "inventory_count.applied",
-     * "inventory_level.shortage_detected", "inventory_level.updated", "inventory_receipt.created",
-     * "inventory_reservation.action_required", "inventory_reservation.at_risk",
-     * "inventory_reservation.closed", "inventory_reservation.committed",
-     * "inventory_reservation.consumed", "inventory_reservation.created",
-     * "inventory_reservation.hold_expired", "inventory_reservation.released",
-     * "inventory_transfer.closed", "inventory_transfer.departed", "inventory_transfer.lost",
-     * "inventory_transfer.received", "inventory_transfer.returned",
-     * "invoice.collection_block_resolved", "invoice.collection_blocked", "invoice.created",
-     * "invoice.credited", "invoice.issue_failed", "invoice.issued", "invoice.late_fee_assessed",
-     * "invoice.late_fee_due", "invoice.late_fee_waived", "invoice.marked_uncollectible",
-     * "invoice.overdue", "invoice.paid", "invoice.partially_paid", "invoice.partially_refunded",
-     * "invoice.refunded", "invoice.reminder_due", "invoice.reopened", "invoice.sent",
-     * "invoice.updated", "invoice.voided", "invoice_delivery_attempt.failed",
-     * "invoice_delivery_attempt.sent", "invoice_delivery_attempt.suppressed",
-     * "invoice_manual_payment.created", "invoice_manual_payment.reversed",
-     * "invoice_payment_attempt.canceled", "invoice_payment_attempt.expired",
-     * "invoice_payment_attempt.failed", "invoice_payment_attempt.processing",
-     * "invoice_payment_attempt.settled", "merchant.readiness_updated", "merchant.updated",
-     * "merchant_billing_balance.updated", "merchant_billing_invoice.issued",
-     * "merchant_billing_invoice.updated", "modifier_group.archived", "modifier_group.created",
-     * "modifier_group.updated", "modifier_set.archived", "modifier_set.created",
-     * "modifier_set.updated", "order.closed", "order.created",
-     * "order.inventory_exception_created", "order.inventory_exception_resolved", "order.paid",
-     * "order.partially_paid", "order.partially_refunded", "order.refunded", "order.updated",
-     * "package.created", "package.updated", "payment_intent.canceled", "payment_intent.created",
-     * "payment_intent.expired", "payment_intent.fulfillment_hold_updated",
-     * "payment_intent.payment_failed", "payment_intent.processing",
-     * "payment_intent.requires_action", "payment_intent.requires_capture",
-     * "payment_intent.succeeded", "payment_intent.updated", "payment_link.created",
-     * "payment_link.updated", "payment_method.activated", "payment_method.archived",
-     * "payment_method.failed", "payment_review.closed", "payment_review.opened",
-     * "payment_review.reopened", "payout.canceled", "payout.created", "payout.failed",
-     * "payout.paid", "payout.reversed", "payout.updated", "payout_destination.archived",
-     * "payout_destination.created", "payout_destination.disabled", "payout_destination.updated",
-     * "payout_settings.updated", "product.archived", "product.created", "product.updated",
-     * "product_variant.archived", "product_variant.created", "product_variant.updated",
-     * "promotion.archived", "promotion.created", "promotion.updated", "promotion_code.archived",
-     * "promotion_code.created", "promotion_code.updated", "refund.created", "refund.failed",
-     * "refund.partially_succeeded", "refund.succeeded", "refund.updated", "report.failed",
-     * "report.succeeded", "return.canceled", "return.completed", "return.created",
-     * "return.decision_recorded", "return.reopened", "return.updated",
-     * "return_disposition.created", "return_disposition.updated",
-     * "return_inspection.acceptance_decided", "return_inspection.created",
-     * "return_inspection.superseded", "return_receipt.created", "return_receipt.superseded",
-     * "return_receipt.verified", "return_resolution.created", "return_resolution.updated",
-     * "shipment.created", "shipment.updated", "subscription.activated", "subscription.canceled",
-     * "subscription.cancellation_scheduled", "subscription.created", "subscription.cycle_skipped",
-     * "subscription.delivery_action_required", "subscription.delivery_pause_upcoming",
-     * "subscription.delivery_updated", "subscription.dunning_exhausted", "subscription.past_due",
-     * "subscription.paused", "subscription.payment_succeeded", "subscription.plan_changed",
-     * "subscription.reactivated", "subscription.renewal_upcoming", "subscription.resumed",
-     * "subscription.trial_ending", "subscription.updated",
-     * "subscription_delivery_migration.completed", "subscription_payment_retry.created",
-     * "subscription_payment_retry.failed", "subscription_payment_retry.succeeded",
-     * "tax_connection.updated", "test_clock.advancing", "test_clock.archived",
-     * "test_clock.created", "test_clock.failed", "test_clock.ready". anyOf[2] (Value): string.
-     * Value enum: "balance.updated", "balance_transaction.created", "balance_transaction.updated",
-     * "bundle.archived", "bundle.created", "bundle.updated", "category.created",
-     * "category.deleted", "category.updated", "checkout_session.closed",
-     * "checkout_session.created", "checkout_session.expired", "checkout_session.invalidated",
-     * "checkout_session.paid", "checkout_session.partially_paid", "credit_note.created",
-     * "credit_note.issued", "credit_note.updated", "credit_note.voided",
-     * "credit_note_allocation.created", "credit_note_allocation.reversed",
-     * "custom_domain.archived", "custom_domain.updated", "customer.created", "customer.deleted",
-     * "customer.updated", "customer_deletion_request.completed",
-     * "customer_deletion_request.created", "customer_deletion_request.failed",
-     * "customer_deletion_request.processing", "customer_deletion_request.rejected",
-     * "delivery_location_set.activated", "delivery_location_set.archived",
-     * "delivery_location_set.created", "delivery_location_set.deactivated",
-     * "delivery_location_set.updated", "delivery_method.activated", "delivery_method.archived",
-     * "delivery_method.created", "delivery_method.deactivated", "delivery_method.updated",
-     * "delivery_profile.activated", "delivery_profile.archived", "delivery_profile.created",
-     * "delivery_profile.deactivated", "delivery_profile.updated",
-     * "delivery_rate_callback.activated", "delivery_rate_callback.archived",
-     * "delivery_rate_callback.created", "delivery_rate_callback.deactivated",
-     * "delivery_rate_callback.updated", "delivery_revocation.created",
-     * "delivery_selection.committed", "delivery_zone.activated", "delivery_zone.archived",
-     * "delivery_zone.created", "delivery_zone.deactivated", "delivery_zone.updated",
-     * "dispute.created", "dispute.inquiry_closed", "dispute.lost", "dispute.needs_response",
-     * "dispute.prevented", "dispute.updated", "dispute.won", "fraud_warning.created",
-     * "fraud_warning.updated", "fulfillment.canceled", "fulfillment.completed",
-     * "fulfillment.created", "fulfillment.failed", "fulfillment.updated",
-     * "fulfillment_event.created", "gift_card.created", "gift_card.updated",
-     * "gift_card_load.created", "gift_card_load.updated", "gift_card_notification.created",
-     * "gift_card_notification.updated", "gift_card_redemption.created",
-     * "gift_card_redemption.updated", "gift_card_transaction.created", "inventory_count.applied",
-     * "inventory_level.shortage_detected", "inventory_level.updated", "inventory_receipt.created",
-     * "inventory_reservation.action_required", "inventory_reservation.at_risk",
-     * "inventory_reservation.closed", "inventory_reservation.committed",
-     * "inventory_reservation.consumed", "inventory_reservation.created",
-     * "inventory_reservation.hold_expired", "inventory_reservation.released",
-     * "inventory_transfer.closed", "inventory_transfer.departed", "inventory_transfer.lost",
-     * "inventory_transfer.received", "inventory_transfer.returned",
-     * "invoice.collection_block_resolved", "invoice.collection_blocked", "invoice.created",
-     * "invoice.credited", "invoice.issue_failed", "invoice.issued", "invoice.late_fee_assessed",
-     * "invoice.late_fee_due", "invoice.late_fee_waived", "invoice.marked_uncollectible",
-     * "invoice.overdue", "invoice.paid", "invoice.partially_paid", "invoice.partially_refunded",
-     * "invoice.refunded", "invoice.reminder_due", "invoice.reopened", "invoice.sent",
-     * "invoice.updated", "invoice.voided", "invoice_delivery_attempt.failed",
-     * "invoice_delivery_attempt.sent", "invoice_delivery_attempt.suppressed",
-     * "invoice_manual_payment.created", "invoice_manual_payment.reversed",
-     * "invoice_payment_attempt.canceled", "invoice_payment_attempt.expired",
-     * "invoice_payment_attempt.failed", "invoice_payment_attempt.processing",
-     * "invoice_payment_attempt.settled", "merchant.readiness_updated", "merchant.updated",
-     * "merchant_billing_balance.updated", "merchant_billing_invoice.issued",
-     * "merchant_billing_invoice.updated", "modifier_group.archived", "modifier_group.created",
-     * "modifier_group.updated", "modifier_set.archived", "modifier_set.created",
-     * "modifier_set.updated", "order.closed", "order.created",
-     * "order.inventory_exception_created", "order.inventory_exception_resolved", "order.paid",
-     * "order.partially_paid", "order.partially_refunded", "order.refunded", "order.updated",
-     * "package.created", "package.updated", "payment_intent.canceled", "payment_intent.created",
-     * "payment_intent.expired", "payment_intent.fulfillment_hold_updated",
-     * "payment_intent.payment_failed", "payment_intent.processing",
-     * "payment_intent.requires_action", "payment_intent.requires_capture",
-     * "payment_intent.succeeded", "payment_intent.updated", "payment_link.created",
-     * "payment_link.updated", "payment_method.activated", "payment_method.archived",
-     * "payment_method.failed", "payment_review.closed", "payment_review.opened",
-     * "payment_review.reopened", "payout.canceled", "payout.created", "payout.failed",
-     * "payout.paid", "payout.reversed", "payout.updated", "payout_destination.archived",
-     * "payout_destination.created", "payout_destination.disabled", "payout_destination.updated",
-     * "payout_settings.updated", "product.archived", "product.created", "product.updated",
-     * "product_variant.archived", "product_variant.created", "product_variant.updated",
-     * "promotion.archived", "promotion.created", "promotion.updated", "promotion_code.archived",
-     * "promotion_code.created", "promotion_code.updated", "refund.created", "refund.failed",
-     * "refund.partially_succeeded", "refund.succeeded", "refund.updated", "report.failed",
-     * "report.succeeded", "return.canceled", "return.completed", "return.created",
-     * "return.decision_recorded", "return.reopened", "return.updated",
-     * "return_disposition.created", "return_disposition.updated",
-     * "return_inspection.acceptance_decided", "return_inspection.created",
-     * "return_inspection.superseded", "return_receipt.created", "return_receipt.superseded",
-     * "return_receipt.verified", "return_resolution.created", "return_resolution.updated",
-     * "shipment.created", "shipment.updated", "subscription.activated", "subscription.canceled",
-     * "subscription.cancellation_scheduled", "subscription.created", "subscription.cycle_skipped",
-     * "subscription.delivery_action_required", "subscription.delivery_pause_upcoming",
-     * "subscription.delivery_updated", "subscription.dunning_exhausted", "subscription.past_due",
-     * "subscription.paused", "subscription.payment_succeeded", "subscription.plan_changed",
-     * "subscription.reactivated", "subscription.renewal_upcoming", "subscription.resumed",
-     * "subscription.trial_ending", "subscription.updated",
-     * "subscription_delivery_migration.completed", "subscription_payment_retry.created",
-     * "subscription_payment_retry.failed", "subscription_payment_retry.succeeded",
-     * "tax_connection.updated", "test_clock.advancing", "test_clock.archived",
-     * "test_clock.created", "test_clock.failed", "test_clock.ready".
+     * Resource, collection, or operation result returned by this request. The environment's
+     * automatic sales tax connection. Before a record exists, identity, version and timestamps are
+     * omitted. Read-time business-detail changes and provider pauses do not advance version or
+     * send webhooks. Status_reason and supported_actions can also change with the clock as
+     * registrations end, without a version change or webhook.
      */
-    "event_type"?: InputValue<("balance.updated"
-        | "balance_transaction.created"
-        | "balance_transaction.updated"
-        | "bundle.archived"
-        | "bundle.created"
-        | "bundle.updated"
-        | "category.created"
-        | "category.deleted"
-        | "category.updated"
-        | "checkout_session.closed"
-        | "checkout_session.created"
-        | "checkout_session.expired"
-        | "checkout_session.invalidated"
-        | "checkout_session.paid"
-        | "checkout_session.partially_paid"
-        | "credit_note.created"
-        | "credit_note.issued"
-        | "credit_note.updated"
-        | "credit_note.voided"
-        | "credit_note_allocation.created"
-        | "credit_note_allocation.reversed"
-        | "custom_domain.archived"
-        | "custom_domain.updated"
-        | "customer.created"
-        | "customer.deleted"
-        | "customer.updated"
-        | "customer_deletion_request.completed"
-        | "customer_deletion_request.created"
-        | "customer_deletion_request.failed"
-        | "customer_deletion_request.processing"
-        | "customer_deletion_request.rejected"
-        | "delivery_location_set.activated"
-        | "delivery_location_set.archived"
-        | "delivery_location_set.created"
-        | "delivery_location_set.deactivated"
-        | "delivery_location_set.updated"
-        | "delivery_method.activated"
-        | "delivery_method.archived"
-        | "delivery_method.created"
-        | "delivery_method.deactivated"
-        | "delivery_method.updated"
-        | "delivery_profile.activated"
-        | "delivery_profile.archived"
-        | "delivery_profile.created"
-        | "delivery_profile.deactivated"
-        | "delivery_profile.updated"
-        | "delivery_rate_callback.activated"
-        | "delivery_rate_callback.archived"
-        | "delivery_rate_callback.created"
-        | "delivery_rate_callback.deactivated"
-        | "delivery_rate_callback.updated"
-        | "delivery_revocation.created"
-        | "delivery_selection.committed"
-        | "delivery_zone.activated"
-        | "delivery_zone.archived"
-        | "delivery_zone.created"
-        | "delivery_zone.deactivated"
-        | "delivery_zone.updated"
-        | "dispute.created"
-        | "dispute.inquiry_closed"
-        | "dispute.lost"
-        | "dispute.needs_response"
-        | "dispute.prevented"
-        | "dispute.updated"
-        | "dispute.won"
-        | "fraud_warning.created"
-        | "fraud_warning.updated"
-        | "fulfillment.canceled"
-        | "fulfillment.completed"
-        | "fulfillment.created"
-        | "fulfillment.failed"
-        | "fulfillment.updated"
-        | "fulfillment_event.created"
-        | "gift_card.created"
-        | "gift_card.updated"
-        | "gift_card_load.created"
-        | "gift_card_load.updated"
-        | "gift_card_notification.created"
-        | "gift_card_notification.updated"
-        | "gift_card_redemption.created"
-        | "gift_card_redemption.updated"
-        | "gift_card_transaction.created"
-        | "inventory_count.applied"
-        | "inventory_level.shortage_detected"
-        | "inventory_level.updated"
-        | "inventory_receipt.created"
-        | "inventory_reservation.action_required"
-        | "inventory_reservation.at_risk"
-        | "inventory_reservation.closed"
-        | "inventory_reservation.committed"
-        | "inventory_reservation.consumed"
-        | "inventory_reservation.created"
-        | "inventory_reservation.hold_expired"
-        | "inventory_reservation.released"
-        | "inventory_transfer.closed"
-        | "inventory_transfer.departed"
-        | "inventory_transfer.lost"
-        | "inventory_transfer.received"
-        | "inventory_transfer.returned"
-        | "invoice.collection_block_resolved"
-        | "invoice.collection_blocked"
-        | "invoice.created"
-        | "invoice.credited"
-        | "invoice.issue_failed"
-        | "invoice.issued"
-        | "invoice.late_fee_assessed"
-        | "invoice.late_fee_due"
-        | "invoice.late_fee_waived"
-        | "invoice.marked_uncollectible"
-        | "invoice.overdue"
-        | "invoice.paid"
-        | "invoice.partially_paid"
-        | "invoice.partially_refunded"
-        | "invoice.refunded"
-        | "invoice.reminder_due"
-        | "invoice.reopened"
-        | "invoice.sent"
-        | "invoice.updated"
-        | "invoice.voided"
-        | "invoice_delivery_attempt.failed"
-        | "invoice_delivery_attempt.sent"
-        | "invoice_delivery_attempt.suppressed"
-        | "invoice_manual_payment.created"
-        | "invoice_manual_payment.reversed"
-        | "invoice_payment_attempt.canceled"
-        | "invoice_payment_attempt.expired"
-        | "invoice_payment_attempt.failed"
-        | "invoice_payment_attempt.processing"
-        | "invoice_payment_attempt.settled"
-        | "merchant.readiness_updated"
-        | "merchant.updated"
-        | "merchant_billing_balance.updated"
-        | "merchant_billing_invoice.issued"
-        | "merchant_billing_invoice.updated"
-        | "modifier_group.archived"
-        | "modifier_group.created"
-        | "modifier_group.updated"
-        | "modifier_set.archived"
-        | "modifier_set.created"
-        | "modifier_set.updated"
-        | "order.closed"
-        | "order.created"
-        | "order.inventory_exception_created"
-        | "order.inventory_exception_resolved"
-        | "order.paid"
-        | "order.partially_paid"
-        | "order.partially_refunded"
-        | "order.refunded"
-        | "order.updated"
-        | "package.created"
-        | "package.updated"
-        | "payment_intent.canceled"
-        | "payment_intent.created"
-        | "payment_intent.expired"
-        | "payment_intent.fulfillment_hold_updated"
-        | "payment_intent.payment_failed"
-        | "payment_intent.processing"
-        | "payment_intent.requires_action"
-        | "payment_intent.requires_capture"
-        | "payment_intent.succeeded"
-        | "payment_intent.updated"
-        | "payment_link.created"
-        | "payment_link.updated"
-        | "payment_method.activated"
-        | "payment_method.archived"
-        | "payment_method.failed"
-        | "payment_review.closed"
-        | "payment_review.opened"
-        | "payment_review.reopened"
-        | "payout.canceled"
-        | "payout.created"
-        | "payout.failed"
-        | "payout.paid"
-        | "payout.reversed"
-        | "payout.updated"
-        | "payout_destination.archived"
-        | "payout_destination.created"
-        | "payout_destination.disabled"
-        | "payout_destination.updated"
-        | "payout_settings.updated"
-        | "product.archived"
-        | "product.created"
-        | "product.updated"
-        | "product_variant.archived"
-        | "product_variant.created"
-        | "product_variant.updated"
-        | "promotion.archived"
-        | "promotion.created"
-        | "promotion.updated"
-        | "promotion_code.archived"
-        | "promotion_code.created"
-        | "promotion_code.updated"
-        | "refund.created"
-        | "refund.failed"
-        | "refund.partially_succeeded"
-        | "refund.succeeded"
-        | "refund.updated"
-        | "report.failed"
-        | "report.succeeded"
-        | "return.canceled"
-        | "return.completed"
-        | "return.created"
-        | "return.decision_recorded"
-        | "return.reopened"
-        | "return.updated"
-        | "return_disposition.created"
-        | "return_disposition.updated"
-        | "return_inspection.acceptance_decided"
-        | "return_inspection.created"
-        | "return_inspection.superseded"
-        | "return_receipt.created"
-        | "return_receipt.superseded"
-        | "return_receipt.verified"
-        | "return_resolution.created"
-        | "return_resolution.updated"
-        | "shipment.created"
-        | "shipment.updated"
-        | "subscription.activated"
-        | "subscription.canceled"
-        | "subscription.cancellation_scheduled"
-        | "subscription.created"
-        | "subscription.cycle_skipped"
-        | "subscription.delivery_action_required"
-        | "subscription.delivery_pause_upcoming"
-        | "subscription.delivery_updated"
-        | "subscription.dunning_exhausted"
-        | "subscription.past_due"
-        | "subscription.paused"
-        | "subscription.payment_succeeded"
-        | "subscription.plan_changed"
-        | "subscription.reactivated"
-        | "subscription.renewal_upcoming"
-        | "subscription.resumed"
-        | "subscription.trial_ending"
-        | "subscription.updated"
-        | "subscription_delivery_migration.completed"
-        | "subscription_payment_retry.created"
-        | "subscription_payment_retry.failed"
-        | "subscription_payment_retry.succeeded"
-        | "tax_connection.updated"
-        | "test_clock.advancing"
-        | "test_clock.archived"
-        | "test_clock.created"
-        | "test_clock.failed"
-        | "test_clock.ready")
-        | readonly ("balance.updated"
-        | "balance_transaction.created"
-        | "balance_transaction.updated"
-        | "bundle.archived"
-        | "bundle.created"
-        | "bundle.updated"
-        | "category.created"
-        | "category.deleted"
-        | "category.updated"
-        | "checkout_session.closed"
-        | "checkout_session.created"
-        | "checkout_session.expired"
-        | "checkout_session.invalidated"
-        | "checkout_session.paid"
-        | "checkout_session.partially_paid"
-        | "credit_note.created"
-        | "credit_note.issued"
-        | "credit_note.updated"
-        | "credit_note.voided"
-        | "credit_note_allocation.created"
-        | "credit_note_allocation.reversed"
-        | "custom_domain.archived"
-        | "custom_domain.updated"
-        | "customer.created"
-        | "customer.deleted"
-        | "customer.updated"
-        | "customer_deletion_request.completed"
-        | "customer_deletion_request.created"
-        | "customer_deletion_request.failed"
-        | "customer_deletion_request.processing"
-        | "customer_deletion_request.rejected"
-        | "delivery_location_set.activated"
-        | "delivery_location_set.archived"
-        | "delivery_location_set.created"
-        | "delivery_location_set.deactivated"
-        | "delivery_location_set.updated"
-        | "delivery_method.activated"
-        | "delivery_method.archived"
-        | "delivery_method.created"
-        | "delivery_method.deactivated"
-        | "delivery_method.updated"
-        | "delivery_profile.activated"
-        | "delivery_profile.archived"
-        | "delivery_profile.created"
-        | "delivery_profile.deactivated"
-        | "delivery_profile.updated"
-        | "delivery_rate_callback.activated"
-        | "delivery_rate_callback.archived"
-        | "delivery_rate_callback.created"
-        | "delivery_rate_callback.deactivated"
-        | "delivery_rate_callback.updated"
-        | "delivery_revocation.created"
-        | "delivery_selection.committed"
-        | "delivery_zone.activated"
-        | "delivery_zone.archived"
-        | "delivery_zone.created"
-        | "delivery_zone.deactivated"
-        | "delivery_zone.updated"
-        | "dispute.created"
-        | "dispute.inquiry_closed"
-        | "dispute.lost"
-        | "dispute.needs_response"
-        | "dispute.prevented"
-        | "dispute.updated"
-        | "dispute.won"
-        | "fraud_warning.created"
-        | "fraud_warning.updated"
-        | "fulfillment.canceled"
-        | "fulfillment.completed"
-        | "fulfillment.created"
-        | "fulfillment.failed"
-        | "fulfillment.updated"
-        | "fulfillment_event.created"
-        | "gift_card.created"
-        | "gift_card.updated"
-        | "gift_card_load.created"
-        | "gift_card_load.updated"
-        | "gift_card_notification.created"
-        | "gift_card_notification.updated"
-        | "gift_card_redemption.created"
-        | "gift_card_redemption.updated"
-        | "gift_card_transaction.created"
-        | "inventory_count.applied"
-        | "inventory_level.shortage_detected"
-        | "inventory_level.updated"
-        | "inventory_receipt.created"
-        | "inventory_reservation.action_required"
-        | "inventory_reservation.at_risk"
-        | "inventory_reservation.closed"
-        | "inventory_reservation.committed"
-        | "inventory_reservation.consumed"
-        | "inventory_reservation.created"
-        | "inventory_reservation.hold_expired"
-        | "inventory_reservation.released"
-        | "inventory_transfer.closed"
-        | "inventory_transfer.departed"
-        | "inventory_transfer.lost"
-        | "inventory_transfer.received"
-        | "inventory_transfer.returned"
-        | "invoice.collection_block_resolved"
-        | "invoice.collection_blocked"
-        | "invoice.created"
-        | "invoice.credited"
-        | "invoice.issue_failed"
-        | "invoice.issued"
-        | "invoice.late_fee_assessed"
-        | "invoice.late_fee_due"
-        | "invoice.late_fee_waived"
-        | "invoice.marked_uncollectible"
-        | "invoice.overdue"
-        | "invoice.paid"
-        | "invoice.partially_paid"
-        | "invoice.partially_refunded"
-        | "invoice.refunded"
-        | "invoice.reminder_due"
-        | "invoice.reopened"
-        | "invoice.sent"
-        | "invoice.updated"
-        | "invoice.voided"
-        | "invoice_delivery_attempt.failed"
-        | "invoice_delivery_attempt.sent"
-        | "invoice_delivery_attempt.suppressed"
-        | "invoice_manual_payment.created"
-        | "invoice_manual_payment.reversed"
-        | "invoice_payment_attempt.canceled"
-        | "invoice_payment_attempt.expired"
-        | "invoice_payment_attempt.failed"
-        | "invoice_payment_attempt.processing"
-        | "invoice_payment_attempt.settled"
-        | "merchant.readiness_updated"
-        | "merchant.updated"
-        | "merchant_billing_balance.updated"
-        | "merchant_billing_invoice.issued"
-        | "merchant_billing_invoice.updated"
-        | "modifier_group.archived"
-        | "modifier_group.created"
-        | "modifier_group.updated"
-        | "modifier_set.archived"
-        | "modifier_set.created"
-        | "modifier_set.updated"
-        | "order.closed"
-        | "order.created"
-        | "order.inventory_exception_created"
-        | "order.inventory_exception_resolved"
-        | "order.paid"
-        | "order.partially_paid"
-        | "order.partially_refunded"
-        | "order.refunded"
-        | "order.updated"
-        | "package.created"
-        | "package.updated"
-        | "payment_intent.canceled"
-        | "payment_intent.created"
-        | "payment_intent.expired"
-        | "payment_intent.fulfillment_hold_updated"
-        | "payment_intent.payment_failed"
-        | "payment_intent.processing"
-        | "payment_intent.requires_action"
-        | "payment_intent.requires_capture"
-        | "payment_intent.succeeded"
-        | "payment_intent.updated"
-        | "payment_link.created"
-        | "payment_link.updated"
-        | "payment_method.activated"
-        | "payment_method.archived"
-        | "payment_method.failed"
-        | "payment_review.closed"
-        | "payment_review.opened"
-        | "payment_review.reopened"
-        | "payout.canceled"
-        | "payout.created"
-        | "payout.failed"
-        | "payout.paid"
-        | "payout.reversed"
-        | "payout.updated"
-        | "payout_destination.archived"
-        | "payout_destination.created"
-        | "payout_destination.disabled"
-        | "payout_destination.updated"
-        | "payout_settings.updated"
-        | "product.archived"
-        | "product.created"
-        | "product.updated"
-        | "product_variant.archived"
-        | "product_variant.created"
-        | "product_variant.updated"
-        | "promotion.archived"
-        | "promotion.created"
-        | "promotion.updated"
-        | "promotion_code.archived"
-        | "promotion_code.created"
-        | "promotion_code.updated"
-        | "refund.created"
-        | "refund.failed"
-        | "refund.partially_succeeded"
-        | "refund.succeeded"
-        | "refund.updated"
-        | "report.failed"
-        | "report.succeeded"
-        | "return.canceled"
-        | "return.completed"
-        | "return.created"
-        | "return.decision_recorded"
-        | "return.reopened"
-        | "return.updated"
-        | "return_disposition.created"
-        | "return_disposition.updated"
-        | "return_inspection.acceptance_decided"
-        | "return_inspection.created"
-        | "return_inspection.superseded"
-        | "return_receipt.created"
-        | "return_receipt.superseded"
-        | "return_receipt.verified"
-        | "return_resolution.created"
-        | "return_resolution.updated"
-        | "shipment.created"
-        | "shipment.updated"
-        | "subscription.activated"
-        | "subscription.canceled"
-        | "subscription.cancellation_scheduled"
-        | "subscription.created"
-        | "subscription.cycle_skipped"
-        | "subscription.delivery_action_required"
-        | "subscription.delivery_pause_upcoming"
-        | "subscription.delivery_updated"
-        | "subscription.dunning_exhausted"
-        | "subscription.past_due"
-        | "subscription.paused"
-        | "subscription.payment_succeeded"
-        | "subscription.plan_changed"
-        | "subscription.reactivated"
-        | "subscription.renewal_upcoming"
-        | "subscription.resumed"
-        | "subscription.trial_ending"
-        | "subscription.updated"
-        | "subscription_delivery_migration.completed"
-        | "subscription_payment_retry.created"
-        | "subscription_payment_retry.failed"
-        | "subscription_payment_retry.succeeded"
-        | "tax_connection.updated"
-        | "test_clock.advancing"
-        | "test_clock.archived"
-        | "test_clock.created"
-        | "test_clock.failed"
-        | "test_clock.ready")[]>;
-    /** Webhook event ID to resume after. Last-Event-ID is preferred when reconnecting. */
-    "after_event_id"?: InputValue<string>;
-    /** Webhook event cursor received from the previous SSE connection. */
-    "Last-Event-ID"?: InputValue<string>;
+    "data": TaxConnection;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
 };
-export type WebhookEventsStreamResponse = EventStream;
-/**
- * jwt uses Flint's public JWKS. hmac uses a shared secret and Standard Webhooks v1. Value enum:
- * "jwt", "hmac".
- */
-export type WebhookSigningMethod = "jwt" | "hmac" | (string & {});
-/**
- * jwt uses Flint's public JWKS. hmac uses a shared secret and Standard Webhooks v1. Value enum:
- * "jwt", "hmac".
- */
-export type WebhookSigningMethodInput = "jwt" | "hmac";
-/**
- * Sent on the webhook event stream before the server closes it, with the `reason`. After a
- * backpressure disconnect, resume from `resume_cursor`.
- */
-export type WebhookStreamDisconnect = {
-    /** Value enum: "ttl", "authorization_changed", "server_error", "backpressure". */
-    "reason": "ttl" | "authorization_changed" | "server_error" | "backpressure" | (string & {});
+/** The disclosure the seller agreed to and when Flint recorded that agreement. */
+export type TaxConnectionSellerAttestation = {
     /**
-     * Last event sent before a backpressure disconnect. Reconnect using this value as
-     * Last-Event-ID or after.
+     * When Flint recorded the seller's agreement. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
      */
-    "resume_cursor"?: string;
+    "attested_at": string;
+    /** Opaque version of the disclosure the seller agreed to. */
+    "disclosure_version": string;
+};
+export type TaxConnectionUpdateRegistrationParams = (UpdateTaxRegistrationRequestInput);
+export type TaxConnectionUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "coverage": Array<TaxCountryCoverage>;
+            "created_at"?: string;
+            "disclosure": TaxConnectionDisclosure;
+            "legal_address": ((Address) | (null));
+            "legal_business_name"?: string;
+            "seller_attestation": ((TaxConnectionSellerAttestation) | (null));
+            "status": "not_connected" | "provisioning" | "active" | "attention_required" | "disabled" | (string & {});
+            "status_reason": "not_offered"
+                | "onboarding_required"
+                | "tax_category_required"
+                | "registration_required"
+                | "temporarily_unavailable"
+                | "setup_incomplete"
+                | "registration_rejected"
+                | "business_details_changed"
+                | "support_required"
+                | "disconnected"
+                | "other"
+                | null
+                | (string & {})
+                | null;
+            "supported_actions": Array<"connect" | "disconnect" | (string & {})>;
+            "tax_connection_id"?: string;
+            "updated_at"?: string;
+            "version"?: number;
+        };
+        "previous_attributes"?: Partial<TaxConnection>;
+    };
+    "event_source"?: "merchant" | (string & {});
+    "event_type"?: "tax_connection.updated";
+})
+    & {
+    "event_type": "tax_connection.updated";
+});
+/** A country and the categories automatic tax can calculate there. */
+export type TaxCountryCoverage = {
+    /**
+     * all covers supported line and charge categories; digital covers digital_goods, software and
+     * saas. Canada uses digital, so it does not cover services, professional_services or taxable
+     * charges. Value enum: "all", "digital".
+     */
+    "category_scope": "all" | "digital" | (string & {});
+    /**
+     * ISO 3166-1 alpha-2 destination country. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$.
+     * Example: "US".
+     */
+    "country": string;
+};
+/** VAT on an issued document converted into the currency of the country whose VAT is charged. */
+export type TaxCurrencyConversion = {
+    /**
+     * ISO 4217 code of the currency the VAT is stated in: the euro or the member state's national
+     * currency in the EU, sterling in the UK. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     * Example: "USD".
+     */
+    "currency": string;
+    /**
+     * Units of currency for one unit of the invoice currency, rounded half up to at most 10
+     * decimal places. tax_money and taxable_money are calculated from this value.
+     * exclusiveMinimum: 0.
+     */
+    "exchange_rate": number;
+    /**
+     * The ECB reference day, or the first day of the month an HMRC rate covers. Format: date.
+     * Example: "2026-08-02".
+     */
+    "rate_date": string;
+    /** Who published the rate. Ignore values you don't recognize. Value enum: "ecb", "hmrc". */
+    "rate_source": "ecb" | "hmrc" | (string & {});
+    /**
+     * The document's VAT for this currency: VAT summed in the invoice currency, times
+     * exchange_rate, rounded half up to the currency's minor units. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "tax_money": MoneyValue;
+    /**
+     * The amount the VAT was charged on, converted the same way. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "taxable_money": MoneyValue;
+};
+/** One statement of the seller disclosure. */
+export type TaxDisclosureStatement = {
+    /** Text to show the seller verbatim. */
+    "text": string;
+};
+/**
+ * Merchant-provided legal identity displayed on invoices and credit notes. Does not verify IDs or
+ * change tax treatment. Tax IDs are an owned collection in display order; replacing the array
+ * requires the parent's expected_version. Existing entries retain their document_tax_id; omit an
+ * entry to remove it, or omit its ID to add one.
+ */
+export type TaxIdentity = {
+    /**
+     * The merchant's legal name, printed on invoices and credit notes. `null` when no legal name
+     * is set. minLength: 1. maxLength: 255.
+     */
+    "legal_name": string | null;
+    /**
+     * The merchant's registered business address, printed on invoices and credit notes. `null`
+     * when no address is set. anyOf[1] (Value): {@link Address}. A postal address. Every address
+     * has country. Addresses Flint checked as complete (customer and saved addresses, merchant,
+     * location, invoice, order delivery destination, tax identity, fulfillment recipient and
+     * pickup addresses) always have line1 and city, and US ones always have state and postal_code.
+     * Delivery quote destinations, buyer locations and postal-code tax locations hold only what
+     * was provided, such as postal_code and country. anyOf[2] (Value): null.
+     */
+    "registered_address": ((Address) | (null));
+    /**
+     * Tax IDs printed on invoices and credit notes, in display order. Empty when none are set.
+     * maxItems: 20. [] (Value): {@link DocumentTaxID}. A tax identifier printed on documents, with
+     * its country, optional region, identifier type, and value. Flint does not verify the value.
+     */
+    "tax_ids": Array<DocumentTaxID>;
+};
+/**
+ * Merchant-provided legal identity displayed on invoices and credit notes. Does not verify IDs or
+ * change tax treatment. Tax IDs are an owned collection in display order; replacing the array
+ * requires the parent's expected_version. Existing entries retain their document_tax_id; omit an
+ * entry to remove it, or omit its ID to add one.
+ */
+export type TaxIdentityPatch = {
+    /**
+     * The merchant's legal name, printed on invoices and credit notes. minLength: 1. maxLength:
+     * 255.
+     */
+    "legal_name"?: string | null;
+    /**
+     * Replaced as a whole: send every field you want to keep. The merchant's registered business
+     * address, printed on invoices and credit notes. anyOf[1] (Value): {@link AddressRequest}. A
+     * complete postal address. State and postal_code are required for US addresses and optional
+     * for other countries. Send null or omit line2, state, and postal_code when the address has
+     * none. anyOf[2] (Value): null.
+     */
+    "registered_address"?: ((AddressRequest) | (null));
+    /**
+     * Tax IDs printed on invoices and credit notes, in display order. The list you send replaces
+     * the stored one: keep an entry by sending its `document_tax_id`, add one by omitting it, and
+     * remove one by leaving the entry out. Send `[]` to remove every tax ID. maxItems: 20. []
+     * (Value): {@link DocumentTaxID}. A tax identifier printed on documents, with its country,
+     * optional region, identifier type, and value. Flint does not verify the value.
+     */
+    "tax_ids"?: Array<DocumentTaxID>;
+};
+/**
+ * Merchant-provided legal identity displayed on invoices and credit notes. Does not verify IDs or
+ * change tax treatment. Tax IDs are an owned collection in display order; replacing the array
+ * requires the parent's expected_version. Existing entries retain their document_tax_id; omit an
+ * entry to remove it, or omit its ID to add one.
+ */
+export type TaxIdentityPatchInput = {
+    /**
+     * The merchant's legal name, printed on invoices and credit notes. minLength: 1. maxLength:
+     * 255.
+     */
+    "legal_name"?: string | null;
+    /**
+     * Replaced as a whole: send every field you want to keep. The merchant's registered business
+     * address, printed on invoices and credit notes. anyOf[1] (Value): {@link
+     * AddressRequestInput}. A complete postal address. State and postal_code are required for US
+     * addresses and optional for other countries. Send null or omit line2, state, and postal_code
+     * when the address has none. anyOf[2] (Value): null.
+     */
+    "registered_address"?: ((AddressRequestInput) | (null));
+    /**
+     * Tax IDs printed on invoices and credit notes, in display order. The list you send replaces
+     * the stored one: keep an entry by sending its `document_tax_id`, add one by omitting it, and
+     * remove one by leaving the entry out. Send `[]` to remove every tax ID. maxItems: 20. []
+     * (Value): {@link DocumentTaxIDRequestInput}. A tax identifier printed on documents, with its
+     * country, optional region, identifier type, and value. Flint does not verify the value.
+     */
+    "tax_ids"?: Array<DocumentTaxIDRequestInput>;
+};
+/**
+ * Merchant-provided legal identity displayed on invoices and credit notes. Does not verify IDs or
+ * change tax treatment. Tax IDs are an owned collection in display order; replacing the array
+ * requires the parent's expected_version. Existing entries retain their document_tax_id; omit an
+ * entry to remove it, or omit its ID to add one.
+ */
+export type TaxIdentityRequestInput = TaxIdentityPatchInput;
+/** A taxing jurisdiction with its level, such as state or city, name, state, and country. */
+export type TaxJurisdiction = {
+    /** Stable opaque Flint jurisdiction key used for equality and report grouping. minLength: 1. */
+    "code": string;
+    /** ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. */
+    "country": string;
+    /**
+     * The level of government that imposes the tax. Value enum: "state", "county", "city",
+     * "district", "country", "province".
+     */
+    "level": "state" | "county" | "city" | "district" | "country" | "province" | (string & {});
+    /** Name of the jurisdiction, up to 200 characters. minLength: 1. */
+    "name": string;
+    /**
+     * Two-letter US state at every level. Elsewhere, the ISO 3166-2 suffix (1 to 3 uppercase
+     * letters or digits), required below country level and omitted at country level. minLength: 1.
+     */
+    "state"?: string;
+};
+/** A taxing jurisdiction with its level, such as state or city, name, state, and country. */
+export type TaxJurisdictionRequestInput = {
+    /** Stable opaque Flint jurisdiction key used for equality and report grouping. minLength: 1. */
+    "code": string;
+    /** ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. */
+    "country": string;
+    /**
+     * The level of government that imposes the tax. Value enum: "state", "county", "city",
+     * "district", "country", "province".
+     */
+    "level": "state" | "county" | "city" | "district" | "country" | "province";
+    /** Name of the jurisdiction, up to 200 characters. minLength: 1. */
+    "name": string;
+    /**
+     * Two-letter US state at every level. Elsewhere, the ISO 3166-2 suffix (1 to 3 uppercase
+     * letters or digits), required below country level and omitted at country level. minLength: 1.
+     */
+    "state"?: string;
+};
+/** A taxing jurisdiction with its level, such as state or city, name, state, and country. */
+export type TaxJurisdictionRequestModelInput = {
+    /** Stable opaque Flint jurisdiction key used for equality and report grouping. minLength: 1. */
+    "code": string;
+    /**
+     * ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example:
+     * "US".
+     */
+    "country": string;
+    /**
+     * The level of government that imposes the tax. Value enum: "state", "county", "city",
+     * "district", "country", "province".
+     */
+    "level": "state" | "county" | "city" | "district" | "country" | "province";
+    /** Name of the jurisdiction, up to 200 characters. minLength: 1. */
+    "name": string;
+    /**
+     * Two-letter US state at every level. Elsewhere, the ISO 3166-2 suffix (1 to 3 uppercase
+     * letters or digits), required below country level and omitted at country level. minLength: 1.
+     */
+    "state"?: string;
+};
+/**
+ * An independent registration for a country and optional subdivision, with a non-overlapping date
+ * window. Scheduled and ended are derived from the UTC date at read time without advancing version
+ * or sending a webhook. Removed is a final DELETE snapshot and is never listed.
+ */
+export type TaxRegistration = {
+    /**
+     * Country of registration: US or CA. Uses ISO 3166-1 alpha-2 country codes. minLength: 2.
+     * maxLength: 2. pattern: ^[A-Z]{2}$. Example: "US". Value enum: "US", "CA".
+     */
+    "country": "US" | "CA" | (string & {});
+    /** When this registration was saved. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * Last day the registration applies, inclusive. Flint checks it against each sale's local
+     * date. Status and validation use the UTC date. `null` when the registration has no end date.
+     * Format: date. Example: "2026-08-02".
+     */
+    "end_date": string | null;
+    /** Last four characters of the registration number. The complete number is never returned. */
+    "registration_number_last4": string;
+    /**
+     * First day the registration applies, inclusive. Flint checks it against each sale's local
+     * date. Status and validation use the UTC date. May be up to 365 days in the future. Format:
+     * date. Example: "2026-08-02".
+     */
+    "start_date": string;
+    /**
+     * US state code or DC, or CA province BC, MB, QC or SK. Null when the registration is a
+     * Canadian federal GST/HST registration. Date windows must not overlap for the same country
+     * and state. Uses the US postal abbreviation from ISO 3166-2:US (without the US- prefix).
+     * Value enum: "BC", "MB", "QC", "SK", "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DC", "FL",
+     * "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS",
+     * "MO", "NE", "NV", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "PA", "RI", "SC", "SD", "TN",
+     * "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY", null.
+     */
+    "state": "BC"
+        | "MB"
+        | "QC"
+        | "SK"
+        | "AL"
+        | "AK"
+        | "AZ"
+        | "AR"
+        | "CA"
+        | "CO"
+        | "CT"
+        | "DC"
+        | "FL"
+        | "GA"
+        | "HI"
+        | "ID"
+        | "IL"
+        | "IN"
+        | "IA"
+        | "KS"
+        | "KY"
+        | "LA"
+        | "ME"
+        | "MD"
+        | "MA"
+        | "MI"
+        | "MN"
+        | "MS"
+        | "MO"
+        | "NE"
+        | "NV"
+        | "NJ"
+        | "NM"
+        | "NY"
+        | "NC"
+        | "ND"
+        | "OH"
+        | "OK"
+        | "PA"
+        | "RI"
+        | "SC"
+        | "SD"
+        | "TN"
+        | "TX"
+        | "UT"
+        | "VT"
+        | "VA"
+        | "WA"
+        | "WV"
+        | "WI"
+        | "WY"
+        | null
+        | (string & {})
+        | null;
+    /**
+     * Pending until confirmed; then scheduled before start_date, active within the inclusive date
+     * window, and ended after end_date. Rejected when verification fails. Removed is returned only
+     * by DELETE in its final snapshot. Value enum: "pending", "scheduled", "active", "ended",
+     * "rejected", "removed".
+     */
+    "status": "pending" | "scheduled" | "active" | "ended" | "rejected" | "removed" | (string & {});
+    /** Flint tax registration ID. Example: "trg_01KEZF7C008JBM8XMQB3J1FK7J". */
+    "tax_registration_id": string;
+    /** When this registration last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /**
+     * Current resource version. Send as expected_version to reject a write based on an older
+     * version. Format: uint64. minimum: 1.
+     */
+    "version": number;
 };

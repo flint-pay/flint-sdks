@@ -16,7 +16,7 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->orders->cancelPaymentAttempt('ord_01ARZ3NDEKTSV4RRFFQ69G5FAV', 'opat_01ARZ3NDEKTSV4RRFFQ69G5FAV', null, new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->orders->cancelPaymentAttempt('ord_01KEZF7C0054GQKJ142A8X367A', 'opat_01KEZF7C00B5PW9F2R8A4YSH5D', null, new RequestOptions(idempotencyKey: $idempotencyKey));
+echo $result->order->merchant_id . PHP_EOL;
 echo $result->order->order_id . PHP_EOL;
-echo $result->order->status . PHP_EOL;
 $client->close();

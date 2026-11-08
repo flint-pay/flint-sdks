@@ -12,7 +12,7 @@ namespace Flint;
 final class UpdateCheckoutSessionRequestInput extends Model {
     /** @param array{'buyer_contact'?: CheckoutBuyerContactRequestInput|array<array-key, mixed>|\stdClass, 'expected_version'?: int, 'external_reference_id'?: string|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'subscription_terms'?: CheckoutSubscriptionTermsRequestInput|array<array-key, mixed>|\stdClass, 'timezone'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdateCheckoutSessionRequestInput')); }
-    /** Checkout session credentials only. Saves the contact the buyer entered while the session is open. A patch object: omitted fields are unchanged, and null clears a field. A merchant credential that sends buyer_contact receives CHECKOUT_SESSION_UPDATE_FIELD_NOT_ALLOWED. Buyer contact to supply with payment or save during checkout. Send at least one field. Values are stored exactly as sent, so an email with surrounding spaces is rejected. Checkout session updates keep omitted fields and accept null to clear a field. Payment requests do not accept null. minProperties: 1.
+    /** Checkout session credentials only. Saves the contact the buyer entered while the session is open. A patch object: omitted fields are unchanged, and null clears a field. A merchant credential that sends buyer_contact fails with `INVALID_REQUEST` and a `NOT_ALLOWED` detail on `buyer_contact`. Buyer contact to supply with payment or save during checkout. Send at least one field. Values are stored exactly as sent, so an email with surrounding spaces is rejected. Checkout session updates keep omitted fields and accept null to clear a field. Payment requests do not accept null. minProperties: 1.
      * @return CheckoutBuyerContactRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When buyer_contact is omitted; use hasBuyerContact() or valueOrDefault().
      */
@@ -24,7 +24,7 @@ final class UpdateCheckoutSessionRequestInput extends Model {
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** Caller-owned identifier for this resource in an external system. Omit to leave unchanged; send null to clear. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. Omit to leave unchanged; send null to clear. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string|null
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */

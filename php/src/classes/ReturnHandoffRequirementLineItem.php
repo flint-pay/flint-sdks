@@ -13,7 +13,7 @@ final class ReturnHandoffRequirementLineItem extends Model {
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
-    /** return_line_item_id
+    /** ID of the Return line the entry is about.
      * @return string
      */
     public function getReturnLineItemId(): string { return $this->get('return_line_item_id'); }

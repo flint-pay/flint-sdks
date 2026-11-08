@@ -17,9 +17,10 @@ $client = new Client(new ClientOptions(
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->feedbackReports->create([
-  'kind' => 'rating',
+  'kind' => 'feature_request',
+  'reporter_kind' => 'human',
+  'summary' => 'Show the remaining credit before a refund',
   'surface' => 'api',
-  'sentiment' => 'positive',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->feedback_report_id . PHP_EOL;
 $client->close();

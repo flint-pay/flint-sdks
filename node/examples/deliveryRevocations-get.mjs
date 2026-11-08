@@ -5,6 +5,6 @@ const client = new Client({
   allowInsecureHttp: !!baseUrl && ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
 });
 const result = await client.deliveryRevocations.get(
-  "drev_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "drev_01KEZF7C007Q141XJ28YAAC87B"
 );
 console.log(result.delivery_revocation_id);

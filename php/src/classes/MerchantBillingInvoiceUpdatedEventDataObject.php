@@ -2,11 +2,11 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read MoneyValue $applied_credit_money
  * @property-read string $created_at
- * @property-read MoneyValue $credit_money
  * @property-read string $due_at
  * @property-read string $invoice_number
- * @property-read ?string $issued_at
+ * @property-read string $issued_at
  * @property-read list<MerchantBillingInvoiceLineItem> $line_items
  * @property-read string $merchant_billing_invoice_id
  * @property-read MoneyValue $outstanding_money
@@ -17,37 +17,36 @@ namespace Flint;
  * @property-read MoneyValue $subtotal_money
  * @property-read MoneyValue $total_money
  * @property-read string $updated_at
- * @property-read ?string $voided_at
  * Presence-aware response; omitted optional fields return null. */
 final class MerchantBillingInvoiceUpdatedEventDataObject extends Model {
-    /** @param array{'created_at': string, 'credit_money': mixed, 'due_at': string, 'invoice_number': string, 'issued_at'?: string, 'line_items': list<mixed>, 'merchant_billing_invoice_id': string, 'outstanding_money': mixed, 'paid_at'?: string, 'period_end_at': string, 'period_start_at': string, 'status': string, 'subtotal_money': mixed, 'total_money': mixed, 'updated_at': string, 'voided_at'?: string, ...}|object $values */
+    /** @param array{'applied_credit_money': mixed, 'created_at': string, 'due_at': string, 'invoice_number': string, 'issued_at': string, 'line_items': list<mixed>, 'merchant_billing_invoice_id': string, 'outstanding_money': mixed, 'paid_at'?: string, 'period_end_at': string, 'period_start_at': string, 'status': string, 'subtotal_money': mixed, 'total_money': mixed, 'updated_at': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MerchantBillingInvoiceUpdatedEventDataObject')); }
+    /** Credit applied to the invoice: the sum of its credit line items. Never more than subtotal_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValue
+     */
+    public function getAppliedCreditMoney(): MoneyValue { return $this->get('applied_credit_money'); }
+    public function hasAppliedCreditMoney(): bool { return $this->has('applied_credit_money'); }
     /** When Flint created the invoice. Format: date-time.
      * @return string
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Credit applied to the invoice: the sum of its credit line items. Never more than subtotal_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * @return MoneyValue
-     */
-    public function getCreditMoney(): MoneyValue { return $this->get('credit_money'); }
-    public function hasCreditMoney(): bool { return $this->has('credit_money'); }
     /** When payment of the invoice is due. Format: date-time.
      * @return string
      */
     public function getDueAt(): string { return $this->get('due_at'); }
     public function hasDueAt(): bool { return $this->has('due_at'); }
-    /** Human-readable invoice number.
+    /** Unique invoice number; don't parse it. New numbers use FLINT-{account code}-{0001}, sequential per billing account; existing numbers are retained.
      * @return string
      */
     public function getInvoiceNumber(): string { return $this->get('invoice_number'); }
     public function hasInvoiceNumber(): bool { return $this->has('invoice_number'); }
     /** When Flint issued the invoice. Format: date-time.
-     * @return ?string
+     * @return string
      */
-    public function getIssuedAt(): ?string { return $this->get('issued_at'); }
+    public function getIssuedAt(): string { return $this->get('issued_at'); }
     public function hasIssuedAt(): bool { return $this->has('issued_at'); }
-    /** Invoice-owned line items. Subscription totals sum to subtotal_money; credit totals sum to credit_money. [] (Value): {@see MerchantBillingInvoiceLineItem}. One line on a merchant billing invoice, either a subscription charge or a credit, with quantity, unit price, and total.
+    /** Invoice-owned line items. Subscription totals sum to subtotal_money; credit totals sum to applied_credit_money. [] (Value): {@see MerchantBillingInvoiceLineItem}. One line on a merchant billing invoice, either a subscription charge or a credit, with quantity, unit price, and total.
      * @return list<MerchantBillingInvoiceLineItem>
      */
     public function getLineItems(): array { return $this->get('line_items'); }
@@ -87,7 +86,7 @@ final class MerchantBillingInvoiceUpdatedEventDataObject extends Model {
      */
     public function getSubtotalMoney(): MoneyValue { return $this->get('subtotal_money'); }
     public function hasSubtotalMoney(): bool { return $this->has('subtotal_money'); }
-    /** What the invoice charges: subtotal_money minus credit_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** What the invoice charges: subtotal_money minus applied_credit_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getTotalMoney(): MoneyValue { return $this->get('total_money'); }
@@ -97,9 +96,4 @@ final class MerchantBillingInvoiceUpdatedEventDataObject extends Model {
      */
     public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** When the invoice was voided. Absent on invoices that weren't. Format: date-time.
-     * @return ?string
-     */
-    public function getVoidedAt(): ?string { return $this->get('voided_at'); }
-    public function hasVoidedAt(): bool { return $this->has('voided_at'); }
 }

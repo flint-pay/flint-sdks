@@ -14,6 +14,9 @@ Signature: `create(array|Model $params, ?RequestOptions $options = null)`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [CreateDeliveryPreviewRequestInput](../models/CreateDeliveryPreviewRequestInput.md#createdeliverypreviewrequestinput) | The request body for: Create delivery preview. |
 
 Body model: [CreateDeliveryPreviewRequestInput](../models/CreateDeliveryPreviewRequestInput.md#createdeliverypreviewrequestinput).
@@ -64,7 +67,7 @@ The result of a pickup locations preview: each pickup location and whether it ca
 | `evaluation_status` | Required | string | Values: `"complete"`, `"incomplete"`, `"degraded"`. |
 | `input_requirements` | Required | Array of [DeliveryInputRequirement](../models/DeliveryInputRequirement.md#deliveryinputrequirement) |  |
 | `locations` | Required | Array of [DeliveryPickupAvailabilityLocationResource](../models/DeliveryPickupAvailabilityLocationResource.md#deliverypickupavailabilitylocationresource) | Up to 25 pickup locations, nearest first when Flint can place the buyer location, otherwise in the order the pickup methods list them. maxItems: `25`. |
-| `merchant_diagnostics` | Optional | Array of [DeliveryPickupAvailabilityDiagnostic](../models/DeliveryPickupAvailabilityDiagnosticInput.md#deliverypickupavailabilitydiagnosticinput) | Configured Locations the search left out, and listed Locations that cannot supply the order's tracked items. Always present with an API key or dashboard credential as an array, including when empty. |
+| `merchant_diagnostics` | Optional | Array of [DeliveryPickupAvailabilityDiagnostic](../models/DeliveryPickupAvailabilityDiagnostic.md#deliverypickupavailabilitydiagnostic) | Configured Locations the search left out, and listed Locations that cannot supply the order's tracked items. Always present with an API key or dashboard credential as an array, including when empty. |
 | `mode` | Required | string | The delivery question this preview answers. - `pickup_locations`: Lists the checkout session's pickup locations and whether each can supply its items. Values: `"pickup_locations"`. |
 
 #### Errors
@@ -76,7 +79,6 @@ The result of a pickup locations preview: each pickup location and whether it ca
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -102,7 +104,7 @@ $result = $client->deliveryPreviews->create([
   'line_items' => [
     (object) [
       'type' => 'variant',
-      'variant_id' => 'var_01ARZ3NDEKTSV4RRFFQ69G5FAV',
+      'variant_id' => 'var_01KEZF7C004GSH2KT8CNYVMHGX',
     ],
   ],
   'mode' => 'delivery_options',

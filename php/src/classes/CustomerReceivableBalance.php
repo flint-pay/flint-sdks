@@ -14,12 +14,12 @@ final class CustomerReceivableBalance extends Model {
      */
     public function getCurrency(): string { return $this->get('currency'); }
     public function hasCurrency(): bool { return $this->has('currency'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Total still owed across the customer's invoices in this currency: invoice totals minus payments applied and balance reductions. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getOutstandingMoney(): MoneyValue { return $this->get('outstanding_money'); }
     public function hasOutstandingMoney(): bool { return $this->has('outstanding_money'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Part of the outstanding amount that is past its due date at `observed_at`. Invoices with a payment schedule count only their past-due installments. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getOverdueMoney(): MoneyValue { return $this->get('overdue_money'); }

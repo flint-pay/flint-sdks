@@ -2,14 +2,14 @@
 
 ## ProductOptionValue
 
-One value of a product option, such as a size or color, with its position and status.
+One value of a product option, such as a size or color.
 
 Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `created_at` | Optional | string | When this resource was created, as an RFC3339 timestamp. Format: `date-time`. |
-| `metadata` | Optional | Map of string | Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/Bundle.md#bundlemetadata). |
+| `metadata` | Optional | Map of string | Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/BundleResponse.md#bundleresponsedatametadata). |
 | `option_value_id` | Required | string | Stable identifier of the option value. |
 | `position` | Required | integer | Display order among the option's values, starting at zero. Format: `int32`. |
 | `status` | Optional | string | Option value lifecycle status. Only active values can be newly selected by active variants. Values: `"active"`, `"inactive"`, `"archived"`. |
@@ -18,5 +18,5 @@ Response model.
 
 ### ProductOptionValue.metadata
 
-Field definitions: [Bundle.metadata](../models/Bundle.md#bundlemetadata).
+Field definitions: [BundleResponse.data.metadata](../models/BundleResponse.md#bundleresponsedatametadata).
 

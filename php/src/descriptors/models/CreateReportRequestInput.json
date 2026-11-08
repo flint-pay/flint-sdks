@@ -1,1 +1,1 @@
-{"shared":"CreateReportRequest","dependencies":["CreateReportRequest"]}
+{"shared":"CreateReportRequest","dependencies":["CreateReportRequest","SharedCodec344","SharedCodec345"]}

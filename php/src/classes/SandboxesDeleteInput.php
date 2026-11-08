@@ -9,7 +9,7 @@ namespace Flint;
 final class SandboxesDeleteInput extends Model {
     /** @param array{'sandbox_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SandboxesDeleteInput')); }
-    /** Flint sandbox ID. Example: "test_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Flint sandbox ID. Example: "test_01KEZF7C00JC77HTMTB2XHNPE0".
      * @return string
      * @throws SdkError When sandbox_id is omitted; use hasSandboxId() or valueOrDefault().
      */

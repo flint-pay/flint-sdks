@@ -1,1 +1,1 @@
-{"shared":"PartnerApp","dependencies":["PartnerApp","PartnerAppPermissionManifestEntry"]}
+{"shared":"PartnerApp","dependencies":["MoneyValue","PartnerApp","PartnerAppPermissionManifestEntry","PartnerAppPlatform","PartnerAppPlatformCapability","PartnerAppPlatformLimits","PartnerAppPlatformProfile","PartnerAppPlatformReserve","PartnerAppPlatformUsage","ResourceReference","ResourceType","SharedCodec1068","SharedCodec1069"]}

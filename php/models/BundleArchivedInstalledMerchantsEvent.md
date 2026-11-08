@@ -10,17 +10,20 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `api_version` | Required | string | Format: `date`. |
-| `created_at` | Required | string | Format: `date-time`. |
-| `data` | Required | [BundleArchivedInstalledMerchantsEventData](../models/BundleArchivedInstalledMerchantsEventData.md#bundlearchivedinstalledmerchantseventdata) | `data`: [field definitions](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdata-fields-1). |
-| `event_type` | Required | string | Values: `"bundle.archived"`. |
-| `partner_app_id` | Required | string |  |
+| `api_version` | Required | string | API version used to render this delivery attempt. The older of the event version and the endpoint version when the attempt runs, with default resolved to the merchant pin. Format: `date`. |
+| `created_at` | Required | string | When Flint recorded the event. Format: `date-time`. |
+| `data` | Required | [BundleArchivedInstalledMerchantsEventData](../models/BundleArchivedInstalledMerchantsEventData.md#bundlearchivedinstalledmerchantseventdata) | The resource snapshot recorded for this event and rendered at the delivery API version. `data`: [field definitions](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventdata-fields-1). |
+| `event_source` | Required | string | The origin of the event. Selects the webhook envelope and the fields in source. Values: `"installed_merchants"`. |
+| `event_type` | Required | string | The resource change or condition this event announces. Values: `"bundle.archived"`. |
+| `partner_app_id` | Required | string | ID of the partner app that owns the receiving endpoint. |
 | `payload_version` | Required | integer | 2 for every current event. 1 only for an event queued before 2026-10-16 and delivered afterwards, which keeps its previous data shape. Values: `1`, `2`. |
-| `source` | Required | Alternative shapes (see declared variants) and object | The source of a partner webhook event, selected by type. `source`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventsource). |
+| `source` | Required | [BundleArchivedInstalledMerchantsEventSource](../models/BundleArchivedInstalledMerchantsEventSource.md#bundlearchivedinstalledmerchantseventsource) | The merchant and partner app install this event concerns, with environment details for installed-merchant events. The merchant and partner app install the event concerns. Environment fields are present for installed-merchant events. `source`: [field definitions](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventsource-fields-1). |
 | `test` | Required | boolean | true for a synthetic event sent from the test-events endpoint, false otherwise. |
-| `webhook_event_id` | Required | string |  |
+| `webhook_event_id` | Required | string | Stable ID of the recorded webhook event, shared by its delivery attempts. |
 
 ### BundleArchivedInstalledMerchantsEvent.data fields 1
+
+The resource snapshot recorded for this event and rendered at the delivery API version.
 
 Field definitions: [shared fields](BundleArchivedMerchantEvent.md#bundlearchivedmerchanteventdata-fields-1).
 
@@ -28,15 +31,9 @@ Field definitions: [shared fields](BundleArchivedMerchantEvent.md#bundlearchived
 
 Field definitions: [BundleArchivedMerchantEvent.data fields 1.object](../models/BundleArchivedMerchantEvent.md#bundlearchivedmerchanteventdata-fields-1object).
 
-### BundleArchivedInstalledMerchantsEvent.source
+### BundleArchivedInstalledMerchantsEvent.source fields 1
 
-The source of a partner webhook event, selected by type.
+The merchant and partner app install this event concerns, with environment details for installed-merchant events. The merchant and partner app install the event concerns. Environment fields are present for installed-merchant events.
 
-Field definitions: [shared fields](WebhookEventSourceInstalledMerchants.md#webhookeventsourceinstalledmerchants).
-
-### BundleArchivedInstalledMerchantsEvent.source variant 1: `type` = `"installed_merchants"`
-
-oneOf with type: "installed_merchants": The installed_merchants source of a partner webhook event..
-
-No additional constraints.
+Field definitions: [shared fields](BalanceTransactionCreatedInstalledMerchantsEventInput.md#balancetransactioncreatedinstalledmerchantseventinputsource).
 

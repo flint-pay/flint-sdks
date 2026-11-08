@@ -16,7 +16,7 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->products->deleteVariant('prod_01ARZ3NDEKTSV4RRFFQ69G5FAV', 'var_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->products->deleteVariant('prod_01KEZF7C00BVSHCNWVH528HB66', 'var_01KEZF7C004GSH2KT8CNYVMHGX', [], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->product_id . PHP_EOL;
 echo $result->status . PHP_EOL;
 $client->close();

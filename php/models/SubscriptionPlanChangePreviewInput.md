@@ -10,12 +10,13 @@ Request input.
 | --- | --- | --- | --- |
 | `billing_interval` | Required | string | Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`. |
 | `billing_interval_count` | Required | integer | Format: `int32`. |
-| `billing_starts` | Required | string | Values: `"now"`, `"next_renewal"`. |
-| `credit_money` | Required | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) or null | Unused paid item time credited when billing_starts is now; null for next_renewal. |
+| `billing_starts` | Required | string | Values: `"now"`, `"next_renewal"`, `"period_end"`, `"prorated_now"`. |
+| `credit_money` | Required | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) or null | Unused paid item time credited when billing_starts is now or prorated_now; null for next_renewal and period_end. |
+| `effective_at` | Required | string or null | When the plan is expected to take effect. Null when no billing time is scheduled. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `mode` | Required | string | Values: `"plan_change"`. |
 | `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
 | `recurring_subtotal_money` | Required | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `renewal` | Required | [SubscriptionRenewalEstimateInput](../models/SubscriptionRenewalEstimateInput.md#subscriptionrenewalestimateinput) | Estimated pricing and billing time for a subscription's next renewal, including items, discounts, shipping, and tax. |
-| `subscription_id` | Required | string |  |
-| `subscription_plan_id` | Required | string |  |
+| `renewal` | Required | [SubscriptionRenewalEstimateInput](../models/SubscriptionRenewalEstimateInput.md#subscriptionrenewalestimateinput) | Estimated pricing and billing time for a subscription renewal, including items, discounts, shipping, and tax. |
+| `subscription_id` | Required | string | Example: `"sub_01KEZF7C00BVRE8YDBXQB74BBM"`. |
+| `subscription_plan_id` | Required | string | Example: `"plan_01KEZF7C004CY5ZR33XST2AASV"`. |
 

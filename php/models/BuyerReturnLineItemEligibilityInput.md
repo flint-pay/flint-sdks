@@ -8,16 +8,16 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `allowed_resolution_types` | Required | Array of string | Items values: `"refund"`, `"exchange"`, `"replacement"`, `"no_monetary_action"`, `"store_credit"`. |
-| `decision_proposal` | Optional | [ReturnLineItemDecisionProposalInput](../models/ReturnLineItemDecisionProposalInput.md#returnlineitemdecisionproposalinput) | The pinned policy decision recomputed for based_on_quantity. A decide with only approved_quantity commits these values. Policy automatic resolution selects the policy automatic_resolution_type for policy_default or the line's requested_resolution_type for buyer_requested. When buyer_requested has no requested_resolution_type, the proposal still exists without automatic_resolution_type, so resolution is manual. Manual policy resolution also has no automatic_resolution_type. An unset release_timing is filled with after_inspection when merchandise and inspection are required, after_receipt when merchandise is required without inspection, or after_approval when no merchandise is required. |
+| `allowed_resolution_types` | Required | Array of string | Resolution types the policy allows for this line. Items values: `"refund"`, `"exchange"`, `"replacement"`, `"no_monetary_action"`, `"store_credit"`. |
+| `decision_proposal` | Optional | [ReturnLineItemDecisionProposalInput](../models/ReturnLineItemDecisionProposalInput.md#returnlineitemdecisionproposalinput) | Terms the policy proposes if the line is approved. Absent when the policy can't propose any. The pinned policy decision recomputed for based_on_quantity. A decide with only approved_quantity commits these values. Policy automatic resolution selects the policy automatic_resolution_type for policy_default or the line's requested_resolution_type for buyer_requested. When buyer_requested has no requested_resolution_type, the proposal still exists without automatic_resolution_type, so resolution is manual. Manual policy resolution also has no automatic_resolution_type. An unset release_timing is filled with after_inspection when merchandise and inspection are required, after_receipt when merchandise is required without inspection, or after_approval when no merchandise is required. |
 | `eligible_quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
-| `evaluated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `expires_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
+| `evaluated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
+| `expires_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `ineligibility_reason` | Optional | string | The matched policy's declared exclusion reason. Present exactly when reason is policy_ineligible. Values: `"final_sale"`, `"product_excluded"`, `"category_excluded"`, `"market_restricted"`, `"channel_restricted"`, `"outside_return_window"`, `"other"`. |
-| `policy_adjustment_proposals` | Required | Array of [ReturnPolicyAdjustmentProposalInput](../models/ReturnPolicyAdjustmentProposalInput.md#returnpolicyadjustmentproposalinput) |  |
-| `reason` | Required | string | Values: [9 declared values](#buyerreturnlineitemeligibilityinput-reason-values). |
-| `reason_message` | Required | string |  |
-| `status` | Required | string | Values: `"eligible"`, `"ineligible"`, `"review_required"`. |
+| `policy_adjustment_proposals` | Required | Array of [ReturnPolicyAdjustmentProposalInput](../models/ReturnPolicyAdjustmentProposalInput.md#returnpolicyadjustmentproposalinput) | Fees or credits the policy proposes for this line, to add to a resolution as adjustments. |
+| `reason` | Required | string | Why the line got this result. Values: [9 declared values](#buyerreturnlineitemeligibilityinput-reason-values). |
+| `reason_message` | Required | string | Explanation of `reason`. |
+| `status` | Required | string | Whether the policy lets the buyer return this. `review_required` means the merchant decides. Values: `"eligible"`, `"ineligible"`, `"review_required"`. |
 
 #### BuyerReturnLineItemEligibilityInput reason values
 

@@ -13,7 +13,7 @@ Request input.
 | `next_actions` | Required | Array of [ReadinessActionInput](../models/ReadinessActionInput.md#readinessactioninput) | Actions that can remediate or refresh this capability when Flint can suggest one. |
 | `requirements` | Required | [ReadinessRequirementsInput](../models/ReadinessRequirementsInput.md#readinessrequirementsinput) | Merchant requirements that affect this capability. Account information requirements for a merchant, grouped as currently due, eventually due, past due, and pending verification. |
 | `status` | Required | string | Current readiness status for this capability. Values: `"ready"`, `"pending"`, `"blocked"`, `"not_requested"`, `"not_available"`. |
-| `status_reason` | Optional | string | Values: [18 declared values](#capabilityreadinessinput-status_reason-values). |
+| `status_reason` | Optional | string | Why readiness has its current status. MERCHANT_NOT_READY uses onboarding_required for onboarding_not_started, requirements_due, requirements_past_due and pending_verification, and platform_review for Flint's own review. `null` when no reason applies. Values: [19 declared values](#capabilityreadinessinput-status_reason-values). |
 
 #### CapabilityReadinessInput capability values
 
@@ -28,6 +28,7 @@ Request input.
 
 #### CapabilityReadinessInput status_reason values
 
+- `"provisioning"`
 - `"onboarding_not_started"`
 - `"requirements_due"`
 - `"requirements_past_due"`

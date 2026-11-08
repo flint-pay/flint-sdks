@@ -23,11 +23,11 @@ Body model: [ConfirmCustomerVerificationRequestInput](../models/ConfirmCustomerV
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `code` | Required | string | minLength: `1`. pattern: `^[0-9]{6}$`. |
+| `code` | Required | string | The six-digit code Flint sent to the customer's email. minLength: `1`. pattern: `^[0-9]{6}$`. |
 
 #### Response
 
-Returned payload: [CustomerVerification](../models/CustomerVerificationInput.md#customerverificationinput).
+Returned payload: [CustomerVerification](../models/CustomerVerification.md#customerverification).
 
 #### Errors
 
@@ -38,7 +38,6 @@ Returned payload: [CustomerVerification](../models/CustomerVerificationInput.md#
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -72,7 +71,7 @@ $result = $client->customerVerifications->confirm('cver_01ARZ3NDEKTSV4RRFFQ69G5F
 
 ### customerVerifications.create
 
-Sends a Flint verification code to the customer's current email for linking guest purchases. A customer without an email returns 409 ACTION_NOT_ALLOWED. Set purpose to link_guest_purchases; email is the only channel and the default. Confirm the code before linking purchases. To prove an email inside a checkout, use POST /v1/checkout-sessions/{checkout_session_id}/customer-verifications.
+Sends a Flint verification code to the customer's current email for linking guest purchases. A customer without an email fails with `ACTION_NOT_ALLOWED`. Set purpose to link_guest_purchases; email is the only channel and the default. Confirm the code before linking purchases. To prove an email inside a checkout, use POST /v1/checkout-sessions/{checkout_session_id}/customer-verifications.
 
 `POST /v1/customer-verifications`
 
@@ -88,11 +87,15 @@ Body model: [CreateCustomerVerificationRequestInput](../models/CreateCustomerVer
 
 #### customerVerifications.create body fields
 
-Field definitions: [shared fields](../models/CreateCustomerVerificationRequestInput.md#createcustomerverificationrequestinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `channel` | Optional | string | Defaults to email when omitted. Explicit null and an empty value are not accepted. Default: `"email"`. Values: `"email"`. |
+| `customer_id` | Required | string | ID of the customer whose email to verify. The code goes to this customer's current email. minLength: `1`. |
+| `purpose` | Required | string | What the verification is for. It can only be used for that purpose. Values: `"link_guest_purchases"`. |
 
 #### Response
 
-Returned payload: [CustomerVerification](../models/CustomerVerificationInput.md#customerverificationinput).
+Returned payload: [CustomerVerification](../models/CustomerVerification.md#customerverification).
 
 #### Errors
 
@@ -103,7 +106,6 @@ Returned payload: [CustomerVerification](../models/CustomerVerificationInput.md#
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -129,7 +131,8 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->customerVerifications->create([
-  'customer_id' => 'cus_01ARZ3NDEKTSV4RRFFQ69G5FAV',
+  'channel' => 'email',
+  'customer_id' => 'cus_01KEZF7C003ACYXT6Q5EQZ78EE',
   'purpose' => 'link_guest_purchases',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```

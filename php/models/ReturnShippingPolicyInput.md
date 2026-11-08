@@ -8,5 +8,5 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `payer` | Required | string | Values: `"merchant"`, `"buyer"`. |
+| `payer` | Required | string | Who pays for shipping the goods back. This states your policy and charges nothing. Values: `"merchant"`, `"buyer"`. |
 

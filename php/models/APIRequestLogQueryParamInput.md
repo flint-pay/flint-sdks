@@ -8,6 +8,6 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `name` | Required | string |  |
-| `value` | Required | string |  |
+| `name` | Required | string | Query parameter name, decoded. |
+| `value` | Required | string | Query parameter value, decoded. Flint replaces the value of a sensitive parameter with a placeholder. |
 

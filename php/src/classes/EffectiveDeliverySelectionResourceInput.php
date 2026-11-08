@@ -22,7 +22,7 @@ final class EffectiveDeliverySelectionResourceInput extends Model {
      */
     public function getMutable(): bool { return $this->get('mutable'); }
     public function hasMutable(): bool { return $this->has('mutable'); }
-    /** originating_checkout_session_id
+    /** Example: "cs_01KEZF7C004JRWFW43H037MQRN".
      * @return string
      * @throws SdkError When originating_checkout_session_id is omitted; use hasOriginatingCheckoutSessionId() or valueOrDefault().
      */

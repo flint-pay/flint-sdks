@@ -10,13 +10,13 @@ namespace Flint;
 final class PayoutsCancelInput extends Model {
     /** @param array{'payout_id': string, 'body'?: array{}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PayoutsCancelInput')); }
-    /** Flint payout ID. Example: "po_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Flint payout ID. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV".
      * @return string
      * @throws SdkError When payout_id is omitted; use hasPayoutId() or valueOrDefault().
      */
     public function getPayoutId(): string { return $this->get('payout_id'); }
     public function hasPayoutId(): bool { return $this->has('payout_id'); }
-    /** The request body for: Cancel a payout.
+    /** The request body for: Cancel a payout. Example: {}.
      * @return array{}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

@@ -9,7 +9,7 @@ namespace Flint;
 final class CashOutGiftCardRequestInput extends Model {
     /** @param array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'cash_out_reference': string, 'expected_version'?: int}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CashOutGiftCardRequestInput')); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Amount of cash you paid the buyer outside Flint, taken off the gift card's balance. Above zero, in the card's currency, and not more than the card's unreserved value. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
      */

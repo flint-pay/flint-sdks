@@ -1,1 +1,1 @@
-{"shared":"ModifierOverride","dependencies":["ModifierOverride","MoneyValue"]}
+{"shared":"ModifierOverrideRequest","dependencies":["ModifierOverrideRequest","MoneyValue"]}

@@ -8,7 +8,7 @@ namespace Flint;
 final class PartnerAppCredentialJWKSURLInput extends Model {
     /** @param array{'last_fetched_at': string|\DateTimeInterface, 'url': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PartnerAppCredentialJWKSURLInput')); }
-    /** Most recent successful fetch of this URL by Flint. Updated at most once per minute. Format: date-time.
+    /** Most recent successful fetch of this URL by Flint. Updated at most once per minute. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When last_fetched_at is omitted; use hasLastFetchedAt() or valueOrDefault().
      */

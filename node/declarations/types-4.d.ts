@@ -1,17 +1,1265 @@
-import type { GetReturnDispositionResponse, GetReturnResponse, GetReturnResolutionResponse, GiftCard } from './types-23.js';
-import type { ReadinessAction, ReadinessRequirements } from './types-46.js';
-import type { MoneyValue, MoneyValueInput, MetadataMap, MerchantWebhookEnvelope } from './types-35.js';
-import type { GiftCardTransaction } from './types-25.js';
-import type { ResponseMeta, ResourceReference } from './types-48.js';
+import type { Address, AcceptFulfillmentRequestInput, ApplyInventoryCountRequestInput } from './types-0.js';
+import type { ResponseMeta } from './types-51.js';
+import type { MoneyValue, MoneyValueInput } from './types-37.js';
+import type { TipPaymentIntentAllocation, TipValueSettlementAllocation } from './types-62.js';
+import type { ContextSummary, CreateCategoryRequestInput } from './types-7.js';
+import type { DeliveryWindowRequest, DeliveryWindowRequestInput } from './types-21.js';
+import type { InventoryProvenanceRequest, InventoryProvenanceRequestInput } from './types-28.js';
+import type { PayOrderResponse } from './types-43.js';
+import type { GetReturnDispositionResponse, GetReturnResponse, GetReturnResolutionResponse, GiftCard } from './types-25.js';
+import type { ReadinessAction, ReadinessRequirements } from './types-49.js';
+import type { GiftCardTransaction } from './types-26.js';
 import type { InputValue } from '../runtime.js';
-import type { CreateCategoryRequestInput } from './types-6.js';
-import type { UpdateCategoryRequestInput } from './types-58.js';
-import type { PartnerWebhookEnvelope } from './types-40.js';
-import type { SubscriptionPlanChangeLineItemRequest, SubscriptionPlanChangeLineItemRequestInput } from './types-56.js';
-import type { Address, AddressRequest, AddressRequestInput } from './types-0.js';
-import type { DeliveryInputRequirement, DeliveryMerchantDiagnostic } from './types-15.js';
-import type { DeliveryQuoteChoiceGroupResource } from './types-18.js';
-import type { ErrorRemediation } from './types-21.js';
+import type { DisputesAcceptParams } from './types-22.js';
+import type { UpdateCategoryRequestInput } from './types-63.js';
+/** The customer address reference or address used as the buyer's subscription service location. */
+export type BuyerSubscriptionServiceLocation = {
+    /**
+     * A postal address. Every address has country. Addresses Flint checked as complete (customer
+     * and saved addresses, merchant, location, invoice, order delivery destination, tax identity,
+     * fulfillment recipient and pickup addresses) always have line1 and city, and US ones always
+     * have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax
+     * locations hold only what was provided, such as postal_code and country.
+     */
+    "address"?: Address;
+};
+/** One of the buyer's event tickets, with the admission code its QR code holds. */
+export type BuyerTicket = {
+    /**
+     * The 16-character Crockford base32 admission code to show as a QR code and print as
+     * XXXX-XXXX-XXXX-XXXX. A bearer secret. Absent when the ticket is voided, on orders whose
+     * buyer_email differs from the email Flint verified, and for sessions Flint didn't verify:
+     * merchant access links, customer sessions created with an API key, links emailed to another
+     * address, and checkout links a merchant reads or requests after payment. minLength: 16.
+     * maxLength: 16.
+     */
+    "admission_code"?: string;
+    /** Attendee name. Null when none was given. minLength: 1. maxLength: 200. */
+    "attendee_name": string | null;
+    /**
+     * When the ticket was admitted. Null when the ticket is not checked in. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z".
+     */
+    "checked_in_at": string | null;
+    /** When the ticket was issued. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * The event details the order captured at checkout. Absent when the order didn't record them.
+     * Event details captured when the ticket's order was placed.
+     */
+    "event"?: BuyerTicketEvent;
+    /** The buyer's order that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+    "order_id": string;
+    /** The admission lifecycle. Value enum: "issued", "checked_in", "voided". */
+    "status": "issued" | "checked_in" | "voided" | (string & {});
+    /** Unique ticket identity with the tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". */
+    "ticket_id": string;
+    /** The event prefix and sequence, such as GAL001. It doesn't admit anyone on its own. */
+    "ticket_number": string;
+};
+/** Event details captured when the ticket's order was placed. */
+export type BuyerTicketEvent = {
+    /** Where the event takes place. */
+    "location"?: string;
+    /** Event name when the order was placed. */
+    "name": string;
+    /**
+     * When the event starts. RFC 3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "starts_at"?: string;
+    /** IANA time zone Flint shows the event in. */
+    "timezone"?: string;
+};
+/** A page of `BuyerTicket` objects. */
+export type BuyerTicketListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * BuyerTicket}. One of the buyer's event tickets, with the admission code its QR code holds.
+     */
+    "data": Array<BuyerTicket>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * A tip on a buyer's order, with its requested, effective, settled, and refunded amounts and how
+ * it was allocated to payments.
+ */
+export type BuyerTip = {
+    /**
+     * Fixed tip amount, when the tip is set as an amount. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "amount_money"?: MoneyValue;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /** Optional description that stays on the tip for your reporting. */
+    "description"?: string;
+    /**
+     * The tip amount the order collects. For a percent tip, the resolved amount. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "effective_amount_money": MoneyValue;
+    /** Optional name that stays on the tip for your reporting. */
+    "name"?: string;
+    /** Example: "tip_01KEZF7C00JRPYP11RTMB97MYH". */
+    "order_tip_id": string;
+    /**
+     *  [] (Value): {@link TipPaymentIntentAllocation}. The part of a tip paid through one payment
+     * intent.
+     */
+    "payment_intent_allocations": Array<TipPaymentIntentAllocation>;
+    /**
+     * Tip percentage in percentage points, such as `18` for 18%, when the tip is set as a percent.
+     * multipleOf: 0.0001.
+     */
+    "percent"?: number;
+    /**
+     * How much of the tip has been refunded. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code.
+     */
+    "refunded_money": MoneyValue;
+    /**
+     * How much of the tip has been paid. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "settled_amount_money": MoneyValue;
+    /**
+     * Whether the tip is awaiting payment, paid in full, refunded in part or in full, or canceled
+     * before collection. Value enum: "requested", "paid", "partially_refunded", "refunded",
+     * "canceled".
+     */
+    "status": "requested" | "paid" | "partially_refunded" | "refunded" | "canceled" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /**
+     *  [] (Value): {@link TipValueSettlementAllocation}. The part of a tip paid through one value
+     * settlement.
+     */
+    "value_settlement_allocations": Array<TipValueSettlementAllocation>;
+};
+/** The request body for: List authorized CLI contexts. */
+export type CLIContextsRequest = ({
+    /** Example: "flint-cli". Value enum: "flint-cli". */
+    "client_id": "flint-cli" | (string & {});
+    "refresh_token": string;
+});
+/** The request body for: List authorized CLI contexts. */
+export type CLIContextsRequestInput = ({
+    /** Example: "flint-cli". Value enum: "flint-cli". */
+    "client_id": "flint-cli";
+    "refresh_token": string;
+})
+    & ({
+    "client_secret"?: never;
+});
+/** The response for: List authorized CLI contexts. */
+export type CLIContextsResponse = {
+    /**
+     * maxItems: 100. [] (Value): {@link ContextSummary}. A context the CLI is authorized to use: a
+     * sandbox or live account, with its ID, merchant ID, and name.
+     */
+    "contexts": Array<ContextSummary>;
+    /** Example: "session_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa". */
+    "oauth_session_id": string;
+};
+/** The request body for: Start CLI browser login. */
+export type CLIDeviceRequest = ({
+    /** Example: "flint-cli". Value enum: "flint-cli". */
+    "client_id": "flint-cli" | (string & {});
+    /**
+     * Optional compatibility field for the computer name sent by released Flint CLI versions.
+     * Accepted and ignored.
+     */
+    "device_name"?: string;
+    /** ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+    "merchant_id"?: string;
+    /** Environment used for this resource or request. Value enum: "test", "live". */
+    "mode"?: "test" | "live" | (string & {});
+    /**
+     * Optional compatibility field for the operating system sent by released Flint CLI versions.
+     * Accepted and ignored.
+     */
+    "platform"?: string;
+    /** ID of the sandbox this resource belongs to. Example: "test_01KEZF7C00JC77HTMTB2XHNPE0". */
+    "sandbox_id"?: string;
+    /**
+     * Required space-separated public API scope names. Only requested scopes approved in the
+     * browser are granted. Normal login sends x-flint-cli-bootstrap-scopes; explicit requests may
+     * use x-flint-cli-allowed-scopes. Unsupported scopes return invalid_scope. minLength: 1.
+     */
+    "scope": string;
+    /**
+     * Creates a session with selectable merchant and environment contexts. Defaults to contexts
+     * when omitted. Default: "contexts". Value enum: "contexts".
+     */
+    "session_mode"?: "contexts" | (string & {});
+});
+/** The request body for: Start CLI browser login. */
+export type CLIDeviceRequestInput = ({
+    /** Example: "flint-cli". Value enum: "flint-cli". */
+    "client_id": "flint-cli";
+    /**
+     * Optional compatibility field for the computer name sent by released Flint CLI versions.
+     * Accepted and ignored.
+     */
+    "device_name"?: string;
+    /** ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+    "merchant_id"?: string;
+    /** Environment used for this resource or request. Value enum: "test", "live". */
+    "mode"?: "test" | "live";
+    /**
+     * Optional compatibility field for the operating system sent by released Flint CLI versions.
+     * Accepted and ignored.
+     */
+    "platform"?: string;
+    /** ID of the sandbox this resource belongs to. Example: "test_01KEZF7C00JC77HTMTB2XHNPE0". */
+    "sandbox_id"?: string;
+    /**
+     * Required space-separated public API scope names. Only requested scopes approved in the
+     * browser are granted. Normal login sends x-flint-cli-bootstrap-scopes; explicit requests may
+     * use x-flint-cli-allowed-scopes. Unsupported scopes return invalid_scope. minLength: 1.
+     */
+    "scope": string;
+    /**
+     * Creates a session with selectable merchant and environment contexts. Defaults to contexts
+     * when omitted. Default: "contexts". Value enum: "contexts".
+     */
+    "session_mode"?: "contexts";
+})
+    & ({
+    "client_secret"?: never;
+});
+/** The response for: Review CLI session consent; Start CLI browser login. */
+export type CLIDeviceResponse = {
+    /** minLength: 1. maxLength: 4096. */
+    "device_code": string;
+    /** minimum: 1. maximum: 1800. */
+    "expires_in": number;
+    /** minimum: 1. maximum: 60. */
+    "interval": number;
+    /** minLength: 4. maxLength: 32. pattern: ^[!-~]+$. */
+    "user_code": string;
+    "verification_uri": string;
+    "verification_uri_complete": string;
+};
+/** The request body for: Review CLI session consent. */
+export type CLIReauthorizeRequest = ({
+    /** Example: "flint-cli". Value enum: "flint-cli". */
+    "client_id": "flint-cli" | (string & {});
+    /**
+     * minLength: 1. Example:
+     * "ctx_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb".
+     */
+    "context_id"?: string;
+    /**
+     * Optional compatibility field for the computer name sent by released Flint CLI versions.
+     * Accepted and ignored.
+     */
+    "device_name"?: string;
+    /** ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+    "merchant_id"?: string;
+    /** Environment used for this resource or request. Value enum: "test", "live". */
+    "mode"?: "test" | "live" | (string & {});
+    /**
+     * Optional compatibility field for the operating system sent by released Flint CLI versions.
+     * Accepted and ignored.
+     */
+    "platform"?: string;
+    "refresh_token": string;
+    /** ID of the sandbox this resource belongs to. Example: "test_01KEZF7C00JC77HTMTB2XHNPE0". */
+    "sandbox_id"?: string;
+    /**
+     * Required space-separated public API scope names. Only requested scopes approved in the
+     * browser are granted. Normal login sends x-flint-cli-bootstrap-scopes; explicit requests may
+     * use x-flint-cli-allowed-scopes. Unsupported scopes return invalid_scope. minLength: 1.
+     */
+    "scope": string;
+    /** Value enum: "additive". */
+    "scope_mode"?: "additive" | (string & {});
+    /** Value enum: "contexts". */
+    "session_mode": "contexts" | (string & {});
+});
+/** The request body for: Review CLI session consent. */
+export type CLIReauthorizeRequestInput = ({
+    /** Example: "flint-cli". Value enum: "flint-cli". */
+    "client_id": "flint-cli";
+    /**
+     * minLength: 1. Example:
+     * "ctx_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb".
+     */
+    "context_id"?: string;
+    /**
+     * Optional compatibility field for the computer name sent by released Flint CLI versions.
+     * Accepted and ignored.
+     */
+    "device_name"?: string;
+    /** ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+    "merchant_id"?: string;
+    /** Environment used for this resource or request. Value enum: "test", "live". */
+    "mode"?: "test" | "live";
+    /**
+     * Optional compatibility field for the operating system sent by released Flint CLI versions.
+     * Accepted and ignored.
+     */
+    "platform"?: string;
+    "refresh_token": string;
+    /** ID of the sandbox this resource belongs to. Example: "test_01KEZF7C00JC77HTMTB2XHNPE0". */
+    "sandbox_id"?: string;
+    /**
+     * Required space-separated public API scope names. Only requested scopes approved in the
+     * browser are granted. Normal login sends x-flint-cli-bootstrap-scopes; explicit requests may
+     * use x-flint-cli-allowed-scopes. Unsupported scopes return invalid_scope. minLength: 1.
+     */
+    "scope": string;
+    /** Value enum: "additive". */
+    "scope_mode"?: "additive";
+    /** Value enum: "contexts". */
+    "session_mode": "contexts";
+})
+    & ({
+    "client_secret"?: never;
+});
+/**
+ * The rate result you supply for one delivery method and choice group when creating a delivery
+ * quote with caller-supplied pricing.
+ */
+export type CallerSuppliedDeliveryMethodResultRequest = {
+    /** minLength: 1. Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8". */
+    "delivery_choice_group_id": string;
+    /** minLength: 1. Example: "dmetr_01KEZF7C001ZF9D92DY1G51GV9". */
+    "delivery_method_revision_id": string;
+    /**
+     * Your outcome for a caller-priced delivery method, selected by `type`: available with a price
+     * and windows, unavailable with a reason, or cannot calculate.
+     */
+    "outcome": CallerSuppliedDeliveryOutcomeRequest;
+};
+/**
+ * The rate result you supply for one delivery method and choice group when creating a delivery
+ * quote with caller-supplied pricing.
+ */
+export type CallerSuppliedDeliveryMethodResultRequestInput = {
+    /** minLength: 1. Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8". */
+    "delivery_choice_group_id": string;
+    /** minLength: 1. Example: "dmetr_01KEZF7C001ZF9D92DY1G51GV9". */
+    "delivery_method_revision_id": string;
+    /**
+     * Your outcome for a caller-priced delivery method, selected by `type`: available with a price
+     * and windows, unavailable with a reason, or cannot calculate.
+     */
+    "outcome": CallerSuppliedDeliveryOutcomeRequestInput;
+};
+/**
+ * Your outcome for a caller-priced delivery method, selected by `type`: available with a price and
+ * windows, unavailable with a reason, or cannot calculate.
+ */
+export type CallerSuppliedDeliveryOutcomeRequest = ({
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "amount_money"?: MoneyValue;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "expires_at"?: string;
+    /**
+     * Why Flint could not calculate the method and the action that can make calculation succeed. -
+     * `dependency_failure`: Retry after the dependent service recovers. - `timeout`: Retry after
+     * the timed-out dependency recovers. - `malformed_response`: Fix the callback response so it
+     * matches the documented response schema, then retry. - `pricing_failure`: Fix the method
+     * pricing configuration or matching rate, then retry. - `schedule_failure`: Fix the method
+     * schedule, timezone, or requested window, then retry. - `geography_failure`: Fix the
+     * destination, origin, or geographic configuration, then retry. - `routing_failure`: Fix
+     * inventory routing or origin assignment, then retry. - `address_verification_failed`: Correct
+     * the address fields rejected by verification, then retry. - `address_could_not_be_verified`:
+     * Confirm or correct the address, or retry when address verification is available. Value enum:
+     * "dependency_failure", "timeout", "malformed_response", "pricing_failure",
+     * "schedule_failure", "geography_failure", "routing_failure", "address_verification_failed",
+     * "address_could_not_be_verified".
+     */
+    "failure_category"?: "dependency_failure"
+        | "timeout"
+        | "malformed_response"
+        | "pricing_failure"
+        | "schedule_failure"
+        | "geography_failure"
+        | "routing_failure"
+        | "address_verification_failed"
+        | "address_could_not_be_verified"
+        | (string & {});
+    /** minLength: 1. maxLength: 500. */
+    "merchant_reference"?: string;
+    /**
+     *  [] (Value): {@link DeliveryWindowRequest}. A delivery window you supply in a
+     * caller-supplied delivery outcome, with its time range, price, and the last moment a buyer
+     * can choose it.
+     */
+    "offered_windows"?: Array<DeliveryWindowRequest>;
+    "retryable"?: boolean;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "selection_guarantee_expires_at"?: string;
+    /** minLength: 1. */
+    "service_level"?: string;
+    /** Value enum: "available", "unavailable", "cannot_calculate". */
+    "type": "available" | "unavailable" | "cannot_calculate" | (string & {});
+    /**
+     * Why the method is unavailable and the action that can make it eligible. -
+     * `destination_not_served`: Use a destination covered by this method or choose another method.
+     * - `pickup_unavailable`: Choose an available pickup method or location. -
+     * `no_window_available`: Choose another offered window or a method with availability for the
+     * requested time. - `eligibility_no_match`: Inspect eligibility_mismatches, then change the
+     * relevant buyer facts or method eligibility rule. - `pricing_unavailable`: Add or activate a
+     * matching rate, or provide the required caller-supplied price. - `inventory_unavailable`: The
+     * origin or pickup location cannot supply the requested inventory. Reduce the quantity,
+     * replenish inventory, or choose another origin or method. Value enum:
+     * "destination_not_served", "pickup_unavailable", "no_window_available",
+     * "eligibility_no_match", "pricing_unavailable", "inventory_unavailable".
+     */
+    "unavailable_reason"?: "destination_not_served"
+        | "pickup_unavailable"
+        | "no_window_available"
+        | "eligibility_no_match"
+        | "pricing_unavailable"
+        | "inventory_unavailable"
+        | (string & {});
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "window_end_at"?: string;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "window_start_at"?: string;
+})
+    & ((Exclude<CallerSuppliedDeliveryOutcomeRequestAvailable & object, readonly unknown[]>)
+    | (Exclude<CallerSuppliedDeliveryOutcomeRequestUnavailable & object, readonly unknown[]>)
+    | (Exclude<CallerSuppliedDeliveryOutcomeRequestCannotCalculate & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/** The `available` variant of `CallerSuppliedDeliveryOutcomeRequest`. */
+export type CallerSuppliedDeliveryOutcomeRequestAvailable = ({
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "amount_money": MoneyValue;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "expires_at": string;
+    /**
+     * Why Flint could not calculate the method and the action that can make calculation succeed. -
+     * `dependency_failure`: Retry after the dependent service recovers. - `timeout`: Retry after
+     * the timed-out dependency recovers. - `malformed_response`: Fix the callback response so it
+     * matches the documented response schema, then retry. - `pricing_failure`: Fix the method
+     * pricing configuration or matching rate, then retry. - `schedule_failure`: Fix the method
+     * schedule, timezone, or requested window, then retry. - `geography_failure`: Fix the
+     * destination, origin, or geographic configuration, then retry. - `routing_failure`: Fix
+     * inventory routing or origin assignment, then retry. - `address_verification_failed`: Correct
+     * the address fields rejected by verification, then retry. - `address_could_not_be_verified`:
+     * Confirm or correct the address, or retry when address verification is available. Value enum:
+     * "dependency_failure", "timeout", "malformed_response", "pricing_failure",
+     * "schedule_failure", "geography_failure", "routing_failure", "address_verification_failed",
+     * "address_could_not_be_verified".
+     */
+    "failure_category"?: "dependency_failure"
+        | "timeout"
+        | "malformed_response"
+        | "pricing_failure"
+        | "schedule_failure"
+        | "geography_failure"
+        | "routing_failure"
+        | "address_verification_failed"
+        | "address_could_not_be_verified"
+        | (string & {});
+    /** minLength: 1. maxLength: 500. */
+    "merchant_reference"?: string;
+    /**
+     *  [] (Value): {@link DeliveryWindowRequest}. A delivery window you supply in a
+     * caller-supplied delivery outcome, with its time range, price, and the last moment a buyer
+     * can choose it.
+     */
+    "offered_windows"?: Array<DeliveryWindowRequest>;
+    "retryable"?: boolean;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "selection_guarantee_expires_at": string;
+    /** minLength: 1. */
+    "service_level"?: string;
+    /** Value enum: "available". */
+    "type": "available" | (string & {});
+    /**
+     * Why the method is unavailable and the action that can make it eligible. -
+     * `destination_not_served`: Use a destination covered by this method or choose another method.
+     * - `pickup_unavailable`: Choose an available pickup method or location. -
+     * `no_window_available`: Choose another offered window or a method with availability for the
+     * requested time. - `eligibility_no_match`: Inspect eligibility_mismatches, then change the
+     * relevant buyer facts or method eligibility rule. - `pricing_unavailable`: Add or activate a
+     * matching rate, or provide the required caller-supplied price. - `inventory_unavailable`: The
+     * origin or pickup location cannot supply the requested inventory. Reduce the quantity,
+     * replenish inventory, or choose another origin or method. Value enum:
+     * "destination_not_served", "pickup_unavailable", "no_window_available",
+     * "eligibility_no_match", "pricing_unavailable", "inventory_unavailable".
+     */
+    "unavailable_reason"?: "destination_not_served"
+        | "pickup_unavailable"
+        | "no_window_available"
+        | "eligibility_no_match"
+        | "pricing_unavailable"
+        | "inventory_unavailable"
+        | (string & {});
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "window_end_at"?: string;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "window_start_at"?: string;
+})
+    & ({
+    /** Value enum: "available". */
+    "type": "available" | (string & {});
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "amount_money": MoneyValue;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "expires_at": string;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "selection_guarantee_expires_at": string;
+});
+/** The `available` variant of `CallerSuppliedDeliveryOutcomeRequest`. */
+export type CallerSuppliedDeliveryOutcomeRequestAvailableInput = ({
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "amount_money": MoneyValueInput;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "expires_at": string | globalThis.Date;
+    /**
+     * Why Flint could not calculate the method and the action that can make calculation succeed. -
+     * `dependency_failure`: Retry after the dependent service recovers. - `timeout`: Retry after
+     * the timed-out dependency recovers. - `malformed_response`: Fix the callback response so it
+     * matches the documented response schema, then retry. - `pricing_failure`: Fix the method
+     * pricing configuration or matching rate, then retry. - `schedule_failure`: Fix the method
+     * schedule, timezone, or requested window, then retry. - `geography_failure`: Fix the
+     * destination, origin, or geographic configuration, then retry. - `routing_failure`: Fix
+     * inventory routing or origin assignment, then retry. - `address_verification_failed`: Correct
+     * the address fields rejected by verification, then retry. - `address_could_not_be_verified`:
+     * Confirm or correct the address, or retry when address verification is available. Value enum:
+     * "dependency_failure", "timeout", "malformed_response", "pricing_failure",
+     * "schedule_failure", "geography_failure", "routing_failure", "address_verification_failed",
+     * "address_could_not_be_verified".
+     */
+    "failure_category"?: "dependency_failure"
+        | "timeout"
+        | "malformed_response"
+        | "pricing_failure"
+        | "schedule_failure"
+        | "geography_failure"
+        | "routing_failure"
+        | "address_verification_failed"
+        | "address_could_not_be_verified";
+    /** minLength: 1. maxLength: 500. */
+    "merchant_reference"?: string;
+    /**
+     *  [] (Value): {@link DeliveryWindowRequestInput}. A delivery window you supply in a
+     * caller-supplied delivery outcome, with its time range, price, and the last moment a buyer
+     * can choose it.
+     */
+    "offered_windows"?: Array<DeliveryWindowRequestInput>;
+    "retryable"?: boolean;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "selection_guarantee_expires_at": string | globalThis.Date;
+    /** minLength: 1. */
+    "service_level"?: string;
+    /** Value enum: "available". */
+    "type": "available";
+    /**
+     * Why the method is unavailable and the action that can make it eligible. -
+     * `destination_not_served`: Use a destination covered by this method or choose another method.
+     * - `pickup_unavailable`: Choose an available pickup method or location. -
+     * `no_window_available`: Choose another offered window or a method with availability for the
+     * requested time. - `eligibility_no_match`: Inspect eligibility_mismatches, then change the
+     * relevant buyer facts or method eligibility rule. - `pricing_unavailable`: Add or activate a
+     * matching rate, or provide the required caller-supplied price. - `inventory_unavailable`: The
+     * origin or pickup location cannot supply the requested inventory. Reduce the quantity,
+     * replenish inventory, or choose another origin or method. Value enum:
+     * "destination_not_served", "pickup_unavailable", "no_window_available",
+     * "eligibility_no_match", "pricing_unavailable", "inventory_unavailable".
+     */
+    "unavailable_reason"?: "destination_not_served"
+        | "pickup_unavailable"
+        | "no_window_available"
+        | "eligibility_no_match"
+        | "pricing_unavailable"
+        | "inventory_unavailable";
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "window_end_at"?: string | globalThis.Date;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "window_start_at"?: string | globalThis.Date;
+})
+    & ({
+    /** Value enum: "available". */
+    "type": "available";
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "amount_money": MoneyValueInput;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "expires_at": string | globalThis.Date;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "selection_guarantee_expires_at": string | globalThis.Date;
+});
+/** The `cannot_calculate` variant of `CallerSuppliedDeliveryOutcomeRequest`. */
+export type CallerSuppliedDeliveryOutcomeRequestCannotCalculate = ({
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "amount_money"?: MoneyValue;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "expires_at"?: string;
+    /**
+     * Why Flint could not calculate the method and the action that can make calculation succeed. -
+     * `dependency_failure`: Retry after the dependent service recovers. - `timeout`: Retry after
+     * the timed-out dependency recovers. - `malformed_response`: Fix the callback response so it
+     * matches the documented response schema, then retry. - `pricing_failure`: Fix the method
+     * pricing configuration or matching rate, then retry. - `schedule_failure`: Fix the method
+     * schedule, timezone, or requested window, then retry. - `geography_failure`: Fix the
+     * destination, origin, or geographic configuration, then retry. - `routing_failure`: Fix
+     * inventory routing or origin assignment, then retry. - `address_verification_failed`: Correct
+     * the address fields rejected by verification, then retry. - `address_could_not_be_verified`:
+     * Confirm or correct the address, or retry when address verification is available. Value enum:
+     * "dependency_failure", "timeout", "malformed_response", "pricing_failure",
+     * "schedule_failure", "geography_failure", "routing_failure", "address_verification_failed",
+     * "address_could_not_be_verified".
+     */
+    "failure_category": "dependency_failure"
+        | "timeout"
+        | "malformed_response"
+        | "pricing_failure"
+        | "schedule_failure"
+        | "geography_failure"
+        | "routing_failure"
+        | "address_verification_failed"
+        | "address_could_not_be_verified"
+        | (string & {});
+    /** minLength: 1. maxLength: 500. */
+    "merchant_reference"?: string;
+    /**
+     *  [] (Value): {@link DeliveryWindowRequest}. A delivery window you supply in a
+     * caller-supplied delivery outcome, with its time range, price, and the last moment a buyer
+     * can choose it.
+     */
+    "offered_windows"?: Array<DeliveryWindowRequest>;
+    "retryable": boolean;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "selection_guarantee_expires_at"?: string;
+    /** minLength: 1. */
+    "service_level"?: string;
+    /** Value enum: "cannot_calculate". */
+    "type": "cannot_calculate" | (string & {});
+    /**
+     * Why the method is unavailable and the action that can make it eligible. -
+     * `destination_not_served`: Use a destination covered by this method or choose another method.
+     * - `pickup_unavailable`: Choose an available pickup method or location. -
+     * `no_window_available`: Choose another offered window or a method with availability for the
+     * requested time. - `eligibility_no_match`: Inspect eligibility_mismatches, then change the
+     * relevant buyer facts or method eligibility rule. - `pricing_unavailable`: Add or activate a
+     * matching rate, or provide the required caller-supplied price. - `inventory_unavailable`: The
+     * origin or pickup location cannot supply the requested inventory. Reduce the quantity,
+     * replenish inventory, or choose another origin or method. Value enum:
+     * "destination_not_served", "pickup_unavailable", "no_window_available",
+     * "eligibility_no_match", "pricing_unavailable", "inventory_unavailable".
+     */
+    "unavailable_reason"?: "destination_not_served"
+        | "pickup_unavailable"
+        | "no_window_available"
+        | "eligibility_no_match"
+        | "pricing_unavailable"
+        | "inventory_unavailable"
+        | (string & {});
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "window_end_at"?: string;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "window_start_at"?: string;
+})
+    & ({
+    /** Value enum: "cannot_calculate". */
+    "type": "cannot_calculate" | (string & {});
+    /**
+     * Why Flint could not calculate the method and the action that can make calculation succeed. -
+     * `dependency_failure`: Retry after the dependent service recovers. - `timeout`: Retry after
+     * the timed-out dependency recovers. - `malformed_response`: Fix the callback response so it
+     * matches the documented response schema, then retry. - `pricing_failure`: Fix the method
+     * pricing configuration or matching rate, then retry. - `schedule_failure`: Fix the method
+     * schedule, timezone, or requested window, then retry. - `geography_failure`: Fix the
+     * destination, origin, or geographic configuration, then retry. - `routing_failure`: Fix
+     * inventory routing or origin assignment, then retry. - `address_verification_failed`: Correct
+     * the address fields rejected by verification, then retry. - `address_could_not_be_verified`:
+     * Confirm or correct the address, or retry when address verification is available. Value enum:
+     * "dependency_failure", "timeout", "malformed_response", "pricing_failure",
+     * "schedule_failure", "geography_failure", "routing_failure", "address_verification_failed",
+     * "address_could_not_be_verified".
+     */
+    "failure_category": "dependency_failure"
+        | "timeout"
+        | "malformed_response"
+        | "pricing_failure"
+        | "schedule_failure"
+        | "geography_failure"
+        | "routing_failure"
+        | "address_verification_failed"
+        | "address_could_not_be_verified"
+        | (string & {});
+    "retryable": boolean;
+});
+/** The `cannot_calculate` variant of `CallerSuppliedDeliveryOutcomeRequest`. */
+export type CallerSuppliedDeliveryOutcomeRequestCannotCalculateInput = ({
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "amount_money"?: MoneyValueInput;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "expires_at"?: string | globalThis.Date;
+    /**
+     * Why Flint could not calculate the method and the action that can make calculation succeed. -
+     * `dependency_failure`: Retry after the dependent service recovers. - `timeout`: Retry after
+     * the timed-out dependency recovers. - `malformed_response`: Fix the callback response so it
+     * matches the documented response schema, then retry. - `pricing_failure`: Fix the method
+     * pricing configuration or matching rate, then retry. - `schedule_failure`: Fix the method
+     * schedule, timezone, or requested window, then retry. - `geography_failure`: Fix the
+     * destination, origin, or geographic configuration, then retry. - `routing_failure`: Fix
+     * inventory routing or origin assignment, then retry. - `address_verification_failed`: Correct
+     * the address fields rejected by verification, then retry. - `address_could_not_be_verified`:
+     * Confirm or correct the address, or retry when address verification is available. Value enum:
+     * "dependency_failure", "timeout", "malformed_response", "pricing_failure",
+     * "schedule_failure", "geography_failure", "routing_failure", "address_verification_failed",
+     * "address_could_not_be_verified".
+     */
+    "failure_category": "dependency_failure"
+        | "timeout"
+        | "malformed_response"
+        | "pricing_failure"
+        | "schedule_failure"
+        | "geography_failure"
+        | "routing_failure"
+        | "address_verification_failed"
+        | "address_could_not_be_verified";
+    /** minLength: 1. maxLength: 500. */
+    "merchant_reference"?: string;
+    /**
+     *  [] (Value): {@link DeliveryWindowRequestInput}. A delivery window you supply in a
+     * caller-supplied delivery outcome, with its time range, price, and the last moment a buyer
+     * can choose it.
+     */
+    "offered_windows"?: Array<DeliveryWindowRequestInput>;
+    "retryable": boolean;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "selection_guarantee_expires_at"?: string | globalThis.Date;
+    /** minLength: 1. */
+    "service_level"?: string;
+    /** Value enum: "cannot_calculate". */
+    "type": "cannot_calculate";
+    /**
+     * Why the method is unavailable and the action that can make it eligible. -
+     * `destination_not_served`: Use a destination covered by this method or choose another method.
+     * - `pickup_unavailable`: Choose an available pickup method or location. -
+     * `no_window_available`: Choose another offered window or a method with availability for the
+     * requested time. - `eligibility_no_match`: Inspect eligibility_mismatches, then change the
+     * relevant buyer facts or method eligibility rule. - `pricing_unavailable`: Add or activate a
+     * matching rate, or provide the required caller-supplied price. - `inventory_unavailable`: The
+     * origin or pickup location cannot supply the requested inventory. Reduce the quantity,
+     * replenish inventory, or choose another origin or method. Value enum:
+     * "destination_not_served", "pickup_unavailable", "no_window_available",
+     * "eligibility_no_match", "pricing_unavailable", "inventory_unavailable".
+     */
+    "unavailable_reason"?: "destination_not_served"
+        | "pickup_unavailable"
+        | "no_window_available"
+        | "eligibility_no_match"
+        | "pricing_unavailable"
+        | "inventory_unavailable";
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "window_end_at"?: string | globalThis.Date;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "window_start_at"?: string | globalThis.Date;
+})
+    & ({
+    /** Value enum: "cannot_calculate". */
+    "type": "cannot_calculate";
+    /**
+     * Why Flint could not calculate the method and the action that can make calculation succeed. -
+     * `dependency_failure`: Retry after the dependent service recovers. - `timeout`: Retry after
+     * the timed-out dependency recovers. - `malformed_response`: Fix the callback response so it
+     * matches the documented response schema, then retry. - `pricing_failure`: Fix the method
+     * pricing configuration or matching rate, then retry. - `schedule_failure`: Fix the method
+     * schedule, timezone, or requested window, then retry. - `geography_failure`: Fix the
+     * destination, origin, or geographic configuration, then retry. - `routing_failure`: Fix
+     * inventory routing or origin assignment, then retry. - `address_verification_failed`: Correct
+     * the address fields rejected by verification, then retry. - `address_could_not_be_verified`:
+     * Confirm or correct the address, or retry when address verification is available. Value enum:
+     * "dependency_failure", "timeout", "malformed_response", "pricing_failure",
+     * "schedule_failure", "geography_failure", "routing_failure", "address_verification_failed",
+     * "address_could_not_be_verified".
+     */
+    "failure_category": "dependency_failure"
+        | "timeout"
+        | "malformed_response"
+        | "pricing_failure"
+        | "schedule_failure"
+        | "geography_failure"
+        | "routing_failure"
+        | "address_verification_failed"
+        | "address_could_not_be_verified";
+    "retryable": boolean;
+});
+/**
+ * Your outcome for a caller-priced delivery method, selected by `type`: available with a price and
+ * windows, unavailable with a reason, or cannot calculate.
+ */
+export type CallerSuppliedDeliveryOutcomeRequestInput = ({
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "amount_money"?: MoneyValueInput;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "expires_at"?: string | globalThis.Date;
+    /**
+     * Why Flint could not calculate the method and the action that can make calculation succeed. -
+     * `dependency_failure`: Retry after the dependent service recovers. - `timeout`: Retry after
+     * the timed-out dependency recovers. - `malformed_response`: Fix the callback response so it
+     * matches the documented response schema, then retry. - `pricing_failure`: Fix the method
+     * pricing configuration or matching rate, then retry. - `schedule_failure`: Fix the method
+     * schedule, timezone, or requested window, then retry. - `geography_failure`: Fix the
+     * destination, origin, or geographic configuration, then retry. - `routing_failure`: Fix
+     * inventory routing or origin assignment, then retry. - `address_verification_failed`: Correct
+     * the address fields rejected by verification, then retry. - `address_could_not_be_verified`:
+     * Confirm or correct the address, or retry when address verification is available. Value enum:
+     * "dependency_failure", "timeout", "malformed_response", "pricing_failure",
+     * "schedule_failure", "geography_failure", "routing_failure", "address_verification_failed",
+     * "address_could_not_be_verified".
+     */
+    "failure_category"?: "dependency_failure"
+        | "timeout"
+        | "malformed_response"
+        | "pricing_failure"
+        | "schedule_failure"
+        | "geography_failure"
+        | "routing_failure"
+        | "address_verification_failed"
+        | "address_could_not_be_verified";
+    /** minLength: 1. maxLength: 500. */
+    "merchant_reference"?: string;
+    /**
+     *  [] (Value): {@link DeliveryWindowRequestInput}. A delivery window you supply in a
+     * caller-supplied delivery outcome, with its time range, price, and the last moment a buyer
+     * can choose it.
+     */
+    "offered_windows"?: Array<DeliveryWindowRequestInput>;
+    "retryable"?: boolean;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "selection_guarantee_expires_at"?: string | globalThis.Date;
+    /** minLength: 1. */
+    "service_level"?: string;
+    /** Value enum: "available", "unavailable", "cannot_calculate". */
+    "type": "available" | "unavailable" | "cannot_calculate";
+    /**
+     * Why the method is unavailable and the action that can make it eligible. -
+     * `destination_not_served`: Use a destination covered by this method or choose another method.
+     * - `pickup_unavailable`: Choose an available pickup method or location. -
+     * `no_window_available`: Choose another offered window or a method with availability for the
+     * requested time. - `eligibility_no_match`: Inspect eligibility_mismatches, then change the
+     * relevant buyer facts or method eligibility rule. - `pricing_unavailable`: Add or activate a
+     * matching rate, or provide the required caller-supplied price. - `inventory_unavailable`: The
+     * origin or pickup location cannot supply the requested inventory. Reduce the quantity,
+     * replenish inventory, or choose another origin or method. Value enum:
+     * "destination_not_served", "pickup_unavailable", "no_window_available",
+     * "eligibility_no_match", "pricing_unavailable", "inventory_unavailable".
+     */
+    "unavailable_reason"?: "destination_not_served"
+        | "pickup_unavailable"
+        | "no_window_available"
+        | "eligibility_no_match"
+        | "pricing_unavailable"
+        | "inventory_unavailable";
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "window_end_at"?: string | globalThis.Date;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "window_start_at"?: string | globalThis.Date;
+})
+    & ((Exclude<CallerSuppliedDeliveryOutcomeRequestAvailableInput & object, readonly unknown[]>)
+    | (Exclude<CallerSuppliedDeliveryOutcomeRequestUnavailableInput & object, readonly unknown[]>)
+    | (Exclude<CallerSuppliedDeliveryOutcomeRequestCannotCalculateInput & object, readonly unknown[]>));
+/** The `unavailable` variant of `CallerSuppliedDeliveryOutcomeRequest`. */
+export type CallerSuppliedDeliveryOutcomeRequestUnavailable = ({
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "amount_money"?: MoneyValue;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "expires_at"?: string;
+    /**
+     * Why Flint could not calculate the method and the action that can make calculation succeed. -
+     * `dependency_failure`: Retry after the dependent service recovers. - `timeout`: Retry after
+     * the timed-out dependency recovers. - `malformed_response`: Fix the callback response so it
+     * matches the documented response schema, then retry. - `pricing_failure`: Fix the method
+     * pricing configuration or matching rate, then retry. - `schedule_failure`: Fix the method
+     * schedule, timezone, or requested window, then retry. - `geography_failure`: Fix the
+     * destination, origin, or geographic configuration, then retry. - `routing_failure`: Fix
+     * inventory routing or origin assignment, then retry. - `address_verification_failed`: Correct
+     * the address fields rejected by verification, then retry. - `address_could_not_be_verified`:
+     * Confirm or correct the address, or retry when address verification is available. Value enum:
+     * "dependency_failure", "timeout", "malformed_response", "pricing_failure",
+     * "schedule_failure", "geography_failure", "routing_failure", "address_verification_failed",
+     * "address_could_not_be_verified".
+     */
+    "failure_category"?: "dependency_failure"
+        | "timeout"
+        | "malformed_response"
+        | "pricing_failure"
+        | "schedule_failure"
+        | "geography_failure"
+        | "routing_failure"
+        | "address_verification_failed"
+        | "address_could_not_be_verified"
+        | (string & {});
+    /** minLength: 1. maxLength: 500. */
+    "merchant_reference"?: string;
+    /**
+     *  [] (Value): {@link DeliveryWindowRequest}. A delivery window you supply in a
+     * caller-supplied delivery outcome, with its time range, price, and the last moment a buyer
+     * can choose it.
+     */
+    "offered_windows"?: Array<DeliveryWindowRequest>;
+    "retryable"?: boolean;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "selection_guarantee_expires_at"?: string;
+    /** minLength: 1. */
+    "service_level"?: string;
+    /** Value enum: "unavailable". */
+    "type": "unavailable" | (string & {});
+    /**
+     * Why the method is unavailable and the action that can make it eligible. -
+     * `destination_not_served`: Use a destination covered by this method or choose another method.
+     * - `pickup_unavailable`: Choose an available pickup method or location. -
+     * `no_window_available`: Choose another offered window or a method with availability for the
+     * requested time. - `eligibility_no_match`: Inspect eligibility_mismatches, then change the
+     * relevant buyer facts or method eligibility rule. - `pricing_unavailable`: Add or activate a
+     * matching rate, or provide the required caller-supplied price. - `inventory_unavailable`: The
+     * origin or pickup location cannot supply the requested inventory. Reduce the quantity,
+     * replenish inventory, or choose another origin or method. Value enum:
+     * "destination_not_served", "pickup_unavailable", "no_window_available",
+     * "eligibility_no_match", "pricing_unavailable", "inventory_unavailable".
+     */
+    "unavailable_reason": "destination_not_served"
+        | "pickup_unavailable"
+        | "no_window_available"
+        | "eligibility_no_match"
+        | "pricing_unavailable"
+        | "inventory_unavailable"
+        | (string & {});
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "window_end_at"?: string;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "window_start_at"?: string;
+})
+    & ({
+    /** Value enum: "unavailable". */
+    "type": "unavailable" | (string & {});
+    /**
+     * Why the method is unavailable and the action that can make it eligible. -
+     * `destination_not_served`: Use a destination covered by this method or choose another method.
+     * - `pickup_unavailable`: Choose an available pickup method or location. -
+     * `no_window_available`: Choose another offered window or a method with availability for the
+     * requested time. - `eligibility_no_match`: Inspect eligibility_mismatches, then change the
+     * relevant buyer facts or method eligibility rule. - `pricing_unavailable`: Add or activate a
+     * matching rate, or provide the required caller-supplied price. - `inventory_unavailable`: The
+     * origin or pickup location cannot supply the requested inventory. Reduce the quantity,
+     * replenish inventory, or choose another origin or method. Value enum:
+     * "destination_not_served", "pickup_unavailable", "no_window_available",
+     * "eligibility_no_match", "pricing_unavailable", "inventory_unavailable".
+     */
+    "unavailable_reason": "destination_not_served"
+        | "pickup_unavailable"
+        | "no_window_available"
+        | "eligibility_no_match"
+        | "pricing_unavailable"
+        | "inventory_unavailable"
+        | (string & {});
+});
+/** The `unavailable` variant of `CallerSuppliedDeliveryOutcomeRequest`. */
+export type CallerSuppliedDeliveryOutcomeRequestUnavailableInput = ({
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "amount_money"?: MoneyValueInput;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "expires_at"?: string | globalThis.Date;
+    /**
+     * Why Flint could not calculate the method and the action that can make calculation succeed. -
+     * `dependency_failure`: Retry after the dependent service recovers. - `timeout`: Retry after
+     * the timed-out dependency recovers. - `malformed_response`: Fix the callback response so it
+     * matches the documented response schema, then retry. - `pricing_failure`: Fix the method
+     * pricing configuration or matching rate, then retry. - `schedule_failure`: Fix the method
+     * schedule, timezone, or requested window, then retry. - `geography_failure`: Fix the
+     * destination, origin, or geographic configuration, then retry. - `routing_failure`: Fix
+     * inventory routing or origin assignment, then retry. - `address_verification_failed`: Correct
+     * the address fields rejected by verification, then retry. - `address_could_not_be_verified`:
+     * Confirm or correct the address, or retry when address verification is available. Value enum:
+     * "dependency_failure", "timeout", "malformed_response", "pricing_failure",
+     * "schedule_failure", "geography_failure", "routing_failure", "address_verification_failed",
+     * "address_could_not_be_verified".
+     */
+    "failure_category"?: "dependency_failure"
+        | "timeout"
+        | "malformed_response"
+        | "pricing_failure"
+        | "schedule_failure"
+        | "geography_failure"
+        | "routing_failure"
+        | "address_verification_failed"
+        | "address_could_not_be_verified";
+    /** minLength: 1. maxLength: 500. */
+    "merchant_reference"?: string;
+    /**
+     *  [] (Value): {@link DeliveryWindowRequestInput}. A delivery window you supply in a
+     * caller-supplied delivery outcome, with its time range, price, and the last moment a buyer
+     * can choose it.
+     */
+    "offered_windows"?: Array<DeliveryWindowRequestInput>;
+    "retryable"?: boolean;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "selection_guarantee_expires_at"?: string | globalThis.Date;
+    /** minLength: 1. */
+    "service_level"?: string;
+    /** Value enum: "unavailable". */
+    "type": "unavailable";
+    /**
+     * Why the method is unavailable and the action that can make it eligible. -
+     * `destination_not_served`: Use a destination covered by this method or choose another method.
+     * - `pickup_unavailable`: Choose an available pickup method or location. -
+     * `no_window_available`: Choose another offered window or a method with availability for the
+     * requested time. - `eligibility_no_match`: Inspect eligibility_mismatches, then change the
+     * relevant buyer facts or method eligibility rule. - `pricing_unavailable`: Add or activate a
+     * matching rate, or provide the required caller-supplied price. - `inventory_unavailable`: The
+     * origin or pickup location cannot supply the requested inventory. Reduce the quantity,
+     * replenish inventory, or choose another origin or method. Value enum:
+     * "destination_not_served", "pickup_unavailable", "no_window_available",
+     * "eligibility_no_match", "pricing_unavailable", "inventory_unavailable".
+     */
+    "unavailable_reason": "destination_not_served"
+        | "pickup_unavailable"
+        | "no_window_available"
+        | "eligibility_no_match"
+        | "pricing_unavailable"
+        | "inventory_unavailable";
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "window_end_at"?: string | globalThis.Date;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "window_start_at"?: string | globalThis.Date;
+})
+    & ({
+    /** Value enum: "unavailable". */
+    "type": "unavailable";
+    /**
+     * Why the method is unavailable and the action that can make it eligible. -
+     * `destination_not_served`: Use a destination covered by this method or choose another method.
+     * - `pickup_unavailable`: Choose an available pickup method or location. -
+     * `no_window_available`: Choose another offered window or a method with availability for the
+     * requested time. - `eligibility_no_match`: Inspect eligibility_mismatches, then change the
+     * relevant buyer facts or method eligibility rule. - `pricing_unavailable`: Add or activate a
+     * matching rate, or provide the required caller-supplied price. - `inventory_unavailable`: The
+     * origin or pickup location cannot supply the requested inventory. Reduce the quantity,
+     * replenish inventory, or choose another origin or method. Value enum:
+     * "destination_not_served", "pickup_unavailable", "no_window_available",
+     * "eligibility_no_match", "pricing_unavailable", "inventory_unavailable".
+     */
+    "unavailable_reason": "destination_not_served"
+        | "pickup_unavailable"
+        | "no_window_available"
+        | "eligibility_no_match"
+        | "pricing_unavailable"
+        | "inventory_unavailable";
+});
+/** Cancels fulfillment work that has not completed. */
+export type CancelFulfillmentRequestInput = AcceptFulfillmentRequestInput;
+/** The request body for: Cancel a gift card notification. */
+export type CancelGiftCardNotificationRequestInput = {};
+/** Closes an open physical count without changing stock. */
+export type CancelInventoryCountRequestInput = ApplyInventoryCountRequestInput;
+/** Cancels requested quantity that hasn't departed. */
+export type CancelInventoryTransferRequest = {
+    /** Transfer version the caller last read. Format: uint64. minimum: 1. */
+    "expected_version"?: number;
+    /**
+     * Transfer lines this action changes, each with a cumulative target. 1 to 100 lines. minItems:
+     * 1. maxItems: 100. [] (Value): object. [].inventory_transfer_line_id (Required): string.
+     * Transfer line this action changes. minLength: 1. Example:
+     * "invtrln_01KEZF7C00CK297J6QVV5J0PFV". [].target_canceled_quantity (Required): integer.
+     * Cumulative quantity that should be canceled before departure. Whole-number quantity;
+     * fractional quantities are not supported. Format: int64. minimum: 0.
+     */
+    "lines": Array<{
+        /**
+         * Transfer line this action changes. minLength: 1. Example:
+         * "invtrln_01KEZF7C00CK297J6QVV5J0PFV".
+         */
+        "inventory_transfer_line_id": string;
+        /**
+         * Cumulative quantity that should be canceled before departure. Whole-number quantity;
+         * fractional quantities are not supported. Format: int64. minimum: 0.
+         */
+        "target_canceled_quantity": number;
+    }>;
+    /**
+     * When and where the stock moved. Optional; when omitted, the movements record the time Flint
+     * received the command as occurred_at and a null source_system. Where and when an inventory
+     * event happened: the source system, external actor, and time.
+     */
+    "provenance"?: InventoryProvenanceRequest;
+};
+/** Cancels requested quantity that hasn't departed. */
+export type CancelInventoryTransferRequestInput = {
+    /** Transfer version the caller last read. Format: uint64. minimum: 1. */
+    "expected_version"?: number;
+    /**
+     * Transfer lines this action changes, each with a cumulative target. 1 to 100 lines. minItems:
+     * 1. maxItems: 100. [] (Value): object. [].inventory_transfer_line_id (Required): string.
+     * Transfer line this action changes. minLength: 1. Example:
+     * "invtrln_01KEZF7C00CK297J6QVV5J0PFV". [].target_canceled_quantity (Required): integer.
+     * Cumulative quantity that should be canceled before departure. Whole-number quantity;
+     * fractional quantities are not supported. Format: int64. minimum: 0.
+     */
+    "lines": Array<{
+        /**
+         * Transfer line this action changes. minLength: 1. Example:
+         * "invtrln_01KEZF7C00CK297J6QVV5J0PFV".
+         */
+        "inventory_transfer_line_id": string;
+        /**
+         * Cumulative quantity that should be canceled before departure. Whole-number quantity;
+         * fractional quantities are not supported. Format: int64. minimum: 0.
+         */
+        "target_canceled_quantity": number;
+    }>;
+    /**
+     * When and where the stock moved. Optional; when omitted, the movements record the time Flint
+     * received the command as occurred_at and a null source_system. Where and when an inventory
+     * event happened: the source system, external actor, and time.
+     */
+    "provenance"?: InventoryProvenanceRequestInput;
+};
+/** Cancellation timing and the optional reason and comment recorded with the request. */
+export type CancelMeSubscriptionRequest = {
+    /**
+     * When true, ends the subscription now. Otherwise, schedules cancellation at trial_end_at
+     * while trialing, current_period_end_at while active, or next_retry_at while past_due, instead
+     * of that charge. An active subscription with an expired renewal delivery hold ends now. A
+     * scheduled, incomplete, or paused subscription, or a past_due subscription without
+     * next_retry_at, requires cancel_immediately: true; otherwise returns 409 ACTION_NOT_ALLOWED
+     * with reason period_end_unavailable. A buyer may cancel immediately when the store allows
+     * buyer_chooses or no scheduled cancellation time is available. Under end_of_period, a trial
+     * continues until trial_end_at.
+     */
+    "cancel_immediately"?: boolean;
+    /**
+     * Free text about the cancellation, up to 500 characters after surrounding spaces are trimmed.
+     * Recorded in cancellation_details.comment, which only merchant credentials read. minLength:
+     * 1. maxLength: 500.
+     */
+    "cancellation_comment"?: string;
+    /**
+     * Optional. Why the subscription is being canceled. When the store lists
+     * customer_account.buyer_capabilities.cancellation_reasons, a reason a buyer sends must be one
+     * of them; merchant credentials may send any code. Recorded in
+     * cancellation_details.reason_code. Value enum: "too_expensive", "missing_features",
+     * "switched_service", "unused", "customer_service", "too_complex", "low_quality", "other".
+     */
+    "cancellation_reason_code"?: "too_expensive"
+        | "missing_features"
+        | "switched_service"
+        | "unused"
+        | "customer_service"
+        | "too_complex"
+        | "low_quality"
+        | "other"
+        | (string & {});
+    /**
+     * Version last read from the resource returned in `data` (the primary resource for a result
+     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
+     * the operation and fields being changed. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+};
+/** Cancellation timing and the optional reason and comment recorded with the request. */
+export type CancelMeSubscriptionRequestInput = {
+    /**
+     * When true, ends the subscription now. Otherwise, schedules cancellation at trial_end_at
+     * while trialing, current_period_end_at while active, or next_retry_at while past_due, instead
+     * of that charge. An active subscription with an expired renewal delivery hold ends now. A
+     * scheduled, incomplete, or paused subscription, or a past_due subscription without
+     * next_retry_at, requires cancel_immediately: true; otherwise returns 409 ACTION_NOT_ALLOWED
+     * with reason period_end_unavailable. A buyer may cancel immediately when the store allows
+     * buyer_chooses or no scheduled cancellation time is available. Under end_of_period, a trial
+     * continues until trial_end_at.
+     */
+    "cancel_immediately"?: boolean;
+    /**
+     * Free text about the cancellation, up to 500 characters after surrounding spaces are trimmed.
+     * Recorded in cancellation_details.comment, which only merchant credentials read. minLength:
+     * 1. maxLength: 500.
+     */
+    "cancellation_comment"?: string;
+    /**
+     * Optional. Why the subscription is being canceled. When the store lists
+     * customer_account.buyer_capabilities.cancellation_reasons, a reason a buyer sends must be one
+     * of them; merchant credentials may send any code. Recorded in
+     * cancellation_details.reason_code. Value enum: "too_expensive", "missing_features",
+     * "switched_service", "unused", "customer_service", "too_complex", "low_quality", "other".
+     */
+    "cancellation_reason_code"?: "too_expensive"
+        | "missing_features"
+        | "switched_service"
+        | "unused"
+        | "customer_service"
+        | "too_complex"
+        | "low_quality"
+        | "other";
+    /**
+     * Version last read from the resource returned in `data` (the primary resource for a result
+     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
+     * the operation and fields being changed. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+};
+/** The request body for: Cancel order payment attempt. */
+export type CancelOrderPaymentAttemptRequest = {
+    /**
+     * Optional merchant-supplied cancellation reason. Value enum: "requested_by_customer",
+     * "duplicate", "fraudulent", "abandoned".
+     */
+    "cancellation_reason"?: "requested_by_customer" | "duplicate" | "fraudulent" | "abandoned" | (string & {});
+};
+/** The request body for: Cancel order payment attempt. */
+export type CancelOrderPaymentAttemptRequestInput = {
+    /**
+     * Optional merchant-supplied cancellation reason. Value enum: "requested_by_customer",
+     * "duplicate", "fraudulent", "abandoned".
+     */
+    "cancellation_reason"?: "requested_by_customer" | "duplicate" | "fraudulent" | "abandoned";
+};
+export type CancelOrderPaymentAttemptResponse = PayOrderResponse;
+/** The request body for: Cancel payment intent. */
+export type CancelPaymentIntentRequest = {
+    /**
+     * Optional merchant-supplied cancellation reason. Value enum: "requested_by_customer",
+     * "duplicate", "fraudulent", "abandoned".
+     */
+    "cancellation_reason"?: "requested_by_customer" | "duplicate" | "fraudulent" | "abandoned" | (string & {});
+    /**
+     * Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with
+     * the current version. Retrieve the resource and rebuild the request before retrying. Format:
+     * uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+};
+/** The request body for: Cancel payment intent. */
+export type CancelPaymentIntentRequestInput = {
+    /**
+     * Optional merchant-supplied cancellation reason. Value enum: "requested_by_customer",
+     * "duplicate", "fraudulent", "abandoned".
+     */
+    "cancellation_reason"?: "requested_by_customer" | "duplicate" | "fraudulent" | "abandoned";
+    /**
+     * Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with
+     * the current version. Retrieve the resource and rebuild the request before retrying. Format:
+     * uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+};
+/** The request body for: Cancel a payout. */
+export type CancelPayoutRequest = {};
 /** The request body for: Cancel a payout. */
 export type CancelPayoutRequestInput = {};
 /** The request body for: Cancel return disposition. */
@@ -21,9 +1269,12 @@ export type CancelReturnDispositionRequest = {
      * Format: int64. minimum: 1.
      */
     "expected_version"?: number;
-    /** Value enum: "created_in_error", "changed_disposition", "duplicate", "other". */
+    /**
+     * Why it is being canceled. Value enum: "created_in_error", "changed_disposition",
+     * "duplicate", "other".
+     */
     "reason": "created_in_error" | "changed_disposition" | "duplicate" | "other" | (string & {});
-    /** minLength: 1. */
+    /** Optional detail about `reason`, kept with the record. minLength: 1. */
     "reason_message"?: string;
 };
 /** The request body for: Cancel return disposition. */
@@ -33,15 +1284,22 @@ export type CancelReturnDispositionRequestInput = {
      * Format: int64. minimum: 1.
      */
     "expected_version"?: number;
-    /** Value enum: "created_in_error", "changed_disposition", "duplicate", "other". */
+    /**
+     * Why it is being canceled. Value enum: "created_in_error", "changed_disposition",
+     * "duplicate", "other".
+     */
     "reason": "created_in_error" | "changed_disposition" | "duplicate" | "other";
-    /** minLength: 1. */
+    /** Optional detail about `reason`, kept with the record. minLength: 1. */
     "reason_message"?: string;
 };
 export type CancelReturnDispositionResponse = GetReturnDispositionResponse;
 /** The request body for: Cancel return line item. */
 export type CancelReturnLineItemRequest = {
-    /** Format: int64. minimum: 1. */
+    /**
+     * Version last read from the resource returned in `data` (the primary resource for a result
+     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
+     * the operation and fields being changed. Format: int64. minimum: 1.
+     */
     "expected_version"?: number;
     /**
      * How many of the canceled units the buyer no longer has to send back, as a whole number;
@@ -51,14 +1309,21 @@ export type CancelReturnLineItemRequest = {
     "handback_quantity"?: number;
     /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
     "quantity": number;
-    /** Value enum: "buyer_request", "merchant_request", "expired", "created_in_error", "other". */
+    /**
+     * Why it is being canceled. Value enum: "buyer_request", "merchant_request", "expired",
+     * "created_in_error", "other".
+     */
     "reason": "buyer_request" | "merchant_request" | "expired" | "created_in_error" | "other" | (string & {});
-    /** minLength: 1. */
+    /** Optional detail about `reason`, kept with the record. minLength: 1. */
     "reason_message"?: string;
 };
 /** The request body for: Cancel return line item. */
 export type CancelReturnLineItemRequestInput = {
-    /** Format: int64. minimum: 1. */
+    /**
+     * Version last read from the resource returned in `data` (the primary resource for a result
+     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
+     * the operation and fields being changed. Format: int64. minimum: 1.
+     */
     "expected_version"?: number;
     /**
      * How many of the canceled units the buyer no longer has to send back, as a whole number;
@@ -68,19 +1333,26 @@ export type CancelReturnLineItemRequestInput = {
     "handback_quantity"?: number;
     /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
     "quantity": number;
-    /** Value enum: "buyer_request", "merchant_request", "expired", "created_in_error", "other". */
+    /**
+     * Why it is being canceled. Value enum: "buyer_request", "merchant_request", "expired",
+     * "created_in_error", "other".
+     */
     "reason": "buyer_request" | "merchant_request" | "expired" | "created_in_error" | "other";
-    /** minLength: 1. */
+    /** Optional detail about `reason`, kept with the record. minLength: 1. */
     "reason_message"?: string;
 };
 export type CancelReturnLineItemResponse = GetReturnResponse;
-/** The request body for: Cancel one of the current buyer's Returns; Cancel return. */
+/** The request body for: Cancel return. */
 export type CancelReturnRequest = {
-    /** Format: int64. minimum: 1. */
+    /**
+     * Version last read from the resource returned in `data` (the primary resource for a result
+     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
+     * the operation and fields being changed. Format: int64. minimum: 1.
+     */
     "expected_version"?: number;
     /**
-     * Value enum: "buyer_request", "merchant_request", "duplicate", "expired", "created_in_error",
-     * "other".
+     * Why it is being canceled. Value enum: "buyer_request", "merchant_request", "duplicate",
+     * "expired", "created_in_error", "other".
      */
     "reason": "buyer_request"
         | "merchant_request"
@@ -89,26 +1361,30 @@ export type CancelReturnRequest = {
         | "created_in_error"
         | "other"
         | (string & {});
-    /** minLength: 1. */
+    /** Optional detail about `reason`, kept with the record. minLength: 1. */
     "reason_message"?: string;
 };
-/** The request body for: Cancel one of the current buyer's Returns; Cancel return. */
+/** The request body for: Cancel return. */
 export type CancelReturnRequestInput = {
-    /** Format: int64. minimum: 1. */
+    /**
+     * Version last read from the resource returned in `data` (the primary resource for a result
+     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
+     * the operation and fields being changed. Format: int64. minimum: 1.
+     */
     "expected_version"?: number;
     /**
-     * Value enum: "buyer_request", "merchant_request", "duplicate", "expired", "created_in_error",
-     * "other".
+     * Why it is being canceled. Value enum: "buyer_request", "merchant_request", "duplicate",
+     * "expired", "created_in_error", "other".
      */
     "reason": "buyer_request" | "merchant_request" | "duplicate" | "expired" | "created_in_error" | "other";
-    /** minLength: 1. */
+    /** Optional detail about `reason`, kept with the record. minLength: 1. */
     "reason_message"?: string;
 };
 /** The request body for: Cancel return resolution. */
 export type CancelReturnResolutionRequestInput = CancelReturnRequestInput;
 export type CancelReturnResolutionResponse = GetReturnResolutionResponse;
 export type CancelReturnResponse = GetReturnResponse;
-/** The request body for: Cancel one of the current buyer's subscriptions; Cancel subscription. */
+/** Cancellation timing and the optional reason and comment recorded with the request. */
 export type CancelSubscriptionRequest = {
     /**
      * When true, ends the subscription now. Otherwise, schedules cancellation at trial_end_at
@@ -143,10 +1419,22 @@ export type CancelSubscriptionRequest = {
         | "low_quality"
         | "other"
         | (string & {});
-    /** Format: uint64. minimum: 1. */
+    /**
+     * Version last read from the resource returned in `data` (the primary resource for a result
+     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
+     * the operation and fields being changed. Format: uint64. minimum: 1.
+     */
     "expected_version"?: number;
+    /**
+     * Who asked to cancel: buyer, merchant, or integration. Defaults to merchant. Attribution
+     * only; this does not apply the store's buyer limits. To enforce them, use a customer session
+     * on POST /v1/me/subscriptions/{subscription_id}/cancel. Recorded in
+     * cancellation_details.requested_by and cancellation_reason. Default: "merchant". Value enum:
+     * "buyer", "merchant", "integration".
+     */
+    "initiated_by"?: "buyer" | "merchant" | "integration" | (string & {});
 };
-/** The request body for: Cancel one of the current buyer's subscriptions; Cancel subscription. */
+/** Cancellation timing and the optional reason and comment recorded with the request. */
 export type CancelSubscriptionRequestInput = {
     /**
      * When true, ends the subscription now. Otherwise, schedules cancellation at trial_end_at
@@ -180,8 +1468,20 @@ export type CancelSubscriptionRequestInput = {
         | "too_complex"
         | "low_quality"
         | "other";
-    /** Format: uint64. minimum: 1. */
+    /**
+     * Version last read from the resource returned in `data` (the primary resource for a result
+     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
+     * the operation and fields being changed. Format: uint64. minimum: 1.
+     */
     "expected_version"?: number;
+    /**
+     * Who asked to cancel: buyer, merchant, or integration. Defaults to merchant. Attribution
+     * only; this does not apply the store's buyer limits. To enforce them, use a customer session
+     * on POST /v1/me/subscriptions/{subscription_id}/cancel. Recorded in
+     * cancellation_details.requested_by and cancellation_reason. Default: "merchant". Value enum:
+     * "buyer", "merchant", "integration".
+     */
+    "initiated_by"?: "buyer" | "merchant" | "integration";
 };
 /** Merchant capability readiness for a payment or money movement capability. */
 export type CapabilityReadiness = {
@@ -223,7 +1523,10 @@ export type CapabilityReadiness = {
      */
     "status": "ready" | "pending" | "blocked" | "not_requested" | "not_available" | (string & {});
     /**
-     * Value enum: "onboarding_not_started", "requirements_due", "requirements_past_due",
+     * Why readiness has its current status. MERCHANT_NOT_READY uses onboarding_required for
+     * onboarding_not_started, requirements_due, requirements_past_due and pending_verification,
+     * and platform_review for Flint's own review. `null` when no reason applies. Value enum:
+     * "provisioning", "onboarding_not_started", "requirements_due", "requirements_past_due",
      * "pending_verification", "account_rejected", "disabled_by_platform_policy",
      * "billing_suspended", "platform_review", "processing_not_enabled",
      * "platform_funding_unavailable", "tax_category_required", "service_unavailable",
@@ -231,7 +1534,8 @@ export type CapabilityReadiness = {
      * "payment_option_not_in_plan", "payment_option_not_available", "capability_not_active",
      * "other".
      */
-    "status_reason"?: "onboarding_not_started"
+    "status_reason"?: "provisioning"
+        | "onboarding_not_started"
         | "requirements_due"
         | "requirements_past_due"
         | "pending_verification"
@@ -290,19 +1594,30 @@ export type CapturePaymentIntentRequestInput = {
  * wallet when one was used.
  */
 export type CardDetails = {
-    /** Value enum: "visa", "mastercard", "amex", "discover", "diners", "jcb", "unionpay". */
+    /**
+     * The card network. Value enum: "visa", "mastercard", "amex", "discover", "diners", "jcb",
+     * "unionpay".
+     */
     "brand": "visa" | "mastercard" | "amex" | "discover" | "diners" | "jcb" | "unionpay" | (string & {});
-    /** Format: int32. */
+    /** Month the card expires, from 1 to 12. Format: int32. */
     "exp_month": number;
-    /** Format: int32. */
+    /** Four-digit year the card expires. Format: int32. */
     "exp_year": number;
+    /** Last four digits of the card number. */
     "last4": string;
-    /** The wallet the card came from. Absent for a card entered directly. */
-    "wallet"?: string;
+    /**
+     * The wallet the card came from. Absent for a card entered directly. Value enum: "apple_pay",
+     * "google_pay".
+     */
+    "wallet"?: "apple_pay" | "google_pay" | (string & {});
 };
 /** The request body for: Record a cash-out. */
 export type CashOutGiftCardRequest = {
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    /**
+     * Amount of cash you paid the buyer outside Flint, taken off the gift card's balance. Above
+     * zero, in the card's currency, and not more than the card's unreserved value. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
     "amount_money": MoneyValue;
     /**
      * Your reference for the cash you paid the buyer outside Flint, such as a receipt number.
@@ -318,7 +1633,11 @@ export type CashOutGiftCardRequest = {
 };
 /** The request body for: Record a cash-out. */
 export type CashOutGiftCardRequestInput = {
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    /**
+     * Amount of cash you paid the buyer outside Flint, taken off the gift card's balance. Above
+     * zero, in the card's currency, and not more than the card's unreserved value. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
     "amount_money": MoneyValueInput;
     /**
      * Your reference for the cash you paid the buyer outside Flint, such as a receipt number.
@@ -338,42 +1657,96 @@ export type CashOutGiftCardRequestInput = {
  */
 export type CashOutGiftCardResult = {
     /**
-     * Merchant-issued purchased gift card. Posted balance includes reserved value; available value
-     * is balance minus reservations. Frozen value remains part of outstanding liability. Gift
-     * cards are independent resources and cannot be transferred across merchants or currencies.
+     * The gift card after the cash-out. Merchant-issued purchased gift card. Posted balance
+     * includes reserved value; available value is balance minus reservations. Frozen value remains
+     * part of outstanding liability. Gift cards are independent resources and cannot be
+     * transferred across merchants or currencies.
      */
     "gift_card": GiftCard;
     /**
-     *  [] (Value): {@link GiftCardTransaction}. Immutable posted financial movement with signed
-     * amount, per-card sequence, merchant sequence and balance snapshots. Corrections create new
-     * transactions.
+     * The transactions the cash-out posted to the card. [] (Value): {@link GiftCardTransaction}.
+     * Immutable posted financial movement with signed amount, per-card sequence, merchant sequence
+     * and balance snapshots. Corrections create new transactions.
      */
     "gift_card_transactions": Array<GiftCardTransaction>;
 };
 /** A response containing `CashOutGiftCardResult` data. */
 export type CashOutGiftCardResultResponse = {
     /**
-     * The result of recording a gift card cash-out: the updated gift card and the transactions it
-     * created.
+     * Resource, collection, or operation result returned by this request. The result of recording
+     * a gift card cash-out: the updated gift card and the transactions it created.
      */
     "data": CashOutGiftCardResult;
     /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
      */
     "meta"?: ResponseMeta;
     /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
     "request_id": string;
 };
-export type CategoriesCreateParams = (InputValue<CreateCategoryRequestInput>);
+/** The source of a catalog variant line's selected net unit price. */
+export type CatalogPricing = {
+    /** Minimum quantity of the applied break. Null when the base price applies. Format: int64. */
+    "minimum_quantity": number | null;
+    /**
+     * Price list providing the selected schedule. Null when the variant's default schedule
+     * applies. Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
+     */
+    "price_list_id": string | null;
+    /**
+     * Source of the selected schedule. New source values may be added. Value enum: "variant",
+     * "price_list".
+     */
+    "source": "variant" | "price_list" | (string & {});
+};
+export type CategoriesCreateParams = (InputValue<CreateCategoryRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
 export type CategoriesDeleteParams = {
     /** Optional resource version last read by the caller. Format: uint64. minimum: 1. */
     "expected_version"?: InputValue<number>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
 };
-export type CategoriesGetParams = {};
+export type CategoriesGetParams = DisputesAcceptParams;
 export type CategoriesListParams = {
     /**
      * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
@@ -381,10 +1754,10 @@ export type CategoriesListParams = {
      */
     "page_size"?: InputValue<number>;
     /**
-     * Opaque next_page_token from the previous response. Omit on the first request. You may change
-     * `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request
-     * context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns
-     * a validation error.
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
      */
     "page_token"?: InputValue<string>;
     /**
@@ -395,6 +1768,7 @@ export type CategoriesListParams = {
     "handle"?: InputValue<string>;
     /**
      * Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
+     * Example: "warehouse-1842".
      */
     "external_reference_id"?: InputValue<string>;
     /**
@@ -418,758 +1792,43 @@ export type CategoriesListParams = {
     "updated_after"?: InputValue<string | globalThis.Date>;
     /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
     "updated_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
 };
-export type CategoriesUpdateParams = (InputValue<UpdateCategoryRequestInput>);
-/** A catalog grouping used to organize items. */
-export type Category = {
-    /** Number of bundles currently assigned to the category. Format: int64. */
-    "assigned_bundle_count": number;
-    /** Number of products currently assigned to the category. Format: int64. */
-    "assigned_product_count": number;
-    /** Stable identifier of the category. */
-    "category_id": string;
-    /** When this resource was created, as an RFC3339 timestamp. Format: date-time. */
-    "created_at": string;
-    /** Description of the category. */
-    "description"?: string;
-    /** Caller-owned identifier for this resource in an external system. maxLength: 255. */
-    "external_reference_id"?: string;
-    /** Immutable handle used to assign this category to products and bundles. */
-    "handle": string;
-    /** Identifier of the merchant that owns this resource. */
-    "merchant_id"?: string;
-    /**
-     * Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a
-     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
-     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
-     * may not satisfy them.
-     */
-    "metadata"?: MetadataMap;
-    /** Category name shown to buyers. */
-    "name": string;
-    /**
-     * Category lifecycle status. Active categories can be assigned; deleted is returned only by
-     * DELETE. Value enum: "active", "deleted".
-     */
-    "status": "active" | "deleted" | (string & {});
-    /**
-     * Number of promotions, return reasons and return policy versions that reference this
-     * category. Deleting the category is refused with `409 RESOURCE_IN_USE` while this or
-     * `assigned_product_count` or `assigned_bundle_count` is above zero. Format: int64.
-     */
-    "targeting_reference_count": number;
-    /** When this resource last changed, as an RFC3339 timestamp. Format: date-time. */
-    "updated_at": string;
-    /**
-     * Persisted owned-state version. Clock-based availability and expanded resources do not
-     * advance this counter. Format: uint64. minimum: 1.
-     */
-    "version": number;
-};
-export type CategoryCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Category;
-    };
-    "event_type"?: "category.created";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Category;
-    };
-    "event_type"?: "category.created";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
+export type CategoriesUpdateParams = (InputValue<UpdateCategoryRequestInput>)
     & {
-    "event_type": "category.created";
-});
-/**
- * The `category.created` webhook payload for the `installed_merchants` event source. Fields shared
- * by partner webhook payloads.
- */
-export type CategoryCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**  object (Required): {@link Category}. A catalog grouping used to organize items. */
-    "data"?: {
-        /** A catalog grouping used to organize items. */
-        "object": Category;
-    };
-    /** Value enum: "category.created". */
-    "event_type"?: "category.created";
     /**
-     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
-     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
-     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
      */
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        /** Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        /** Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * The `category.created` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type CategoryCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**  object (Required): {@link Category}. A catalog grouping used to organize items. */
-    "data"?: {
-        /** A catalog grouping used to organize items. */
-        "object": Category;
-    };
-    /** Value enum: "category.created". */
-    "event_type"?: "category.created";
-});
-export type CategoryDeletedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Category;
-    };
-    "event_type"?: "category.deleted";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Category;
-    };
-    "event_type"?: "category.deleted";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "category.deleted";
-});
-/**
- * The `category.deleted` webhook payload for the `installed_merchants` event source. Fields shared
- * by partner webhook payloads.
- */
-export type CategoryDeletedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**  object (Required): {@link Category}. A catalog grouping used to organize items. */
-    "data"?: {
-        /** A catalog grouping used to organize items. */
-        "object": Category;
-    };
-    /** Value enum: "category.deleted". */
-    "event_type"?: "category.deleted";
+    "Flint-Merchant-Id"?: InputValue<string>;
     /**
-     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
-     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
-     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
      */
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        /** Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        /** Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * The `category.deleted` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type CategoryDeletedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**  object (Required): {@link Category}. A catalog grouping used to organize items. */
-    "data"?: {
-        /** A catalog grouping used to organize items. */
-        "object": Category;
-    };
-    /** Value enum: "category.deleted". */
-    "event_type"?: "category.deleted";
-});
-/** A page of `Category` objects. */
-export type CategoryListResponse = {
+    "Flint-Mode"?: InputValue<"test" | "live">;
     /**
-     * The requested category data. [] (Value): {@link Category}. A catalog grouping used to
-     * organize items.
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
      */
-    "data": Array<Category>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Token for the next page. Omitted when there are no more results. */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, useful when contacting support. maxLength: 128. pattern:
-     * ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
+    "Flint-Sandbox-Id"?: InputValue<string>;
 };
-/** A reference to a product category by ID, handle, and name. */
-export type CategoryReference = {
-    /** Stable identifier of the category. */
-    "category_id": string;
-    /** Category handle recorded with this reference. */
-    "handle": string;
-    /** Category name recorded with this reference. */
-    "name": string;
-};
-/** A response containing `Category` data. */
-export type CategoryResponse = {
-    /** The requested category data. A catalog grouping used to organize items. */
-    "data": Category;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, useful when contacting support. maxLength: 128. pattern:
-     * ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type CategoryUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Category;
-    };
-    "event_type"?: "category.updated";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Category;
-    };
-    "event_type"?: "category.updated";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "category.updated";
-});
-/**
- * The `category.updated` webhook payload for the `installed_merchants` event source. Fields shared
- * by partner webhook payloads.
- */
-export type CategoryUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**  object (Required): {@link Category}. A catalog grouping used to organize items. */
-    "data"?: {
-        /** A catalog grouping used to organize items. */
-        "object": Category;
-    };
-    /** Value enum: "category.updated". */
-    "event_type"?: "category.updated";
-    /**
-     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
-     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
-     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        /** Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        /** Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * The `category.updated` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type CategoryUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**  object (Required): {@link Category}. A catalog grouping used to organize items. */
-    "data"?: {
-        /** A catalog grouping used to organize items. */
-        "object": Category;
-    };
-    /** Value enum: "category.updated". */
-    "event_type"?: "category.updated";
-});
-/** The request body for: Change subscription plan. */
-export type ChangeSubscriptionPlanRequest = ({
-    /**
-     * Send with billing_interval_count to choose a target plan option. Omit both to keep the
-     * current interval. Value enum: "daily", "weekly", "monthly", "yearly".
-     */
-    "billing_interval"?: "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-    /**
-     * Required when billing_interval is sent; billing_interval is required when this field is
-     * sent. minimum: 1. maximum: 365.
-     */
-    "billing_interval_count"?: number;
-    /**
-     * now bills a new period with credit for unused paid item time. next_renewal changes the plan
-     * immediately and keeps the current paid period and next billing date. Value enum: "now",
-     * "next_renewal".
-     */
-    "billing_starts": "now" | "next_renewal" | (string & {});
-    /** Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /**
-     * Optional quantities for target plan lines, with no duplicate IDs. Omitted lines carry their
-     * paired current line's quantity, or use the target line's quantity when unpaired. If an
-     * adjusted current quantity cannot be paired, send a quantity for every target line. []
-     * (Value): {@link SubscriptionPlanChangeLineItemRequest}. Quantity override for a line in the
-     * target subscription plan.
-     */
-    "line_items"?: Array<SubscriptionPlanChangeLineItemRequest>;
-    /**
-     * Omit to keep the current subscription quantity. The target plan must offer the quantity.
-     * Whole-number quantity; fractional quantities are not supported. minimum: 1. maximum: 100.
-     */
-    "quantity"?: number;
-    /** minLength: 1. pattern: ^plan_[0-9A-HJKMNP-TV-Z]{26}$. */
-    "subscription_plan_id": string;
-});
-/** The request body for: Change subscription plan. */
-export type ChangeSubscriptionPlanRequestInput = ({
-    /**
-     * Send with billing_interval_count to choose a target plan option. Omit both to keep the
-     * current interval. Value enum: "daily", "weekly", "monthly", "yearly".
-     */
-    "billing_interval"?: "daily" | "weekly" | "monthly" | "yearly";
-    /**
-     * Required when billing_interval is sent; billing_interval is required when this field is
-     * sent. minimum: 1. maximum: 365.
-     */
-    "billing_interval_count"?: number;
-    /**
-     * now bills a new period with credit for unused paid item time. next_renewal changes the plan
-     * immediately and keeps the current paid period and next billing date. Value enum: "now",
-     * "next_renewal".
-     */
-    "billing_starts": "now" | "next_renewal";
-    /** Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /**
-     * Optional quantities for target plan lines, with no duplicate IDs. Omitted lines carry their
-     * paired current line's quantity, or use the target line's quantity when unpaired. If an
-     * adjusted current quantity cannot be paired, send a quantity for every target line. []
-     * (Value): {@link SubscriptionPlanChangeLineItemRequestInput}. Quantity override for a line in
-     * the target subscription plan.
-     */
-    "line_items"?: Array<SubscriptionPlanChangeLineItemRequestInput>;
-    /**
-     * Omit to keep the current subscription quantity. The target plan must offer the quantity.
-     * Whole-number quantity; fractional quantities are not supported. minimum: 1. maximum: 100.
-     */
-    "quantity"?: number;
-    /** minLength: 1. pattern: ^plan_[0-9A-HJKMNP-TV-Z]{26}$. */
-    "subscription_plan_id": string;
-});
-/** Buyer contact supplied with payment or saved during checkout. */
-export type CheckoutBuyerContact = {
-    /**
-     * Email supplied for the buyer, exactly as sent. Null when no email is saved; is_email_cleared
-     * distinguishes an explicit clear. Format: email. maxLength: 255.
-     */
-    "email": string | null;
-    /**
-     * True when the buyer explicitly cleared the email, including before entering one. Saving an
-     * email resets it to false. Do not restore a prefilled email while true.
-     */
-    "is_email_cleared": boolean;
-    /**
-     * True when the buyer explicitly cleared the phone, including before entering one. Saving a
-     * phone resets it to false. Do not restore a prefilled phone while true.
-     */
-    "is_phone_cleared": boolean;
-    /**
-     * Phone supplied for the buyer, in E.164 format. Null when no phone is saved; is_phone_cleared
-     * distinguishes an explicit clear. pattern: ^\+[1-9][0-9]{1,14}$.
-     */
-    "phone": string | null;
-    /**
-     * When the buyer last changed the saved checkout contact. Omitted on order buyer contact.
-     * Format: date-time.
-     */
-    "updated_at"?: string;
-};
-/**
- * Buyer contact to supply with payment or save during checkout. Send at least one field. Values
- * are stored exactly as sent, so an email with surrounding spaces is rejected. Checkout session
- * updates keep omitted fields and accept null to clear a field. Payment requests do not accept
- * null. minProperties: 1.
- */
-export type CheckoutBuyerContactRequest = {
-    /**
-     * Email for the buyer, such as buyer@example.com. On checkout session updates, null clears the
-     * saved email. Format: email. minLength: 1. maxLength: 255.
-     */
-    "email"?: string | null;
-    /**
-     * Phone for the buyer, in E.164 format, such as +14155551234. On checkout session updates,
-     * null clears the saved phone. minLength: 1. pattern: ^\+[1-9][0-9]{1,14}$.
-     */
-    "phone"?: string | null;
-};
-/**
- * Buyer contact to supply with payment or save during checkout. Send at least one field. Values
- * are stored exactly as sent, so an email with surrounding spaces is rejected. Checkout session
- * updates keep omitted fields and accept null to clear a field. Payment requests do not accept
- * null. minProperties: 1.
- */
-export type CheckoutBuyerContactRequestInput = CheckoutBuyerContactRequest;
-/** What checkout asks the buyer for. Each field you leave out uses your checkout settings. */
-export type CheckoutBuyerFields = {
-    /** Whether checkout offers address suggestions while the buyer enters an address. */
-    "address_autocomplete_enabled"?: boolean;
-    /** Whether checkout requires the buyer's billing address. */
-    "require_billing_address"?: boolean;
-    /**
-     * Whether checkout requires the buyer's email address. Subscription plan sessions always
-     * require email, so only true is allowed with type: subscription_plan.
-     */
-    "require_email"?: boolean;
-    /** Whether checkout requires the buyer's phone number. */
-    "require_phone"?: boolean;
-};
-/** What checkout asks the buyer for. Each field you leave out uses your checkout settings. */
-export type CheckoutBuyerFieldsRequestInput = CheckoutBuyerFields;
-/** Custom text shown in checkout: an order summary message and a shipping address label. */
-export type CheckoutCustomTextConfig = {
-    "order_summary_message"?: string;
-    "shipping_address_label"?: string;
-};
-/**
- * Custom checkout text you supply when creating a checkout session: an order summary message and a
- * shipping address label.
- */
-export type CheckoutCustomTextWriteConfigInput = {
-    /** minLength: 1. */
-    "order_summary_message"?: string;
-    /** minLength: 1. */
-    "shipping_address_label"?: string;
-};
-/** Details the buyer's checkout can prefill from the customer it acts for. */
-export type CheckoutCustomerPrefill = {
-    /**
-     * The customer's default billing address. Omitted when the customer has none. A postal
-     * address. Every address has country. Addresses Flint checked as complete (customer and saved
-     * addresses, merchant, location, invoice, order delivery destination, tax identity,
-     * fulfillment recipient and pickup addresses) always have line1 and city, and US ones always
-     * have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax
-     * locations hold only what was provided, such as postal_code and country.
-     */
-    "billing_address"?: Address;
-    /** The customer's email. */
-    "email": string;
-    /**
-     * The customer's default shipping address. Omitted when the customer has none. A postal
-     * address. Every address has country. Addresses Flint checked as complete (customer and saved
-     * addresses, merchant, location, invoice, order delivery destination, tax identity,
-     * fulfillment recipient and pickup addresses) always have line1 and city, and US ones always
-     * have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax
-     * locations hold only what was provided, such as postal_code and country.
-     */
-    "shipping_address"?: Address;
-    /**
-     * Recipient name of the customer's default shipping address. Present whenever
-     * `shipping_address` is.
-     */
-    "shipping_recipient_name"?: string;
-};
-/**
- * A delivery dependency pinned to a checkout, such as the assigned method, eligibility, or pricing
- * callback, with the revision it was pinned at.
- */
-export type CheckoutDeliveryPinnedDependency = {
-    /**
-     * Value enum: "assigned_method", "eligibility", "method_origin", "pickup_collection",
-     * "pricing_callback", "origin".
-     */
-    "delivery_dependency_role": "assigned_method"
-        | "eligibility"
-        | "method_origin"
-        | "pickup_collection"
-        | "pricing_callback"
-        | "origin"
-        | (string & {});
-    /**
-     *  anyOf[1] (Value): {@link ResourceReference}. A reference to another resource by
-     * `resource_type` and `resource_id`. anyOf[2] (Value): null.
-     */
-    "dependency": ((ResourceReference) | (null));
-    /** Version of the Location geography used by this assignment or dependency. Format: int64. */
-    "location_geography_version"?: number;
-    "revision_id"?: string;
-};
-/**
- * The delivery options Flint derived for a checkout as a buyer sees them: choice groups, input
- * requirements, and evaluation status.
- */
-export type CheckoutDerivedDeliveryResource = {
-    /**  [] (Value): string. */
-    "buyer_reasons": Array<string>;
-    /**
-     *  [] (Value): {@link DeliveryQuoteChoiceGroupResource}. One group of order items in a
-     * delivery quote, with the delivery options the buyer can choose, its availability status, and
-     * any input still needed.
-     */
-    "choice_groups": Array<DeliveryQuoteChoiceGroupResource>;
-    "delivery_quote_id"?: string;
-    /**
-     * Current delivery selection ID after reconciliation, or null when no selection is current.
-     * Assert this value with expected_delivery_selection_id on checkout delivery writes.
-     */
-    "delivery_selection_id": string | null;
-    /** Value enum: "complete", "incomplete", "degraded", "requires_explicit_quote". */
-    "evaluation_status": "complete" | "incomplete" | "degraded" | "requires_explicit_quote" | (string & {});
-    /** RFC3339 timestamp. Format: date-time. */
-    "expires_at"?: string;
-    /**
-     * Inputs the checkout's delivery methods need. Once the checkout has a delivery quote, these
-     * are the quote's input_requirements. Before that, they come from the methods alone and name
-     * no choice group: the fields in each method's quote_input_fields, and each recipient field a
-     * method requires. [] (Value): {@link DeliveryInputRequirement}. An input a delivery method
-     * needs, such as an address field or time window, with its `field_path`, purpose, and
-     * constraint.
-     */
-    "input_requirements": Array<DeliveryInputRequirement>;
-    /**
-     * Always present with an API key or dashboard credential. [] (Value): {@link
-     * DeliveryMerchantDiagnostic}. A merchant-only diagnostic explaining why a delivery method
-     * produced no option, with its outcome, recommended action, and eligibility mismatches.
-     */
-    "merchant_diagnostics"?: Array<DeliveryMerchantDiagnostic>;
-};
-/** A URL to load in an iframe when applying a gift card returns `GIFT_CARD_CHALLENGE_REQUIRED`. */
-export type CheckoutGiftCardChallenge = {
-    /**
-     * Load this URL in an iframe on page_origin when applying a gift card returns
-     * GIFT_CARD_CHALLENGE_REQUIRED. On a hosted session, Flint's checkout loads it for you, so you
-     * don't need to do anything. The page posts a single-use proof to your page; send it in
-     * Flint-Gift-Card-Challenge. Treat the URL as opaque. It stays the same for the session and
-     * stops working when the session ends. Format: uri.
-     */
-    "url": string;
-};
-/**
- * Legal settings you supply when creating a checkout session: whether buyers must accept terms,
- * and links to the terms, refund policy, shipping policy, and contract.
- */
-export type CheckoutLegalConfigRequestInput = {
-    /** minLength: 1. */
-    "contract_url"?: string;
-    /** minLength: 1. */
-    "refund_policy_url"?: string;
-    "require_terms_of_service"?: boolean;
-    /** minLength: 1. */
-    "shipping_policy_url"?: string;
-    /** minLength: 1. */
-    "terms_of_service_url"?: string;
-};
-/** The merchant's support contact. Each field is omitted when the merchant has not set it. */
-export type CheckoutMerchantSupport = {
-    /** Support email address. Format: email. */
-    "email"?: string;
-    /** Support phone number. */
-    "phone"?: string;
-    /** Support page, as an absolute http or https URL. Format: uri. */
-    "url"?: string;
-};
-/** Payment settings for a checkout: the enabled payment options and a note shown with payment. */
-export type CheckoutPaymentConfig = {
-    /**
-     * Payment options for this session. The list replaces
-     * settings.checkout.enabled_payment_options; omit it to use that setting. [] enum: "card",
-     * "apple_pay", "google_pay", "affirm", "ach_debit". [] (Value): string. Value enum: "card",
-     * "apple_pay", "google_pay", "affirm", "ach_debit".
-     */
-    "enabled_payment_options"?: Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | (string & {})>;
-    "payment_note"?: string;
-};
-/**
- * Payment settings you supply when creating a checkout session: the enabled payment options and a
- * note shown with payment.
- */
-export type CheckoutPaymentConfigRequestInput = {
-    /**
-     * Payment options for this session. The list replaces
-     * settings.checkout.enabled_payment_options; omit it to use that setting. [] enum: "card",
-     * "apple_pay", "google_pay", "affirm", "ach_debit". [] (Value): string. Value enum: "card",
-     * "apple_pay", "google_pay", "affirm", "ach_debit".
-     */
-    "enabled_payment_options"?: Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit">;
-    /** minLength: 1. */
-    "payment_note"?: string;
-};
-/**
- * A card the buyer saved with the checkout's payment by giving a mobile phone number. It works for
- * nothing until the buyer confirms it with a code: request one with POST
- * /v1/checkout-sessions/{checkout_session_id}/customer-verifications and purpose
- * confirm_saved_payment_method.
- */
-export type CheckoutPaymentMethodSave = {
-    /**
-     * True while status is pending after the buyer confirmed the number by text, when the number
-     * alone can't save the card: the customer with the buyer's email existed before this payment,
-     * the buyer did not confirm that email in this checkout, and the number isn't already the
-     * customer's saved number with an active card saved with it. The buyer confirms the email with
-     * an emailed code to finish; the card is then saved with the number, which replaces the
-     * customer's saved number.
-     */
-    "email_confirmation_required": boolean;
-    /**
-     * When a pending save stops waiting: 24 hours after the payment succeeded or was approved.
-     * Format: date-time.
-     */
-    "expires_at"?: string | null;
-    /**
-     * Last two digits of the number the buyer gave, which a code is texted to. Set while status is
-     * pending.
-     */
-    "phone_last_digits"?: string;
-    /** Value enum: "sms", "email". */
-    "saved_with"?: "sms" | "email" | (string & {});
-    /** Value enum: "pending", "saved", "expired". */
-    "status": "pending" | "saved" | "expired" | (string & {});
-};
-/**
- * Contact details and addresses to fill in for the buyer, who can change them. For a customer with
- * saved addresses, Flint fills in any address you leave out, and reads include it. With quick_pay
- * or subscription_plan and automatic tax on, a prefilled address sets the order's tax location.
- * Not changed by what the buyer types; for that, read buyer_contact. customer_prefill is what the
- * checkout credential reads from the customer record.
- */
-export type CheckoutPrefill = {
-    /**
-     * A postal address. Every address has country. Addresses Flint checked as complete (customer
-     * and saved addresses, merchant, location, invoice, order delivery destination, tax identity,
-     * fulfillment recipient and pickup addresses) always have line1 and city, and US ones always
-     * have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax
-     * locations hold only what was provided, such as postal_code and country.
-     */
-    "billing_address"?: Address;
-    "email"?: string;
-    "phone"?: string;
-    /**
-     * A postal address. Every address has country. Addresses Flint checked as complete (customer
-     * and saved addresses, merchant, location, invoice, order delivery destination, tax identity,
-     * fulfillment recipient and pickup addresses) always have line1 and city, and US ones always
-     * have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax
-     * locations hold only what was provided, such as postal_code and country.
-     */
-    "shipping_address"?: Address;
-};
-/**
- * Contact details and addresses to fill in for the buyer, who can change them. For a customer with
- * saved addresses, Flint fills in any address you leave out, and reads include it. With quick_pay
- * or subscription_plan and automatic tax on, a prefilled address sets the order's tax location.
- * Not changed by what the buyer types; for that, read buyer_contact. customer_prefill is what the
- * checkout credential reads from the customer record.
- */
-export type CheckoutPrefillRequest = {
-    /**
-     * A complete postal address. State and postal_code are required for US addresses and optional
-     * for other countries. Send null or omit line2, state, and postal_code when the address has
-     * none.
-     */
-    "billing_address"?: AddressRequest;
-    /** minLength: 1. */
-    "email"?: string;
-    /** minLength: 1. */
-    "phone"?: string;
-    /**
-     * A complete postal address. State and postal_code are required for US addresses and optional
-     * for other countries. Send null or omit line2, state, and postal_code when the address has
-     * none.
-     */
-    "shipping_address"?: AddressRequest;
-};
-/**
- * Contact details and addresses to fill in for the buyer, who can change them. For a customer with
- * saved addresses, Flint fills in any address you leave out, and reads include it. With quick_pay
- * or subscription_plan and automatic tax on, a prefilled address sets the order's tax location.
- * Not changed by what the buyer types; for that, read buyer_contact. customer_prefill is what the
- * checkout credential reads from the customer record.
- */
-export type CheckoutPrefillRequestInput = {
-    /**
-     * A complete postal address. State and postal_code are required for US addresses and optional
-     * for other countries. Send null or omit line2, state, and postal_code when the address has
-     * none.
-     */
-    "billing_address"?: AddressRequestInput;
-    /** minLength: 1. */
-    "email"?: string;
-    /** minLength: 1. */
-    "phone"?: string;
-    /**
-     * A complete postal address. State and postal_code are required for US addresses and optional
-     * for other countries. Send null or omit line2, state, and postal_code when the address has
-     * none.
-     */
-    "shipping_address"?: AddressRequestInput;
-};
-/**
- * A problem with a checkout session, such as a stale delivery selection, with its `code`, whether
- * it blocks completion, and remediation.
- */
-export type CheckoutProblemResource = {
-    "blocks_completion": boolean;
-    /**
-     * Value enum: "delivery_selection_stale", "delivery_selection_invalid", "delivery_unreadable",
-     * "payment_in_progress".
-     */
-    "code": "delivery_selection_stale"
-        | "delivery_selection_invalid"
-        | "delivery_unreadable"
-        | "payment_in_progress"
-        | (string & {});
-    /**
-     * Recovery guidance for an error: whether and how to `retry`, plus next steps and suggested
-     * actions.
-     */
-    "remediation"?: ErrorRemediation;
-    /** Value enum: "error". */
-    "severity": "error" | (string & {});
-};
-/**
- * Promotion settings for a checkout: whether automatic promotions apply and whether the buyer can
- * apply promotion codes.
- */
-export type CheckoutPromotionConfig = {
-    "automatic_enabled"?: boolean;
-    /**
-     * Object-level override for whether this checkout's buyer can apply promotion codes, hosted or
-     * headless. Hosted checkout shows or hides code entry to match. Omit to inherit
-     * checkout.promotion_codes_enabled. True allows codes when the merchant's promotion settings
-     * allow them; false blocks them for this checkout.
-     */
-    "codes_enabled"?: boolean | null;
-};
-/**
- * Promotion settings for a checkout: whether automatic promotions apply and whether the buyer can
- * apply promotion codes.
- */
-export type CheckoutPromotionConfigRequestInput = CheckoutPromotionConfig;

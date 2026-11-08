@@ -16,7 +16,7 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->partnerApps->deleteCredential('papp_01ARZ3NDEKTSV4RRFFQ69G5FAV', 'pacr_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->partnerApps->deleteCredential('papp_01KEZF7C00Y8VMXYZ1GNPP3WHV', 'pacr_01KEZF7C005RDK44XFG5WF94BB', [], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->partner_app_credential_id . PHP_EOL;
 echo $result->partner_app_id . PHP_EOL;
 $client->close();

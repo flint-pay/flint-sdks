@@ -8,7 +8,7 @@ namespace Flint;
 final class FulfillmentLineItemRequestInput extends Model {
     /** @param array{'order_line_item_id': string, 'quantity': int}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('FulfillmentLineItemRequestInput')); }
-    /** minLength: 1.
+    /** Order line whose quantity is allocated. minLength: 1. Example: "li_01KEZF7C008YPRCK7VDKTGWR31".
      * @return string
      * @throws SdkError When order_line_item_id is omitted; use hasOrderLineItemId() or valueOrDefault().
      */

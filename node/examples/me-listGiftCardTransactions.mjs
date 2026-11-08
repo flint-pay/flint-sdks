@@ -8,6 +8,8 @@ const client = new Client({
   customerToken,
 });
 const result = await client.me.listGiftCardTransactions(
-  "gc_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  {
+    gift_card_id: "gc_01KEZF7C00RT1618WYBM1Y94CG",
+  }
 );
 console.log(result.request_id);

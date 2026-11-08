@@ -9,7 +9,7 @@ namespace Flint;
 final class MeGetPaymentMethodInput extends Model {
     /** @param array{'payment_method_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MeGetPaymentMethodInput')); }
-    /** Flint payment method ID. Example: "pm_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Flint payment method ID. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
      * @return string
      * @throws SdkError When payment_method_id is omitted; use hasPaymentMethodId() or valueOrDefault().
      */

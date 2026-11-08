@@ -22,9 +22,10 @@ Body model: [CreateAPIKeyRequestInput](../models/CreateAPIKeyRequest.md#createap
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `access` | Required | string | Key access. Full and read_only resolve from the current scope catalog for the key's mode; restricted holds only its listed scopes. Granting full or read_only requires a freshly verified authorized user session or a full-access API key. Values: `"full"`, `"read_only"`, `"restricted"`. |
+| `access` | Required | string | Key access. Full and read_only resolve from the current scope catalog for the key's mode; restricted holds only its listed scopes. Granting full or read_only requires a freshly verified authorized user session, or a full-access API key in the key's mode or a live full-access key granting a test key. Values: `"full"`, `"read_only"`, `"restricted"`. |
 | `expires_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. minLength: `1`. |
 | `name` | Required | string | minLength: `1`. maxLength: `100`. |
+| `partner_app_install_id` | Optional | string | Links this key to a connected app's install. Revoking the install or its grant for this key's environment revokes the key. The install must be active and authorized for that environment. Set only at creation; it never changes. Omit for an unlinked key. Keys created by a linked key inherit its link. Each install can have up to 25 linked keys that have not been revoked per environment. minLength: `1`. pattern: `^pinst_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `scopes` | Optional | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. minItems: `1`. uniqueItems: `true`. Items values: [96 declared values](../models/APIKey.md#apikey-scopes--values). |
 
 #### apiKeys.create with `access: "full"`
@@ -56,8 +57,8 @@ Returned payload: [APIKeyWithSecret](../models/APIKeyWithSecret.md#apikeywithsec
 | 400 | InvalidRequestError |
 | 401 | AuthenticationError |
 | 403 | PermissionError |
+| 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -113,7 +114,6 @@ Returned payload: [APIKey](../models/APIKey.md#apikey).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -131,7 +131,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```typescript
-const result = await client.apiKeys.get("key_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
+const result = await client.apiKeys.get("key_01KEZF7C008CTC2G5V6J08M6S7", {}, {  });
 ```
 
 [Complete runnable example](../examples/apiKeys-get.mjs)
@@ -148,9 +148,10 @@ Signature: `list(params?: ApiKeysListParams, options?: _SdkWithoutIdempotency<Re
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `status` | Optional | Array of string or string | Optional API key status filter. Active keys have no expiration or a future expires_at. Expired keys are not revoked and have expires_at at or before the current time. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"expired"`, `"revoked"`. Values: `"active"`, `"expired"`, `"revoked"`. |
+| `partner_app_install_id` | Optional | string | Exact-match filter on partner_app_install_id. pattern: `^pinst_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `status` | Optional | Array of string or string | Optional API key status filter. Active keys have no expiration or a future expires_at. Expired keys are not revoked and have expires_at at or before the current time. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"expired"`, `"revoked"`. Values: `"active"`, `"expired"`, `"revoked"`. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `sort_by` | Optional | string | Field to sort by. Defaults to created_at; ties are broken by api_key_id. Default: `"created_at"`. Values: `"created_at"`, `"last_used_at"`, `"name"`. |
 | `sort_direction` | Optional | string | Sort direction. Defaults to desc. Default: `"desc"`. Values: `"asc"`, `"desc"`. |
 | `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
@@ -169,7 +170,6 @@ Returned payload: [APIKeyListResponse](../models/APIKeyListResponse.md#apikeylis
 | 400 | InvalidRequestError |
 | 401 | AuthenticationError |
 | 403 | PermissionError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -213,9 +213,7 @@ Body model: [ConfigurationVersionRequestInput](../models/SkipMeSubscriptionCycle
 
 #### apiKeys.revoke body fields
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `expected_version` | Optional | integer | Format: `uint64`. minimum: `1`. |
+Field definitions: [shared fields](../models/SkipMeSubscriptionCycleRequestInput.md#skipmesubscriptioncyclerequestinput).
 
 #### Response
 
@@ -230,7 +228,6 @@ Returned payload: [APIKey](../models/APIKey.md#apikey).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -255,7 +252,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.apiKeys.revoke("key_01ARZ3NDEKTSV4RRFFQ69G5FAV", undefined, { idempotencyKey: idempotencyKey });
+const result = await client.apiKeys.revoke("key_01KEZF7C008CTC2G5V6J08M6S7", undefined, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/apiKeys-revoke.mjs)
@@ -281,7 +278,7 @@ Body model: [UpdateAPIKeyRequestInput](../models/UpdateAPIKeyRequest.md#updateap
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `access` | Optional | string | Key access. Full and read_only resolve from the current scope catalog for the key's mode; restricted holds only its listed scopes. Granting full or read_only requires a freshly verified authorized user session or a full-access API key. Values: `"full"`, `"read_only"`, `"restricted"`. |
+| `access` | Optional | string | Key access. Full and read_only resolve from the current scope catalog for the key's mode; restricted holds only its listed scopes. Granting full or read_only requires a freshly verified authorized user session, or a full-access API key in the key's mode or a live full-access key granting a test key. Values: `"full"`, `"read_only"`, `"restricted"`. |
 | `expected_version` | Optional | integer | Resource version last read by the caller. Required when access or scopes is present. Optional for scalar updates. Format: `uint64`. minimum: `1`. |
 | `expires_at` | Optional | string or null | Future RFC3339 timestamp. Send null to clear an existing API-key expiration. Format: `date-time`. minLength: `1`. |
 | `name` | Optional | string | minLength: `1`. maxLength: `100`. |
@@ -293,7 +290,7 @@ Body model: [UpdateAPIKeyRequestInput](../models/UpdateAPIKeyRequest.md#updateap
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `access` | Required | string | Key access. Full and read_only resolve from the current scope catalog for the key's mode; restricted holds only its listed scopes. Granting full or read_only requires a freshly verified authorized user session or a full-access API key. Values: `"full"`. |
+| `access` | Required | string | Key access. Full and read_only resolve from the current scope catalog for the key's mode; restricted holds only its listed scopes. Granting full or read_only requires a freshly verified authorized user session, or a full-access API key in the key's mode or a live full-access key granting a test key. Values: `"full"`. |
 | `expected_version` | Optional | integer | Resource version last read by the caller. Required when access or scopes is present. Optional for scalar updates. Format: `uint64`. minimum: `1`. |
 | `expires_at` | Optional | string or null | Future RFC3339 timestamp. Send null to clear an existing API-key expiration. Format: `date-time`. minLength: `1`. |
 | `name` | Optional | string | minLength: `1`. maxLength: `100`. |
@@ -305,7 +302,7 @@ Body model: [UpdateAPIKeyRequestInput](../models/UpdateAPIKeyRequest.md#updateap
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `access` | Required | string | Key access. Full and read_only resolve from the current scope catalog for the key's mode; restricted holds only its listed scopes. Granting full or read_only requires a freshly verified authorized user session or a full-access API key. Values: `"read_only"`. |
+| `access` | Required | string | Key access. Full and read_only resolve from the current scope catalog for the key's mode; restricted holds only its listed scopes. Granting full or read_only requires a freshly verified authorized user session, or a full-access API key in the key's mode or a live full-access key granting a test key. Values: `"read_only"`. |
 | `expected_version` | Optional | integer | Resource version last read by the caller. Required when access or scopes is present. Optional for scalar updates. Format: `uint64`. minimum: `1`. |
 | `expires_at` | Optional | string or null | Future RFC3339 timestamp. Send null to clear an existing API-key expiration. Format: `date-time`. minLength: `1`. |
 | `name` | Optional | string | minLength: `1`. maxLength: `100`. |
@@ -317,7 +314,7 @@ Body model: [UpdateAPIKeyRequestInput](../models/UpdateAPIKeyRequest.md#updateap
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `access` | Required | string | Key access. Full and read_only resolve from the current scope catalog for the key's mode; restricted holds only its listed scopes. Granting full or read_only requires a freshly verified authorized user session or a full-access API key. Values: `"restricted"`. |
+| `access` | Required | string | Key access. Full and read_only resolve from the current scope catalog for the key's mode; restricted holds only its listed scopes. Granting full or read_only requires a freshly verified authorized user session, or a full-access API key in the key's mode or a live full-access key granting a test key. Values: `"restricted"`. |
 | `expected_version` | Optional | integer | Resource version last read by the caller. Required when access or scopes is present. Optional for scalar updates. Format: `uint64`. minimum: `1`. |
 | `expires_at` | Optional | string or null | Future RFC3339 timestamp. Send null to clear an existing API-key expiration. Format: `date-time`. minLength: `1`. |
 | `name` | Optional | string | minLength: `1`. maxLength: `100`. |
@@ -342,7 +339,6 @@ Returned payload: [APIKey](../models/APIKey.md#apikey).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |

@@ -6,14 +6,14 @@ namespace Flint;
  * @property-read ?DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemBundleGiftCardPurchaseRecipient $recipient
  * Presence-aware response; omitted optional fields return null. */
 final class DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemBundleGiftCardPurchase extends Model {
-    /** @param array{'face_value_money'?: object{'amount': string, 'currency': string}, 'recipient'?: mixed, ...}|object $values */
+    /** @param array{'face_value_money'?: mixed, 'recipient'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemBundleGiftCardPurchase')); }
-    /** Buyer-selected face value within the gift card offer's limits. The amount and every computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment option limits can apply.
+    /** Buyer-selected face value within the gift card offer's limits. Currency must be USD. Amount must be between 1 and 200000 minor units, inclusive. The amount and every computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return ?DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemBundleGiftCardPurchaseFaceValueMoney
      */
     public function getFaceValueMoney(): ?DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemBundleGiftCardPurchaseFaceValueMoney { return $this->get('face_value_money'); }
     public function hasFaceValueMoney(): bool { return $this->has('face_value_money'); }
-    /** The recipient of a purchased gift card: `email`, optional `name` and `message`, and an optional `send_at` time.
+    /** Who receives the gift card. `null` when no recipient was set. The recipient of a purchased gift card: `email`, optional `name` and `message`, and an optional `send_at` time.
      * @return ?DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemBundleGiftCardPurchaseRecipient
      */
     public function getRecipient(): ?DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemBundleGiftCardPurchaseRecipient { return $this->get('recipient'); }

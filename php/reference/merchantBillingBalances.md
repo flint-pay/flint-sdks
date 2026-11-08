@@ -18,7 +18,7 @@ Signature: `get(string|Model $merchant_billing_balance_id, array|Model|null $par
 
 #### Response
 
-Returned payload: [MerchantBillingBalance](../models/MerchantBillingBalance.md#merchantbillingbalance).
+Returned payload: [MerchantBillingBalance](../models/MerchantBillingBalanceUpdatedEventDataObject.md#merchantbillingbalanceupdatedeventdataobject).
 
 #### Errors
 
@@ -29,7 +29,6 @@ Returned payload: [MerchantBillingBalance](../models/MerchantBillingBalance.md#m
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -47,7 +46,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```php
-$result = $client->merchantBillingBalances->get('mbbal_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
+$result = $client->merchantBillingBalances->get('mbbal_01KEZF7C002TWWZA70R4DRVJC9', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/merchantBillingBalances-get.php)
@@ -76,7 +75,6 @@ Returned payload: [MerchantBillingBalanceListResponse](../models/MerchantBilling
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |

@@ -21,5 +21,6 @@ $result = $client->settings->update([
     'channel' => 'sdk-example',
   ],
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
+echo $result->merchant_id . PHP_EOL;
 echo $result->settings_id . PHP_EOL;
 $client->close();

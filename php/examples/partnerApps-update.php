@@ -19,6 +19,5 @@ $idempotencyKey = bin2hex(random_bytes(16));
 $result = $client->partnerApps->update('papp_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
   'name' => 'Example integration',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
-echo $result->client_id . PHP_EOL;
-echo $result->partner_app_id . PHP_EOL;
+echo json_encode($result, JSON_THROW_ON_ERROR) . PHP_EOL;
 $client->close();

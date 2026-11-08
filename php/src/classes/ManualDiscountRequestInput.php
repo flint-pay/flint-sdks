@@ -18,31 +18,31 @@ final class ManualDiscountRequestInput extends Model {
      */
     public function getAmountMoney(): mixed { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** Value enum: "order", "line_item", "service_charge".
+    /** Which part of the order the discount reduces. Value enum: "order", "line_item", "service_charge".
      * @return string
      * @throws SdkError When discount_class is omitted; use hasDiscountClass() or valueOrDefault().
      */
     public function getDiscountClass(): string { return $this->get('discount_class'); }
     public function hasDiscountClass(): bool { return $this->has('discount_class'); }
-    /** minLength: 1.
+    /** Name of the discount. minLength: 1.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /**  [] (Value): string. minLength: 1.
+    /** IDs of the charges this discount reduces. [] (Value): string. minLength: 1. Example: "och_01KEZF7C00XX8AKACP0GHKFWWT".
      * @return list<string>
      * @throws SdkError When order_charge_ids is omitted; use hasOrderChargeIds() or valueOrDefault().
      */
     public function getOrderChargeIds(): array { return $this->get('order_charge_ids'); }
     public function hasOrderChargeIds(): bool { return $this->has('order_charge_ids'); }
-    /**  [] (Value): string. minLength: 1.
+    /** IDs of the order line items this discount applies to. [] (Value): string. minLength: 1. Example: "li_01KEZF7C008YPRCK7VDKTGWR31".
      * @return list<string>
      * @throws SdkError When order_line_item_ids is omitted; use hasOrderLineItemIds() or valueOrDefault().
      */
     public function getOrderLineItemIds(): array { return $this->get('order_line_item_ids'); }
     public function hasOrderLineItemIds(): bool { return $this->has('order_line_item_ids'); }
-    /** Value enum: "order", "line_item".
+    /** Whether the discount applies to the whole order or to specific line items. Send `discount_class` instead of `scope`; a conflicting pair is refused. Value enum: "order", "line_item".
      * @return string
      * @throws SdkError When scope is omitted; use hasScope() or valueOrDefault().
      */

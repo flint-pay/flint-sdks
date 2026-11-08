@@ -13,10 +13,9 @@ namespace Flint;
  * @property-read ?InvoiceReminderPolicy $reminder_policy
  * @property-read ?Address $remit_to_address
  * @property-read ?string $reply_to_email
- * @property-read ?string $timezone
  * Presence-aware response; omitted optional fields return null. */
 final class InvoiceSettings extends Model {
-    /** @param array{'autopay_retry_policy'?: mixed, 'credit_note_number_prefix'?: string, 'default_collection_mode'?: string, 'default_footer'?: string, 'default_invoice_payment_term_id'?: string, 'default_memo'?: string, 'invoice_number_prefix'?: string, 'payment_policy'?: mixed, 'reminder_policy'?: mixed, 'remit_to_address'?: mixed, 'reply_to_email'?: string, 'timezone'?: string, ...}|object $values */
+    /** @param array{'autopay_retry_policy'?: mixed, 'credit_note_number_prefix'?: string, 'default_collection_mode'?: string, 'default_footer'?: string, 'default_invoice_payment_term_id'?: string, 'default_memo'?: string, 'invoice_number_prefix'?: string, 'payment_policy'?: mixed, 'reminder_policy'?: mixed, 'remit_to_address'?: mixed, 'reply_to_email'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceSettings')); }
     /** Replaced as a whole: send every field you want to keep. When to retry a failed automatic invoice payment, as a list of day offsets.
      * @return ?InvoiceAutopayRetryPolicy
@@ -28,7 +27,7 @@ final class InvoiceSettings extends Model {
      */
     public function getCreditNoteNumberPrefix(): ?string { return $this->get('credit_note_number_prefix'); }
     public function hasCreditNoteNumberPrefix(): bool { return $this->has('credit_note_number_prefix'); }
-    /** Value enum: "buyer_initiated", "automatic", "external".
+    /** How new invoices that ask for `merchant_default` collection are collected. Defaults to `buyer_initiated`. Value enum: "buyer_initiated", "automatic", "external".
      * @return ?string
      */
     public function getDefaultCollectionMode(): ?string { return $this->get('default_collection_mode'); }
@@ -38,7 +37,7 @@ final class InvoiceSettings extends Model {
      */
     public function getDefaultFooter(): ?string { return $this->get('default_footer'); }
     public function hasDefaultFooter(): bool { return $this->has('default_footer'); }
-    /** pattern: ^ipt_[0-9A-HJKMNP-TV-Z]{26}$.
+    /** ID of the invoice payment term that applies to your invoices created with `payment_due.type` set to `merchant_default`. pattern: ^ipt_[0-9A-HJKMNP-TV-Z]{26}$.
      * @return ?string
      */
     public function getDefaultInvoicePaymentTermId(): ?string { return $this->get('default_invoice_payment_term_id'); }
@@ -73,9 +72,4 @@ final class InvoiceSettings extends Model {
      */
     public function getReplyToEmail(): ?string { return $this->get('reply_to_email'); }
     public function hasReplyToEmail(): bool { return $this->has('reply_to_email'); }
-    /** Limited to 255 characters (Unicode code points), counted before normalization. maxLength: 255.
-     * @return ?string
-     */
-    public function getTimezone(): ?string { return $this->get('timezone'); }
-    public function hasTimezone(): bool { return $this->has('timezone'); }
 }

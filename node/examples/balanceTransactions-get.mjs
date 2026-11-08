@@ -5,7 +5,7 @@ const client = new Client({
   allowInsecureHttp: !!baseUrl && ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
 });
 const result = await client.balanceTransactions.get(
-  "btxn_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ"
 );
 console.log(result.balance_transaction_id);
 console.log(result.merchant_id);

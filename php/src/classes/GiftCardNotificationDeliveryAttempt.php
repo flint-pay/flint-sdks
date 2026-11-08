@@ -11,7 +11,7 @@ namespace Flint;
 final class GiftCardNotificationDeliveryAttempt extends Model {
     /** @param array{'attempt_number': int, 'completed_at'?: string, 'delivery_attempt_id': string, 'started_at': string, 'status': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardNotificationDeliveryAttempt')); }
-    /** Format: int64.
+    /** Which attempt this is for the notification, starting at 1. Format: int64.
      * @return int
      */
     public function getAttemptNumber(): int { return $this->get('attempt_number'); }
@@ -21,7 +21,7 @@ final class GiftCardNotificationDeliveryAttempt extends Model {
      */
     public function getCompletedAt(): ?string { return $this->get('completed_at'); }
     public function hasCompletedAt(): bool { return $this->has('completed_at'); }
-    /** delivery_attempt_id
+    /** ID of this delivery attempt.
      * @return string
      */
     public function getDeliveryAttemptId(): string { return $this->get('delivery_attempt_id'); }
@@ -31,7 +31,7 @@ final class GiftCardNotificationDeliveryAttempt extends Model {
      */
     public function getStartedAt(): string { return $this->get('started_at'); }
     public function hasStartedAt(): bool { return $this->has('started_at'); }
-    /** Value enum: "started", "sent", "failed", "abandoned".
+    /** Where this delivery attempt stands. Value enum: "pending", "sent", "failed", "unconfirmed".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }

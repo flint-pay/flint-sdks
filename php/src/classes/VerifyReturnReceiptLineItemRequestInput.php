@@ -16,19 +16,19 @@ final class VerifyReturnReceiptLineItemRequestInput extends Model {
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** minLength: 1.
+    /** ID of the Return line the units were matched to. Absent for unverified units. minLength: 1. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
      * @return string
      * @throws SdkError When return_line_item_id is omitted; use hasReturnLineItemId() or valueOrDefault().
      */
     public function getReturnLineItemId(): string { return $this->get('return_line_item_id'); }
     public function hasReturnLineItemId(): bool { return $this->has('return_line_item_id'); }
-    /** Value enum: "order_match_confirmed", "sku_match_confirmed", "inspection_confirmed", "merchant_review", "other".
+    /** Why the units were verified against the line. Value enum: "order_match_confirmed", "sku_match_confirmed", "inspection_confirmed", "merchant_review", "other".
      * @return string
      * @throws SdkError When verification_reason is omitted; use hasVerificationReason() or valueOrDefault().
      */
     public function getVerificationReason(): string { return $this->get('verification_reason'); }
     public function hasVerificationReason(): bool { return $this->has('verification_reason'); }
-    /** minLength: 1.
+    /** Detail about `verification_reason`. minLength: 1.
      * @return string
      * @throws SdkError When verification_reason_message is omitted; use hasVerificationReasonMessage() or valueOrDefault().
      */

@@ -35,7 +35,7 @@ final class SubscriptionDeliveryOptionInput extends Model {
      */
     public function getCurrent(): bool { return $this->get('current'); }
     public function hasCurrent(): bool { return $this->has('current'); }
-    /** delivery_method_id
+    /** Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
      * @return string
      * @throws SdkError When delivery_method_id is omitted; use hasDeliveryMethodId() or valueOrDefault().
      */
@@ -77,7 +77,7 @@ final class SubscriptionDeliveryOptionInput extends Model {
      */
     public function getType(): string { return $this->get('type'); }
     public function hasType(): bool { return $this->has('type'); }
-    /** Reason the method cannot serve this subscription destination. Values can expand as delivery capabilities change. Value enum: "destination_not_served", "pickup_unavailable", "no_window_available", "eligibility_no_match", "method_type_not_allowed", "pricing_unavailable", "inventory_unavailable".
+    /** Reason the method cannot serve this subscription destination. Values can expand as delivery capabilities change. Value enum: "dependency_revoked", "destination_not_served", "pickup_unavailable", "no_window_available", "eligibility_no_match", "method_type_not_allowed", "pricing_unavailable", "inventory_unavailable".
      * @return string
      * @throws SdkError When unavailable_reason is omitted; use hasUnavailableReason() or valueOrDefault().
      */

@@ -16,7 +16,7 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->webhookEndpoints->createTestEvent('whep_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
+$result = $client->webhookEndpoints->createTestEvent('whep_01KEZF7C006FXYTAJRZCGCBJTN', [
   'event_type' => 'payment_intent.succeeded',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->webhook_delivery_attempt_id . PHP_EOL;

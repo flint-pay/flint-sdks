@@ -4,7 +4,7 @@
 
 ### subscriptionPreviews.create
 
-Estimates the next renewal or a plan change, or evaluates a proposed subscription, delivery destination, or delivery method update without saving changes. next_renewal returns current recurring promotions, shipping, and tax for the next charged cycle. plan_change uses the same checks and pricing as change-plan, including unused paid item credit for billing_starts now. Tax is null when no tax address is available; a tax service failure returns 502 EXTERNAL_SERVICE_ERROR. Malformed JSON, unknown fields and request-level problems (a missing or unsupported mode, fields that belong to another mode) return 400. In create mode, every problem with the proposed subscription is returned in errors with is_valid false, not only the first. A preview does not reserve inventory or guarantee a future shipping rate.
+Estimates the next renewal, a plan change, or a promotion attachment, or evaluates a proposed subscription, delivery destination, or delivery method update without saving changes. next_renewal returns current recurring promotions, shipping, and tax for the next charged cycle. plan_change uses the same checks and pricing as change-plan, including unused paid item credit for billing_starts now or prorated_now. quantity_change accepts the change-quantity inputs and previews the same prorated charge without changing the subscription. promotion_apply uses the same checks as applying a promotion and returns the proposed attachment and the renewal estimate for its first_cycle; its refusals return HTTP errors. Tax is null when tax can't be calculated yet; a tax service failure returns 502 EXTERNAL_SERVICE_ERROR. Malformed JSON, unknown fields and request-level problems (a missing or unsupported mode, fields that belong to another mode) return 400. Create mode returns SubscriptionCreatePreview with first_charge, first_period_charge, and recurring estimates, all null when validation prevents pricing. first_charge is the first Flint collection, including any separate setup fee; recurring is the first normal full-period collection without setup fees. With prorate_first_period, the prorated first period is first_charge, or first_period_charge when a setup fee is collected first, and recurring is cycle 2 at the end of that period. is_valid means valid and priceable inputs, not payment readiness. Card validation matches creation, including cardless imports. In create mode, every problem with the proposed subscription is returned in errors with is_valid false, including CUSTOMER_EMAIL_REQUIRED when the customer has no email and promotion refusals under subscription.promotions. A create preview attaches no promotions and counts no uses. A preview does not reserve inventory or guarantee a future shipping rate.
 
 `POST /v1/subscription-previews`
 
@@ -14,6 +14,9 @@ Signature: `create(array|Model $params, ?RequestOptions $options = null)`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [CreateSubscriptionPreviewRequestInput](../models/CreateSubscriptionPreviewRequestInput.md#createsubscriptionpreviewrequestinput) | The request body for: Preview subscription. |
 
 Body model: [CreateSubscriptionPreviewRequestInput](../models/CreateSubscriptionPreviewRequestInput.md#createsubscriptionpreviewrequestinput).
@@ -48,26 +51,42 @@ The `plan_change` variant of `CreateSubscriptionPreviewRequest`.
 
 Body model: [CreateSubscriptionPreviewRequestPlanChangeInput](../models/CreateSubscriptionPreviewRequestPlanChangeInput.md#createsubscriptionpreviewrequestplanchangeinput).
 
+#### subscriptionPreviews.create with `mode: "quantity_change"`
+
+The `quantity_change` variant of `CreateSubscriptionPreviewRequest`.
+
+Body model: [CreateSubscriptionPreviewRequestQuantityChangeInput](../models/CreateSubscriptionPreviewRequestQuantityChangeInput.md#createsubscriptionpreviewrequestquantitychangeinput).
+
+#### subscriptionPreviews.create with `mode: "promotion_apply"`
+
+The `promotion_apply` variant of `CreateSubscriptionPreviewRequest`.
+
+Body model: [CreateSubscriptionPreviewRequestPromotionApplyInput](../models/CreateSubscriptionPreviewRequestPromotionApplyInput.md#createsubscriptionpreviewrequestpromotionapplyinput).
+
 #### Response
 
-Returned payload: [SubscriptionPreviewResponseDataCreate](../models/SubscriptionPreviewResponseDataCreate.md#subscriptionpreviewresponsedatacreate)|[SubscriptionPreviewResponseDataDeliveryOptions](../models/SubscriptionPreviewResponseDataCreate.md#subscriptionpreviewresponsedatacreate)|[SubscriptionPreviewResponseDataDeliveryMethodUpdate](../models/SubscriptionPreviewResponseDataDeliveryMethodUpdate.md#subscriptionpreviewresponsedatadeliverymethodupdate)|[SubscriptionPreviewResponseDataNextRenewal](../models/BuyerSubscriptionPreviewResponseDataNextRenewal.md#buyersubscriptionpreviewresponsedatanextrenewal)|[SubscriptionPreviewResponseDataPlanChange](../models/SubscriptionPreviewResponseDataPlanChange.md#subscriptionpreviewresponsedataplanchange)|Model.
+Returned payload: [SubscriptionPreviewResponseDataCreate](../models/SubscriptionPreviewResponseDataCreate.md#subscriptionpreviewresponsedatacreate)|[SubscriptionPreviewResponseDataDeliveryOptions](../models/SubscriptionPreviewResponseDataDeliveryOptions.md#subscriptionpreviewresponsedatadeliveryoptions)|[SubscriptionPreviewResponseDataDeliveryMethodUpdate](../models/SubscriptionPreviewResponseDataDeliveryMethodUpdate.md#subscriptionpreviewresponsedatadeliverymethodupdate)|[SubscriptionPreviewResponseDataNextRenewal](../models/BuyerSubscriptionPreviewResponseDataNextRenewal.md#buyersubscriptionpreviewresponsedatanextrenewal)|[SubscriptionPreviewResponseDataPlanChange](../models/BuyerSubscriptionPreviewResponseDataPlanChange.md#buyersubscriptionpreviewresponsedataplanchange)|[SubscriptionPreviewResponseDataQuantityChange](../models/BuyerSubscriptionPreviewResponseDataQuantityChange.md#buyersubscriptionpreviewresponsedataquantitychange)|[SubscriptionPreviewResponseDataPromotionApply](../models/SubscriptionPreviewResponseDataPromotionApply.md#subscriptionpreviewresponsedatapromotionapply)|Model.
 
 ##### Response variant 1
 
-A preview of a subscription. In `create` mode it reports validity and errors; in `delivery_options` mode it lists delivery methods.
+Validation and estimates for the first and recurring collections of a proposed subscription.
+
+Field definitions: [shared fields](../models/SubscriptionPreviewResponseDataCreate.md#subscriptionpreviewresponsedatacreate). Models: [SubscriptionPreviewError](../models/SubscriptionPreviewError.md#subscriptionpreviewerror), [SubscriptionChargeEstimate](../models/SubscriptionChargeEstimate.md#subscriptionchargeestimate).
+
+##### Response variant 2
+
+Delivery methods available for a proposed subscription destination.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `address_verification` | Optional | [SubscriptionAddressVerification](../models/SubscriptionAddressVerificationInput.md#subscriptionaddressverificationinput) | The verification state of a subscription's delivery address: `verified`, `unverified`, `needs_review`, or `unverifiable`. |
 | `currency` | Optional | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. |
-| `delivery_methods` | Optional | Array of [SubscriptionDeliveryOption](../models/SubscriptionDeliveryOption.md#subscriptiondeliveryoption) | Present in delivery_options mode ([] when no method applies); absent in create mode. |
+| `delivery_methods` | Required | Array of [SubscriptionDeliveryOption](../models/SubscriptionDeliveryOption.md#subscriptiondeliveryoption) | Delivery methods available for the proposed destination. |
 | `destination_address` | Optional | [Address](../models/DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueAvailableAddressAdvisoriesItemSuggestedAddress.md#deliveryquotechoicegroupresourcecandidateoutcomesvalueavailableaddressadvisoriesitemsuggestedaddress) | A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. |
-| `errors` | Optional | Array of [SubscriptionPreviewError](../models/SubscriptionPreviewError.md#subscriptionpreviewerror) | Present in create mode ([] when the subscription is valid); absent in delivery_options mode. |
-| `is_valid` | Optional | boolean | Present in create mode; absent in delivery_options mode. |
-| `mode` | Required | string | Values: `"create"`, `"delivery_options"`. |
+| `mode` | Required | string | Values: `"delivery_options"`. |
 | `subscription_id` | Optional | string |  |
 
-##### Response variant 2
+##### Response variant 3
 
 How a delivery method change affects subscriptions: current counts and how many would no longer be eligible.
 
@@ -78,28 +97,34 @@ How a delivery method change affects subscriptions: current counts and how many 
 | `no_longer_eligible_counts` | Required | [SubscriptionCounts](../models/SubscriptionCountsInput.md#subscriptioncountsinput) | Counts of subscriptions by status: active, past due, and paused. |
 | `subscription_counts` | Required | [SubscriptionCounts](../models/SubscriptionCountsInput.md#subscriptioncountsinput) | Counts of subscriptions by status: active, past due, and paused. |
 
-##### Response variant 3
+##### Response variant 4
 
 A preview of a subscription's next renewal and its estimated pricing.
 
 Field definitions: [shared fields](me.md#response-variant-2-1). Models: [SubscriptionRenewalEstimate](../models/SubscriptionRenewalEstimate.md#subscriptionrenewalestimate).
 
-##### Response variant 4
+##### Response variant 5
 
 Estimated pricing for a subscription plan change, including the recurring item subtotal and renewal amounts.
 
+Field definitions: [shared fields](me.md#response-variant-3). Models: [MoneyValue](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseFaceValueMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantgiftcardpurchasefacevaluemoney), [SubscriptionRenewalEstimate](../models/SubscriptionRenewalEstimate.md#subscriptionrenewalestimate).
+
+##### Response variant 6
+
+Estimated pricing for a quantity change that keeps the billing period and anchor.
+
+Field definitions: [shared fields](me.md#response-variant-4). Models: [MoneyValue](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseFaceValueMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantgiftcardpurchasefacevaluemoney), [SubscriptionRenewalEstimate](../models/SubscriptionRenewalEstimate.md#subscriptionrenewalestimate).
+
+##### Response variant 7
+
+A proposed subscription promotion attachment and estimated renewal for its first eligible charged cycle.
+
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `billing_interval` | Required | string | Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`. |
-| `billing_interval_count` | Required | integer | Format: `int32`. |
-| `billing_starts` | Required | string | Values: `"now"`, `"next_renewal"`. |
-| `credit_money` | Required | [MoneyValue](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantTaxCalculationComponentsItemFlatMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvarianttaxcalculationcomponentsitemflatmoney) or null | Unused paid item time credited when billing_starts is now; null for next_renewal. |
-| `mode` | Required | string | Values: `"plan_change"`. |
-| `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
-| `recurring_subtotal_money` | Required | [MoneyValue](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantTaxCalculationComponentsItemFlatMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvarianttaxcalculationcomponentsitemflatmoney) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `renewal` | Required | [SubscriptionRenewalEstimate](../models/SubscriptionRenewalEstimate.md#subscriptionrenewalestimate) | Estimated pricing and billing time for a subscription's next renewal, including items, discounts, shipping, and tax. |
-| `subscription_id` | Required | string |  |
-| `subscription_plan_id` | Required | string |  |
+| `mode` | Required | string | The kind of subscription pricing estimate. Values: `"promotion_apply"`. |
+| `promotion` | Required | [SubscriptionPromotion](../models/SubscriptionPromotion.md#subscriptionpromotion) | The promotion as it would attach to this subscription. A recurring promotion applied to a subscription, including its recurrence and remaining discounted cycles. |
+| `renewal` | Required | [SubscriptionRenewalEstimate](../models/SubscriptionRenewalEstimate.md#subscriptionrenewalestimate) | Estimated renewal for the promotion's first_cycle. Estimated pricing and billing time for a subscription renewal, including items, discounts, shipping, and tax. |
+| `subscription_id` | Required | string | ID of the subscription being previewed. pattern: `^sub_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Errors
 
@@ -110,7 +135,6 @@ Estimated pricing for a subscription plan change, including the recurring item s
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |

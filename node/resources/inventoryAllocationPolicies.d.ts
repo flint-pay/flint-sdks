@@ -1,13 +1,11 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-5.js';
+import type { ClientOptions } from '../declarations/types-6.js';
 import type {
     InventoryAllocationPoliciesCreateParams,
     InventoryAllocationPoliciesDeleteParams,
     InventoryAllocationPoliciesGetParams,
     InventoryAllocationPoliciesGetRevisionParams,
-    InventoryAllocationPoliciesListParams
-} from '../declarations/types-25.js';
-import type {
+    InventoryAllocationPoliciesListParams,
     InventoryAllocationPoliciesListRevisionsParams,
     InventoryAllocationPoliciesUpdateParams,
     InventoryAllocationPolicy,
@@ -16,9 +14,9 @@ import type {
     InventoryAllocationPolicyRevision,
     InventoryAllocationPolicyRevisionListResponse,
     InventoryAllocationPolicyRevisionResponse
-} from '../declarations/types-26.js';
-import type { RequestOptions } from '../declarations/types-48.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-27.js';
+import type { RequestOptions } from '../declarations/types-51.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -35,46 +33,39 @@ export type {
 } from '../runtime.js';
 export type {
     InventoryAllocationPoliciesCreateParams,
+    InventoryAllocationPolicy,
+    InventoryAllocationPolicyResponse,
     InventoryAllocationPoliciesDeleteParams,
     InventoryAllocationPoliciesGetParams,
     InventoryAllocationPoliciesGetRevisionParams,
-    InventoryAllocationPoliciesListParams,
-    InventoryAllocationConfigurationValueInput,
-    InventoryAllocationConfigurationValue
-} from '../declarations/types-25.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
-export type {
-    InventoryAllocationPolicy,
-    InventoryAllocationPolicyResponse,
     InventoryAllocationPolicyRevision,
     InventoryAllocationPolicyRevisionResponse,
+    InventoryAllocationPoliciesListParams,
     InventoryAllocationPolicyListResponse,
     InventoryAllocationPoliciesListRevisionsParams,
     InventoryAllocationPolicyRevisionListResponse,
     InventoryAllocationPoliciesUpdateParams,
+    InventoryAllocationPolicyConfigurationRequestInput,
     InventoryAllocationPolicyLocationInput,
-    InventoryAllocationPolicyLocation
-} from '../declarations/types-26.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { ClientOptions } from '../declarations/types-5.js';
-export type { CreateInventoryAllocationPolicyRequestInput } from '../declarations/types-8.js';
-export type {
-    MetadataRequestInput,
-    MetadataMap,
-    NextAction,
-    MoneyValue,
-    MetadataPatchRequestInput,
-    MetadataPatchRequest
-} from '../declarations/types-35.js';
+    InventoryAllocationPolicyLocation,
+    InventoryAllocationConfigurationValue
+} from '../declarations/types-27.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+export type { ClientOptions } from '../declarations/types-6.js';
+export type { CreateInventoryAllocationPolicyRequestInput } from '../declarations/types-9.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-36.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-12.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
-export type { UpdateInventoryAllocationPolicyRequestInput } from '../declarations/types-59.js';
-export { makeCreateInventoryAllocationPolicyRequest } from '../declarations/types-64.js';
-export { makeInventoryAllocationConfigurationValue, makeInventoryAllocationPolicyLocation } from '../declarations/types-68.js';
-export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-69.js';
-export { makeMoneyValue } from '../declarations/types-70.js';
-export { makeUpdateInventoryAllocationPolicyRequest } from '../declarations/types-74.js';
+export type { Credentials } from '../declarations/types-13.js';
+export type { NextAction, MoneyValue } from '../declarations/types-37.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
+export type { UpdateInventoryAllocationPolicyRequestInput } from '../declarations/types-63.js';
+export type { DisputesAcceptParams } from '../declarations/types-22.js';
+export { makeCreateInventoryAllocationPolicyRequest } from '../declarations/types-69.js';
+export { makeInventoryAllocationPolicyConfigurationRequest, makeInventoryAllocationPolicyLocation } from '../declarations/types-73.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-74.js';
+export { makeMoneyValue } from '../declarations/types-75.js';
+export { makeUpdateInventoryAllocationPolicyRequest } from '../declarations/types-79.js';
 export interface InventoryAllocationPoliciesResource {
     /**
  * Create an allocation policy with its routing configuration. Idempotency is scoped to the
@@ -105,7 +96,7 @@ export interface InventoryAllocationPoliciesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.inventoryAllocationPolicies.delete("invp_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {
+ * client.inventoryAllocationPolicies.delete("invp_01KEZF7C0076BZX855WAGC5SQK", {}, {
  * idempotencyKey: idempotencyKey })
  */
     delete(inventory_allocation_policy_id: InputValue<string>, params?: InventoryAllocationPoliciesDeleteParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<InventoryAllocationPolicy, InventoryAllocationPolicyResponse>>;
@@ -117,7 +108,7 @@ export interface InventoryAllocationPoliciesResource {
  * @see https://developers.withflintpay.com/docs/api/inventory#getInventoryAllocationPolicy
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.inventoryAllocationPolicies.get("invp_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.inventoryAllocationPolicies.get("invp_01KEZF7C0076BZX855WAGC5SQK")
  */
     get(inventory_allocation_policy_id: InputValue<string>, params?: InventoryAllocationPoliciesGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<InventoryAllocationPolicy, InventoryAllocationPolicyResponse>>;
     /**
@@ -130,8 +121,8 @@ export interface InventoryAllocationPoliciesResource {
  * @see https://developers.withflintpay.com/docs/api/inventory#getInventoryAllocationPolicyRevision
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.inventoryAllocationPolicies.getRevision("invp_01ARZ3NDEKTSV4RRFFQ69G5FAV",
- * "invpv_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.inventoryAllocationPolicies.getRevision("invp_01KEZF7C0076BZX855WAGC5SQK",
+ * "invpv_01KEZF7C00JSFTTBKC1JY614JJ")
  */
     getRevision(inventory_allocation_policy_id: InputValue<string>, inventory_allocation_policy_revision_id: InputValue<string>, params?: InventoryAllocationPoliciesGetRevisionParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<InventoryAllocationPolicyRevision, InventoryAllocationPolicyRevisionResponse>>;
     /**
@@ -163,7 +154,7 @@ export interface InventoryAllocationPoliciesResource {
  * https://developers.withflintpay.com/docs/api/inventory#listInventoryAllocationPolicyRevisions
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.inventoryAllocationPolicies.listRevisions("invp_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.inventoryAllocationPolicies.listRevisions("invp_01KEZF7C0076BZX855WAGC5SQK")
  */
     listRevisions(inventory_allocation_policy_id: InputValue<string>, params?: InventoryAllocationPoliciesListRevisionsParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<InventoryAllocationPolicyRevisionListResponse, InventoryAllocationPolicyRevisionListResponse>>;
     /** Iterate pages lazily.

@@ -13,6 +13,6 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   allowInsecureHttp: $baseUrl !== null && in_array(parse_url($baseUrl, PHP_URL_HOST), ['localhost', '127.0.0.1'], true) && parse_url($baseUrl, PHP_URL_SCHEME) === 'http',
 ));
-$result = $client->creditNotes->listAllocations('cn_01ARZ3NDEKTSV4RRFFQ69G5FAV');
+$result = $client->creditNotes->listAllocations('cn_01KEZF7C00N1TRRCVDNY8S471H');
 echo $result->request_id . PHP_EOL;
 $client->close();

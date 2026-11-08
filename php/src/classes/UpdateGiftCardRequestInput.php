@@ -9,7 +9,7 @@ namespace Flint;
 final class UpdateGiftCardRequestInput extends Model {
     /** @param array{'customer_id'?: string|null, 'expected_version'?: int, 'external_reference_id'?: string|null}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdateGiftCardRequestInput')); }
-    /** Omission preserves the association; null clears it. minLength: 1.
+    /** Omission preserves the association; null clears it. minLength: 1. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * @return string|null
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */
@@ -21,7 +21,7 @@ final class UpdateGiftCardRequestInput extends Model {
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** Caller-owned identifier for this resource in an external system. Omission preserves the association; null clears it. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. Omission preserves the association; null clears it. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string|null
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */

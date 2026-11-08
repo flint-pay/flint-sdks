@@ -2,9 +2,11 @@
 
 ## CategoryUpdatedInstalledMerchantsEventDataObject
 
-A catalog grouping used to organize items.
+The affected public resource without expansions, client authority fields, or fields computed for an individual caller.
+
+The resource snapshot, without expansions. Webhooks omit no additional fields.
 
 Response model.
 
-Fields, types, descriptions and enum values: [Category](../models/Category.md#category).
+Fields, types, descriptions and enum values: [CategoryCreatedMerchantEventDataObject](../models/CategoryCreatedMerchantEventDataObject.md#categorycreatedmerchanteventdataobject).
 

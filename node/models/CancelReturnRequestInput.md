@@ -4,7 +4,7 @@
 
 Request input. Response: [CancelReturnRequest](../models/CancelReturnRequest.md#cancelreturnrequest).
 
-The request body for: Cancel one of the current buyer's Returns; Cancel return.
+The request body for: Cancel return.
 
 
 

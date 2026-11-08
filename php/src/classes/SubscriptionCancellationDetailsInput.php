@@ -22,13 +22,13 @@ final class SubscriptionCancellationDetailsInput extends Model {
      */
     public function getReasonCode(): string { return $this->get('reason_code'); }
     public function hasReasonCode(): bool { return $this->has('reason_code'); }
-    /** When the cancellation was requested. Format: date-time.
+    /** When the cancellation was requested. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When requested_at is omitted; use hasRequestedAt() or valueOrDefault().
      */
     public function getRequestedAt(): string|\DateTimeInterface { return $this->get('requested_at'); }
     public function hasRequestedAt(): bool { return $this->has('requested_at'); }
-    /** buyer: the buyer, in Flint's buyer account or with a customer session. merchant: a merchant credential, such as an API key or the dashboard. Value enum: "buyer", "merchant".
+    /** Who asked to cancel: buyer, merchant, or integration. Merchant credentials can set the attribution with initiated_by; customer sessions always record buyer. Value enum: "buyer", "merchant", "integration".
      * @return string
      * @throws SdkError When requested_by is omitted; use hasRequestedBy() or valueOrDefault().
      */

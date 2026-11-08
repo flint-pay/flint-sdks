@@ -16,9 +16,10 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->returnReceipts->verifyLineItem('retrc_01ARZ3NDEKTSV4RRFFQ69G5FAV', 'retrcli_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
-  'return_line_item_id' => 'retli_01ARZ3NDEKTSV4RRFFQ69G5FAV',
-  'verification_reason' => 'order_match_confirmed',
+$result = $client->returnReceipts->verifyLineItem('retrc_01KEZF7C0052GWDW41D9AJAVJZ', 'retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE', [
+  'expected_version' => 1,
+  'return_line_item_id' => 'retli_01KEZF7C001NHF6JPD83VD0MRK',
+  'verification_reason' => 'sku_match_confirmed',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->receiving_location_id . PHP_EOL;
 echo $result->return_id . PHP_EOL;

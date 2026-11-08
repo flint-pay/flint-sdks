@@ -10,7 +10,7 @@ namespace Flint;
 final class GiftCardNotificationDeliveryEvent extends Model {
     /** @param array{'delivery_attempt_id': string, 'occurred_at': string, 'received_at': string, 'type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardNotificationDeliveryEvent')); }
-    /** delivery_attempt_id
+    /** ID of the delivery attempt the event belongs to.
      * @return string
      */
     public function getDeliveryAttemptId(): string { return $this->get('delivery_attempt_id'); }

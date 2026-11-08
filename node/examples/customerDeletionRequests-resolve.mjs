@@ -8,7 +8,7 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.customerDeletionRequests.resolve(
-  "cdel_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "cdel_01KEZF7C009P94WEXW5RMRFXAY",
   {
     decision: "approve",
   },

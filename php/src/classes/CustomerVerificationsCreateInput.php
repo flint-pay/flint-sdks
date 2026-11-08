@@ -9,7 +9,7 @@ namespace Flint;
 final class CustomerVerificationsCreateInput extends Model {
     /** @param array{'body': array{'channel'?: string, 'customer_id': string, 'purpose': string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerVerificationsCreateInput')); }
-    /** The request body for: Create a customer email verification.
+    /** The request body for: Create a customer email verification. Example: {"channel":"email","customer_id":"cus_01KEZF7C003ACYXT6Q5EQZ78EE","purpose":"link_guest_purchases"}.
      * @return array{'channel'?: string, 'customer_id': string, 'purpose': string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

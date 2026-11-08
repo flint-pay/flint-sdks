@@ -14,7 +14,7 @@ namespace Flint;
 final class PartnerAuthorizePreviewInput extends Model {
     /** @param array{'client_id': string, 'mode': string, 'name': string, 'partner_app_id': string, 'partner_app_version': int, 'redirect_uri': string, 'requested_permission_ids': list<string>, 'requested_permissions': list<PartnerAuthorizePreviewPermissionInput|array<array-key, mixed>|\stdClass>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PartnerAuthorizePreviewInput')); }
-    /** The app's client ID, as sent in the authorization request.
+    /** The app's client ID, as sent in the authorization request. Example: "fpc_00112233445566778899aabbccddeeff".
      * @return string
      * @throws SdkError When client_id is omitted; use hasClientId() or valueOrDefault().
      */
@@ -32,7 +32,7 @@ final class PartnerAuthorizePreviewInput extends Model {
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** ID of the partner app asking for access.
+    /** ID of the partner app asking for access. Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
      * @return string
      * @throws SdkError When partner_app_id is omitted; use hasPartnerAppId() or valueOrDefault().
      */
@@ -50,7 +50,7 @@ final class PartnerAuthorizePreviewInput extends Model {
      */
     public function getRedirectUri(): string { return $this->get('redirect_uri'); }
     public function hasRedirectUri(): bool { return $this->has('redirect_uri'); }
-    /** IDs of the requested permissions, sorted. They are the permissions named in scope, or the app's default requested permissions when scope is omitted, plus every required permission. [] (Value): string.
+    /** IDs of the requested permissions, sorted. They are the permissions named in scope, or the app's default requested permissions when scope is omitted, plus every required permission. [] (Value): string. Example: "manage_orders".
      * @return list<string>
      * @throws SdkError When requested_permission_ids is omitted; use hasRequestedPermissionIds() or valueOrDefault().
      */

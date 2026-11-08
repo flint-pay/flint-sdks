@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read BackorderPolicy $backorder
  * @property-read ?string $barcode
  * @property-read string $created_at
  * @property-read ?string $external_reference_id
@@ -14,8 +15,13 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class InventoryItem extends Model {
-    /** @param array{'barcode'?: string, 'created_at': string, 'external_reference_id'?: string, 'inventory_item_id': string, 'metadata': mixed, 'name': string, 'sku'?: string, 'status': string, 'updated_at': string, 'version': int, ...}|object $values */
+    /** @param array{'backorder': mixed, 'barcode'?: string, 'created_at': string, 'external_reference_id'?: string, 'inventory_item_id': string, 'metadata': mixed, 'name': string, 'sku'?: string, 'status': string, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryItem')); }
+    /** Backorder settings shared by every variant using this inventory item. Backorder settings shared by every variant using an inventory item.
+     * @return BackorderPolicy
+     */
+    public function getBackorder(): BackorderPolicy { return $this->get('backorder'); }
+    public function hasBackorder(): bool { return $this->has('backorder'); }
     /** Optional searchable barcode.
      * @return ?string
      */

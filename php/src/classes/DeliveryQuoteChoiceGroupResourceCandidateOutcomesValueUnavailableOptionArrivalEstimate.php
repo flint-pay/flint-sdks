@@ -19,7 +19,7 @@ final class DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueUnavailableOpt
      */
     public function getLatestDate(): string { return $this->get('latest_date'); }
     public function hasLatestDate(): bool { return $this->has('latest_date'); }
-    /** timezone
+    /** Uses an IANA time zone name.
      * @return string
      */
     public function getTimezone(): string { return $this->get('timezone'); }

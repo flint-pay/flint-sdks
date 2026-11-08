@@ -17,27 +17,27 @@ final class BuyerReturnPreviewResponseDataResolutionEligibility extends Model {
      */
     public function getEvaluatedAt(): string { return $this->get('evaluated_at'); }
     public function hasEvaluatedAt(): bool { return $this->has('evaluated_at'); }
-    /**  [] (Value): {@see BuyerReturnPreviewResponseDataResolutionEligibilityLineItemsItem}. An order line item's Return eligibility, catalog details, and suggested return reasons shown to the buyer.
+    /** Eligibility of each line asked about. [] (Value): {@see BuyerReturnPreviewResponseDataResolutionEligibilityLineItemsItem}. An order line item's Return eligibility, catalog details, and suggested return reasons shown to the buyer.
      * @return list<BuyerReturnPreviewResponseDataResolutionEligibilityLineItemsItem>
      */
     public function getLineItems(): array { return $this->get('line_items'); }
     public function hasLineItems(): bool { return $this->has('line_items'); }
-    /** order_id
+    /** ID of the Order the units come from.
      * @return string
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** Return policy evaluation results shown to the buyer, including eligibility and results for individual order lines.
+    /** How the active return policies judged the lines. Return policy evaluation results shown to the buyer, including eligibility and results for individual order lines.
      * @return BuyerReturnPreviewResponseDataResolutionEligibilityPolicyEvaluation
      */
     public function getPolicyEvaluation(): BuyerReturnPreviewResponseDataResolutionEligibilityPolicyEvaluation { return $this->get('policy_evaluation'); }
     public function hasPolicyEvaluation(): bool { return $this->has('policy_evaluation'); }
-    /** Which order lines to check for return eligibility: all remaining fulfilled lines, or a specific list of lines. line_items (Optional): Array of {@see ReturnEligibilityLineItemRequest}. line_items[] (Value): {@see ReturnEligibilityLineItemRequest}. An order line and quantity to check. return_reason_id is optional here; when you send it, Flint checks that the reason is active and applies to the line. selection_type (Required): string.  Value enum: "all_remaining_fulfilled", "line_items". oneOf[1] (Value): {@see ReturnEligibilitySelectionAllRemainingFulfilled}. The `all_remaining_fulfilled` variant of `ReturnEligibilitySelection`. oneOf[2] (Value): {@see ReturnEligibilitySelectionLineItems}. The `line_items` variant of `ReturnEligibilitySelection`.
+    /** The selection the preview was run for. Which order lines to check for return eligibility: all remaining fulfilled lines, or a specific list of lines. line_items (Optional): Array of {@see ReturnEligibilityLineItemRequest}. The lines to check or return, each naming an order line item. line_items[] (Value): {@see ReturnEligibilityLineItemRequest}. An order line and quantity to check. return_reason_id is optional here; when you send it, Flint checks that the reason is active and applies to the line. selection_type (Required): string. How the selection picks units. Value enum: "all_remaining_fulfilled", "line_items". oneOf[1] (Value): {@see ReturnEligibilitySelectionAllRemainingFulfilled}. The `all_remaining_fulfilled` variant of `ReturnEligibilitySelection`. oneOf[2] (Value): {@see ReturnEligibilitySelectionLineItems}. The `line_items` variant of `ReturnEligibilitySelection`.
      * @return BuyerReturnPreviewResponseDataResolutionEligibilitySelectionAllRemainingFulfilled|BuyerReturnPreviewResponseDataResolutionEligibilitySelectionLineItems|\stdClass
      */
     public function getSelection(): BuyerReturnPreviewResponseDataResolutionEligibilitySelectionAllRemainingFulfilled|BuyerReturnPreviewResponseDataResolutionEligibilitySelectionLineItems|\stdClass { return $this->get('selection'); }
     public function hasSelection(): bool { return $this->has('selection'); }
-    /** Value enum: "eligible", "ineligible", "review_required".
+    /** Overall result for the selection. `review_required` when the lines differ. Value enum: "eligible", "ineligible", "review_required".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }

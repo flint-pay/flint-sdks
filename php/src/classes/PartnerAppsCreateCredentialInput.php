@@ -10,7 +10,7 @@ namespace Flint;
 final class PartnerAppsCreateCredentialInput extends Model {
     /** @param array{'partner_app_id': string, 'body': array{'name'?: string, 'public_key': mixed, 'type': string}|object|array{'jwks_url': mixed, 'name'?: string, 'type': string}|object|array{'name'?: string, 'type': string, 'workload_identity': mixed}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PartnerAppsCreateCredentialInput')); }
-    /** Flint partner app ID. Example: "papp_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Flint partner app ID. Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
      * @return string
      * @throws SdkError When partner_app_id is omitted; use hasPartnerAppId() or valueOrDefault().
      */

@@ -9,19 +9,19 @@ namespace Flint;
 final class GiftCardPurchaseRefundRecoveryInput extends Model {
     /** @param array{'created_at': string|\DateTimeInterface, 'destination': string, 'destinations': list<GiftCardPurchaseRefundRecoveryDestinationInput|array<array-key, mixed>|\stdClass>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardPurchaseRefundRecoveryInput')); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Value enum: "original", "replacement".
+    /** Where the restored value went. Value enum: "original", "replacement".
      * @return string
      * @throws SdkError When destination is omitted; use hasDestination() or valueOrDefault().
      */
     public function getDestination(): string { return $this->get('destination'); }
     public function hasDestination(): bool { return $this->has('destination'); }
-    /**  [] (Value): {@see GiftCardPurchaseRefundRecoveryDestinationInput}. A gift card and load that received recovered value in a gift card purchase refund recovery, with the amount.
+    /** The cards and loads that received the restored value. [] (Value): {@see GiftCardPurchaseRefundRecoveryDestinationInput}. A gift card and load that received recovered value in a gift card purchase refund recovery, with the amount.
      * @return list<GiftCardPurchaseRefundRecoveryDestinationInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When destinations is omitted; use hasDestinations() or valueOrDefault().
      */

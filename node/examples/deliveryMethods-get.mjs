@@ -5,7 +5,7 @@ const client = new Client({
   allowInsecureHttp: !!baseUrl && ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
 });
 const result = await client.deliveryMethods.get(
-  "dmet_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "dmet_01KEZF7C00YSG3X2D1TZJ36TM0"
 );
 console.log(result.current_delivery_method_revision_id);
 console.log(result.delivery_method_id);

@@ -21,7 +21,7 @@ final class PaymentSourceCardSummaryInput extends Model {
      */
     public function getLast4(): string { return $this->get('last4'); }
     public function hasLast4(): bool { return $this->has('last4'); }
-    /** payment_method_id
+    /** Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
      * @return string
      * @throws SdkError When payment_method_id is omitted; use hasPaymentMethodId() or valueOrDefault().
      */

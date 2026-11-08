@@ -8,11 +8,12 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.returnInspections.decideLineItem(
-  "retins_01ARZ3NDEKTSV4RRFFQ69G5FAV",
-  "retinli_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "retins_01KEZF7C00WPB0BR4WTT7CMSB8",
+  "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4",
   {
-    acceptance_decision_reason: "inspection_result",
+    acceptance_decision_reason: "manual_review",
     acceptance_status: "accepted",
+    expected_version: 1,
   },
   { idempotencyKey: idempotencyKey },
 );

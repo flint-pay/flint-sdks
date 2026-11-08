@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read string|null $customer_id
  * @property-read int $expected_version
  * @property-read string|\DateTimeInterface|null $expires_at
  * @property-read int|null $max_uses
@@ -10,15 +11,21 @@ namespace Flint;
  * @property-read string|null $timezone
  * Presence-aware input; omitted fields throw when accessed. */
 final class UpdatePromotionCodeRequestInput extends Model {
-    /** @param array{'expected_version'?: int, 'expires_at'?: string|\DateTimeInterface|null, 'max_uses'?: int|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'status'?: string, 'timezone'?: string|null}|object $values */
+    /** @param array{'customer_id'?: string|null, 'expected_version'?: int, 'expires_at'?: string|\DateTimeInterface|null, 'max_uses'?: int|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'status'?: string, 'timezone'?: string|null}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdatePromotionCodeRequestInput')); }
+    /** Only this identified customer can redeem the code. The customer must belong to the same merchant and environment. A checkout may use its merchant-named or email-verified customer; a typed email does not identify a customer. Omit to preserve the binding; send a customer ID to bind or rebind the code, or null to remove the binding. minLength: 1. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * @return string|null
+     * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
+     */
+    public function getCustomerId(): string|null { return $this->get('customer_id'); }
+    public function hasCustomerId(): bool { return $this->has('customer_id'); }
     /** Promotion code version last read by the caller. Optional for updates. Format: uint64. minimum: 1.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** Absolute RFC3339 expiry timestamp. Omission keeps the stored value; null clears it. Format: date-time. minLength: 1.
+    /** Absolute RFC3339 expiry timestamp. Omission keeps the stored value; null clears it. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface|null
      * @throws SdkError When expires_at is omitted; use hasExpiresAt() or valueOrDefault().
      */

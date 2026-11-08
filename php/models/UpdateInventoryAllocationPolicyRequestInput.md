@@ -8,10 +8,10 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `configuration` | Optional | [InventoryAllocationConfigurationValueInput](../models/InventoryAllocationConfigurationValueInput.md#inventoryallocationconfigurationvalueinput) | Requires expected_version. Routing rules for an inventory allocation policy: ranked groups of Locations, whether demand can be split, and how many Locations one assignment may use. |
+| `configuration` | Optional | [InventoryAllocationPolicyConfigurationRequestInput](../models/InventoryAllocationPolicyConfigurationRequestInput.md#inventoryallocationpolicyconfigurationrequestinput) | Requires expected_version. Routing rules for an inventory allocation policy: ranked groups of Locations, whether demand can be split, and how many Locations one assignment may use. |
 | `expected_version` | Optional | integer | Required when any of these fields is present: configuration. Format: `uint64`. minimum: `1`. |
-| `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. |
+| `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. Example: `"warehouse-1842"`. |
 | `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequestInput.md#metadatapatchrequestinput) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. |
-| `name` | Optional | string | minLength: `1`. |
-| `status` | Optional | string | Values: `"active"`, `"inactive"`. |
+| `name` | Optional | string | Merchant-facing policy name. minLength: `1`. |
+| `status` | Optional | string | New status for the allocation policy. Omit it to leave the status unchanged. Values: `"active"`, `"inactive"`. |
 

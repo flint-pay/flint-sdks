@@ -30,7 +30,7 @@ final class SelectableOrderPaymentIntentInput extends Model {
      */
     public function getPaymentCollection(): mixed { return $this->get('payment_collection'); }
     public function hasPaymentCollection(): bool { return $this->has('payment_collection'); }
-    /** Flint payment intent ID.
+    /** Flint payment intent ID. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
      * @return string
      * @throws SdkError When payment_intent_id is omitted; use hasPaymentIntentId() or valueOrDefault().
      */

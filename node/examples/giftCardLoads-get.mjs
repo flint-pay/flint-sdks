@@ -5,7 +5,7 @@ const client = new Client({
   allowInsecureHttp: !!baseUrl && ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
 });
 const result = await client.giftCardLoads.get(
-  "gcl_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "gcl_01KEZF7C00YJED2857SE0J6KWC"
 );
 console.log(result.gift_card_id);
 console.log(result.gift_card_load_id);

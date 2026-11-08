@@ -8,7 +8,7 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.fulfillments.createShipment(
-  "ful_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "ful_01KEZF7C00F24WVSTTWR1FQX5T",
   {
     direction: "outbound",
     external_reference_id: "ship_789",

@@ -22,7 +22,7 @@ final class VoidShipmentRequestInput extends Model {
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** Void event timestamp. Format: date-time. minLength: 1.
+    /** Void event timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When occurred_at is omitted; use hasOccurredAt() or valueOrDefault().
      */

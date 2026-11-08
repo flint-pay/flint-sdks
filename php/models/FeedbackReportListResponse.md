@@ -8,12 +8,38 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `data` | Required | Array of (object and Alternative shapes (see declared variants)) | `data[]`: [declared alternatives](../models/FeedbackReportResponse.md#feedbackreportresponsedata). |
-| `meta` | Optional | [ResponseMeta](../models/ResponseMeta.md#responsemeta) | Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings. |
-| `next_page_token` | Optional | string |  |
-| `request_id` | Required | string | maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `data` | Required | Array of (object and Alternative shapes (see declared variants)) | Resource, collection, or operation result returned by this request. `data[]`: [declared alternatives](../models/FeedbackReportListResponse.md#feedbackreportlistresponsedata). |
+| `meta` | Optional | [ResponseMeta](../models/ResponseMeta.md#responsemeta) | Additional information about this response. Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings. `meta`: [field definitions](../models/DisputeResponse.md#disputeresponsemeta). |
+| `next_page_token` | Optional | string | Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no next page. |
+| `request_id` | Required | string | Identifier of this API request, used to correlate logs and support requests. maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 ### FeedbackReportListResponse.data[]
 
-Declared alternatives: [FeedbackReportResponse.data](../models/FeedbackReportResponse.md#feedbackreportresponsedata).
+Feedback submitted about the developer experience.
+
+Field definitions: [shared fields](FeedbackReportResponse.md#feedbackreportresponsedata).
+
+### FeedbackReportListResponse.data[] variant 1: `kind` = `"rating"`
+
+oneOf with kind: "rating": Feedback submitted about the developer experience..
+
+- Required: `sentiment`.
+- Optional: `summary`.
+- Constraints for `kind`: Values: `"rating"`.
+
+### FeedbackReportListResponse.data[] variant 2
+
+oneOf with kind: "bug" | "feature_request" | "other" | "papercut" | "praise": Feedback submitted about the developer experience..
+
+- Required: `summary`.
+- Optional: `sentiment`.
+- Constraints for `kind`: Values: `"papercut"`, `"bug"`, `"feature_request"`, `"praise"`, `"other"`.
+
+### FeedbackReportListResponse.data[].reporting_client
+
+Field definitions: [FeedbackReportResponse.data.reporting_client](../models/FeedbackReportResponse.md#feedbackreportresponsedatareporting_client).
+
+### FeedbackReportListResponse.meta
+
+Field definitions: [DisputeResponse.meta](../models/DisputeResponse.md#disputeresponsemeta).
 

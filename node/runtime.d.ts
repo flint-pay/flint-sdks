@@ -88,7 +88,7 @@ export interface ApiErrorInit extends SdkErrorInit {
         | "internal_error"
         | "protocol_error"
         | (string & {});
-    errorSource?: "caller" | "merchant" | "merchant_endpoint" | "flint" | "integration" | (string & {});
+    errorSource?: "caller" | "merchant" | "merchant_endpoint" | "flint" | (string & {});
     docUrl?: string;
     requestLogUrl?: string;
     remediation?: SdkErrorRemediation;
@@ -185,7 +185,7 @@ export declare namespace errors {
             | "internal_error"
             | "protocol_error"
             | (string & {});
-        errorSource?: "caller" | "merchant" | "merchant_endpoint" | "flint" | "integration" | (string & {});
+        errorSource?: "caller" | "merchant" | "merchant_endpoint" | "flint" | (string & {});
         docUrl?: string;
         requestLogUrl?: string;
         remediation?: SdkErrorRemediation;
@@ -499,6 +499,7 @@ export type SdkErrorCode = ("ACTION_NOT_ALLOWED"
     | "API_VERSION_RETIRED"
     | "AUTHENTICATION_REQUIRED"
     | "CONCURRENT_MODIFICATION"
+    | "CUSTOMER_EMAIL_REQUIRED"
     | "DELIVERY_REQUOTE_REQUIRED"
     | "EXTERNAL_SERVICE_ERROR"
     | "FORBIDDEN"
@@ -511,13 +512,11 @@ export type SdkErrorCode = ("ACTION_NOT_ALLOWED"
     | "INTERNAL_ERROR"
     | "INVALID_CREDENTIAL"
     | "INVALID_REQUEST"
-    | "INVALID_VALUE"
     | "INVENTORY_INSUFFICIENT"
     | "LIMIT_EXCEEDED"
     | "LIMIT_REACHED"
     | "MERCHANT_NOT_READY"
     | "METHOD_NOT_ALLOWED"
-    | "NOT_ALLOWED"
     | "OPERATION_IN_PROGRESS"
     | "PAYMENT_ATTEMPT_ACTIVE"
     | "PAYMENT_OPTION_UNAVAILABLE"
@@ -529,17 +528,15 @@ export type SdkErrorCode = ("ACTION_NOT_ALLOWED"
     | "REQUEST_BODY_TOO_LARGE"
     | "REQUEST_CANCELED"
     | "REQUEST_TIMEOUT"
-    | "REQUIRED"
     | "RESOURCE_IN_USE"
     | "RESOURCE_NOT_FOUND"
     | "ROUTE_NOT_FOUND"
     | "SERVICE_UNAVAILABLE"
-    | "UNKNOWN_FIELD"
     | "UNSUPPORTED_CONTENT_TYPE"
     | "VERSION_CONFLICT"
     | (string & {}))
     & string;
-export type SdkErrorDetails = ReadonlyArray<import("./declarations/types-21.js").ErrorDetail>;
-export type SdkErrorRemediation = (((import("./declarations/types-21.js").ErrorRemediation) | (null))) & {
+export type SdkErrorDetails = ReadonlyArray<import("./declarations/types-23.js").ErrorDetail>;
+export type SdkErrorRemediation = (import("./declarations/types-23.js").ErrorRemediation) & {
     retry?: ErrorRetry;
 };

@@ -19,6 +19,6 @@ $idempotencyKey = bin2hex(random_bytes(16));
 $result = $client->subscriptionPlans->update('plan_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
   'description' => 'Recurring membership',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
+echo $result->merchant_id . PHP_EOL;
 echo $result->status . PHP_EOL;
-echo $result->subscription_plan_id . PHP_EOL;
 $client->close();

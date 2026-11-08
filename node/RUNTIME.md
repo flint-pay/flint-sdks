@@ -71,7 +71,6 @@ Timeout precedence is request > client > operation default > global default. Glo
 | orders.close | 150000 | 300000 |
 | paymentIntents.confirm | 150000 | 300000 |
 | checkoutSessions.create | 150000 | 300000 |
-| creditNotes.createRefund | 150000 | 300000 |
 | invoices.createCheckoutSession | 150000 | 300000 |
 | me.createInvoiceCheckoutSession | 150000 | 300000 |
 | orders.create | 150000 | 300000 |
@@ -94,7 +93,7 @@ Timeout precedence is request > client > operation default > global default. Glo
 These defaults are interim until the server publishes an execution bound.
 
 ```typescript
-const result = await client.analytics.getOverview({period_start_at: "2026-01-01T00:00:00Z"}, { timeoutMs: 5000, deadlineMs: 15000, maxAttempts: 1 });
+const result = await client.analytics.getOverview({period_start_at: "2026-08-02T16:00:00Z"}, { timeoutMs: 5000, deadlineMs: 15000, maxAttempts: 1 });
 ```
 
 ## Calling convention
@@ -248,7 +247,7 @@ if (error instanceof SdkError && error instanceof errors.UnexpectedResponseError
 
 ## Retries and idempotency
 
-Reads (GET, HEAD and OPTIONS) allow up to 3 total attempts for transport failures and HTTP 429, 500, 502, 503 and 504. 300 write operations create `Idempotency-Key` automatically when you supply none, beginning with `flint-sdk-` and allow up to 3 total attempts for transport failures and HTTP 429, 500, 502, 503 and 504. 33 write operations accept `idempotencyKey` and send once until you supply a key; with a key, they allow up to 3 total attempts for transport failures and HTTP 429, 500, 502, 503 and 504. 14 write operations declare no idempotency key and always send once. maxAttempts caps total attempts including the first. HTTP 412 never retries.
+Reads (GET, HEAD and OPTIONS) allow up to 3 total attempts for transport failures and HTTP 429, 500, 502, 503 and 504. 345 write operations create `Idempotency-Key` automatically when you supply none, beginning with `flint-sdk-` and allow up to 3 total attempts for transport failures and HTTP 429, 500, 502, 503 and 504. 39 write operations accept `idempotencyKey` and send once until you supply a key; with a key, they allow up to 3 total attempts for transport failures and HTTP 429, 500, 502, 503 and 504. 17 write operations declare no idempotency key and always send once. maxAttempts caps total attempts including the first. HTTP 412 never retries.
 
 Backoff waits uniformly between half and all of baseDelayMs * 2^(attempt - 1), capped by maxDelayMs when declared. Retry-After is a minimum wait. Nonnegative decimal seconds or canonical GMT HTTP dates are accepted; malformed values are ignored. If the next wait exceeds the deadline, the last error is returned unchanged.
 
@@ -280,7 +279,7 @@ const client = new Client({
 const idempotencyKey = process.env.API_IDEMPOTENCY_KEY;
 if (!idempotencyKey) throw new Error("Set API_IDEMPOTENCY_KEY to the key saved with this action");
 const result = await client.disputes.accept(
-  "du_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "du_01KEZF7C00DEJSF1KTXRT4BBQD",
   {},
   { idempotencyKey: idempotencyKey, maxAttempts: 1 },
 );
@@ -430,7 +429,7 @@ const client = new Client({
   allowInsecureHttp: !!baseUrl && ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
 });
 const result = await client.creditNotes.getPDF(
-  "cn_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "cn_01KEZF7C00N1TRRCVDNY8S471H"
 );
 // Choose a destination path; PDF bytes must not be decoded as text.
 const resultPath = process.env.API_DOWNLOAD_PATH ?? "download.pdf";
@@ -449,7 +448,7 @@ const client = new Client({
   allowInsecureHttp: !!baseUrl && ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
 });
 const result = await client.reportDownloads.get(
-  "rdl_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "rdl_01KEZF7C003GGGDW1N5QT46JDZ"
 );
 // Location may be relative or use another origin. The SDK does not follow it.
 // Validate the destination before a separate download; do not forward API credentials.

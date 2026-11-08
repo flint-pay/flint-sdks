@@ -2,6 +2,8 @@
 
 ## CreateReturnPreviewResponseDataEligibilityEligibility
 
+The eligibility check. Present when `mode` is `eligibility`.
+
 The result of checking whether an order's items can be returned: overall status, per-line eligibility, and the policy evaluation.
 
 Response model.
@@ -9,26 +11,26 @@ Response model.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `evaluated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
-| `line_items` | Required | Array of ([CreateReturnPreviewResponseDataEligibilityEligibilityLineItemsItem](../models/CreateReturnPreviewResponseDataEligibilityEligibilityLineItemsItem.md#createreturnpreviewresponsedataeligibilityeligibilitylineitemsitem) and object) |  |
-| `order_id` | Required | string |  |
-| `policy_evaluation` | Required | [CreateReturnPreviewResponseDataEligibilityEligibilityPolicyEvaluation](../models/CreateReturnPreviewResponseDataEligibilityEligibilityPolicyEvaluation.md#createreturnpreviewresponsedataeligibilityeligibilitypolicyevaluation) | How a return policy evaluated a return request: overall status and reason, the policy revision used, and per-line results. `policy_evaluation`: [field definitions](../models/CreateReturnPreviewResponseDataEligibilityEligibility.md#createreturnpreviewresponsedataeligibilityeligibilitypolicy_evaluation). |
-| `selection` | Required | object and Alternative shapes (see declared variants) | Which order lines to check for return eligibility: all remaining fulfilled lines, or a specific list of lines. `selection`: [declared alternatives](../models/BuyerReturnPreviewResponseDataEligibilityEligibility.md#buyerreturnpreviewresponsedataeligibilityeligibilityselection). |
-| `status` | Required | string | Values: `"eligible"`, `"ineligible"`, `"review_required"`. |
+| `line_items` | Required | Array of ([CreateReturnPreviewResponseDataEligibilityEligibilityLineItemsItem](../models/CreateReturnPreviewResponseDataEligibilityEligibilityLineItemsItem.md#createreturnpreviewresponsedataeligibilityeligibilitylineitemsitem) and object) | Eligibility of each line asked about. |
+| `order_id` | Required | string | ID of the Order the units come from. |
+| `policy_evaluation` | Required | [CreateReturnPreviewResponseDataEligibilityEligibilityPolicyEvaluation](../models/CreateReturnPreviewResponseDataEligibilityEligibilityPolicyEvaluation.md#createreturnpreviewresponsedataeligibilityeligibilitypolicyevaluation) | How the active return policies judged the lines. How a return policy evaluated a return request: overall status and reason, the policy revision used, and per-line results. `policy_evaluation`: [field definitions](../models/CreateReturnPreviewResponseDataEligibilityEligibility.md#createreturnpreviewresponsedataeligibilityeligibilitypolicy_evaluation). |
+| `selection` | Required | object and Alternative shapes (see declared variants) | The selection the preview was run for. Which order lines to check for return eligibility: all remaining fulfilled lines, or a specific list of lines. `selection`: [declared alternatives](../models/BuyerReturnPreviewResponseDataEligibilityEligibility.md#buyerreturnpreviewresponsedataeligibilityeligibilityselection). |
+| `status` | Required | string | Overall result for the selection. `review_required` when the lines differ. Values: `"eligible"`, `"ineligible"`, `"review_required"`. |
 
 ### CreateReturnPreviewResponseDataEligibilityEligibility.policy_evaluation
 
-How a return policy evaluated a return request: overall status and reason, the policy revision used, and per-line results.
+How the active return policies judged the lines. How a return policy evaluated a return request: overall status and reason, the policy revision used, and per-line results.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `evaluated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `expires_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `line_items` | Required | Array of [ReturnPolicyEvaluationLineItem](../models/ReturnPolicyEvaluationLineItem.md#returnpolicyevaluationlineitem) |  |
-| `reason` | Required | string | Values: [9 declared values](#createreturnpreviewresponsedataeligibilityeligibilitypolicy_evaluation-reason-values). |
-| `reason_message` | Required | string |  |
-| `return_policy_id` | Optional | string |  |
-| `return_policy_revision_id` | Optional | string |  |
-| `status` | Required | string | Values: `"eligible"`, `"ineligible"`, `"review_required"`. |
+| `evaluated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
+| `expires_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
+| `line_items` | Required | Array of [ReturnPolicyEvaluationLineItem](../models/ReturnPolicyEvaluationLineItem.md#returnpolicyevaluationlineitem) | Eligibility of each line asked about. `line_items[]`: [field definitions](../models/CancelReturnResponse.md#cancelreturnresponsedatapolicy_evaluationline_items). |
+| `reason` | Required | string | Why the selection got this result. Values: [9 declared values](#createreturnpreviewresponsedataeligibilityeligibilitypolicy_evaluation-reason-values). |
+| `reason_message` | Required | string | Explanation of `reason`. |
+| `return_policy_id` | Optional | string | ID of the policy that judged the lines. Absent when none matched. Example: `"rpol_01KEZF7C00H8C042BEK6HBRANX"`. |
+| `return_policy_revision_id` | Optional | string | ID of the policy revision that judged the lines. Absent when none matched. Example: `"rpolv_01KEZF7C007AWH6P4QC14Q25TC"`. |
+| `status` | Required | string | Overall result for the selection. `review_required` when the lines differ. Values: `"eligible"`, `"ineligible"`, `"review_required"`. |
 
 #### CreateReturnPreviewResponseDataEligibilityEligibility.policy_evaluation reason values
 
@@ -41,6 +43,10 @@ How a return policy evaluated a return request: overall status and reason, the p
 - `"reason_not_allowed"`
 - `"policy_conflict"`
 - `"no_matching_policy"`
+
+### CreateReturnPreviewResponseDataEligibilityEligibility.policy_evaluation.line_items[]
+
+Field definitions: [CancelReturnResponse.data.policy_evaluation.line_items[]](../models/CancelReturnResponse.md#cancelreturnresponsedatapolicy_evaluationline_items).
 
 ### CreateReturnPreviewResponseDataEligibilityEligibility.selection
 

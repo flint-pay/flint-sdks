@@ -9,7 +9,7 @@ namespace Flint;
 final class BuyerFulfillmentOutcomeInput extends Model {
     /** @param array{'occurred_at': string|\DateTimeInterface, 'outcome_type': string, 'reason': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerFulfillmentOutcomeInput')); }
-    /** Time the terminal outcome occurred. Format: date-time.
+    /** Time the terminal outcome occurred. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When occurred_at is omitted; use hasOccurredAt() or valueOrDefault().
      */

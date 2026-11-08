@@ -23,7 +23,7 @@ final class PaymentLinkLegalPatchRequestInput extends Model {
      */
     public function getRefundPolicyUrl(): string|null { return $this->get('refund_policy_url'); }
     public function hasRefundPolicyUrl(): bool { return $this->has('refund_policy_url'); }
-    /** require_terms_of_service
+    /** Whether the buyer must accept the terms of service before paying.
      * @return bool
      * @throws SdkError When require_terms_of_service is omitted; use hasRequireTermsOfService() or valueOrDefault().
      */

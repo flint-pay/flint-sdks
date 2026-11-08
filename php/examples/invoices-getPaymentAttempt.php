@@ -13,7 +13,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   allowInsecureHttp: $baseUrl !== null && in_array(parse_url($baseUrl, PHP_URL_HOST), ['localhost', '127.0.0.1'], true) && parse_url($baseUrl, PHP_URL_SCHEME) === 'http',
 ));
-$result = $client->invoices->getPaymentAttempt('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV', 'invpa_01ARZ3NDEKTSV4RRFFQ69G5FAV');
+$result = $client->invoices->getPaymentAttempt('inv_01KEZF7C00A5GEBMWHEAJFSAR4', 'invpa_01KEZF7C00PMWEDPAYYEKDTPBX');
 echo $result->invoice_id . PHP_EOL;
 echo $result->invoice_payment_attempt_id . PHP_EOL;
 $client->close();

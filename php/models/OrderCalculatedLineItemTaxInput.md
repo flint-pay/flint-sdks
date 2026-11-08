@@ -8,9 +8,9 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `calculation` | Optional | [TaxCalculationRequestInput](../models/TaxCalculationRequestInput.md#taxcalculationrequestinput) | Tax you calculated yourself for a line or charge: whether prices include tax, and the tax components. |
+| `calculation` | Optional | [TaxCalculationRequestInput](../models/TaxCalculationRequestInput.md#taxcalculationrequestinput) | The tax you supply for this line item. Used when the order's tax `mode` is `external`. Tax you calculated yourself for a line or charge: whether prices include tax, and the tax components. |
 | `line_item_tax_category` | Optional | string | Flint line-item tax category. Values: [12 declared values](#ordercalculatedlineitemtaxinput-line_item_tax_category-values). |
-| `taxable` | Optional | boolean |  |
+| `taxable` | Optional | boolean | Whether the line item is subject to tax. |
 
 #### OrderCalculatedLineItemTaxInput line_item_tax_category values
 

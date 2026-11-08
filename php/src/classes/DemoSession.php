@@ -15,7 +15,7 @@ final class DemoSession extends Model {
      */
     public function getApiKey(): DemoSessionAPIKey { return $this->get('api_key'); }
     public function hasApiKey(): bool { return $this->has('api_key'); }
-    /** demo_session_id
+    /** Unique identifier for this demo session, prefixed `demo_`.
      * @return string
      */
     public function getDemoSessionId(): string { return $this->get('demo_session_id'); }
@@ -25,7 +25,7 @@ final class DemoSession extends Model {
      */
     public function getExpiresAt(): string { return $this->get('expires_at'); }
     public function hasExpiresAt(): bool { return $this->has('expires_at'); }
-    /** sandbox_id
+    /** ID of the sandbox this resource belongs to.
      * @return string
      */
     public function getSandboxId(): string { return $this->get('sandbox_id'); }

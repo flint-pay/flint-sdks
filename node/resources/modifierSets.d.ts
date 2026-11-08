@@ -1,5 +1,5 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-5.js';
+import type { ClientOptions } from '../declarations/types-6.js';
 import type {
     ModifierSet,
     ModifierSetListResponse,
@@ -9,9 +9,9 @@ import type {
     ModifierSetsGetParams,
     ModifierSetsListParams,
     ModifierSetsUpdateParams
-} from '../declarations/types-35.js';
-import type { RequestOptions } from '../declarations/types-48.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-37.js';
+import type { RequestOptions } from '../declarations/types-51.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -35,42 +35,38 @@ export type {
     ModifierSetsListParams,
     ModifierSetListResponse,
     ModifierSetsUpdateParams,
-    MetadataRequestInput,
     MoneyValueInput,
-    ModifierOverrideInput,
-    MetadataMap,
+    ModifierOverrideRequestInput,
     ModifierSetGroup,
     ModifierGroup,
     Modifier,
     MoneyValue,
     ModifierOverride,
-    ModifierSetGroupExisting,
-    ModifierSetGroupInline,
     NextAction,
-    MetadataPatchRequestInput,
     ModifierSetGroupRequestInput,
     ModifierRequestInput,
     ModifierSetGroupInputExistingInput,
-    ModifierSetGroupInputInlineInput,
-    MetadataPatchRequest
-} from '../declarations/types-35.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { ClientOptions } from '../declarations/types-5.js';
+    ModifierSetGroupInputInlineInput
+} from '../declarations/types-37.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+export type { ClientOptions } from '../declarations/types-6.js';
 export type {
     CreateModifierSetRequestInput,
     CreateModifierSetGroupRequestInput,
     CreateModifierRequestInput,
     CreateModifierSetGroupInputExistingInput,
     CreateModifierSetGroupInputInlineInput
-} from '../declarations/types-9.js';
-export type { CreateInlineModifierGroupRequestInput } from '../declarations/types-8.js';
-export type { TextModifierConfigRequestInput, TextModifierConfig, TextModifierConfigRequest } from '../declarations/types-58.js';
+} from '../declarations/types-10.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-36.js';
+export type { CreateInlineModifierGroupRequestInput } from '../declarations/types-9.js';
+export type { TextModifierConfigRequestInput, TextModifierConfig, TextModifierConfigRequest } from '../declarations/types-62.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-12.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
-export type { UpdateModifierSetRequestInput } from '../declarations/types-59.js';
-export type { InlineModifierGroupRequestInput } from '../declarations/types-25.js';
+export type { Credentials } from '../declarations/types-13.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
+export type { UpdateModifierSetRequestInput } from '../declarations/types-64.js';
+export type { InlineModifierGroupRequestInput } from '../declarations/types-27.js';
+export type { DisputesAcceptParams } from '../declarations/types-22.js';
 export {
     makeCreateInlineModifierGroupRequest,
     makeCreateModifierRequest,
@@ -78,21 +74,21 @@ export {
     makeCreateModifierSetGroupInputInline,
     makeCreateModifierSetGroupRequest,
     makeCreateModifierSetRequest
-} from '../declarations/types-64.js';
-export { makeInlineModifierGroupRequest } from '../declarations/types-68.js';
-export {
-    makeMetadataPatchRequest,
-    makeMetadataRequest,
-    makeModifierOverride,
-    makeModifierRequest,
-    makeModifierSetGroupInputExisting,
-    makeModifierSetGroupInputInline
 } from '../declarations/types-69.js';
-export { makeModifierSetGroupRequest, makeMoneyValue } from '../declarations/types-70.js';
-export { makeTextModifierConfigRequest, makeUpdateModifierSetRequest } from '../declarations/types-74.js';
+export { makeInlineModifierGroupRequest } from '../declarations/types-73.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeModifierOverrideRequest, makeModifierRequest } from '../declarations/types-74.js';
+export {
+    makeModifierSetGroupInputExisting,
+    makeModifierSetGroupInputInline,
+    makeModifierSetGroupRequest,
+    makeMoneyValue
+} from '../declarations/types-75.js';
+export { makeTextModifierConfigRequest, makeUpdateModifierSetRequest } from '../declarations/types-79.js';
 export interface ModifierSetsResource {
     /**
- * Create modifier set.
+ * Creates a modifier set, a reusable collection of modifier groups that you attach to products,
+ * variants, and bundles by `modifier_set_id`. Send `name` and the ordered `modifier_groups`, each
+ * referencing a reusable group or defining a group owned by the set.
  *
  * `POST /v1/modifier-sets`
  * @see https://developers.withflintpay.com/docs/api/modifiers#createModifierSet
@@ -104,10 +100,12 @@ export interface ModifierSetsResource {
  */
     create(params: ModifierSetsCreateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<ModifierSet, ModifierSetResponse>>;
     /**
- * Retire modifier set. Returns the archived resource exactly as GET returns it. Repeating DELETE
- * returns 200 without changing version or updated_at, sending a webhook, or checking references.
- * When expected_version is present, it is compared before the archived replay; a stale version
- * returns 409 VERSION_CONFLICT with current_version.
+ * Archives a modifier set and returns its final state. A set that is still attached to a product,
+ * variant, or bundle fails with `RESOURCE_IN_USE`; set `modifier_set_id` to `null` on each of them
+ * first. Returns the archived resource as a read does. Deleting an already archived resource
+ * returns it again without changing its version or `updated_at`, sending a webhook, or checking
+ * references. A stale `expected_version` fails with `VERSION_CONFLICT` and the `current_version`,
+ * even when the resource is already archived.
  *
  * `DELETE /v1/modifier-sets/{modifier_set_id}`
  * @param modifier_set_id Flint modifier set ID.
@@ -116,19 +114,19 @@ export interface ModifierSetsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.modifierSets.delete("ms_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey
+ * client.modifierSets.delete("ms_01KEZF7C007EWZVVFAWVJJM8NR", {}, { idempotencyKey: idempotencyKey
  * })
  */
     delete(modifier_set_id: InputValue<string>, params?: ModifierSetsDeleteParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<ModifierSet, ModifierSetResponse>>;
     /**
- * Get modifier set.
+ * Returns one modifier set by ID, with its ordered modifier groups.
  *
  * `GET /v1/modifier-sets/{modifier_set_id}`
  * @param modifier_set_id Flint modifier set ID.
  * @see https://developers.withflintpay.com/docs/api/modifiers#getModifierSet
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.modifierSets.get("ms_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.modifierSets.get("ms_01KEZF7C007EWZVVFAWVJJM8NR")
  */
     get(modifier_set_id: InputValue<string>, params?: ModifierSetsGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<ModifierSet, ModifierSetResponse>>;
     /**
@@ -150,9 +148,11 @@ export interface ModifierSetsResource {
      */
     listItems(params?: ModifierSetsListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<ModifierSet>;
     /**
- * Update modifier set. An archived resource returns 409 ACTION_NOT_ALLOWED with reason archived
- * and current_status archived. The error identifies the archived resource; a create under an
- * archived parent identifies that parent.
+ * Applies a sparse update to a modifier set: only the fields you send change. Sending
+ * `modifier_groups` replaces the set's group entries; entries you leave out are removed, and
+ * `expected_version` is required with it. A stale version fails with `VERSION_CONFLICT`. Fails
+ * with `ACTION_NOT_ALLOWED` and reason `archived` when the resource, or the parent it belongs to,
+ * is archived. The error names the archived resource and its `current_status`.
  *
  * `PATCH /v1/modifier-sets/{modifier_set_id}`
  * @param modifier_set_id Flint modifier set ID.

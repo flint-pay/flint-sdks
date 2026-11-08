@@ -4,19 +4,19 @@ namespace Flint;
 /**
  * @property-read BuyerInstructionsConfigRequestInput|array<array-key, mixed>|\stdClass $buyer_instructions
  * @property-read string|null $charge_tax_category
- * @property-read DeliveryEligibilityExpressionInput|array<array-key, mixed>|\stdClass $eligibility
+ * @property-read DeliveryEligibilityExpressionRequestInput|array<array-key, mixed>|\stdClass $eligibility
  * @property-read DeliveryEstimateRuleRequestInput|array<array-key, mixed>|\stdClass $estimate
  * @property-read int $minimum_option_lifetime_seconds
  * @property-read DeliveryMethodOriginSelectorRequestInput|array<array-key, mixed>|\stdClass $origin
  * @property-read DeliveryPricingStrategyCreateRequestInput|array<array-key, mixed>|\stdClass $pricing
  * @property-read array{'instructions'?: string, 'pickup_mode'?: string, 'service_level'?: string}|object $public_details
  * @property-read list<string> $quote_input_fields
- * @property-read list<DeliveryRecipientRequirementInput|array<array-key, mixed>|\stdClass> $recipient_requirements
+ * @property-read list<DeliveryRecipientRequirementRequestInput|array<array-key, mixed>|\stdClass> $recipient_requirements
  * @property-read int $selection_guarantee_seconds
  * @property-read bool|null $taxable
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryMethodConfigurationCreateRequestInput extends Model {
-    /** @param array{'buyer_instructions'?: BuyerInstructionsConfigRequestInput|array<array-key, mixed>|\stdClass, 'charge_tax_category'?: string|null, 'eligibility'?: DeliveryEligibilityExpressionInput|array<array-key, mixed>|\stdClass, 'estimate'?: DeliveryEstimateRuleRequestInput|array<array-key, mixed>|\stdClass, 'minimum_option_lifetime_seconds'?: int, 'origin': DeliveryMethodOriginSelectorRequestInput|array<array-key, mixed>|\stdClass, 'pricing': DeliveryPricingStrategyCreateRequestInput|array<array-key, mixed>|\stdClass, 'public_details'?: array{'instructions'?: string, 'pickup_mode'?: string, 'service_level'?: string}|object, 'quote_input_fields'?: list<string>, 'recipient_requirements'?: list<DeliveryRecipientRequirementInput|array<array-key, mixed>|\stdClass>, 'selection_guarantee_seconds'?: int, 'taxable'?: bool|null}|object $values */
+    /** @param array{'buyer_instructions'?: BuyerInstructionsConfigRequestInput|array<array-key, mixed>|\stdClass, 'charge_tax_category'?: string|null, 'eligibility'?: DeliveryEligibilityExpressionRequestInput|array<array-key, mixed>|\stdClass, 'estimate'?: DeliveryEstimateRuleRequestInput|array<array-key, mixed>|\stdClass, 'minimum_option_lifetime_seconds'?: int, 'origin': DeliveryMethodOriginSelectorRequestInput|array<array-key, mixed>|\stdClass, 'pricing': DeliveryPricingStrategyCreateRequestInput|array<array-key, mixed>|\stdClass, 'public_details'?: array{'instructions'?: string, 'pickup_mode'?: string, 'service_level'?: string}|object, 'quote_input_fields'?: list<string>, 'recipient_requirements'?: list<DeliveryRecipientRequirementRequestInput|array<array-key, mixed>|\stdClass>, 'selection_guarantee_seconds'?: int, 'taxable'?: bool|null}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryMethodConfigurationCreateRequestInput')); }
     /** Controls whether checkout collects buyer instructions for this method. Controls buyer instructions for a delivery option. Omit it from a method configuration to disable instruction collection.
      * @return BuyerInstructionsConfigRequestInput|array<array-key, mixed>|\stdClass
@@ -24,14 +24,14 @@ final class DeliveryMethodConfigurationCreateRequestInput extends Model {
      */
     public function getBuyerInstructions(): mixed { return $this->get('buyer_instructions'); }
     public function hasBuyerInstructions(): bool { return $this->has('buyer_instructions'); }
-    /** Tax category of the delivery charge, which decides its automatic tax and appears in tax records and reporting. Null inherits settings.tax.default_delivery_tax_category; if unset, Flint derives shipping for shipment methods, delivery for local delivery, or service_fee for pickup. Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null to clear it back to inheriting. Automatic tax calculates the shipping and delivery categories at the general rate and refuses the others with AUTOMATIC_TAX_CHARGE_UNSUPPORTED. Value enum: "service_fee", "shipping", "delivery", "handling", "surcharge", null.
+    /** Tax category of the delivery charge, which decides its automatic tax and appears in tax records and reporting. Null inherits settings.tax.default_delivery_tax_category; if unset, Flint derives shipping for shipment methods, delivery for local delivery, or service_fee for pickup. Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null to clear it back to inheriting. Automatic tax calculates service_fee, shipping, delivery, handling, and surcharge at the general rate at the charge location, including the store for pickup. Value enum: "service_fee", "shipping", "delivery", "handling", "surcharge", null.
      * @return string|null
      * @throws SdkError When charge_tax_category is omitted; use hasChargeTaxCategory() or valueOrDefault().
      */
     public function getChargeTaxCategory(): string|null { return $this->get('charge_tax_category'); }
     public function hasChargeTaxCategory(): bool { return $this->has('charge_tax_category'); }
     /** Conditions that decide where this method is offered. Omit this field to offer the method everywhere the merchant serves. A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.
-     * @return DeliveryEligibilityExpressionInput|array<array-key, mixed>|\stdClass
+     * @return DeliveryEligibilityExpressionRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When eligibility is omitted; use hasEligibility() or valueOrDefault().
      */
     public function getEligibility(): mixed { return $this->get('eligibility'); }
@@ -66,14 +66,14 @@ final class DeliveryMethodConfigurationCreateRequestInput extends Model {
      */
     public function getPublicDetails(): array|object { return $this->get('public_details'); }
     public function hasPublicDetails(): bool { return $this->has('public_details'); }
-    /** Address and coordinate fields a callback method requires and is allowed to receive. maxItems: 12. uniqueItems: true. [] enum: "destination_address", "destination_address.line1", "destination_address.line2", "destination_address.city", "destination_address.state", "destination_address.postal_code", "destination_address.country", "buyer_location", "buyer_location.line1", "buyer_location.line2", "buyer_location.city", "buyer_location.state", "buyer_location.postal_code", "buyer_location.country", "buyer_location.coordinate". [] (Value): string.  Value enum: "destination_address", "destination_address.line1", "destination_address.line2", "destination_address.city", "destination_address.state", "destination_address.postal_code", "destination_address.country", "buyer_location", "buyer_location.line1", "buyer_location.line2", "buyer_location.city", "buyer_location.state", "buyer_location.postal_code", "buyer_location.country", "buyer_location.coordinate".
+    /** Address and coordinate fields a callback method requires and is allowed to receive. maxItems: 12. uniqueItems: true. [] enum: "destination_address", "destination_address.line1", "destination_address.line2", "destination_address.city", "destination_address.state", "destination_address.postal_code", "destination_address.country", "buyer_location", "buyer_location.address.line1", "buyer_location.address.line2", "buyer_location.address.city", "buyer_location.address.state", "buyer_location.address.postal_code", "buyer_location.address.country", "buyer_location.coordinate". [] (Value): string. Request properties the callback needs. - `destination_address`: The full destination address. - `destination_address.line1`: The destination street address. - `destination_address.line2`: The destination apartment, suite, or other secondary address. - `destination_address.city`: The destination city. - `destination_address.state`: The destination state or region. - `destination_address.postal_code`: The destination postal code. - `destination_address.country`: The destination ISO 3166-1 alpha-2 country code. - `buyer_location`: The buyer location, supplied as an address or coordinates. - `buyer_location.address.line1`: The street address in the buyer location's address variant. - `buyer_location.address.line2`: The apartment, suite, or other secondary address in the buyer location's address variant. - `buyer_location.address.city`: The city in the buyer location's address variant. - `buyer_location.address.state`: The state or region in the buyer location's address variant. - `buyer_location.address.postal_code`: The postal code in the buyer location's address variant. - `buyer_location.address.country`: The ISO 3166-1 alpha-2 country code in the buyer location's address variant. - `buyer_location.coordinate`: The latitude and longitude in the buyer location's coordinate variant. Value enum: "destination_address", "destination_address.line1", "destination_address.line2", "destination_address.city", "destination_address.state", "destination_address.postal_code", "destination_address.country", "buyer_location", "buyer_location.address.line1", "buyer_location.address.line2", "buyer_location.address.city", "buyer_location.address.state", "buyer_location.address.postal_code", "buyer_location.address.country", "buyer_location.coordinate".
      * @return list<string>
      * @throws SdkError When quote_input_fields is omitted; use hasQuoteInputFields() or valueOrDefault().
      */
     public function getQuoteInputFields(): array { return $this->get('quote_input_fields'); }
     public function hasQuoteInputFields(): bool { return $this->has('quote_input_fields'); }
-    /** Recipient fields this method asks for. A delivery selection can leave out required fields, but payment needs them. [] (Value): {@see DeliveryRecipientRequirementInput}. Says whether a recipient field (`name`, `email`, or `phone`) is required for a delivery method, and the format it must use.
-     * @return list<DeliveryRecipientRequirementInput|array<array-key, mixed>|\stdClass>
+    /** Recipient fields this method asks for. A delivery selection can leave out required fields, but payment needs them. [] (Value): {@see DeliveryRecipientRequirementRequestInput}. Says whether a recipient field (`name`, `email`, or `phone`) is required for a delivery method, and the format it must use.
+     * @return list<DeliveryRecipientRequirementRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When recipient_requirements is omitted; use hasRecipientRequirements() or valueOrDefault().
      */
     public function getRecipientRequirements(): array { return $this->get('recipient_requirements'); }

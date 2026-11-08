@@ -59,17 +59,17 @@ final class ReturnDecisionRecordedInstalledMerchantsEventDataObject extends Mode
      */
     public function getCanceledAt(): ?string { return $this->get('canceled_at'); }
     public function hasCanceledAt(): bool { return $this->has('canceled_at'); }
-    /** Who performed a return action: a buyer, merchant, integration, or the system, with an optional ID.
+    /** Who canceled the Return. Who performed a return action: a buyer, merchant, integration, or the system, with an optional ID.
      * @return ?ReturnActor
      */
     public function getCanceledBy(): ?ReturnActor { return $this->get('canceled_by'); }
     public function hasCanceledBy(): bool { return $this->has('canceled_by'); }
-    /** Value enum: "buyer_request", "merchant_request", "duplicate", "expired", "created_in_error", "other".
+    /** Why the Return was canceled. Value enum: "buyer_request", "merchant_request", "duplicate", "expired", "created_in_error", "other".
      * @return ?string
      */
     public function getCancellationReason(): ?string { return $this->get('cancellation_reason'); }
     public function hasCancellationReason(): bool { return $this->has('cancellation_reason'); }
-    /** cancellation_reason_message
+    /** Detail sent with the cancellation. Merchant reads only.
      * @return ?string
      */
     public function getCancellationReasonMessage(): ?string { return $this->get('cancellation_reason_message'); }
@@ -79,12 +79,12 @@ final class ReturnDecisionRecordedInstalledMerchantsEventDataObject extends Mode
      */
     public function getCompletedAt(): ?string { return $this->get('completed_at'); }
     public function hasCompletedAt(): bool { return $this->has('completed_at'); }
-    /** Who performed a return action: a buyer, merchant, integration, or the system, with an optional ID.
+    /** Who completed the Return. `system` when Flint completed it automatically. Who performed a return action: a buyer, merchant, integration, or the system, with an optional ID.
      * @return ?ReturnActor
      */
     public function getCompletedBy(): ?ReturnActor { return $this->get('completed_by'); }
     public function hasCompletedBy(): bool { return $this->has('completed_by'); }
-    /**  [] (Value): {@see ReturnCompletionBlocker}. Something still owed before a return can complete, with the return line or record it concerns.
+    /** What is still owed before the Return can complete. Empty when nothing is. [] (Value): {@see ReturnCompletionBlocker}. Something still owed before a return can complete, with the return line or record it concerns.
      * @return list<ReturnCompletionBlocker>
      */
     public function getCompletionBlockers(): array { return $this->get('completion_blockers'); }
@@ -94,12 +94,12 @@ final class ReturnDecisionRecordedInstalledMerchantsEventDataObject extends Mode
      */
     public function getCompletionMode(): ?string { return $this->get('completion_mode'); }
     public function hasCompletionMode(): bool { return $this->has('completion_mode'); }
-    /** Value enum: "manual_completion", "exception_waived", "other".
+    /** Why the Return was completed by hand. Absent when Flint completed it automatically. Value enum: "manual_completion", "exception_waived", "other".
      * @return ?string
      */
     public function getCompletionReason(): ?string { return $this->get('completion_reason'); }
     public function hasCompletionReason(): bool { return $this->has('completion_reason'); }
-    /** completion_reason_message
+    /** Detail sent when the Return was completed by hand.
      * @return ?string
      */
     public function getCompletionReasonMessage(): ?string { return $this->get('completion_reason_message'); }
@@ -114,7 +114,7 @@ final class ReturnDecisionRecordedInstalledMerchantsEventDataObject extends Mode
      */
     public function getCustomer(): ExpandedCustomerSummary|null { return $this->get('customer'); }
     public function hasCustomer(): bool { return $this->has('customer'); }
-    /** customer_id
+    /** The customer the Return belongs to.
      * @return ?string
      */
     public function getCustomerId(): ?string { return $this->get('customer_id'); }
@@ -124,7 +124,7 @@ final class ReturnDecisionRecordedInstalledMerchantsEventDataObject extends Mode
      */
     public function getDecisionAt(): ?string { return $this->get('decision_at'); }
     public function hasDecisionAt(): bool { return $this->has('decision_at'); }
-    /** Value enum: "pending", "approved", "partially_approved", "declined".
+    /** Whether the requested units were approved. `pending` until one decision covers every line. Value enum: "pending", "approved", "partially_approved", "declined".
      * @return string
      */
     public function getDecisionStatus(): string { return $this->get('decision_status'); }
@@ -134,12 +134,12 @@ final class ReturnDecisionRecordedInstalledMerchantsEventDataObject extends Mode
      */
     public function getExternalReferenceId(): ?string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** The money for a return: returned value, deductions, credits, replacement total, and amounts due to or from the buyer.
+    /** The Return's money in one place: the value of the returned lines, deductions and credits, and what has been refunded or collected. The money for a return: returned value, deductions, credits, replacement total, and amounts due to or from the buyer.
      * @return ReturnFinancialSummary
      */
     public function getFinancialSummary(): ReturnFinancialSummary { return $this->get('financial_summary'); }
     public function hasFinancialSummary(): bool { return $this->has('financial_summary'); }
-    /**  [] (Value): {@see ReturnHandoffRequirement}. What the buyer must do to hand merchandise back: the destination, instructions, line items, and expiry.
+    /** What the buyer still has to send back and where. Each entry leaves the list once it is satisfied, so an empty list means nothing is waiting on the buyer. [] (Value): {@see ReturnHandoffRequirement}. What the buyer must do to hand merchandise back: the destination, instructions, line items, and expiry.
      * @return list<ReturnHandoffRequirement>
      */
     public function getHandoffRequirements(): array { return $this->get('handoff_requirements'); }
@@ -149,7 +149,7 @@ final class ReturnDecisionRecordedInstalledMerchantsEventDataObject extends Mode
      */
     public function getInitiatedBy(): string { return $this->get('initiated_by'); }
     public function hasInitiatedBy(): bool { return $this->has('initiated_by'); }
-    /**  [] (Value): {@see ReturnLineItem}. An item included in a return request.
+    /** The lines being returned. [] (Value): {@see ReturnLineItem}. An item included in a return request.
      * @return list<ReturnLineItem>
      */
     public function getLineItems(): array { return $this->get('line_items'); }
@@ -159,7 +159,7 @@ final class ReturnDecisionRecordedInstalledMerchantsEventDataObject extends Mode
      */
     public function getMerchandiseStatus(): string { return $this->get('merchandise_status'); }
     public function hasMerchandiseStatus(): bool { return $this->has('merchandise_status'); }
-    /** Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
+    /** Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      * @return array<array-key, string>
      */
     public function getMetadata(): array { return $this->get('metadata'); }
@@ -169,17 +169,17 @@ final class ReturnDecisionRecordedInstalledMerchantsEventDataObject extends Mode
      */
     public function getOrder(): ExpandedOrderSummary|null { return $this->get('order'); }
     public function hasOrder(): bool { return $this->has('order'); }
-    /** order_id
+    /** ID of the Order the Return is against.
      * @return string
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** How a return policy evaluated a return request: overall status and reason, the policy revision used, and per-line results.
+    /** How your return policies judged the request when the Return was created. How a return policy evaluated a return request: overall status and reason, the policy revision used, and per-line results.
      * @return ?ReturnPolicyEvaluation
      */
     public function getPolicyEvaluation(): ?ReturnPolicyEvaluation { return $this->get('policy_evaluation'); }
     public function hasPolicyEvaluation(): bool { return $this->has('policy_evaluation'); }
-    /** Value enum: "not_selected", "pending", "partially_fulfilled", "requires_action", "fulfilled", "failed".
+    /** Whether the buyer has received the value they are owed. Combines the Return's resolutions and its unsettled corrections. Value enum: "not_selected", "pending", "partially_fulfilled", "requires_action", "fulfilled", "failed".
      * @return string
      */
     public function getResolutionStatus(): string { return $this->get('resolution_status'); }
@@ -189,12 +189,12 @@ final class ReturnDecisionRecordedInstalledMerchantsEventDataObject extends Mode
      */
     public function getReturnDispositionIds(): array { return $this->get('return_disposition_ids'); }
     public function hasReturnDispositionIds(): bool { return $this->has('return_disposition_ids'); }
-    /**  [] (Value): {@see ReturnDisposition}. A decision about how returned merchandise will be handled.
+    /** Present only when `expand` includes `return_dispositions`. The dispositions in `return_disposition_ids`, in the same order. [] (Value): {@see ReturnDisposition}. A decision about how returned merchandise will be handled.
      * @return ?list<ReturnDisposition>
      */
     public function getReturnDispositions(): ?array { return $this->get('return_dispositions'); }
     public function hasReturnDispositions(): bool { return $this->has('return_dispositions'); }
-    /** return_id
+    /** Unique identifier for this return, prefixed `ret_`.
      * @return string
      */
     public function getReturnId(): string { return $this->get('return_id'); }
@@ -204,12 +204,12 @@ final class ReturnDecisionRecordedInstalledMerchantsEventDataObject extends Mode
      */
     public function getReturnInspectionIds(): array { return $this->get('return_inspection_ids'); }
     public function hasReturnInspectionIds(): bool { return $this->has('return_inspection_ids'); }
-    /**  [] (Value): {@see ReturnInspection}. An assessment of the condition of returned items.
+    /** Present only when `expand` includes `return_inspections`. The inspections in `return_inspection_ids`, in the same order. [] (Value): {@see ReturnInspection}. An assessment of the condition of returned items.
      * @return ?list<ReturnInspection>
      */
     public function getReturnInspections(): ?array { return $this->get('return_inspections'); }
     public function hasReturnInspections(): bool { return $this->has('return_inspections'); }
-    /** return_number
+    /** Human-readable number for the Return.
      * @return string
      */
     public function getReturnNumber(): string { return $this->get('return_number'); }
@@ -219,7 +219,7 @@ final class ReturnDecisionRecordedInstalledMerchantsEventDataObject extends Mode
      */
     public function getReturnReceiptIds(): array { return $this->get('return_receipt_ids'); }
     public function hasReturnReceiptIds(): bool { return $this->has('return_receipt_ids'); }
-    /**  [] (Value): {@see ReturnReceipt}. A record of returned items arriving at a location.
+    /** Present only when `expand` includes `return_receipts`. The receipts in `return_receipt_ids`, in the same order. [] (Value): {@see ReturnReceipt}. A record of returned items arriving at a location.
      * @return ?list<ReturnReceipt>
      */
     public function getReturnReceipts(): ?array { return $this->get('return_receipts'); }
@@ -229,7 +229,7 @@ final class ReturnDecisionRecordedInstalledMerchantsEventDataObject extends Mode
      */
     public function getReturnResolutionIds(): array { return $this->get('return_resolution_ids'); }
     public function hasReturnResolutionIds(): bool { return $this->has('return_resolution_ids'); }
-    /**  [] (Value): {@see ReturnResolution}. The refund, exchange, or other outcome of a return.
+    /** Present only when `expand` includes `return_resolutions`. The resolutions in `return_resolution_ids`, in the same order. [] (Value): {@see ReturnResolution}. The refund, exchange, or other outcome of a return.
      * @return ?list<ReturnResolution>
      */
     public function getReturnResolutions(): ?array { return $this->get('return_resolutions'); }
@@ -239,12 +239,12 @@ final class ReturnDecisionRecordedInstalledMerchantsEventDataObject extends Mode
      */
     public function getShipmentIds(): array { return $this->get('shipment_ids'); }
     public function hasShipmentIds(): bool { return $this->has('shipment_ids'); }
-    /**  [] (Value): {@see ExpandedShipmentSummary}. A shipment's summary fields, including direction, status, and package count, returned when the shipment is expanded.
+    /** Present only when `expand` includes `shipments`. Summaries of the shipments in `shipment_ids`, in the same order. [] (Value): {@see ExpandedShipmentSummary}. A shipment's summary fields, including direction, status, and package count, returned when the shipment is expanded.
      * @return ?list<ExpandedShipmentSummary>
      */
     public function getShipments(): ?array { return $this->get('shipments'); }
     public function hasShipments(): bool { return $this->has('shipments'); }
-    /** Value enum: "requested", "open", "completed", "declined", "canceled".
+    /** Where the whole Return stands. Read `decision_status`, `merchandise_status`, and `resolution_status` for the part you need. Value enum: "requested", "open", "completed", "declined", "canceled".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
@@ -259,7 +259,7 @@ final class ReturnDecisionRecordedInstalledMerchantsEventDataObject extends Mode
      */
     public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** Format: int64. minimum: 0.
+    /** Goes up with every change to the Return. Each activity's `return_version` is the version that activity produced. A write that takes `expected_version` or `expected_return_version` for this Return compares it with this value. Format: int64. minimum: 0.
      * @return int
      */
     public function getVersion(): int { return $this->get('version'); }

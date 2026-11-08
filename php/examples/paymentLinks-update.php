@@ -19,6 +19,6 @@ $idempotencyKey = bin2hex(random_bytes(16));
 $result = $client->paymentLinks->update('pl_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
   'description' => 'Updated description',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
+echo $result->merchant_id . PHP_EOL;
 echo $result->payment_link_id . PHP_EOL;
-echo $result->status . PHP_EOL;
 $client->close();

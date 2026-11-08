@@ -12,10 +12,10 @@ Response model.
 | `audience` | Required | string |  |
 | `claim_conditions` | Required | Array of [WorkloadIdentityClaimCondition](../models/WorkloadIdentityClaimCondition.md#workloadidentityclaimcondition) | Bounded value array of top-level scalar claim conditions. Replaced as a whole on PATCH; [] clears it when the remaining policy is valid. |
 | `created_at` | Required | string | Time the identity was created. Format: `date-time`. |
-| `created_by` | Required | [WorkloadIdentityCreator](../models/WorkloadIdentityCreator.md#workloadidentitycreator) | The user or credential that created a workload identity, identified by resource type and ID. |
+| `created_by` | Required | [WorkloadIdentityCreator](../models/WorkloadIdentityCreator.md#workloadidentitycreator) | The user or credential that created a workload identity, identified by resource type and ID. `created_by`: [field definitions](../models/WorkloadIdentityResponse.md#workloadidentityresponsedatacreated_by). |
 | `issuer` | Required | string |  |
 | `last_used_at` | Optional | string | Most recent use. Omitted before the first use. Format: `date-time`. |
-| `mode` | Required | string | Values: `"test"`, `"live"`. |
+| `mode` | Required | string | Environment used for this resource or request. Values: `"test"`, `"live"`. |
 | `name` | Required | string |  |
 | `platform` | Required | string | Computed from the issuer. New platform values may be added. Values: `"generic"`, `"github_actions"`, `"gitlab_ci"`, `"google_cloud"`, `"aws"`, `"azure"`, `"kubernetes"`, `"circleci"`, `"buildkite"`, `"vercel"`, `"fly_io"`. |
 | `sandbox_id` | Optional | string | The sandbox containing this identity. Present only in test mode. |
@@ -25,5 +25,9 @@ Response model.
 | `subject_match` | Required | string | Values: `"exact"`, `"glob"`. |
 | `updated_at` | Required | string | Time the identity last changed. Format: `date-time`. |
 | `version` | Required | integer | Positive concurrency version. Increases on policy and lifecycle changes. Format: `int64`. minimum: `1`. |
-| `workload_identity_id` | Required | string |  |
+| `workload_identity_id` | Required | string | Unique identifier for this workload identity, prefixed `wid_`. |
+
+### WorkloadIdentity.created_by
+
+Field definitions: [WorkloadIdentityResponse.data.created_by](../models/WorkloadIdentityResponse.md#workloadidentityresponsedatacreated_by).
 

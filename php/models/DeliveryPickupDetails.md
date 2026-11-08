@@ -8,6 +8,10 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `location` | Optional | [DeliveryLocationSummaryResource](../models/DeliveryLocationSummaryResource.md#deliverylocationsummaryresource) | A pickup location shown on a delivery option: its name, address, instructions, and timezone. |
+| `location` | Optional | [DeliveryLocationSummaryResource](../models/DeliveryLocationSummaryResource.md#deliverylocationsummaryresource) | A pickup location shown on a delivery option: its name, address, instructions, and timezone. `location`: [field definitions](../models/DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueAvailableOption.md#deliveryquotechoicegroupresourcecandidateoutcomesvalueavailableoptionpickup-fields-1location). |
 | `pickup_mode` | Required | string | Values: `"in_store"`, `"curbside"`, `"locker"`, `"other"`. |
+
+### DeliveryPickupDetails.location
+
+Field definitions: [DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueAvailableOption.pickup fields 1.location](../models/DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueAvailableOption.md#deliveryquotechoicegroupresourcecandidateoutcomesvalueavailableoptionpickup-fields-1location).
 

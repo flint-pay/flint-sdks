@@ -20,12 +20,12 @@ final class RotateGiftCardCodeResult extends Model {
      */
     public function getCodeRecoveryExpiresAt(): ?string { return $this->get('code_recovery_expires_at'); }
     public function hasCodeRecoveryExpiresAt(): bool { return $this->has('code_recovery_expires_at'); }
-    /** Merchant-issued purchased gift card. Posted balance includes reserved value; available value is balance minus reservations. Frozen value remains part of outstanding liability. Gift cards are independent resources and cannot be transferred across merchants or currencies.
+    /** The gift card after the command. Merchant-issued purchased gift card. Posted balance includes reserved value; available value is balance minus reservations. Frozen value remains part of outstanding liability. Gift cards are independent resources and cannot be transferred across merchants or currencies.
      * @return GiftCard
      */
     public function getGiftCard(): GiftCard { return $this->get('gift_card'); }
     public function hasGiftCard(): bool { return $this->has('gift_card'); }
-    /** A message sent to a gift card recipient.
+    /** The notification the command created because the request included `notification`. Omitted otherwise. A message sent to a gift card recipient.
      * @return ?GiftCardNotification
      */
     public function getGiftCardNotification(): ?GiftCardNotification { return $this->get('gift_card_notification'); }

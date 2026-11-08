@@ -16,7 +16,7 @@ final class CreateDeliveryPickupLocationsPreviewRequestInput extends Model {
      */
     public function getBuyerLocation(): mixed { return $this->get('buyer_location'); }
     public function hasBuyerLocation(): bool { return $this->has('buyer_location'); }
-    /** Checkout session whose pickup locations to evaluate. Checkout credentials must identify their own session. minLength: 1.
+    /** Checkout session whose pickup locations to evaluate. Checkout credentials must identify their own session. minLength: 1. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
      * @return string
      * @throws SdkError When checkout_session_id is omitted; use hasCheckoutSessionId() or valueOrDefault().
      */

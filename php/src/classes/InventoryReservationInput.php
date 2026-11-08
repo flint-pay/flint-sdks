@@ -21,19 +21,19 @@ namespace Flint;
 final class InventoryReservationInput extends Model {
     /** @param array{'closed_reason'?: string|null, 'created_at': string|\DateTimeInterface, 'expires_at': string|\DateTimeInterface|null, 'idempotency_key'?: string, 'inventory_action_required'?: InventoryActionRequiredInput|array<array-key, mixed>|\stdClass, 'inventory_reservation_id': string, 'inventory_routing_source': InventoryRoutingSourceInput|array<array-key, mixed>|\stdClass, 'lines': list<InventoryReservationLineInput|array<array-key, mixed>|\stdClass>, 'owner': InventoryReservationOwnerInput|array<array-key, mixed>|\stdClass, 'replacement_inventory_reservation_id'?: string, 'source_inventory_reservation_id'?: string, 'status': string, 'supported_actions': list<string>, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryReservationInput')); }
-    /** How the reservation ended. mixed when more than one terminal outcome applied. Value enum: "consumed", "released", "expired", "reallocated", "mixed", null.
+    /** How the reservation ended. mixed when more than one terminal outcome applied. `null` when the reservation isn't closed. Value enum: "consumed", "released", "expired", "reallocated", "mixed", null.
      * @return string|null
      * @throws SdkError When closed_reason is omitted; use hasClosedReason() or valueOrDefault().
      */
     public function getClosedReason(): string|null { return $this->get('closed_reason'); }
     public function hasClosedReason(): bool { return $this->has('closed_reason'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** When held quantity is released if it isn't committed first. null once no line holds quantity. Committed and consumed quantity never expire. Format: date-time.
+    /** When held quantity is released if it isn't committed first. Backordered quantity that payment hasn't confirmed yet carries the same deadline. Committed and consumed quantity never expire. `null` when no line holds quantity or has unconfirmed backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface|null
      * @throws SdkError When expires_at is omitted; use hasExpiresAt() or valueOrDefault().
      */
@@ -51,43 +51,43 @@ final class InventoryReservationInput extends Model {
      */
     public function getInventoryActionRequired(): mixed { return $this->get('inventory_action_required'); }
     public function hasInventoryActionRequired(): bool { return $this->has('inventory_action_required'); }
-    /** inventory_reservation_id
+    /** Unique identifier for this inventory reservation, prefixed `invr_`. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
      * @return string
      * @throws SdkError When inventory_reservation_id is omitted; use hasInventoryReservationId() or valueOrDefault().
      */
     public function getInventoryReservationId(): string { return $this->get('inventory_reservation_id'); }
     public function hasInventoryReservationId(): bool { return $this->has('inventory_reservation_id'); }
-    /** Where an order, payment link, or reservation routes inventory from: a fixed Location, an inventory allocation policy, or one policy revision.
+    /** How Flint chooses the Locations that serve the reservation: one fixed Location, an allocation policy, or a specific policy revision. Where an order, payment link, or reservation routes inventory from: a fixed Location, an inventory allocation policy, or one policy revision.
      * @return InventoryRoutingSourceInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When inventory_routing_source is omitted; use hasInventoryRoutingSource() or valueOrDefault().
      */
     public function getInventoryRoutingSource(): mixed { return $this->get('inventory_routing_source'); }
     public function hasInventoryRoutingSource(): bool { return $this->has('inventory_routing_source'); }
-    /**  [] (Value): {@see InventoryReservationLineInput}. One item's location allocation within a reservation.
+    /** Allocations of the reserved stock, one for each item and Location. [] (Value): {@see InventoryReservationLineInput}. One item's location allocation within a reservation.
      * @return list<InventoryReservationLineInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When lines is omitted; use hasLines() or valueOrDefault().
      */
     public function getLines(): array { return $this->get('lines'); }
     public function hasLines(): bool { return $this->has('lines'); }
-    /** Who holds an inventory reservation: either a merchant claim identified by your `key`, or an order.
+    /** Who holds the reservation: a `key` you choose, or an order Flint holds the stock for. Who holds an inventory reservation: either a merchant claim identified by your `key`, or an order.
      * @return InventoryReservationOwnerInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When owner is omitted; use hasOwner() or valueOrDefault().
      */
     public function getOwner(): mixed { return $this->get('owner'); }
     public function hasOwner(): bool { return $this->has('owner'); }
-    /** Set on a reservation whose claim Flint moved when it rerouted an order: the replacement reservation that now holds the quantity named in this reservation's reallocated_quantity.
+    /** Set on a reservation whose claim Flint moved when it rerouted an order: the replacement reservation that now holds the quantity named in this reservation's reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
      * @return string
      * @throws SdkError When replacement_inventory_reservation_id is omitted; use hasReplacementInventoryReservationId() or valueOrDefault().
      */
     public function getReplacementInventoryReservationId(): string { return $this->get('replacement_inventory_reservation_id'); }
     public function hasReplacementInventoryReservationId(): bool { return $this->has('replacement_inventory_reservation_id'); }
-    /** Set on a replacement reservation: the reservation whose claim Flint moved here when it rerouted an order. This reservation holds the quantity that reservation reports as reallocated_quantity.
+    /** Set on a replacement reservation: the reservation whose claim Flint moved here when it rerouted an order. This reservation holds the quantity that reservation reports as reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
      * @return string
      * @throws SdkError When source_inventory_reservation_id is omitted; use hasSourceInventoryReservationId() or valueOrDefault().
      */
     public function getSourceInventoryReservationId(): string { return $this->get('source_inventory_reservation_id'); }
     public function hasSourceInventoryReservationId(): bool { return $this->has('source_inventory_reservation_id'); }
-    /** active while any held or committed quantity remains; closed once none does. Value enum: "active", "closed".
+    /** active while any held, committed, or backordered quantity remains; closed once none does. Value enum: "active", "closed".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
@@ -99,7 +99,7 @@ final class InventoryReservationInput extends Model {
      */
     public function getSupportedActions(): array { return $this->get('supported_actions'); }
     public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */

@@ -4,7 +4,7 @@ namespace Flint;
 /**
  * @property-read ?list<string> $cc_emails
  * @property-read string $channel
- * @property-read ?string $created_at
+ * @property-read string $created_at
  * @property-read string $delivery_type
  * @property-read ?string $failure_reason
  * @property-read string $invoice_delivery_attempt_id
@@ -15,7 +15,7 @@ namespace Flint;
  * @property-read string|null $to_email
  * Presence-aware response; omitted optional fields return null. */
 final class InvoiceDeliveryAttemptSuppressedMerchantEventDataObject extends Model {
-    /** @param array{'cc_emails'?: list<string>, 'channel': string, 'created_at'?: string, 'delivery_type': string, 'failure_reason'?: string, 'invoice_delivery_attempt_id': string, 'invoice_id': string, 'sent_at'?: string, 'status': string, 'suppression_reason'?: string, 'to_email': string|null, ...}|object $values */
+    /** @param array{'cc_emails'?: list<string>, 'channel': string, 'created_at': string, 'delivery_type': string, 'failure_reason'?: string, 'invoice_delivery_attempt_id': string, 'invoice_id': string, 'sent_at'?: string, 'status': string, 'suppression_reason'?: string, 'to_email': string|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceDeliveryAttemptSuppressedMerchantEventDataObject')); }
     /** Addresses copied on this email. Absent when none were copied. [] (Value): string.
      * @return ?list<string>
@@ -28,9 +28,9 @@ final class InvoiceDeliveryAttemptSuppressedMerchantEventDataObject extends Mode
     public function getChannel(): string { return $this->get('channel'); }
     public function hasChannel(): bool { return $this->has('channel'); }
     /** When the attempt was created. Format: date-time.
-     * @return ?string
+     * @return string
      */
-    public function getCreatedAt(): ?string { return $this->get('created_at'); }
+    public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
     /** Whether this attempt is the invoice email sent at issue or a reminder. Value enum: "send", "reminder".
      * @return string
@@ -62,12 +62,12 @@ final class InvoiceDeliveryAttemptSuppressedMerchantEventDataObject extends Mode
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Present only when status is suppressed. Value enum: "merchant_managed_email", "recipient_unsubscribed".
+    /** Present only when status is suppressed. Value enum: "merchant_managed_email", "recipient_unsubscribed", "sandbox_daily_limit_reached".
      * @return ?string
      */
     public function getSuppressionReason(): ?string { return $this->get('suppression_reason'); }
     public function hasSuppressionReason(): bool { return $this->has('suppression_reason'); }
-    /** Address the invoice was sent to. `null` after the customer was deleted.
+    /** Address the invoice was sent to. `null` when the customer was deleted.
      * @return string|null
      */
     public function getToEmail(): string|null { return $this->get('to_email'); }

@@ -8,5 +8,5 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `code` | Required | string | minLength: `1`. |
+| `code` | Required | string | The gift card's code. Spaces and hyphens are ignored. minLength: `1`. |
 

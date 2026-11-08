@@ -10,6 +10,6 @@ The point a radius condition measures from: a specific Location (`location_id`) 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `location_id` | Optional | string | minLength: `1`. |
+| `location_id` | Optional | string | minLength: `1`. Example: `"loc_01KEZF7C00CMHRRYA3MV996JB2"`. |
 | `method_origin` | Optional | boolean |  |
 

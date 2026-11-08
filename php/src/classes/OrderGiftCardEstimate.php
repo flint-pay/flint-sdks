@@ -22,7 +22,7 @@ final class OrderGiftCardEstimate extends Model {
      */
     public function getGiftCardMoney(): MoneyValue { return $this->get('gift_card_money'); }
     public function hasGiftCardMoney(): bool { return $this->has('gift_card_money'); }
-    /**  [] (Value): {@see OrderGiftCardAllocation}. The amount of an order that a gift card covers.
+    /** The gift cards the estimate draws from, each with the amount it covers. [] (Value): {@see OrderGiftCardAllocation}. The amount of an order that a gift card covers.
      * @return list<OrderGiftCardAllocation>
      */
     public function getGiftCards(): array { return $this->get('gift_cards'); }

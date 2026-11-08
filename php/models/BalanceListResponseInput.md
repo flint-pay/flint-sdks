@@ -2,14 +2,13 @@
 
 ## BalanceListResponseInput
 
-A page of `Balance` objects.
+A list of `Balance` objects.
 
 Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `data` | Required | Array of [BalanceInput](../models/BalanceInput.md#balanceinput) |  |
-| `meta` | Optional | [MoneyMovementListMetaInput](../models/MoneyMovementListMetaInput.md#moneymovementlistmetainput) | Response metadata for money movement lists, including request and trace IDs, warnings, and the state of the available history. |
-| `next_page_token` | Optional | string | Omitted because all currency balances fit on one page. |
-| `request_id` | Required | string | maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. Example: `"req_01KWM6WAHG3N9Q8T2V5XRZ7C4D"`. |
+| `data` | Required | Array of [BalanceInput](../models/BalanceInput.md#balanceinput) | Resource, collection, or operation result returned by this request. |
+| `meta` | Optional | [MoneyMovementListMetaInput](../models/MoneyMovementListMetaInput.md#moneymovementlistmetainput) | Additional information about this response. Response metadata for money movement lists, including request and trace IDs, warnings, and the state of the available history. |
+| `request_id` | Required | string | Identifier of this API request, used to correlate logs and support requests. maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. Example: `"req_01KWM6WAHG3N9Q8T2V5XRZ7C4D"`. |
 

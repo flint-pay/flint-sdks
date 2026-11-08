@@ -9,17 +9,17 @@ namespace Flint;
 final class RefundLineItemAdjustmentRefund extends Model {
     /** @param array{'amount_money': mixed, 'original_refund_line_item_adjustment_id': string, 'refund_line_item_adjustment_refund_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RefundLineItemAdjustmentRefund')); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Amount refunded back against the adjustment. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getAmountMoney(): MoneyValue { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** original_refund_line_item_adjustment_id
+    /** ID of the adjustment this amount was refunded against.
      * @return string
      */
     public function getOriginalRefundLineItemAdjustmentId(): string { return $this->get('original_refund_line_item_adjustment_id'); }
     public function hasOriginalRefundLineItemAdjustmentId(): bool { return $this->has('original_refund_line_item_adjustment_id'); }
-    /** refund_line_item_adjustment_refund_id
+    /** Unique identifier for this refund line item adjustment refund, prefixed `rliar_`.
      * @return string
      */
     public function getRefundLineItemAdjustmentRefundId(): string { return $this->get('refund_line_item_adjustment_refund_id'); }

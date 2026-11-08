@@ -22,25 +22,25 @@ final class DeliveryLocationSetInput extends Model {
      */
     public function getConfiguration(): mixed { return $this->get('configuration'); }
     public function hasConfiguration(): bool { return $this->has('configuration'); }
-    /** Time the location set was created. Format: date-time.
+    /** Time the location set was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Immutable revision used for new quotes.
+    /** Immutable revision used for new quotes. Example: "dlsr_01KEZF7C00HN2NT80H5VNQSVFJ".
      * @return string
      * @throws SdkError When current_delivery_location_set_revision_id is omitted; use hasCurrentDeliveryLocationSetRevisionId() or valueOrDefault().
      */
     public function getCurrentDeliveryLocationSetRevisionId(): string { return $this->get('current_delivery_location_set_revision_id'); }
     public function hasCurrentDeliveryLocationSetRevisionId(): bool { return $this->has('current_delivery_location_set_revision_id'); }
-    /** Stable delivery location set ID.
+    /** Stable delivery location set ID. Example: "dls_01KEZF7C00C4WWN7RYTRF55C4H".
      * @return string
      * @throws SdkError When delivery_location_set_id is omitted; use hasDeliveryLocationSetId() or valueOrDefault().
      */
     public function getDeliveryLocationSetId(): string { return $this->get('delivery_location_set_id'); }
     public function hasDeliveryLocationSetId(): bool { return $this->has('delivery_location_set_id'); }
-    /** Caller-owned identifier for this resource in an external system. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -64,7 +64,7 @@ final class DeliveryLocationSetInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Time the location set last changed. Format: date-time.
+    /** Time the location set last changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */

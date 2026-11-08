@@ -2,7 +2,7 @@
 
 ## InvoiceScheduleAmountSpecification
 
-How much a payment schedule entry collects: a fixed amount, a percentage of the invoice total, or the remaining balance.
+
 
 
 
@@ -16,7 +16,7 @@ How much a payment schedule entry collects: a fixed amount, a percentage of the 
 
 ### InvoiceScheduleAmountSpecification variant 1: `type` = `"fixed"`
 
-oneOf with type: "fixed": The `fixed` variant of `InvoiceScheduleAmountSpecification`..
+anyOf variant 1: Declared schema InvoiceScheduleAmountSpecification. How much a payment schedule entry collects: a fixed amount, a percentage of the invoice total, or the remaining balance.; oneOf with type: "fixed": The `fixed` variant of `InvoiceScheduleAmountSpecification`..
 
 - Condition: not (present(`percent`)).
 - Required: `amount_money`.
@@ -25,7 +25,7 @@ oneOf with type: "fixed": The `fixed` variant of `InvoiceScheduleAmountSpecifica
 
 ### InvoiceScheduleAmountSpecification variant 2: `type` = `"percentage"`
 
-oneOf with type: "percentage": The `percentage` variant of `InvoiceScheduleAmountSpecification`..
+anyOf variant 1: Declared schema InvoiceScheduleAmountSpecification. How much a payment schedule entry collects: a fixed amount, a percentage of the invoice total, or the remaining balance.; oneOf with type: "percentage": The `percentage` variant of `InvoiceScheduleAmountSpecification`..
 
 - Condition: not (present(`amount_money`)).
 - Required: `percent`.
@@ -34,7 +34,33 @@ oneOf with type: "percentage": The `percentage` variant of `InvoiceScheduleAmoun
 
 ### InvoiceScheduleAmountSpecification variant 3: `type` = `"remaining_balance"`
 
-oneOf with type: "remaining_balance": The `remaining_balance` variant of `InvoiceScheduleAmountSpecification`..
+anyOf variant 1: Declared schema InvoiceScheduleAmountSpecification. How much a payment schedule entry collects: a fixed amount, a percentage of the invoice total, or the remaining balance.; oneOf with type: "remaining_balance": The `remaining_balance` variant of `InvoiceScheduleAmountSpecification`..
+
+- Condition: not (at least one(present(`amount_money`); present(`percent`))).
+- Optional: `amount_money`, `percent`.
+- Constraints for `type`: Values: `"remaining_balance"`.
+
+### InvoiceScheduleAmountSpecification variant 4: `type` = `"fixed"`
+
+anyOf variant 2: Declared schema InvoiceScheduleAmountSpecificationRequest. How much a payment schedule entry collects: a fixed amount, a percentage of the invoice total, or the remaining balance.; oneOf with type: "fixed": The `fixed` variant of `InvoiceScheduleAmountSpecification`..
+
+- Condition: not (present(`percent`)).
+- Required: `amount_money`.
+- Optional: `percent`.
+- Constraints for `type`: Values: `"fixed"`.
+
+### InvoiceScheduleAmountSpecification variant 5: `type` = `"percentage"`
+
+anyOf variant 2: Declared schema InvoiceScheduleAmountSpecificationRequest. How much a payment schedule entry collects: a fixed amount, a percentage of the invoice total, or the remaining balance.; oneOf with type: "percentage": The `percentage` variant of `InvoiceScheduleAmountSpecification`..
+
+- Condition: not (present(`amount_money`)).
+- Required: `percent`.
+- Optional: `amount_money`.
+- Constraints for `type`: Values: `"percentage"`.
+
+### InvoiceScheduleAmountSpecification variant 6: `type` = `"remaining_balance"`
+
+anyOf variant 2: Declared schema InvoiceScheduleAmountSpecificationRequest. How much a payment schedule entry collects: a fixed amount, a percentage of the invoice total, or the remaining balance.; oneOf with type: "remaining_balance": The `remaining_balance` variant of `InvoiceScheduleAmountSpecification`..
 
 - Condition: not (at least one(present(`amount_money`); present(`percent`))).
 - Optional: `amount_money`, `percent`.

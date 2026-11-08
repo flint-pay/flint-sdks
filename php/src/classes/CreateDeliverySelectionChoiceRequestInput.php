@@ -9,13 +9,13 @@ namespace Flint;
 final class CreateDeliverySelectionChoiceRequestInput extends Model {
     /** @param array{'delivery_choice_group_id': string, 'delivery_option_id': string, 'input'?: DeliverySelectionInstructionsRequestInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateDeliverySelectionChoiceRequestInput')); }
-    /** minLength: 1.
+    /** minLength: 1. Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
      * @return string
      * @throws SdkError When delivery_choice_group_id is omitted; use hasDeliveryChoiceGroupId() or valueOrDefault().
      */
     public function getDeliveryChoiceGroupId(): string { return $this->get('delivery_choice_group_id'); }
     public function hasDeliveryChoiceGroupId(): bool { return $this->has('delivery_choice_group_id'); }
-    /** minLength: 1.
+    /** minLength: 1. Example: "dopt_01KEZF7C00JM9TDZQZ5KQJ6923".
      * @return string
      * @throws SdkError When delivery_option_id is omitted; use hasDeliveryOptionId() or valueOrDefault().
      */

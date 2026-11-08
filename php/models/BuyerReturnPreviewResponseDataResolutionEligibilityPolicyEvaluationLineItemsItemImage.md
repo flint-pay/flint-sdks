@@ -2,9 +2,11 @@
 
 ## BuyerReturnPreviewResponseDataResolutionEligibilityPolicyEvaluationLineItemsItemImage
 
-An image with its `url`, `width`, and `height`, and optional `alt` text.
+Image of the item as sold.
+
+An image with its URL, size, and alt text.
 
 Response model.
 
-Fields, types, descriptions and enum values: [ExpandedSubscriptionPlanSummaryLineItemsItemVariantImage](../models/ExpandedSubscriptionPlanSummaryLineItemsItemVariantImage.md#expandedsubscriptionplansummarylineitemsitemvariantimage).
+Fields, types, descriptions and enum values: [BuyerReturnPreviewResponseDataEligibilityEligibilityLineItemsItemImage](../models/BuyerReturnPreviewResponseDataEligibilityEligibilityLineItemsItemImage.md#buyerreturnpreviewresponsedataeligibilityeligibilitylineitemsitemimage).
 

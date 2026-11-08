@@ -20,7 +20,7 @@ final class PaymentAttemptPaymentIntentInput extends Model {
      */
     public function getAmountMoney(): mixed { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** Capture is unavailable at or after this time, even if the payment still has requires_capture status. Format: date-time.
+    /** Effective Flint capture deadline, equal to the earlier of the provider capture deadline and this attempt's sealed resource guarantee. Capture is refused at or after this time, even while status is requires_capture. Omitted until a hold is placed. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When authorization_expires_at is omitted; use hasAuthorizationExpiresAt() or valueOrDefault().
      */
@@ -38,7 +38,7 @@ final class PaymentAttemptPaymentIntentInput extends Model {
      */
     public function getLastPaymentError(): mixed { return $this->get('last_payment_error'); }
     public function hasLastPaymentError(): bool { return $this->has('last_payment_error'); }
-    /** Flint payment intent ID.
+    /** Flint payment intent ID. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
      * @return string
      * @throws SdkError When payment_intent_id is omitted; use hasPaymentIntentId() or valueOrDefault().
      */

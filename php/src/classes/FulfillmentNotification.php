@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string $channel
- * @property-read ?string $created_at
+ * @property-read string $created_at
  * @property-read ?string $external_reference_id
  * @property-read ?string $failed_at
  * @property-read ?string $fulfillment_event_id
@@ -21,10 +21,10 @@ namespace Flint;
  * @property-read string $status
  * @property-read ?string $suppression_reason
  * @property-read string $trigger_type
- * @property-read ?string $updated_at
+ * @property-read string $updated_at
  * Presence-aware response; omitted optional fields return null. */
 final class FulfillmentNotification extends Model {
-    /** @param array{'channel': string, 'created_at'?: string, 'external_reference_id'?: string, 'failed_at'?: string, 'fulfillment_event_id'?: string, 'fulfillment_id': string, 'fulfillment_notification_id': string, 'metadata'?: mixed, 'notification_type': string, 'order'?: mixed, 'order_id': string, 'package_id'?: string, 'recipient_customer_id'?: string, 'recipient_email'?: string, 'sent_at'?: string, 'shipment_id'?: string, 'status': string, 'suppression_reason'?: string, 'trigger_type': string, 'updated_at'?: string, ...}|object $values */
+    /** @param array{'channel': string, 'created_at': string, 'external_reference_id'?: string, 'failed_at'?: string, 'fulfillment_event_id'?: string, 'fulfillment_id': string, 'fulfillment_notification_id': string, 'metadata'?: mixed, 'notification_type': string, 'order'?: mixed, 'order_id': string, 'package_id'?: string, 'recipient_customer_id'?: string, 'recipient_email'?: string, 'sent_at'?: string, 'shipment_id'?: string, 'status': string, 'suppression_reason'?: string, 'trigger_type': string, 'updated_at': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('FulfillmentNotification')); }
     /** How Flint sends this notification. - `email`: Sends the notification to recipient_email. Value enum: "email".
      * @return string
@@ -32,9 +32,9 @@ final class FulfillmentNotification extends Model {
     public function getChannel(): string { return $this->get('channel'); }
     public function hasChannel(): bool { return $this->has('channel'); }
     /** RFC3339 timestamp. Format: date-time.
-     * @return ?string
+     * @return string
      */
-    public function getCreatedAt(): ?string { return $this->get('created_at'); }
+    public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
     /** Caller-owned identifier for this resource in an external system. maxLength: 255.
      * @return ?string
@@ -46,22 +46,22 @@ final class FulfillmentNotification extends Model {
      */
     public function getFailedAt(): ?string { return $this->get('failed_at'); }
     public function hasFailedAt(): bool { return $this->has('failed_at'); }
-    /** fulfillment_event_id
+    /** ID of the fulfillment event that triggered the notification.
      * @return ?string
      */
     public function getFulfillmentEventId(): ?string { return $this->get('fulfillment_event_id'); }
     public function hasFulfillmentEventId(): bool { return $this->has('fulfillment_event_id'); }
-    /** fulfillment_id
+    /** ID of the fulfillment the notification is about.
      * @return string
      */
     public function getFulfillmentId(): string { return $this->get('fulfillment_id'); }
     public function hasFulfillmentId(): bool { return $this->has('fulfillment_id'); }
-    /** fulfillment_notification_id
+    /** Unique identifier for this fulfillment notification, prefixed `fnt_`.
      * @return string
      */
     public function getFulfillmentNotificationId(): string { return $this->get('fulfillment_notification_id'); }
     public function hasFulfillmentNotificationId(): bool { return $this->has('fulfillment_notification_id'); }
-    /** Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
+    /** Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      * @return ?array<array-key, string>
      */
     public function getMetadata(): ?array { return $this->get('metadata'); }
@@ -76,22 +76,22 @@ final class FulfillmentNotification extends Model {
      */
     public function getOrder(): ExpandedOrderSummary|null { return $this->get('order'); }
     public function hasOrder(): bool { return $this->has('order'); }
-    /** order_id
+    /** ID of the order the notification is about.
      * @return string
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** package_id
+    /** ID of the package the notification is about, when it concerns a package.
      * @return ?string
      */
     public function getPackageId(): ?string { return $this->get('package_id'); }
     public function hasPackageId(): bool { return $this->has('package_id'); }
-    /** recipient_customer_id
+    /** ID of the customer the notification was sent to.
      * @return ?string
      */
     public function getRecipientCustomerId(): ?string { return $this->get('recipient_customer_id'); }
     public function hasRecipientCustomerId(): bool { return $this->has('recipient_customer_id'); }
-    /** recipient_email
+    /** Email address the notification was sent to.
      * @return ?string
      */
     public function getRecipientEmail(): ?string { return $this->get('recipient_email'); }
@@ -101,17 +101,17 @@ final class FulfillmentNotification extends Model {
      */
     public function getSentAt(): ?string { return $this->get('sent_at'); }
     public function hasSentAt(): bool { return $this->has('sent_at'); }
-    /** shipment_id
+    /** ID of the shipment the notification is about, when it concerns a shipment.
      * @return ?string
      */
     public function getShipmentId(): ?string { return $this->get('shipment_id'); }
     public function hasShipmentId(): bool { return $this->has('shipment_id'); }
-    /** Value enum: "pending", "sent", "failed", "suppressed".
+    /** Whether the notification's email is waiting to send, was sent, failed, or was suppressed. Value enum: "pending", "sent", "failed", "suppressed".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Why Flint chose not to send this notification. - `source_suppressed`: The originating request suppressed buyer messaging. - `default_suppressed`: The configured default suppressed buyer messaging. - `recipient_missing`: No usable recipient was available. - `template_not_configured`: No notification template was configured. - `merchant_managed_email`: The merchant's integration owns this email. - `recipient_unsubscribed`: The recipient opted out of this notification. Value enum: "source_suppressed", "default_suppressed", "recipient_missing", "template_not_configured", "merchant_managed_email", "recipient_unsubscribed".
+    /** Why Flint chose not to send this notification. - `source_suppressed`: The originating request suppressed buyer messaging. - `default_suppressed`: The configured default suppressed buyer messaging. - `recipient_missing`: No usable recipient was available. - `template_not_configured`: No notification template was configured. - `merchant_managed_email`: The merchant's integration owns this email. - `recipient_unsubscribed`: The recipient opted out of this notification. - `sandbox_daily_limit_reached`: Not sent because the sandbox reached its daily limit of buyer emails to addresses outside your team. Send to a team address, or wait for the next UTC day. Value enum: "source_suppressed", "default_suppressed", "recipient_missing", "template_not_configured", "merchant_managed_email", "recipient_unsubscribed", "sandbox_daily_limit_reached".
      * @return ?string
      */
     public function getSuppressionReason(): ?string { return $this->get('suppression_reason'); }
@@ -122,8 +122,8 @@ final class FulfillmentNotification extends Model {
     public function getTriggerType(): string { return $this->get('trigger_type'); }
     public function hasTriggerType(): bool { return $this->has('trigger_type'); }
     /** RFC3339 timestamp. Format: date-time.
-     * @return ?string
+     * @return string
      */
-    public function getUpdatedAt(): ?string { return $this->get('updated_at'); }
+    public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
 }

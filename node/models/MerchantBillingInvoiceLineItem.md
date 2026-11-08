@@ -10,8 +10,8 @@ One line on a merchant billing invoice, either a subscription charge or a credit
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `created_at` | Required | string | When Flint added this line to the invoice. Format: `date-time`. |
-| `merchant_billing_invoice_line_item_id` | Required | string | Stable identifier of this line item. |
+| `created_at` | Required | string | When Flint added this line to the invoice. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
+| `merchant_billing_invoice_line_item_id` | Required | string | Stable identifier of this line item. Example: `"msinvl_01KEZF7C00YB825JWZ87C5HDF0"`. |
 | `name` | Required | string | Name of the subscription charge or credit. |
 | `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `total_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Unsigned line total, calculated as quantity multiplied by unit_price_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `total_money`: [field definitions](../models/MerchantBillingInvoiceLineItem.md#merchantbillinginvoicelineitemtotal_money). |

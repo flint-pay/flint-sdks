@@ -11,7 +11,7 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.me.createReturnResolutionCheckoutSession(
-  "retres_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "retres_01KEZF7C00C7RZJN31W9SGMEQ3",
   undefined,
   { idempotencyKey: idempotencyKey },
 );

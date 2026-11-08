@@ -8,7 +8,7 @@ namespace Flint;
 final class DeliveryProfileOriginPolicyInputMethodOriginInput extends Model {
     /** @param array{'location_id'?: string, 'type': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryProfileOriginPolicyInputMethodOriginInput')); }
-    /** minLength: 1.
+    /** minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When location_id is omitted; use hasLocationId() or valueOrDefault().
      */

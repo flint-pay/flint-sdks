@@ -31,7 +31,7 @@ final class DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueRequiresChecko
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** timezone
+    /** Uses an IANA time zone name.
      * @return ?string
      */
     public function getTimezone(): ?string { return $this->get('timezone'); }

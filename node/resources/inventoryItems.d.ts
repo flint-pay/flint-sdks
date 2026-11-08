@@ -1,5 +1,5 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-5.js';
+import type { ClientOptions } from '../declarations/types-6.js';
 import type {
     InventoryItem,
     InventoryItemListResponse,
@@ -9,9 +9,9 @@ import type {
     InventoryItemsGetParams,
     InventoryItemsListParams,
     InventoryItemsUpdateParams
-} from '../declarations/types-26.js';
-import type { RequestOptions } from '../declarations/types-48.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-28.js';
+import type { RequestOptions } from '../declarations/types-51.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -35,28 +35,29 @@ export type {
     InventoryItemsListParams,
     InventoryItemListResponse,
     InventoryItemsUpdateParams
-} from '../declarations/types-26.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { ClientOptions } from '../declarations/types-5.js';
-export type { CreateInventoryItemRequestInput } from '../declarations/types-8.js';
-export type {
-    MetadataRequestInput,
-    MetadataMap,
-    NextAction,
-    MoneyValue,
-    MetadataPatchRequestInput,
-    MetadataPatchRequest
-} from '../declarations/types-35.js';
+} from '../declarations/types-28.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+export type { ClientOptions } from '../declarations/types-6.js';
+export type { CreateInventoryItemRequestInput, CreateInventoryBackorderPolicyRequestInput } from '../declarations/types-9.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-36.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-12.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
-export type { UpdateInventoryItemRequestInput } from '../declarations/types-59.js';
-export type { InventoryAllocationPoliciesDeleteParams } from '../declarations/types-25.js';
-export { makeCreateInventoryItemRequest } from '../declarations/types-64.js';
-export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-69.js';
-export { makeMoneyValue } from '../declarations/types-70.js';
-export { makeUpdateInventoryItemRequest } from '../declarations/types-74.js';
+export type { Credentials } from '../declarations/types-13.js';
+export type { BackorderPolicy } from '../declarations/types-1.js';
+export type { NextAction, MoneyValue } from '../declarations/types-37.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
+export type { UpdateInventoryItemRequestInput } from '../declarations/types-63.js';
+export type {
+    InventoryBackorderPolicyRequestInput,
+    InventoryAllocationPoliciesDeleteParams,
+    InventoryBackorderPolicyRequest
+} from '../declarations/types-27.js';
+export type { DisputesAcceptParams } from '../declarations/types-22.js';
+export { makeCreateInventoryBackorderPolicyRequest, makeCreateInventoryItemRequest } from '../declarations/types-69.js';
+export { makeInventoryBackorderPolicyRequest } from '../declarations/types-73.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-74.js';
+export { makeMoneyValue } from '../declarations/types-75.js';
+export { makeUpdateInventoryItemRequest } from '../declarations/types-79.js';
 export interface InventoryItemsResource {
     /**
  * Create an inventory item. SKU and barcode are searchable attributes, not identity: they are not
@@ -86,7 +87,7 @@ export interface InventoryItemsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.inventoryItems.delete("invi_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey:
+ * client.inventoryItems.delete("invi_01KEZF7C00A6YEM25MTHW2MPZY", {}, { idempotencyKey:
  * idempotencyKey })
  */
     delete(inventory_item_id: InputValue<string>, params?: InventoryItemsDeleteParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<InventoryItem, InventoryItemResponse>>;
@@ -98,7 +99,7 @@ export interface InventoryItemsResource {
  * @see https://developers.withflintpay.com/docs/api/inventory#getInventoryItem
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.inventoryItems.get("invi_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.inventoryItems.get("invi_01KEZF7C00A6YEM25MTHW2MPZY")
  */
     get(inventory_item_id: InputValue<string>, params?: InventoryItemsGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<InventoryItem, InventoryItemResponse>>;
     /**

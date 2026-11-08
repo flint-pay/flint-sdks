@@ -14,7 +14,7 @@ final class RotatePartnerAppSecretRequestInput extends Model {
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** RFC3339 timestamp. Format: date-time. minLength: 1.
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When expire_previous_secret_at is omitted; use hasExpirePreviousSecretAt() or valueOrDefault().
      */

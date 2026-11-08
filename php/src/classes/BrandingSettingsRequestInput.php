@@ -30,7 +30,7 @@ final class BrandingSettingsRequestInput extends Model {
      */
     public function getCornerRadius(): int { return $this->get('corner_radius'); }
     public function hasCornerRadius(): bool { return $this->has('corner_radius'); }
-    /** Send null to clear it. Value enum: "instrument_sans", "system_sans", "system_serif", "monospace", null.
+    /** Typeface of hosted checkout and buyer pages. Without one, Flint uses `instrument_sans`. Send null to clear it. pattern: ^#[0-9a-fA-F]{6}$. Value enum: "instrument_sans", "system_sans", "system_serif", "monospace", null.
      * @return string|null
      * @throws SdkError When font_family is omitted; use hasFontFamily() or valueOrDefault().
      */

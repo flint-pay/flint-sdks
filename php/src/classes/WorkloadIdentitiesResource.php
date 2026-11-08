@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 final class WorkloadIdentitiesResource {
     public function __construct(private readonly Runtime $runtime) {}
-    /** Creates an active identity in the authenticated environment and validates issuer discovery. Dashboard callers creating live identities need fresh identity verification. Machine callers may grant only scopes they hold in this environment.
+    /** Creates an active identity in the authenticated environment and validates issuer discovery. Dashboard callers creating live identities, or granting accounts.api_keys.write, accounts.workload_identities.write or commerce.gift_cards.secrets.write in any mode, need fresh identity verification. Other callers may grant only scopes they hold in this environment, and only a full-access key can grant those three.
      * @param WorkloadIdentitiesCreateParams|array<array-key, mixed>|Model $params Flat body fields and query/header parameters; path arguments follow URL order.
      * @return WorkloadIdentity
      */

@@ -10,6 +10,6 @@ One leg of a delivery choice group, identifying the origin Location the group's 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `delivery_execution_leg_id` | Required | string |  |
-| `origin_location_id` | Required | string |  |
+| `delivery_execution_leg_id` | Required | string | Example: `"dleg_01KEZF7C00VB59BKTRC8W4KR4M"`. |
+| `origin_location_id` | Required | string | Example: `"loc_01KEZF7C00CMHRRYA3MV996JB2"`. |
 

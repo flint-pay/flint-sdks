@@ -31,7 +31,7 @@ final class DeliveryFulfillmentDetailsInput extends Model {
      */
     public function getCarrier(): string { return $this->get('carrier'); }
     public function hasCarrier(): bool { return $this->has('carrier'); }
-    /** Time at which the courier collected the order. Format: date-time.
+    /** Time at which the courier collected the order. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When courier_pickup_at is omitted; use hasCourierPickupAt() or valueOrDefault().
      */
@@ -55,13 +55,13 @@ final class DeliveryFulfillmentDetailsInput extends Model {
      */
     public function getCourierSupportPhone(): string { return $this->get('courier_support_phone'); }
     public function hasCourierSupportPhone(): bool { return $this->has('courier_support_phone'); }
-    /** When the items were delivered, in RFC3339 format. Format: date-time.
+    /** When the items were delivered, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When delivered_at is omitted; use hasDeliveredAt() or valueOrDefault().
      */
     public function getDeliveredAt(): string|\DateTimeInterface { return $this->get('delivered_at'); }
     public function hasDeliveredAt(): bool { return $this->has('delivered_at'); }
-    /** When the delivery was dispatched, in RFC3339 format. Format: date-time.
+    /** When the delivery was dispatched, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When dispatched_at is omitted; use hasDispatchedAt() or valueOrDefault().
      */
@@ -73,13 +73,13 @@ final class DeliveryFulfillmentDetailsInput extends Model {
      */
     public function getDropoffNotes(): string { return $this->get('dropoff_notes'); }
     public function hasDropoffNotes(): bool { return $this->has('dropoff_notes'); }
-    /** Deadline after which an undelivered job should enter merchant review. Format: date-time.
+    /** Deadline after which an undelivered job should enter merchant review. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When expires_at is omitted; use hasExpiresAt() or valueOrDefault().
      */
     public function getExpiresAt(): string|\DateTimeInterface { return $this->get('expires_at'); }
     public function hasExpiresAt(): bool { return $this->has('expires_at'); }
-    /** Stable delivery job ID owned by the courier or merchant dispatch system. maxLength: 255.
+    /** Stable delivery job ID owned by the courier or merchant dispatch system. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_delivery_id is omitted; use hasExternalDeliveryId() or valueOrDefault().
      */
@@ -103,19 +103,19 @@ final class DeliveryFulfillmentDetailsInput extends Model {
      */
     public function getPrepTimeDurationSeconds(): int { return $this->get('prep_time_duration_seconds'); }
     public function hasPrepTimeDurationSeconds(): bool { return $this->has('prep_time_duration_seconds'); }
-    /** Time at which the order became ready for courier pickup. Format: date-time.
+    /** Time at which the order became ready for courier pickup. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When ready_at is omitted; use hasReadyAt() or valueOrDefault().
      */
     public function getReadyAt(): string|\DateTimeInterface { return $this->get('ready_at'); }
     public function hasReadyAt(): bool { return $this->has('ready_at'); }
-    /** Delivery service area assigned to this fulfillment.
+    /** Delivery service area assigned to this fulfillment. Example: "boston-north".
      * @return string
      * @throws SdkError When service_area_id is omitted; use hasServiceAreaId() or valueOrDefault().
      */
     public function getServiceAreaId(): string { return $this->get('service_area_id'); }
     public function hasServiceAreaId(): bool { return $this->has('service_area_id'); }
-    /** Timezone used to display the local delivery window.
+    /** Timezone used to display the local delivery window. Uses an IANA time zone name.
      * @return string
      * @throws SdkError When timezone is omitted; use hasTimezone() or valueOrDefault().
      */
@@ -127,13 +127,13 @@ final class DeliveryFulfillmentDetailsInput extends Model {
      */
     public function getTrackingUrl(): string { return $this->get('tracking_url'); }
     public function hasTrackingUrl(): bool { return $this->has('tracking_url'); }
-    /** End of the promised delivery window, in RFC3339 format. Format: date-time.
+    /** End of the promised delivery window, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When window_end_at is omitted; use hasWindowEndAt() or valueOrDefault().
      */
     public function getWindowEndAt(): string|\DateTimeInterface { return $this->get('window_end_at'); }
     public function hasWindowEndAt(): bool { return $this->has('window_end_at'); }
-    /** Start of the promised delivery window, in RFC3339 format. Format: date-time.
+    /** Start of the promised delivery window, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When window_start_at is omitted; use hasWindowStartAt() or valueOrDefault().
      */

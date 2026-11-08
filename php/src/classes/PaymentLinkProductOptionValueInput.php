@@ -8,7 +8,7 @@ namespace Flint;
 final class PaymentLinkProductOptionValueInput extends Model {
     /** @param array{'option_value_id': string, 'value': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentLinkProductOptionValueInput')); }
-    /** ID of the product option value.
+    /** ID of the product option value. Example: "optv_01KEZF7C0078SVZ1T7PVRXQK7F".
      * @return string
      * @throws SdkError When option_value_id is omitted; use hasOptionValueId() or valueOrDefault().
      */

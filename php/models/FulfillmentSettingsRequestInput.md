@@ -8,5 +8,5 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `approval_required` | Optional | boolean |  |
+| `approval_required` | Optional | boolean | Whether a new fulfillment must be accepted before it can move into preparation, movement, or completion. Defaults to false. |
 

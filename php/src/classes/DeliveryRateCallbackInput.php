@@ -8,6 +8,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $created_at
  * @property-read string $current_delivery_rate_callback_revision_id
  * @property-read string $delivery_rate_callback_id
+ * @property-read string|null $delivery_revocation_id
  * @property-read string $external_reference_id
  * @property-read string $key_id
  * @property-read string $name
@@ -18,7 +19,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryRateCallbackInput extends Model {
-    /** @param array{'circuit_failure_count': int, 'circuit_state': string, 'configuration': DeliveryRateCallbackConfigurationInput|array<array-key, mixed>|\stdClass, 'created_at': string|\DateTimeInterface, 'current_delivery_rate_callback_revision_id': string, 'delivery_rate_callback_id': string, 'external_reference_id'?: string, 'key_id'?: string, 'name': string, 'secret'?: string, 'signing_methods': list<string>, 'status': string, 'updated_at': string|\DateTimeInterface, 'version': int}|object $values */
+    /** @param array{'circuit_failure_count': int, 'circuit_state': string, 'configuration': DeliveryRateCallbackConfigurationInput|array<array-key, mixed>|\stdClass, 'created_at': string|\DateTimeInterface, 'current_delivery_rate_callback_revision_id': string, 'delivery_rate_callback_id': string, 'delivery_revocation_id': string|null, 'external_reference_id'?: string, 'key_id'?: string, 'name': string, 'secret'?: string, 'signing_methods': list<string>, 'status': string, 'updated_at': string|\DateTimeInterface, 'version': int}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryRateCallbackInput')); }
     /** Consecutive callback failures since the last successful response. minimum: 0.
      * @return int
@@ -38,31 +39,37 @@ final class DeliveryRateCallbackInput extends Model {
      */
     public function getConfiguration(): mixed { return $this->get('configuration'); }
     public function hasConfiguration(): bool { return $this->has('configuration'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** current_delivery_rate_callback_revision_id
+    /** Example: "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
      * @return string
      * @throws SdkError When current_delivery_rate_callback_revision_id is omitted; use hasCurrentDeliveryRateCallbackRevisionId() or valueOrDefault().
      */
     public function getCurrentDeliveryRateCallbackRevisionId(): string { return $this->get('current_delivery_rate_callback_revision_id'); }
     public function hasCurrentDeliveryRateCallbackRevisionId(): bool { return $this->has('current_delivery_rate_callback_revision_id'); }
-    /** delivery_rate_callback_id
+    /** Unique identifier for this delivery rate callback, prefixed `dcb_`. Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
      * @return string
      * @throws SdkError When delivery_rate_callback_id is omitted; use hasDeliveryRateCallbackId() or valueOrDefault().
      */
     public function getDeliveryRateCallbackId(): string { return $this->get('delivery_rate_callback_id'); }
     public function hasDeliveryRateCallbackId(): bool { return $this->has('delivery_rate_callback_id'); }
-    /** Caller-owned identifier for this resource in an external system. maxLength: 255.
+    /** The revocation fencing this resource's own current revision. `null` when the current revision isn't revoked. It doesn't cover dependencies: a method can be unusable while this is `null` because its rate callback revision, signing key, or a Location's address is revoked. A revocation doesn't change `status`; publish a new revision to clear it. Example: "drev_01KEZF7C007Q141XJ28YAAC87B".
+     * @return string|null
+     * @throws SdkError When delivery_revocation_id is omitted; use hasDeliveryRevocationId() or valueOrDefault().
+     */
+    public function getDeliveryRevocationId(): string|null { return $this->get('delivery_revocation_id'); }
+    public function hasDeliveryRevocationId(): bool { return $this->has('delivery_revocation_id'); }
+    /** Caller-owned identifier for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Initial HMAC signing key ID. Returned only by create when hmac is included.
+    /** Initial HMAC signing key ID. Returned only by create when hmac is included. Example: "cbkey_00112233445566778899aabb".
      * @return string
      * @throws SdkError When key_id is omitted; use hasKeyId() or valueOrDefault().
      */
@@ -80,7 +87,7 @@ final class DeliveryRateCallbackInput extends Model {
      */
     public function getSecret(): string { return $this->get('secret'); }
     public function hasSecret(): bool { return $this->has('secret'); }
-    /** Signing methods enabled for callback HTTP requests. jwt sends Authorization: Bearer with a Flint-signed token whose aud is this delivery_rate_callback_id; hmac sends webhook-signature and signing key IDs. minItems: 1. uniqueItems: true. Example: ["jwt"]. [] enum: "jwt", "hmac". [] (Value): string. jwt uses Flint's public JWKS. hmac uses a shared secret and Standard Webhooks v1. Value enum: "jwt", "hmac".
+    /** Signing methods enabled for callback HTTP requests. jwt sends Authorization: Bearer with a Flint-signed token whose aud is this delivery_rate_callback_id; hmac sends webhook-signature and signing key IDs. minItems: 1. uniqueItems: true. Example: ["jwt"]. [] enum: "jwt", "hmac". [] (Value): string. How Flint signs requests to this endpoint. Value enum: "jwt", "hmac".
      * @return list<string>
      * @throws SdkError When signing_methods is omitted; use hasSigningMethods() or valueOrDefault().
      */
@@ -92,13 +99,13 @@ final class DeliveryRateCallbackInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */
     public function getUpdatedAt(): string|\DateTimeInterface { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** Format: uint64. minimum: 1.
+    /** Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. Format: uint64. minimum: 1.
      * @return int
      * @throws SdkError When version is omitted; use hasVersion() or valueOrDefault().
      */

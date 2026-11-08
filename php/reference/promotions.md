@@ -4,7 +4,7 @@
 
 ### promotions.create
 
-Creates a promotion for the authenticated merchant.
+Creates a promotion: a discount that applies to qualifying orders automatically or when the buyer enters a promotion code. Send `name` and `application_method`; `redemption_type` chooses between automatic and code-gated, and a code-gated promotion can create up to 100 `codes` with it. Eligibility rules, a schedule, a redemption limit, and exclusivity are optional. The promotion is active unless you send `status: inactive`. A code that another resource already uses fails with `ALREADY_EXISTS`.
 
 `POST /v1/promotions`
 
@@ -14,6 +14,9 @@ Signature: `create(array|Model $params, ?RequestOptions $options = null)`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [CreatePromotionRequestInput](../models/CreatePromotionRequestInput.md#createpromotionrequestinput) | The request body for: Create promotion. |
 
 Body model: [CreatePromotionRequestInput](../models/CreatePromotionRequestInput.md#createpromotionrequestinput).
@@ -23,7 +26,7 @@ Body model: [CreatePromotionRequestInput](../models/CreatePromotionRequestInput.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `application_method` | Required | [PromotionApplicationMethodRequestInput](../models/PromotionApplicationMethodRequestInput.md#promotionapplicationmethodrequestinput) | Discount effect and how it applies to eligible items or charges. A flat application method whose type selects its effect fields. |
-| `codes` | Optional | Array of [CreatePromotionCodeRequestInput](../models/CreatePromotionCodeRequestInput.md#createpromotioncoderequestinput) | Codes to create with a code-gated promotion, at most 100. The create response returns them in `codes`. Add more later with `POST /v1/promotions/{promotion_id}/codes`, and manage each code through the `/v1/promotions/{promotion_id}/codes/{promotion_code_id}` routes. maxItems: `100`. |
+| `codes` | Optional | Array of [PromotionCodeRequestInput](../models/PromotionCodeRequestInput.md#promotioncoderequestinput) | Codes to create with a code-gated promotion, at most 100. The create response returns them in `codes`. Add more later with `POST /v1/promotion-codes`, and manage each code through the `/v1/promotion-codes/{promotion_code_id}` routes. maxItems: `100`. |
 | `combines_with` | Optional | [PromotionCombinesWithRequestInput](../models/PromotionCombinesWithPatchInput.md#promotioncombineswithpatchinput) | Which discount classes this promotion can combine with. Omitted classes default to true. Which promotion discount classes this promotion can combine with. Omitted classes default to true. |
 | `description` | Optional | string | Optional description of the promotion for your own records. minLength: `1`. maxLength: `500`. |
 | `discount_class` | Optional | string | Defaults to order when omitted. Default: `"order"`. Values: `"order"`, `"line_item"`, `"service_charge"`. |
@@ -32,6 +35,7 @@ Body model: [CreatePromotionRequestInput](../models/CreatePromotionRequestInput.
 | `exclusivity` | Optional | [PromotionExclusivityRequestInput](../models/PromotionExclusivityRequestInput.md#promotionexclusivityrequestinput) | Optional group and priority used to choose one promotion from competing promotions in the same group. See Promotion for the evaluation order. Only one promotion in an exclusivity group continues. See Promotion for the evaluation order. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `max_uses` | Optional | integer | Maximum number of redemptions across all codes and automatic applications. Omit for no redemption limit. Format: `int64`. |
+| `max_uses_per_customer` | Optional | integer or null | Maximum reserved and redeemed uses per identified customer across every code and automatic or ID-based application. Checked atomically when payment starts. Failed, canceled, or expired attempts release their reservation; refunds do not restore uses. Counts only within the same merchant and environment; live and test mode are separate. Without an identified customer, returns 409 PROMOTION_DECLINED with reason customer_required. Omit or send null for no per-customer limit. Format: `int64`. minimum: `1`. |
 | `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
 | `name` | Required | string | Internal promotion name for dashboards, searching, and reporting. This is not intended for buyer-facing checkout or receipt copy. minLength: `1`. maxLength: `255`. |
 | `redemption_type` | Optional | string | Whether the promotion applies automatically when its rules match or requires a promotion code. Values: `"automatic"`, `"code"`. |
@@ -51,7 +55,6 @@ Returned payload: [Promotion](../models/Promotion.md#promotion).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -87,80 +90,9 @@ $result = $client->promotions->create([
 
 [Complete runnable example](../examples/promotions-create.php)
 
-### promotions.createCode
-
-Creates a code for a code-gated promotion. An archived resource returns 409 ACTION_NOT_ALLOWED with reason archived and current_status archived. The error identifies the archived resource; a create under an archived parent identifies that parent.
-
-`POST /v1/promotions/{promotion_id}/codes`
-
-Signature: `createCode(string|Model $promotion_id, array|Model $params, ?RequestOptions $options = null)`
-
-#### Request fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `promotion_id` | Required | string | Flint promotion ID. |
-| `body` | Required | [CreatePromotionCodeRequestInput](../models/CreatePromotionCodeRequestInput.md#createpromotioncoderequestinput) | The request body for: Create promotion code. |
-
-Body model: [CreatePromotionCodeRequestInput](../models/CreatePromotionCodeRequestInput.md#createpromotioncoderequestinput).
-
-#### promotions.createCode body fields
-
-Field definitions: [shared fields](../models/CreatePromotionCodeRequestInput.md#createpromotioncoderequestinput). Models: [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput).
-
-#### Response
-
-Returned payload: [PromotionCode](../models/PromotionCode.md#promotioncode).
-
-#### Errors
-
-| Status | Error class |
-| --- | --- |
-| 400 | InvalidRequestError |
-| 401 | AuthenticationError |
-| 403 | PermissionError |
-| 404 | NotFoundError |
-| 409 | ConflictError |
-| 410 | ApiError |
-| 413 | ApiError |
-| 415 | ApiError |
-| 429 | RateLimitError |
-| 500 | ServerError |
-| 503 | ServerError |
-
-Other failures: [runtime error reference](../RUNTIME.md#error-reference).
-
-#### Request behavior
-
-Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
-
-Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
-
-Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
-
-Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
-
-#### Example
-
-```php
-// Persist this key with the action before sending; reuse it for every resubmission.
-$idempotencyKey = bin2hex(random_bytes(16));
-
-$result = $client->promotions->createCode('promo_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
-  'code' => 'VIP20',
-  'expires_at' => '2026-04-01T00:00:00Z',
-  'max_uses' => 100,
-  'metadata' => (object) [
-    'audience' => 'vip',
-  ],
-], new RequestOptions(idempotencyKey: $idempotencyKey));
-```
-
-[Complete runnable example](../examples/promotions-createCode.php)
-
 ### promotions.delete
 
-Archives a promotion and returns the resource exactly as GET returns it. Repeating DELETE returns 200 without changing version or updated_at, sending a webhook, or checking references.
+Archives a promotion and returns it as a read does. Deleting an already archived promotion returns it again without changing its version or `updated_at`, sending a webhook, or checking references.
 
 `DELETE /v1/promotions/{promotion_id}`
 
@@ -172,6 +104,9 @@ Signature: `delete(string|Model $promotion_id, array|Model|null $params = null, 
 | --- | --- | --- | --- |
 | `promotion_id` | Required | string | Flint promotion ID. |
 | `expected_version` | Optional | integer | Optional resource version last read by the caller. Format: `uint64`. minimum: `1`. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -186,7 +121,6 @@ Returned payload: [Promotion](../models/Promotion.md#promotion).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -209,67 +143,10 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->promotions->delete('promo_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->promotions->delete('promo_01KEZF7C00QQ8EZ74BDYSZ315V', [], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/promotions-delete.php)
-
-### promotions.deleteCode
-
-Archives a promotion code. The code remains readable with status archived. Returns the archived resource exactly as GET returns it. Repeating DELETE returns 200 without changing version or updated_at, sending a webhook, or checking references.
-
-`DELETE /v1/promotions/{promotion_id}/codes/{promotion_code_id}`
-
-Signature: `deleteCode(string|Model $promotion_id, string|Model $promotion_code_id, array|Model|null $params = null, ?RequestOptions $options = null)`
-
-#### Request fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `promotion_id` | Required | string | Flint promotion ID. |
-| `expected_version` | Optional | integer | Optional resource version last read by the caller. Format: `uint64`. minimum: `1`. |
-| `promotion_code_id` | Required | string | Flint promotion code ID. |
-
-#### Response
-
-Returned payload: [PromotionCode](../models/PromotionCode.md#promotioncode).
-
-#### Errors
-
-| Status | Error class |
-| --- | --- |
-| 400 | InvalidRequestError |
-| 401 | AuthenticationError |
-| 403 | PermissionError |
-| 404 | NotFoundError |
-| 409 | ConflictError |
-| 410 | ApiError |
-| 429 | RateLimitError |
-| 500 | ServerError |
-| 503 | ServerError |
-
-Other failures: [runtime error reference](../RUNTIME.md#error-reference).
-
-#### Request behavior
-
-Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
-
-Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
-
-Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
-
-Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
-
-#### Example
-
-```php
-// Persist this key with the action before sending; reuse it for every resubmission.
-$idempotencyKey = bin2hex(random_bytes(16));
-
-$result = $client->promotions->deleteCode('promo_01ARZ3NDEKTSV4RRFFQ69G5FAV', 'pcode_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
-```
-
-[Complete runnable example](../examples/promotions-deleteCode.php)
 
 ### promotions.get
 
@@ -284,6 +161,9 @@ Signature: `get(string|Model $promotion_id, array|Model|null $params = null, ?Re
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `promotion_id` | Required | string | Flint promotion ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -297,7 +177,6 @@ Returned payload: [Promotion](../models/Promotion.md#promotion).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -315,60 +194,10 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```php
-$result = $client->promotions->get('promo_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
+$result = $client->promotions->get('promo_01KEZF7C00QQ8EZ74BDYSZ315V', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/promotions-get.php)
-
-### promotions.getCode
-
-Returns a single promotion code by promotion ID and code ID. Archived codes remain readable, including codes of an archived promotion. Returns 404 when the code does not exist or belongs to another promotion, merchant, or environment.
-
-`GET /v1/promotions/{promotion_id}/codes/{promotion_code_id}`
-
-Signature: `getCode(string|Model $promotion_id, string|Model $promotion_code_id, array|Model|null $params = null, ?RequestOptions $options = null)`
-
-#### Request fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `promotion_id` | Required | string | Flint promotion ID. |
-| `promotion_code_id` | Required | string | Flint promotion code ID. |
-
-#### Response
-
-Returned payload: [PromotionCode](../models/PromotionCode.md#promotioncode).
-
-#### Errors
-
-| Status | Error class |
-| --- | --- |
-| 400 | InvalidRequestError |
-| 401 | AuthenticationError |
-| 403 | PermissionError |
-| 404 | NotFoundError |
-| 410 | ApiError |
-| 429 | RateLimitError |
-| 500 | ServerError |
-| 503 | ServerError |
-
-Other failures: [runtime error reference](../RUNTIME.md#error-reference).
-
-#### Request behavior
-
-Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
-
-Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
-
-Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
-
-#### Example
-
-```php
-$result = $client->promotions->getCode('promo_01ARZ3NDEKTSV4RRFFQ69G5FAV', 'pcode_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
-```
-
-[Complete runnable example](../examples/promotions-getCode.php)
 
 ### promotions.list
 
@@ -383,23 +212,26 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
-| `status` | Optional | Array of string or string | Filter by status. Repeat the parameter or send comma-separated values to match any of several. Omitted, the list leaves out archived rows; name archived to include them. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"inactive"`, `"archived"`. Values: `"active"`, `"inactive"`, `"archived"`. |
-| `availability` | Optional | Array of string or string | Filter by whether a promotion can apply now or why it cannot. available matches available: true; every other value matches unavailable_reason. Repeat the parameter or pass comma-separated values; values are ORed. This filter is ANDed with status. Archived promotions still require status=archived. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"available"`, `"inactive"`, `"archived"`, `"not_yet_started"`, `"expired"`, `"exhausted"`, `"no_active_codes"`. Values: `"available"`, `"inactive"`, `"archived"`, `"not_yet_started"`, `"expired"`, `"exhausted"`, `"no_active_codes"`. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
+| `status` | Optional | Array of string or string | Filter by status. Omitted, the list leaves out archived rows; name archived to include them. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"inactive"`, `"archived"`. Values: `"active"`, `"inactive"`, `"archived"`. |
+| `availability` | Optional | Array of string or string | Filter by whether a promotion can apply now or why it cannot. available matches available: true; every other value matches unavailable_reason. This filter is ANDed with status. Archived promotions still require status=archived. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"available"`, `"inactive"`, `"archived"`, `"not_yet_started"`, `"expired"`, `"exhausted"`, `"no_active_codes"`. Values: `"available"`, `"inactive"`, `"archived"`, `"not_yet_started"`, `"expired"`, `"exhausted"`, `"no_active_codes"`. |
 | `external_reference_id` | Optional | string | Exact-match filter on the caller-owned external reference ID. minLength: `1`. maxLength: `255`. |
 | `query` | Optional | string | Search across promotion ID, external reference ID, name, display name, description, and promotion codes. Text fields match any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the start and need the type prefix, such as promo_01. |
 | `product_id` | Optional | string | Filter to promotions with an explicit product target rule. Universal promotions are not included by catalog target filters. |
 | `variant_id` | Optional | string | Filter to promotions with an explicit variant target rule. Universal promotions are not included by catalog target filters. |
 | `bundle_id` | Optional | string | Filter to promotions with an explicit bundle target rule. Universal promotions are not included by catalog target filters. |
 | `category_handle` | Optional | string | Filter to promotions with an explicit category target rule. Universal promotions are not included by catalog target filters. maxLength: `100`. pattern: `^[a-z0-9]+(-[a-z0-9]+)*$`. |
-| `redemption_type` | Optional | Array of string or string | Filter by promotion redemption type. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"automatic"`, `"code"`. Values: `"automatic"`, `"code"`. |
-| `discount_class` | Optional | Array of string or string | Filter by promotion discount class. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"order"`, `"line_item"`, `"service_charge"`. Values: `"order"`, `"line_item"`, `"service_charge"`. |
+| `redemption_type` | Optional | Array of string or string | Filter by promotion redemption type. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"automatic"`, `"code"`. Values: `"automatic"`, `"code"`. |
+| `discount_class` | Optional | Array of string or string | Filter by promotion discount class. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"order"`, `"line_item"`, `"service_charge"`. Values: `"order"`, `"line_item"`, `"service_charge"`. |
 | `sort_by` | Optional | string | Field to sort by. Defaults to created_at; ties are broken by promotion_id. Default: `"created_at"`. Values: `"name"`, `"created_at"`, `"updated_at"`. |
 | `sort_direction` | Optional | string | Sort direction. Defaults to desc. Default: `"desc"`. Values: `"asc"`, `"desc"`. |
 | `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
 | `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
 | `updated_after` | Optional | string | Inclusive lower bound on updated_at. Format: `date-time`. |
 | `updated_before` | Optional | string | Exclusive upper bound on updated_at. Format: `date-time`. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -412,7 +244,6 @@ Returned payload: [PromotionListResponse](../models/PromotionListResponse.md#pro
 | 400 | InvalidRequestError |
 | 401 | AuthenticationError |
 | 403 | PermissionError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -439,7 +270,7 @@ $result = $client->promotions->list([], new RequestOptions());
 
 ### promotions.update
 
-Applies a sparse update to promotion fields. application_method, schedule, and exclusivity patch by subfield presence. Omitted fields retain stored values; null clears only nullable fields. Sending a different application_method.type replaces the effect while preserving omitted shared settings, including discounted_item_rules. Archived promotions cannot be changed. An archived resource returns 409 ACTION_NOT_ALLOWED with reason archived and current_status archived. The error identifies the archived resource; a create under an archived parent identifies that parent.
+Applies a sparse update to promotion fields. application_method, schedule, exclusivity, and combines_with patch by subfield presence. Omitted fields retain stored values; null clears only nullable fields. Sending a different application_method.type replaces the effect while preserving omitted shared settings, including discounted_item_rules. A redeemed promotion can't change its `discount_class` or `application_method` type; the update fails with `ACTION_NOT_ALLOWED` and reason `field_locked`. Archived promotions cannot be changed. Fails with `ACTION_NOT_ALLOWED` and reason `archived` when the resource, or the parent it belongs to, is archived. The error names the archived resource and its `current_status`.
 
 `PATCH /v1/promotions/{promotion_id}`
 
@@ -450,6 +281,9 @@ Signature: `update(string|Model $promotion_id, array|Model $params, ?RequestOpti
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `promotion_id` | Required | string | Flint promotion ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [UpdatePromotionRequestInput](../models/UpdatePromotionRequestInput.md#updatepromotionrequestinput) | The request body for: Update promotion. |
 
 Body model: [UpdatePromotionRequestInput](../models/UpdatePromotionRequestInput.md#updatepromotionrequestinput).
@@ -468,6 +302,7 @@ Body model: [UpdatePromotionRequestInput](../models/UpdatePromotionRequestInput.
 | `expected_version` | Optional | integer | Resource version last read by the caller. Required when application_method or eligibility_rules is present, including an empty collection or a supported null clear. Optional for scalar updates. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. |
 | `max_uses` | Optional | integer or null | Maximum number of redemptions across all codes and automatic applications. Send null to remove the redemption limit. Format: `int64`. |
+| `max_uses_per_customer` | Optional | integer or null | Maximum reserved and redeemed uses per identified customer across every code and automatic or ID-based application. Checked atomically when payment starts. Failed, canceled, or expired attempts release their reservation; refunds do not restore uses. Counts only within the same merchant and environment; live and test mode are separate. Without an identified customer, returns 409 PROMOTION_DECLINED with reason customer_required. Omit to keep the current limit; send null to remove it. Format: `int64`. minimum: `1`. |
 | `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequestInput.md#metadatapatchrequestinput) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. |
 | `name` | Optional | string | Internal promotion name for dashboards, searching, and reporting. minLength: `1`. maxLength: `255`. |
 | `schedule` | Optional | [PromotionSchedulePatchInput](../models/PromotionSchedulePatchInput.md#promotionschedulepatchinput) or null | Fields of the promotion schedule to change. Send null to remove the schedule. |
@@ -486,7 +321,6 @@ Returned payload: [Promotion](../models/Promotion.md#promotion).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -517,71 +351,4 @@ $result = $client->promotions->update('promo_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
 ```
 
 [Complete runnable example](../examples/promotions-update.php)
-
-### promotions.updateCode
-
-Applies a sparse update to a promotion code. An archived resource returns 409 ACTION_NOT_ALLOWED with reason archived and current_status archived. The error identifies the archived resource; a create under an archived parent identifies that parent.
-
-`PATCH /v1/promotions/{promotion_id}/codes/{promotion_code_id}`
-
-Signature: `updateCode(string|Model $promotion_id, string|Model $promotion_code_id, array|Model $params, ?RequestOptions $options = null)`
-
-#### Request fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `promotion_id` | Required | string | Flint promotion ID. |
-| `promotion_code_id` | Required | string | Flint promotion code ID. |
-| `body` | Required | [UpdatePromotionCodeRequestInput](../models/UpdatePromotionCodeRequestInput.md#updatepromotioncoderequestinput) | The request body for: Update promotion code. |
-
-Body model: [UpdatePromotionCodeRequestInput](../models/UpdatePromotionCodeRequestInput.md#updatepromotioncoderequestinput).
-
-#### promotions.updateCode body fields
-
-Field definitions: [shared fields](../models/UpdatePromotionCodeRequestInput.md#updatepromotioncoderequestinput). Models: [MetadataPatchRequestInput](../models/MetadataPatchRequestInput.md#metadatapatchrequestinput).
-
-#### Response
-
-Returned payload: [PromotionCode](../models/PromotionCode.md#promotioncode).
-
-#### Errors
-
-| Status | Error class |
-| --- | --- |
-| 400 | InvalidRequestError |
-| 401 | AuthenticationError |
-| 403 | PermissionError |
-| 404 | NotFoundError |
-| 409 | ConflictError |
-| 410 | ApiError |
-| 413 | ApiError |
-| 415 | ApiError |
-| 429 | RateLimitError |
-| 500 | ServerError |
-| 503 | ServerError |
-
-Other failures: [runtime error reference](../RUNTIME.md#error-reference).
-
-#### Request behavior
-
-Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
-
-Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
-
-Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
-
-Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
-
-#### Example
-
-```php
-// Persist this key with the action before sending; reuse it for every resubmission.
-$idempotencyKey = bin2hex(random_bytes(16));
-
-$result = $client->promotions->updateCode('promo_01ARZ3NDEKTSV4RRFFQ69G5FAV', 'pcode_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
-  'max_uses' => 50,
-], new RequestOptions(idempotencyKey: $idempotencyKey));
-```
-
-[Complete runnable example](../examples/promotions-updateCode.php)
 

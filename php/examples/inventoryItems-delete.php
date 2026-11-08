@@ -16,7 +16,7 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->inventoryItems->delete('invi_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->inventoryItems->delete('invi_01KEZF7C00A6YEM25MTHW2MPZY', [], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->inventory_item_id . PHP_EOL;
 echo $result->status . PHP_EOL;
 $client->close();

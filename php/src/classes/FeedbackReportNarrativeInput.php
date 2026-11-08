@@ -24,49 +24,49 @@ namespace Flint;
 final class FeedbackReportNarrativeInput extends Model {
     /** @param array{'actual_behavior'?: string, 'canonical_command'?: string, 'code_location'?: string, 'component'?: string, 'created_at': string|\DateTimeInterface, 'description'?: string, 'expected_behavior'?: string, 'feedback_report_id': string, 'kind': string, 'related_request_id'?: string, 'related_resource_ids'?: list<string>, 'reporter_kind'?: string, 'reporting_client'?: FeedbackReportingClientInput|array<array-key, mixed>|\stdClass, 'reproduction_steps'?: list<string>, 'sentiment'?: string, 'summary': string, 'surface': string, 'surface_route'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('FeedbackReportNarrativeInput')); }
-    /** Optional observed outcome. Limited to 4000 characters (Unicode code points), counted before whitespace and line-ending normalization. minLength: 1. maxLength: 4000.
+    /** Observed outcome, when the report included it. Stored as submitted, trimmed, with line endings normalized and secrets replaced by redaction markers. minLength: 1. maxLength: 4000.
      * @return string
      * @throws SdkError When actual_behavior is omitted; use hasActualBehavior() or valueOrDefault().
      */
     public function getActualBehavior(): string { return $this->get('actual_behavior'); }
     public function hasActualBehavior(): bool { return $this->has('actual_behavior'); }
-    /** Dotted or hyphenated canonical command name, such as payment-intents.create. Limited to 200 characters (Unicode code points), counted before whitespace and line-ending normalization. minLength: 1. maxLength: 200. pattern: ^[a-z][a-z0-9]*(?:[.-][a-z0-9]+)*$.
+    /** Dotted or hyphenated canonical command name, such as payment-intents.create. minLength: 1. maxLength: 200. pattern: ^[a-z][a-z0-9]*(?:[.-][a-z0-9]+)*$.
      * @return string
      * @throws SdkError When canonical_command is omitted; use hasCanonicalCommand() or valueOrDefault().
      */
     public function getCanonicalCommand(): string { return $this->get('canonical_command'); }
     public function hasCanonicalCommand(): bool { return $this->has('canonical_command'); }
-    /** Location in the reporting code associated with this feedback. Limited to 500 characters (Unicode code points), counted before whitespace and line-ending normalization. minLength: 1. maxLength: 500.
+    /** File in the reporter's own repository this feedback is about, optionally followed by `:line` or `:line:column`, such as `src/sync/products.ts:42`. Stored as submitted, trimmed, with line endings normalized and secrets replaced by redaction markers. minLength: 1. maxLength: 500.
      * @return string
      * @throws SdkError When code_location is omitted; use hasCodeLocation() or valueOrDefault().
      */
     public function getCodeLocation(): string { return $this->get('code_location'); }
     public function hasCodeLocation(): bool { return $this->has('code_location'); }
-    /** Optional feature or subsystem within the product. Limited to 128 characters (Unicode code points), counted before whitespace and line-ending normalization. minLength: 1. maxLength: 128.
+    /** Feature or subsystem within the product, when the report named one. Stored as submitted, trimmed, with line endings normalized and secrets replaced by redaction markers. minLength: 1. maxLength: 128.
      * @return string
      * @throws SdkError When component is omitted; use hasComponent() or valueOrDefault().
      */
     public function getComponent(): string { return $this->get('component'); }
     public function hasComponent(): bool { return $this->has('component'); }
-    /** Server-assigned time when Flint stored the report. Format: date-time.
+    /** Server-assigned time when Flint stored the report. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Optional details about the feedback. Limited to 8000 characters (Unicode code points), counted before whitespace and line-ending normalization. minLength: 1. maxLength: 8000.
+    /** Details about the feedback, when the report included them. Stored as submitted, trimmed, with line endings normalized and secrets replaced by redaction markers. minLength: 1. maxLength: 8000.
      * @return string
      * @throws SdkError When description is omitted; use hasDescription() or valueOrDefault().
      */
     public function getDescription(): string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** Optional desired outcome. Limited to 4000 characters (Unicode code points), counted before whitespace and line-ending normalization. minLength: 1. maxLength: 4000.
+    /** Desired outcome, when the report included it. Stored as submitted, trimmed, with line endings normalized and secrets replaced by redaction markers. minLength: 1. maxLength: 4000.
      * @return string
      * @throws SdkError When expected_behavior is omitted; use hasExpectedBehavior() or valueOrDefault().
      */
     public function getExpectedBehavior(): string { return $this->get('expected_behavior'); }
     public function hasExpectedBehavior(): bool { return $this->has('expected_behavior'); }
-    /** Server-assigned ID of the stored feedback report. pattern: ^fbr_[0-9A-HJKMNP-TV-Z]{26}$.
+    /** Server-assigned ID of the stored feedback report. pattern: ^fbr_[0-9A-HJKMNP-TV-Z]{26}$. Example: "fbr_01KEZF7C00CFKWW2MH94F39D7B".
      * @return string
      * @throws SdkError When feedback_report_id is omitted; use hasFeedbackReportId() or valueOrDefault().
      */
@@ -78,13 +78,13 @@ final class FeedbackReportNarrativeInput extends Model {
      */
     public function getKind(): string { return $this->get('kind'); }
     public function hasKind(): bool { return $this->has('kind'); }
-    /** Flint request ID associated with this feedback. Limited to 255 characters (Unicode code points), counted before whitespace and line-ending normalization. minLength: 1. maxLength: 255.
+    /** Flint request ID associated with this feedback. minLength: 1. maxLength: 255. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      * @return string
      * @throws SdkError When related_request_id is omitted; use hasRelatedRequestId() or valueOrDefault().
      */
     public function getRelatedRequestId(): string { return $this->get('related_request_id'); }
     public function hasRelatedRequestId(): bool { return $this->has('related_request_id'); }
-    /** Existing public resources associated with this feedback, with at most 20 unique IDs. maxItems: 20. uniqueItems: true. [] (Value): string. minLength: 1.
+    /** Flint IDs of the resources this feedback is about, sorted. maxItems: 20. uniqueItems: true. [] (Value): string. minLength: 1. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return list<string>
      * @throws SdkError When related_resource_ids is omitted; use hasRelatedResourceIds() or valueOrDefault().
      */
@@ -96,37 +96,37 @@ final class FeedbackReportNarrativeInput extends Model {
      */
     public function getReporterKind(): string { return $this->get('reporter_kind'); }
     public function hasReporterKind(): bool { return $this->has('reporter_kind'); }
-    /** Tool submitting the feedback, independently of the product being discussed. Its name is required when present. The client that submits a feedback report, with its name, platform, version, and schema version.
+    /** Tool that submitted the feedback, independently of the product being discussed. The client that submits a feedback report, with its name, platform, version, and schema version.
      * @return FeedbackReportingClientInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When reporting_client is omitted; use hasReportingClient() or valueOrDefault().
      */
     public function getReportingClient(): mixed { return $this->get('reporting_client'); }
     public function hasReportingClient(): bool { return $this->has('reporting_client'); }
-    /** Unique steps in reproduction order, with at most 20 entries. maxItems: 20. uniqueItems: true. [] (Value): string. Limited to 1000 characters (Unicode code points), counted before whitespace and line-ending normalization. minLength: 1. maxLength: 1000.
+    /** Steps in reproduction order. maxItems: 20. uniqueItems: true. [] (Value): string. minLength: 1. maxLength: 1000.
      * @return list<string>
      * @throws SdkError When reproduction_steps is omitted; use hasReproductionSteps() or valueOrDefault().
      */
     public function getReproductionSteps(): array { return $this->get('reproduction_steps'); }
     public function hasReproductionSteps(): bool { return $this->has('reproduction_steps'); }
-    /** Positive, negative, or neutral assessment. Required for rating feedback; optional for narrative feedback. Value enum: "positive", "negative", "neutral".
+    /** Positive, negative, or neutral assessment. Always present on a rating. Value enum: "positive", "negative", "neutral".
      * @return string
      * @throws SdkError When sentiment is omitted; use hasSentiment() or valueOrDefault().
      */
     public function getSentiment(): string { return $this->get('sentiment'); }
     public function hasSentiment(): bool { return $this->has('sentiment'); }
-    /** Brief account of the feedback. Required for every kind except rating; optional for a rating. Limited to 200 characters (Unicode code points), counted before whitespace and line-ending normalization. minLength: 1. maxLength: 200.
+    /** Brief account of the feedback. Present on every report except a rating that sent none. Stored as submitted, trimmed, with line endings normalized and secrets replaced by redaction markers. minLength: 1. maxLength: 200.
      * @return string
      * @throws SdkError When summary is omitted; use hasSummary() or valueOrDefault().
      */
     public function getSummary(): string { return $this->get('summary'); }
     public function hasSummary(): bool { return $this->has('summary'); }
-    /** Product being discussed, independently of how the report is submitted. Value enum: "api", "cli", "mcp", "sdk", "docs", "dashboard", "checkout", "payment_links", "webhooks", "onboarding", "mobile", "other".
+    /** Product the feedback is about, independently of how the report was submitted. Value enum: "api", "cli", "mcp", "sdk", "docs", "dashboard", "checkout", "payment_links", "webhooks", "onboarding", "mobile", "other".
      * @return string
      * @throws SdkError When surface is omitted; use hasSurface() or valueOrDefault().
      */
     public function getSurface(): string { return $this->get('surface'); }
     public function hasSurface(): bool { return $this->has('surface'); }
-    /** Relevant route in the product being discussed. Limited to 500 characters (Unicode code points), counted before whitespace and line-ending normalization. minLength: 1. maxLength: 500.
+    /** The public API route template this feedback is about. minLength: 1. maxLength: 500.
      * @return string
      * @throws SdkError When surface_route is omitted; use hasSurfaceRoute() or valueOrDefault().
      */

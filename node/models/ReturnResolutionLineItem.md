@@ -12,12 +12,14 @@ A return line included in a resolution, with its quantity and returned total.
 | --- | --- | --- | --- |
 | `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `release_timing` | Optional | string | Release gate for every resolution type, including exchanges and replacements. Released after the Return is approved. Released after the buyer hands back the required merchandise. Released after the required merchandise is received. Released after the required merchandise passes inspection. Held until a merchant calls POST /v1/return-resolutions/{id}/release. Values: `"after_approval"`, `"after_handoff"`, `"after_receipt"`, `"after_inspection"`, `"manual"`. |
-| `return_line_item_id` | Required | string |  |
-| `return_resolution_id` | Required | string |  |
-| `return_resolution_line_item_id` | Required | string |  |
-| `returned_total_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. `returned_total_money`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options). |
+| `return_line_item_id` | Required | string | ID of the Return line the resolution covers. Example: `"retli_01KEZF7C00R813VR7ECXS062QG"`. |
+| `return_resolution_id` | Required | string | ID of the resolution the line belongs to. Example: `"retres_01KEZF7C00C7RZJN31W9SGMEQ3"`. |
+| `return_resolution_line_item_id` | Required | string | ID of an existing resolution line to keep. Leave out to add a new line. Example: `"retresli_01KEZF7C00CR5NCDXRBP9W14CB"`. |
+| `returned_total_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Value of the returned units this line covers. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `returned_total_money`: [field definitions](../models/ReturnResolutionLineItem.md#returnresolutionlineitemreturned_total_money). |
 
 ### ReturnResolutionLineItem.returned_total_money
 
-Field definitions: [BuyerCheckoutSession.tip.smart_tip_money_options[]](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options).
+Value of the returned units this line covers. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+
+Field definitions: [shared fields](MoneyValueInput.md#moneyvalueinput).
 

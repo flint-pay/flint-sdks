@@ -16,17 +16,7 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->onboarding->advance([
-  'country' => 'US',
-  'profile' => (object) [
-    'support_email' => 'help@example.com',
-    'website_url' => 'https://withflintpay.com',
-  ],
-  'requested_capabilities' => [
-    'accept_card_payments',
-    'receive_payouts',
-  ],
-], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->onboarding->advance(null, new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->merchant_id . PHP_EOL;
 echo $result->status . PHP_EOL;
 $client->close();

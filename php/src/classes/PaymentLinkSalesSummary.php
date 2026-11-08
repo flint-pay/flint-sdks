@@ -2,14 +2,20 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read int $checked_in_ticket_count
  * @property-read string $computed_at
  * @property-read int $paid_order_count
  * @property-read list<MoneyValue> $paid_totals
  * @property-read list<MoneyValue> $refunded_totals
  * Presence-aware response; omitted optional fields return null. */
 final class PaymentLinkSalesSummary extends Model {
-    /** @param array{'computed_at': string, 'paid_order_count': int, 'paid_totals': list<mixed>, 'refunded_totals': list<mixed>, ...}|object $values */
+    /** @param array{'checked_in_ticket_count': int, 'computed_at': string, 'paid_order_count': int, 'paid_totals': list<mixed>, 'refunded_totals': list<mixed>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentLinkSalesSummary')); }
+    /** Tickets for this payment link that are checked in now, counted when the summary is read. Undoing a check-in or voiding a ticket lowers it. 0 for links that have issued no tickets. Format: int32. minimum: 0.
+     * @return int
+     */
+    public function getCheckedInTicketCount(): int { return $this->get('checked_in_ticket_count'); }
+    public function hasCheckedInTicketCount(): bool { return $this->has('checked_in_ticket_count'); }
     /** UTC time at which the summary was computed, at second precision. Format: date-time.
      * @return string
      */

@@ -10,14 +10,14 @@ Request input.
 | --- | --- | --- | --- |
 | `buyer_location` | Optional | [DeliveryBuyerLocationRequestInput](../models/DeliveryBuyerLocationRequestInput.md#deliverybuyerlocationrequestinput) | The buyer's location for pickup or local delivery, supplied as an address or a coordinate, chosen by `type`. |
 | `currency` | Conditional | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. Example: `"USD"`. |
-| `delivery_method_ids` | Conditional | Array of string | Delivery methods to evaluate. When omitted, uses settings.checkout.default_delivery_method_ids, or no methods when that setting is empty. Items: minLength: `1`. |
+| `delivery_method_ids` | Conditional | Array of string | Delivery methods to evaluate. When omitted, uses settings.checkout.default_delivery_method_ids, or no methods when that setting is empty. Items: minLength: `1`. Example: `"dmet_01KEZF7C00YSG3X2D1TZJ36TM0"`. |
 | `destination_address` | Conditional | [DeliveryAddressRequestInput](../models/DeliveryAddressRequestInput.md#deliveryaddressrequestinput) | A partial address for delivery quotes, previews, and buyer locations. Country is required when any member is present. |
 | `inventory_routing_source` | Conditional | [DeliveryPreviewRoutingSourceInput](../models/DeliveryPreviewRoutingSourceInput.md#deliverypreviewroutingsourceinput) | Chooses where a delivery options preview routes inventory from: a fixed Location, an inventory allocation policy, or one policy revision. |
 | `line_items` | Conditional | Array of [CreateOrderLineItemRequestInput](../models/CreateOrderLineItemRequestInput.md#createorderlineitemrequestinput) | minItems: `1`. maxItems: `100`. |
 | `mode` | Required | string |  |
-| `pickup_location_id` | Conditional | string | minLength: `1`. |
+| `pickup_location_id` | Conditional | string | minLength: `1`. Example: `"loc_01KEZF7C00CMHRRYA3MV996JB2"`. |
 | `pricing_context` | Conditional | Map of string | Map values: minLength: `1`. |
-| `checkout_session_id` | Conditional | string | Checkout session whose pickup locations to evaluate. Checkout credentials must identify their own session. minLength: `1`. |
+| `checkout_session_id` | Conditional | string | Checkout session whose pickup locations to evaluate. Checkout credentials must identify their own session. minLength: `1`. Example: `"cs_01KEZF7C004JRWFW43H037MQRN"`. |
 | `maximum_distance` | Conditional | [DeliveryPickupAvailabilityMaximumDistanceRequestInput](../models/DeliveryPickupAvailabilityMaximumDistanceRequestInput.md#deliverypickupavailabilitymaximumdistancerequestinput) | A maximum distance from the buyer location, as a value and unit, that limits which pickup locations a preview returns. |
 
 ### CreateDeliveryPreviewRequestInput variant 1: `mode` = `"delivery_options"`

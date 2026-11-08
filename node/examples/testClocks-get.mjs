@@ -5,7 +5,7 @@ const client = new Client({
   allowInsecureHttp: !!baseUrl && ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
 });
 const result = await client.testClocks.get(
-  "tclk_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ"
 );
 console.log(result.status);
 console.log(result.test_clock_id);

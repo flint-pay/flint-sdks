@@ -7,11 +7,13 @@ namespace Flint;
  * @property-read string $api_version_previous
  * @property-read string|\DateTimeInterface $api_version_rollback_expires_at
  * @property-read string|\DateTimeInterface $created_at
+ * @property-read ResourceReferenceInput|array<array-key, mixed>|\stdClass $created_by
  * @property-read string $description
  * @property-read list<string> $enabled_events
  * @property-read list<string> $event_sources
  * @property-read list<string> $installed_merchant_modes
  * @property-read string $partner_app_id
+ * @property-read string|null $partner_app_install_id
  * @property-read string|\DateTimeInterface $previous_secret_expires_at
  * @property-read list<string> $signing_methods
  * @property-read string $status
@@ -21,7 +23,7 @@ namespace Flint;
  * @property-read string $webhook_endpoint_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class WebhookEndpointInput extends Model {
-    /** @param array{'api_version': string, 'api_version_changed_at'?: string|\DateTimeInterface, 'api_version_previous'?: string, 'api_version_rollback_expires_at'?: string|\DateTimeInterface, 'created_at'?: string|\DateTimeInterface, 'description'?: string, 'enabled_events': list<string>, 'event_sources'?: list<string>, 'installed_merchant_modes'?: list<string>, 'partner_app_id'?: string, 'previous_secret_expires_at'?: string|\DateTimeInterface, 'signing_methods': list<string>, 'status': string, 'updated_at'?: string|\DateTimeInterface, 'url': string, 'version': int, 'webhook_endpoint_id': string, ...}|object $values */
+    /** @param array{'api_version': string, 'api_version_changed_at'?: string|\DateTimeInterface, 'api_version_previous'?: string, 'api_version_rollback_expires_at'?: string|\DateTimeInterface, 'created_at': string|\DateTimeInterface, 'created_by'?: ResourceReferenceInput|array<array-key, mixed>|\stdClass, 'description'?: string, 'enabled_events': list<string>, 'event_sources'?: list<string>, 'installed_merchant_modes'?: list<string>, 'partner_app_id'?: string, 'partner_app_install_id': string|null, 'previous_secret_expires_at'?: string|\DateTimeInterface, 'signing_methods': list<string>, 'status': string, 'updated_at': string|\DateTimeInterface, 'url': string, 'version': int, 'webhook_endpoint_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WebhookEndpointInput')); }
     /** A dated API version pins this endpoint. The value default follows the endpoint owner's merchant default at delivery time, including retries. Deliveries never use a newer version than the event's recorded version.
      * @return string
@@ -29,7 +31,7 @@ final class WebhookEndpointInput extends Model {
      */
     public function getApiVersion(): string { return $this->get('api_version'); }
     public function hasApiVersion(): bool { return $this->has('api_version'); }
-    /** When api_version last changed. Format: date-time.
+    /** When api_version last changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When api_version_changed_at is omitted; use hasApiVersionChangedAt() or valueOrDefault().
      */
@@ -41,19 +43,25 @@ final class WebhookEndpointInput extends Model {
      */
     public function getApiVersionPrevious(): string { return $this->get('api_version_previous'); }
     public function hasApiVersionPrevious(): bool { return $this->has('api_version_previous'); }
-    /** When the rollback offer for api_version_previous ends. You can still set any supported version afterward. Format: date-time.
+    /** When the rollback offer for api_version_previous ends. You can still set any supported version afterward. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When api_version_rollback_expires_at is omitted; use hasApiVersionRollbackExpiresAt() or valueOrDefault().
      */
     public function getApiVersionRollbackExpiresAt(): string|\DateTimeInterface { return $this->get('api_version_rollback_expires_at'); }
     public function hasApiVersionRollbackExpiresAt(): bool { return $this->has('api_version_rollback_expires_at'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** description
+    /** The API key, user, partner app, or workload identity that created this endpoint. An API key creator can belong to another mode, such as a live key that creates a sandbox endpoint. Absent when the creator is unavailable, including endpoints created before attribution was recorded. A reference to another resource by `resource_type` and `resource_id`.
+     * @return ResourceReferenceInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When created_by is omitted; use hasCreatedBy() or valueOrDefault().
+     */
+    public function getCreatedBy(): mixed { return $this->get('created_by'); }
+    public function hasCreatedBy(): bool { return $this->has('created_by'); }
+    /** Your description of this endpoint. Omitted when none is set.
      * @return string
      * @throws SdkError When description is omitted; use hasDescription() or valueOrDefault().
      */
@@ -77,19 +85,25 @@ final class WebhookEndpointInput extends Model {
      */
     public function getInstalledMerchantModes(): array { return $this->get('installed_merchant_modes'); }
     public function hasInstalledMerchantModes(): bool { return $this->has('installed_merchant_modes'); }
-    /** Partner app that owns partner_app or installed_merchants event sources.
+    /** Partner app that owns partner_app or installed_merchants event sources. Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
      * @return string
      * @throws SdkError When partner_app_id is omitted; use hasPartnerAppId() or valueOrDefault().
      */
     public function getPartnerAppId(): string { return $this->get('partner_app_id'); }
     public function hasPartnerAppId(): bool { return $this->has('partner_app_id'); }
-    /** When the replaced signing secret stops signing deliveries. Present only during a rotation overlap. Until then each delivery carries a signature from both secrets. Format: date-time.
+    /** The connected app install this endpoint is linked to. The endpoint is deleted when that install is revoked or loses its grant for this endpoint's environment. Null when the endpoint is not linked to a connected app. Never changes. pattern: ^pinst_[0-9A-HJKMNP-TV-Z]{26}$. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+     * @return string|null
+     * @throws SdkError When partner_app_install_id is omitted; use hasPartnerAppInstallId() or valueOrDefault().
+     */
+    public function getPartnerAppInstallId(): string|null { return $this->get('partner_app_install_id'); }
+    public function hasPartnerAppInstallId(): bool { return $this->has('partner_app_install_id'); }
+    /** When the replaced signing secret stops signing deliveries. Present only during a rotation overlap. Until then each delivery carries a signature from both secrets. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When previous_secret_expires_at is omitted; use hasPreviousSecretExpiresAt() or valueOrDefault().
      */
     public function getPreviousSecretExpiresAt(): string|\DateTimeInterface { return $this->get('previous_secret_expires_at'); }
     public function hasPreviousSecretExpiresAt(): bool { return $this->has('previous_secret_expires_at'); }
-    /** minItems: 1. uniqueItems: true. [] enum: "jwt", "hmac". [] (Value): string. jwt uses Flint's public JWKS. hmac uses a shared secret and Standard Webhooks v1. Value enum: "jwt", "hmac".
+    /** Methods Flint uses to sign deliveries to this endpoint. minItems: 1. uniqueItems: true. [] enum: "jwt", "hmac". [] (Value): string. How Flint signs requests to this endpoint. Value enum: "jwt", "hmac".
      * @return list<string>
      * @throws SdkError When signing_methods is omitted; use hasSigningMethods() or valueOrDefault().
      */
@@ -101,25 +115,25 @@ final class WebhookEndpointInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */
     public function getUpdatedAt(): string|\DateTimeInterface { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** url
+    /** Public HTTPS URL that receives webhook deliveries.
      * @return string
      * @throws SdkError When url is omitted; use hasUrl() or valueOrDefault().
      */
     public function getUrl(): string { return $this->get('url'); }
     public function hasUrl(): bool { return $this->has('url'); }
-    /** Format: uint64. minimum: 1.
+    /** Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. Format: uint64. minimum: 1.
      * @return int
      * @throws SdkError When version is omitted; use hasVersion() or valueOrDefault().
      */
     public function getVersion(): int { return $this->get('version'); }
     public function hasVersion(): bool { return $this->has('version'); }
-    /** webhook_endpoint_id
+    /** Unique identifier for this webhook endpoint, prefixed `whep_`. Example: "whep_01KEZF7C006FXYTAJRZCGCBJTN".
      * @return string
      * @throws SdkError When webhook_endpoint_id is omitted; use hasWebhookEndpointId() or valueOrDefault().
      */

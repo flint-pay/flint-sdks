@@ -21,7 +21,7 @@ final class ReturnPolicy extends Model {
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** current_return_policy_revision_id
+    /** ID of the revision Flint judges new requests by.
      * @return string
      */
     public function getCurrentReturnPolicyRevisionId(): string { return $this->get('current_return_policy_revision_id'); }
@@ -36,17 +36,17 @@ final class ReturnPolicy extends Model {
      */
     public function getExternalReferenceId(): ?string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
+    /** Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      * @return array<array-key, string>
      */
     public function getMetadata(): array { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** name
+    /** Name of the policy.
      * @return string
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** return_policy_id
+    /** Unique identifier for this return policy, prefixed `rpol_`.
      * @return string
      */
     public function getReturnPolicyId(): string { return $this->get('return_policy_id'); }
@@ -61,7 +61,7 @@ final class ReturnPolicy extends Model {
      */
     public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** Format: int64. minimum: 0.
+    /** Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. Format: int64. minimum: 0.
      * @return int
      */
     public function getVersion(): int { return $this->get('version'); }

@@ -1,18 +1,18 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-5.js';
+import type { ClientOptions } from '../declarations/types-6.js';
+import type { PartnerApp, PartnerAppCredential, PartnerAppCredentialListResponse, PartnerAppCredentialResponse } from '../declarations/types-41.js';
 import type {
-    PartnerApp,
-    PartnerAppCredential,
-    PartnerAppCredentialListResponse,
-    PartnerAppCredentialResponse,
     PartnerAppInstall,
     PartnerAppInstallListResponse,
     PartnerAppInstallResponse,
+    PartnerAppInstallWithEndedAccess,
+    PartnerAppInstallWithEndedAccessResponse,
     PartnerAppListResponse,
     PartnerAppResponse,
     PartnerAppWithRotatedSecret,
     PartnerAppWithSecret,
     PartnerAppWithSecretResponse,
+    PartnerAppsAcceptPlatformTermsParams,
     PartnerAppsCreateCredentialParams,
     PartnerAppsCreateParams,
     PartnerAppsDeleteCredentialParams,
@@ -27,10 +27,10 @@ import type {
     PartnerAppsRevokeInstallParams,
     PartnerAppsRotateSecretParams,
     PartnerAppsUpdateParams
-} from '../declarations/types-40.js';
-import type { RequestOptions } from '../declarations/types-48.js';
-import type { RotatePartnerAppSecretResponse } from '../declarations/types-53.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-42.js';
+import type { RequestOptions } from '../declarations/types-51.js';
+import type { RotatePartnerAppSecretResponse } from '../declarations/types-56.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -46,15 +46,13 @@ export type {
     WorkloadIdentitySource
 } from '../runtime.js';
 export type {
+    PartnerAppsAcceptPlatformTermsParams,
+    PartnerAppResponse,
     PartnerAppsCreateParams,
     PartnerAppWithSecret,
     PartnerAppWithSecretResponse,
     PartnerAppsCreateCredentialParams,
-    PartnerAppCredential,
-    PartnerAppCredentialResponse,
     PartnerAppsDeleteParams,
-    PartnerApp,
-    PartnerAppResponse,
     PartnerAppsDeleteCredentialParams,
     PartnerAppsGetParams,
     PartnerAppsGetCredentialParams,
@@ -62,64 +60,103 @@ export type {
     PartnerAppInstall,
     PartnerAppInstallResponse,
     PartnerAppsListCredentialsParams,
-    PartnerAppCredentialListResponse,
     PartnerAppsListInstallsParams,
     PartnerAppInstallListResponse,
     PartnerAppsListParams,
     PartnerAppListResponse,
     PartnerAppsRevokeEnvironmentGrantParams,
+    PartnerAppInstallWithEndedAccess,
+    PartnerAppInstallWithEndedAccessResponse,
     PartnerAppsRevokeInstallParams,
     PartnerAppsRotateSecretParams,
     PartnerAppWithRotatedSecret,
     PartnerAppsUpdateParams,
+    PartnerAppPermissionManifestEntry,
+    PartnerAppPlatform,
+    PartnerAppPlatformCapability,
+    PartnerAppPlatformLimits,
+    PartnerAppPlatformUsage,
+    PartnerAppPlatformReserve,
+    PartnerAppPlatformTermsAcceptance,
+    PartnerAppPlatformProfile,
     PartnerAppPermissionManifestEntryRequestInput,
+    PartnerAppPlatformProfileRequestInput,
+    PartnerAppCredentialWorkloadIdentityRequestInput,
+    PartnerEnvironmentGrant,
+    PartnerAppMerchantReadiness,
+    PartnerAppMerchantReadinessAxis
+} from '../declarations/types-42.js';
+export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-51.js';
+export type {
+    PartnerApp,
+    PartnerAppCredential,
+    PartnerAppCredentialResponse,
+    PartnerAppCredentialListResponse,
     PartnerAppCredentialPublicKeyRequestInput,
     PartnerAppCredentialJWKSURLRequestInput,
-    PartnerAppCredentialWorkloadIdentityRequestInput,
     PartnerAppCredentialJWKSURL,
     PartnerAppCredentialPublicKey,
     PartnerAppCredentialWorkloadIdentity,
-    PartnerAppPermissionManifestEntry,
-    PartnerEnvironmentGrant,
     PartnerAppCredentialPublicKeyRequest
-} from '../declarations/types-40.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
+} from '../declarations/types-41.js';
 export type {
     _SdkWithoutIdempotency,
     WorkloadIdentityClaimConditionRequestInput,
     WorkloadIdentityClaimCondition
-} from '../declarations/types-62.js';
-export type { RotatePartnerAppSecretResponse, RotatePartnerAppSecretRequestInput } from '../declarations/types-53.js';
-export type { ClientOptions, CheckoutSessionsListDeliverySelectionsParams } from '../declarations/types-5.js';
+} from '../declarations/types-66.js';
+export type { RotatePartnerAppSecretResponse, RotatePartnerAppSecretRequestInput } from '../declarations/types-56.js';
+export type { ClientOptions } from '../declarations/types-6.js';
+export type { AcceptPartnerAppPlatformTermsRequestInput, AuthMode, AcceptPartnerAppPlatformTermsRequest } from '../declarations/types-0.js';
+export type { Credentials } from '../declarations/types-13.js';
+export type { MoneyValue, NextAction, MoneyValueInput } from '../declarations/types-37.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
+export type { CreatePartnerAppRequestInput, CreatePartnerAppCredentialWorkloadIdentityRequestInput } from '../declarations/types-11.js';
 export type {
-    CreatePartnerAppRequestInput,
     CreatePartnerAppCredentialRequestInput,
     CreatePartnerAppCredentialPublicKeyRequestInput,
-    CreatePartnerAppCredentialJWKSURLRequestInput,
-    CreatePartnerAppCredentialWorkloadIdentityRequestInput
-} from '../declarations/types-9.js';
-export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-12.js';
-export type { NextAction, MoneyValue } from '../declarations/types-35.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
-export type { UpdatePartnerAppRequestInput } from '../declarations/types-59.js';
+    CreatePartnerAppCredentialJWKSURLRequestInput
+} from '../declarations/types-10.js';
+export type { UpdatePartnerAppRequestInput } from '../declarations/types-64.js';
+export type { FeedbackReportsListParams } from '../declarations/types-23.js';
+export { makeAcceptPartnerAppPlatformTermsRequest } from '../declarations/types-66.js';
 export {
     makeCreatePartnerAppCredentialJWKSURLRequest,
     makeCreatePartnerAppCredentialPublicKeyRequest,
     makeCreatePartnerAppCredentialRequest,
     makeCreatePartnerAppCredentialWorkloadIdentityRequest,
     makeCreatePartnerAppRequest
-} from '../declarations/types-65.js';
-export { makeMoneyValue, makePartnerAppCredentialJWKSURLRequest } from '../declarations/types-70.js';
+} from '../declarations/types-70.js';
 export {
+    makeMoneyValue,
+    makePartnerAppCredentialJWKSURLRequest,
     makePartnerAppCredentialPublicKeyRequest,
     makePartnerAppCredentialWorkloadIdentityRequest,
-    makePartnerAppPermissionManifestEntryRequest
-} from '../declarations/types-71.js';
-export { makeRotatePartnerAppSecretRequest } from '../declarations/types-73.js';
-export { makeUpdatePartnerAppRequest } from '../declarations/types-74.js';
-export { makeWorkloadIdentityClaimConditionRequest } from '../declarations/types-75.js';
+    makePartnerAppPermissionManifestEntryRequest,
+    makePartnerAppPlatformProfileRequest
+} from '../declarations/types-75.js';
+export { makeRotatePartnerAppSecretRequest } from '../declarations/types-78.js';
+export { makeUpdatePartnerAppRequest, makeWorkloadIdentityClaimConditionRequest } from '../declarations/types-80.js';
 export interface PartnerAppsResource {
+    /**
+ * Records that the authenticated credential accepted the current version of Flint's platform terms
+ * for the app: the signed-in user for a Dashboard session, or the API key. Flint also records the
+ * time, IP address and user agent. supported_actions lists accept_platform_terms while the current
+ * version isn't accepted. Accepting a version the app already accepted returns 409
+ * ACTION_NOT_ALLOWED with reason already_applied. When this meets the app's last platform
+ * requirement, platform.status becomes pending_review in the same write and Flint sends
+ * partner_app.updated.
+ *
+ * `POST /v1/partner-apps/{partner_app_id}/accept-platform-terms`
+ * @param partner_app_id Flint partner app ID.
+ * @see https://developers.withflintpay.com/docs/api/partner-apps#acceptPartnerAppPlatformTerms
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
+ * @example
+ * // Persist this key with the action before sending; reuse it for every resubmission.
+ * const idempotencyKey = crypto.randomUUID();
+ * client.partnerApps.acceptPlatformTerms("papp_01KEZF7C00Y8VMXYZ1GNPP3WHV", {expected_version: 1,
+ * platform_terms_version: "2026-11-01"}, { idempotencyKey: idempotencyKey })
+ */
+    acceptPlatformTerms(partner_app_id: InputValue<string>, params: PartnerAppsAcceptPlatformTermsParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<PartnerApp, PartnerAppResponse>>;
     /**
  * Creates a partner app owned by the authenticated merchant. A live API key or a live dashboard
  * session is required.
@@ -130,19 +167,8 @@ export interface PartnerAppsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.partnerApps.create({default_requested_permissions: ["manage_orders"], name: "Acme
- * Commerce Plugin", permission_manifest: [{description: "Read and update Flint orders for
- * installed merchants.", permission_id: "manage_orders", required_scopes: ["commerce.orders.read",
- * "commerce.orders.write"], title: "Manage orders"}, {description: "Read and update customer
- * records for installed merchants.", optional: true, permission_id: "manage_customers",
- * required_scopes: ["customers.read", "customers.write"], title: "Manage customers"},
- * {description: "Read product, variant, bundle, and SKU lookup catalog records.", optional: true,
- * permission_id: "read_catalog", required_scopes: ["commerce.products.read",
- * "commerce.bundles.read", "commerce.catalog.read"], title: "Read catalog"}, {description: "Create
- * and update bundle catalog records for installed merchants.", optional: true, permission_id:
- * "manage_bundles", required_scopes: ["commerce.bundles.write"], title: "Manage bundles"}],
- * redirect_uris: ["https://plugins.acme.com/flint/oauth/callback",
- * "http://localhost:3000/flint/oauth/callback"]}, { idempotencyKey: idempotencyKey })
+ * client.partnerApps.create({name: "example", permission_manifest: [], redirect_uris: []}, {
+ * idempotencyKey: idempotencyKey })
  */
     create(params: PartnerAppsCreateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<PartnerAppWithSecret, PartnerAppWithSecretResponse>>;
     /**
@@ -157,7 +183,7 @@ export interface PartnerAppsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.partnerApps.createCredential("papp_01ARZ3NDEKTSV4RRFFQ69G5FAV", {name: "Production
+ * client.partnerApps.createCredential("papp_01KEZF7C00Y8VMXYZ1GNPP3WHV", {name: "Production
  * signing key", public_key: {jwk: {crv: "P-256", kid: "production-key", kty: "EC", x:
  * "axfR8uEsQkf4vOblY6RA8ncDfYEt6zOg9KE5RdiYwpY", y:
  * "T-NC4v4af5uO5-tKfA-eFivOM1drMV7Oy7ZAaDe_UfU"}}, type: "public_key"}, { idempotencyKey:
@@ -177,7 +203,7 @@ export interface PartnerAppsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.partnerApps.delete("papp_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey:
+ * client.partnerApps.delete("papp_01KEZF7C00Y8VMXYZ1GNPP3WHV", {}, { idempotencyKey:
  * idempotencyKey })
  */
     delete(partner_app_id: InputValue<string>, params?: PartnerAppsDeleteParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<PartnerApp, PartnerAppResponse>>;
@@ -193,8 +219,8 @@ export interface PartnerAppsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.partnerApps.deleteCredential("papp_01ARZ3NDEKTSV4RRFFQ69G5FAV",
- * "pacr_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey })
+ * client.partnerApps.deleteCredential("papp_01KEZF7C00Y8VMXYZ1GNPP3WHV",
+ * "pacr_01KEZF7C005RDK44XFG5WF94BB", {}, { idempotencyKey: idempotencyKey })
  */
     deleteCredential(partner_app_id: InputValue<string>, partner_app_credential_id: InputValue<string>, params?: PartnerAppsDeleteCredentialParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<PartnerAppCredential, PartnerAppCredentialResponse>>;
     /**
@@ -205,7 +231,7 @@ export interface PartnerAppsResource {
  * @see https://developers.withflintpay.com/docs/api/partner-apps#getPartnerApp
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.partnerApps.get("papp_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.partnerApps.get("papp_01KEZF7C00Y8VMXYZ1GNPP3WHV")
  */
     get(partner_app_id: InputValue<string>, params?: PartnerAppsGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<PartnerApp, PartnerAppResponse>>;
     /**
@@ -217,12 +243,14 @@ export interface PartnerAppsResource {
  * @see https://developers.withflintpay.com/docs/api/partner-apps#getPartnerAppCredential
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.partnerApps.getCredential("papp_01ARZ3NDEKTSV4RRFFQ69G5FAV",
- * "pacr_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.partnerApps.getCredential("papp_01KEZF7C00Y8VMXYZ1GNPP3WHV",
+ * "pacr_01KEZF7C005RDK44XFG5WF94BB")
  */
     getCredential(partner_app_id: InputValue<string>, partner_app_credential_id: InputValue<string>, params?: PartnerAppsGetCredentialParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<PartnerAppCredential, PartnerAppCredentialResponse>>;
     /**
- * Returns a single install for the installing merchant or the partner app owner.
+ * Returns a single install for the installing merchant or the partner app owner. For the app’s
+ * owner, each active grant that can read the merchant profile carries `merchant_readiness`, the
+ * installed merchant’s payments and payouts readiness in that environment.
  *
  * `GET /v1/partner-apps/{partner_app_id}/installs/{partner_app_install_id}`
  * @param partner_app_id Flint partner app ID.
@@ -230,8 +258,8 @@ export interface PartnerAppsResource {
  * @see https://developers.withflintpay.com/docs/api/partner-apps#getPartnerAppInstall
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.partnerApps.getInstall("papp_01ARZ3NDEKTSV4RRFFQ69G5FAV",
- * "pinst_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.partnerApps.getInstall("papp_01KEZF7C00Y8VMXYZ1GNPP3WHV",
+ * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ")
  */
     getInstall(partner_app_id: InputValue<string>, partner_app_install_id: InputValue<string>, params?: PartnerAppsGetInstallParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<PartnerAppInstall, PartnerAppInstallResponse>>;
     /**
@@ -243,7 +271,7 @@ export interface PartnerAppsResource {
  * @see https://developers.withflintpay.com/docs/api/partner-apps#listPartnerAppCredentials
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.partnerApps.listCredentials("papp_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.partnerApps.listCredentials("papp_01KEZF7C00Y8VMXYZ1GNPP3WHV")
  */
     listCredentials(partner_app_id: InputValue<string>, params?: PartnerAppsListCredentialsParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<PartnerAppCredentialListResponse, PartnerAppCredentialListResponse>>;
     /** Iterate pages lazily.
@@ -255,15 +283,18 @@ export interface PartnerAppsResource {
      */
     listCredentialsItems(partner_app_id: InputValue<string>, params?: PartnerAppsListCredentialsParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<PartnerAppCredential>;
     /**
- * Returns installs for a partner app owned by the authenticated merchant. Default order:
- * partner_app_install_id ascending; this key uniquely orders the results.
+ * Returns installs for a partner app owned by the authenticated merchant. Each active grant that
+ * can read the merchant profile carries `merchant_readiness`: whether the installed merchant can
+ * take payments and receive payouts in that environment, and how many requirements are due. Use it
+ * to find merchants who still need to finish onboarding without exchanging each install’s token.
+ * Default order: partner_app_install_id ascending; this key uniquely orders the results.
  *
  * `GET /v1/partner-apps/{partner_app_id}/installs`
  * @param partner_app_id Flint partner app ID.
  * @see https://developers.withflintpay.com/docs/api/partner-apps#listPartnerAppInstalls
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.partnerApps.listInstalls("papp_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.partnerApps.listInstalls("papp_01KEZF7C00Y8VMXYZ1GNPP3WHV")
  */
     listInstalls(partner_app_id: InputValue<string>, params?: PartnerAppsListInstallsParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<PartnerAppInstallListResponse, PartnerAppInstallListResponse>>;
     /** Iterate pages lazily.
@@ -295,7 +326,9 @@ export interface PartnerAppsResource {
     listItems(params?: PartnerAppsListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<PartnerApp>;
     /**
  * The installing merchant or partner app owner can revoke a single test or live environment grant
- * for an install.
+ * for an install. This revokes linked API keys and deletes linked webhook endpoints in that
+ * environment. Revoking the last grant also revokes the install and ends its remaining links.
+ * Unlinked keys and endpoints keep working.
  *
  * `POST
  * /v1/partner-apps/{partner_app_id}/installs/{partner_app_install_id}/environment-grants/{environment_grant_id}/revoke`
@@ -307,14 +340,15 @@ export interface PartnerAppsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.partnerApps.revokeEnvironmentGrant("papp_01ARZ3NDEKTSV4RRFFQ69G5FAV",
- * "pinst_01ARZ3NDEKTSV4RRFFQ69G5FAV", "egrt_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey:
+ * client.partnerApps.revokeEnvironmentGrant("papp_01KEZF7C00Y8VMXYZ1GNPP3WHV",
+ * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ", "egrt_01KEZF7C00MQQDDB7YWGXV3MXY", {}, { idempotencyKey:
  * idempotencyKey })
  */
-    revokeEnvironmentGrant(partner_app_id: InputValue<string>, partner_app_install_id: InputValue<string>, environment_grant_id: InputValue<string>, params?: PartnerAppsRevokeEnvironmentGrantParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<PartnerAppInstall, PartnerAppInstallResponse>>;
+    revokeEnvironmentGrant(partner_app_id: InputValue<string>, partner_app_install_id: InputValue<string>, environment_grant_id: InputValue<string>, params?: PartnerAppsRevokeEnvironmentGrantParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<PartnerAppInstallWithEndedAccess, PartnerAppInstallWithEndedAccessResponse>>;
     /**
  * The installing merchant or partner app owner can revoke an install and all of its environment
- * grants.
+ * grants. This also revokes linked API keys and deletes linked webhook endpoints. Unlinked keys
+ * and endpoints keep working. Reinstalling does not restore ended access.
  *
  * `POST /v1/partner-apps/{partner_app_id}/installs/{partner_app_install_id}/revoke`
  * @param partner_app_id Flint partner app ID.
@@ -324,15 +358,17 @@ export interface PartnerAppsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.partnerApps.revokeInstall("papp_01ARZ3NDEKTSV4RRFFQ69G5FAV",
- * "pinst_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey })
+ * client.partnerApps.revokeInstall("papp_01KEZF7C00Y8VMXYZ1GNPP3WHV",
+ * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ", {}, { idempotencyKey: idempotencyKey })
  */
-    revokeInstall(partner_app_id: InputValue<string>, partner_app_install_id: InputValue<string>, params?: PartnerAppsRevokeInstallParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<PartnerAppInstall, PartnerAppInstallResponse>>;
+    revokeInstall(partner_app_id: InputValue<string>, partner_app_install_id: InputValue<string>, params?: PartnerAppsRevokeInstallParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<PartnerAppInstallWithEndedAccess, PartnerAppInstallWithEndedAccessResponse>>;
     /**
- * Issues a new client secret, returned once. The previous secret keeps working until
- * previous_secret_expires_at: 24 hours by default, or the time in expire_previous_secret_at, up to
- * 7 days. Send a time at or before now to stop the previous secret immediately, for example when
- * it leaked. Rotating again during an overlap ends the older secret at once.
+ * Rotates an existing client secret, returned once. An app without a secret returns 409
+ * ACTION_NOT_ALLOWED with reason secret_not_issued. Issue its first secret with
+ * `client.partnerApps.update` and client_secret_enabled: true. The previous secret keeps working
+ * until previous_secret_expires_at: 24 hours by default, or the time in expire_previous_secret_at,
+ * up to 7 days. Send a time at or before now to stop the previous secret immediately, for example
+ * when it leaked. Rotating again during an overlap ends the older secret at once.
  *
  * `POST /v1/partner-apps/{partner_app_id}/rotate-secret`
  * @param partner_app_id Flint partner app ID.
@@ -341,7 +377,7 @@ export interface PartnerAppsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.partnerApps.rotateSecret("papp_01ARZ3NDEKTSV4RRFFQ69G5FAV", undefined, { idempotencyKey:
+ * client.partnerApps.rotateSecret("papp_01KEZF7C00Y8VMXYZ1GNPP3WHV", undefined, { idempotencyKey:
  * idempotencyKey })
  */
     rotateSecret(partner_app_id: InputValue<string>, params?: PartnerAppsRotateSecretParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<PartnerAppWithRotatedSecret, RotatePartnerAppSecretResponse>>;
@@ -350,7 +386,11 @@ export interface PartnerAppsResource {
  * permission_manifest replaces the whole manifest and requires expected_version. An existing
  * permission can drop scopes but not gain them; removing or narrowing a permission narrows
  * existing environment grants immediately, and tokens issued with the removed scopes stop working.
- * Adding a permission changes no install until the merchant authorizes again.
+ * Adding a permission changes no install until the merchant authorizes again. Setting
+ * client_secret_enabled to true issues a first secret when secret authentication is disabled; only
+ * this response and its same-credential idempotent replay return that secret. Setting false ends
+ * current and previous secrets immediately. A Dashboard session needs fresh identity verification
+ * to enable secret authentication, including on replay.
  *
  * `PATCH /v1/partner-apps/{partner_app_id}`
  * @param partner_app_id Flint partner app ID.
@@ -362,7 +402,7 @@ export interface PartnerAppsResource {
  * client.partnerApps.update("papp_01ARZ3NDEKTSV4RRFFQ69G5FAV", {name: "Example integration"}, {
  * idempotencyKey: idempotencyKey })
  */
-    update(partner_app_id: InputValue<string>, params: PartnerAppsUpdateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<PartnerApp, PartnerAppResponse>>;
+    update(partner_app_id: InputValue<string>, params: PartnerAppsUpdateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<PartnerAppWithSecret, PartnerAppWithSecretResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

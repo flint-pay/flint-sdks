@@ -2,6 +2,8 @@
 
 ## SubscriptionPreviewResponseDataNextRenewal
 
+Resource, collection, or operation result returned by this request.
+
 A preview of a subscription's next renewal and its estimated pricing.
 
 Response model.

@@ -20,5 +20,5 @@ $result = $client->merchant->update([
   'business_name' => 'Example Shop',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->merchant_id . PHP_EOL;
-echo $result->organization_id . PHP_EOL;
+echo $result->readiness->payments->status . PHP_EOL;
 $client->close();

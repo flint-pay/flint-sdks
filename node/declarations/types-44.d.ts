@@ -1,1753 +1,5311 @@
-import type { PayoutDestination, Payout } from './types-43.js';
-import type { ResponseMeta } from './types-48.js';
+import type { MoneyValue, MoneyValueInput } from './types-37.js';
 import type {
-    MerchantWebhookEnvelope,
-    MoneyMovementListMeta,
-    MoneyMovementBlockedReason,
-    MoneyValue,
-    NextAction,
-    MetadataMap,
-    ModifierSet,
-    MetadataRequestInput,
-    MoneyValueInput
-} from './types-35.js';
-import type { InputValue } from '../runtime.js';
-import type { UpdatePayoutDestinationRequestInput, UpdatePayoutSettingsRequestInput } from './types-59.js';
-import type { CancelPayoutRequestInput, CategoryReference } from './types-4.js';
-import type { CreatePayoutRequestInput } from './types-10.js';
-import type { PaymentClientAction } from './types-41.js';
-import type { Address } from './types-0.js';
-import type {
-    ReturnProcessDecision,
-    ReturnProcessDispositionRequest,
-    ReturnProcessInspectionRequest,
-    ReturnProcessResolutionRequest,
-    ReturnProcessDecisionInput,
-    ReturnProcessDispositionRequestInput,
-    ReturnProcessInspectionRequestInput,
-    ReturnProcessResolutionRequestInput,
-    ReturnProcessReceiptRequest,
-    ReturnProcessReceiptRequestInput,
-    ReturnProcessResult
-} from './types-50.js';
-import type { ImageAttachment, ImageRequest, ImageRequestInput } from './types-25.js';
-import type { PartnerWebhookEnvelope } from './types-40.js';
-import type { Dimensions, DimensionsInput } from './types-20.js';
-import type { GiftCardProductConfiguration, GiftCardProductConfigurationRequestInput } from './types-24.js';
-import type { SelectedProductOption } from './types-53.js';
-import type { Weight, WeightInput } from './types-62.js';
-import type { InventoryItemCreateRequest, InventoryItemCreateRequestInput } from './types-26.js';
-/** A response containing `PayoutDestination` data. */
-export type PayoutDestinationResponse = {
-    /** The account that receives merchant payouts. */
-    "data": PayoutDestination;
+    CheckoutBuyerFields,
+    CheckoutCustomTextConfig,
+    CheckoutPaymentConfig,
+    CheckoutPromotionConfig,
+    CheckoutRedirects
+} from './types-5.js';
+import type { CheckoutTaxConfig, CheckoutTipConfig } from './types-6.js';
+import type { ExpandedSubscriptionPlanSummary } from './types-23.js';
+import type { ImageAttachment, Image } from './types-27.js';
+import type { InventoryRoutingSource } from './types-29.js';
+import type { LegalSettings } from './types-34.js';
+import type { MetadataMap, MerchantWebhookEnvelope } from './types-36.js';
+import type { ThemeConfig } from './types-62.js';
+import type { PublicResolvedModifierGroup, QuantityPriceBreak } from './types-49.js';
+import type { SelectedProductOption } from './types-56.js';
+import type { PartnerWebhookEnvelope } from './types-42.js';
+import type { OrderLineItemTax, OrderLineItemTaxRequestInput } from './types-39.js';
+import type { ProductPriceRange } from './types-47.js';
+import type { ResponseMeta } from './types-51.js';
+import type { SubscriptionIntervalOption } from './types-58.js';
+/** Optional merchant limits that can lower Flint's payment-option and surface policy limits. */
+export type PaymentLimitSettings = {
     /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
+     * Maximum USD amounts keyed by default, surface, or an exact payment_option.surface selector.
+     * Merchant settings cannot raise Flint's policy ceiling. * (Value): {@link MoneyValue}.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      */
-    "meta"?: ResponseMeta;
+    "max_amounts"?: Record<string, MoneyValue>;
     /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     * Minimum USD amounts keyed by default, surface, or an exact payment_option.surface selector.
+     * Merchant settings cannot lower Flint's payment-option floor. * (Value): {@link MoneyValue}.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      */
-    "request_id": string;
-};
-export type PayoutDestinationUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": PayoutDestination;
-    };
-    "event_type"?: "payout_destination.updated";
-})
-    & {
-    "event_type": "payout_destination.updated";
-});
-export type PayoutDestinationsDeleteParams = {
-    /** Format: uint64. minimum: 1. */
-    "expected_version"?: InputValue<number>;
-};
-export type PayoutDestinationsGetParams = {};
-export type PayoutDestinationsListParams = {
-    /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */
-    "currency"?: InputValue<string>;
-    /**
-     * Optional payout destination type filter. Accepts repeated keys, comma-separated values, or
-     * mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries
-     * are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum:
-     * "bank_account", "debit_card". Value enum: "bank_account", "debit_card". anyOf[1] (Value):
-     * Array of string. minItems: 1. [] enum: "bank_account", "debit_card". anyOf[1][] (Value):
-     * string. Value enum: "bank_account", "debit_card". anyOf[2] (Value): string. Value enum:
-     * "bank_account", "debit_card".
-     */
-    "type"?: InputValue<("bank_account" | "debit_card") | readonly ("bank_account" | "debit_card")[]>;
-    /**
-     * Filter by status. Repeat the parameter or send comma-separated values to match any of
-     * several. Omitted, the list leaves out archived rows; name archived to include them. Accepts
-     * repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in
-     * first-seen order; empty or unknown entries are rejected. Values within this filter are ORed;
-     * separate filters are ANDed. [] enum: "pending", "active", "verification_required",
-     * "disabled", "archived", "failed". Value enum: "pending", "active", "verification_required",
-     * "disabled", "archived", "failed". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
-     * "pending", "active", "verification_required", "disabled", "archived", "failed". anyOf[1][]
-     * (Value): string. Value enum: "pending", "active", "verification_required", "disabled",
-     * "archived", "failed". anyOf[2] (Value): string. Value enum: "pending", "active",
-     * "verification_required", "disabled", "archived", "failed".
-     */
-    "status"?: InputValue<("pending" | "active" | "verification_required" | "disabled" | "archived" | "failed")
-        | readonly ("pending" | "active" | "verification_required" | "disabled" | "archived" | "failed")[]>;
-    /**
-     * Optional available payout method filter. Accepts repeated keys, comma-separated values, or
-     * mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries
-     * are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum:
-     * "standard". Value enum: "standard". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
-     * "standard". anyOf[1][] (Value): string. Value enum: "standard". anyOf[2] (Value): string.
-     * Value enum: "standard".
-     */
-    "available_payout_methods"?: InputValue<("standard") | readonly ("standard")[]>;
-    /** Whether to return only destinations that are the default for their currency. */
-    "default_for_currency"?: InputValue<boolean>;
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque next_page_token from the previous response. Omit on the first request. You may change
-     * `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request
-     * context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns
-     * a validation error.
-     */
-    "page_token"?: InputValue<string>;
-};
-export type PayoutDestinationsUpdateParams = (InputValue<UpdatePayoutDestinationRequestInput>);
-export type PayoutFailedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Payout;
-    };
-    "event_type"?: "payout.failed";
-})
-    & {
-    "event_type": "payout.failed";
-});
-/** A page of `Payout` objects. */
-export type PayoutListResponse = {
-    /**  [] (Value): {@link Payout}. Funds sent from a merchant balance to a payout destination. */
-    "data": Array<Payout>;
-    /**
-     * Response metadata for money movement lists, including request and trace IDs, warnings, and
-     * the state of the available history.
-     */
-    "meta"?: MoneyMovementListMeta;
-    "next_page_token"?: string;
-    /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type PayoutPaidEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Payout;
-    };
-    "event_type"?: "payout.paid";
-})
-    & {
-    "event_type": "payout.paid";
-});
-/** A response containing `Payout` data. */
-export type PayoutResponse = {
-    /** Funds sent from a merchant balance to a payout destination. */
-    "data": Payout;
-    /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type PayoutReversedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Payout;
-    };
-    "event_type"?: "payout.reversed";
-})
-    & {
-    "event_type": "payout.reversed";
-});
-/** The merchant's payout schedule and preferences. */
-export type PayoutSettings = {
-    /**
-     * Why payouts can't run. Empty when nothing blocks them. [] (Value): {@link
-     * MoneyMovementBlockedReason}. Why a money movement action is blocked, with an error code, a
-     * message, next steps, and who can resolve it.
-     */
-    "blocked_reasons": Array<MoneyMovementBlockedReason>;
-    /**
-     * When Flint stored the payout settings record, as an RFC 3339 UTC instant at second
-     * precision. Null when no stored settings record exists. Format: date-time.
-     */
-    "created_at": string | null;
-    /**
-     * Default payout destination for each currency, as a map from currency code to
-     * payout_destination_id. Read-only: change defaults in the payouts embedded component. *
-     * (Value): string.
-     */
-    "default_payout_destinations"?: Record<string, string>;
-    /** Days a payment stays pending before its funds become available to pay out. Format: int32. */
-    "delay_days": number;
-    /**
-     * Delay in days you set in place of the account's default, 0 through 31. Absent when none is
-     * set. Format: int32.
-     */
-    "delay_days_override"?: number;
-    /**
-     * Payout schedule interval. Unmapped intervals are returned as other. Value enum: "manual",
-     * "daily", "weekly", "monthly", "other".
-     */
-    "interval": "manual" | "daily" | "weekly" | "monthly" | "other" | (string & {});
-    /** Merchant these settings belong to. */
-    "merchant_id": string;
-    /**
-     * Amount kept in your balance instead of paid out, keyed by currency code. Absent when no
-     * minimum is set. * (Value): {@link MoneyValue}. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code.
-     */
-    "minimum_balance_by_currency"?: Record<string, MoneyValue>;
-    /**
-     * Days of the month, 1 through 31, on which monthly payouts are sent. [] (Value): integer.
-     * Format: int32.
-     */
-    "monthly_payout_days": Array<number>;
-    /**
-     * Steps that would let payouts run, when Flint has one to suggest. Empty otherwise. []
-     * (Value): {@link NextAction}. A suggested next step for resolving an error, warning, or
-     * blocked state, such as the API operation to call or the scope it needs.
-     */
-    "next_actions": Array<NextAction>;
-    /** Stable identifier of your payout settings. */
-    "payout_settings_id": string;
-    /** Text shown on your bank statement for payouts. Absent when none is set. */
-    "statement_descriptor"?: string;
-    /**
-     * Whether payouts can run: enabled, disabled, blocked, or pending. When it isn't enabled,
-     * blocked_reasons says why and next_actions lists any steps Flint can suggest. Value enum:
-     * "enabled", "disabled", "blocked", "pending".
-     */
-    "status": "enabled" | "disabled" | "blocked" | "pending" | (string & {});
-    /**
-     * When the stored payout settings record was last updated, as an RFC 3339 UTC instant at
-     * second precision. Without a stored record, this is the provider's update time when supplied,
-     * otherwise null. Format: date-time.
-     */
-    "updated_at": string | null;
-    /**
-     * Persisted version of this resource's owned state. Expanded resources and external
-     * observations can change independently. Format: uint64. minimum: 1.
-     */
-    "version": number;
-    /**
-     * Days of the week weekly payouts are sent. Accounts set up outside Flint can report saturday
-     * or sunday; when you change the schedule, Flint accepts monday through friday. [] enum:
-     * "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday". [] (Value):
-     * string. Value enum: "monday", "tuesday", "wednesday", "thursday", "friday", "saturday",
-     * "sunday".
-     */
-    "weekly_payout_days": Array<"monday" | "tuesday" | "wednesday" | "thursday" | "friday" | "saturday" | "sunday" | (string & {})>;
-};
-export type PayoutSettingsGetParams = {};
-/** A response containing `PayoutSettings` data. */
-export type PayoutSettingsResponse = {
-    /** The merchant's payout schedule and preferences. */
-    "data": PayoutSettings;
-    /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type PayoutSettingsUpdateParams = (InputValue<UpdatePayoutSettingsRequestInput>);
-export type PayoutSettingsUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": PayoutSettings;
-    };
-    "event_type"?: "payout_settings.updated";
-})
-    & {
-    "event_type": "payout_settings.updated";
-});
-/** A payout's bank trace ID, with whether it is pending, available, or unsupported. */
-export type PayoutTraceID = {
-    /**
-     * Whether a bank trace ID is available. Unmapped trace states are returned as unsupported.
-     * Value enum: "pending", "available", "unsupported".
-     */
-    "status": "pending" | "available" | "unsupported" | (string & {});
-    /** The bank's trace number for the deposit, when Flint has it. */
-    "value"?: string;
-};
-export type PayoutUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Payout;
-    };
-    "event_type"?: "payout.updated";
-})
-    & {
-    "event_type": "payout.updated";
-});
-export type PayoutsCancelParams = (InputValue<CancelPayoutRequestInput>);
-export type PayoutsCreateParams = (InputValue<CreatePayoutRequestInput>);
-export type PayoutsGetParams = {
-    /**
-     * Supported expansions: original_payout, payout_destination, reversed_by_payout. Expansion
-     * requires money_movement.payouts.read plus the read scope for each expanded resource. Limits:
-     * at most 10 unique expand paths per request. Repeat expand, for example
-     * expand=original_payout&expand=payout_destination, or pass one comma-separated value. []
-     * enum: "original_payout", "payout_destination", "reversed_by_payout". Value enum:
-     * "original_payout", "payout_destination", "reversed_by_payout". anyOf[1] (Value): Array of
-     * string. [] enum: "original_payout", "payout_destination", "reversed_by_payout". anyOf[1][]
-     * (Value): string. Value enum: "original_payout", "payout_destination", "reversed_by_payout".
-     * anyOf[2] (Value): string. Value enum: "original_payout", "payout_destination",
-     * "reversed_by_payout".
-     */
-    "expand"?: InputValue<("original_payout" | "payout_destination" | "reversed_by_payout")
-        | readonly ("original_payout" | "payout_destination" | "reversed_by_payout")[]>;
-};
-export type PayoutsListParams = {
-    /**
-     * Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is
-     * exact and case-sensitive. Returns current authorized resources, not the recorded response. A
-     * pending resource does not prove that the operation succeeded, and an empty list does not
-     * prove that it had no effect. minLength: 1. maxLength: 255.
-     */
-    "idempotency_key"?: InputValue<string>;
-    /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */
-    "currency"?: InputValue<string>;
-    /**
-     * Supported expansions: original_payout, payout_destination, reversed_by_payout. Include the
-     * requested related resources using scoped batch reads for this page. Each relationship
-     * requires its existing target read scopes. Expansion changes the representation without
-     * changing pagination tokens. Limits: at most 10 unique expand paths per request. Repeat
-     * expand, for example expand=original_payout&expand=payout_destination, or pass one
-     * comma-separated value. [] enum: "original_payout", "payout_destination",
-     * "reversed_by_payout". Value enum: "original_payout", "payout_destination",
-     * "reversed_by_payout". anyOf[1] (Value): Array of string. [] enum: "original_payout",
-     * "payout_destination", "reversed_by_payout". anyOf[1][] (Value): string. Value enum:
-     * "original_payout", "payout_destination", "reversed_by_payout". anyOf[2] (Value): string.
-     * Value enum: "original_payout", "payout_destination", "reversed_by_payout".
-     */
-    "expand"?: InputValue<("original_payout" | "payout_destination" | "reversed_by_payout")
-        | readonly ("original_payout" | "payout_destination" | "reversed_by_payout")[]>;
-    /**
-     * Optional payout method filter. Accepts repeated keys, comma-separated values, or mixtures.
-     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
-     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum:
-     * "standard", "instant", "other". Value enum: "standard", "instant", "other". anyOf[1]
-     * (Value): Array of string. minItems: 1. [] enum: "standard", "instant", "other". anyOf[1][]
-     * (Value): string. Value enum: "standard", "instant", "other". anyOf[2] (Value): string. Value
-     * enum: "standard", "instant", "other".
-     */
-    "method"?: InputValue<("standard" | "instant" | "other") | readonly ("standard" | "instant" | "other")[]>;
-    /**
-     * Optional Flint balance source type filter. Accepts repeated keys, comma-separated values, or
-     * mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries
-     * are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum:
-     * "card", "bank_account". Value enum: "card", "bank_account". anyOf[1] (Value): Array of
-     * string. minItems: 1. [] enum: "card", "bank_account". anyOf[1][] (Value): string. Value
-     * enum: "card", "bank_account". anyOf[2] (Value): string. Value enum: "card", "bank_account".
-     */
-    "balance_source_type"?: InputValue<("card" | "bank_account") | readonly ("card" | "bank_account")[]>;
-    /** Optional payout destination ID filter. Example: "pdest_01ARZ3NDEKTSV4RRFFQ69G5FAV". */
-    "payout_destination_id"?: InputValue<string>;
-    /**
-     * Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: InputValue<string>;
-    /**
-     * Search across payout ID, external reference ID, description, and statement descriptor. Text
-     * fields match any part of the value, and %, _ and \ are ordinary characters, not wildcards.
-     * IDs match from the start and need the type prefix, such as po_01.
-     */
-    "query"?: InputValue<string>;
-    /**
-     * Optional payout status filter. Accepts repeated keys, comma-separated values, or mixtures.
-     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
-     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum:
-     * "pending", "in_transit", "paid", "failed", "canceled". Value enum: "pending", "in_transit",
-     * "paid", "failed", "canceled". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
-     * "pending", "in_transit", "paid", "failed", "canceled". anyOf[1][] (Value): string. Value
-     * enum: "pending", "in_transit", "paid", "failed", "canceled". anyOf[2] (Value): string. Value
-     * enum: "pending", "in_transit", "paid", "failed", "canceled".
-     */
-    "status"?: InputValue<("pending" | "in_transit" | "paid" | "failed" | "canceled")
-        | readonly ("pending" | "in_transit" | "paid" | "failed" | "canceled")[]>;
-    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
-    /** Inclusive lower bound on arrival_date at midnight UTC. Use YYYY-MM-DD. Format: date. */
-    "arrival_date_from"?: InputValue<string>;
-    /** Exclusive upper bound on arrival_date at midnight UTC. Use YYYY-MM-DD. Format: date. */
-    "arrival_date_to"?: InputValue<string>;
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque next_page_token from the previous response. Omit on the first request. You may change
-     * `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request
-     * context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns
-     * a validation error.
-     */
-    "page_token"?: InputValue<string>;
+    "min_amounts"?: Record<string, MoneyValue>;
 };
 /**
- * Client-side action required before continuing a payment. Resume an order through PayOrder with
- * order_payment_attempt_id, or continue a standalone PaymentIntent through its confirm endpoint
- * without a replacement credential.
+ * Changes to a merchant's payment amount limits. Each map replaces the existing one, and null
+ * clears it. minProperties: 1.
  */
-export type PendingPaymentAction = {
+export type PaymentLimitSettingsPatch = {
     /**
-     * Product-level action type. payment_authentication applies to a payment leg;
-     * payment_method_authentication applies to saving a future-billing payment method. Value enum:
-     * "payment_authentication", "payment_method_authentication".
+     * Map replaced as a whole: the keys you send become the full map. Replaces this merchant limit
+     * map. Keys are default, a surface, payment_option.default, or payment_option.surface. Amounts
+     * must satisfy Flint's existing selector bounds and effective minimum/maximum range. Send null
+     * to clear this map; reads then omit it. minProperties: 1. * (Value): object. *.amount
+     * (Required): integer string. The limit in the currency's minor unit, such as cents for USD.
+     * Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum:
+     * 1. *.currency (Required): string. Currency of the limit. Only USD is accepted. Uses ISO 4217
+     * currency codes. minLength: 1. Value enum: "USD".
      */
-    "action_type": "payment_authentication" | "payment_method_authentication" | (string & {});
+    "max_amounts"?: Record<string, {
+        /**
+         * The limit in the currency's minor unit, such as cents for USD. Use an integer string
+         * (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+         */
+        "amount": `${bigint}`;
+        /**
+         * Currency of the limit. Only USD is accepted. Uses ISO 4217 currency codes. minLength: 1.
+         * Value enum: "USD".
+         */
+        "currency": "USD" | (string & {});
+    }>
+        | null;
     /**
-     * Direct browser authority required to finish this action before continuing through Flint.
-     * Unlike collection guidance, this payload includes a client secret. Typed provider-specific
-     * browser action payload. Execute the selected provider action before continuing the owning
-     * payment through Flint.
+     * Map replaced as a whole: the keys you send become the full map. Replaces this merchant limit
+     * map. Keys are default, a surface, payment_option.default, or payment_option.surface. Amounts
+     * must satisfy Flint's existing selector bounds and effective minimum/maximum range. Send null
+     * to clear this map; reads then omit it. minProperties: 1. * (Value): object. *.amount
+     * (Required): integer string. The limit in the currency's minor unit, such as cents for USD.
+     * Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum:
+     * 1. *.currency (Required): string. Currency of the limit. Only USD is accepted. Uses ISO 4217
+     * currency codes. minLength: 1. Value enum: "USD".
      */
-    "client_action": PaymentClientAction;
-    /**
-     * Stable Flint action ID. Use this to deduplicate a repeated action projection while resuming
-     * an attempt.
-     */
-    "pending_action_id": string;
-    /**
-     * The attempt subject that requires browser action. Exactly one of payment_intent or
-     * setup_payment_source is present. Typed subject for a pending order payment action. Exactly
-     * one subject is present.
-     */
-    "subject": PendingPaymentActionSubject;
-};
-/** The payment intent that needs buyer authentication in a pending payment action. */
-export type PendingPaymentActionPaymentIntentSubject = {
-    "payment_intent_id": string;
-};
-/** The payment method setup that needs buyer authentication in a pending payment action. */
-export type PendingPaymentActionSetupPaymentSourceSubject = {
-    "payment_method_id": string;
-};
-/** Typed subject for a pending order payment action. Exactly one subject is present. */
-export type PendingPaymentActionSubject = {
-    /**
-     * PaymentIntent that requires buyer authentication. It can be a standalone intent or an
-     * order-owned payment leg. The payment intent that needs buyer authentication in a pending
-     * payment action.
-     */
-    "payment_intent"?: PendingPaymentActionPaymentIntentSubject;
-    /**
-     * Future-billing payment method setup that requires buyer authentication. The payment method
-     * setup that needs buyer authentication in a pending payment action.
-     */
-    "setup_payment_source"?: PendingPaymentActionSetupPaymentSourceSubject;
+    "min_amounts"?: Record<string, {
+        /**
+         * The limit in the currency's minor unit, such as cents for USD. Use an integer string
+         * (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+         */
+        "amount": `${bigint}`;
+        /**
+         * Currency of the limit. Only USD is accepted. Uses ISO 4217 currency codes. minLength: 1.
+         * Value enum: "USD".
+         */
+        "currency": "USD" | (string & {});
+    }>
+        | null;
 };
 /**
- * Pickup details. For a pickup that checkout creates, location_name, address, and instructions
- * name the store the buyer chose and the delivery method's pickup instructions. The note the buyer
- * left for the store is in recipient.instructions.
+ * Changes to a merchant's payment amount limits. Each map replaces the existing one, and null
+ * clears it. minProperties: 1.
  */
-export type PickupFulfillmentDetails = {
+export type PaymentLimitSettingsPatchInput = {
     /**
-     * Address where the buyer collects the order. A postal address. Every address has country.
-     * Addresses Flint checked as complete (customer and saved addresses, merchant, location,
-     * invoice, order delivery destination, tax identity, fulfillment recipient and pickup
-     * addresses) always have line1 and city, and US ones always have state and postal_code.
-     * Delivery quote destinations, buyer locations and postal-code tax locations hold only what
-     * was provided, such as postal_code and country.
+     * Map replaced as a whole: the keys you send become the full map. Replaces this merchant limit
+     * map. Keys are default, a surface, payment_option.default, or payment_option.surface. Amounts
+     * must satisfy Flint's existing selector bounds and effective minimum/maximum range. Send null
+     * to clear this map; reads then omit it. minProperties: 1. * (Value): object. *.amount
+     * (Required): integer string. The limit in the currency's minor unit, such as cents for USD.
+     * Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum:
+     * 1. *.currency (Required): string. Currency of the limit. Only USD is accepted. Uses ISO 4217
+     * currency codes. minLength: 1. Value enum: "USD".
      */
-    "address"?: Address;
-    /** Instructions specific to curbside handoff. maxLength: 2048. */
-    "curbside_instructions"?: string;
-    /** Buyer-reported arrival time for curbside or counter pickup. Format: date-time. */
-    "customer_arrived_at"?: string;
+    "max_amounts"?: Record<string, {
+        /**
+         * The limit in the currency's minor unit, such as cents for USD. Use an integer string
+         * (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+         */
+        "amount": `${bigint}` | bigint;
+        /**
+         * Currency of the limit. Only USD is accepted. Uses ISO 4217 currency codes. minLength: 1.
+         * Value enum: "USD".
+         */
+        "currency": "USD";
+    }>
+        | null;
     /**
-     * Deadline after which an uncollected pickup should enter merchant review. Format: date-time.
+     * Map replaced as a whole: the keys you send become the full map. Replaces this merchant limit
+     * map. Keys are default, a surface, payment_option.default, or payment_option.surface. Amounts
+     * must satisfy Flint's existing selector bounds and effective minimum/maximum range. Send null
+     * to clear this map; reads then omit it. minProperties: 1. * (Value): object. *.amount
+     * (Required): integer string. The limit in the currency's minor unit, such as cents for USD.
+     * Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum:
+     * 1. *.currency (Required): string. Currency of the limit. Only USD is accepted. Uses ISO 4217
+     * currency codes. minLength: 1. Value enum: "USD".
      */
-    "expires_at"?: string;
-    /** Pickup instructions for the buyer, such as where to go on arrival. */
-    "instructions"?: string;
-    /** Name of the store or place where the buyer collects the order. */
-    "location_name"?: string;
-    /** When the recipient collected the items, in RFC3339 format. Format: date-time. */
-    "picked_up_at"?: string;
-    /**
-     * How the buyer collects the items, such as in store or curbside. Value enum: "in_store",
-     * "curbside", "locker", "other".
-     */
-    "pickup_mode"?: "in_store" | "curbside" | "locker" | "other" | (string & {});
-    /**
-     * Width of the promised pickup window, from 0 to 86400 seconds. Format: int64. minimum: 0.
-     * maximum: 86400.
-     */
-    "pickup_window_duration_seconds"?: number;
-    /**
-     * Expected preparation time for restaurant and made-to-order pickup, from 0 to 86400 seconds.
-     * Format: int64. minimum: 0. maximum: 86400.
-     */
-    "prep_time_duration_seconds"?: number;
-    /** When the items became ready for pickup, in RFC3339 format. Format: date-time. */
-    "ready_at"?: string;
-    /** Timezone used to display the pickup window. */
-    "timezone"?: string;
-    /**
-     * Buyer vehicle description used for curbside handoff. Omitted for a checkout session
-     * credential that doesn't act for the customer the buyer verified. maxLength: 500.
-     */
-    "vehicle_description"?: string;
-    /** End of the promised pickup window, in RFC3339 format. Format: date-time. */
-    "window_end_at"?: string;
-    /** Start of the promised pickup window, in RFC3339 format. Format: date-time. */
-    "window_start_at"?: string;
+    "min_amounts"?: Record<string, {
+        /**
+         * The limit in the currency's minor unit, such as cents for USD. Use an integer string
+         * (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+         */
+        "amount": `${bigint}` | bigint;
+        /**
+         * Currency of the limit. Only USD is accepted. Uses ISO 4217 currency codes. minLength: 1.
+         * Value enum: "USD".
+         */
+        "currency": "USD";
+    }>
+        | null;
 };
-/**
- * The money totals for an order or invoice: subtotal, discounts, charges, tax, requested tip, and
- * total.
- */
-export type PricingAmounts = {
+/** A reusable link that opens checkout. */
+export type PaymentLink = {
+    /** What checkout asks the buyer for. Each field you leave out uses your checkout settings. */
+    "buyer_fields"?: CheckoutBuyerFields;
     /**
-     * Tax added on top of prices, included in total_money. Monetary amount represented as integer
+     * Seconds each checkout session the link starts stays open, from 60 to 86,400. Omit it to use
+     * your checkout settings, or 24 hours. It doesn't end the link; use sales_end_at for that.
+     * Format: int64. minimum: 60. maximum: 86400.
+     */
+    "checkout_session_expires_in_seconds"?: number;
+    /** Number of paid checkout sessions started from this link. Format: int32. */
+    "completed_count": number;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * Questions buyers answer before paying. Answers are recorded on the order and checkout
+     * session in `custom_field_answers`. [] (Value): {@link PaymentLinkCustomField}. A custom
+     * field on a payment link that collects an answer from the buyer.
+     */
+    "custom_fields"?: Array<PaymentLinkCustomField>;
+    /**
+     * Custom text for checkouts started from this link. Custom text shown in checkout: an order
+     * summary message and a shipping address label.
+     */
+    "custom_text"?: CheckoutCustomTextConfig;
+    /**
+     * Delivery methods the link offers. Empty when the link has none, and then its checkouts offer
+     * settings.checkout.default_delivery_method_ids when the order has items to deliver. []
+     * (Value): string. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     */
+    "delivery_method_ids": Array<string>;
+    /** Text about what the link sells, returned to buyers when they open it. */
+    "description"?: string;
+    /**
+     * Largest amount a buyer can give on a donation link. Monetary amount represented as integer
      * minor units plus an ISO 4217 currency code.
      */
-    "additive_tax_money": MoneyValue;
+    "donation_max_amount_money"?: MoneyValue;
     /**
-     * Total of the order's service charges after service-charge discounts. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
+     * Smallest amount a buyer can give on a donation link. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
      */
-    "charge_money": MoneyValue;
+    "donation_min_amount_money"?: MoneyValue;
     /**
-     * Total of order and line-item discounts. Service-charge discounts, such as free shipping, are
-     * not included; they reduce charge_money. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
+     * Amounts a donation link offers as one-tap choices. [] (Value): {@link MoneyValue}. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
      */
-    "discount_money": MoneyValue;
+    "donation_suggested_amount_money_options"?: Array<MoneyValue>;
     /**
-     * Tax already included in subtotal_money and charge_money. Informational; it is not added
-     * again to total_money. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
+     * Event details for an `event` link: when and where it takes place and how many tickets it
+     * sells. Event settings on an event payment link, such as its date, venue, ticket limit, and
+     * ticket emails.
      */
-    "inclusive_tax_money": MoneyValue;
+    "event_config"?: PaymentLinkEventConfig;
     /**
-     * Tip money in the total: the requested tip before payment, and settled tips net of refunds
-     * after. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
+     * "warehouse-1842".
      */
-    "requested_tip_money": MoneyValue;
-    /**
-     * Sum of the line items' subtotal_money: prices with modifiers, before discounts. Lines with
-     * tax-inclusive prices include their tax here. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code.
-     */
-    "subtotal_money": MoneyValue;
-    /**
-     * Total tax, equal to additive_tax_money + inclusive_tax_money. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "tax_money": MoneyValue;
-    /**
-     * subtotal_money - discount_money + charge_money + additive_tax_money + requested_tip_money,
-     * never below zero. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "total_money": MoneyValue;
-};
-/**
- * How to process one line of an existing return: the received quantity, inspection, decision,
- * disposition, and resolution.
- */
-export type ProcessExistingReturnLineItemRequest = {
-    /**
-     * Start from the pinned policy proposal recomputed for approved_quantity when the line has a
-     * policy evaluation and the proposal can be built. Otherwise start with
-     * return_required_quantity equal to approved_quantity, allowed_resolution_types containing
-     * refund, exchange, replacement, no_monetary_action, and store_credit in that order regardless
-     * of whether the original payment is refundable, no automatic_resolution_type,
-     * is_inspection_required false, and no receiving_location_id. Each supplied field replaces its
-     * starting value; allowed_resolution_types replaces the whole list. Omit
-     * automatic_resolution_type to keep its starting value, or send null to resolve manually. Then
-     * fill an omitted release_timing with after_inspection when merchandise is required and
-     * inspection is required, after_receipt when merchandise is required without inspection, or
-     * after_approval when no merchandise is required. Validate the merged decision for quantity
-     * bounds, allowed resolution types, and reachable timing and inspection requirements. A pinned
-     * policy always requires override_reason when approved_quantity exceeds evaluated
-     * eligible_quantity, even when no proposal can be built. With a pinned policy but no proposal,
-     * other decision fields use these defaults and override_reason is otherwise optional. Example:
-     * {"approved_quantity":1,"receiving_location_id":"loc_01KEZF7C005QW6QDMVP0P473FZ"}.
-     */
-    "decision"?: ReturnProcessDecision;
-    /**
-     * What was done with a returned item, such as restocked as sellable or sent for repair,
-     * supplied when processing an existing return.
-     */
-    "disposition"?: ReturnProcessDispositionRequest;
-    /** An inspection result for a returned item, supplied when processing an existing return. */
-    "inspection"?: ReturnProcessInspectionRequest;
-    /**
-     * Whole number of units received. It must equal the line's committed return_required_quantity;
-     * fractional quantities are not supported. Format: int64.
-     */
-    "received_quantity"?: number;
-    /**
-     * The resolution to apply to a returned item, such as refund or exchange, with the quantity
-     * and any replacement items.
-     */
-    "resolution"?: ReturnProcessResolutionRequest;
-    /** minLength: 1. */
-    "return_line_item_id": string;
-};
-/**
- * How to process one line of an existing return: the received quantity, inspection, decision,
- * disposition, and resolution.
- */
-export type ProcessExistingReturnLineItemRequestInput = {
-    /**
-     * Start from the pinned policy proposal recomputed for approved_quantity when the line has a
-     * policy evaluation and the proposal can be built. Otherwise start with
-     * return_required_quantity equal to approved_quantity, allowed_resolution_types containing
-     * refund, exchange, replacement, no_monetary_action, and store_credit in that order regardless
-     * of whether the original payment is refundable, no automatic_resolution_type,
-     * is_inspection_required false, and no receiving_location_id. Each supplied field replaces its
-     * starting value; allowed_resolution_types replaces the whole list. Omit
-     * automatic_resolution_type to keep its starting value, or send null to resolve manually. Then
-     * fill an omitted release_timing with after_inspection when merchandise is required and
-     * inspection is required, after_receipt when merchandise is required without inspection, or
-     * after_approval when no merchandise is required. Validate the merged decision for quantity
-     * bounds, allowed resolution types, and reachable timing and inspection requirements. A pinned
-     * policy always requires override_reason when approved_quantity exceeds evaluated
-     * eligible_quantity, even when no proposal can be built. With a pinned policy but no proposal,
-     * other decision fields use these defaults and override_reason is otherwise optional. Example:
-     * {"approved_quantity":1,"receiving_location_id":"loc_01KEZF7C005QW6QDMVP0P473FZ"}.
-     */
-    "decision"?: ReturnProcessDecisionInput;
-    /**
-     * What was done with a returned item, such as restocked as sellable or sent for repair,
-     * supplied when processing an existing return.
-     */
-    "disposition"?: ReturnProcessDispositionRequestInput;
-    /** An inspection result for a returned item, supplied when processing an existing return. */
-    "inspection"?: ReturnProcessInspectionRequestInput;
-    /**
-     * Whole number of units received. It must equal the line's committed return_required_quantity;
-     * fractional quantities are not supported. Format: int64.
-     */
-    "received_quantity"?: number;
-    /**
-     * The resolution to apply to a returned item, such as refund or exchange, with the quantity
-     * and any replacement items.
-     */
-    "resolution"?: ReturnProcessResolutionRequestInput;
-    /** minLength: 1. */
-    "return_line_item_id": string;
-};
-/** The request body for: Process existing return. */
-export type ProcessExistingReturnRequest = {
-    /**
-     * Omit to use the mode shared by all pinned policies that set completion_mode, or automatic
-     * when no pinned policy sets one. Conflicting pinned policy modes return 400 naming
-     * completion_mode only when completion_mode is omitted. An explicit manual or automatic value
-     * is used as sent. On an open Return, omit to keep its committed mode. Sending that mode is
-     * accepted; a different mode returns 409 ACTION_NOT_ALLOWED with reason field_locked and param
-     * completion_mode. Value enum: "manual", "automatic".
-     */
-    "completion_mode"?: "manual" | "automatic" | (string & {});
-    /** Format: int64. minimum: 1. */
-    "expected_version"?: number;
-    /**
-     * minItems: 1. [] (Value): {@link ProcessExistingReturnLineItemRequest}. How to process one
-     * line of an existing return: the received quantity, inspection, decision, disposition, and
-     * resolution.
-     */
-    "line_items": Array<ProcessExistingReturnLineItemRequest>;
-    /**
-     * The receipt of returned merchandise, with when and where it was received, supplied when
-     * processing an existing return.
-     */
-    "receipt"?: ReturnProcessReceiptRequest;
-};
-/** The request body for: Process existing return. */
-export type ProcessExistingReturnRequestInput = {
-    /**
-     * Omit to use the mode shared by all pinned policies that set completion_mode, or automatic
-     * when no pinned policy sets one. Conflicting pinned policy modes return 400 naming
-     * completion_mode only when completion_mode is omitted. An explicit manual or automatic value
-     * is used as sent. On an open Return, omit to keep its committed mode. Sending that mode is
-     * accepted; a different mode returns 409 ACTION_NOT_ALLOWED with reason field_locked and param
-     * completion_mode. Value enum: "manual", "automatic".
-     */
-    "completion_mode"?: "manual" | "automatic";
-    /** Format: int64. minimum: 1. */
-    "expected_version"?: number;
-    /**
-     * minItems: 1. [] (Value): {@link ProcessExistingReturnLineItemRequestInput}. How to process
-     * one line of an existing return: the received quantity, inspection, decision, disposition,
-     * and resolution.
-     */
-    "line_items": Array<ProcessExistingReturnLineItemRequestInput>;
-    /**
-     * The receipt of returned merchandise, with when and where it was received, supplied when
-     * processing an existing return.
-     */
-    "receipt"?: ReturnProcessReceiptRequestInput;
-};
-/** A response containing `ReturnProcessResult` data. */
-export type ProcessExistingReturnResponse = {
-    /**
-     * The return is the primary resource and expected_version target; the other resources report
-     * the processing effects.
-     */
-    "data": ReturnProcessResult;
-    /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** An item offered in the merchant's catalog. */
-export type Product = {
-    /** Number of active variants belonging to the product. Format: int32. */
-    "active_variant_count"?: number;
-    /** Whether the product is active and has at least one active variant. */
-    "available_for_sale"?: boolean;
-    /**
-     * Always present. Empty collections are returned as []. [] (Value): {@link CategoryReference}.
-     * A reference to a product category by ID, handle, and name.
-     */
-    "categories": Array<CategoryReference>;
-    /** When this resource was created, as an RFC3339 timestamp. Format: date-time. */
-    "created_at"?: string;
-    /**
-     * The product's default variant, when one is set. A specific purchasable version of a product.
-     */
-    "default_variant"?: ProductVariant;
-    /** Identifier of the variant chosen as this product's default, when one is set. */
-    "default_variant_id"?: string;
-    /**
-     * Delivery readiness aggregated across the product's non-archived variants. Value enum:
-     * "configured", "action_required", "not_applicable".
-     */
-    "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
-    /** Description of the product shown to buyers. */
-    "description"?: string;
-    /** Caller-owned identifier for this resource in an external system. maxLength: 255. */
     "external_reference_id"?: string;
     /**
-     * Images attached to this resource, in display order. The first image is primary. [] (Value):
-     * {@link ImageAttachment}. An image attached to a resource, with its display properties and
-     * attachment metadata.
-     */
-    "images": Array<ImageAttachment>;
-    /**
-     * On product list rows, the first non-archived variant by position, then variant_id, that
-     * matches all exact variant filters. Without exact variant filters, identifies the first
-     * variant whose SKU matches query. Omitted when no variant matches; a product name or
-     * description match alone does not set it. Page the product's variants to find all matches. A
-     * single variant witness on product list rows only. With exact variant filters, the first
-     * variant by position, then variant_id, satisfying every exact predicate. Otherwise, the first
-     * variant in that order whose SKU matches query. Use the paginated nested variant list to
-     * enumerate every match.
-     */
-    "matched_variant"?: ProductVariantMatch;
-    /** Identifier of the merchant that owns this resource. */
-    "merchant_id"?: string;
-    /**
-     * Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a
-     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
-     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
-     * may not satisfy them.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Attached modifier set, included when expand=modifier_set is requested. Requires
-     * commerce.catalog.read in addition to the resource's read scope. Present only when `expand`
-     * includes `modifier_set`; `null` when expanded and there is no related modifier set. anyOf[1]
-     * (Value): {@link ModifierSet}. A reusable collection of customization groups. anyOf[2]
-     * (Value): null.
-     */
-    "modifier_set"?: ((ModifierSet) | (null));
-    /** Attached modifier set. Send null on update to remove it. */
-    "modifier_set_id": string | null;
-    /** Product name shown to buyers. */
-    "name": string;
-    /** Number of active options belonging to the product. Format: int32. */
-    "option_count"?: number;
-    /**
-     * Product options and their non-archived values. Empty when the product has no options. []
-     * (Value): {@link ProductOption}. A choice that defines a product's variants.
-     */
-    "options": Array<ProductOption>;
-    /**
-     * Lowest and highest unit prices among active variants. Omitted when there are no active
-     * variants or their currencies differ. The lowest and highest unit prices across a product's
-     * variants.
-     */
-    "price_range"?: ProductPriceRange;
-    /** Stable identifier of the product. */
-    "product_id": string;
-    /**
-     * Kind of goods or service this product represents. New variants of digital products store
-     * digital_goods when line_item_tax_category is omitted; explicit categories are preserved.
-     * Value enum: "physical", "service", "fee", "digital", "gift_card".
-     */
-    "product_type": "physical" | "service" | "fee" | "digital" | "gift_card" | (string & {});
-    /**
-     * Product lifecycle status. Archived products remain readable and cannot be edited. Value
-     * enum: "active", "inactive", "archived".
-     */
-    "status": "active" | "inactive" | "archived" | (string & {});
-    /** When this resource last changed, as an RFC3339 timestamp. Format: date-time. */
-    "updated_at"?: string;
-    /** Number of non-archived variants belonging to the product. Format: int32. */
-    "variant_count"?: number;
-    /**
-     * The variants this request created, ordered by `position` and then `variant_id`. Present only
-     * on the `POST /v1/products` response. Read variants later with `GET
-     * /v1/products/{product_id}/variants`. [] (Value): {@link ProductVariant}. A specific
-     * purchasable version of a product.
-     */
-    "variants"?: Array<ProductVariant>;
-    /**
-     * Current resource version. Send it as expected_version to reject a write if the resource has
-     * changed. Format: uint64. minimum: 0.
-     */
-    "version": number;
-};
-export type ProductArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Product;
-    };
-    "event_type"?: "product.archived";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Product;
-    };
-    "event_type"?: "product.archived";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "product.archived";
-});
-/**
- * The `product.archived` webhook payload for the `installed_merchants` event source. Fields shared
- * by partner webhook payloads.
- */
-export type ProductArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**  object (Required): {@link Product}. An item offered in the merchant's catalog. */
-    "data"?: {
-        /** An item offered in the merchant's catalog. */
-        "object": Product;
-    };
-    /** Value enum: "product.archived". */
-    "event_type"?: "product.archived";
-    /**
-     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
-     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
-     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        /** Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        /** Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * The `product.archived` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type ProductArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**  object (Required): {@link Product}. An item offered in the merchant's catalog. */
-    "data"?: {
-        /** An item offered in the merchant's catalog. */
-        "object": Product;
-    };
-    /** Value enum: "product.archived". */
-    "event_type"?: "product.archived";
-});
-export type ProductCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Product;
-    };
-    "event_type"?: "product.created";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Product;
-    };
-    "event_type"?: "product.created";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "product.created";
-});
-/**
- * The `product.created` webhook payload for the `installed_merchants` event source. Fields shared
- * by partner webhook payloads.
- */
-export type ProductCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**  object (Required): {@link Product}. An item offered in the merchant's catalog. */
-    "data"?: {
-        /** An item offered in the merchant's catalog. */
-        "object": Product;
-    };
-    /** Value enum: "product.created". */
-    "event_type"?: "product.created";
-    /**
-     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
-     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
-     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        /** Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        /** Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * The `product.created` webhook payload for the `merchant` event source. Fields shared by merchant
- * webhook payloads.
- */
-export type ProductCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**  object (Required): {@link Product}. An item offered in the merchant's catalog. */
-    "data"?: {
-        /** An item offered in the merchant's catalog. */
-        "object": Product;
-    };
-    /** Value enum: "product.created". */
-    "event_type"?: "product.created";
-});
-/** A page of `Product` objects. */
-export type ProductListResponse = {
-    /**
-     * The requested product data. [] (Value): {@link Product}. An item offered in the merchant's
-     * catalog.
-     */
-    "data": Array<Product>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Token for the next page. Omitted when there are no more results. */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, useful when contacting support. maxLength: 128. pattern:
-     * ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A choice that defines a product's variants. */
-export type ProductOption = {
-    /** When this resource was created, as an RFC3339 timestamp. Format: date-time. */
-    "created_at"?: string;
-    /**
-     * Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a
-     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
-     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
-     * may not satisfy them.
-     */
-    "metadata"?: MetadataMap;
-    /** Option name, such as Size or Color. */
-    "name": string;
-    /** Stable identifier of the product option. */
-    "option_id": string;
-    /** Display order among the product's options, starting at zero. Format: int32. */
-    "position": number;
-    /** Identifier of the product this option belongs to. */
-    "product_id": string;
-    /**
-     * Option lifecycle status. Every active variant must select an active value for each active
-     * option. Value enum: "active", "inactive", "archived".
-     */
-    "status": "active" | "inactive" | "archived" | (string & {});
-    /** When this resource last changed, as an RFC3339 timestamp. Format: date-time. */
-    "updated_at"?: string;
-    /**
-     * Values offered for this option, such as Small, Medium, and Large for Size. [] (Value):
-     * {@link ProductOptionValue}. One value of a product option, such as a size or color, with its
-     * position and status.
-     */
-    "values"?: Array<ProductOptionValue>;
-};
-/** A page of `ProductOption` objects. */
-export type ProductOptionListResponse = {
-    /**
-     * The requested product option data. [] (Value): {@link ProductOption}. A choice that defines
-     * a product's variants.
-     */
-    "data": Array<ProductOption>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Token for the next page. Omitted when there are no more results. */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, useful when contacting support. maxLength: 128. pattern:
-     * ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A response containing `ProductOption` data. */
-export type ProductOptionResponse = {
-    /** The requested product option data. A choice that defines a product's variants. */
-    "data": ProductOption;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, useful when contacting support. maxLength: 128. pattern:
-     * ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** One value of a product option, such as a size or color, with its position and status. */
-export type ProductOptionValue = {
-    /** When this resource was created, as an RFC3339 timestamp. Format: date-time. */
-    "created_at"?: string;
-    /**
-     * Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a
-     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
-     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
-     * may not satisfy them.
-     */
-    "metadata"?: MetadataMap;
-    /** Stable identifier of the option value. */
-    "option_value_id": string;
-    /** Display order among the option's values, starting at zero. Format: int32. */
-    "position": number;
-    /**
-     * Option value lifecycle status. Only active values can be newly selected by active variants.
-     * Value enum: "active", "inactive", "archived".
-     */
-    "status"?: "active" | "inactive" | "archived" | (string & {});
-    /** When this resource last changed, as an RFC3339 timestamp. Format: date-time. */
-    "updated_at"?: string;
-    /** Option value shown to buyers, such as Medium. */
-    "value": string;
-};
-/** The lowest and highest unit prices across a product's variants. */
-export type ProductPriceRange = {
-    /**
-     * Highest unit price among the product's active variants. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "max_unit_price_money": MoneyValue;
-    /**
-     * Lowest unit price among the product's active variants. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "min_unit_price_money": MoneyValue;
-};
-/** A response containing `Product` data. */
-export type ProductResponse = {
-    /** The requested product data. An item offered in the merchant's catalog. */
-    "data": Product;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, useful when contacting support. maxLength: 128. pattern:
-     * ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type ProductUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Product;
-    };
-    "event_type"?: "product.updated";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Product;
-    };
-    "event_type"?: "product.updated";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "product.updated";
-});
-/**
- * The `product.updated` webhook payload for the `installed_merchants` event source. Fields shared
- * by partner webhook payloads.
- */
-export type ProductUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**  object (Required): {@link Product}. An item offered in the merchant's catalog. */
-    "data"?: {
-        /** An item offered in the merchant's catalog. */
-        "object": Product;
-    };
-    /** Value enum: "product.updated". */
-    "event_type"?: "product.updated";
-    /**
-     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
-     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
-     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        /** Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        /** Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * The `product.updated` webhook payload for the `merchant` event source. Fields shared by merchant
- * webhook payloads.
- */
-export type ProductUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**  object (Required): {@link Product}. An item offered in the merchant's catalog. */
-    "data"?: {
-        /** An item offered in the merchant's catalog. */
-        "object": Product;
-    };
-    /** Value enum: "product.updated". */
-    "event_type"?: "product.updated";
-});
-/** A specific purchasable version of a product. */
-export type ProductVariant = {
-    /** Whether the variant and its product are both active. */
-    "available_for_sale": boolean;
-    /** Barcode assigned to this sellable item. */
-    "barcode"?: string;
-    /** When this resource was created, as an RFC3339 timestamp. Format: date-time. */
-    "created_at"?: string;
-    /**
-     * Reason the variant's delivery configuration needs attention. Value enum:
-     * "delivery_profile_missing", "delivery_profile_inactive".
-     */
-    "delivery_configuration_reason"?: "delivery_profile_missing" | "delivery_profile_inactive" | (string & {});
-    /**
-     * Whether the variant's delivery configuration is ready, needs attention, or does not apply.
-     * Value enum: "configured", "action_required", "not_applicable".
-     */
-    "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
-    /** Identifier of the delivery profile assigned to this variant. */
-    "delivery_profile_id"?: string;
-    /**
-     * Images shown for the variant: its own gallery when nonempty, otherwise the product's
-     * gallery. [] (Value): {@link ImageAttachment}. An image attached to a resource, with its
-     * display properties and attachment metadata.
-     */
-    "effective_images": Array<ImageAttachment>;
-    /** Caller-owned identifier for this resource in an external system. maxLength: 255. */
-    "external_reference_id"?: string;
-    /**
-     * Gift card issuance terms. face_value_money is the reference denomination; unit_price_money
-     * is its price. Custom amounts use that price-to-value ratio, rounded to the nearest cent with
-     * ties up. Gift card settings on a product variant: its `face_value_money`, price mode (face
-     * value or discounted), and bounds for custom amounts.
-     */
-    "gift_card_configuration"?: GiftCardProductConfiguration;
-    /**
-     * The variant's own images in display order. An empty gallery inherits the product's images.
-     * [] (Value): {@link ImageAttachment}. An image attached to a resource, with its display
+     * Image shown to buyers with the link. An image attached to a resource, with its display
      * properties and attachment metadata.
      */
-    "images": Array<ImageAttachment>;
+    "image"?: ImageAttachment;
+    /** Message to show the buyer when the link is inactive. */
+    "inactive_message"?: string;
     /**
-     * Whether effective_images comes from the product's gallery because this variant's gallery is
-     * empty.
+     * The inventory location or routing policy that supplies stock for the link's catalog lines.
+     * Where an order, payment link, or reservation routes inventory from: a fixed Location, an
+     * inventory allocation policy, or one policy revision.
      */
-    "images_inherited": boolean;
+    "inventory_routing_source"?: InventoryRoutingSource;
     /**
-     * The inventory item this variant consumes. Present exactly when inventory_tracking is
-     * tracked. Several variants may share one inventory item.
+     * The terms and policy links checkouts started from this link show the buyer. Legal settings
+     * for a checkout: whether buyers must accept terms, and links to the terms, refund policy,
+     * shipping policy, and contract.
      */
-    "inventory_item_id"?: string;
+    "legal"?: LegalSettings;
     /**
-     * Whether sales of this variant consume an inventory item. Value enum: "not_tracked",
-     * "tracked".
+     * What the link sells. [] (Value): {@link PaymentLinkLineItem}. A line item on a payment link.
      */
-    "inventory_tracking": "not_tracked" | "tracked" | (string & {});
+    "line_items"?: Array<PaymentLinkLineItem>;
     /**
-     * Stored Flint line-item tax category. New digital-product variants default to digital_goods
-     * when omitted. The stored value remains editable. Unset uses the merchant default. Value
-     * enum: "general", "physical_goods", "digital_goods", "software", "saas", "services",
-     * "professional_services", "food", "prepared_food", "clothing", "medical_goods", "admission".
+     * Most payments the link accepts, counted by `completed_count`. Absent means no limit. Once
+     * the limit is reached, resolving the link fails with a request error. It can't be set below
+     * `completed_count`. Format: int32.
      */
-    "line_item_tax_category"?: "general"
-        | "physical_goods"
-        | "digital_goods"
-        | "software"
-        | "saas"
-        | "services"
-        | "professional_services"
-        | "food"
-        | "prepared_food"
-        | "clothing"
-        | "medical_goods"
-        | "admission"
-        | (string & {});
-    /** Identifier of the merchant that owns this resource. */
-    "merchant_id"?: string;
+    "max_completions"?: number;
+    /** ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+    "merchant_id": string;
     /**
-     * Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a
-     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
-     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
-     * may not satisfy them.
+     * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
+     * Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them.
      */
     "metadata"?: MetadataMap;
+    /** Name of the payment link. */
+    "name": string;
     /**
-     * Attached modifier set, included when expand=modifier_set is requested. Requires
-     * commerce.catalog.read in addition to the resource's read scope. Present only when `expand`
-     * includes `modifier_set`; `null` when expanded and there is no related modifier set. anyOf[1]
-     * (Value): {@link ModifierSet}. A reusable collection of customization groups. anyOf[2]
-     * (Value): null.
+     * Unique identifier for this payment link, prefixed `pl_`. Example:
+     * "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
      */
-    "modifier_set"?: ((ModifierSet) | (null));
-    /** Attached modifier set. Send null on update to remove it. */
-    "modifier_set_id": string | null;
-    /** Variant name that distinguishes it from the product's other variants. */
-    "name"?: string;
-    /** Display order among the product's variants, starting at zero. Format: int32. */
-    "position": number;
-    /** Identifier of the product this variant belongs to. */
-    "product_id": string;
+    "payment_link_id": string;
+    /** What kind of link this is. Value enum: "standard", "donation", "event". */
+    "payment_link_type"?: "standard" | "donation" | "event" | (string & {});
     /**
-     * Always present. Empty collections are returned as []. [] (Value): {@link
-     * SelectedProductOption}. An option and value chosen for a product variant, such as size
-     * Large.
+     * Payment options for checkouts started from this link. Payment settings for a checkout: the
+     * enabled payment options and a note shown with payment.
      */
-    "selected_options": Array<SelectedProductOption>;
-    /** Stock keeping unit assigned to this sellable item. */
-    "sku"?: string;
+    "payments"?: CheckoutPaymentConfig;
     /**
-     * Variant lifecycle status. Archived variants remain readable and cannot be edited. Value
-     * enum: "active", "inactive", "archived".
+     * Whether automatic promotions apply to checkouts started from this link and whether buyers
+     * can enter promotion codes. Promotion settings for a checkout: whether automatic promotions
+     * apply and whether the buyer can apply promotion codes.
      */
-    "status": "active" | "inactive" | "archived" | (string & {});
-    /** Whether this item is subject to tax. */
-    "taxable"?: boolean;
+    "promotion_config"?: CheckoutPromotionConfig;
     /**
-     * Per-unit measurement. Omitted when unknown. Package or item dimensions as `length`, `width`,
-     * and `height` in the given `unit`.
+     * Where checkout sessions started from this payment link send the buyer after payment,
+     * cancellation, or expiration. Where hosted checkout sends the buyer. Not allowed when surface
+     * is embedded; use payment_return_url.
      */
-    "unit_dimensions"?: Dimensions;
+    "redirects"?: CheckoutRedirects;
     /**
-     * Price charged for one unit, in the currency's smallest unit. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
+     * RFC3339 timestamp after which the link stops starting checkouts and resolve fails with
+     * `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end on their own,
+     * except that an event link without sales_end_at stops selling at event_config.event_at. A
+     * checkout opened before the end can still start payment for up to 15 minutes after it.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z".
      */
-    "unit_price_money": MoneyValue;
+    "sales_end_at"?: string;
     /**
-     * Per-unit measurement. Omitted when unknown. A weight value in grams, kilograms, ounces, or
-     * pounds, used in delivery profile configuration.
+     * Present only with expand=sales_summary on GET /v1/payment-links or GET
+     * /v1/payment-links/{payment_link_id}. Available to merchant callers, including dashboard
+     * sessions and API keys with checkouts.payment_links.read. Uses the same paid-order definition
+     * as the merchant sales summary. Paid-order sales totals for a payment link, computed on
+     * request. Paid means the order's collection has completed. Fully and partially refunded
+     * orders still count, and paid_totals reports the amount collected before refunds. Each order
+     * counts once even if it has multiple checkout sessions.
      */
-    "unit_weight"?: Weight;
-    /** When this resource last changed, as an RFC3339 timestamp. Format: date-time. */
-    "updated_at"?: string;
-    /** Stable identifier of the product variant. */
-    "variant_id": string;
+    "sales_summary"?: PaymentLinkSalesSummary;
+    /** Whether the link can start new checkouts. Value enum: "active", "inactive". */
+    "status": "active" | "inactive" | (string & {});
     /**
-     * Current resource version. Send it as expected_version to reject a write if the resource has
-     * changed. Format: uint64. minimum: 0.
+     * Present only when `expand` includes `subscription_plan`; `null` when expanded and there is
+     * no related subscription plan. anyOf[1] (Value): {@link ExpandedSubscriptionPlanSummary}. A
+     * subscription plan's summary fields, including name, billing interval, currency, and status,
+     * returned when the plan is expanded. anyOf[2] (Value): null.
+     */
+    "subscription_plan"?: ((ExpandedSubscriptionPlanSummary) | (null));
+    /** Example: "plan_01KEZF7C004CY5ZR33XST2AASV". */
+    "subscription_plan_id"?: string;
+    /**
+     * Tax settings for checkouts started from this link. Whether tax is collected for a checkout
+     * session or payment link.
+     */
+    "tax"?: CheckoutTaxConfig;
+    /**
+     * The title and colors for checkouts started from this link, over your branding settings.
+     * Colors and title applied to a payment link's checkout page.
+     */
+    "theme"?: ThemeConfig;
+    /**
+     * Tip options for checkouts started from this link. Tip settings for a checkout: whether tips
+     * are enabled, the percent or fixed amount options, the default tip, and custom tips.
+     */
+    "tip"?: CheckoutTipConfig;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "total_quantity_sold": number;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /** URL buyers open to use the link. */
+    "url": string;
+    /**
+     * Current version of this resource's owned state. Send it as `expected_version` when changing
+     * the resource to reject a stale write. Format: int64.
      */
     "version": number;
 };
-export type ProductVariantArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": ProductVariant;
-    };
-    "event_type"?: "product_variant.archived";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": ProductVariant;
-    };
-    "event_type"?: "product_variant.archived";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "product_variant.archived";
-});
 /**
- * The `product_variant.archived` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
+ * A listed payment link variant that can be sold in the line currency, with its current price,
+ * options, image, modifiers, and advisory stock state.
  */
-export type ProductVariantArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**  object (Required): {@link ProductVariant}. A specific purchasable version of a product. */
-    "data"?: {
-        /** A specific purchasable version of a product. */
-        "object": ProductVariant;
-    };
-    /** Value enum: "product_variant.archived". */
-    "event_type"?: "product_variant.archived";
+export type PaymentLinkAvailableVariant = {
     /**
-     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
-     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
-     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     * Modifier groups available for this variant's effective modifier set. Omitted when the
+     * variant has none. [] (Value): {@link PublicResolvedModifierGroup}. A modifier group as
+     * resolved for a payment link line item, with its selection limits, display flags, and options
+     * or text settings.
      */
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        /** Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        /** Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * The `product_variant.archived` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type ProductVariantArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**  object (Required): {@link ProductVariant}. A specific purchasable version of a product. */
-    "data"?: {
-        /** A specific purchasable version of a product. */
-        "object": ProductVariant;
-    };
-    /** Value enum: "product_variant.archived". */
-    "event_type"?: "product_variant.archived";
-});
-export type ProductVariantCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": ProductVariant;
-    };
-    "event_type"?: "product_variant.created";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": ProductVariant;
-    };
-    "event_type"?: "product_variant.created";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "product_variant.created";
-});
-/**
- * The `product_variant.created` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type ProductVariantCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**  object (Required): {@link ProductVariant}. A specific purchasable version of a product. */
-    "data"?: {
-        /** A specific purchasable version of a product. */
-        "object": ProductVariant;
-    };
-    /** Value enum: "product_variant.created". */
-    "event_type"?: "product_variant.created";
+    "available_modifiers"?: Array<PublicResolvedModifierGroup>;
     /**
-     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
-     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
-     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     * Effective primary variant image, inherited from the product when the variant has none.
+     * Omitted when neither has an image. An image with its URL, size, and alt text.
      */
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        /** Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        /** Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * The `product_variant.created` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type ProductVariantCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**  object (Required): {@link ProductVariant}. A specific purchasable version of a product. */
-    "data"?: {
-        /** A specific purchasable version of a product. */
-        "object": ProductVariant;
-    };
-    /** Value enum: "product_variant.created". */
-    "event_type"?: "product_variant.created";
-});
-/** A page of `ProductVariant` objects. */
-export type ProductVariantListResponse = {
+    "image"?: Image;
     /**
-     * The requested product variant data. [] (Value): {@link ProductVariant}. A specific
-     * purchasable version of a product.
+     * True when tracked inventory cannot supply the line's starting quantity through the payment
+     * link's inventory_routing_source. Uses min_quantity when quantity is adjustable, otherwise
+     * quantity. Always false for untracked variants. Advisory only: no stock is held at read or
+     * resolve time, and no stock counts are published.
      */
-    "data": Array<ProductVariant>;
+    "is_sold_out": boolean;
+    /** Order line name for this variant: the product name plus the variant label. */
+    "name": string;
     /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     * Identifier of the product the offered variant belongs to. Example:
+     * "prod_01KEZF7C00BVSHCNWVH528HB66".
      */
-    "meta"?: ResponseMeta;
-    /** Token for the next page. Omitted when there are no more results. */
-    "next_page_token"?: string;
+    "product_id": string;
     /**
-     * Identifier of this API request, useful when contacting support. maxLength: 128. pattern:
-     * ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     * Default variant quantity breaks. Use the largest minimum_quantity not above this line's own
+     * quantity; an empty array uses the base price. [] (Value): {@link QuantityPriceBreak}. A net
+     * unit price that applies when one catalog line reaches minimum_quantity.
      */
-    "request_id": string;
-};
-/**
- * A single variant witness on product list rows only. With exact variant filters, the first
- * variant by position, then variant_id, satisfying every exact predicate. Otherwise, the first
- * variant in that order whose SKU matches query. Use the paginated nested variant list to
- * enumerate every match.
- */
-export type ProductVariantMatch = {
-    /** Name of the matching variant, when set. */
-    "name"?: string;
-    /** Stock keeping unit of the matching variant, when set. */
-    "sku"?: string;
-    /** Identifier of the variant that matched the product list's variant filters or query. */
+    "quantity_price_breaks": Array<QuantityPriceBreak>;
+    /**
+     * The variant's product option values, in product option position order. Empty when the
+     * product has no options. [] (Value): {@link SelectedProductOption}. An option and value
+     * chosen for a product variant, such as size Large.
+     */
+    "selected_options": Array<SelectedProductOption>;
+    /**
+     * Current catalog base unit price in the line currency. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money": MoneyValue;
+    /** ID of the offered product variant. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". */
     "variant_id": string;
 };
-/** The request body for: Create product variant. */
-export type ProductVariantRequest = {
-    /** Barcode assigned to this sellable item. minLength: 1. maxLength: 100. */
-    "barcode"?: string;
-    /** Identifier of the delivery profile to assign to this variant. minLength: 1. */
-    "delivery_profile_id"?: string;
+export type PaymentLinkCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "buyer_fields"?: CheckoutBuyerFields;
+            "checkout_session_expires_in_seconds"?: number;
+            "completed_count": number;
+            "created_at": string;
+            "custom_fields"?: Array<PaymentLinkCustomField>;
+            "custom_text"?: CheckoutCustomTextConfig;
+            "delivery_method_ids": Array<string>;
+            "description"?: string;
+            "donation_max_amount_money"?: MoneyValue;
+            "donation_min_amount_money"?: MoneyValue;
+            "donation_suggested_amount_money_options"?: Array<MoneyValue>;
+            "event_config"?: PaymentLinkEventConfig;
+            "external_reference_id"?: string;
+            "image"?: ImageAttachment;
+            "inactive_message"?: string;
+            "inventory_routing_source"?: InventoryRoutingSource;
+            "legal"?: LegalSettings;
+            "line_items"?: Array<PaymentLinkLineItem>;
+            "max_completions"?: number;
+            "merchant_id": string;
+            "metadata"?: MetadataMap;
+            "name": string;
+            "payment_link_id": string;
+            "payment_link_type"?: "standard" | "donation" | "event" | (string & {});
+            "payments"?: CheckoutPaymentConfig;
+            "promotion_config"?: CheckoutPromotionConfig;
+            "redirects"?: CheckoutRedirects;
+            "sales_end_at"?: string;
+            "sales_summary"?: PaymentLinkSalesSummary;
+            "status": "active" | "inactive" | (string & {});
+            "subscription_plan"?: ((ExpandedSubscriptionPlanSummary) | (null));
+            "subscription_plan_id"?: string;
+            "tax"?: CheckoutTaxConfig;
+            "theme"?: ThemeConfig;
+            "tip"?: CheckoutTipConfig;
+            "total_quantity_sold": number;
+            "updated_at": string;
+            "url": string;
+            "version": number;
+        };
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "payment_link.created";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "buyer_fields"?: CheckoutBuyerFields;
+            "checkout_session_expires_in_seconds"?: number;
+            "completed_count": number;
+            "created_at": string;
+            "custom_fields"?: Array<PaymentLinkCustomField>;
+            "custom_text"?: CheckoutCustomTextConfig;
+            "delivery_method_ids": Array<string>;
+            "description"?: string;
+            "donation_max_amount_money"?: MoneyValue;
+            "donation_min_amount_money"?: MoneyValue;
+            "donation_suggested_amount_money_options"?: Array<MoneyValue>;
+            "event_config"?: PaymentLinkEventConfig;
+            "external_reference_id"?: string;
+            "image"?: ImageAttachment;
+            "inactive_message"?: string;
+            "inventory_routing_source"?: InventoryRoutingSource;
+            "legal"?: LegalSettings;
+            "line_items"?: Array<PaymentLinkLineItem>;
+            "max_completions"?: number;
+            "merchant_id": string;
+            "metadata"?: MetadataMap;
+            "name": string;
+            "payment_link_id": string;
+            "payment_link_type"?: "standard" | "donation" | "event" | (string & {});
+            "payments"?: CheckoutPaymentConfig;
+            "promotion_config"?: CheckoutPromotionConfig;
+            "redirects"?: CheckoutRedirects;
+            "sales_end_at"?: string;
+            "sales_summary"?: PaymentLinkSalesSummary;
+            "status": "active" | "inactive" | (string & {});
+            "subscription_plan"?: ((ExpandedSubscriptionPlanSummary) | (null));
+            "subscription_plan_id"?: string;
+            "tax"?: CheckoutTaxConfig;
+            "theme"?: ThemeConfig;
+            "tip"?: CheckoutTipConfig;
+            "total_quantity_sold": number;
+            "updated_at": string;
+            "url": string;
+            "version": number;
+        };
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "payment_link.created";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "payment_link.created";
+});
+/**
+ * The `payment_link.created` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type PaymentLinkCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
     /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255.
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.buyer_fields (Optional): {@link CheckoutBuyerFields}. What
+     * checkout asks the buyer for. Each field you leave out uses your checkout settings.
+     * object.checkout_session_expires_in_seconds (Optional): integer. Seconds each checkout
+     * session the link starts stays open, from 60 to 86,400. Omit it to use your checkout
+     * settings, or 24 hours. It doesn't end the link; use sales_end_at for that. Format: int64.
+     * minimum: 60. maximum: 86400. object.completed_count (Required): integer. Number of paid
+     * checkout sessions started from this link. Format: int32. object.created_at (Required):
+     * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.custom_fields (Optional): Array of {@link PaymentLinkCustomField}. Questions buyers
+     * answer before paying. Answers are recorded on the order and checkout session in
+     * `custom_field_answers`. object.custom_fields[] (Value): {@link PaymentLinkCustomField}. A
+     * custom field on a payment link that collects an answer from the buyer. object.custom_text
+     * (Optional): {@link CheckoutCustomTextConfig}. Custom text for checkouts started from this
+     * link. Custom text shown in checkout: an order summary message and a shipping address label.
+     * object.delivery_method_ids (Required): Array of string. Delivery methods the link offers.
+     * Empty when the link has none, and then its checkouts offer
+     * settings.checkout.default_delivery_method_ids when the order has items to deliver.
+     * object.delivery_method_ids[] (Value): string. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     * object.description (Optional): string. Text about what the link sells, returned to buyers
+     * when they open it. object.donation_max_amount_money (Optional): {@link MoneyValue}. Largest
+     * amount a buyer can give on a donation link. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code. object.donation_min_amount_money (Optional): {@link
+     * MoneyValue}. Smallest amount a buyer can give on a donation link. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     * object.donation_suggested_amount_money_options (Optional): Array of {@link MoneyValue}.
+     * Amounts a donation link offers as one-tap choices.
+     * object.donation_suggested_amount_money_options[] (Value): {@link MoneyValue}. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     * object.event_config (Optional): {@link PaymentLinkEventConfig}. Event details for an `event`
+     * link: when and where it takes place and how many tickets it sells. Event settings on an
+     * event payment link, such as its date, venue, ticket limit, and ticket emails.
+     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
+     * in an external system. maxLength: 255. Example: "warehouse-1842". object.image (Optional):
+     * {@link ImageAttachment}. Image shown to buyers with the link. An image attached to a
+     * resource, with its display properties and attachment metadata. object.inactive_message
+     * (Optional): string. Message to show the buyer when the link is inactive.
+     * object.inventory_routing_source (Optional): {@link InventoryRoutingSource}. The inventory
+     * location or routing policy that supplies stock for the link's catalog lines. Where an order,
+     * payment link, or reservation routes inventory from: a fixed Location, an inventory
+     * allocation policy, or one policy revision. object.legal (Optional): {@link LegalSettings}.
+     * The terms and policy links checkouts started from this link show the buyer. Legal settings
+     * for a checkout: whether buyers must accept terms, and links to the terms, refund policy,
+     * shipping policy, and contract. object.line_items (Optional): Array of {@link
+     * PaymentLinkLineItem}. What the link sells. object.line_items[] (Value): {@link
+     * PaymentLinkLineItem}. A line item on a payment link. object.max_completions (Optional):
+     * integer. Most payments the link accepts, counted by `completed_count`. Absent means no
+     * limit. Once the limit is reached, resolving the link fails with a request error. It can't be
+     * set below `completed_count`. Format: int32. object.merchant_id (Required): string. ID of the
+     * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * object.metadata (Optional): {@link MetadataMap}. Stored caller-owned key-value data. See
+     * `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a
+     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
+     * may not satisfy them. object.name (Required): string. Name of the payment link.
+     * object.payment_link_id (Required): string. Unique identifier for this payment link, prefixed
+     * `pl_`. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.payment_link_type (Optional):
+     * string. What kind of link this is. Value enum: "standard", "donation", "event".
+     * object.payments (Optional): {@link CheckoutPaymentConfig}. Payment options for checkouts
+     * started from this link. Payment settings for a checkout: the enabled payment options and a
+     * note shown with payment. object.promotion_config (Optional): {@link
+     * CheckoutPromotionConfig}. Whether automatic promotions apply to checkouts started from this
+     * link and whether buyers can enter promotion codes. Promotion settings for a checkout:
+     * whether automatic promotions apply and whether the buyer can apply promotion codes.
+     * object.redirects (Optional): {@link CheckoutRedirects}. Where checkout sessions started from
+     * this payment link send the buyer after payment, cancellation, or expiration. Where hosted
+     * checkout sends the buyer. Not allowed when surface is embedded; use payment_return_url.
+     * object.sales_end_at (Optional): string. RFC3339 timestamp after which the link stops
+     * starting checkouts and resolve fails with `ACTION_NOT_ALLOWED` and reason `not_offered`.
+     * Unset means sales do not end on their own, except that an event link without sales_end_at
+     * stops selling at event_config.event_at. A checkout opened before the end can still start
+     * payment for up to 15 minutes after it. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.sales_summary (Optional): {@link PaymentLinkSalesSummary}. Present only with
+     * expand=sales_summary on GET /v1/payment-links or GET /v1/payment-links/{payment_link_id}.
+     * Available to merchant callers, including dashboard sessions and API keys with
+     * checkouts.payment_links.read. Uses the same paid-order definition as the merchant sales
+     * summary. Paid-order sales totals for a payment link, computed on request. Paid means the
+     * order's collection has completed. Fully and partially refunded orders still count, and
+     * paid_totals reports the amount collected before refunds. Each order counts once even if it
+     * has multiple checkout sessions. object.status (Required): string. Whether the link can start
+     * new checkouts. Value enum: "active", "inactive". object.subscription_plan (Optional): {@link
+     * ExpandedSubscriptionPlanSummary} or null. Present only when `expand` includes
+     * `subscription_plan`; `null` when expanded and there is no related subscription plan.
+     * object.subscription_plan.anyOf[1] (Value): {@link ExpandedSubscriptionPlanSummary}. A
+     * subscription plan's summary fields, including name, billing interval, currency, and status,
+     * returned when the plan is expanded. object.subscription_plan.anyOf[2] (Value): null.
+     * object.subscription_plan_id (Optional): string. Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
+     * object.tax (Optional): {@link CheckoutTaxConfig}. Tax settings for checkouts started from
+     * this link. Whether tax is collected for a checkout session or payment link. object.theme
+     * (Optional): {@link ThemeConfig}. The title and colors for checkouts started from this link,
+     * over your branding settings. Colors and title applied to a payment link's checkout page.
+     * object.tip (Optional): {@link CheckoutTipConfig}. Tip options for checkouts started from
+     * this link. Tip settings for a checkout: whether tips are enabled, the percent or fixed
+     * amount options, the default tip, and custom tips. object.total_quantity_sold (Required):
+     * integer. Whole-number quantity; fractional quantities are not supported. Format: int32.
+     * object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.url (Required): string. URL buyers open to use the link.
+     * object.version (Required): integer. Current version of this resource's owned state. Send it
+     * as `expected_version` when changing the resource to reject a stale write. Format: int64.
      */
-    "external_reference_id"?: string;
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * buyer_fields (Optional): {@link CheckoutBuyerFields}. What checkout asks the buyer for.
+         * Each field you leave out uses your checkout settings.
+         * checkout_session_expires_in_seconds (Optional): integer. Seconds each checkout session
+         * the link starts stays open, from 60 to 86,400. Omit it to use your checkout settings, or
+         * 24 hours. It doesn't end the link; use sales_end_at for that. Format: int64. minimum:
+         * 60. maximum: 86400. completed_count (Required): integer. Number of paid checkout
+         * sessions started from this link. Format: int32. created_at (Required): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". custom_fields (Optional):
+         * Array of {@link PaymentLinkCustomField}. Questions buyers answer before paying. Answers
+         * are recorded on the order and checkout session in `custom_field_answers`.
+         * custom_fields[] (Value): {@link PaymentLinkCustomField}. A custom field on a payment
+         * link that collects an answer from the buyer. custom_text (Optional): {@link
+         * CheckoutCustomTextConfig}. Custom text for checkouts started from this link. Custom text
+         * shown in checkout: an order summary message and a shipping address label.
+         * delivery_method_ids (Required): Array of string. Delivery methods the link offers. Empty
+         * when the link has none, and then its checkouts offer
+         * settings.checkout.default_delivery_method_ids when the order has items to deliver.
+         * delivery_method_ids[] (Value): string. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+         * description (Optional): string. Text about what the link sells, returned to buyers when
+         * they open it. donation_max_amount_money (Optional): {@link MoneyValue}. Largest amount a
+         * buyer can give on a donation link. Monetary amount represented as integer minor units
+         * plus an ISO 4217 currency code. donation_min_amount_money (Optional): {@link
+         * MoneyValue}. Smallest amount a buyer can give on a donation link. Monetary amount
+         * represented as integer minor units plus an ISO 4217 currency code.
+         * donation_suggested_amount_money_options (Optional): Array of {@link MoneyValue}. Amounts
+         * a donation link offers as one-tap choices. donation_suggested_amount_money_options[]
+         * (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus an
+         * ISO 4217 currency code. event_config (Optional): {@link PaymentLinkEventConfig}. Event
+         * details for an `event` link: when and where it takes place and how many tickets it
+         * sells. Event settings on an event payment link, such as its date, venue, ticket limit,
+         * and ticket emails. external_reference_id (Optional): string. Caller-owned identifier for
+         * this resource in an external system. maxLength: 255. Example: "warehouse-1842". image
+         * (Optional): {@link ImageAttachment}. Image shown to buyers with the link. An image
+         * attached to a resource, with its display properties and attachment metadata.
+         * inactive_message (Optional): string. Message to show the buyer when the link is
+         * inactive. inventory_routing_source (Optional): {@link InventoryRoutingSource}. The
+         * inventory location or routing policy that supplies stock for the link's catalog lines.
+         * Where an order, payment link, or reservation routes inventory from: a fixed Location, an
+         * inventory allocation policy, or one policy revision. legal (Optional): {@link
+         * LegalSettings}. The terms and policy links checkouts started from this link show the
+         * buyer. Legal settings for a checkout: whether buyers must accept terms, and links to the
+         * terms, refund policy, shipping policy, and contract. line_items (Optional): Array of
+         * {@link PaymentLinkLineItem}. What the link sells. line_items[] (Value): {@link
+         * PaymentLinkLineItem}. A line item on a payment link. max_completions (Optional):
+         * integer. Most payments the link accepts, counted by `completed_count`. Absent means no
+         * limit. Once the limit is reached, resolving the link fails with a request error. It
+         * can't be set below `completed_count`. Format: int32. merchant_id (Required): string. ID
+         * of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * metadata (Optional): {@link MetadataMap}. Stored caller-owned key-value data. See
+         * `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a
+         * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+         * follow the limits on MetadataInput and MetadataPatchInput; maps written before those
+         * limits may not satisfy them. name (Required): string. Name of the payment link.
+         * payment_link_id (Required): string. Unique identifier for this payment link, prefixed
+         * `pl_`. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". payment_link_type (Optional): string.
+         * What kind of link this is. Value enum: "standard", "donation", "event". payments
+         * (Optional): {@link CheckoutPaymentConfig}. Payment options for checkouts started from
+         * this link. Payment settings for a checkout: the enabled payment options and a note shown
+         * with payment. promotion_config (Optional): {@link CheckoutPromotionConfig}. Whether
+         * automatic promotions apply to checkouts started from this link and whether buyers can
+         * enter promotion codes. Promotion settings for a checkout: whether automatic promotions
+         * apply and whether the buyer can apply promotion codes. redirects (Optional): {@link
+         * CheckoutRedirects}. Where checkout sessions started from this payment link send the
+         * buyer after payment, cancellation, or expiration. Where hosted checkout sends the buyer.
+         * Not allowed when surface is embedded; use payment_return_url. sales_end_at (Optional):
+         * string. RFC3339 timestamp after which the link stops starting checkouts and resolve
+         * fails with `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end
+         * on their own, except that an event link without sales_end_at stops selling at
+         * event_config.event_at. A checkout opened before the end can still start payment for up
+         * to 15 minutes after it. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * sales_summary (Optional): {@link PaymentLinkSalesSummary}. Present only with
+         * expand=sales_summary on GET /v1/payment-links or GET
+         * /v1/payment-links/{payment_link_id}. Available to merchant callers, including dashboard
+         * sessions and API keys with checkouts.payment_links.read. Uses the same paid-order
+         * definition as the merchant sales summary. Paid-order sales totals for a payment link,
+         * computed on request. Paid means the order's collection has completed. Fully and
+         * partially refunded orders still count, and paid_totals reports the amount collected
+         * before refunds. Each order counts once even if it has multiple checkout sessions. status
+         * (Required): string. Whether the link can start new checkouts. Value enum: "active",
+         * "inactive". subscription_plan (Optional): {@link ExpandedSubscriptionPlanSummary} or
+         * null. Present only when `expand` includes `subscription_plan`; `null` when expanded and
+         * there is no related subscription plan. subscription_plan.anyOf[1] (Value): {@link
+         * ExpandedSubscriptionPlanSummary}. A subscription plan's summary fields, including name,
+         * billing interval, currency, and status, returned when the plan is expanded.
+         * subscription_plan.anyOf[2] (Value): null. subscription_plan_id (Optional): string.
+         * Example: "plan_01KEZF7C004CY5ZR33XST2AASV". tax (Optional): {@link CheckoutTaxConfig}.
+         * Tax settings for checkouts started from this link. Whether tax is collected for a
+         * checkout session or payment link. theme (Optional): {@link ThemeConfig}. The title and
+         * colors for checkouts started from this link, over your branding settings. Colors and
+         * title applied to a payment link's checkout page. tip (Optional): {@link
+         * CheckoutTipConfig}. Tip options for checkouts started from this link. Tip settings for a
+         * checkout: whether tips are enabled, the percent or fixed amount options, the default
+         * tip, and custom tips. total_quantity_sold (Required): integer. Whole-number quantity;
+         * fractional quantities are not supported. Format: int32. updated_at (Required): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". url (Required):
+         * string. URL buyers open to use the link. version (Required): integer. Current version of
+         * this resource's owned state. Send it as `expected_version` when changing the resource to
+         * reject a stale write. Format: int64.
+         */
+        "object": {
+            /**
+             * What checkout asks the buyer for. Each field you leave out uses your checkout
+             * settings.
+             */
+            "buyer_fields"?: CheckoutBuyerFields;
+            /**
+             * Seconds each checkout session the link starts stays open, from 60 to 86,400. Omit it
+             * to use your checkout settings, or 24 hours. It doesn't end the link; use
+             * sales_end_at for that. Format: int64. minimum: 60. maximum: 86400.
+             */
+            "checkout_session_expires_in_seconds"?: number;
+            /** Number of paid checkout sessions started from this link. Format: int32. */
+            "completed_count": number;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Questions buyers answer before paying. Answers are recorded on the order and
+             * checkout session in `custom_field_answers`. [] (Value): {@link
+             * PaymentLinkCustomField}. A custom field on a payment link that collects an answer
+             * from the buyer.
+             */
+            "custom_fields"?: Array<PaymentLinkCustomField>;
+            /**
+             * Custom text for checkouts started from this link. Custom text shown in checkout: an
+             * order summary message and a shipping address label.
+             */
+            "custom_text"?: CheckoutCustomTextConfig;
+            /**
+             * Delivery methods the link offers. Empty when the link has none, and then its
+             * checkouts offer settings.checkout.default_delivery_method_ids when the order has
+             * items to deliver. [] (Value): string. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+             */
+            "delivery_method_ids": Array<string>;
+            /** Text about what the link sells, returned to buyers when they open it. */
+            "description"?: string;
+            /**
+             * Largest amount a buyer can give on a donation link. Monetary amount represented as
+             * integer minor units plus an ISO 4217 currency code.
+             */
+            "donation_max_amount_money"?: MoneyValue;
+            /**
+             * Smallest amount a buyer can give on a donation link. Monetary amount represented as
+             * integer minor units plus an ISO 4217 currency code.
+             */
+            "donation_min_amount_money"?: MoneyValue;
+            /**
+             * Amounts a donation link offers as one-tap choices. [] (Value): {@link MoneyValue}.
+             * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+             */
+            "donation_suggested_amount_money_options"?: Array<MoneyValue>;
+            /**
+             * Event details for an `event` link: when and where it takes place and how many
+             * tickets it sells. Event settings on an event payment link, such as its date, venue,
+             * ticket limit, and ticket emails.
+             */
+            "event_config"?: PaymentLinkEventConfig;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /**
+             * Image shown to buyers with the link. An image attached to a resource, with its
+             * display properties and attachment metadata.
+             */
+            "image"?: ImageAttachment;
+            /** Message to show the buyer when the link is inactive. */
+            "inactive_message"?: string;
+            /**
+             * The inventory location or routing policy that supplies stock for the link's catalog
+             * lines. Where an order, payment link, or reservation routes inventory from: a fixed
+             * Location, an inventory allocation policy, or one policy revision.
+             */
+            "inventory_routing_source"?: InventoryRoutingSource;
+            /**
+             * The terms and policy links checkouts started from this link show the buyer. Legal
+             * settings for a checkout: whether buyers must accept terms, and links to the terms,
+             * refund policy, shipping policy, and contract.
+             */
+            "legal"?: LegalSettings;
+            /**
+             * What the link sells. [] (Value): {@link PaymentLinkLineItem}. A line item on a
+             * payment link.
+             */
+            "line_items"?: Array<PaymentLinkLineItem>;
+            /**
+             * Most payments the link accepts, counted by `completed_count`. Absent means no limit.
+             * Once the limit is reached, resolving the link fails with a request error. It can't
+             * be set below `completed_count`. Format: int32.
+             */
+            "max_completions"?: number;
+            /**
+             * ID of the merchant this resource belongs to. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id": string;
+            /**
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
+             * are reserved for Flint and are not returned. Writes follow the limits on
+             * MetadataInput and MetadataPatchInput; maps written before those limits may not
+             * satisfy them.
+             */
+            "metadata"?: MetadataMap;
+            /** Name of the payment link. */
+            "name": string;
+            /**
+             * Unique identifier for this payment link, prefixed `pl_`. Example:
+             * "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+             */
+            "payment_link_id": string;
+            /** What kind of link this is. Value enum: "standard", "donation", "event". */
+            "payment_link_type"?: "standard" | "donation" | "event" | (string & {});
+            /**
+             * Payment options for checkouts started from this link. Payment settings for a
+             * checkout: the enabled payment options and a note shown with payment.
+             */
+            "payments"?: CheckoutPaymentConfig;
+            /**
+             * Whether automatic promotions apply to checkouts started from this link and whether
+             * buyers can enter promotion codes. Promotion settings for a checkout: whether
+             * automatic promotions apply and whether the buyer can apply promotion codes.
+             */
+            "promotion_config"?: CheckoutPromotionConfig;
+            /**
+             * Where checkout sessions started from this payment link send the buyer after payment,
+             * cancellation, or expiration. Where hosted checkout sends the buyer. Not allowed when
+             * surface is embedded; use payment_return_url.
+             */
+            "redirects"?: CheckoutRedirects;
+            /**
+             * RFC3339 timestamp after which the link stops starting checkouts and resolve fails
+             * with `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end on
+             * their own, except that an event link without sales_end_at stops selling at
+             * event_config.event_at. A checkout opened before the end can still start payment for
+             * up to 15 minutes after it. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "sales_end_at"?: string;
+            /**
+             * Present only with expand=sales_summary on GET /v1/payment-links or GET
+             * /v1/payment-links/{payment_link_id}. Available to merchant callers, including
+             * dashboard sessions and API keys with checkouts.payment_links.read. Uses the same
+             * paid-order definition as the merchant sales summary. Paid-order sales totals for a
+             * payment link, computed on request. Paid means the order's collection has completed.
+             * Fully and partially refunded orders still count, and paid_totals reports the amount
+             * collected before refunds. Each order counts once even if it has multiple checkout
+             * sessions.
+             */
+            "sales_summary"?: PaymentLinkSalesSummary;
+            /** Whether the link can start new checkouts. Value enum: "active", "inactive". */
+            "status": "active" | "inactive" | (string & {});
+            /**
+             * Present only when `expand` includes `subscription_plan`; `null` when expanded and
+             * there is no related subscription plan. anyOf[1] (Value): {@link
+             * ExpandedSubscriptionPlanSummary}. A subscription plan's summary fields, including
+             * name, billing interval, currency, and status, returned when the plan is expanded.
+             * anyOf[2] (Value): null.
+             */
+            "subscription_plan"?: ((ExpandedSubscriptionPlanSummary) | (null));
+            /** Example: "plan_01KEZF7C004CY5ZR33XST2AASV". */
+            "subscription_plan_id"?: string;
+            /**
+             * Tax settings for checkouts started from this link. Whether tax is collected for a
+             * checkout session or payment link.
+             */
+            "tax"?: CheckoutTaxConfig;
+            /**
+             * The title and colors for checkouts started from this link, over your branding
+             * settings. Colors and title applied to a payment link's checkout page.
+             */
+            "theme"?: ThemeConfig;
+            /**
+             * Tip options for checkouts started from this link. Tip settings for a checkout:
+             * whether tips are enabled, the percent or fixed amount options, the default tip, and
+             * custom tips.
+             */
+            "tip"?: CheckoutTipConfig;
+            /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+            "total_quantity_sold": number;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /** URL buyers open to use the link. */
+            "url": string;
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. Format: int64.
+             */
+            "version": number;
+        };
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "payment_link.created". */
+    "event_type"?: "payment_link.created";
     /**
-     * Only valid for product_type gift_card. Omission creates a fixed denomination at
-     * unit_price_money. Discounted pricing requires an explicit face_value_money and price_mode
-     * discounted. Gift card settings on a product variant: its `face_value_money`, price mode
-     * (face value or discounted), and bounds for custom amounts.
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
      */
-    "gift_card_configuration"?: GiftCardProductConfiguration;
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `payment_link.created` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type PaymentLinkCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
     /**
-     * The complete desired gallery in display order. The first image is primary. Send [] to clear
-     * the gallery. minItems: 0. maxItems: 8. [] (Value): {@link ImageRequest}. An image you supply
-     * by `source_url`, with optional `alt` text and external reference.
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.buyer_fields (Optional): {@link CheckoutBuyerFields}. What
+     * checkout asks the buyer for. Each field you leave out uses your checkout settings.
+     * object.checkout_session_expires_in_seconds (Optional): integer. Seconds each checkout
+     * session the link starts stays open, from 60 to 86,400. Omit it to use your checkout
+     * settings, or 24 hours. It doesn't end the link; use sales_end_at for that. Format: int64.
+     * minimum: 60. maximum: 86400. object.completed_count (Required): integer. Number of paid
+     * checkout sessions started from this link. Format: int32. object.created_at (Required):
+     * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.custom_fields (Optional): Array of {@link PaymentLinkCustomField}. Questions buyers
+     * answer before paying. Answers are recorded on the order and checkout session in
+     * `custom_field_answers`. object.custom_fields[] (Value): {@link PaymentLinkCustomField}. A
+     * custom field on a payment link that collects an answer from the buyer. object.custom_text
+     * (Optional): {@link CheckoutCustomTextConfig}. Custom text for checkouts started from this
+     * link. Custom text shown in checkout: an order summary message and a shipping address label.
+     * object.delivery_method_ids (Required): Array of string. Delivery methods the link offers.
+     * Empty when the link has none, and then its checkouts offer
+     * settings.checkout.default_delivery_method_ids when the order has items to deliver.
+     * object.delivery_method_ids[] (Value): string. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     * object.description (Optional): string. Text about what the link sells, returned to buyers
+     * when they open it. object.donation_max_amount_money (Optional): {@link MoneyValue}. Largest
+     * amount a buyer can give on a donation link. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code. object.donation_min_amount_money (Optional): {@link
+     * MoneyValue}. Smallest amount a buyer can give on a donation link. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     * object.donation_suggested_amount_money_options (Optional): Array of {@link MoneyValue}.
+     * Amounts a donation link offers as one-tap choices.
+     * object.donation_suggested_amount_money_options[] (Value): {@link MoneyValue}. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     * object.event_config (Optional): {@link PaymentLinkEventConfig}. Event details for an `event`
+     * link: when and where it takes place and how many tickets it sells. Event settings on an
+     * event payment link, such as its date, venue, ticket limit, and ticket emails.
+     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
+     * in an external system. maxLength: 255. Example: "warehouse-1842". object.image (Optional):
+     * {@link ImageAttachment}. Image shown to buyers with the link. An image attached to a
+     * resource, with its display properties and attachment metadata. object.inactive_message
+     * (Optional): string. Message to show the buyer when the link is inactive.
+     * object.inventory_routing_source (Optional): {@link InventoryRoutingSource}. The inventory
+     * location or routing policy that supplies stock for the link's catalog lines. Where an order,
+     * payment link, or reservation routes inventory from: a fixed Location, an inventory
+     * allocation policy, or one policy revision. object.legal (Optional): {@link LegalSettings}.
+     * The terms and policy links checkouts started from this link show the buyer. Legal settings
+     * for a checkout: whether buyers must accept terms, and links to the terms, refund policy,
+     * shipping policy, and contract. object.line_items (Optional): Array of {@link
+     * PaymentLinkLineItem}. What the link sells. object.line_items[] (Value): {@link
+     * PaymentLinkLineItem}. A line item on a payment link. object.max_completions (Optional):
+     * integer. Most payments the link accepts, counted by `completed_count`. Absent means no
+     * limit. Once the limit is reached, resolving the link fails with a request error. It can't be
+     * set below `completed_count`. Format: int32. object.merchant_id (Required): string. ID of the
+     * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * object.metadata (Optional): {@link MetadataMap}. Stored caller-owned key-value data. See
+     * `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a
+     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
+     * may not satisfy them. object.name (Required): string. Name of the payment link.
+     * object.payment_link_id (Required): string. Unique identifier for this payment link, prefixed
+     * `pl_`. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.payment_link_type (Optional):
+     * string. What kind of link this is. Value enum: "standard", "donation", "event".
+     * object.payments (Optional): {@link CheckoutPaymentConfig}. Payment options for checkouts
+     * started from this link. Payment settings for a checkout: the enabled payment options and a
+     * note shown with payment. object.promotion_config (Optional): {@link
+     * CheckoutPromotionConfig}. Whether automatic promotions apply to checkouts started from this
+     * link and whether buyers can enter promotion codes. Promotion settings for a checkout:
+     * whether automatic promotions apply and whether the buyer can apply promotion codes.
+     * object.redirects (Optional): {@link CheckoutRedirects}. Where checkout sessions started from
+     * this payment link send the buyer after payment, cancellation, or expiration. Where hosted
+     * checkout sends the buyer. Not allowed when surface is embedded; use payment_return_url.
+     * object.sales_end_at (Optional): string. RFC3339 timestamp after which the link stops
+     * starting checkouts and resolve fails with `ACTION_NOT_ALLOWED` and reason `not_offered`.
+     * Unset means sales do not end on their own, except that an event link without sales_end_at
+     * stops selling at event_config.event_at. A checkout opened before the end can still start
+     * payment for up to 15 minutes after it. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.sales_summary (Optional): {@link PaymentLinkSalesSummary}. Present only with
+     * expand=sales_summary on GET /v1/payment-links or GET /v1/payment-links/{payment_link_id}.
+     * Available to merchant callers, including dashboard sessions and API keys with
+     * checkouts.payment_links.read. Uses the same paid-order definition as the merchant sales
+     * summary. Paid-order sales totals for a payment link, computed on request. Paid means the
+     * order's collection has completed. Fully and partially refunded orders still count, and
+     * paid_totals reports the amount collected before refunds. Each order counts once even if it
+     * has multiple checkout sessions. object.status (Required): string. Whether the link can start
+     * new checkouts. Value enum: "active", "inactive". object.subscription_plan (Optional): {@link
+     * ExpandedSubscriptionPlanSummary} or null. Present only when `expand` includes
+     * `subscription_plan`; `null` when expanded and there is no related subscription plan.
+     * object.subscription_plan.anyOf[1] (Value): {@link ExpandedSubscriptionPlanSummary}. A
+     * subscription plan's summary fields, including name, billing interval, currency, and status,
+     * returned when the plan is expanded. object.subscription_plan.anyOf[2] (Value): null.
+     * object.subscription_plan_id (Optional): string. Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
+     * object.tax (Optional): {@link CheckoutTaxConfig}. Tax settings for checkouts started from
+     * this link. Whether tax is collected for a checkout session or payment link. object.theme
+     * (Optional): {@link ThemeConfig}. The title and colors for checkouts started from this link,
+     * over your branding settings. Colors and title applied to a payment link's checkout page.
+     * object.tip (Optional): {@link CheckoutTipConfig}. Tip options for checkouts started from
+     * this link. Tip settings for a checkout: whether tips are enabled, the percent or fixed
+     * amount options, the default tip, and custom tips. object.total_quantity_sold (Required):
+     * integer. Whole-number quantity; fractional quantities are not supported. Format: int32.
+     * object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.url (Required): string. URL buyers open to use the link.
+     * object.version (Required): integer. Current version of this resource's owned state. Send it
+     * as `expected_version` when changing the resource to reject a stale write. Format: int64.
      */
-    "images"?: Array<ImageRequest>;
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * buyer_fields (Optional): {@link CheckoutBuyerFields}. What checkout asks the buyer for.
+         * Each field you leave out uses your checkout settings.
+         * checkout_session_expires_in_seconds (Optional): integer. Seconds each checkout session
+         * the link starts stays open, from 60 to 86,400. Omit it to use your checkout settings, or
+         * 24 hours. It doesn't end the link; use sales_end_at for that. Format: int64. minimum:
+         * 60. maximum: 86400. completed_count (Required): integer. Number of paid checkout
+         * sessions started from this link. Format: int32. created_at (Required): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". custom_fields (Optional):
+         * Array of {@link PaymentLinkCustomField}. Questions buyers answer before paying. Answers
+         * are recorded on the order and checkout session in `custom_field_answers`.
+         * custom_fields[] (Value): {@link PaymentLinkCustomField}. A custom field on a payment
+         * link that collects an answer from the buyer. custom_text (Optional): {@link
+         * CheckoutCustomTextConfig}. Custom text for checkouts started from this link. Custom text
+         * shown in checkout: an order summary message and a shipping address label.
+         * delivery_method_ids (Required): Array of string. Delivery methods the link offers. Empty
+         * when the link has none, and then its checkouts offer
+         * settings.checkout.default_delivery_method_ids when the order has items to deliver.
+         * delivery_method_ids[] (Value): string. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+         * description (Optional): string. Text about what the link sells, returned to buyers when
+         * they open it. donation_max_amount_money (Optional): {@link MoneyValue}. Largest amount a
+         * buyer can give on a donation link. Monetary amount represented as integer minor units
+         * plus an ISO 4217 currency code. donation_min_amount_money (Optional): {@link
+         * MoneyValue}. Smallest amount a buyer can give on a donation link. Monetary amount
+         * represented as integer minor units plus an ISO 4217 currency code.
+         * donation_suggested_amount_money_options (Optional): Array of {@link MoneyValue}. Amounts
+         * a donation link offers as one-tap choices. donation_suggested_amount_money_options[]
+         * (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus an
+         * ISO 4217 currency code. event_config (Optional): {@link PaymentLinkEventConfig}. Event
+         * details for an `event` link: when and where it takes place and how many tickets it
+         * sells. Event settings on an event payment link, such as its date, venue, ticket limit,
+         * and ticket emails. external_reference_id (Optional): string. Caller-owned identifier for
+         * this resource in an external system. maxLength: 255. Example: "warehouse-1842". image
+         * (Optional): {@link ImageAttachment}. Image shown to buyers with the link. An image
+         * attached to a resource, with its display properties and attachment metadata.
+         * inactive_message (Optional): string. Message to show the buyer when the link is
+         * inactive. inventory_routing_source (Optional): {@link InventoryRoutingSource}. The
+         * inventory location or routing policy that supplies stock for the link's catalog lines.
+         * Where an order, payment link, or reservation routes inventory from: a fixed Location, an
+         * inventory allocation policy, or one policy revision. legal (Optional): {@link
+         * LegalSettings}. The terms and policy links checkouts started from this link show the
+         * buyer. Legal settings for a checkout: whether buyers must accept terms, and links to the
+         * terms, refund policy, shipping policy, and contract. line_items (Optional): Array of
+         * {@link PaymentLinkLineItem}. What the link sells. line_items[] (Value): {@link
+         * PaymentLinkLineItem}. A line item on a payment link. max_completions (Optional):
+         * integer. Most payments the link accepts, counted by `completed_count`. Absent means no
+         * limit. Once the limit is reached, resolving the link fails with a request error. It
+         * can't be set below `completed_count`. Format: int32. merchant_id (Required): string. ID
+         * of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * metadata (Optional): {@link MetadataMap}. Stored caller-owned key-value data. See
+         * `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a
+         * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+         * follow the limits on MetadataInput and MetadataPatchInput; maps written before those
+         * limits may not satisfy them. name (Required): string. Name of the payment link.
+         * payment_link_id (Required): string. Unique identifier for this payment link, prefixed
+         * `pl_`. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". payment_link_type (Optional): string.
+         * What kind of link this is. Value enum: "standard", "donation", "event". payments
+         * (Optional): {@link CheckoutPaymentConfig}. Payment options for checkouts started from
+         * this link. Payment settings for a checkout: the enabled payment options and a note shown
+         * with payment. promotion_config (Optional): {@link CheckoutPromotionConfig}. Whether
+         * automatic promotions apply to checkouts started from this link and whether buyers can
+         * enter promotion codes. Promotion settings for a checkout: whether automatic promotions
+         * apply and whether the buyer can apply promotion codes. redirects (Optional): {@link
+         * CheckoutRedirects}. Where checkout sessions started from this payment link send the
+         * buyer after payment, cancellation, or expiration. Where hosted checkout sends the buyer.
+         * Not allowed when surface is embedded; use payment_return_url. sales_end_at (Optional):
+         * string. RFC3339 timestamp after which the link stops starting checkouts and resolve
+         * fails with `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end
+         * on their own, except that an event link without sales_end_at stops selling at
+         * event_config.event_at. A checkout opened before the end can still start payment for up
+         * to 15 minutes after it. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * sales_summary (Optional): {@link PaymentLinkSalesSummary}. Present only with
+         * expand=sales_summary on GET /v1/payment-links or GET
+         * /v1/payment-links/{payment_link_id}. Available to merchant callers, including dashboard
+         * sessions and API keys with checkouts.payment_links.read. Uses the same paid-order
+         * definition as the merchant sales summary. Paid-order sales totals for a payment link,
+         * computed on request. Paid means the order's collection has completed. Fully and
+         * partially refunded orders still count, and paid_totals reports the amount collected
+         * before refunds. Each order counts once even if it has multiple checkout sessions. status
+         * (Required): string. Whether the link can start new checkouts. Value enum: "active",
+         * "inactive". subscription_plan (Optional): {@link ExpandedSubscriptionPlanSummary} or
+         * null. Present only when `expand` includes `subscription_plan`; `null` when expanded and
+         * there is no related subscription plan. subscription_plan.anyOf[1] (Value): {@link
+         * ExpandedSubscriptionPlanSummary}. A subscription plan's summary fields, including name,
+         * billing interval, currency, and status, returned when the plan is expanded.
+         * subscription_plan.anyOf[2] (Value): null. subscription_plan_id (Optional): string.
+         * Example: "plan_01KEZF7C004CY5ZR33XST2AASV". tax (Optional): {@link CheckoutTaxConfig}.
+         * Tax settings for checkouts started from this link. Whether tax is collected for a
+         * checkout session or payment link. theme (Optional): {@link ThemeConfig}. The title and
+         * colors for checkouts started from this link, over your branding settings. Colors and
+         * title applied to a payment link's checkout page. tip (Optional): {@link
+         * CheckoutTipConfig}. Tip options for checkouts started from this link. Tip settings for a
+         * checkout: whether tips are enabled, the percent or fixed amount options, the default
+         * tip, and custom tips. total_quantity_sold (Required): integer. Whole-number quantity;
+         * fractional quantities are not supported. Format: int32. updated_at (Required): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". url (Required):
+         * string. URL buyers open to use the link. version (Required): integer. Current version of
+         * this resource's owned state. Send it as `expected_version` when changing the resource to
+         * reject a stale write. Format: int64.
+         */
+        "object": {
+            /**
+             * What checkout asks the buyer for. Each field you leave out uses your checkout
+             * settings.
+             */
+            "buyer_fields"?: CheckoutBuyerFields;
+            /**
+             * Seconds each checkout session the link starts stays open, from 60 to 86,400. Omit it
+             * to use your checkout settings, or 24 hours. It doesn't end the link; use
+             * sales_end_at for that. Format: int64. minimum: 60. maximum: 86400.
+             */
+            "checkout_session_expires_in_seconds"?: number;
+            /** Number of paid checkout sessions started from this link. Format: int32. */
+            "completed_count": number;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Questions buyers answer before paying. Answers are recorded on the order and
+             * checkout session in `custom_field_answers`. [] (Value): {@link
+             * PaymentLinkCustomField}. A custom field on a payment link that collects an answer
+             * from the buyer.
+             */
+            "custom_fields"?: Array<PaymentLinkCustomField>;
+            /**
+             * Custom text for checkouts started from this link. Custom text shown in checkout: an
+             * order summary message and a shipping address label.
+             */
+            "custom_text"?: CheckoutCustomTextConfig;
+            /**
+             * Delivery methods the link offers. Empty when the link has none, and then its
+             * checkouts offer settings.checkout.default_delivery_method_ids when the order has
+             * items to deliver. [] (Value): string. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+             */
+            "delivery_method_ids": Array<string>;
+            /** Text about what the link sells, returned to buyers when they open it. */
+            "description"?: string;
+            /**
+             * Largest amount a buyer can give on a donation link. Monetary amount represented as
+             * integer minor units plus an ISO 4217 currency code.
+             */
+            "donation_max_amount_money"?: MoneyValue;
+            /**
+             * Smallest amount a buyer can give on a donation link. Monetary amount represented as
+             * integer minor units plus an ISO 4217 currency code.
+             */
+            "donation_min_amount_money"?: MoneyValue;
+            /**
+             * Amounts a donation link offers as one-tap choices. [] (Value): {@link MoneyValue}.
+             * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+             */
+            "donation_suggested_amount_money_options"?: Array<MoneyValue>;
+            /**
+             * Event details for an `event` link: when and where it takes place and how many
+             * tickets it sells. Event settings on an event payment link, such as its date, venue,
+             * ticket limit, and ticket emails.
+             */
+            "event_config"?: PaymentLinkEventConfig;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /**
+             * Image shown to buyers with the link. An image attached to a resource, with its
+             * display properties and attachment metadata.
+             */
+            "image"?: ImageAttachment;
+            /** Message to show the buyer when the link is inactive. */
+            "inactive_message"?: string;
+            /**
+             * The inventory location or routing policy that supplies stock for the link's catalog
+             * lines. Where an order, payment link, or reservation routes inventory from: a fixed
+             * Location, an inventory allocation policy, or one policy revision.
+             */
+            "inventory_routing_source"?: InventoryRoutingSource;
+            /**
+             * The terms and policy links checkouts started from this link show the buyer. Legal
+             * settings for a checkout: whether buyers must accept terms, and links to the terms,
+             * refund policy, shipping policy, and contract.
+             */
+            "legal"?: LegalSettings;
+            /**
+             * What the link sells. [] (Value): {@link PaymentLinkLineItem}. A line item on a
+             * payment link.
+             */
+            "line_items"?: Array<PaymentLinkLineItem>;
+            /**
+             * Most payments the link accepts, counted by `completed_count`. Absent means no limit.
+             * Once the limit is reached, resolving the link fails with a request error. It can't
+             * be set below `completed_count`. Format: int32.
+             */
+            "max_completions"?: number;
+            /**
+             * ID of the merchant this resource belongs to. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id": string;
+            /**
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
+             * are reserved for Flint and are not returned. Writes follow the limits on
+             * MetadataInput and MetadataPatchInput; maps written before those limits may not
+             * satisfy them.
+             */
+            "metadata"?: MetadataMap;
+            /** Name of the payment link. */
+            "name": string;
+            /**
+             * Unique identifier for this payment link, prefixed `pl_`. Example:
+             * "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+             */
+            "payment_link_id": string;
+            /** What kind of link this is. Value enum: "standard", "donation", "event". */
+            "payment_link_type"?: "standard" | "donation" | "event" | (string & {});
+            /**
+             * Payment options for checkouts started from this link. Payment settings for a
+             * checkout: the enabled payment options and a note shown with payment.
+             */
+            "payments"?: CheckoutPaymentConfig;
+            /**
+             * Whether automatic promotions apply to checkouts started from this link and whether
+             * buyers can enter promotion codes. Promotion settings for a checkout: whether
+             * automatic promotions apply and whether the buyer can apply promotion codes.
+             */
+            "promotion_config"?: CheckoutPromotionConfig;
+            /**
+             * Where checkout sessions started from this payment link send the buyer after payment,
+             * cancellation, or expiration. Where hosted checkout sends the buyer. Not allowed when
+             * surface is embedded; use payment_return_url.
+             */
+            "redirects"?: CheckoutRedirects;
+            /**
+             * RFC3339 timestamp after which the link stops starting checkouts and resolve fails
+             * with `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end on
+             * their own, except that an event link without sales_end_at stops selling at
+             * event_config.event_at. A checkout opened before the end can still start payment for
+             * up to 15 minutes after it. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "sales_end_at"?: string;
+            /**
+             * Present only with expand=sales_summary on GET /v1/payment-links or GET
+             * /v1/payment-links/{payment_link_id}. Available to merchant callers, including
+             * dashboard sessions and API keys with checkouts.payment_links.read. Uses the same
+             * paid-order definition as the merchant sales summary. Paid-order sales totals for a
+             * payment link, computed on request. Paid means the order's collection has completed.
+             * Fully and partially refunded orders still count, and paid_totals reports the amount
+             * collected before refunds. Each order counts once even if it has multiple checkout
+             * sessions.
+             */
+            "sales_summary"?: PaymentLinkSalesSummary;
+            /** Whether the link can start new checkouts. Value enum: "active", "inactive". */
+            "status": "active" | "inactive" | (string & {});
+            /**
+             * Present only when `expand` includes `subscription_plan`; `null` when expanded and
+             * there is no related subscription plan. anyOf[1] (Value): {@link
+             * ExpandedSubscriptionPlanSummary}. A subscription plan's summary fields, including
+             * name, billing interval, currency, and status, returned when the plan is expanded.
+             * anyOf[2] (Value): null.
+             */
+            "subscription_plan"?: ((ExpandedSubscriptionPlanSummary) | (null));
+            /** Example: "plan_01KEZF7C004CY5ZR33XST2AASV". */
+            "subscription_plan_id"?: string;
+            /**
+             * Tax settings for checkouts started from this link. Whether tax is collected for a
+             * checkout session or payment link.
+             */
+            "tax"?: CheckoutTaxConfig;
+            /**
+             * The title and colors for checkouts started from this link, over your branding
+             * settings. Colors and title applied to a payment link's checkout page.
+             */
+            "theme"?: ThemeConfig;
+            /**
+             * Tip options for checkouts started from this link. Tip settings for a checkout:
+             * whether tips are enabled, the percent or fixed amount options, the default tip, and
+             * custom tips.
+             */
+            "tip"?: CheckoutTipConfig;
+            /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+            "total_quantity_sold": number;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /** URL buyers open to use the link. */
+            "url": string;
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. Format: int64.
+             */
+            "version": number;
+        };
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "payment_link.created". */
+    "event_type"?: "payment_link.created";
+});
+/** A custom field on a payment link that collects an answer from the buyer. */
+export type PaymentLinkCustomField = {
     /**
-     * New inventory item to create and track for this variant. Send either inventory_item or
-     * inventory_item_id. Inventory item details you supply when creating an inventory item for a
-     * product variant: `name`, `sku`, `barcode`, and metadata.
+     * What kind of answer the field collects. Value enum: "text", "dropdown", "checkbox",
+     * "textarea".
      */
-    "inventory_item"?: InventoryItemCreateRequest;
+    "custom_field_type": "text" | "dropdown" | "checkbox" | "textarea" | (string & {});
     /**
-     * Identifier of an existing inventory item to track for this variant. Send either
-     * inventory_item_id or inventory_item. minLength: 1.
+     * Unique custom field key, without leading or trailing whitespace. Each answer records it as
+     * `custom_field_answers[].key`. minLength: 1. maxLength: 243.
      */
-    "inventory_item_id"?: string;
+    "key": string;
+    /** Question shown to the buyer. */
+    "label": string;
     /**
-     * Flint line-item tax category to store. Omit for a digital product to store digital_goods;
-     * explicit categories are preserved. For other product types, omission uses the merchant
-     * default. Value enum: "general", "physical_goods", "digital_goods", "software", "saas",
-     * "services", "professional_services", "food", "prepared_food", "clothing", "medical_goods",
-     * "admission".
+     * Maximum answer length for text and textarea fields, counted in Unicode code points. Defaults
+     * to 255 for text and 1000 for textarea when omitted. Format: int32. minimum: 1. maximum:
+     * 4096.
      */
-    "line_item_tax_category"?: "general"
-        | "physical_goods"
-        | "digital_goods"
-        | "software"
-        | "saas"
-        | "services"
-        | "professional_services"
-        | "food"
-        | "prepared_food"
-        | "clothing"
-        | "medical_goods"
-        | "admission"
-        | (string & {});
+    "max_length"?: number;
     /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     * Dropdown choices. Dropdown fields require at least one option. Options must not have leading
+     * or trailing whitespace. [] (Value): string. maxLength: 4096.
      */
-    "metadata"?: MetadataMap;
-    /** Attached modifier set. Send null on update to remove it. minLength: 1. */
-    "modifier_set_id"?: string | null;
+    "options"?: Array<string>;
     /**
-     * Variant name that distinguishes it from the product's other variants. minLength: 1.
-     * maxLength: 255.
+     * Unique identifier for this payment link custom field, prefixed `plcf_`. Example:
+     * "plcf_01KEZF7C00JBQMP98WBXZA3RHS".
      */
+    "payment_link_custom_field_id": string;
+    /** Hint text shown inside the empty field. */
+    "placeholder"?: string;
+    /** Display order among the link's custom fields. Lower numbers come first. Format: int32. */
+    "position"?: number;
+    /** Whether the buyer must answer before paying. */
+    "required"?: boolean;
+};
+/**
+ * A custom field in a payment link update. Include its ID to change an existing field, or omit the
+ * ID to add a new one.
+ */
+export type PaymentLinkCustomFieldPatchRequest = {
+    /**
+     * What kind of answer the field collects. Value enum: "text", "dropdown", "checkbox",
+     * "textarea".
+     */
+    "custom_field_type": "text" | "dropdown" | "checkbox" | "textarea" | (string & {});
+    /**
+     * Unique custom field key, without leading or trailing whitespace. Each answer records it as
+     * `custom_field_answers[].key`. minLength: 1. maxLength: 243.
+     */
+    "key": string;
+    /** Question shown to the buyer. minLength: 1. maxLength: 255. */
+    "label": string;
+    /**
+     * Maximum answer length for text and textarea fields, counted in Unicode code points. Defaults
+     * to 255 for text and 1000 for textarea when omitted. Format: int32. minimum: 1. maximum:
+     * 4096.
+     */
+    "max_length"?: number;
+    /**
+     * Dropdown choices. Dropdown fields require at least one option. Options must not have leading
+     * or trailing whitespace. [] (Value): string. minLength: 1. maxLength: 4096.
+     */
+    "options"?: Array<string>;
+    /**
+     * Stable ID of an existing custom field. Omit it to create a new custom field. minLength: 1.
+     * Example: "plcf_01KEZF7C00JBQMP98WBXZA3RHS".
+     */
+    "payment_link_custom_field_id"?: string;
+    /** Hint text shown inside the empty field. minLength: 1. maxLength: 500. */
+    "placeholder"?: string;
+    /** Display order among the link's custom fields. Lower numbers come first. Format: int32. */
+    "position"?: number;
+    /** Whether the buyer must answer before paying. */
+    "required"?: boolean;
+};
+/**
+ * A custom field in a payment link update. Include its ID to change an existing field, or omit the
+ * ID to add a new one.
+ */
+export type PaymentLinkCustomFieldPatchRequestInput = {
+    /**
+     * What kind of answer the field collects. Value enum: "text", "dropdown", "checkbox",
+     * "textarea".
+     */
+    "custom_field_type": "text" | "dropdown" | "checkbox" | "textarea";
+    /**
+     * Unique custom field key, without leading or trailing whitespace. Each answer records it as
+     * `custom_field_answers[].key`. minLength: 1. maxLength: 243.
+     */
+    "key": string;
+    /** Question shown to the buyer. minLength: 1. maxLength: 255. */
+    "label": string;
+    /**
+     * Maximum answer length for text and textarea fields, counted in Unicode code points. Defaults
+     * to 255 for text and 1000 for textarea when omitted. Format: int32. minimum: 1. maximum:
+     * 4096.
+     */
+    "max_length"?: number;
+    /**
+     * Dropdown choices. Dropdown fields require at least one option. Options must not have leading
+     * or trailing whitespace. [] (Value): string. minLength: 1. maxLength: 4096.
+     */
+    "options"?: Array<string>;
+    /**
+     * Stable ID of an existing custom field. Omit it to create a new custom field. minLength: 1.
+     * Example: "plcf_01KEZF7C00JBQMP98WBXZA3RHS".
+     */
+    "payment_link_custom_field_id"?: string;
+    /** Hint text shown inside the empty field. minLength: 1. maxLength: 500. */
+    "placeholder"?: string;
+    /** Display order among the link's custom fields. Lower numbers come first. Format: int32. */
+    "position"?: number;
+    /** Whether the buyer must answer before paying. */
+    "required"?: boolean;
+};
+/** A custom field you add to a payment link when creating it. */
+export type PaymentLinkCustomFieldRequest = {
+    /**
+     * What kind of answer the field collects. Value enum: "text", "dropdown", "checkbox",
+     * "textarea".
+     */
+    "custom_field_type": "text" | "dropdown" | "checkbox" | "textarea" | (string & {});
+    /**
+     * Unique custom field key, without leading or trailing whitespace. Each answer records it as
+     * `custom_field_answers[].key`. minLength: 1. maxLength: 243.
+     */
+    "key": string;
+    /** Question shown to the buyer. minLength: 1. maxLength: 255. */
+    "label": string;
+    /**
+     * Maximum answer length for text and textarea fields, counted in Unicode code points. Defaults
+     * to 255 for text and 1000 for textarea when omitted. Format: int32. minimum: 1. maximum:
+     * 4096.
+     */
+    "max_length"?: number;
+    /**
+     * Dropdown choices. Dropdown fields require at least one option. Options must not have leading
+     * or trailing whitespace. [] (Value): string. minLength: 1. maxLength: 4096.
+     */
+    "options"?: Array<string>;
+    /** Hint text shown inside the empty field. minLength: 1. maxLength: 500. */
+    "placeholder"?: string;
+    /** Display order among the link's custom fields. Lower numbers come first. Format: int32. */
+    "position"?: number;
+    /** Whether the buyer must answer before paying. */
+    "required"?: boolean;
+};
+/** A custom field you add to a payment link when creating it. */
+export type PaymentLinkCustomFieldRequestInput = {
+    /**
+     * What kind of answer the field collects. Value enum: "text", "dropdown", "checkbox",
+     * "textarea".
+     */
+    "custom_field_type": "text" | "dropdown" | "checkbox" | "textarea";
+    /**
+     * Unique custom field key, without leading or trailing whitespace. Each answer records it as
+     * `custom_field_answers[].key`. minLength: 1. maxLength: 243.
+     */
+    "key": string;
+    /** Question shown to the buyer. minLength: 1. maxLength: 255. */
+    "label": string;
+    /**
+     * Maximum answer length for text and textarea fields, counted in Unicode code points. Defaults
+     * to 255 for text and 1000 for textarea when omitted. Format: int32. minimum: 1. maximum:
+     * 4096.
+     */
+    "max_length"?: number;
+    /**
+     * Dropdown choices. Dropdown fields require at least one option. Options must not have leading
+     * or trailing whitespace. [] (Value): string. minLength: 1. maxLength: 4096.
+     */
+    "options"?: Array<string>;
+    /** Hint text shown inside the empty field. minLength: 1. maxLength: 500. */
+    "placeholder"?: string;
+    /** Display order among the link's custom fields. Lower numbers come first. Format: int32. */
+    "position"?: number;
+    /** Whether the buyer must answer before paying. */
+    "required"?: boolean;
+};
+/**
+ * Custom text shown on a payment link's checkout, such as the order summary message and shipping
+ * address label.
+ */
+export type PaymentLinkCustomTextConfigInput = {
+    /** Message shown near the order summary in checkout. minLength: 1. maxLength: 2048. */
+    "order_summary_message"?: string;
+    /** Label shown for the shipping address in checkout. minLength: 1. maxLength: 255. */
+    "shipping_address_label"?: string;
+};
+/** Changes to a payment link's custom checkout text. Send null to clear a field. */
+export type PaymentLinkCustomTextPatchRequest = {
+    /** Send null to clear it. minLength: 1. maxLength: 2048. */
+    "order_summary_message"?: string | null;
+    /** Send null to clear it. minLength: 1. maxLength: 255. */
+    "shipping_address_label"?: string | null;
+};
+/** Changes to a payment link's custom checkout text. Send null to clear a field. */
+export type PaymentLinkCustomTextPatchRequestInput = PaymentLinkCustomTextPatchRequest;
+/**
+ * Event settings on an event payment link, such as its date, venue, ticket limit, and ticket
+ * emails.
+ */
+export type PaymentLinkEventConfig = {
+    /**
+     * Whether resolving the link requires `attendee_names`, one name per ticket. Flint copies the
+     * names onto the tickets when the order is paid. Defaults to false.
+     */
+    "collect_attendee_names"?: boolean;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "event_at"?: string;
+    /**
+     * Most tickets the event sells across all orders. `null` when the event has no ticket limit.
+     * On update, send null to remove the limit; a value below the tickets already sold or held by
+     * payments in progress fails with `LIMIT_EXCEEDED`. Whole-number quantity; fractional
+     * quantities are not supported. Format: int32.
+     */
+    "max_total_quantity"?: number | null;
+    /** Whether Flint emails tickets to buyers after they pay. */
+    "send_ticket_emails"?: boolean;
+    /**
+     * Prefix for ticket numbers, up to 5 characters. It cannot change after the event has issued
+     * tickets. maxLength: 5.
+     */
+    "ticket_prefix"?: string;
+    /** IANA time zone of the event venue, used to show `event_at` as venue time. */
+    "timezone"?: string;
+    /** Where the event takes place. maxLength: 500. */
+    "venue"?: string;
+};
+/** Changes to an event payment link's settings. Send null on a nullable field to clear it. */
+export type PaymentLinkEventConfigPatchRequest = {
+    /**
+     * Whether resolving the link requires `attendee_names`, one name per ticket. Flint copies the
+     * names onto the tickets when the order is paid. Defaults to false.
+     */
+    "collect_attendee_names"?: boolean;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "event_at"?: string;
+    /**
+     * Most tickets the event sells across all orders. `null` when the event has no ticket limit.
+     * On update, send null to remove the limit; a value below the tickets already sold or held by
+     * payments in progress fails with `LIMIT_EXCEEDED`. Whole-number quantity; fractional
+     * quantities are not supported. Format: int32.
+     */
+    "max_total_quantity"?: number | null;
+    /** Whether Flint emails tickets to buyers after they pay. */
+    "send_ticket_emails"?: boolean;
+    /**
+     * Prefix for ticket numbers, up to 5 characters. It cannot change after the event has issued
+     * tickets. Send null to clear it. minLength: 1. maxLength: 5.
+     */
+    "ticket_prefix"?: string | null;
+    /** IANA time zone of the event venue, used to show `event_at` as venue time. minLength: 1. */
+    "timezone"?: string;
+    /** Send null to clear it. minLength: 1. maxLength: 500. */
+    "venue"?: string | null;
+};
+/** Changes to an event payment link's settings. Send null on a nullable field to clear it. */
+export type PaymentLinkEventConfigPatchRequestInput = {
+    /**
+     * Whether resolving the link requires `attendee_names`, one name per ticket. Flint copies the
+     * names onto the tickets when the order is paid. Defaults to false.
+     */
+    "collect_attendee_names"?: boolean;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "event_at"?: string | globalThis.Date;
+    /**
+     * Most tickets the event sells across all orders. `null` when the event has no ticket limit.
+     * On update, send null to remove the limit; a value below the tickets already sold or held by
+     * payments in progress fails with `LIMIT_EXCEEDED`. Whole-number quantity; fractional
+     * quantities are not supported. Format: int32.
+     */
+    "max_total_quantity"?: number | null;
+    /** Whether Flint emails tickets to buyers after they pay. */
+    "send_ticket_emails"?: boolean;
+    /**
+     * Prefix for ticket numbers, up to 5 characters. It cannot change after the event has issued
+     * tickets. Send null to clear it. minLength: 1. maxLength: 5.
+     */
+    "ticket_prefix"?: string | null;
+    /** IANA time zone of the event venue, used to show `event_at` as venue time. minLength: 1. */
+    "timezone"?: string;
+    /** Send null to clear it. minLength: 1. maxLength: 500. */
+    "venue"?: string | null;
+};
+/** Event settings you supply when creating an event payment link. */
+export type PaymentLinkEventConfigRequestInput = {
+    /**
+     * Whether resolving the link requires `attendee_names`, one name per ticket. Flint copies the
+     * names onto the tickets when the order is paid. Defaults to false.
+     */
+    "collect_attendee_names"?: boolean;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "event_at"?: string | globalThis.Date;
+    /**
+     * Most tickets the event sells across all orders. `null` when the event has no ticket limit.
+     * On update, send null to remove the limit; a value below the tickets already sold or held by
+     * payments in progress fails with `LIMIT_EXCEEDED`. Whole-number quantity; fractional
+     * quantities are not supported. Format: int32.
+     */
+    "max_total_quantity"?: number | null;
+    /** Whether Flint emails tickets to buyers after they pay. */
+    "send_ticket_emails"?: boolean;
+    /**
+     * Prefix for ticket numbers, up to 5 characters. It cannot change after the event has issued
+     * tickets. minLength: 1. maxLength: 5.
+     */
+    "ticket_prefix"?: string;
+    /** IANA time zone of the event venue, used to show `event_at` as venue time. minLength: 1. */
+    "timezone"?: string;
+    /** Where the event takes place. minLength: 1. maxLength: 500. */
+    "venue"?: string;
+};
+/**
+ * Legal links on a payment link: contract, refund policy, shipping policy, and terms of service
+ * URLs, and whether buyers must accept the terms.
+ */
+export type PaymentLinkLegalConfigInput = {
+    /**
+     * An `https://` URL of the contract the buyer agrees to, linked in checkout. minLength: 1.
+     * maxLength: 2048.
+     */
+    "contract_url"?: string;
+    /**
+     * An `https://` URL of your refund policy, linked in checkout. minLength: 1. maxLength: 2048.
+     */
+    "refund_policy_url"?: string;
+    /** Whether the buyer must accept the terms of service before paying. */
+    "require_terms_of_service"?: boolean;
+    /**
+     * An `https://` URL of your shipping policy, linked in checkout. minLength: 1. maxLength:
+     * 2048.
+     */
+    "shipping_policy_url"?: string;
+    /**
+     * An `https://` URL of your terms of service, linked in checkout. minLength: 1. maxLength:
+     * 2048.
+     */
+    "terms_of_service_url"?: string;
+};
+/** Changes to a payment link's legal links and terms setting. Send null on a URL to clear it. */
+export type PaymentLinkLegalPatchRequestInput = {
+    /** Send null to clear it. minLength: 1. maxLength: 2048. */
+    "contract_url"?: string | null;
+    /** Send null to clear it. minLength: 1. maxLength: 2048. */
+    "refund_policy_url"?: string | null;
+    /** Whether the buyer must accept the terms of service before paying. */
+    "require_terms_of_service"?: boolean;
+    /** Send null to clear it. minLength: 1. maxLength: 2048. */
+    "shipping_policy_url"?: string | null;
+    /** Send null to clear it. minLength: 1. maxLength: 2048. */
+    "terms_of_service_url"?: string | null;
+};
+/** A line item on a payment link. */
+export type PaymentLinkLineItem = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string;
+    /** Description of an ad hoc line item. */
+    "description"?: string;
+    /**
+     * True when the referenced variant or bundle cannot be sold, or no listed variant in
+     * variant_ids can be sold in the line currency. Always false on ad hoc line items.
+     */
+    "is_catalog_item_unavailable": boolean;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValue;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValue;
+    /** Name of an ad hoc line item. Catalog lines take the catalog name. */
     "name"?: string;
     /**
-     * Display order among the product's variants, starting at zero. When omitted in the variants
-     * array on product create, defaults to the variant's array index. For default_variant,
-     * defaults to zero. When creating a variant separately, defaults to the highest position among
-     * the product's variants plus one, or zero for the first variant. Format: int32.
+     * Unique identifier for this payment link line item, prefixed `plli_`. Example:
+     * "plli_01KEZF7C004V7GVCCNMYYCBAJS".
      */
-    "position"?: number;
+    "payment_link_line_item_id": string;
     /**
-     * Option name and value selections for this variant. When present on an update, replaces the
-     * entire selection. Omit to leave unchanged. Select one active value for every active option.
-     * null is invalid. [] (Value): {@link ProductVariantSelectedOptionRequest}. An option name and
-     * value you choose to identify a product variant, such as Size and Large.
+     * Parent catalog context only. The product that the variants in variant_ids belong to. Present
+     * only on buyer choice lines; refused on input. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
      */
-    "selected_options"?: Array<ProductVariantSelectedOptionRequest>;
-    /** Stock keeping unit assigned to this sellable item. minLength: 1. maxLength: 100. */
-    "sku"?: string;
+    "product_id"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "quantity": number;
     /**
-     * Whether the variant is active or inactive. An inactive variant cannot be sold. Default:
-     * "active". Value enum: "active", "inactive".
+     * Current catalog name of the referenced variant or bundle, or the product name for
+     * variant_ids lines. A variant reads as the product name, plus the variant name when the
+     * variant is a named option combination. This is the catalog value at read time, not a stored
+     * snapshot: checkout resolves it again when a buyer opens the link. Absent on ad-hoc line
+     * items and when the catalog object no longer exists.
      */
-    "status"?: "active" | "inactive" | (string & {});
-    /** Whether this item is subject to tax. */
-    "taxable"?: boolean;
+    "resolved_name"?: string;
     /**
-     * Per-unit measurement. Omitted when unknown. Package or item dimensions as `length`, `width`,
-     * and `height` in the given `unit`.
+     * Current lowest and highest catalog unit prices among listed variants that can be sold in the
+     * line currency. Computed at read time, not stored. Omitted when no listed variant can be
+     * sold. The lowest and highest unit prices across a product's variants.
      */
-    "unit_dimensions"?: Dimensions;
+    "resolved_price_range"?: ProductPriceRange;
     /**
-     * Price charged for one unit, in the currency's smallest unit. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
+     * Current catalog unit price of the referenced variant or bundle. For a fixed variant this is
+     * the base price that applies below the first quantity price break. This is the catalog value
+     * at read time, not a stored snapshot: checkout resolves the price again when a buyer opens
+     * the link, so the amount a buyer pays can differ. Absent on ad-hoc line items, variant_ids
+     * lines, and when the catalog object no longer exists. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "resolved_unit_price_money"?: MoneyValue;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValue>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTax;
+    /**
+     * How the line item is defined. Value enum: "variant", "bundle", "custom_fixed",
+     * "custom_variable".
+     */
+    "type": "variant" | "bundle" | "custom_fixed" | "custom_variable" | (string & {});
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money"?: MoneyValue;
+    /**
+     * ID of the catalog variant a `variant` line sells. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & ((Exclude<PaymentLinkLineItemVariant & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemBundle & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemCustomFixed & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemCustomVariable & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/** A line item on a payment link. */
+export type PaymentLinkLineItemBundle = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id": string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string;
+    /** Description of an ad hoc line item. */
+    "description"?: string;
+    /**
+     * True when the referenced variant or bundle cannot be sold, or no listed variant in
+     * variant_ids can be sold in the line currency. Always false on ad hoc line items.
+     */
+    "is_catalog_item_unavailable": boolean;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValue;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValue;
+    /** Name of an ad hoc line item. Catalog lines take the catalog name. */
+    "name"?: string;
+    /**
+     * Unique identifier for this payment link line item, prefixed `plli_`. Example:
+     * "plli_01KEZF7C004V7GVCCNMYYCBAJS".
+     */
+    "payment_link_line_item_id": string;
+    /**
+     * Parent catalog context only. The product that the variants in variant_ids belong to. Present
+     * only on buyer choice lines; refused on input. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
+     */
+    "product_id"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "quantity": number;
+    /**
+     * Current catalog name of the referenced variant or bundle, or the product name for
+     * variant_ids lines. A variant reads as the product name, plus the variant name when the
+     * variant is a named option combination. This is the catalog value at read time, not a stored
+     * snapshot: checkout resolves it again when a buyer opens the link. Absent on ad-hoc line
+     * items and when the catalog object no longer exists.
+     */
+    "resolved_name"?: string;
+    /**
+     * Current lowest and highest catalog unit prices among listed variants that can be sold in the
+     * line currency. Computed at read time, not stored. Omitted when no listed variant can be
+     * sold. The lowest and highest unit prices across a product's variants.
+     */
+    "resolved_price_range"?: ProductPriceRange;
+    /**
+     * Current catalog unit price of the referenced variant or bundle. For a fixed variant this is
+     * the base price that applies below the first quantity price break. This is the catalog value
+     * at read time, not a stored snapshot: checkout resolves the price again when a buyer opens
+     * the link, so the amount a buyer pays can differ. Absent on ad-hoc line items, variant_ids
+     * lines, and when the catalog object no longer exists. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "resolved_unit_price_money"?: MoneyValue;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValue>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTax;
+    /** How the line item is defined. Value enum: "bundle". */
+    "type": "bundle" | (string & {});
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money"?: MoneyValue;
+    /**
+     * ID of the catalog variant a `variant` line sells. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: "bundle". */
+    "type": "bundle" | (string & {});
+    /**
+     * ID of the catalog bundle a `bundle` line sells. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id": string;
+}));
+/** A line item on a payment link. */
+export type PaymentLinkLineItemCustomFixed = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string;
+    /** Description of an ad hoc line item. */
+    "description"?: string;
+    /**
+     * True when the referenced variant or bundle cannot be sold, or no listed variant in
+     * variant_ids can be sold in the line currency. Always false on ad hoc line items.
+     */
+    "is_catalog_item_unavailable": boolean;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValue;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValue;
+    /** Name of an ad hoc line item. Catalog lines take the catalog name. */
+    "name": string;
+    /**
+     * Unique identifier for this payment link line item, prefixed `plli_`. Example:
+     * "plli_01KEZF7C004V7GVCCNMYYCBAJS".
+     */
+    "payment_link_line_item_id": string;
+    /**
+     * Parent catalog context only. The product that the variants in variant_ids belong to. Present
+     * only on buyer choice lines; refused on input. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
+     */
+    "product_id"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "quantity": number;
+    /**
+     * Current catalog name of the referenced variant or bundle, or the product name for
+     * variant_ids lines. A variant reads as the product name, plus the variant name when the
+     * variant is a named option combination. This is the catalog value at read time, not a stored
+     * snapshot: checkout resolves it again when a buyer opens the link. Absent on ad-hoc line
+     * items and when the catalog object no longer exists.
+     */
+    "resolved_name"?: string;
+    /**
+     * Current lowest and highest catalog unit prices among listed variants that can be sold in the
+     * line currency. Computed at read time, not stored. Omitted when no listed variant can be
+     * sold. The lowest and highest unit prices across a product's variants.
+     */
+    "resolved_price_range"?: ProductPriceRange;
+    /**
+     * Current catalog unit price of the referenced variant or bundle. For a fixed variant this is
+     * the base price that applies below the first quantity price break. This is the catalog value
+     * at read time, not a stored snapshot: checkout resolves the price again when a buyer opens
+     * the link, so the amount a buyer pays can differ. Absent on ad-hoc line items, variant_ids
+     * lines, and when the catalog object no longer exists. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "resolved_unit_price_money"?: MoneyValue;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValue>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTax;
+    /** How the line item is defined. Value enum: "custom_fixed". */
+    "type": "custom_fixed" | (string & {});
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
      */
     "unit_price_money": MoneyValue;
     /**
-     * Per-unit measurement. Omitted when unknown. A weight value in grams, kilograms, ounces, or
-     * pounds, used in delivery profile configuration.
+     * ID of the catalog variant a `variant` line sells. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
      */
-    "unit_weight"?: Weight;
-};
-/** The request body for: Create product variant. */
-export type ProductVariantRequestInput = {
-    /** Barcode assigned to this sellable item. minLength: 1. maxLength: 100. */
-    "barcode"?: string;
-    /** Identifier of the delivery profile to assign to this variant. minLength: 1. */
-    "delivery_profile_id"?: string;
+    "variant_id"?: string;
     /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: false. */
+    "allow_unit_price_adjustment"?: boolean;
+    /** Value enum: "custom_fixed". */
+    "type": "custom_fixed" | (string & {});
+    /** Name of an ad hoc line item. Catalog lines take the catalog name. */
+    "name": string;
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money": MoneyValue;
+}));
+/** A line item on a payment link. */
+export type PaymentLinkLineItemCustomVariable = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment": boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string;
+    /** Description of an ad hoc line item. */
+    "description"?: string;
+    /**
+     * True when the referenced variant or bundle cannot be sold, or no listed variant in
+     * variant_ids can be sold in the line currency. Always false on ad hoc line items.
+     */
+    "is_catalog_item_unavailable": boolean;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValue;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValue;
+    /** Name of an ad hoc line item. Catalog lines take the catalog name. */
+    "name": string;
+    /**
+     * Unique identifier for this payment link line item, prefixed `plli_`. Example:
+     * "plli_01KEZF7C004V7GVCCNMYYCBAJS".
+     */
+    "payment_link_line_item_id": string;
+    /**
+     * Parent catalog context only. The product that the variants in variant_ids belong to. Present
+     * only on buyer choice lines; refused on input. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
+     */
+    "product_id"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "quantity": number;
+    /**
+     * Current catalog name of the referenced variant or bundle, or the product name for
+     * variant_ids lines. A variant reads as the product name, plus the variant name when the
+     * variant is a named option combination. This is the catalog value at read time, not a stored
+     * snapshot: checkout resolves it again when a buyer opens the link. Absent on ad-hoc line
+     * items and when the catalog object no longer exists.
+     */
+    "resolved_name"?: string;
+    /**
+     * Current lowest and highest catalog unit prices among listed variants that can be sold in the
+     * line currency. Computed at read time, not stored. Omitted when no listed variant can be
+     * sold. The lowest and highest unit prices across a product's variants.
+     */
+    "resolved_price_range"?: ProductPriceRange;
+    /**
+     * Current catalog unit price of the referenced variant or bundle. For a fixed variant this is
+     * the base price that applies below the first quantity price break. This is the catalog value
+     * at read time, not a stored snapshot: checkout resolves the price again when a buyer opens
+     * the link, so the amount a buyer pays can differ. Absent on ad-hoc line items, variant_ids
+     * lines, and when the catalog object no longer exists. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "resolved_unit_price_money"?: MoneyValue;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValue>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTax;
+    /** How the line item is defined. Value enum: "custom_variable". */
+    "type": "custom_variable" | (string & {});
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money"?: MoneyValue;
+    /**
+     * ID of the catalog variant a `variant` line sells. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: true. */
+    "allow_unit_price_adjustment": boolean;
+    /** Value enum: "custom_variable". */
+    "type": "custom_variable" | (string & {});
+    /** Name of an ad hoc line item. Catalog lines take the catalog name. */
+    "name": string;
+}));
+/** The `bundle` variant of `PaymentLinkLineItemInput`. */
+export type PaymentLinkLineItemInputBundle = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id": string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValue;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValue;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
      * 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Only valid for product_type gift_card. Omission creates a fixed denomination at
-     * unit_price_money. Discounted pricing requires an explicit face_value_money and price_mode
-     * discounted. Gift card settings on a product variant: its `face_value_money`, price mode
-     * (face value or discounted), and bounds for custom amounts.
-     */
-    "gift_card_configuration"?: GiftCardProductConfigurationRequestInput;
-    /**
-     * The complete desired gallery in display order. The first image is primary. Send [] to clear
-     * the gallery. minItems: 0. maxItems: 8. [] (Value): {@link ImageRequestInput}. An image you
-     * supply by `source_url`, with optional `alt` text and external reference.
-     */
-    "images"?: Array<ImageRequestInput>;
-    /**
-     * New inventory item to create and track for this variant. Send either inventory_item or
-     * inventory_item_id. Inventory item details you supply when creating an inventory item for a
-     * product variant: `name`, `sku`, `barcode`, and metadata.
-     */
-    "inventory_item"?: InventoryItemCreateRequestInput;
-    /**
-     * Identifier of an existing inventory item to track for this variant. Send either
-     * inventory_item_id or inventory_item. minLength: 1.
-     */
-    "inventory_item_id"?: string;
-    /**
-     * Flint line-item tax category to store. Omit for a digital product to store digital_goods;
-     * explicit categories are preserved. For other product types, omission uses the merchant
-     * default. Value enum: "general", "physical_goods", "digital_goods", "software", "saas",
-     * "services", "professional_services", "food", "prepared_food", "clothing", "medical_goods",
-     * "admission".
-     */
-    "line_item_tax_category"?: "general"
-        | "physical_goods"
-        | "digital_goods"
-        | "software"
-        | "saas"
-        | "services"
-        | "professional_services"
-        | "food"
-        | "prepared_food"
-        | "clothing"
-        | "medical_goods"
-        | "admission";
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /** Attached modifier set. Send null on update to remove it. minLength: 1. */
-    "modifier_set_id"?: string | null;
-    /**
-     * Variant name that distinguishes it from the product's other variants. minLength: 1.
-     * maxLength: 255.
      */
     "name"?: string;
     /**
-     * Display order among the product's variants, starting at zero. When omitted in the variants
-     * array on product create, defaults to the variant's array index. For default_variant,
-     * defaults to zero. When creating a variant separately, defaults to the highest position among
-     * the product's variants plus one, or zero for the first variant. Format: int32.
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
      */
-    "position"?: number;
+    "quantity"?: number;
     /**
-     * Option name and value selections for this variant. When present on an update, replaces the
-     * entire selection. Omit to leave unchanged. Select one active value for every active option.
-     * null is invalid. [] (Value): {@link ProductVariantSelectedOptionRequestInput}. An option
-     * name and value you choose to identify a product variant, such as Size and Large.
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
      */
-    "selected_options"?: Array<ProductVariantSelectedOptionRequestInput>;
-    /** Stock keeping unit assigned to this sellable item. minLength: 1. maxLength: 100. */
-    "sku"?: string;
+    "suggested_unit_price_money_options"?: Array<MoneyValue>;
     /**
-     * Whether the variant is active or inactive. An inactive variant cannot be sold. Default:
-     * "active". Value enum: "active", "inactive".
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
      */
-    "status"?: "active" | "inactive";
-    /** Whether this item is subject to tax. */
-    "taxable"?: boolean;
+    "tax"?: OrderLineItemTax;
+    /** How the line item is defined. Value enum: "bundle". */
+    "type": "bundle" | (string & {});
     /**
-     * Per-unit measurement. Omitted when unknown. Package or item dimensions as `length`, `width`,
-     * and `height` in the given `unit`.
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
      */
-    "unit_dimensions"?: DimensionsInput;
+    "unit_price_money"?: MoneyValue;
     /**
-     * Price charged for one unit, in the currency's smallest unit. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: "bundle". */
+    "type": "bundle" | (string & {});
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id": string;
+}));
+/** The `bundle` variant of `PaymentLinkLineItemInput`. */
+export type PaymentLinkLineItemInputBundleInput = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id": string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValueInput;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValueInput;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name"?: string;
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValueInput>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTaxRequestInput;
+    /** How the line item is defined. Value enum: "bundle". */
+    "type": "bundle";
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money"?: MoneyValueInput;
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: "bundle". */
+    "type": ("bundle") & ("bundle");
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id": string;
+})
+    & (({
+    "variant_id"?: never;
+})
+    & ({
+    "variant_ids"?: never;
+})
+    & ({
+    "default_variant_id"?: never;
+})
+    & ({
+    "name"?: never;
+})
+    & ({
+    "unit_price_money"?: never;
+})
+    & ({
+    "description"?: never;
+})
+    & ({
+    "tax"?: never;
+})
+    & ({
+    "allow_unit_price_adjustment"?: never;
+})
+    & ({
+    "min_unit_price_money"?: never;
+})
+    & ({
+    "max_unit_price_money"?: never;
+})
+    & ({
+    "suggested_unit_price_money_options"?: never;
+})));
+/** The `custom_fixed` variant of `PaymentLinkLineItemInput`. */
+export type PaymentLinkLineItemInputCustomFixed = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValue;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValue;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name": string;
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValue>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTax;
+    /** How the line item is defined. Value enum: "custom_fixed". */
+    "type": "custom_fixed" | (string & {});
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money": MoneyValue;
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: false. */
+    "allow_unit_price_adjustment"?: boolean;
+    /** Value enum: "custom_fixed". */
+    "type": "custom_fixed" | (string & {});
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name": string;
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money": MoneyValue;
+}));
+/** The `custom_fixed` variant of `PaymentLinkLineItemInput`. */
+export type PaymentLinkLineItemInputCustomFixedInput = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValueInput;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValueInput;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name": string;
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValueInput>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTaxRequestInput;
+    /** How the line item is defined. Value enum: "custom_fixed". */
+    "type": "custom_fixed";
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
      */
     "unit_price_money": MoneyValueInput;
     /**
-     * Per-unit measurement. Omitted when unknown. A weight value in grams, kilograms, ounces, or
-     * pounds, used in delivery profile configuration.
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
      */
-    "unit_weight"?: WeightInput;
-};
-/** A response containing `ProductVariant` data. */
-export type ProductVariantResponse = {
-    /** The requested product variant data. A specific purchasable version of a product. */
-    "data": ProductVariant;
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: false. */
+    "allow_unit_price_adjustment"?: false;
+    /** Value enum: "custom_fixed". */
+    "type": ("custom_fixed") & ("custom_fixed");
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name": string;
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money": MoneyValueInput;
+})
+    & (({
+    "variant_id"?: never;
+})
+    & ({
+    "variant_ids"?: never;
+})
+    & ({
+    "default_variant_id"?: never;
+})
+    & ({
+    "bundle_id"?: never;
+})));
+/** The `custom_variable` variant of `PaymentLinkLineItemInput`. */
+export type PaymentLinkLineItemInputCustomVariable = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment": boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValue;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValue;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name": string;
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValue>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTax;
+    /** How the line item is defined. Value enum: "custom_variable". */
+    "type": "custom_variable" | (string & {});
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money"?: MoneyValue;
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: true. */
+    "allow_unit_price_adjustment": boolean;
+    /** Value enum: "custom_variable". */
+    "type": "custom_variable" | (string & {});
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name": string;
+}));
+/** The `custom_variable` variant of `PaymentLinkLineItemInput`. */
+export type PaymentLinkLineItemInputCustomVariableInput = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment": boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValueInput;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValueInput;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name": string;
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValueInput>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTaxRequestInput;
+    /** How the line item is defined. Value enum: "custom_variable". */
+    "type": "custom_variable";
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money"?: MoneyValueInput;
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: true. */
+    "allow_unit_price_adjustment": true;
+    /** Value enum: "custom_variable". */
+    "type": ("custom_variable") & ("custom_variable");
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name": string;
+})
+    & (({
+    "variant_id"?: never;
+})
+    & ({
+    "variant_ids"?: never;
+})
+    & ({
+    "default_variant_id"?: never;
+})
+    & ({
+    "bundle_id"?: never;
+})));
+/** The `variant` variant of `PaymentLinkLineItemInput`. */
+export type PaymentLinkLineItemInputVariant = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValue;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValue;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name"?: string;
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValue>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTax;
+    /** How the line item is defined. Value enum: "variant". */
+    "type": "variant" | (string & {});
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money"?: MoneyValue;
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: "variant". */
+    "type": "variant" | (string & {});
+})
+    & (({
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id": string;
+})
+    | ({
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids": Array<string>;
+})
+    | (Record<string, unknown>)));
+/** The `variant` variant of `PaymentLinkLineItemInput`. */
+export type PaymentLinkLineItemInputVariantInput = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValueInput;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValueInput;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name"?: string;
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValueInput>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTaxRequestInput;
+    /** How the line item is defined. Value enum: "variant". */
+    "type": "variant";
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money"?: MoneyValueInput;
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: "variant". */
+    "type": ("variant") & ("variant");
+})
+    & (({
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id": string;
+})
+    | ({
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids": Array<string>;
+}))
+    & (({
+    "bundle_id"?: never;
+})
+    & ({
+    "name"?: never;
+})
+    & ({
+    "unit_price_money"?: never;
+})
+    & ({
+    "description"?: never;
+})
+    & ({
+    "tax"?: never;
+})
+    & ({
+    "allow_unit_price_adjustment"?: never;
+})
+    & ({
+    "min_unit_price_money"?: never;
+})
+    & ({
+    "max_unit_price_money"?: never;
+})
+    & ({
+    "suggested_unit_price_money_options"?: never;
+})
+    & ({
+    "variant_id"?: never;
+} | {
+    "variant_ids"?: never;
+})));
+/** The `bundle` variant of `PaymentLinkLineItemPatchInput`. */
+export type PaymentLinkLineItemPatchInputBundle = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id": string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. Send null to clear it.
+     * minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string | null;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValue;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValue;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name"?: string;
+    /**
+     * Stable ID of an existing line item. Omit it to create a new line item. minLength: 1.
+     * Example: "plli_01KEZF7C004V7GVCCNMYYCBAJS".
+     */
+    "payment_link_line_item_id"?: string;
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValue>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTax;
+    /** How the line item is defined. Value enum: "bundle". */
+    "type": "bundle" | (string & {});
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money"?: MoneyValue;
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: "bundle". */
+    "type": "bundle" | (string & {});
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id": string;
+}));
+/** The `bundle` variant of `PaymentLinkLineItemPatchInput`. */
+export type PaymentLinkLineItemPatchInputBundleInput = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id": string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. Send null to clear it.
+     * minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string | null;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValueInput;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValueInput;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name"?: string;
+    /**
+     * Stable ID of an existing line item. Omit it to create a new line item. minLength: 1.
+     * Example: "plli_01KEZF7C004V7GVCCNMYYCBAJS".
+     */
+    "payment_link_line_item_id"?: string;
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValueInput>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTaxRequestInput;
+    /** How the line item is defined. Value enum: "bundle". */
+    "type": "bundle";
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money"?: MoneyValueInput;
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: "bundle". */
+    "type": ("bundle") & ("bundle");
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id": string;
+})
+    & (({
+    "variant_id"?: never;
+})
+    & ({
+    "variant_ids"?: never;
+})
+    & ({
+    "default_variant_id"?: never;
+})
+    & ({
+    "name"?: never;
+})
+    & ({
+    "unit_price_money"?: never;
+})
+    & ({
+    "description"?: never;
+})
+    & ({
+    "tax"?: never;
+})
+    & ({
+    "allow_unit_price_adjustment"?: never;
+})
+    & ({
+    "min_unit_price_money"?: never;
+})
+    & ({
+    "max_unit_price_money"?: never;
+})
+    & ({
+    "suggested_unit_price_money_options"?: never;
+})));
+/** The `custom_fixed` variant of `PaymentLinkLineItemPatchInput`. */
+export type PaymentLinkLineItemPatchInputCustomFixed = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. Send null to clear it.
+     * minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string | null;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValue;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValue;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name": string;
+    /**
+     * Stable ID of an existing line item. Omit it to create a new line item. minLength: 1.
+     * Example: "plli_01KEZF7C004V7GVCCNMYYCBAJS".
+     */
+    "payment_link_line_item_id"?: string;
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValue>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTax;
+    /** How the line item is defined. Value enum: "custom_fixed". */
+    "type": "custom_fixed" | (string & {});
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money": MoneyValue;
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: false. */
+    "allow_unit_price_adjustment"?: boolean;
+    /** Value enum: "custom_fixed". */
+    "type": "custom_fixed" | (string & {});
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name": string;
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money": MoneyValue;
+}));
+/** The `custom_fixed` variant of `PaymentLinkLineItemPatchInput`. */
+export type PaymentLinkLineItemPatchInputCustomFixedInput = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. Send null to clear it.
+     * minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string | null;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValueInput;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValueInput;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name": string;
+    /**
+     * Stable ID of an existing line item. Omit it to create a new line item. minLength: 1.
+     * Example: "plli_01KEZF7C004V7GVCCNMYYCBAJS".
+     */
+    "payment_link_line_item_id"?: string;
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValueInput>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTaxRequestInput;
+    /** How the line item is defined. Value enum: "custom_fixed". */
+    "type": "custom_fixed";
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money": MoneyValueInput;
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: false. */
+    "allow_unit_price_adjustment"?: false;
+    /** Value enum: "custom_fixed". */
+    "type": ("custom_fixed") & ("custom_fixed");
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name": string;
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money": MoneyValueInput;
+})
+    & (({
+    "variant_id"?: never;
+})
+    & ({
+    "variant_ids"?: never;
+})
+    & ({
+    "default_variant_id"?: never;
+})
+    & ({
+    "bundle_id"?: never;
+})));
+/** The `custom_variable` variant of `PaymentLinkLineItemPatchInput`. */
+export type PaymentLinkLineItemPatchInputCustomVariable = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment": boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. Send null to clear it.
+     * minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string | null;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValue;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValue;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name": string;
+    /**
+     * Stable ID of an existing line item. Omit it to create a new line item. minLength: 1.
+     * Example: "plli_01KEZF7C004V7GVCCNMYYCBAJS".
+     */
+    "payment_link_line_item_id"?: string;
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValue>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTax;
+    /** How the line item is defined. Value enum: "custom_variable". */
+    "type": "custom_variable" | (string & {});
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money"?: MoneyValue;
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: true. */
+    "allow_unit_price_adjustment": boolean;
+    /** Value enum: "custom_variable". */
+    "type": "custom_variable" | (string & {});
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name": string;
+}));
+/** The `custom_variable` variant of `PaymentLinkLineItemPatchInput`. */
+export type PaymentLinkLineItemPatchInputCustomVariableInput = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment": boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. Send null to clear it.
+     * minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string | null;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValueInput;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValueInput;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name": string;
+    /**
+     * Stable ID of an existing line item. Omit it to create a new line item. minLength: 1.
+     * Example: "plli_01KEZF7C004V7GVCCNMYYCBAJS".
+     */
+    "payment_link_line_item_id"?: string;
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValueInput>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTaxRequestInput;
+    /** How the line item is defined. Value enum: "custom_variable". */
+    "type": "custom_variable";
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money"?: MoneyValueInput;
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: true. */
+    "allow_unit_price_adjustment": true;
+    /** Value enum: "custom_variable". */
+    "type": ("custom_variable") & ("custom_variable");
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name": string;
+})
+    & (({
+    "variant_id"?: never;
+})
+    & ({
+    "variant_ids"?: never;
+})
+    & ({
+    "default_variant_id"?: never;
+})
+    & ({
+    "bundle_id"?: never;
+})));
+/** The `variant` variant of `PaymentLinkLineItemPatchInput`. */
+export type PaymentLinkLineItemPatchInputVariant = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. Send null to clear it.
+     * minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string | null;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValue;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValue;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name"?: string;
+    /**
+     * Stable ID of an existing line item. Omit it to create a new line item. minLength: 1.
+     * Example: "plli_01KEZF7C004V7GVCCNMYYCBAJS".
+     */
+    "payment_link_line_item_id"?: string;
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValue>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTax;
+    /** How the line item is defined. Value enum: "variant". */
+    "type": "variant" | (string & {});
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money"?: MoneyValue;
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: "variant". */
+    "type": "variant" | (string & {});
+})
+    & (({
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id": string;
+})
+    | ({
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids": Array<string>;
+})
+    | (Record<string, unknown>)));
+/** The `variant` variant of `PaymentLinkLineItemPatchInput`. */
+export type PaymentLinkLineItemPatchInputVariantInput = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. Send null to clear it.
+     * minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string | null;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValueInput;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValueInput;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name"?: string;
+    /**
+     * Stable ID of an existing line item. Omit it to create a new line item. minLength: 1.
+     * Example: "plli_01KEZF7C004V7GVCCNMYYCBAJS".
+     */
+    "payment_link_line_item_id"?: string;
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValueInput>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTaxRequestInput;
+    /** How the line item is defined. Value enum: "variant". */
+    "type": "variant";
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money"?: MoneyValueInput;
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: "variant". */
+    "type": ("variant") & ("variant");
+})
+    & (({
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id": string;
+})
+    | ({
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids": Array<string>;
+}))
+    & (({
+    "bundle_id"?: never;
+})
+    & ({
+    "name"?: never;
+})
+    & ({
+    "unit_price_money"?: never;
+})
+    & ({
+    "description"?: never;
+})
+    & ({
+    "tax"?: never;
+})
+    & ({
+    "allow_unit_price_adjustment"?: never;
+})
+    & ({
+    "min_unit_price_money"?: never;
+})
+    & ({
+    "max_unit_price_money"?: never;
+})
+    & ({
+    "suggested_unit_price_money_options"?: never;
+})
+    & ({
+    "variant_id"?: never;
+} | {
+    "variant_ids"?: never;
+})));
+/**
+ * A line item in a payment link update. Include its ID to change an existing line item, or omit
+ * the ID to add a new one.
+ */
+export type PaymentLinkLineItemPatchRequest = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. Send null to clear it.
+     * minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string | null;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValue;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValue;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name"?: string;
+    /**
+     * Stable ID of an existing line item. Omit it to create a new line item. minLength: 1.
+     * Example: "plli_01KEZF7C004V7GVCCNMYYCBAJS".
+     */
+    "payment_link_line_item_id"?: string;
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValue>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTax;
+    /**
+     * How the line item is defined. Value enum: "variant", "bundle", "custom_fixed",
+     * "custom_variable".
+     */
+    "type": "variant" | "bundle" | "custom_fixed" | "custom_variable" | (string & {});
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money"?: MoneyValue;
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & ((Exclude<PaymentLinkLineItemPatchInputVariant & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemPatchInputBundle & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemPatchInputCustomFixed & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemPatchInputCustomVariable & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/**
+ * A line item in a payment link update. Include its ID to change an existing line item, or omit
+ * the ID to add a new one.
+ */
+export type PaymentLinkLineItemPatchRequestInput = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. Send null to clear it.
+     * minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string | null;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValueInput;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValueInput;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name"?: string;
+    /**
+     * Stable ID of an existing line item. Omit it to create a new line item. minLength: 1.
+     * Example: "plli_01KEZF7C004V7GVCCNMYYCBAJS".
+     */
+    "payment_link_line_item_id"?: string;
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValueInput>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTaxRequestInput;
+    /**
+     * How the line item is defined. Value enum: "variant", "bundle", "custom_fixed",
+     * "custom_variable".
+     */
+    "type": "variant" | "bundle" | "custom_fixed" | "custom_variable";
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money"?: MoneyValueInput;
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & ((Exclude<PaymentLinkLineItemPatchInputVariantInput & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemPatchInputBundleInput & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemPatchInputCustomFixedInput & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemPatchInputCustomVariableInput & object, readonly unknown[]>));
+/**
+ * A line item you add to a payment link when creating it, from a catalog variant, a bundle, or an
+ * ad hoc name and price.
+ */
+export type PaymentLinkLineItemRequest = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValue;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValue;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name"?: string;
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValue>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTax;
+    /**
+     * How the line item is defined. Value enum: "variant", "bundle", "custom_fixed",
+     * "custom_variable".
+     */
+    "type": "variant" | "bundle" | "custom_fixed" | "custom_variable" | (string & {});
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money"?: MoneyValue;
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & ((Exclude<PaymentLinkLineItemInputVariant & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemInputBundle & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemInputCustomFixed & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemInputCustomVariable & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/**
+ * A line item you add to a payment link when creating it, from a catalog variant, a bundle, or an
+ * ad hoc name and price.
+ */
+export type PaymentLinkLineItemRequestInput = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValueInput;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValueInput;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name"?: string;
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValueInput>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTaxRequestInput;
+    /**
+     * How the line item is defined. Value enum: "variant", "bundle", "custom_fixed",
+     * "custom_variable".
+     */
+    "type": "variant" | "bundle" | "custom_fixed" | "custom_variable";
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money"?: MoneyValueInput;
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & ((Exclude<PaymentLinkLineItemInputVariantInput & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemInputBundleInput & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemInputCustomFixedInput & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemInputCustomVariableInput & object, readonly unknown[]>));
+/** A line item on a payment link. */
+export type PaymentLinkLineItemVariant = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string;
+    /** Description of an ad hoc line item. */
+    "description"?: string;
+    /**
+     * True when the referenced variant or bundle cannot be sold, or no listed variant in
+     * variant_ids can be sold in the line currency. Always false on ad hoc line items.
+     */
+    "is_catalog_item_unavailable": boolean;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValue;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValue;
+    /** Name of an ad hoc line item. Catalog lines take the catalog name. */
+    "name"?: string;
+    /**
+     * Unique identifier for this payment link line item, prefixed `plli_`. Example:
+     * "plli_01KEZF7C004V7GVCCNMYYCBAJS".
+     */
+    "payment_link_line_item_id": string;
+    /**
+     * Parent catalog context only. The product that the variants in variant_ids belong to. Present
+     * only on buyer choice lines; refused on input. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
+     */
+    "product_id"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "quantity": number;
+    /**
+     * Current catalog name of the referenced variant or bundle, or the product name for
+     * variant_ids lines. A variant reads as the product name, plus the variant name when the
+     * variant is a named option combination. This is the catalog value at read time, not a stored
+     * snapshot: checkout resolves it again when a buyer opens the link. Absent on ad-hoc line
+     * items and when the catalog object no longer exists.
+     */
+    "resolved_name"?: string;
+    /**
+     * Current lowest and highest catalog unit prices among listed variants that can be sold in the
+     * line currency. Computed at read time, not stored. Omitted when no listed variant can be
+     * sold. The lowest and highest unit prices across a product's variants.
+     */
+    "resolved_price_range"?: ProductPriceRange;
+    /**
+     * Current catalog unit price of the referenced variant or bundle. For a fixed variant this is
+     * the base price that applies below the first quantity price break. This is the catalog value
+     * at read time, not a stored snapshot: checkout resolves the price again when a buyer opens
+     * the link, so the amount a buyer pays can differ. Absent on ad-hoc line items, variant_ids
+     * lines, and when the catalog object no longer exists. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "resolved_unit_price_money"?: MoneyValue;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValue>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTax;
+    /** How the line item is defined. Value enum: "variant". */
+    "type": "variant" | (string & {});
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money"?: MoneyValue;
+    /**
+     * ID of the catalog variant a `variant` line sells. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: "variant". */
+    "type": "variant" | (string & {});
+})
+    & (({
+    /**
+     * ID of the catalog variant a `variant` line sells. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id": string;
+})
+    | ({
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids": Array<string>;
+})
+    | (Record<string, unknown>)));
+/** A page of `PaymentLink` objects. */
+export type PaymentLinkListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * PaymentLink}. A reusable link that opens checkout.
+     */
+    "data": Array<PaymentLink>;
     /**
      * Additional information about this response. Metadata returned with a response: the
      * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
      */
     "meta"?: ResponseMeta;
     /**
-     * Identifier of this API request, useful when contacting support. maxLength: 128. pattern:
-     * ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
     "request_id": string;
 };
-/** An option name and value you choose to identify a product variant, such as Size and Large. */
-export type ProductVariantSelectedOptionRequest = {
+/**
+ * Payment settings on a payment link: the enabled payment options and a note shown with payment.
+ */
+export type PaymentLinkPaymentConfigInput = {
     /**
-     * Name of one of the product's options. Limited to 255 characters (Unicode code points) before
-     * trimming surrounding whitespace. Matches case-insensitively after trimming surrounding
-     * whitespace. On a variant update, an option that is no longer active is accepted only when
-     * the entry matches the variant's current selection for that option; omit it to keep that
-     * selection. minLength: 1. maxLength: 255.
+     * Payment options for this payment link. Checkout offers only the options that are also
+     * enabled in settings.checkout.enabled_payment_options; omit the list to use that setting. []
+     * enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit". [] (Value): string. Value
+     * enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit".
      */
-    "option_name": string;
+    "enabled_payment_options"?: Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit">;
+    /** A note shown to the buyer with the payment options. minLength: 1. maxLength: 500. */
+    "payment_note"?: string;
+};
+/** Changes to a payment link's payment settings. Send null on the payment note to clear it. */
+export type PaymentLinkPaymentPatchRequest = {
     /**
-     * Value of the named option. Limited to 255 characters (Unicode code points) before trimming
-     * surrounding whitespace. Matches the option's values case-insensitively after trimming
-     * surrounding whitespace. A value that is no longer active is accepted only on a variant
-     * update, when it matches the variant's current selection for that option. minLength: 1.
-     * maxLength: 255.
+     * Payment options for this payment link. Checkout offers only the options that are also
+     * enabled in settings.checkout.enabled_payment_options; omit the list to use that setting. []
+     * enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit". [] (Value): string. Value
+     * enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit".
      */
+    "enabled_payment_options"?: Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | (string & {})>;
+    /** Send null to clear it. minLength: 1. maxLength: 500. */
+    "payment_note"?: string | null;
+};
+/** Changes to a payment link's payment settings. Send null on the payment note to clear it. */
+export type PaymentLinkPaymentPatchRequestInput = {
+    /**
+     * Payment options for this payment link. Checkout offers only the options that are also
+     * enabled in settings.checkout.enabled_payment_options; omit the list to use that setting. []
+     * enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit". [] (Value): string. Value
+     * enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit".
+     */
+    "enabled_payment_options"?: Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit">;
+    /** Send null to clear it. minLength: 1. maxLength: 500. */
+    "payment_note"?: string | null;
+};
+/**
+ * An active product option offered on a payment link, with values used by its available variants.
+ */
+export type PaymentLinkProductOption = {
+    /** Product option name, such as Size or Color. */
+    "name": string;
+    /** ID of the product option. Example: "opt_01KEZF7C008R5Q9BG9B4B4KQH8". */
+    "option_id": string;
+    /**
+     * Values used by at least one available variant, in product option value position order. []
+     * (Value): {@link PaymentLinkProductOptionValue}. A product option value used by an available
+     * payment link variant.
+     */
+    "values": Array<PaymentLinkProductOptionValue>;
+};
+/** A product option value used by an available payment link variant. */
+export type PaymentLinkProductOptionValue = {
+    /** ID of the product option value. Example: "optv_01KEZF7C0078SVZ1T7PVRXQK7F". */
+    "option_value_id": string;
+    /** Product option value shown to the buyer, such as M or Blue. */
     "value": string;
 };
-/** An option name and value you choose to identify a product variant, such as Size and Large. */
-export type ProductVariantSelectedOptionRequestInput = ProductVariantSelectedOptionRequest;
+/**
+ * Changes to a payment link's hosted checkout destinations. Omit a URL to leave it unchanged, or
+ * send null to clear it.
+ */
+export type PaymentLinkRedirectsPatchRequest = {
+    /**
+     * Where the buyer goes when they leave checkout without paying. The session stays open until
+     * it expires. Absolute HTTPS URL; test mode also accepts HTTP loopback URLs. Up to 2,048
+     * characters. Send null to clear it. Format: uri. minLength: 1. maxLength: 2048. Example:
+     * "https://example.com/receipt".
+     */
+    "cancel_url"?: string | null;
+    /**
+     * Where Flint sends a buyer who opens the session after it expires. Without it, the buyer sees
+     * Flint's expired-checkout page. Absolute HTTPS URL; test mode also accepts HTTP loopback
+     * URLs. Up to 2,048 characters. Send null to clear it. Format: uri. minLength: 1. maxLength:
+     * 2048. Example: "https://example.com/receipt".
+     */
+    "expired_url"?: string | null;
+    /**
+     * Where the buyer goes after paying. Flint adds checkout_session_id and order_id query
+     * parameters, replacing any with those names. The redirect doesn't prove payment: confirm with
+     * the order.paid webhook or by reading the session. Absolute HTTPS URL; test mode also accepts
+     * HTTP loopback URLs. Up to 2,048 characters. Send null to clear it. Format: uri. minLength:
+     * 1. maxLength: 2048. Example: "https://example.com/receipt".
+     */
+    "success_url"?: string | null;
+};
+/**
+ * Changes to a payment link's hosted checkout destinations. Omit a URL to leave it unchanged, or
+ * send null to clear it.
+ */
+export type PaymentLinkRedirectsPatchRequestInput = PaymentLinkRedirectsPatchRequest;
+/** Buyer-editable email prefill for payment-link checkout. It never identifies a customer. */
+export type PaymentLinkResolvePrefillRequestInput = {
+    /**
+     * Email to fill in for the buyer, who can change it. It is not verified, so it never links the
+     * purchase to an existing customer. Format: email. minLength: 1. maxLength: 320. Example:
+     * "buyer@example.com".
+     */
+    "email"?: string;
+};
+/** A response containing `PaymentLink` data. */
+export type PaymentLinkResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A reusable link that
+     * opens checkout.
+     */
+    "data": PaymentLink;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * Paid-order sales totals for a payment link, computed on request. Paid means the order's
+ * collection has completed. Fully and partially refunded orders still count, and paid_totals
+ * reports the amount collected before refunds. Each order counts once even if it has multiple
+ * checkout sessions.
+ */
+export type PaymentLinkSalesSummary = {
+    /**
+     * Tickets for this payment link that are checked in now, counted when the summary is read.
+     * Undoing a check-in or voiding a ticket lowers it. 0 for links that have issued no tickets.
+     * Format: int32. minimum: 0.
+     */
+    "checked_in_ticket_count": number;
+    /**
+     * UTC time at which the summary was computed, at second precision. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "computed_at": string;
+    /**
+     * Number of orders whose collection has completed, across all currencies, including fully and
+     * partially refunded orders. Format: int64.
+     */
+    "paid_order_count": number;
+    /**
+     * Gross paid totals in integer minor units, one Money object per currency with paid orders,
+     * sorted by currency. Refunds are not subtracted. Empty array when there are no paid orders.
+     * [] (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus an
+     * ISO 4217 currency code.
+     */
+    "paid_totals": Array<MoneyValue>;
+    /**
+     * Refunded totals in integer minor units on the same paid orders as paid_totals. One Money
+     * object per currency with paid orders, sorted by currency, including zero when nothing was
+     * refunded. Empty array when there are no paid orders. [] (Value): {@link MoneyValue}.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "refunded_totals": Array<MoneyValue>;
+};
+/**
+ * Subscription terms shown before an active plan-backed payment link creates a checkout session.
+ */
+export type PaymentLinkSubscriptionPreview = {
+    /** Value enum: "daily", "weekly", "monthly", "yearly". */
+    "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
+    /** Number of billing intervals between recurring charges. Format: int32. */
+    "billing_interval_count": number;
+    /**
+     * Billing intervals the plan offers, which the buyer chooses among on the checkout this link
+     * opens. The same values as the subscription plan's `billing_interval_options`. maxItems: 12.
+     * uniqueItems: true. [] (Value): {@link SubscriptionIntervalOption}. A billing cadence offered
+     * by a subscription plan or offer. Every option bills the same line prices once per period;
+     * prices are not scaled by the interval. For a different price per interval, create separate
+     * plans.
+     */
+    "billing_interval_options": Array<SubscriptionIntervalOption>;
+    /**
+     * The term agreed with the buyer, in months, when configured. Flint records it on the
+     * subscription and does not stop the buyer from canceling earlier. Format: int32.
+     */
+    "contract_term_months"?: number;
+    /**
+     * True when the plan has a line that ships or is delivered, so each renewal adds a shipping or
+     * delivery charge chosen at checkout. The amount is not known until the buyer enters an
+     * address and chooses a method.
+     */
+    "delivery_required": boolean;
+    /**
+     * The fee agreed for canceling before the recorded term ends, when configured. Flint records
+     * it on the subscription but never charges it. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code.
+     */
+    "early_termination_fee_money"?: MoneyValue;
+    /**
+     * Identified plan lines with buyer quantity permissions and bounds. The checkout freezes the
+     * terms when it is created. [] (Value): object. [].allow_quantity_adjustment (Required):
+     * boolean. Whether the buyer may adjust this line quantity. [].max_quantity (Required):
+     * integer. Maximum buyer quantity, defaulting to 9999. Whole-number quantity; fractional
+     * quantities are not supported. Format: int32. minimum: 1. maximum: 9999. [].min_quantity
+     * (Required): integer. Minimum buyer quantity, defaulting to 1. Whole-number quantity;
+     * fractional quantities are not supported. Format: int32. minimum: 1. maximum: 9999. [].name
+     * (Required): string. The captured line name. [].quantity (Required): integer. The line
+     * quantity, before the subscription quantity multiplier. Whole-number quantity; fractional
+     * quantities are not supported. Format: int32. minimum: 1. maximum: 9999.
+     * [].subscription_plan_line_item_id (Optional): string. The plan line whose terms were
+     * captured. Absent when an older snapshot did not record its plan line ID. pattern:
+     * ^spli_[0-9A-HJKMNP-TV-Z]{26}$. Example: "spli_01KEZF7C00H9FGC2KBRF82H87N".
+     * [].unit_price_money (Required): {@link MoneyValue}. The captured unit price. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "line_items": Array<{
+        /** Whether the buyer may adjust this line quantity. */
+        "allow_quantity_adjustment": boolean;
+        /**
+         * Maximum buyer quantity, defaulting to 9999. Whole-number quantity; fractional quantities
+         * are not supported. Format: int32. minimum: 1. maximum: 9999.
+         */
+        "max_quantity": number;
+        /**
+         * Minimum buyer quantity, defaulting to 1. Whole-number quantity; fractional quantities
+         * are not supported. Format: int32. minimum: 1. maximum: 9999.
+         */
+        "min_quantity": number;
+        /** The captured line name. */
+        "name": string;
+        /**
+         * The line quantity, before the subscription quantity multiplier. Whole-number quantity;
+         * fractional quantities are not supported. Format: int32. minimum: 1. maximum: 9999.
+         */
+        "quantity": number;
+        /**
+         * The plan line whose terms were captured. Absent when an older snapshot did not record
+         * its plan line ID. pattern: ^spli_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+         * "spli_01KEZF7C00H9FGC2KBRF82H87N".
+         */
+        "subscription_plan_line_item_id"?: string;
+        /**
+         * The captured unit price. Monetary amount represented as integer minor units plus an ISO
+         * 4217 currency code.
+         */
+        "unit_price_money": MoneyValue;
+    }>;
+    /**
+     * Plan image shown to the buyer, when configured. An image with its URL, size, and alt text.
+     */
+    "plan_image"?: Image;
+    /** Plan name shown to the buyer. */
+    "plan_name": string;
+    /**
+     * Quantities the plan offers, which the buyer chooses among on the checkout this link opens.
+     * The same values as the subscription plan's `quantity_options`. maxItems: 10. uniqueItems:
+     * true. [] (Value): integer. Format: int32. minimum: 1. maximum: 100.
+     */
+    "quantity_options": Array<number>;
+    /**
+     * Recurring total for one billing interval, including line quantities and resolved modifiers.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "recurring_total_money": MoneyValue;
+    /**
+     * Setup fee added to the first amount due, when configured. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "setup_fee_money"?: MoneyValue;
+    /** Number of trial days before the first recurring charge, when configured. Format: int32. */
+    "trial_period_days"?: number;
+};
+/** Theme settings for a payment link's checkout: accent color, primary color, and title. */
+export type PaymentLinkThemeConfigInput = {
+    /** Accent color of the checkout, such as #1A73E8. minLength: 1. maxLength: 50. */
+    "accent_color"?: string;
+    /** Primary color of the checkout, such as #1A73E8. minLength: 1. maxLength: 50. */
+    "primary_color"?: string;
+    /** Title shown in place of the merchant's business name. minLength: 1. maxLength: 255. */
+    "title"?: string;
+};
+/** Changes to a payment link's checkout theme. Send null on a field to clear it. */
+export type PaymentLinkThemePatchRequest = {
+    /** Send null to clear it. minLength: 1. maxLength: 50. */
+    "accent_color"?: string | null;
+    /** Send null to clear it. minLength: 1. maxLength: 50. */
+    "primary_color"?: string | null;
+    /** Send null to clear it. minLength: 1. maxLength: 255. */
+    "title"?: string | null;
+};
+/** Changes to a payment link's checkout theme. Send null on a field to clear it. */
+export type PaymentLinkThemePatchRequestInput = PaymentLinkThemePatchRequest;
+export type PaymentLinkUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "buyer_fields"?: CheckoutBuyerFields;
+            "checkout_session_expires_in_seconds"?: number;
+            "completed_count": number;
+            "created_at": string;
+            "custom_fields"?: Array<PaymentLinkCustomField>;
+            "custom_text"?: CheckoutCustomTextConfig;
+            "delivery_method_ids": Array<string>;
+            "description"?: string;
+            "donation_max_amount_money"?: MoneyValue;
+            "donation_min_amount_money"?: MoneyValue;
+            "donation_suggested_amount_money_options"?: Array<MoneyValue>;
+            "event_config"?: PaymentLinkEventConfig;
+            "external_reference_id"?: string;
+            "image"?: ImageAttachment;
+            "inactive_message"?: string;
+            "inventory_routing_source"?: InventoryRoutingSource;
+            "legal"?: LegalSettings;
+            "line_items"?: Array<PaymentLinkLineItem>;
+            "max_completions"?: number;
+            "merchant_id": string;
+            "metadata"?: MetadataMap;
+            "name": string;
+            "payment_link_id": string;
+            "payment_link_type"?: "standard" | "donation" | "event" | (string & {});
+            "payments"?: CheckoutPaymentConfig;
+            "promotion_config"?: CheckoutPromotionConfig;
+            "redirects"?: CheckoutRedirects;
+            "sales_end_at"?: string;
+            "sales_summary"?: PaymentLinkSalesSummary;
+            "status": "active" | "inactive" | (string & {});
+            "subscription_plan"?: ((ExpandedSubscriptionPlanSummary) | (null));
+            "subscription_plan_id"?: string;
+            "tax"?: CheckoutTaxConfig;
+            "theme"?: ThemeConfig;
+            "tip"?: CheckoutTipConfig;
+            "total_quantity_sold": number;
+            "updated_at": string;
+            "url": string;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<PaymentLink>;
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "payment_link.updated";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "buyer_fields"?: CheckoutBuyerFields;
+            "checkout_session_expires_in_seconds"?: number;
+            "completed_count": number;
+            "created_at": string;
+            "custom_fields"?: Array<PaymentLinkCustomField>;
+            "custom_text"?: CheckoutCustomTextConfig;
+            "delivery_method_ids": Array<string>;
+            "description"?: string;
+            "donation_max_amount_money"?: MoneyValue;
+            "donation_min_amount_money"?: MoneyValue;
+            "donation_suggested_amount_money_options"?: Array<MoneyValue>;
+            "event_config"?: PaymentLinkEventConfig;
+            "external_reference_id"?: string;
+            "image"?: ImageAttachment;
+            "inactive_message"?: string;
+            "inventory_routing_source"?: InventoryRoutingSource;
+            "legal"?: LegalSettings;
+            "line_items"?: Array<PaymentLinkLineItem>;
+            "max_completions"?: number;
+            "merchant_id": string;
+            "metadata"?: MetadataMap;
+            "name": string;
+            "payment_link_id": string;
+            "payment_link_type"?: "standard" | "donation" | "event" | (string & {});
+            "payments"?: CheckoutPaymentConfig;
+            "promotion_config"?: CheckoutPromotionConfig;
+            "redirects"?: CheckoutRedirects;
+            "sales_end_at"?: string;
+            "sales_summary"?: PaymentLinkSalesSummary;
+            "status": "active" | "inactive" | (string & {});
+            "subscription_plan"?: ((ExpandedSubscriptionPlanSummary) | (null));
+            "subscription_plan_id"?: string;
+            "tax"?: CheckoutTaxConfig;
+            "theme"?: ThemeConfig;
+            "tip"?: CheckoutTipConfig;
+            "total_quantity_sold": number;
+            "updated_at": string;
+            "url": string;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<PaymentLink>;
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "payment_link.updated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "payment_link.updated";
+});
+/**
+ * The `payment_link.updated` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type PaymentLinkUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.buyer_fields (Optional): {@link CheckoutBuyerFields}. What
+     * checkout asks the buyer for. Each field you leave out uses your checkout settings.
+     * object.checkout_session_expires_in_seconds (Optional): integer. Seconds each checkout
+     * session the link starts stays open, from 60 to 86,400. Omit it to use your checkout
+     * settings, or 24 hours. It doesn't end the link; use sales_end_at for that. Format: int64.
+     * minimum: 60. maximum: 86400. object.completed_count (Required): integer. Number of paid
+     * checkout sessions started from this link. Format: int32. object.created_at (Required):
+     * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.custom_fields (Optional): Array of {@link PaymentLinkCustomField}. Questions buyers
+     * answer before paying. Answers are recorded on the order and checkout session in
+     * `custom_field_answers`. object.custom_fields[] (Value): {@link PaymentLinkCustomField}. A
+     * custom field on a payment link that collects an answer from the buyer. object.custom_text
+     * (Optional): {@link CheckoutCustomTextConfig}. Custom text for checkouts started from this
+     * link. Custom text shown in checkout: an order summary message and a shipping address label.
+     * object.delivery_method_ids (Required): Array of string. Delivery methods the link offers.
+     * Empty when the link has none, and then its checkouts offer
+     * settings.checkout.default_delivery_method_ids when the order has items to deliver.
+     * object.delivery_method_ids[] (Value): string. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     * object.description (Optional): string. Text about what the link sells, returned to buyers
+     * when they open it. object.donation_max_amount_money (Optional): {@link MoneyValue}. Largest
+     * amount a buyer can give on a donation link. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code. object.donation_min_amount_money (Optional): {@link
+     * MoneyValue}. Smallest amount a buyer can give on a donation link. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     * object.donation_suggested_amount_money_options (Optional): Array of {@link MoneyValue}.
+     * Amounts a donation link offers as one-tap choices.
+     * object.donation_suggested_amount_money_options[] (Value): {@link MoneyValue}. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     * object.event_config (Optional): {@link PaymentLinkEventConfig}. Event details for an `event`
+     * link: when and where it takes place and how many tickets it sells. Event settings on an
+     * event payment link, such as its date, venue, ticket limit, and ticket emails.
+     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
+     * in an external system. maxLength: 255. Example: "warehouse-1842". object.image (Optional):
+     * {@link ImageAttachment}. Image shown to buyers with the link. An image attached to a
+     * resource, with its display properties and attachment metadata. object.inactive_message
+     * (Optional): string. Message to show the buyer when the link is inactive.
+     * object.inventory_routing_source (Optional): {@link InventoryRoutingSource}. The inventory
+     * location or routing policy that supplies stock for the link's catalog lines. Where an order,
+     * payment link, or reservation routes inventory from: a fixed Location, an inventory
+     * allocation policy, or one policy revision. object.legal (Optional): {@link LegalSettings}.
+     * The terms and policy links checkouts started from this link show the buyer. Legal settings
+     * for a checkout: whether buyers must accept terms, and links to the terms, refund policy,
+     * shipping policy, and contract. object.line_items (Optional): Array of {@link
+     * PaymentLinkLineItem}. What the link sells. object.line_items[] (Value): {@link
+     * PaymentLinkLineItem}. A line item on a payment link. object.max_completions (Optional):
+     * integer. Most payments the link accepts, counted by `completed_count`. Absent means no
+     * limit. Once the limit is reached, resolving the link fails with a request error. It can't be
+     * set below `completed_count`. Format: int32. object.merchant_id (Required): string. ID of the
+     * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * object.metadata (Optional): {@link MetadataMap}. Stored caller-owned key-value data. See
+     * `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a
+     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
+     * may not satisfy them. object.name (Required): string. Name of the payment link.
+     * object.payment_link_id (Required): string. Unique identifier for this payment link, prefixed
+     * `pl_`. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.payment_link_type (Optional):
+     * string. What kind of link this is. Value enum: "standard", "donation", "event".
+     * object.payments (Optional): {@link CheckoutPaymentConfig}. Payment options for checkouts
+     * started from this link. Payment settings for a checkout: the enabled payment options and a
+     * note shown with payment. object.promotion_config (Optional): {@link
+     * CheckoutPromotionConfig}. Whether automatic promotions apply to checkouts started from this
+     * link and whether buyers can enter promotion codes. Promotion settings for a checkout:
+     * whether automatic promotions apply and whether the buyer can apply promotion codes.
+     * object.redirects (Optional): {@link CheckoutRedirects}. Where checkout sessions started from
+     * this payment link send the buyer after payment, cancellation, or expiration. Where hosted
+     * checkout sends the buyer. Not allowed when surface is embedded; use payment_return_url.
+     * object.sales_end_at (Optional): string. RFC3339 timestamp after which the link stops
+     * starting checkouts and resolve fails with `ACTION_NOT_ALLOWED` and reason `not_offered`.
+     * Unset means sales do not end on their own, except that an event link without sales_end_at
+     * stops selling at event_config.event_at. A checkout opened before the end can still start
+     * payment for up to 15 minutes after it. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.sales_summary (Optional): {@link PaymentLinkSalesSummary}. Present only with
+     * expand=sales_summary on GET /v1/payment-links or GET /v1/payment-links/{payment_link_id}.
+     * Available to merchant callers, including dashboard sessions and API keys with
+     * checkouts.payment_links.read. Uses the same paid-order definition as the merchant sales
+     * summary. Paid-order sales totals for a payment link, computed on request. Paid means the
+     * order's collection has completed. Fully and partially refunded orders still count, and
+     * paid_totals reports the amount collected before refunds. Each order counts once even if it
+     * has multiple checkout sessions. object.status (Required): string. Whether the link can start
+     * new checkouts. Value enum: "active", "inactive". object.subscription_plan (Optional): {@link
+     * ExpandedSubscriptionPlanSummary} or null. Present only when `expand` includes
+     * `subscription_plan`; `null` when expanded and there is no related subscription plan.
+     * object.subscription_plan.anyOf[1] (Value): {@link ExpandedSubscriptionPlanSummary}. A
+     * subscription plan's summary fields, including name, billing interval, currency, and status,
+     * returned when the plan is expanded. object.subscription_plan.anyOf[2] (Value): null.
+     * object.subscription_plan_id (Optional): string. Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
+     * object.tax (Optional): {@link CheckoutTaxConfig}. Tax settings for checkouts started from
+     * this link. Whether tax is collected for a checkout session or payment link. object.theme
+     * (Optional): {@link ThemeConfig}. The title and colors for checkouts started from this link,
+     * over your branding settings. Colors and title applied to a payment link's checkout page.
+     * object.tip (Optional): {@link CheckoutTipConfig}. Tip options for checkouts started from
+     * this link. Tip settings for a checkout: whether tips are enabled, the percent or fixed
+     * amount options, the default tip, and custom tips. object.total_quantity_sold (Required):
+     * integer. Whole-number quantity; fractional quantities are not supported. Format: int32.
+     * object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.url (Required): string. URL buyers open to use the link.
+     * object.version (Required): integer. Current version of this resource's owned state. Send it
+     * as `expected_version` when changing the resource to reject a stale write. Format: int64.
+     * previous_attributes (Optional): object. Previous values of changed top-level fields in
+     * data.object, at this delivery's API version. Nested changes include the whole previous
+     * top-level value. A value is null when the field was absent before the change. Omitted when
+     * Flint did not record the previous state, including synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * buyer_fields (Optional): {@link CheckoutBuyerFields}. What checkout asks the buyer for.
+         * Each field you leave out uses your checkout settings.
+         * checkout_session_expires_in_seconds (Optional): integer. Seconds each checkout session
+         * the link starts stays open, from 60 to 86,400. Omit it to use your checkout settings, or
+         * 24 hours. It doesn't end the link; use sales_end_at for that. Format: int64. minimum:
+         * 60. maximum: 86400. completed_count (Required): integer. Number of paid checkout
+         * sessions started from this link. Format: int32. created_at (Required): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". custom_fields (Optional):
+         * Array of {@link PaymentLinkCustomField}. Questions buyers answer before paying. Answers
+         * are recorded on the order and checkout session in `custom_field_answers`.
+         * custom_fields[] (Value): {@link PaymentLinkCustomField}. A custom field on a payment
+         * link that collects an answer from the buyer. custom_text (Optional): {@link
+         * CheckoutCustomTextConfig}. Custom text for checkouts started from this link. Custom text
+         * shown in checkout: an order summary message and a shipping address label.
+         * delivery_method_ids (Required): Array of string. Delivery methods the link offers. Empty
+         * when the link has none, and then its checkouts offer
+         * settings.checkout.default_delivery_method_ids when the order has items to deliver.
+         * delivery_method_ids[] (Value): string. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+         * description (Optional): string. Text about what the link sells, returned to buyers when
+         * they open it. donation_max_amount_money (Optional): {@link MoneyValue}. Largest amount a
+         * buyer can give on a donation link. Monetary amount represented as integer minor units
+         * plus an ISO 4217 currency code. donation_min_amount_money (Optional): {@link
+         * MoneyValue}. Smallest amount a buyer can give on a donation link. Monetary amount
+         * represented as integer minor units plus an ISO 4217 currency code.
+         * donation_suggested_amount_money_options (Optional): Array of {@link MoneyValue}. Amounts
+         * a donation link offers as one-tap choices. donation_suggested_amount_money_options[]
+         * (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus an
+         * ISO 4217 currency code. event_config (Optional): {@link PaymentLinkEventConfig}. Event
+         * details for an `event` link: when and where it takes place and how many tickets it
+         * sells. Event settings on an event payment link, such as its date, venue, ticket limit,
+         * and ticket emails. external_reference_id (Optional): string. Caller-owned identifier for
+         * this resource in an external system. maxLength: 255. Example: "warehouse-1842". image
+         * (Optional): {@link ImageAttachment}. Image shown to buyers with the link. An image
+         * attached to a resource, with its display properties and attachment metadata.
+         * inactive_message (Optional): string. Message to show the buyer when the link is
+         * inactive. inventory_routing_source (Optional): {@link InventoryRoutingSource}. The
+         * inventory location or routing policy that supplies stock for the link's catalog lines.
+         * Where an order, payment link, or reservation routes inventory from: a fixed Location, an
+         * inventory allocation policy, or one policy revision. legal (Optional): {@link
+         * LegalSettings}. The terms and policy links checkouts started from this link show the
+         * buyer. Legal settings for a checkout: whether buyers must accept terms, and links to the
+         * terms, refund policy, shipping policy, and contract. line_items (Optional): Array of
+         * {@link PaymentLinkLineItem}. What the link sells. line_items[] (Value): {@link
+         * PaymentLinkLineItem}. A line item on a payment link. max_completions (Optional):
+         * integer. Most payments the link accepts, counted by `completed_count`. Absent means no
+         * limit. Once the limit is reached, resolving the link fails with a request error. It
+         * can't be set below `completed_count`. Format: int32. merchant_id (Required): string. ID
+         * of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * metadata (Optional): {@link MetadataMap}. Stored caller-owned key-value data. See
+         * `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a
+         * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+         * follow the limits on MetadataInput and MetadataPatchInput; maps written before those
+         * limits may not satisfy them. name (Required): string. Name of the payment link.
+         * payment_link_id (Required): string. Unique identifier for this payment link, prefixed
+         * `pl_`. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". payment_link_type (Optional): string.
+         * What kind of link this is. Value enum: "standard", "donation", "event". payments
+         * (Optional): {@link CheckoutPaymentConfig}. Payment options for checkouts started from
+         * this link. Payment settings for a checkout: the enabled payment options and a note shown
+         * with payment. promotion_config (Optional): {@link CheckoutPromotionConfig}. Whether
+         * automatic promotions apply to checkouts started from this link and whether buyers can
+         * enter promotion codes. Promotion settings for a checkout: whether automatic promotions
+         * apply and whether the buyer can apply promotion codes. redirects (Optional): {@link
+         * CheckoutRedirects}. Where checkout sessions started from this payment link send the
+         * buyer after payment, cancellation, or expiration. Where hosted checkout sends the buyer.
+         * Not allowed when surface is embedded; use payment_return_url. sales_end_at (Optional):
+         * string. RFC3339 timestamp after which the link stops starting checkouts and resolve
+         * fails with `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end
+         * on their own, except that an event link without sales_end_at stops selling at
+         * event_config.event_at. A checkout opened before the end can still start payment for up
+         * to 15 minutes after it. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * sales_summary (Optional): {@link PaymentLinkSalesSummary}. Present only with
+         * expand=sales_summary on GET /v1/payment-links or GET
+         * /v1/payment-links/{payment_link_id}. Available to merchant callers, including dashboard
+         * sessions and API keys with checkouts.payment_links.read. Uses the same paid-order
+         * definition as the merchant sales summary. Paid-order sales totals for a payment link,
+         * computed on request. Paid means the order's collection has completed. Fully and
+         * partially refunded orders still count, and paid_totals reports the amount collected
+         * before refunds. Each order counts once even if it has multiple checkout sessions. status
+         * (Required): string. Whether the link can start new checkouts. Value enum: "active",
+         * "inactive". subscription_plan (Optional): {@link ExpandedSubscriptionPlanSummary} or
+         * null. Present only when `expand` includes `subscription_plan`; `null` when expanded and
+         * there is no related subscription plan. subscription_plan.anyOf[1] (Value): {@link
+         * ExpandedSubscriptionPlanSummary}. A subscription plan's summary fields, including name,
+         * billing interval, currency, and status, returned when the plan is expanded.
+         * subscription_plan.anyOf[2] (Value): null. subscription_plan_id (Optional): string.
+         * Example: "plan_01KEZF7C004CY5ZR33XST2AASV". tax (Optional): {@link CheckoutTaxConfig}.
+         * Tax settings for checkouts started from this link. Whether tax is collected for a
+         * checkout session or payment link. theme (Optional): {@link ThemeConfig}. The title and
+         * colors for checkouts started from this link, over your branding settings. Colors and
+         * title applied to a payment link's checkout page. tip (Optional): {@link
+         * CheckoutTipConfig}. Tip options for checkouts started from this link. Tip settings for a
+         * checkout: whether tips are enabled, the percent or fixed amount options, the default
+         * tip, and custom tips. total_quantity_sold (Required): integer. Whole-number quantity;
+         * fractional quantities are not supported. Format: int32. updated_at (Required): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". url (Required):
+         * string. URL buyers open to use the link. version (Required): integer. Current version of
+         * this resource's owned state. Send it as `expected_version` when changing the resource to
+         * reject a stale write. Format: int64.
+         */
+        "object": {
+            /**
+             * What checkout asks the buyer for. Each field you leave out uses your checkout
+             * settings.
+             */
+            "buyer_fields"?: CheckoutBuyerFields;
+            /**
+             * Seconds each checkout session the link starts stays open, from 60 to 86,400. Omit it
+             * to use your checkout settings, or 24 hours. It doesn't end the link; use
+             * sales_end_at for that. Format: int64. minimum: 60. maximum: 86400.
+             */
+            "checkout_session_expires_in_seconds"?: number;
+            /** Number of paid checkout sessions started from this link. Format: int32. */
+            "completed_count": number;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Questions buyers answer before paying. Answers are recorded on the order and
+             * checkout session in `custom_field_answers`. [] (Value): {@link
+             * PaymentLinkCustomField}. A custom field on a payment link that collects an answer
+             * from the buyer.
+             */
+            "custom_fields"?: Array<PaymentLinkCustomField>;
+            /**
+             * Custom text for checkouts started from this link. Custom text shown in checkout: an
+             * order summary message and a shipping address label.
+             */
+            "custom_text"?: CheckoutCustomTextConfig;
+            /**
+             * Delivery methods the link offers. Empty when the link has none, and then its
+             * checkouts offer settings.checkout.default_delivery_method_ids when the order has
+             * items to deliver. [] (Value): string. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+             */
+            "delivery_method_ids": Array<string>;
+            /** Text about what the link sells, returned to buyers when they open it. */
+            "description"?: string;
+            /**
+             * Largest amount a buyer can give on a donation link. Monetary amount represented as
+             * integer minor units plus an ISO 4217 currency code.
+             */
+            "donation_max_amount_money"?: MoneyValue;
+            /**
+             * Smallest amount a buyer can give on a donation link. Monetary amount represented as
+             * integer minor units plus an ISO 4217 currency code.
+             */
+            "donation_min_amount_money"?: MoneyValue;
+            /**
+             * Amounts a donation link offers as one-tap choices. [] (Value): {@link MoneyValue}.
+             * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+             */
+            "donation_suggested_amount_money_options"?: Array<MoneyValue>;
+            /**
+             * Event details for an `event` link: when and where it takes place and how many
+             * tickets it sells. Event settings on an event payment link, such as its date, venue,
+             * ticket limit, and ticket emails.
+             */
+            "event_config"?: PaymentLinkEventConfig;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /**
+             * Image shown to buyers with the link. An image attached to a resource, with its
+             * display properties and attachment metadata.
+             */
+            "image"?: ImageAttachment;
+            /** Message to show the buyer when the link is inactive. */
+            "inactive_message"?: string;
+            /**
+             * The inventory location or routing policy that supplies stock for the link's catalog
+             * lines. Where an order, payment link, or reservation routes inventory from: a fixed
+             * Location, an inventory allocation policy, or one policy revision.
+             */
+            "inventory_routing_source"?: InventoryRoutingSource;
+            /**
+             * The terms and policy links checkouts started from this link show the buyer. Legal
+             * settings for a checkout: whether buyers must accept terms, and links to the terms,
+             * refund policy, shipping policy, and contract.
+             */
+            "legal"?: LegalSettings;
+            /**
+             * What the link sells. [] (Value): {@link PaymentLinkLineItem}. A line item on a
+             * payment link.
+             */
+            "line_items"?: Array<PaymentLinkLineItem>;
+            /**
+             * Most payments the link accepts, counted by `completed_count`. Absent means no limit.
+             * Once the limit is reached, resolving the link fails with a request error. It can't
+             * be set below `completed_count`. Format: int32.
+             */
+            "max_completions"?: number;
+            /**
+             * ID of the merchant this resource belongs to. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id": string;
+            /**
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
+             * are reserved for Flint and are not returned. Writes follow the limits on
+             * MetadataInput and MetadataPatchInput; maps written before those limits may not
+             * satisfy them.
+             */
+            "metadata"?: MetadataMap;
+            /** Name of the payment link. */
+            "name": string;
+            /**
+             * Unique identifier for this payment link, prefixed `pl_`. Example:
+             * "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+             */
+            "payment_link_id": string;
+            /** What kind of link this is. Value enum: "standard", "donation", "event". */
+            "payment_link_type"?: "standard" | "donation" | "event" | (string & {});
+            /**
+             * Payment options for checkouts started from this link. Payment settings for a
+             * checkout: the enabled payment options and a note shown with payment.
+             */
+            "payments"?: CheckoutPaymentConfig;
+            /**
+             * Whether automatic promotions apply to checkouts started from this link and whether
+             * buyers can enter promotion codes. Promotion settings for a checkout: whether
+             * automatic promotions apply and whether the buyer can apply promotion codes.
+             */
+            "promotion_config"?: CheckoutPromotionConfig;
+            /**
+             * Where checkout sessions started from this payment link send the buyer after payment,
+             * cancellation, or expiration. Where hosted checkout sends the buyer. Not allowed when
+             * surface is embedded; use payment_return_url.
+             */
+            "redirects"?: CheckoutRedirects;
+            /**
+             * RFC3339 timestamp after which the link stops starting checkouts and resolve fails
+             * with `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end on
+             * their own, except that an event link without sales_end_at stops selling at
+             * event_config.event_at. A checkout opened before the end can still start payment for
+             * up to 15 minutes after it. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "sales_end_at"?: string;
+            /**
+             * Present only with expand=sales_summary on GET /v1/payment-links or GET
+             * /v1/payment-links/{payment_link_id}. Available to merchant callers, including
+             * dashboard sessions and API keys with checkouts.payment_links.read. Uses the same
+             * paid-order definition as the merchant sales summary. Paid-order sales totals for a
+             * payment link, computed on request. Paid means the order's collection has completed.
+             * Fully and partially refunded orders still count, and paid_totals reports the amount
+             * collected before refunds. Each order counts once even if it has multiple checkout
+             * sessions.
+             */
+            "sales_summary"?: PaymentLinkSalesSummary;
+            /** Whether the link can start new checkouts. Value enum: "active", "inactive". */
+            "status": "active" | "inactive" | (string & {});
+            /**
+             * Present only when `expand` includes `subscription_plan`; `null` when expanded and
+             * there is no related subscription plan. anyOf[1] (Value): {@link
+             * ExpandedSubscriptionPlanSummary}. A subscription plan's summary fields, including
+             * name, billing interval, currency, and status, returned when the plan is expanded.
+             * anyOf[2] (Value): null.
+             */
+            "subscription_plan"?: ((ExpandedSubscriptionPlanSummary) | (null));
+            /** Example: "plan_01KEZF7C004CY5ZR33XST2AASV". */
+            "subscription_plan_id"?: string;
+            /**
+             * Tax settings for checkouts started from this link. Whether tax is collected for a
+             * checkout session or payment link.
+             */
+            "tax"?: CheckoutTaxConfig;
+            /**
+             * The title and colors for checkouts started from this link, over your branding
+             * settings. Colors and title applied to a payment link's checkout page.
+             */
+            "theme"?: ThemeConfig;
+            /**
+             * Tip options for checkouts started from this link. Tip settings for a checkout:
+             * whether tips are enabled, the percent or fixed amount options, the default tip, and
+             * custom tips.
+             */
+            "tip"?: CheckoutTipConfig;
+            /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+            "total_quantity_sold": number;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /** URL buyers open to use the link. */
+            "url": string;
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. Format: int64.
+             */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<PaymentLink>;
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "payment_link.updated". */
+    "event_type"?: "payment_link.updated";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});

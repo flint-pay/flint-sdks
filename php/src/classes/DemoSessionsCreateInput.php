@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read array{'template'?: string}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class DemoSessionsCreateInput extends Model {
-    /** @param array{'Flint-Challenge-Token': string, 'body': array{'template'?: string}|object}|object $values */
+    /** @param array{'Flint-Challenge-Token': string, 'body'?: array{'template'?: string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DemoSessionsCreateInput')); }
     /** Challenge token from Flint's hosted bot check on the page that offers the demo. Flint identifies the demo client by its IP address.
      * @return string

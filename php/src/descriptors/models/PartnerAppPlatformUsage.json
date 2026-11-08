@@ -1,0 +1,1 @@
+{"shared":"PartnerAppPlatformUsage","phpRepresentation":{"kind":"record","fields":{"live_merchant_count":{"kind":"value","type":"int"},"monthly_volume_currency_options":{"kind":"map","value":{"kind":"entity","name":"MoneyValue"}},"observed_at":{"kind":"value","type":"string"},"resets_at":{"kind":"value","type":"string"}}},"dependencies":["MoneyValue","PartnerAppPlatformUsage"]}

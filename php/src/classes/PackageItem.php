@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read ?string $created_at
+ * @property-read string $created_at
  * @property-read string $fulfillment_id
  * @property-read ?array<array-key, string> $metadata
  * @property-read ExpandedOrderSummary|null $order
@@ -12,16 +12,16 @@ namespace Flint;
  * @property-read string $package_item_id
  * @property-read int $quantity
  * @property-read string $shipment_id
- * @property-read ?string $updated_at
+ * @property-read string $updated_at
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class PackageItem extends Model {
-    /** @param array{'created_at'?: string, 'fulfillment_id': string, 'metadata'?: mixed, 'order'?: mixed, 'order_id': string, 'order_line_item_id': string, 'package_id': string, 'package_item_id': string, 'quantity': int, 'shipment_id': string, 'updated_at'?: string, 'version': int, ...}|object $values */
+    /** @param array{'created_at': string, 'fulfillment_id': string, 'metadata'?: mixed, 'order'?: mixed, 'order_id': string, 'order_line_item_id': string, 'package_id': string, 'package_item_id': string, 'quantity': int, 'shipment_id': string, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PackageItem')); }
     /** Creation timestamp. Format: date-time.
-     * @return ?string
+     * @return string
      */
-    public function getCreatedAt(): ?string { return $this->get('created_at'); }
+    public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
     /** Fulfillment containing this package item.
      * @return string
@@ -69,9 +69,9 @@ final class PackageItem extends Model {
     public function getShipmentId(): string { return $this->get('shipment_id'); }
     public function hasShipmentId(): bool { return $this->has('shipment_id'); }
     /** Last update timestamp. Format: date-time.
-     * @return ?string
+     * @return string
      */
-    public function getUpdatedAt(): ?string { return $this->get('updated_at'); }
+    public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
     /** Persisted item version, independent of package shipment and capacity guards. Format: uint64. minimum: 1.
      * @return int

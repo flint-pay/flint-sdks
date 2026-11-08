@@ -26,22 +26,22 @@ final class ReturnInspectionLineItem extends Model {
      */
     public function getAcceptanceDecidedAt(): ?string { return $this->get('acceptance_decided_at'); }
     public function hasAcceptanceDecidedAt(): bool { return $this->has('acceptance_decided_at'); }
-    /** Who performed a return action: a buyer, merchant, integration, or the system, with an optional ID.
+    /** Who made the acceptance decision. Who performed a return action: a buyer, merchant, integration, or the system, with an optional ID.
      * @return ?ReturnActor
      */
     public function getAcceptanceDecidedBy(): ?ReturnActor { return $this->get('acceptance_decided_by'); }
     public function hasAcceptanceDecidedBy(): bool { return $this->has('acceptance_decided_by'); }
-    /** Value enum: "inspection_result", "return_policy", "manual_review", "other".
+    /** Why the units were accepted or rejected after review. Value enum: "inspection_result", "return_policy", "manual_review", "other".
      * @return ?string
      */
     public function getAcceptanceDecisionReason(): ?string { return $this->get('acceptance_decision_reason'); }
     public function hasAcceptanceDecisionReason(): bool { return $this->has('acceptance_decision_reason'); }
-    /** acceptance_decision_reason_message
+    /** Detail about `acceptance_decision_reason`.
      * @return ?string
      */
     public function getAcceptanceDecisionReasonMessage(): ?string { return $this->get('acceptance_decision_reason_message'); }
     public function hasAcceptanceDecisionReasonMessage(): bool { return $this->has('acceptance_decision_reason_message'); }
-    /** Value enum: "accepted", "rejected", "review_required".
+    /** Whether the inspected units were accepted, rejected, or need a merchant's decision. Value enum: "accepted", "rejected", "review_required".
      * @return string
      */
     public function getAcceptanceStatus(): string { return $this->get('acceptance_status'); }
@@ -56,12 +56,12 @@ final class ReturnInspectionLineItem extends Model {
      */
     public function getCondition(): string { return $this->get('condition'); }
     public function hasCondition(): bool { return $this->has('condition'); }
-    /** [] enum: "matches_expected_item", "wrong_item", "damaged", "defective", "used", "missing_parts", "empty_package", "counterfeit_suspected", "other". [] (Value): string.  Value enum: "matches_expected_item", "wrong_item", "damaged", "defective", "used", "missing_parts", "empty_package", "counterfeit_suspected", "other".
+    /** What the inspection found. Up to 50 values, none repeated. [] enum: "matches_expected_item", "wrong_item", "damaged", "defective", "used", "missing_parts", "empty_package", "counterfeit_suspected", "other". [] (Value): string.  Value enum: "matches_expected_item", "wrong_item", "damaged", "defective", "used", "missing_parts", "empty_package", "counterfeit_suspected", "other".
      * @return list<string>
      */
     public function getFindingCodes(): array { return $this->get('finding_codes'); }
     public function hasFindingCodes(): bool { return $this->has('finding_codes'); }
-    /** internal_note
+    /** Note for your own team about this line.
      * @return ?string
      */
     public function getInternalNote(): ?string { return $this->get('internal_note'); }
@@ -71,22 +71,22 @@ final class ReturnInspectionLineItem extends Model {
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
-    /** return_inspection_id
+    /** ID of the inspection the line belongs to.
      * @return string
      */
     public function getReturnInspectionId(): string { return $this->get('return_inspection_id'); }
     public function hasReturnInspectionId(): bool { return $this->has('return_inspection_id'); }
-    /** return_inspection_line_item_id
+    /** Unique identifier for this return inspection line item, prefixed `retinli_`.
      * @return string
      */
     public function getReturnInspectionLineItemId(): string { return $this->get('return_inspection_line_item_id'); }
     public function hasReturnInspectionLineItemId(): bool { return $this->has('return_inspection_line_item_id'); }
-    /** return_line_item_id
+    /** ID of the Return line inspected.
      * @return ?string
      */
     public function getReturnLineItemId(): ?string { return $this->get('return_line_item_id'); }
     public function hasReturnLineItemId(): bool { return $this->has('return_line_item_id'); }
-    /** return_receipt_line_item_id
+    /** ID of the receipt line inspected.
      * @return string
      */
     public function getReturnReceiptLineItemId(): string { return $this->get('return_receipt_line_item_id'); }

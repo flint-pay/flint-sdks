@@ -8,7 +8,7 @@ namespace Flint;
 final class SubscriptionDeliveryDestinationInputCustomerAddressInput extends Model {
     /** @param array{'customer_address_id': string, 'type': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionDeliveryDestinationInputCustomerAddressInput')); }
-    /** minLength: 1. pattern: ^caddr_[0-9A-HJKMNP-TV-Z]{26}$.
+    /** minLength: 1. pattern: ^caddr_[0-9A-HJKMNP-TV-Z]{26}$. Example: "caddr_01KEZF7C00K2Q127FBJAXWB0FP".
      * @return string
      * @throws SdkError When customer_address_id is omitted; use hasCustomerAddressId() or valueOrDefault().
      */

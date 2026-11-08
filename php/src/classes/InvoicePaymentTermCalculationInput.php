@@ -15,13 +15,13 @@ final class InvoicePaymentTermCalculationInput extends Model {
      */
     public function getDay(): int { return $this->get('day'); }
     public function hasDay(): bool { return $this->has('day'); }
-    /** Format: int32. minimum: 0. maximum: 365.
+    /** Calendar days after issue for net_days, or after the issue month's last day for days_after_month_end. Required only for those types. Format: int32. minimum: 0. maximum: 365.
      * @return int
      * @throws SdkError When days is omitted; use hasDays() or valueOrDefault().
      */
     public function getDays(): int { return $this->get('days'); }
     public function hasDays(): bool { return $this->has('days'); }
-    /** Value enum: "on_receipt", "net_days", "day_of_month", "day_of_next_month", "days_after_month_end".
+    /** How issue calculates the invoice's due date in the invoice timezone. Value enum: "on_receipt", "net_days", "day_of_month", "day_of_next_month", "days_after_month_end".
      * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */

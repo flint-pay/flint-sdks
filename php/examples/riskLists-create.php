@@ -17,9 +17,9 @@ $client = new Client(new ClientOptions(
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->riskLists->create([
-  'alias' => 'example',
-  'name' => 'example',
-  'item_type' => 'card_fingerprint',
+  'alias' => 'flagged_emails',
+  'item_type' => 'email',
+  'name' => 'Flagged email addresses',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->risk_list_id . PHP_EOL;
 echo $result->status . PHP_EOL;

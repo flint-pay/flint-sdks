@@ -7,7 +7,7 @@ namespace Flint;
 final class MeCreateEmailChangeRequestParams extends Model {
     /** @param array{'new_email': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MeCreateEmailChangeRequestParams')); }
-    /** Format: email. minLength: 1. maxLength: 320.
+    /** The address to change the email to. Flint emails a six-digit code to it. Format: email. minLength: 1. maxLength: 320. Example: "buyer@example.com".
      * @return string
      * @throws SdkError When new_email is omitted; use hasNewEmail() or valueOrDefault().
      */

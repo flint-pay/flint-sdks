@@ -8,7 +8,7 @@ namespace Flint;
 final class MoneyMovementHistoryMetaInput extends Model {
     /** @param array{'latest_reconciled_at'?: string|\DateTimeInterface, 'status': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MoneyMovementHistoryMetaInput')); }
-    /** When Flint last finished reconciling this list's history with your processor. Absent until a reconciliation finishes. Format: date-time.
+    /** When Flint last finished reconciling this list's history with your processor. Absent until a reconciliation finishes. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When latest_reconciled_at is omitted; use hasLatestReconciledAt() or valueOrDefault().
      */

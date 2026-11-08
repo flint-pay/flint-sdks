@@ -9,6 +9,6 @@ Request input.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `mode` | Required | string | Values: `"next_renewal"`. |
-| `renewal` | Required | [SubscriptionRenewalEstimateInput](../models/SubscriptionRenewalEstimateInput.md#subscriptionrenewalestimateinput) | Estimated pricing and billing time for a subscription's next renewal, including items, discounts, shipping, and tax. |
-| `subscription_id` | Required | string |  |
+| `renewal` | Required | [SubscriptionRenewalEstimateInput](../models/SubscriptionRenewalEstimateInput.md#subscriptionrenewalestimateinput) | Estimated pricing and billing time for a subscription renewal, including items, discounts, shipping, and tax. |
+| `subscription_id` | Required | string | Example: `"sub_01KEZF7C00BVRE8YDBXQB74BBM"`. |
 

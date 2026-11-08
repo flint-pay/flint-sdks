@@ -15,10 +15,13 @@ Signature: `checkConnection(string|Model $delivery_rate_callback_id, array|Model
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `delivery_rate_callback_id` | Required | string | Flint delivery rate callback ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
-Returned payload: [DeliveryRateCallbackConnectionCheck](../models/DeliveryRateCallbackConnectionCheckInput.md#deliveryratecallbackconnectioncheckinput).
+Returned payload: [DeliveryRateCallbackConnectionCheck](../models/DeliveryRateCallbackConnectionCheck.md#deliveryratecallbackconnectioncheck).
 
 #### Errors
 
@@ -29,7 +32,6 @@ Returned payload: [DeliveryRateCallbackConnectionCheck](../models/DeliveryRateCa
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -53,7 +55,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->deliveryRateCallbacks->checkConnection('dcb_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->deliveryRateCallbacks->checkConnection('dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1', [], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/deliveryRateCallbacks-checkConnection.php)
@@ -70,17 +72,25 @@ Signature: `create(array|Model $params, ?RequestOptions $options = null)`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [CreateDeliveryRateCallbackRequestInput](../models/CreateDeliveryRateCallbackRequestInput.md#createdeliveryratecallbackrequestinput) | The request body for: Create delivery rate callback. |
 
 Body model: [CreateDeliveryRateCallbackRequestInput](../models/CreateDeliveryRateCallbackRequestInput.md#createdeliveryratecallbackrequestinput).
 
 #### deliveryRateCallbacks.create body fields
 
-Field definitions: [shared fields](../models/CreateDeliveryRateCallbackRequestInput.md#createdeliveryratecallbackrequestinput). Models: [DeliveryRateCallbackConfigurationInput](../models/DeliveryRateCallbackConfigurationInput.md#deliveryratecallbackconfigurationinput), [WebhookSigningMethodInput](../models/WebhookSigningMethodInput.md#webhooksigningmethodinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `configuration` | Required | [DeliveryRateCallbackConfigurationRequestInput](../models/DeliveryRateCallbackConfigurationInput.md#deliveryratecallbackconfigurationinput) | Settings for a delivery rate callback: the endpoint `url` Flint calls, request timeout, request and response size limits, redirect policy, and whether previews can use it. |
+| `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
+| `name` | Required | string | minLength: `1`. |
+| `signing_methods` | Optional | Array of [WebhookSigningMethodInput](../models/WebhookSigningMethodInput.md#webhooksigningmethodinput) | Signing methods for callback requests. Defaults to JWT verification with Flint's public JWKS. A shared secret and key_id are returned only when hmac is included. minItems: `1`. uniqueItems: `true`. Default: `["jwt"]`. Items values: `"jwt"`, `"hmac"`. |
 
 #### Response
 
-Returned payload: [DeliveryRateCallback](../models/DeliveryRateCallback.md#deliveryratecallback).
+Returned payload: [DeliveryRateCallback](../models/DeliveryRateCallbackActivatedMerchantEventDataObject.md#deliveryratecallbackactivatedmerchanteventdataobject).
 
 #### Errors
 
@@ -91,7 +101,6 @@ Returned payload: [DeliveryRateCallback](../models/DeliveryRateCallback.md#deliv
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -117,9 +126,12 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->deliveryRateCallbacks->create([
-  'name' => 'example',
   'configuration' => (object) [
-    'url' => 'example',
+    'url' => 'https://merchant.example/delivery-rates',
+  ],
+  'name' => 'Live delivery rates',
+  'signing_methods' => [
+    'jwt',
   ],
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
@@ -136,13 +148,11 @@ Signature: `createTestDelivery(string|Model $delivery_rate_callback_id, array|Mo
 
 #### Request fields
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `delivery_rate_callback_id` | Required | string | Flint delivery rate callback ID. |
+Field definitions: [shared fields](#request-fields).
 
 #### Response
 
-Returned payload: [DeliveryRateCallbackTestDelivery](../models/DeliveryRateCallbackTestDeliveryInput.md#deliveryratecallbacktestdeliveryinput).
+Returned payload: [DeliveryRateCallbackTestDelivery](../models/DeliveryRateCallbackTestDelivery.md#deliveryratecallbacktestdelivery).
 
 #### Errors
 
@@ -153,7 +163,6 @@ Returned payload: [DeliveryRateCallbackTestDelivery](../models/DeliveryRateCallb
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -177,7 +186,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->deliveryRateCallbacks->createTestDelivery('dcb_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->deliveryRateCallbacks->createTestDelivery('dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1', [], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/deliveryRateCallbacks-createTestDelivery.php)
@@ -196,10 +205,13 @@ Signature: `delete(string|Model $delivery_rate_callback_id, array|Model|null $pa
 | --- | --- | --- | --- |
 | `delivery_rate_callback_id` | Required | string | Flint delivery rate callback ID. |
 | `expected_version` | Optional | integer | Optional current resource version. The delete is rejected if the resource changed after this version was read. Format: `uint64`. minimum: `1`. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
-Returned payload: [DeliveryRateCallback](../models/DeliveryRateCallback.md#deliveryratecallback).
+Returned payload: [DeliveryRateCallback](../models/DeliveryRateCallbackActivatedMerchantEventDataObject.md#deliveryratecallbackactivatedmerchanteventdataobject).
 
 #### Errors
 
@@ -210,7 +222,6 @@ Returned payload: [DeliveryRateCallback](../models/DeliveryRateCallback.md#deliv
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -233,7 +244,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->deliveryRateCallbacks->delete('dcb_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->deliveryRateCallbacks->delete('dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1', [], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/deliveryRateCallbacks-delete.php)
@@ -248,13 +259,11 @@ Signature: `get(string|Model $delivery_rate_callback_id, array|Model|null $param
 
 #### Request fields
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `delivery_rate_callback_id` | Required | string | Flint delivery rate callback ID. |
+Field definitions: [shared fields](#request-fields).
 
 #### Response
 
-Returned payload: [DeliveryRateCallback](../models/DeliveryRateCallback.md#deliveryratecallback).
+Returned payload: [DeliveryRateCallback](../models/DeliveryRateCallbackActivatedMerchantEventDataObject.md#deliveryratecallbackactivatedmerchanteventdataobject).
 
 #### Errors
 
@@ -264,7 +273,6 @@ Returned payload: [DeliveryRateCallback](../models/DeliveryRateCallback.md#deliv
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -282,7 +290,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```php
-$result = $client->deliveryRateCallbacks->get('dcb_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
+$result = $client->deliveryRateCallbacks->get('dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/deliveryRateCallbacks-get.php)
@@ -300,11 +308,14 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `query` | Optional | string | Search across delivery_rate_callback_id, name, and external_reference_id. Text fields match any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the start and need the type prefix, such as dcb_01. maxLength: `255`. |
 | `external_reference_id` | Optional | string | Exact-match filter on the caller-owned external reference ID. minLength: `1`. maxLength: `255`. |
-| `status` | Optional | Array of string or string | Filter by status. Repeat the parameter or send comma-separated values to match any of several. Omitted, the list leaves out archived rows; name archived to include them. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"inactive"`, `"archived"`. Values: `"active"`, `"inactive"`, `"archived"`. |
+| `status` | Optional | Array of string or string | Filter by status. Omitted, the list leaves out archived rows; name archived to include them. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"inactive"`, `"archived"`. Values: `"active"`, `"inactive"`, `"archived"`. |
 | `delivery_method_id` | Optional | string | Filter by an active current method that references this resource. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -318,7 +329,6 @@ Returned payload: [DeliveryRateCallbackListResponse](../models/DeliveryRateCallb
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -353,13 +363,11 @@ Signature: `rotateSecret(string|Model $delivery_rate_callback_id, array|Model|nu
 
 #### Request fields
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `delivery_rate_callback_id` | Required | string | Flint delivery rate callback ID. |
+Field definitions: [shared fields](#request-fields).
 
 #### Response
 
-Returned payload: [DeliveryRateCallbackSigningKeyRotation](../models/DeliveryRateCallbackSigningKeyRotationInput.md#deliveryratecallbacksigningkeyrotationinput).
+Returned payload: [DeliveryRateCallbackSigningKeyRotation](../models/DeliveryRateCallbackSigningKeyRotation.md#deliveryratecallbacksigningkeyrotation).
 
 #### Errors
 
@@ -370,7 +378,6 @@ Returned payload: [DeliveryRateCallbackSigningKeyRotation](../models/DeliveryRat
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -393,7 +400,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->deliveryRateCallbacks->rotateSecret('dcb_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->deliveryRateCallbacks->rotateSecret('dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1', [], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/deliveryRateCallbacks-rotateSecret.php)
@@ -411,6 +418,9 @@ Signature: `update(string|Model $delivery_rate_callback_id, array|Model $params,
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `delivery_rate_callback_id` | Required | string | Flint delivery rate callback ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [UpdateDeliveryRateCallbackRequestInput](../models/UpdateDeliveryRateCallbackRequestInput.md#updatedeliveryratecallbackrequestinput) | The request body for: Update delivery rate callback. |
 
 Body model: [UpdateDeliveryRateCallbackRequestInput](../models/UpdateDeliveryRateCallbackRequestInput.md#updatedeliveryratecallbackrequestinput).
@@ -493,7 +503,7 @@ Body model: [UpdateDeliveryRateCallbackRequestInput](../models/UpdateDeliveryRat
 
 #### Response
 
-Returned payload: [DeliveryRateCallback](../models/DeliveryRateCallback.md#deliveryratecallback).
+Returned payload: [DeliveryRateCallback](../models/DeliveryRateCallbackActivatedMerchantEventDataObject.md#deliveryratecallbackactivatedmerchanteventdataobject).
 
 #### Errors
 
@@ -504,7 +514,6 @@ Returned payload: [DeliveryRateCallback](../models/DeliveryRateCallback.md#deliv
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |

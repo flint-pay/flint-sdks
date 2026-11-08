@@ -6,19 +6,21 @@ namespace Flint;
  * @property-read ?Image $image
  * @property-read bool $is_sold_out
  * @property-read string $name
+ * @property-read string $product_id
+ * @property-read list<QuantityPriceBreak> $quantity_price_breaks
  * @property-read list<SelectedProductOption> $selected_options
  * @property-read MoneyValue $unit_price_money
  * @property-read string $variant_id
  * Presence-aware response; omitted optional fields return null. */
 final class PaymentLinkAvailableVariant extends Model {
-    /** @param array{'available_modifiers'?: list<mixed>, 'image'?: mixed, 'is_sold_out': bool, 'name': string, 'selected_options': list<mixed>, 'unit_price_money': mixed, 'variant_id': string, ...}|object $values */
+    /** @param array{'available_modifiers'?: list<mixed>, 'image'?: mixed, 'is_sold_out': bool, 'name': string, 'product_id': string, 'quantity_price_breaks': list<mixed>, 'selected_options': list<mixed>, 'unit_price_money': mixed, 'variant_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentLinkAvailableVariant')); }
     /** Modifier groups available for this variant's effective modifier set. Omitted when the variant has none. [] (Value): {@see PublicResolvedModifierGroup}. A modifier group as resolved for a payment link line item, with its selection limits, display flags, and options or text settings.
      * @return ?list<PublicResolvedModifierGroup>
      */
     public function getAvailableModifiers(): ?array { return $this->get('available_modifiers'); }
     public function hasAvailableModifiers(): bool { return $this->has('available_modifiers'); }
-    /** Effective primary variant image, inherited from the product when the variant has none. Omitted when neither has an image. An image with its `url`, `width`, and `height`, and optional `alt` text.
+    /** Effective primary variant image, inherited from the product when the variant has none. Omitted when neither has an image. An image with its URL, size, and alt text.
      * @return ?Image
      */
     public function getImage(): ?Image { return $this->get('image'); }
@@ -33,12 +35,22 @@ final class PaymentLinkAvailableVariant extends Model {
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
+    /** Identifier of the product the offered variant belongs to.
+     * @return string
+     */
+    public function getProductId(): string { return $this->get('product_id'); }
+    public function hasProductId(): bool { return $this->has('product_id'); }
+    /** Default variant quantity breaks. Use the largest minimum_quantity not above this line's own quantity; an empty array uses the base price. [] (Value): {@see QuantityPriceBreak}. A net unit price that applies when one catalog line reaches minimum_quantity.
+     * @return list<QuantityPriceBreak>
+     */
+    public function getQuantityPriceBreaks(): array { return $this->get('quantity_price_breaks'); }
+    public function hasQuantityPriceBreaks(): bool { return $this->has('quantity_price_breaks'); }
     /** The variant's product option values, in product option position order. Empty when the product has no options. [] (Value): {@see SelectedProductOption}. An option and value chosen for a product variant, such as size Large.
      * @return list<SelectedProductOption>
      */
     public function getSelectedOptions(): array { return $this->get('selected_options'); }
     public function hasSelectedOptions(): bool { return $this->has('selected_options'); }
-    /** Current catalog unit price in the line currency. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Current catalog base unit price in the line currency. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getUnitPriceMoney(): MoneyValue { return $this->get('unit_price_money'); }

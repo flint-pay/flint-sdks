@@ -23,5 +23,5 @@ $result = $client->me->updateSubscriptionLineItem('sub_01ARZ3NDEKTSV4RRFFQ69G5FA
   'variant_id' => 'var_00000000000000000000000000',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->customer_id . PHP_EOL;
-echo $result->payment_method_id . PHP_EOL;
+echo $result->merchant_id . PHP_EOL;
 $client->close();

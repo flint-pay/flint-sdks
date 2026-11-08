@@ -28,7 +28,7 @@ final class MeCancelSubscriptionParams extends Model {
      */
     public function getCancellationReasonCode(): string { return $this->get('cancellation_reason_code'); }
     public function hasCancellationReasonCode(): bool { return $this->has('cancellation_reason_code'); }
-    /** Format: uint64. minimum: 1.
+    /** Version last read from the resource returned in `data` (the primary resource for a result object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on the operation and fields being changed. Format: uint64. minimum: 1.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */

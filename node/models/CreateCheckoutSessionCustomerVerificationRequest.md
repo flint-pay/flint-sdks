@@ -10,9 +10,9 @@ A checkout verification request selected by purpose.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `channel` | Conditional | string |  |
-| `email` | Conditional | string | Email the buyer typed, with no surrounding spaces. Customers are matched by email without regard to case. Format: `email`. minLength: `1`. maxLength: `255`. |
-| `purpose` | Required | string |  |
+| `channel` | Conditional | string | How Flint delivers the code. |
+| `email` | Conditional | string | Email the buyer typed, with no surrounding spaces. Customers are matched by email without regard to case. Format: `email`. minLength: `1`. maxLength: `255`. Example: `"buyer@example.com"`. |
+| `purpose` | Required | string | What the buyer is confirming their email or number for. |
 
 ### CreateCheckoutSessionCustomerVerificationRequest variant 1: `channel` = `"email"`, `purpose` = `"gift_card_purchase"`
 

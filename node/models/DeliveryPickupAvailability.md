@@ -10,7 +10,7 @@ The result of a pickup locations preview: each pickup location and whether it ca
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `evaluated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
+| `evaluated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `evaluation_status` | Required | string | Values: `"complete"`, `"incomplete"`, `"degraded"`. |
 | `input_requirements` | Required | Array of [DeliveryInputRequirement](../models/DeliveryInputRequirement.md#deliveryinputrequirement) |  |
 | `locations` | Required | Array of [DeliveryPickupAvailabilityLocationResource](../models/DeliveryPickupAvailabilityLocationResource.md#deliverypickupavailabilitylocationresource) | Up to 25 pickup locations, nearest first when Flint can place the buyer location, otherwise in the order the pickup methods list them. maxItems: `25`. |

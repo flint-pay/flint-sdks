@@ -1,0 +1,25 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/**
+ * @internal
+ *
+ * @property-read string $partner_app_id
+ * @property-read array{'expected_version'?: int, 'platform_terms_version': string}|object $body
+ * Presence-aware input; omitted fields throw when accessed. */
+final class PartnerAppsAcceptPlatformTermsInput extends Model {
+    /** @param array{'partner_app_id': string, 'body': array{'expected_version'?: int, 'platform_terms_version': string}|object}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PartnerAppsAcceptPlatformTermsInput')); }
+    /** Flint partner app ID. Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
+     * @return string
+     * @throws SdkError When partner_app_id is omitted; use hasPartnerAppId() or valueOrDefault().
+     */
+    public function getPartnerAppId(): string { return $this->get('partner_app_id'); }
+    public function hasPartnerAppId(): bool { return $this->has('partner_app_id'); }
+    /** The request body for: Accept platform terms. Example: {"expected_version":1,"platform_terms_version":"2026-11-01"}.
+     * @return array{'expected_version'?: int, 'platform_terms_version': string}|object
+     * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
+     */
+    public function getBody(): array|object { return $this->get('body'); }
+    public function hasBody(): bool { return $this->has('body'); }
+}

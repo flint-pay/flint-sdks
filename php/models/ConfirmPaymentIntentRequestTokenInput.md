@@ -8,6 +8,7 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `buyer_ip_address` | Optional | string | The buyer's IP address, for risk screening, when your server pays on the buyer's behalf. Write-only. minLength: `1`. maxLength: `64`. Input only. |
 | `credential_type` | Required | string | Values: `"token"`. |
 | `expected_version` | Optional | integer | Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with the current version. Retrieve the resource and rebuild the request before retrying. Format: `uint64`. minimum: `1`. |
 | `payment_source_token` | Required | string | Opaque processor or browser payment source token. minLength: `1`. |

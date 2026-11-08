@@ -16,13 +16,13 @@ final class PaymentVolumeBucketInput extends Model {
      */
     public function getPaymentsCount(): int { return $this->get('payments_count'); }
     public function hasPaymentsCount(): bool { return $this->has('payments_count'); }
-    /** Exclusive bucket end instant, clipped to the resolved period. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  Format: date-time.
+    /** Exclusive bucket end instant, clipped to the resolved period. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When period_end_at is omitted; use hasPeriodEndAt() or valueOrDefault().
      */
     public function getPeriodEndAt(): string|\DateTimeInterface { return $this->get('period_end_at'); }
     public function hasPeriodEndAt(): bool { return $this->has('period_end_at'); }
-    /** Inclusive start instant. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  Format: date-time.
+    /** Inclusive start instant. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When period_start_at is omitted; use hasPeriodStartAt() or valueOrDefault().
      */

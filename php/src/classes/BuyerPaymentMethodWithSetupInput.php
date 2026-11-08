@@ -16,21 +16,21 @@ namespace Flint;
  * @property-read StripeClientSetupInput|array<array-key, mixed>|\stdClass $client_setup
  * Presence-aware input; omitted fields throw when accessed. */
 final class BuyerPaymentMethodWithSetupInput extends Model {
-    /** @param array{'card'?: CardDetailsInput|array<array-key, mixed>|\stdClass, 'created_at'?: string|\DateTimeInterface, 'customer_id': string, 'is_default': bool, 'merchant_id'?: string, 'payment_method_id': string, 'saved_with'?: string, 'status': string, 'type': string, 'updated_at'?: string|\DateTimeInterface, 'usage': string, 'client_setup'?: StripeClientSetupInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'card'?: CardDetailsInput|array<array-key, mixed>|\stdClass, 'created_at': string|\DateTimeInterface, 'customer_id': string, 'is_default': bool, 'merchant_id': string, 'payment_method_id': string, 'saved_with'?: string, 'status': string, 'type': string, 'updated_at': string|\DateTimeInterface, 'usage': string, 'client_setup'?: StripeClientSetupInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerPaymentMethodWithSetupInput')); }
-    /** Card details on a payment method: brand, expiration month and year, last four digits, and the wallet when one was used.
+    /** Brand, expiry and last four digits. Present when `type` is `card`. Card details on a payment method: brand, expiration month and year, last four digits, and the wallet when one was used.
      * @return CardDetailsInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When card is omitted; use hasCard() or valueOrDefault().
      */
     public function getCard(): mixed { return $this->get('card'); }
     public function hasCard(): bool { return $this->has('card'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** customer_id
+    /** Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */
@@ -42,13 +42,13 @@ final class BuyerPaymentMethodWithSetupInput extends Model {
      */
     public function getIsDefault(): bool { return $this->get('is_default'); }
     public function hasIsDefault(): bool { return $this->has('is_default'); }
-    /** merchant_id
+    /** ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
      * @return string
      * @throws SdkError When merchant_id is omitted; use hasMerchantId() or valueOrDefault().
      */
     public function getMerchantId(): string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** payment_method_id
+    /** Unique identifier for this payment method, prefixed `pm_`. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
      * @return string
      * @throws SdkError When payment_method_id is omitted; use hasPaymentMethodId() or valueOrDefault().
      */
@@ -66,13 +66,13 @@ final class BuyerPaymentMethodWithSetupInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Value enum: "card".
+    /** Kind of payment method. Value enum: "card".
      * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */
     public function getType(): string { return $this->get('type'); }
     public function hasType(): bool { return $this->has('type'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */

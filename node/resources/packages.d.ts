@@ -1,5 +1,5 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-5.js';
+import type { ClientOptions } from '../declarations/types-6.js';
 import type {
     Package,
     PackageItem,
@@ -13,13 +13,20 @@ import type {
     PackagesGetParams,
     PackagesListPackageItemsParams,
     PackagesListParams,
-    PackagesTransitionParams,
+    PackagesMarkDeliveredParams,
+    PackagesMarkDeliveryAttemptedParams,
+    PackagesMarkExceptionParams,
+    PackagesMarkInTransitParams,
+    PackagesMarkOutForDeliveryParams,
+    PackagesMarkPackedParams,
+    PackagesMarkReturnedParams,
+    PackagesMarkShippedParams,
     PackagesUpdateItemParams,
     PackagesUpdateParams,
     PackagesVoidParams
-} from '../declarations/types-39.js';
-import type { RequestOptions } from '../declarations/types-48.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-41.js';
+import type { RequestOptions } from '../declarations/types-51.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -47,64 +54,68 @@ export type {
     PackageItemListResponse,
     PackagesListParams,
     PackageListResponse,
-    PackagesTransitionParams,
+    PackagesMarkDeliveredParams,
+    PackagesMarkDeliveryAttemptedParams,
+    PackagesMarkExceptionParams,
+    PackagesMarkInTransitParams,
+    PackagesMarkOutForDeliveryParams,
+    PackagesMarkPackedParams,
+    PackagesMarkReturnedParams,
+    PackagesMarkShippedParams,
     PackagesUpdateParams,
     PackagesUpdateItemParams,
-    PackagesVoidParams,
-    PackageTransitionRequestInput,
-    PackageTransitionRequestMarkDeliveredInput,
-    PackageTransitionRequestMarkDeliveryAttemptedInput,
-    PackageTransitionRequestMarkExceptionInput,
-    PackageTransitionRequestMarkInTransitInput,
-    PackageTransitionRequestMarkOutForDeliveryInput,
-    PackageTransitionRequestMarkPackedInput,
-    PackageTransitionRequestMarkReturnedInput,
-    PackageTransitionRequestMarkShippedInput
-} from '../declarations/types-39.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
-export type { _SdkWithoutIdempotency, Weight, WeightInput } from '../declarations/types-62.js';
-export type { ClientOptions } from '../declarations/types-5.js';
-export type { CreatePackageItemRequestInput } from '../declarations/types-9.js';
-export type {
-    MetadataRequestInput,
-    MetadataMap,
-    MoneyValue,
-    NextAction,
-    MetadataPatchRequestInput,
-    MetadataPatchRequest
-} from '../declarations/types-35.js';
+    PackagesVoidParams
+} from '../declarations/types-41.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
+export type { _SdkWithoutIdempotency, Weight, WeightRequestInput } from '../declarations/types-66.js';
+export type { ClientOptions } from '../declarations/types-6.js';
+export type { CreatePackageItemRequestInput } from '../declarations/types-10.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-36.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-12.js';
-export type { ExpandedOrderSummary } from '../declarations/types-21.js';
-export type { CheckoutBuyerContact } from '../declarations/types-4.js';
-export type { PricingAmounts } from '../declarations/types-44.js';
-export type { SettlementAmounts } from '../declarations/types-53.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
-export type { Dimensions, DimensionsInput } from '../declarations/types-20.js';
-export type { ReturnResolutionLineItemRequest } from '../declarations/types-51.js';
-export type { UpdatePackageRequestInput, UpdatePackageItemRequestInput } from '../declarations/types-59.js';
-export type { VoidPackageRequestInput } from '../declarations/types-61.js';
-export type { FulfillmentEventsGetParams } from '../declarations/types-22.js';
-export type { FulfillmentTransitionRequestMarkPackedInput } from '../declarations/types-23.js';
-export { makeCreatePackageItemRequest } from '../declarations/types-65.js';
-export { makeDimensions } from '../declarations/types-67.js';
-export { makeFulfillmentTransitionRequestMarkPacked } from '../declarations/types-68.js';
-export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-69.js';
+export type { Credentials } from '../declarations/types-13.js';
+export type { ExpandedOrderSummary } from '../declarations/types-23.js';
+export type { CheckoutBuyerContact } from '../declarations/types-5.js';
+export type { DeferredPromotion } from '../declarations/types-16.js';
+export type { PricingAmounts } from '../declarations/types-47.js';
+export type { MoneyValue, NextAction } from '../declarations/types-37.js';
+export type { OrderSettlementAmounts } from '../declarations/types-40.js';
+export type { SettlementAmounts } from '../declarations/types-56.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
+export type { Dimensions, DimensionsRequestInput } from '../declarations/types-22.js';
+export type { ReturnResolutionLineItemRequest } from '../declarations/types-54.js';
+export type {
+    MarkPackageDeliveredRequestInput,
+    MarkPackageDeliveryAttemptedRequestInput,
+    MarkPackageExceptionRequestInput
+} from '../declarations/types-34.js';
+export type {
+    MarkPackageInTransitRequestInput,
+    MarkPackageOutForDeliveryRequestInput,
+    MarkPackagePackedRequestInput,
+    MarkPackageReturnedRequestInput,
+    MarkPackageShippedRequestInput
+} from '../declarations/types-35.js';
+export type { UpdatePackageRequestInput, UpdatePackageItemRequestInput } from '../declarations/types-64.js';
+export type { VoidPackageRequestInput } from '../declarations/types-65.js';
+export type { FulfillmentEventsGetParams } from '../declarations/types-24.js';
+export { makeCreatePackageItemRequest } from '../declarations/types-70.js';
+export { makeDimensionsRequest } from '../declarations/types-72.js';
 export {
-    makeMoneyValue,
-    makePackageTransitionRequest,
-    makePackageTransitionRequestMarkDelivered,
-    makePackageTransitionRequestMarkDeliveryAttempted,
-    makePackageTransitionRequestMarkException,
-    makePackageTransitionRequestMarkInTransit,
-    makePackageTransitionRequestMarkOutForDelivery,
-    makePackageTransitionRequestMarkPacked,
-    makePackageTransitionRequestMarkReturned,
-    makePackageTransitionRequestMarkShipped
-} from '../declarations/types-70.js';
-export { makeReturnResolutionLineItemRequest } from '../declarations/types-72.js';
-export { makeUpdatePackageItemRequest, makeUpdatePackageRequest } from '../declarations/types-74.js';
-export { makeVoidPackageRequest, makeWeight } from '../declarations/types-75.js';
+    makeMarkPackageDeliveredRequest,
+    makeMarkPackageDeliveryAttemptedRequest,
+    makeMarkPackageExceptionRequest,
+    makeMarkPackageInTransitRequest,
+    makeMarkPackageOutForDeliveryRequest,
+    makeMarkPackagePackedRequest,
+    makeMarkPackageReturnedRequest,
+    makeMarkPackageShippedRequest,
+    makeMetadataPatchRequest,
+    makeMetadataRequest
+} from '../declarations/types-74.js';
+export { makeMoneyValue } from '../declarations/types-75.js';
+export { makeReturnResolutionLineItemRequest } from '../declarations/types-77.js';
+export { makeUpdatePackageItemRequest } from '../declarations/types-79.js';
+export { makeUpdatePackageRequest, makeVoidPackageRequest, makeWeightRequest } from '../declarations/types-80.js';
 export interface PackagesResource {
     /**
  * Adds an order line quantity to a package. Total active package item quantities cannot exceed the
@@ -117,7 +128,7 @@ export interface PackagesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.packages.createItem("pkg_01ARZ3NDEKTSV4RRFFQ69G5FAV", {metadata: {slot: "A"},
+ * client.packages.createItem("pkg_01KEZF7C00ZZA16BJCEJBWKJ5R", {metadata: {slot: "A"},
  * order_line_item_id: "li_01KEZF7C0003GP5Y88KW1687AP", quantity: 1}, { idempotencyKey:
  * idempotencyKey })
  */
@@ -133,7 +144,7 @@ export interface PackagesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.packages.deleteItem("pkg_01ARZ3NDEKTSV4RRFFQ69G5FAV", "pki_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+ * client.packages.deleteItem("pkg_01KEZF7C00ZZA16BJCEJBWKJ5R", "pki_01KEZF7C00CEFTYV5RD7XVYQ7B",
  * {}, { idempotencyKey: idempotencyKey })
  */
     deleteItem(package_id: InputValue<string>, package_item_id: InputValue<string>, params?: PackagesDeleteItemParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<PackageItem, PackageItemResponse>>;
@@ -145,7 +156,7 @@ export interface PackagesResource {
  * @see https://developers.withflintpay.com/docs/api/fulfillment#getPackage
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.packages.get("pkg_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.packages.get("pkg_01KEZF7C00ZZA16BJCEJBWKJ5R")
  */
     get(package_id: InputValue<string>, params?: PackagesGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<Package, PackageResponse>>;
     /**
@@ -157,7 +168,7 @@ export interface PackagesResource {
  * @see https://developers.withflintpay.com/docs/api/fulfillment#getPackageItem
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.packages.getItem("pkg_01ARZ3NDEKTSV4RRFFQ69G5FAV", "pki_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.packages.getItem("pkg_01KEZF7C00ZZA16BJCEJBWKJ5R", "pki_01KEZF7C00CEFTYV5RD7XVYQ7B")
  */
     getItem(package_id: InputValue<string>, package_item_id: InputValue<string>, params?: PackagesGetItemParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<PackageItem, PackageItemResponse>>;
     /**
@@ -169,7 +180,7 @@ export interface PackagesResource {
  * @see https://developers.withflintpay.com/docs/api/fulfillment#listPackageItems
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.packages.listPackageItems("pkg_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.packages.listPackageItems("pkg_01KEZF7C00ZZA16BJCEJBWKJ5R")
  */
     listPackageItems(package_id: InputValue<string>, params?: PackagesListPackageItemsParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<PackageItemListResponse, PackageItemListResponse>>;
     /** Iterate pages lazily.
@@ -210,18 +221,175 @@ export interface PackagesResource {
  * package_id, shipment_id, or fulfillment_id, and notifications with
  * `client.fulfillmentNotifications.list` filtered by fulfillment_event_id or fulfillment_id.
  *
- * `POST /v1/packages/{package_id}/transitions`
+ * `POST /v1/packages/{package_id}/mark-delivered`
  * @param package_id Flint package ID.
- * @see https://developers.withflintpay.com/docs/api/fulfillment#transitionPackage
+ * @see https://developers.withflintpay.com/docs/api/fulfillment#markPackageDelivered
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.packages.transition("pkg_01ARZ3NDEKTSV4RRFFQ69G5FAV", {action: "mark_out_for_delivery",
- * buyer_notification_behavior: "send", expected_delivery_at: "2026-05-15T18:00:00Z",
- * expected_version: 3}, { idempotencyKey: idempotencyKey })
+ * client.packages.markDelivered("pkg_01KEZF7C00ZZA16BJCEJBWKJ5R", undefined, { idempotencyKey:
+ * idempotencyKey })
  */
-    transition(package_id: InputValue<string>, params: PackagesTransitionParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Package, PackageResponse>>;
+    markDelivered(package_id: InputValue<string>, params?: PackagesMarkDeliveredParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Package, PackageResponse>>;
+    /**
+ * Performs one action from the package's supported_actions. mark_shipped accepts carrier,
+ * service_code, tracking_number, and tracking_url; present fields replace tracking before the
+ * status change and shipped email in one transaction. Omitted tracking is unchanged and null is
+ * invalid. Other actions reject tracking fields. mark_shipped, mark_in_transit, and
+ * mark_out_for_delivery optionally set expected_delivery_at; send null to clear it. Delivery
+ * preserves the estimate as history. expected_version is optional and rejects a stale resource
+ * version when supplied. Read timeline events with `client.fulfillmentEvents.list` filtered by
+ * package_id, shipment_id, or fulfillment_id, and notifications with
+ * `client.fulfillmentNotifications.list` filtered by fulfillment_event_id or fulfillment_id.
+ *
+ * `POST /v1/packages/{package_id}/mark-delivery-attempted`
+ * @param package_id Flint package ID.
+ * @see https://developers.withflintpay.com/docs/api/fulfillment#markPackageDeliveryAttempted
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
+ * @example
+ * // Persist this key with the action before sending; reuse it for every resubmission.
+ * const idempotencyKey = crypto.randomUUID();
+ * client.packages.markDeliveryAttempted("pkg_01KEZF7C00ZZA16BJCEJBWKJ5R", undefined, {
+ * idempotencyKey: idempotencyKey })
+ */
+    markDeliveryAttempted(package_id: InputValue<string>, params?: PackagesMarkDeliveryAttemptedParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Package, PackageResponse>>;
+    /**
+ * Performs one action from the package's supported_actions. mark_shipped accepts carrier,
+ * service_code, tracking_number, and tracking_url; present fields replace tracking before the
+ * status change and shipped email in one transaction. Omitted tracking is unchanged and null is
+ * invalid. Other actions reject tracking fields. mark_shipped, mark_in_transit, and
+ * mark_out_for_delivery optionally set expected_delivery_at; send null to clear it. Delivery
+ * preserves the estimate as history. expected_version is optional and rejects a stale resource
+ * version when supplied. Read timeline events with `client.fulfillmentEvents.list` filtered by
+ * package_id, shipment_id, or fulfillment_id, and notifications with
+ * `client.fulfillmentNotifications.list` filtered by fulfillment_event_id or fulfillment_id.
+ *
+ * `POST /v1/packages/{package_id}/mark-exception`
+ * @param package_id Flint package ID.
+ * @see https://developers.withflintpay.com/docs/api/fulfillment#markPackageException
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
+ * @example
+ * // Persist this key with the action before sending; reuse it for every resubmission.
+ * const idempotencyKey = crypto.randomUUID();
+ * client.packages.markException("pkg_01KEZF7C00ZZA16BJCEJBWKJ5R", undefined, { idempotencyKey:
+ * idempotencyKey })
+ */
+    markException(package_id: InputValue<string>, params?: PackagesMarkExceptionParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Package, PackageResponse>>;
+    /**
+ * Performs one action from the package's supported_actions. mark_shipped accepts carrier,
+ * service_code, tracking_number, and tracking_url; present fields replace tracking before the
+ * status change and shipped email in one transaction. Omitted tracking is unchanged and null is
+ * invalid. Other actions reject tracking fields. mark_shipped, mark_in_transit, and
+ * mark_out_for_delivery optionally set expected_delivery_at; send null to clear it. Delivery
+ * preserves the estimate as history. expected_version is optional and rejects a stale resource
+ * version when supplied. Reroutes from out_for_delivery or delivery_attempted require occurred_at
+ * at or after the package's latest recorded status time. An older scan is refused before any write
+ * with 409 ACTION_NOT_ALLOWED, reason out_of_order, param occurred_at, current_status, and
+ * latest_status_occurred_at. Discard it or send an occurred_at at or after that time; equal
+ * timestamps are accepted. Read timeline events with `client.fulfillmentEvents.list` filtered by
+ * package_id, shipment_id, or fulfillment_id, and notifications with
+ * `client.fulfillmentNotifications.list` filtered by fulfillment_event_id or fulfillment_id.
+ *
+ * `POST /v1/packages/{package_id}/mark-in-transit`
+ * @param package_id Flint package ID.
+ * @see https://developers.withflintpay.com/docs/api/fulfillment#markPackageInTransit
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
+ * @example
+ * // Persist this key with the action before sending; reuse it for every resubmission.
+ * const idempotencyKey = crypto.randomUUID();
+ * client.packages.markInTransit("pkg_01KEZF7C00ZZA16BJCEJBWKJ5R", undefined, { idempotencyKey:
+ * idempotencyKey })
+ */
+    markInTransit(package_id: InputValue<string>, params?: PackagesMarkInTransitParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Package, PackageResponse>>;
+    /**
+ * Performs one action from the package's supported_actions. mark_shipped accepts carrier,
+ * service_code, tracking_number, and tracking_url; present fields replace tracking before the
+ * status change and shipped email in one transaction. Omitted tracking is unchanged and null is
+ * invalid. Other actions reject tracking fields. mark_shipped, mark_in_transit, and
+ * mark_out_for_delivery optionally set expected_delivery_at; send null to clear it. Delivery
+ * preserves the estimate as history. expected_version is optional and rejects a stale resource
+ * version when supplied. Read timeline events with `client.fulfillmentEvents.list` filtered by
+ * package_id, shipment_id, or fulfillment_id, and notifications with
+ * `client.fulfillmentNotifications.list` filtered by fulfillment_event_id or fulfillment_id.
+ *
+ * `POST /v1/packages/{package_id}/mark-out-for-delivery`
+ * @param package_id Flint package ID.
+ * @see https://developers.withflintpay.com/docs/api/fulfillment#markPackageOutForDelivery
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
+ * @example
+ * // Persist this key with the action before sending; reuse it for every resubmission.
+ * const idempotencyKey = crypto.randomUUID();
+ * client.packages.markOutForDelivery("pkg_01KEZF7C00ZZA16BJCEJBWKJ5R", undefined, {
+ * idempotencyKey: idempotencyKey })
+ */
+    markOutForDelivery(package_id: InputValue<string>, params?: PackagesMarkOutForDeliveryParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Package, PackageResponse>>;
+    /**
+ * Performs one action from the package's supported_actions. mark_shipped accepts carrier,
+ * service_code, tracking_number, and tracking_url; present fields replace tracking before the
+ * status change and shipped email in one transaction. Omitted tracking is unchanged and null is
+ * invalid. Other actions reject tracking fields. mark_shipped, mark_in_transit, and
+ * mark_out_for_delivery optionally set expected_delivery_at; send null to clear it. Delivery
+ * preserves the estimate as history. expected_version is optional and rejects a stale resource
+ * version when supplied. Read timeline events with `client.fulfillmentEvents.list` filtered by
+ * package_id, shipment_id, or fulfillment_id, and notifications with
+ * `client.fulfillmentNotifications.list` filtered by fulfillment_event_id or fulfillment_id.
+ *
+ * `POST /v1/packages/{package_id}/mark-packed`
+ * @param package_id Flint package ID.
+ * @see https://developers.withflintpay.com/docs/api/fulfillment#markPackagePacked
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
+ * @example
+ * // Persist this key with the action before sending; reuse it for every resubmission.
+ * const idempotencyKey = crypto.randomUUID();
+ * client.packages.markPacked("pkg_01KEZF7C00ZZA16BJCEJBWKJ5R", undefined, { idempotencyKey:
+ * idempotencyKey })
+ */
+    markPacked(package_id: InputValue<string>, params?: PackagesMarkPackedParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Package, PackageResponse>>;
+    /**
+ * Performs one action from the package's supported_actions. mark_shipped accepts carrier,
+ * service_code, tracking_number, and tracking_url; present fields replace tracking before the
+ * status change and shipped email in one transaction. Omitted tracking is unchanged and null is
+ * invalid. Other actions reject tracking fields. mark_shipped, mark_in_transit, and
+ * mark_out_for_delivery optionally set expected_delivery_at; send null to clear it. Delivery
+ * preserves the estimate as history. expected_version is optional and rejects a stale resource
+ * version when supplied. Read timeline events with `client.fulfillmentEvents.list` filtered by
+ * package_id, shipment_id, or fulfillment_id, and notifications with
+ * `client.fulfillmentNotifications.list` filtered by fulfillment_event_id or fulfillment_id.
+ *
+ * `POST /v1/packages/{package_id}/mark-returned`
+ * @param package_id Flint package ID.
+ * @see https://developers.withflintpay.com/docs/api/fulfillment#markPackageReturned
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
+ * @example
+ * // Persist this key with the action before sending; reuse it for every resubmission.
+ * const idempotencyKey = crypto.randomUUID();
+ * client.packages.markReturned("pkg_01KEZF7C00ZZA16BJCEJBWKJ5R", undefined, { idempotencyKey:
+ * idempotencyKey })
+ */
+    markReturned(package_id: InputValue<string>, params?: PackagesMarkReturnedParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Package, PackageResponse>>;
+    /**
+ * Performs one action from the package's supported_actions. mark_shipped accepts carrier,
+ * service_code, tracking_number, and tracking_url; present fields replace tracking before the
+ * status change and shipped email in one transaction. Omitted tracking is unchanged and null is
+ * invalid. Other actions reject tracking fields. mark_shipped, mark_in_transit, and
+ * mark_out_for_delivery optionally set expected_delivery_at; send null to clear it. Delivery
+ * preserves the estimate as history. expected_version is optional and rejects a stale resource
+ * version when supplied. Read timeline events with `client.fulfillmentEvents.list` filtered by
+ * package_id, shipment_id, or fulfillment_id, and notifications with
+ * `client.fulfillmentNotifications.list` filtered by fulfillment_event_id or fulfillment_id.
+ *
+ * `POST /v1/packages/{package_id}/mark-shipped`
+ * @param package_id Flint package ID.
+ * @see https://developers.withflintpay.com/docs/api/fulfillment#markPackageShipped
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
+ * @example
+ * // Persist this key with the action before sending; reuse it for every resubmission.
+ * const idempotencyKey = crypto.randomUUID();
+ * client.packages.markShipped("pkg_01KEZF7C00ZZA16BJCEJBWKJ5R", undefined, { idempotencyKey:
+ * idempotencyKey })
+ */
+    markShipped(package_id: InputValue<string>, params?: PackagesMarkShippedParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Package, PackageResponse>>;
     /**
  * Updates non-lifecycle package fields such as carrier, tracking, expected_delivery_at, label
  * access, measurements, metadata, and caller-owned external references. Descriptive fields can be
@@ -273,7 +441,7 @@ export interface PackagesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.packages.void("pkg_01ARZ3NDEKTSV4RRFFQ69G5FAV", undefined, { idempotencyKey:
+ * client.packages.void("pkg_01KEZF7C00ZZA16BJCEJBWKJ5R", undefined, { idempotencyKey:
  * idempotencyKey })
  */
     void(package_id: InputValue<string>, params?: PackagesVoidParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Package, PackageResponse>>;

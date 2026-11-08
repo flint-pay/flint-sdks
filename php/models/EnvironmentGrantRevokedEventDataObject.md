@@ -2,9 +2,11 @@
 
 ## EnvironmentGrantRevokedEventDataObject
 
-A partner application's authorization to access an environment.
+The affected public resource without expansions, client authority fields, or fields computed for an individual caller.
+
+The resource snapshot, without expansions. Webhooks omit no additional fields.
 
 Response model.
 
-Fields, types, descriptions and enum values: [PartnerEnvironmentGrant](../models/PartnerEnvironmentGrant.md#partnerenvironmentgrant).
+Fields, types, descriptions and enum values: [EnvironmentGrantCreatedEventDataObject](../models/EnvironmentGrantCreatedEventDataObject.md#environmentgrantcreatedeventdataobject).
 

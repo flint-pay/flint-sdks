@@ -27,31 +27,31 @@ final class ExpandedPackageSummaryInput extends Model {
      */
     public function getCarrier(): string { return $this->get('carrier'); }
     public function hasCarrier(): bool { return $this->has('carrier'); }
-    /** When the package was created, in RFC3339 format. Format: date-time.
+    /** When the package was created, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** When the package was delivered, in RFC3339 format. Format: date-time.
+    /** When the package was delivered, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When delivered_at is omitted; use hasDeliveredAt() or valueOrDefault().
      */
     public function getDeliveredAt(): string|\DateTimeInterface { return $this->get('delivered_at'); }
     public function hasDeliveredAt(): bool { return $this->has('delivered_at'); }
-    /** When the carrier or merchant expects this package to arrive. Null when no estimate is set. Retained after delivery as history. This estimate is separate from the fulfillment's promised shipment window. Format: date-time.
+    /** When the carrier or merchant expects this package to arrive. Null when no estimate is set. Retained after delivery as history. This estimate is separate from the fulfillment's promised shipment window. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface|null
      * @throws SdkError When expected_delivery_at is omitted; use hasExpectedDeliveryAt() or valueOrDefault().
      */
     public function getExpectedDeliveryAt(): string|\DateTimeInterface|null { return $this->get('expected_delivery_at'); }
     public function hasExpectedDeliveryAt(): bool { return $this->has('expected_delivery_at'); }
-    /** Fulfillment whose items are in the package.
+    /** Fulfillment whose items are in the package. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
      * @return string
      * @throws SdkError When fulfillment_id is omitted; use hasFulfillmentId() or valueOrDefault().
      */
     public function getFulfillmentId(): string { return $this->get('fulfillment_id'); }
     public function hasFulfillmentId(): bool { return $this->has('fulfillment_id'); }
-    /** Stable identifier of the expanded package.
+    /** Stable identifier of the expanded package. Example: "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R".
      * @return string
      * @throws SdkError When package_id is omitted; use hasPackageId() or valueOrDefault().
      */
@@ -63,13 +63,13 @@ final class ExpandedPackageSummaryInput extends Model {
      */
     public function getServiceCode(): string { return $this->get('service_code'); }
     public function hasServiceCode(): bool { return $this->has('service_code'); }
-    /** Shipment carrying this package.
+    /** Shipment carrying this package. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
      * @return string
      * @throws SdkError When shipment_id is omitted; use hasShipmentId() or valueOrDefault().
      */
     public function getShipmentId(): string { return $this->get('shipment_id'); }
     public function hasShipmentId(): bool { return $this->has('shipment_id'); }
-    /** When the package was shipped, in RFC3339 format. Format: date-time.
+    /** When the package was shipped, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When shipped_at is omitted; use hasShippedAt() or valueOrDefault().
      */
@@ -81,7 +81,7 @@ final class ExpandedPackageSummaryInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Read-only actions currently supported for this package. [] enum: "mark_delivered", "mark_delivery_attempted", "mark_exception", "mark_in_transit", "mark_out_for_delivery", "mark_packed", "mark_returned", "mark_shipped". [] (Value): string.  Value enum: "mark_delivered", "mark_delivery_attempted", "mark_exception", "mark_in_transit", "mark_out_for_delivery", "mark_packed", "mark_returned", "mark_shipped".
+    /** Lifecycle actions Flint accepts now. mark_in_transit can repeat while in transit to refresh expected_delivery_at. [] enum: "mark_delivered", "mark_delivery_attempted", "mark_exception", "mark_in_transit", "mark_out_for_delivery", "mark_packed", "mark_returned", "mark_shipped", "void". [] (Value): string.  Value enum: "mark_delivered", "mark_delivery_attempted", "mark_exception", "mark_in_transit", "mark_out_for_delivery", "mark_packed", "mark_returned", "mark_shipped", "void".
      * @return list<string>
      * @throws SdkError When supported_actions is omitted; use hasSupportedActions() or valueOrDefault().
      */
@@ -99,7 +99,7 @@ final class ExpandedPackageSummaryInput extends Model {
      */
     public function getTrackingUrl(): string { return $this->get('tracking_url'); }
     public function hasTrackingUrl(): bool { return $this->has('tracking_url'); }
-    /** When the package was last updated, in RFC3339 format. Format: date-time.
+    /** When the package was last updated, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */

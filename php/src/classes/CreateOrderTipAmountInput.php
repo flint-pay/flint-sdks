@@ -24,7 +24,7 @@ final class CreateOrderTipAmountInput extends Model {
      */
     public function getCalculationType(): string { return $this->get('calculation_type'); }
     public function hasCalculationType(): bool { return $this->has('calculation_type'); }
-    /** minLength: 1. maxLength: 255.
+    /** Optional description that stays on the tip for your reporting. minLength: 1. maxLength: 255.
      * @return string
      * @throws SdkError When description is omitted; use hasDescription() or valueOrDefault().
      */
@@ -36,7 +36,7 @@ final class CreateOrderTipAmountInput extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** minLength: 1. maxLength: 255.
+    /** Optional name that stays on the tip for your reporting. minLength: 1. maxLength: 255.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */

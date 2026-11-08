@@ -11,27 +11,27 @@ namespace Flint;
 final class OnboardingProfile extends Model {
     /** @param array{'email': string|null, 'support_email'?: string, 'support_phone'?: string, 'support_url'?: string, 'website_url'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OnboardingProfile')); }
-    /** email
+    /** The merchant's contact email address. `null` when no email address is on file for the merchant.
      * @return string|null
      */
     public function getEmail(): string|null { return $this->get('email'); }
     public function hasEmail(): bool { return $this->has('email'); }
-    /** support_email
+    /** Support email address recorded for onboarding. Omitted when none is recorded.
      * @return ?string
      */
     public function getSupportEmail(): ?string { return $this->get('support_email'); }
     public function hasSupportEmail(): bool { return $this->has('support_email'); }
-    /** support_phone
+    /** Support phone number recorded for onboarding. Omitted when none is recorded.
      * @return ?string
      */
     public function getSupportPhone(): ?string { return $this->get('support_phone'); }
     public function hasSupportPhone(): bool { return $this->has('support_phone'); }
-    /** support_url
+    /** Support page recorded for onboarding. Omitted when none is recorded.
      * @return ?string
      */
     public function getSupportUrl(): ?string { return $this->get('support_url'); }
     public function hasSupportUrl(): bool { return $this->has('support_url'); }
-    /** website_url
+    /** The business's website recorded for onboarding. Omitted when none is recorded.
      * @return ?string
      */
     public function getWebsiteUrl(): ?string { return $this->get('website_url'); }

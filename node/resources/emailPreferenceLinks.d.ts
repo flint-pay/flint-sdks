@@ -1,13 +1,13 @@
 import type { WithResponseInfo } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-5.js';
+import type { ClientOptions } from '../declarations/types-6.js';
 import type {
     EmailPreferenceLink,
     EmailPreferenceLinkResponse,
     EmailPreferenceLinksLookupParams,
     EmailPreferenceLinksUnsubscribeParams
-} from '../declarations/types-21.js';
-import type { RequestOptions } from '../declarations/types-48.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-23.js';
+import type { RequestOptions } from '../declarations/types-51.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -29,16 +29,16 @@ export type {
     EmailPreferenceLinksUnsubscribeParams,
     EmailPreferenceLinkRequestInput,
     EmailPreferenceLinkRequest
-} from '../declarations/types-21.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
-export type { ClientOptions } from '../declarations/types-5.js';
+} from '../declarations/types-23.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
+export type { ClientOptions } from '../declarations/types-6.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-12.js';
-export type { NextAction, MoneyValue } from '../declarations/types-35.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
-export { makeEmailPreferenceLinkRequest } from '../declarations/types-67.js';
-export { makeMoneyValue } from '../declarations/types-70.js';
+export type { Credentials } from '../declarations/types-13.js';
+export type { NextAction, MoneyValue } from '../declarations/types-37.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
+export { makeEmailPreferenceLinkRequest } from '../declarations/types-73.js';
+export { makeMoneyValue } from '../declarations/types-75.js';
 export interface EmailPreferenceLinksResource {
     /**
  * Reads an emailed preference token without signing the buyer in. The merchant key must match the
@@ -49,7 +49,8 @@ export interface EmailPreferenceLinksResource {
  * @see https://developers.withflintpay.com/docs/api/customers#lookupEmailPreferenceLink
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.emailPreferenceLinks.lookup({token: "example"})
+ * client.emailPreferenceLinks.lookup({token:
+ * "b3BlbmFwaS1maXh0dXJl.eyJ2IjoxLCJwIjoic2FuZGJveCIsImQiOiJlZGVsXzAxS0VaRjdDMDA4OU1SRThFRjc4SFIxRzI2In0.6c_I5nt_K3eTi7XxJJ95dXgQZjGlaY_lVlp64YJPxuo"})
  */
     lookup(params: EmailPreferenceLinksLookupParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<EmailPreferenceLink, EmailPreferenceLinkResponse>>;
     /**
@@ -63,7 +64,9 @@ export interface EmailPreferenceLinksResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.emailPreferenceLinks.unsubscribe({token: "example"}, { idempotencyKey: idempotencyKey })
+ * client.emailPreferenceLinks.unsubscribe({token:
+ * "b3BlbmFwaS1maXh0dXJl.eyJ2IjoxLCJwIjoic2FuZGJveCIsImQiOiJlZGVsXzAxS0VaRjdDMDA4OU1SRThFRjc4SFIxRzI2In0.6c_I5nt_K3eTi7XxJJ95dXgQZjGlaY_lVlp64YJPxuo"},
+ * { idempotencyKey: idempotencyKey })
  */
     unsubscribe(params: EmailPreferenceLinksUnsubscribeParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<EmailPreferenceLink, EmailPreferenceLinkResponse>>;
 }

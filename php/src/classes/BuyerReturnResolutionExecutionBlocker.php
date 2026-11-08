@@ -13,7 +13,7 @@ final class BuyerReturnResolutionExecutionBlocker extends Model {
      */
     public function getCode(): string { return $this->get('code'); }
     public function hasCode(): bool { return $this->has('code'); }
-    /** return_line_item_id
+    /** ID of the Return line the blocker gates. Absent when it applies to the whole resolution.
      * @return ?string
      */
     public function getReturnLineItemId(): ?string { return $this->get('return_line_item_id'); }

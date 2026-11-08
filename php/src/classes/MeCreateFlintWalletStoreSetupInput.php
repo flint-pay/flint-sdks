@@ -9,7 +9,7 @@ namespace Flint;
 final class MeCreateFlintWalletStoreSetupInput extends Model {
     /** @param array{'flint_wallet_card_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MeCreateFlintWalletStoreSetupInput')); }
-    /** The card's handle at this store. Example: "fwc_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** The card's handle at this store. Example: "fwc_EKAB7CMBXELKYMJUU2LYLJP5J25FESR6YR5WENVFIUZHTTG3BZWA".
      * @return string
      * @throws SdkError When flint_wallet_card_id is omitted; use hasFlintWalletCardId() or valueOrDefault().
      */

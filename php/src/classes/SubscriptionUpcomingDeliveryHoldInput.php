@@ -10,7 +10,7 @@ namespace Flint;
 final class SubscriptionUpcomingDeliveryHoldInput extends Model {
     /** @param array{'detected_at': string|\DateTimeInterface, 'fixable_by': string, 'reason': string, 'renewal_at': string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionUpcomingDeliveryHoldInput')); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When detected_at is omitted; use hasDetectedAt() or valueOrDefault().
      */
@@ -28,7 +28,7 @@ final class SubscriptionUpcomingDeliveryHoldInput extends Model {
      */
     public function getReason(): string { return $this->get('reason'); }
     public function hasReason(): bool { return $this->has('reason'); }
-    /** Time of the next renewal affected by this delivery issue. Format: date-time.
+    /** Time of the next renewal affected by this delivery issue. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When renewal_at is omitted; use hasRenewalAt() or valueOrDefault().
      */

@@ -13,13 +13,13 @@ namespace Flint;
 final class TestClockInput extends Model {
     /** @param array{'created_at': string|\DateTimeInterface, 'frozen_at': string|\DateTimeInterface, 'name'?: string, 'status': string, 'test_clock_id': string, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('TestClockInput')); }
-    /** When the test clock was created, in real time. Format: date-time.
+    /** When the test clock was created, in real time. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** The time the test clock shows. Customers created on the clock, and their subscriptions, treat it as the current time. After you advance the clock, `frozen_at` is the time you advanced it to, while `status` is `advancing` and after. Format: date-time.
+    /** The time the test clock shows. Customers created on the clock, and their subscriptions, treat it as the current time. After you advance the clock, `frozen_at` is the time you advanced it to, while `status` is `advancing` and after. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When frozen_at is omitted; use hasFrozenAt() or valueOrDefault().
      */
@@ -37,13 +37,13 @@ final class TestClockInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Unique identifier for the test clock.
+    /** Unique identifier for the test clock. Example: "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
      * @return string
      * @throws SdkError When test_clock_id is omitted; use hasTestClockId() or valueOrDefault().
      */
     public function getTestClockId(): string { return $this->get('test_clock_id'); }
     public function hasTestClockId(): bool { return $this->has('test_clock_id'); }
-    /** When the test clock last changed, in real time. Format: date-time.
+    /** When the test clock last changed, in real time. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */

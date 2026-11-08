@@ -10,7 +10,7 @@ namespace Flint;
 final class TestClocksAdvanceInput extends Model {
     /** @param array{'test_clock_id': string, 'body': array{'expected_version'?: int, 'frozen_at': string|\DateTimeInterface}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('TestClocksAdvanceInput')); }
-    /** ID of the test clock. Example: "tclk_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** ID of the test clock. Example: "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
      * @return string
      * @throws SdkError When test_clock_id is omitted; use hasTestClockId() or valueOrDefault().
      */

@@ -16,7 +16,9 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->returns->cancelLineItem('ret_01ARZ3NDEKTSV4RRFFQ69G5FAV', 'retli_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
+$result = $client->returns->cancelLineItem('ret_01KEZF7C00PG93650ZKVQNGF7X', 'retli_01KEZF7C00R813VR7ECXS062QG', [
+  'expected_version' => 2,
+  'handback_quantity' => 1,
   'quantity' => 1,
   'reason' => 'buyer_request',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));

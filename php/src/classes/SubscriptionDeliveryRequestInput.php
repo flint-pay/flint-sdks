@@ -10,7 +10,7 @@ namespace Flint;
 final class SubscriptionDeliveryRequestInput extends Model {
     /** @param array{'delivery_method_id': string, 'destination': SubscriptionDeliveryDestinationRequestInput|array<array-key, mixed>|\stdClass, 'recipient'?: DeliverySelectionRecipientRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionDeliveryRequestInput')); }
-    /** minLength: 1. pattern: ^dmet_[0-9A-HJKMNP-TV-Z]{26}$.
+    /** minLength: 1. pattern: ^dmet_[0-9A-HJKMNP-TV-Z]{26}$. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
      * @return string
      * @throws SdkError When delivery_method_id is omitted; use hasDeliveryMethodId() or valueOrDefault().
      */

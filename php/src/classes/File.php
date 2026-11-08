@@ -11,12 +11,13 @@ namespace Flint;
  * @property-read string $purpose
  * @property-read int $size_bytes
  * @property-read string $status
+ * @property-read list<string> $supported_actions
  * @property-read ?FileUpload $upload
  * @property-read ?string $url
  * @property-read ?int $width
  * Presence-aware response; omitted optional fields return null. */
 final class File extends Model {
-    /** @param array{'content_type': string, 'created_at': string, 'expires_at'?: string, 'failure_code'?: string, 'file_id': string, 'height'?: int, 'purpose': string, 'size_bytes': int, 'status': string, 'upload'?: mixed, 'url'?: string, 'width'?: int, ...}|object $values */
+    /** @param array{'content_type': string, 'created_at': string, 'expires_at'?: string, 'failure_code'?: string, 'file_id': string, 'height'?: int, 'purpose': string, 'size_bytes': int, 'status': string, 'supported_actions': list<string>, 'upload'?: mixed, 'url'?: string, 'width'?: int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('File')); }
     /** The stored image media type when ready; the declared upload media type otherwise. Value enum: "image/jpeg", "image/png", "image/webp".
      * @return string
@@ -48,7 +49,7 @@ final class File extends Model {
      */
     public function getHeight(): ?int { return $this->get('height'); }
     public function hasHeight(): bool { return $this->has('height'); }
-    /** Value enum: "product", "product_variant", "bundle", "payment_link", "subscription_plan", "merchant_logo", "merchant_icon".
+    /** What the image is used for. Set when the file is created. Value enum: "product", "product_variant", "bundle", "payment_link", "subscription_plan", "merchant_logo", "merchant_icon".
      * @return string
      */
     public function getPurpose(): string { return $this->get('purpose'); }
@@ -58,11 +59,16 @@ final class File extends Model {
      */
     public function getSizeBytes(): int { return $this->get('size_bytes'); }
     public function hasSizeBytes(): bool { return $this->has('size_bytes'); }
-    /** Value enum: "awaiting_upload", "processing", "ready", "failed", "expired".
+    /** Where the file is in its lifecycle. Only a `ready` file can be attached. Value enum: "awaiting_upload", "processing", "ready", "failed", "expired".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
+    /** Lifecycle actions Flint accepts now. complete is offered while awaiting_upload or processing and remains accepted for completed files, returning the completed file. It can remain available after an attachment deadline expires until Flint removes the stored file. An in-progress completion can still return a transient refusal. [] enum: "complete". [] (Value): string.  Value enum: "complete".
+     * @return list<string>
+     */
+    public function getSupportedActions(): array { return $this->get('supported_actions'); }
+    public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
     /** Present only in the create response while awaiting_upload. GET never returns upload credentials. PUT bytes before upload.expires_at, then complete the file. The signed upload target for a file: the URL, HTTP method, headers to send, and when the URL expires.
      * @return ?FileUpload
      */

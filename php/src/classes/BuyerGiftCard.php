@@ -19,12 +19,12 @@ namespace Flint;
 final class BuyerGiftCard extends Model {
     /** @param array{'available_money': mixed, 'balance_money': mixed, 'created_at': string, 'currency': string, 'gift_card_id': string, 'last_loaded_at': string|null, 'last_redeemed_at': string|null, 'last4': string, 'merchant_id': string, 'reserved_money': mixed, 'status': string, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerGiftCard')); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** The balance minus reserved value: what can be spent now. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getAvailableMoney(): MoneyValue { return $this->get('available_money'); }
     public function hasAvailableMoney(): bool { return $this->has('available_money'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** The posted balance, including value reserved for redemptions in progress. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getBalanceMoney(): MoneyValue { return $this->get('balance_money'); }
@@ -39,17 +39,17 @@ final class BuyerGiftCard extends Model {
      */
     public function getCurrency(): string { return $this->get('currency'); }
     public function hasCurrency(): bool { return $this->has('currency'); }
-    /** gift_card_id
+    /** Unique identifier for this gift card, prefixed `gc_`.
      * @return string
      */
     public function getGiftCardId(): string { return $this->get('gift_card_id'); }
     public function hasGiftCardId(): bool { return $this->has('gift_card_id'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. `null` when no value has been loaded onto the card. Format: date-time.
      * @return string|null
      */
     public function getLastLoadedAt(): string|null { return $this->get('last_loaded_at'); }
     public function hasLastLoadedAt(): bool { return $this->has('last_loaded_at'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. `null` when the card has never been redeemed. Format: date-time.
      * @return string|null
      */
     public function getLastRedeemedAt(): string|null { return $this->get('last_redeemed_at'); }
@@ -59,17 +59,17 @@ final class BuyerGiftCard extends Model {
      */
     public function getLast4(): string { return $this->get('last4'); }
     public function hasLast4(): bool { return $this->has('last4'); }
-    /** merchant_id
+    /** ID of the merchant this resource belongs to.
      * @return string
      */
     public function getMerchantId(): string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Value held for redemptions in progress. It isn't available to other payments until the redemption succeeds or is released. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getReservedMoney(): MoneyValue { return $this->get('reserved_money'); }
     public function hasReservedMoney(): bool { return $this->has('reserved_money'); }
-    /** Value enum: "pending", "active", "frozen", "closed".
+    /** Where the card is in its lifecycle. Only an `active` card can be spent. Value enum: "pending", "active", "frozen", "closed".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
@@ -79,7 +79,7 @@ final class BuyerGiftCard extends Model {
      */
     public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** Format: int64.
+    /** Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. Format: int64.
      * @return int
      */
     public function getVersion(): int { return $this->get('version'); }

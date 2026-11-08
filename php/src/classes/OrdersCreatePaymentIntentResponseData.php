@@ -16,6 +16,7 @@ namespace Flint;
  * @property-read ?string $created_at
  * @property-read ExpandedCustomerSummary|null $customer
  * @property-read ?string $customer_id
+ * @property-read string $customer_presence
  * @property-read ?string $dispute_status
  * @property-read string|null $external_reference_id
  * @property-read ?PaymentFulfillmentHold $fulfillment_hold
@@ -39,6 +40,7 @@ namespace Flint;
  * @property-read ?string $return_id
  * @property-read PaymentRisk|null $risk
  * @property-read ?string $selected_payment_option
+ * @property-read string|null $statement_descriptor
  * @property-read string $status
  * @property-read string $support_reference
  * @property-read list<string> $supported_actions
@@ -49,7 +51,7 @@ namespace Flint;
  * @property-read PaymentCollection $payment_collection
  * Presence-aware response; omitted optional fields return null. */
 final class OrdersCreatePaymentIntentResponseData extends Model {
-    /** @param array{'add_on_fees'?: list<mixed>, 'amount_money': mixed, 'authorization_expires_at'?: string, 'authorized_at'?: string, 'authorized_money'?: mixed, 'cancellation_reason'?: string, 'capturable_money'?: mixed, 'capture_method'?: string, 'captured_at'?: string, 'captured_money'?: mixed, 'checkout_session_id'?: string, 'created_at'?: string, 'customer'?: mixed, 'customer_id'?: string, 'dispute_status'?: string, 'external_reference_id'?: string|null, 'fulfillment_hold'?: mixed, 'invoice'?: mixed, 'invoice_id'?: string, 'last_payment_error': mixed, 'merchant_id'?: string, 'merchant_net_money'?: mixed, 'metadata': mixed, 'order'?: mixed, 'order_id'?: string, 'payment_flow': string, 'payment_intent_id': string, 'payment_options': list<string>, 'payment_source'?: mixed, 'processing_fee_money'?: mixed, 'receipt_email'?: string|null, 'refund_status'?: string, 'refunded_money'?: mixed, 'released_money'?: mixed, 'return_id'?: string, 'risk'?: mixed, 'selected_payment_option'?: string, 'status': string, 'support_reference': string, 'supported_actions': list<string>, 'tip_money'?: mixed, 'transaction_purpose'?: string, 'updated_at'?: string, 'version': int, 'payment_collection': mixed, ...}|object $values */
+    /** @param array{'add_on_fees'?: list<mixed>, 'amount_money': mixed, 'authorization_expires_at'?: string, 'authorized_at'?: string, 'authorized_money'?: mixed, 'cancellation_reason'?: string, 'capturable_money'?: mixed, 'capture_method'?: string, 'captured_at'?: string, 'captured_money'?: mixed, 'checkout_session_id'?: string, 'created_at'?: string, 'customer'?: mixed, 'customer_id'?: string, 'customer_presence': string, 'dispute_status'?: string, 'external_reference_id'?: string|null, 'fulfillment_hold'?: mixed, 'invoice'?: mixed, 'invoice_id'?: string, 'last_payment_error': mixed, 'merchant_id'?: string, 'merchant_net_money'?: mixed, 'metadata': mixed, 'order'?: mixed, 'order_id'?: string, 'payment_flow': string, 'payment_intent_id': string, 'payment_options': list<string>, 'payment_source'?: mixed, 'processing_fee_money'?: mixed, 'receipt_email'?: string|null, 'refund_status'?: string, 'refunded_money'?: mixed, 'released_money'?: mixed, 'return_id'?: string, 'risk'?: mixed, 'selected_payment_option'?: string, 'statement_descriptor': string|null, 'status': string, 'support_reference': string, 'supported_actions': list<string>, 'tip_money'?: mixed, 'transaction_purpose'?: string, 'updated_at'?: string, 'version': int, 'payment_collection': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrdersCreatePaymentIntentResponseData')); }
     /** Itemized invoice, subscription, and automatic tax fees collected with this payment. Available to the merchant only. Empty until fees settle or when no add-ons apply. Refunds do not return or revise these fees. Absent until Flint has determined and verified the fee. If Flint can't verify it when you read the payment intent, the field is omitted rather than shown unverified; read the payment intent again later. [] (Value): {@see PaymentAddOnFee}. A Flint fee added to a payment intent, with the fee type and amount.
      * @return ?list<PaymentAddOnFee>
@@ -61,7 +63,7 @@ final class OrdersCreatePaymentIntentResponseData extends Model {
      */
     public function getAmountMoney(): MoneyValue { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** Deadline to capture a manual-capture hold. The authorization lapses at this time, and a capture attempted after it fails even if status is still requires_capture. Set when the hold is placed. Format: date-time.
+    /** Effective Flint deadline to capture a manual-capture hold: the earlier of the provider capture deadline and any order resource guarantee. Order guarantees last at most 24 hours from the payment attempt start and may end earlier. Capture is refused at or after this time, even while status is requires_capture. Omitted until a hold is placed. Format: date-time.
      * @return ?string
      */
     public function getAuthorizationExpiresAt(): ?string { return $this->get('authorization_expires_at'); }
@@ -121,6 +123,11 @@ final class OrdersCreatePaymentIntentResponseData extends Model {
      */
     public function getCustomerId(): ?string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
+    /** Whether the customer was present for the most recent confirmation. absent means Flint charged a saved card without them, as a merchant-initiated payment on its stored credential. Subscription renewals and automatic invoice charges are absent, and other payments are absent only when confirmed or paid with customer_presence absent. A customer who pays any of them with a card they enter makes it present. Each confirmation sets it again. Value enum: "present", "absent".
+     * @return string
+     */
+    public function getCustomerPresence(): string { return $this->get('customer_presence'); }
+    public function hasCustomerPresence(): bool { return $this->has('customer_presence'); }
     /** Dispute state of this payment. none means no dispute or inquiry is open or recorded. The inquiry_ values track an issuer inquiry or early warning that isn't a chargeback. Read the dispute with GET /v1/disputes for its deadline and evidence. Value enum: "none", "inquiry_needs_response", "inquiry_under_review", "inquiry_closed", "needs_response", "under_review", "won", "lost", "prevented", "other".
      * @return ?string
      */
@@ -236,6 +243,11 @@ final class OrdersCreatePaymentIntentResponseData extends Model {
      */
     public function getSelectedPaymentOption(): ?string { return $this->get('selected_payment_option'); }
     public function hasSelectedPaymentOption(): bool { return $this->has('selected_payment_option'); }
+    /** The text shown on the buyer's card or bank statement for this payment. `null` until the charge is created. `null` when the provider supplies no descriptor. Frozen when the charge is created.
+     * @return string|null
+     */
+    public function getStatementDescriptor(): string|null { return $this->get('statement_descriptor'); }
+    public function hasStatementDescriptor(): bool { return $this->has('statement_descriptor'); }
     /** Lifecycle status. requires_payment_method covers both a new payment intent and one whose last attempt failed, so read last_payment_error with it. succeeded, canceled, and expired are final. Refunds and disputes never change status. Value enum: "requires_payment_method", "requires_confirmation", "requires_action", "processing", "requires_capture", "canceled", "succeeded", "expired".
      * @return string
      */

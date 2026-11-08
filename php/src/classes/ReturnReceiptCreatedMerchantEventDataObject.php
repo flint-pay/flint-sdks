@@ -25,12 +25,12 @@ namespace Flint;
 final class ReturnReceiptCreatedMerchantEventDataObject extends Model {
     /** @param array{'correction_reason'?: string, 'correction_reason_message'?: string, 'created_at': string, 'external_actor_id'?: string, 'external_reference_id'?: string, 'generated_dispositions': list<mixed>, 'line_items': list<mixed>, 'received_at': string, 'receiving_location_id': string, 'return_id': string, 'return_receipt_id': string, 'shipment_id'?: string, 'source_system': mixed, 'status': string, 'superseded_at'?: string, 'superseded_by_return_receipt_id'?: string, 'supersedes_return_receipt_id'?: string, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnReceiptCreatedMerchantEventDataObject')); }
-    /** Value enum: "entry_error", "duplicate_observation", "source_correction", "reconciliation_correction", "other".
+    /** Why this observation replaces an earlier one. Send with `supersedes_return_receipt_id` or `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation", "source_correction", "reconciliation_correction", "other".
      * @return ?string
      */
     public function getCorrectionReason(): ?string { return $this->get('correction_reason'); }
     public function hasCorrectionReason(): bool { return $this->has('correction_reason'); }
-    /** correction_reason_message
+    /** Detail about `correction_reason`.
      * @return ?string
      */
     public function getCorrectionReasonMessage(): ?string { return $this->get('correction_reason_message'); }
@@ -50,12 +50,12 @@ final class ReturnReceiptCreatedMerchantEventDataObject extends Model {
      */
     public function getExternalReferenceId(): ?string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /**  [] (Value): {@see ReturnDisposition}. A decision about how returned merchandise will be handled.
+    /** Dispositions Flint created when it recorded this observation. Empty unless the policy's `receipt_disposition_mode` is `automatic`. [] (Value): {@see ReturnDisposition}. A decision about how returned merchandise will be handled.
      * @return list<ReturnDisposition>
      */
     public function getGeneratedDispositions(): array { return $this->get('generated_dispositions'); }
     public function hasGeneratedDispositions(): bool { return $this->has('generated_dispositions'); }
-    /**  [] (Value): {@see ReturnReceiptLineItem}. A returned item recorded as received.
+    /** The lines recorded. [] (Value): {@see ReturnReceiptLineItem}. A returned item recorded as received.
      * @return list<ReturnReceiptLineItem>
      */
     public function getLineItems(): array { return $this->get('line_items'); }
@@ -65,32 +65,32 @@ final class ReturnReceiptCreatedMerchantEventDataObject extends Model {
      */
     public function getReceivedAt(): string { return $this->get('received_at'); }
     public function hasReceivedAt(): bool { return $this->has('received_at'); }
-    /** receiving_location_id
+    /** ID of the Location that received the goods.
      * @return string
      */
     public function getReceivingLocationId(): string { return $this->get('receiving_location_id'); }
     public function hasReceivingLocationId(): bool { return $this->has('receiving_location_id'); }
-    /** return_id
+    /** ID of the Return the goods belong to.
      * @return string
      */
     public function getReturnId(): string { return $this->get('return_id'); }
     public function hasReturnId(): bool { return $this->has('return_id'); }
-    /** return_receipt_id
+    /** Unique identifier for this return receipt, prefixed `retrc_`.
      * @return string
      */
     public function getReturnReceiptId(): string { return $this->get('return_receipt_id'); }
     public function hasReturnReceiptId(): bool { return $this->has('return_receipt_id'); }
-    /** shipment_id
+    /** ID of the return shipment the goods arrived in. Absent when the receipt isn't tied to a shipment.
      * @return ?string
      */
     public function getShipmentId(): ?string { return $this->get('shipment_id'); }
     public function hasShipmentId(): bool { return $this->has('shipment_id'); }
-    /**  anyOf[1] (Value): {@see ReturnSourceSystem}. The system a return event came from, such as a point of sale or warehouse system, with its own identifier. anyOf[2] (Value): null.
+    /** System that recorded the observation. `null` when no source system was recorded. anyOf[1] (Value): {@see ReturnSourceSystem}. The system a return event came from, such as a point of sale or warehouse system, with its own identifier. anyOf[2] (Value): null.
      * @return ReturnSourceSystem|null
      */
     public function getSourceSystem(): ReturnSourceSystem|null { return $this->get('source_system'); }
     public function hasSourceSystem(): bool { return $this->has('source_system'); }
-    /** Value enum: "current", "superseded".
+    /** Whether this is the current observation of these units or a correction replaced it. Value enum: "current", "superseded".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
@@ -100,12 +100,12 @@ final class ReturnReceiptCreatedMerchantEventDataObject extends Model {
      */
     public function getSupersededAt(): ?string { return $this->get('superseded_at'); }
     public function hasSupersededAt(): bool { return $this->has('superseded_at'); }
-    /** superseded_by_return_receipt_id
+    /** ID of the receipt that corrected this one. Absent while it is current.
      * @return ?string
      */
     public function getSupersededByReturnReceiptId(): ?string { return $this->get('superseded_by_return_receipt_id'); }
     public function hasSupersededByReturnReceiptId(): bool { return $this->has('superseded_by_return_receipt_id'); }
-    /** supersedes_return_receipt_id
+    /** ID of the receipt this one corrects.
      * @return ?string
      */
     public function getSupersedesReturnReceiptId(): ?string { return $this->get('supersedes_return_receipt_id'); }
@@ -115,7 +115,7 @@ final class ReturnReceiptCreatedMerchantEventDataObject extends Model {
      */
     public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** Format: int64. minimum: 1.
+    /** Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. Format: int64. minimum: 1.
      * @return int
      */
     public function getVersion(): int { return $this->get('version'); }

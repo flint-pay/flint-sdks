@@ -2,20 +2,20 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read list<array{'adjustment_type': string, 'applied_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'assessed_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'reason': string, 'reason_message'?: string, 'return_line_item_id'?: string, 'return_resolution_adjustment_id'?: string, 'status'?: string, 'value_effect': string, 'waiver_reason'?: string, 'waiver_reason_message'?: string}|object> $adjustments
+ * @property-read list<UpdateReturnResolutionAdjustmentRequestInput|array<array-key, mixed>|\stdClass> $adjustments
  * @property-read int $expected_version
  * @property-read string|null $external_reference_id
  * @property-read string $gift_card_refund_destination
- * @property-read list<array{'quantity': int, 'return_line_item_id': string, 'return_resolution_line_item_id'?: string}|object> $line_items
+ * @property-read list<UpdateReturnResolutionLineItemRequestInput|array<array-key, mixed>|\stdClass> $line_items
  * @property-read array<array-key, string|null>|\stdClass|null $metadata
  * @property-read string $pricing_basis
- * @property-read list<array{'bundle_id'?: string, 'description'?: string, 'name'?: string, 'quantity': int, 'return_replacement_line_item_id'?: string, 'sku'?: string, 'type': string, 'unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id': string}|object|array{'bundle_id': string, 'description'?: string, 'name'?: string, 'quantity': int, 'return_replacement_line_item_id'?: string, 'sku'?: string, 'type': string, 'unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id'?: string}|object|array{'bundle_id'?: string, 'description'?: string, 'name': string, 'quantity': int, 'return_replacement_line_item_id'?: string, 'sku'?: string, 'type': string, 'unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id'?: string}|object> $replacement_line_items
+ * @property-read list<UpdateReturnReplacementLineItemRequestInput|array<array-key, mixed>|\stdClass> $replacement_line_items
  * Presence-aware input; omitted fields throw when accessed. */
 final class ReturnResolutionsUpdateParams extends Model {
-    /** @param array{'adjustments'?: list<array{'adjustment_type': string, 'applied_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'assessed_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'reason': string, 'reason_message'?: string, 'return_line_item_id'?: string, 'return_resolution_adjustment_id'?: string, 'status'?: string, 'value_effect': string, 'waiver_reason'?: string, 'waiver_reason_message'?: string}|object>, 'expected_version'?: int, 'external_reference_id'?: string|null, 'gift_card_refund_destination'?: string, 'line_items'?: list<array{'quantity': int, 'return_line_item_id': string, 'return_resolution_line_item_id'?: string}|object>, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'pricing_basis'?: string, 'replacement_line_items'?: list<array{'bundle_id'?: string, 'description'?: string, 'name'?: string, 'quantity': int, 'return_replacement_line_item_id'?: string, 'sku'?: string, 'type': string, 'unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id': string}|object|array{'bundle_id': string, 'description'?: string, 'name'?: string, 'quantity': int, 'return_replacement_line_item_id'?: string, 'sku'?: string, 'type': string, 'unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id'?: string}|object|array{'bundle_id'?: string, 'description'?: string, 'name': string, 'quantity': int, 'return_replacement_line_item_id'?: string, 'sku'?: string, 'type': string, 'unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id'?: string}|object>}|object $values */
+    /** @param array{'adjustments'?: list<UpdateReturnResolutionAdjustmentRequestInput|array<array-key, mixed>|\stdClass>, 'expected_version'?: int, 'external_reference_id'?: string|null, 'gift_card_refund_destination'?: string, 'line_items'?: list<UpdateReturnResolutionLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'pricing_basis'?: string, 'replacement_line_items'?: list<UpdateReturnReplacementLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnResolutionsUpdateParams')); }
     /** Requires expected_version. [] (Value): {@see UpdateReturnResolutionAdjustmentRequestInput}. A fee or credit to keep or add when updating a return resolution. Include `return_resolution_adjustment_id` to update an existing one.
-     * @return list<array{'adjustment_type': string, 'applied_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'assessed_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'reason': string, 'reason_message'?: string, 'return_line_item_id'?: string, 'return_resolution_adjustment_id'?: string, 'status'?: string, 'value_effect': string, 'waiver_reason'?: string, 'waiver_reason_message'?: string}|object>
+     * @return list<UpdateReturnResolutionAdjustmentRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When adjustments is omitted; use hasAdjustments() or valueOrDefault().
      */
     public function getAdjustments(): array { return $this->get('adjustments'); }
@@ -26,7 +26,7 @@ final class ReturnResolutionsUpdateParams extends Model {
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string|null
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -39,7 +39,7 @@ final class ReturnResolutionsUpdateParams extends Model {
     public function getGiftCardRefundDestination(): string { return $this->get('gift_card_refund_destination'); }
     public function hasGiftCardRefundDestination(): bool { return $this->has('gift_card_refund_destination'); }
     /** Requires expected_version. [] (Value): {@see UpdateReturnResolutionLineItemRequestInput}. A return line and quantity to keep or add when updating a return resolution.
-     * @return list<array{'quantity': int, 'return_line_item_id': string, 'return_resolution_line_item_id'?: string}|object>
+     * @return list<UpdateReturnResolutionLineItemRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When line_items is omitted; use hasLineItems() or valueOrDefault().
      */
     public function getLineItems(): array { return $this->get('line_items'); }
@@ -50,16 +50,34 @@ final class ReturnResolutionsUpdateParams extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Value enum: "original_price", "current_price", "merchant_agreed_price".
+    /** Required for merchant exchange and replacement requests. original_price preserves the selected units' net paid amounts using refund allocation; current_price uses catalog prices; merchant_agreed_price uses each supplied unit_price_money. Buyer requests must omit pricing_basis: replacements use original_price; exchanges use original_price when every replacement matches selected returned merchandise by variant, bundle, or product, otherwise current_price. Value enum: "original_price", "current_price", "merchant_agreed_price".
      * @return string
      * @throws SdkError When pricing_basis is omitted; use hasPricingBasis() or valueOrDefault().
      */
     public function getPricingBasis(): string { return $this->get('pricing_basis'); }
     public function hasPricingBasis(): bool { return $this->has('pricing_basis'); }
     /** Requires expected_version. [] (Value): {@see UpdateReturnReplacementLineItemRequestInput}. A replacement item to keep or add when updating a return resolution. Include `return_replacement_line_item_id` to keep an existing one.
-     * @return list<array{'bundle_id'?: string, 'description'?: string, 'name'?: string, 'quantity': int, 'return_replacement_line_item_id'?: string, 'sku'?: string, 'type': string, 'unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id': string}|object|array{'bundle_id': string, 'description'?: string, 'name'?: string, 'quantity': int, 'return_replacement_line_item_id'?: string, 'sku'?: string, 'type': string, 'unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id'?: string}|object|array{'bundle_id'?: string, 'description'?: string, 'name': string, 'quantity': int, 'return_replacement_line_item_id'?: string, 'sku'?: string, 'type': string, 'unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id'?: string}|object>
+     * @return list<UpdateReturnReplacementLineItemRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When replacement_line_items is omitted; use hasReplacementLineItems() or valueOrDefault().
      */
     public function getReplacementLineItems(): array { return $this->get('replacement_line_items'); }
     public function hasReplacementLineItems(): bool { return $this->has('replacement_line_items'); }
+    /** Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Merchant-Id is omitted; use hasFlintMerchantId() or valueOrDefault().
+     */
+    public function getFlintMerchantId(): string { return $this->get('Flint-Merchant-Id'); }
+    public function hasFlintMerchantId(): bool { return $this->has('Flint-Merchant-Id'); }
+    /** Mode of the request context, live or test. Optional; it must match the credential's mode. Value enum: "test", "live".
+     * @return string
+     * @throws SdkError When Flint-Mode is omitted; use hasFlintMode() or valueOrDefault().
+     */
+    public function getFlintMode(): string { return $this->get('Flint-Mode'); }
+    public function hasFlintMode(): bool { return $this->has('Flint-Mode'); }
+    /** Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Sandbox-Id is omitted; use hasFlintSandboxId() or valueOrDefault().
+     */
+    public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
+    public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
 }

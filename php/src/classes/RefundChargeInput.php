@@ -8,13 +8,13 @@ namespace Flint;
 final class RefundChargeInput extends Model {
     /** @param array{'amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'order_charge_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RefundChargeInput')); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Amount to refund from this charge. Omit it to refund the charge's full remaining amount. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
      */
     public function getAmountMoney(): mixed { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** minLength: 1.
+    /** ID of the order charge to refund. minLength: 1. Example: "och_01KEZF7C00XX8AKACP0GHKFWWT".
      * @return string
      * @throws SdkError When order_charge_id is omitted; use hasOrderChargeId() or valueOrDefault().
      */

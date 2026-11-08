@@ -1,6 +1,6 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-5.js';
-import type { ConfirmPaymentIntentResponse } from '../declarations/types-6.js';
+import type { ClientOptions } from '../declarations/types-6.js';
+import type { ConfirmPaymentIntentResponse } from '../declarations/types-7.js';
 import type {
     PaymentIntent,
     PaymentIntentActivity,
@@ -20,9 +20,9 @@ import type {
     PaymentIntentsListParams,
     PaymentIntentsSendReceiptParams,
     PaymentIntentsUpdateParams
-} from '../declarations/types-41.js';
-import type { RequestOptions } from '../declarations/types-48.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-43.js';
+import type { RequestOptions } from '../declarations/types-51.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-66.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -56,14 +56,15 @@ export type {
     PaymentIntentListResponse,
     PaymentIntentsSendReceiptParams,
     PaymentIntentsUpdateParams,
+    PaymentAddOnFee,
     PaymentFulfillmentHold,
     PaymentErrorSummary,
     PaymentClientAction,
     PaymentCollection,
     PaymentCollectionStripe,
     PaymentCollectionStripeElements
-} from '../declarations/types-41.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
+} from '../declarations/types-43.js';
+export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-51.js';
 export type {
     ConfirmPaymentIntentResponse,
     ConfirmPaymentIntentRequestInput,
@@ -71,58 +72,50 @@ export type {
     ConfirmPaymentIntentRequestPaymentMethodInput,
     ConfirmPaymentIntentRequestStripeConfirmationTokenInput,
     ConfirmPaymentIntentRequestAttachedInput
-} from '../declarations/types-6.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { ClientOptions } from '../declarations/types-5.js';
-export type { CancelPaymentIntentRequestInput } from '../declarations/types-3.js';
+} from '../declarations/types-7.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-66.js';
+export type { ClientOptions } from '../declarations/types-6.js';
+export type { CancelPaymentIntentRequestInput, CapturePaymentIntentRequestInput } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-12.js';
-export type { PaymentAddOnFee } from '../declarations/types-40.js';
+export type { Credentials } from '../declarations/types-13.js';
+export type { MoneyValue, NextAction, MoneyValueInput } from '../declarations/types-37.js';
+export type { ExpandedCustomerSummary, ExpandedInvoiceSummary, ErrorRemediation, ExpandedOrderSummary } from '../declarations/types-23.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
+export type { MetadataMap, MetadataRequestInput, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-36.js';
+export type { CheckoutBuyerContact } from '../declarations/types-5.js';
+export type { DeferredPromotion } from '../declarations/types-16.js';
+export type { PricingAmounts, PendingPaymentActionSubject } from '../declarations/types-47.js';
+export type { OrderSettlementAmounts, OrdersCreatePaymentIntentResponse } from '../declarations/types-40.js';
+export type { SettlementAmounts, SelectableOrderPaymentIntent, SendPaymentIntentReceiptRequestInput } from '../declarations/types-56.js';
 export type {
-    MoneyValue,
-    NextAction,
-    MetadataMap,
-    MoneyValueInput,
-    MetadataRequestInput,
-    MetadataPatchRequestInput,
-    MetadataPatchRequest
-} from '../declarations/types-35.js';
-export type { ExpandedCustomerSummary, ExpandedInvoiceSummary, ErrorRemediation, ExpandedOrderSummary } from '../declarations/types-21.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
-export type { CheckoutBuyerContact, CapturePaymentIntentRequestInput } from '../declarations/types-4.js';
-export type {
-    PricingAmounts,
+    PaymentSourceSummary,
     PendingPaymentAction,
-    PendingPaymentActionSubject,
     PendingPaymentActionPaymentIntentSubject,
     PendingPaymentActionSetupPaymentSourceSubject
-} from '../declarations/types-44.js';
-export type { SettlementAmounts, SelectableOrderPaymentIntent, SendPaymentIntentReceiptRequestInput } from '../declarations/types-53.js';
-export type { PaymentSourceSummary, PaymentSourceAchDebitSummary, PaymentSourceCardSummary, PaymentRisk } from '../declarations/types-43.js';
-export type { StripePaymentClientAction, StripeSetupIntentClientAction } from '../declarations/types-54.js';
-export type { CreatePaymentIntentRequestInput } from '../declarations/types-9.js';
-export type { UpdatePaymentIntentRequestInput } from '../declarations/types-59.js';
-export type { OrdersCreatePaymentIntentResponse } from '../declarations/types-38.js';
-export { makeCancelPaymentIntentRequest } from '../declarations/types-62.js';
+} from '../declarations/types-46.js';
+export type { PaymentSourceAchDebitSummary, PaymentSourceCardSummary, PaymentRisk } from '../declarations/types-45.js';
+export type { StripePaymentClientAction, StripeSetupIntentClientAction } from '../declarations/types-57.js';
+export type { CreatePaymentIntentRequestInput } from '../declarations/types-11.js';
+export type { UpdatePaymentIntentRequestInput } from '../declarations/types-64.js';
+export { makeCancelPaymentIntentRequest, makeCapturePaymentIntentRequest } from '../declarations/types-67.js';
 export {
-    makeCapturePaymentIntentRequest,
     makeConfirmPaymentIntentRequest,
     makeConfirmPaymentIntentRequestAttached,
     makeConfirmPaymentIntentRequestPaymentMethod,
     makeConfirmPaymentIntentRequestStripeConfirmationToken,
     makeConfirmPaymentIntentRequestToken
-} from '../declarations/types-63.js';
-export { makeCreatePaymentIntentRequest } from '../declarations/types-65.js';
-export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-69.js';
-export { makeMoneyValue } from '../declarations/types-70.js';
-export { makeSendPaymentIntentReceiptRequest } from '../declarations/types-73.js';
-export { makeUpdatePaymentIntentRequest } from '../declarations/types-74.js';
+} from '../declarations/types-68.js';
+export { makeCreatePaymentIntentRequest } from '../declarations/types-70.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-74.js';
+export { makeMoneyValue } from '../declarations/types-75.js';
+export { makeSendPaymentIntentReceiptRequest } from '../declarations/types-78.js';
+export { makeUpdatePaymentIntentRequest } from '../declarations/types-80.js';
 export interface PaymentIntentsResource {
     /**
  * Cancels a standalone or order-owned payment intent. Read supported_actions for the actions its
  * stored state accepts. Canceling a hold moves all of capturable_money to released_money, and
- * nothing is charged. A processing payment intent returns 409 ACTION_NOT_ALLOWED with reason
- * in_progress; refund a succeeded one instead. Flint derives the owning order payment attempt. A
+ * nothing is charged. A processing payment intent fails with `ACTION_NOT_ALLOWED` and reason
+ * `in_progress`; refund a succeeded one instead. Flint derives the owning order payment attempt. A
  * leg held by an active order payment attempt may be refused. Omitted cancellation_reason stays
  * absent. A fresh request for a canceled or expired payment returns ACTION_NOT_ALLOWED with reason
  * already_applied; a same-key retry replays or recovers its original result. A checkout credential
@@ -136,7 +129,7 @@ export interface PaymentIntentsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.paymentIntents.cancel("pi_01ARZ3NDEKTSV4RRFFQ69G5FAV", undefined, { idempotencyKey:
+ * client.paymentIntents.cancel("pi_01KEZF7C00G8H9D509YEV22P7R", undefined, { idempotencyKey:
  * idempotencyKey })
  */
     cancel(payment_intent_id: InputValue<string>, params?: PaymentIntentsCancelParams, options?: RequestOptions<"checkout" | "merchant">): Promise<WithResponseInfo<PaymentIntent, PaymentIntentResponse>>;
@@ -159,7 +152,7 @@ export interface PaymentIntentsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.paymentIntents.capture("pi_01ARZ3NDEKTSV4RRFFQ69G5FAV", undefined, { idempotencyKey:
+ * client.paymentIntents.capture("pi_01KEZF7C00G8H9D509YEV22P7R", undefined, { idempotencyKey:
  * idempotencyKey })
  */
     capture(payment_intent_id: InputValue<string>, params?: PaymentIntentsCaptureParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<PaymentIntent, PaymentIntentResponse>>;
@@ -182,9 +175,8 @@ export interface PaymentIntentsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.paymentIntents.confirm("pi_01ARZ3NDEKTSV4RRFFQ69G5FAV", {credential_type:
- * "stripe_confirmation_token", save_payment_method: true, stripe: {confirmation_token:
- * "ctoken_123"}}, { idempotencyKey: idempotencyKey })
+ * client.paymentIntents.confirm("pi_01KEZF7C00G8H9D509YEV22P7R", {credential_type: "token",
+ * payment_source_token: "example"}, { idempotencyKey: idempotencyKey })
  */
     confirm(payment_intent_id: InputValue<string>, params: PaymentIntentsConfirmParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<PaymentIntentWithAction, ConfirmPaymentIntentResponse>>;
     /**
@@ -215,7 +207,7 @@ export interface PaymentIntentsResource {
  * @see https://developers.withflintpay.com/docs/api/payments#getPaymentIntent
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.paymentIntents.get("pi_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.paymentIntents.get("pi_01KEZF7C00G8H9D509YEV22P7R")
  */
     get(payment_intent_id: InputValue<string>, params?: PaymentIntentsGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant">>): Promise<WithResponseInfo<PaymentIntentWithCollection, PaymentIntentWithCollectionResponse>>;
     /**
@@ -230,7 +222,7 @@ export interface PaymentIntentsResource {
  * @see https://developers.withflintpay.com/docs/api/payments#listPaymentIntentActivities
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.paymentIntents.listActivities("pi_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.paymentIntents.listActivities("pi_01KEZF7C00G8H9D509YEV22P7R")
  */
     listActivities(payment_intent_id: InputValue<string>, params?: PaymentIntentsListActivitiesParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<PaymentIntentActivityListResponse, PaymentIntentActivityListResponse>>;
     /** Iterate pages lazily.
@@ -265,10 +257,11 @@ export interface PaymentIntentsResource {
  * order-owned payment intent, sends the order receipt. Once sent, the receipt appears as a
  * receipt_sent payment intent activity. Send email to choose a recipient. Omit email to use the
  * order's receipt address for an order-owned intent, or receipt_email then the customer's email
- * for a standalone intent. The saved receipt email stays unchanged. Requires Flint-managed receipt
- * delivery. Standalone sending is limited to once every five minutes per payment intent; order
- * receipt sending is limited to once every five minutes per order and normalized recipient. Retry
- * with the same Idempotency-Key to replay the result without sending again.
+ * for a standalone intent. If no receipt email is available, email is required. The saved receipt
+ * email stays unchanged. Requires Flint-managed receipt delivery. Standalone sending is limited to
+ * once every five minutes per payment intent; order receipt sending is limited to once every five
+ * minutes per order and normalized recipient. Retry with the same idempotency key to replay the
+ * result without sending again.
  *
  * `POST /v1/payment-intents/{payment_intent_id}/send-receipt`
  * @param payment_intent_id Flint payment intent ID.
@@ -277,15 +270,15 @@ export interface PaymentIntentsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.paymentIntents.sendReceipt("pi_01ARZ3NDEKTSV4RRFFQ69G5FAV", undefined, { idempotencyKey:
+ * client.paymentIntents.sendReceipt("pi_01KEZF7C00G8H9D509YEV22P7R", undefined, { idempotencyKey:
  * idempotencyKey })
  */
     sendReceipt(payment_intent_id: InputValue<string>, params?: PaymentIntentsSendReceiptParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<PaymentIntent, PaymentIntentResponse>>;
     /**
  * Applies a sparse update while status is requires_payment_method, requires_confirmation,
- * requires_action, or requires_capture. In processing, succeeded, canceled, or expired it returns
- * 409 ACTION_NOT_ALLOWED with reason in_progress or terminal_status, with the status in
- * error.details[].current_status. amount_money can change only while status is
+ * requires_action, or requires_capture. In processing, succeeded, canceled, or expired it fails
+ * with `ACTION_NOT_ALLOWED` and reason `in_progress` or `terminal_status`, with the status in
+ * `error.details[].current_status`. amount_money can change only while status is
  * requires_payment_method and before the first confirmation attempt; after that, create a new
  * payment intent. customer_id can change only while status is requires_payment_method, and
  * receipt_email only while it is requires_payment_method or requires_confirmation. Send null to

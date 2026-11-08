@@ -2,7 +2,7 @@
 
 ## OrderLineItemTax
 
-A line item's tax category and whether it is taxable.
+
 
 
 
@@ -27,4 +27,16 @@ A line item's tax category and whether it is taxable.
 - `"clothing"`
 - `"medical_goods"`
 - `"admission"`
+
+### OrderLineItemTax variant 1
+
+anyOf variant 1: Declared schema OrderLineItemTax. A line item's tax category and whether it is taxable..
+
+No additional constraints.
+
+### OrderLineItemTax variant 2
+
+anyOf variant 2: Declared schema OrderLineItemTaxRequest. A line item's tax category and whether it is taxable..
+
+No additional constraints.
 

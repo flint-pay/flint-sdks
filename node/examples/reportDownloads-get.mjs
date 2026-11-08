@@ -5,7 +5,7 @@ const client = new Client({
   allowInsecureHttp: !!baseUrl && ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
 });
 const result = await client.reportDownloads.get(
-  "rdl_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "rdl_01KEZF7C003GGGDW1N5QT46JDZ"
 );
 // Location may be relative or use another origin. The SDK does not follow it.
 // Validate the destination before a separate download; do not forward API credentials.

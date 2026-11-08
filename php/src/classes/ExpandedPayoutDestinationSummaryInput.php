@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $country
  * @property-read string|\DateTimeInterface $created_at
  * @property-read string $currency
- * @property-read bool $default_for_currency
+ * @property-read bool $is_default_for_currency
  * @property-read string $last4
  * @property-read string $payout_destination_id
  * @property-read string $status
@@ -16,7 +16,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class ExpandedPayoutDestinationSummaryInput extends Model {
-    /** @param array{'available_payout_methods': list<string>, 'bank_name'?: string, 'country'?: string, 'created_at'?: string|\DateTimeInterface, 'currency': string, 'default_for_currency': bool, 'last4'?: string, 'payout_destination_id': string, 'status': string, 'type': string, 'updated_at'?: string|\DateTimeInterface, 'version': int, ...}|object $values */
+    /** @param array{'available_payout_methods': list<string>, 'bank_name'?: string, 'country'?: string, 'created_at'?: string|\DateTimeInterface, 'currency': string, 'is_default_for_currency': bool, 'last4'?: string, 'payout_destination_id': string, 'status': string, 'type': string, 'updated_at'?: string|\DateTimeInterface, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ExpandedPayoutDestinationSummaryInput')); }
     /** Payout methods available through Flint for this destination. Only standard is currently available. [] enum: "standard". [] (Value): string.  Value enum: "standard".
      * @return list<string>
@@ -24,7 +24,7 @@ final class ExpandedPayoutDestinationSummaryInput extends Model {
      */
     public function getAvailablePayoutMethods(): array { return $this->get('available_payout_methods'); }
     public function hasAvailablePayoutMethods(): bool { return $this->has('available_payout_methods'); }
-    /** bank_name
+    /** Name of the bank, when your processor reports it.
      * @return string
      * @throws SdkError When bank_name is omitted; use hasBankName() or valueOrDefault().
      */
@@ -36,7 +36,7 @@ final class ExpandedPayoutDestinationSummaryInput extends Model {
      */
     public function getCountry(): string { return $this->get('country'); }
     public function hasCountry(): bool { return $this->has('country'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
@@ -48,19 +48,19 @@ final class ExpandedPayoutDestinationSummaryInput extends Model {
      */
     public function getCurrency(): string { return $this->get('currency'); }
     public function hasCurrency(): bool { return $this->has('currency'); }
-    /** default_for_currency
+    /** Whether this is the default destination for its currency. Scheduled payouts, and payouts created without payout_destination_id, go to the default, and only an active destination can be it.
      * @return bool
-     * @throws SdkError When default_for_currency is omitted; use hasDefaultForCurrency() or valueOrDefault().
+     * @throws SdkError When is_default_for_currency is omitted; use hasIsDefaultForCurrency() or valueOrDefault().
      */
-    public function getDefaultForCurrency(): bool { return $this->get('default_for_currency'); }
-    public function hasDefaultForCurrency(): bool { return $this->has('default_for_currency'); }
-    /** last4
+    public function getIsDefaultForCurrency(): bool { return $this->get('is_default_for_currency'); }
+    public function hasIsDefaultForCurrency(): bool { return $this->has('is_default_for_currency'); }
+    /** Last four digits of the account or card number.
      * @return string
      * @throws SdkError When last4 is omitted; use hasLast4() or valueOrDefault().
      */
     public function getLast4(): string { return $this->get('last4'); }
     public function hasLast4(): bool { return $this->has('last4'); }
-    /** payout_destination_id
+    /** Unique identifier for this payout destination, prefixed `pdest_`. Example: "pdest_01KEZF7C00M55HZDZXZP6YVE6B".
      * @return string
      * @throws SdkError When payout_destination_id is omitted; use hasPayoutDestinationId() or valueOrDefault().
      */
@@ -78,7 +78,7 @@ final class ExpandedPayoutDestinationSummaryInput extends Model {
      */
     public function getType(): string { return $this->get('type'); }
     public function hasType(): bool { return $this->has('type'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */

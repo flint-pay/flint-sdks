@@ -20,7 +20,7 @@ namespace Flint;
 final class MerchantBillingEntriesListInput extends Model {
     /** @param array{'type'?: list<string>|string, 'currency'?: string, 'occurred_after'?: string|\DateTimeInterface, 'occurred_before'?: string|\DateTimeInterface, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'payment_intent_id'?: string, 'dispute_id'?: string, 'merchant_billing_invoice_id'?: string, 'balance_transaction_id'?: string, 'page_size'?: int, 'page_token'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MerchantBillingEntriesListInput')); }
-    /** Filter by one or more merchant billing entry types. Repeat or comma-separate values. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "event_fee", "invoice", "custom_domain", "custom_domain_collection", "correction", "credit_issued", "credit_applied", "credit_refunded", "collection", "collection_reversal", "write_off". Value enum: "event_fee", "invoice", "custom_domain", "custom_domain_collection", "correction", "credit_issued", "credit_applied", "credit_refunded", "collection", "collection_reversal", "write_off". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "event_fee", "invoice", "custom_domain", "custom_domain_collection", "correction", "credit_issued", "credit_applied", "credit_refunded", "collection", "collection_reversal", "write_off". anyOf[1][] (Value): string.  Value enum: "event_fee", "invoice", "custom_domain", "custom_domain_collection", "correction", "credit_issued", "credit_applied", "credit_refunded", "collection", "collection_reversal", "write_off". anyOf[2] (Value): string.  Value enum: "event_fee", "invoice", "custom_domain", "custom_domain_collection", "correction", "credit_issued", "credit_applied", "credit_refunded", "collection", "collection_reversal", "write_off".
+    /** Filter by one or more merchant billing entry types. Repeat or comma-separate values. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "event_fee", "invoice", "custom_domain", "custom_domain_collection", "correction", "credit_issued", "credit_applied", "credit_refunded", "collection", "collection_reversal", "write_off". Value enum: "event_fee", "invoice", "custom_domain", "custom_domain_collection", "correction", "credit_issued", "credit_applied", "credit_refunded", "collection", "collection_reversal", "write_off". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "event_fee", "invoice", "custom_domain", "custom_domain_collection", "correction", "credit_issued", "credit_applied", "credit_refunded", "collection", "collection_reversal", "write_off". anyOf[1][] (Value): string.  Value enum: "event_fee", "invoice", "custom_domain", "custom_domain_collection", "correction", "credit_issued", "credit_applied", "credit_refunded", "collection", "collection_reversal", "write_off". anyOf[2] (Value): string.  Value enum: "event_fee", "invoice", "custom_domain", "custom_domain_collection", "correction", "credit_issued", "credit_applied", "credit_refunded", "collection", "collection_reversal", "write_off".
      * @return list<string>|string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */
@@ -56,25 +56,25 @@ final class MerchantBillingEntriesListInput extends Model {
      */
     public function getCreatedBefore(): string|\DateTimeInterface { return $this->get('created_before'); }
     public function hasCreatedBefore(): bool { return $this->has('created_before'); }
-    /** Filter by Flint payment intent ID. Example: "pi_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Filter by Flint payment intent ID. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
      * @return string
      * @throws SdkError When payment_intent_id is omitted; use hasPaymentIntentId() or valueOrDefault().
      */
     public function getPaymentIntentId(): string { return $this->get('payment_intent_id'); }
     public function hasPaymentIntentId(): bool { return $this->has('payment_intent_id'); }
-    /** Filter by Flint dispute ID. Example: "du_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Filter by Flint dispute ID. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD".
      * @return string
      * @throws SdkError When dispute_id is omitted; use hasDisputeId() or valueOrDefault().
      */
     public function getDisputeId(): string { return $this->get('dispute_id'); }
     public function hasDisputeId(): bool { return $this->has('dispute_id'); }
-    /** Filter by Flint merchant billing invoice ID. Example: "msinv_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Filter by Flint merchant billing invoice ID. Example: "msinv_01KEZF7C00MB754KPEPACGRMNP".
      * @return string
      * @throws SdkError When merchant_billing_invoice_id is omitted; use hasMerchantBillingInvoiceId() or valueOrDefault().
      */
     public function getMerchantBillingInvoiceId(): string { return $this->get('merchant_billing_invoice_id'); }
     public function hasMerchantBillingInvoiceId(): bool { return $this->has('merchant_billing_invoice_id'); }
-    /** Filter by Flint balance transaction ID. Example: "btxn_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Filter by Flint balance transaction ID. Example: "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ".
      * @return string
      * @throws SdkError When balance_transaction_id is omitted; use hasBalanceTransactionId() or valueOrDefault().
      */
@@ -86,7 +86,7 @@ final class MerchantBillingEntriesListInput extends Model {
      */
     public function getPageSize(): int { return $this->get('page_size'); }
     public function hasPageSize(): bool { return $this->has('page_size'); }
-    /** Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error.
+    /** Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error.
      * @return string
      * @throws SdkError When page_token is omitted; use hasPageToken() or valueOrDefault().
      */

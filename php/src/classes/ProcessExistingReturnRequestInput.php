@@ -16,19 +16,19 @@ final class ProcessExistingReturnRequestInput extends Model {
      */
     public function getCompletionMode(): string { return $this->get('completion_mode'); }
     public function hasCompletionMode(): bool { return $this->has('completion_mode'); }
-    /** Format: int64. minimum: 1.
+    /** Version last read from the resource returned in `data` (the primary resource for a result object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on the operation and fields being changed. Format: int64. minimum: 1.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** minItems: 1. [] (Value): {@see ProcessExistingReturnLineItemRequestInput}. How to process one line of an existing return: the received quantity, inspection, decision, disposition, and resolution.
+    /** One decision for each line. minItems: 1. [] (Value): {@see ProcessExistingReturnLineItemRequestInput}. How to process one line of an existing return: the received quantity, inspection, decision, disposition, and resolution.
      * @return list<ProcessExistingReturnLineItemRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When line_items is omitted; use hasLineItems() or valueOrDefault().
      */
     public function getLineItems(): array { return $this->get('line_items'); }
     public function hasLineItems(): bool { return $this->has('line_items'); }
-    /** The receipt of returned merchandise, with when and where it was received, supplied when processing an existing return.
+    /** A receipt to record for the Return. The receipt of returned merchandise, with when and where it was received, supplied when processing an existing return.
      * @return ReturnProcessReceiptRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When receipt is omitted; use hasReceipt() or valueOrDefault().
      */

@@ -1,0 +1,27 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/**
+ * @property-read RefundWithGiftCardCodesLineItemAllocationsItemAdjustmentRefundsItemAmountMoney $amount_money
+ * @property-read string $original_refund_line_item_adjustment_id
+ * @property-read string $refund_line_item_adjustment_refund_id
+ * Presence-aware response; omitted optional fields return null. */
+final class RefundWithGiftCardCodesLineItemAllocationsItemAdjustmentRefundsItem extends Model {
+    /** @param array{'amount_money': mixed, 'original_refund_line_item_adjustment_id': string, 'refund_line_item_adjustment_refund_id': string, ...}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RefundWithGiftCardCodesLineItemAllocationsItemAdjustmentRefundsItem')); }
+    /** Amount refunded back against the adjustment. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return RefundWithGiftCardCodesLineItemAllocationsItemAdjustmentRefundsItemAmountMoney
+     */
+    public function getAmountMoney(): RefundWithGiftCardCodesLineItemAllocationsItemAdjustmentRefundsItemAmountMoney { return $this->get('amount_money'); }
+    public function hasAmountMoney(): bool { return $this->has('amount_money'); }
+    /** ID of the adjustment this amount was refunded against.
+     * @return string
+     */
+    public function getOriginalRefundLineItemAdjustmentId(): string { return $this->get('original_refund_line_item_adjustment_id'); }
+    public function hasOriginalRefundLineItemAdjustmentId(): bool { return $this->has('original_refund_line_item_adjustment_id'); }
+    /** Unique identifier for this refund line item adjustment refund, prefixed `rliar_`.
+     * @return string
+     */
+    public function getRefundLineItemAdjustmentRefundId(): string { return $this->get('refund_line_item_adjustment_refund_id'); }
+    public function hasRefundLineItemAdjustmentRefundId(): bool { return $this->has('refund_line_item_adjustment_refund_id'); }
+}

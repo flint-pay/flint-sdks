@@ -62,7 +62,7 @@ Returns a single payment intent by ID. Unverified fee fields are omitted; read t
 
 ```typescript
 const paymentIntentsGetResult = await client.paymentIntents.get(
-  "pi_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "pi_01KEZF7C00G8H9D509YEV22P7R"
 );
 console.log(paymentIntentsGetResult);
 ```
@@ -71,7 +71,7 @@ console.log(paymentIntentsGetResult);
 
 ### refunds.create
 
-Creates a refund for an order, a payment intent, a captured gift card redemption, or a gift card load. Set refund_type to full for the full remaining refundable amount, amount for an explicit amount_money, or targets for named line items, charges, and taxes. To refund a gift card redemption made outside a Flint order, set refund_type to amount and send one tender_allocations entry per redemption, with no order_id. A created refund returns 201 even when processing fails; inspect status and failure_reason. A same-key replay returns the original refund without another money attempt. This is a financial operation.
+Creates a refund for an issued credit note on a paid invoice, an order, a payment intent, a captured gift card redemption, or a gift card load. Set refund_type to credit_note with credit_note_id to refund credit; omit amount_money to refund all available credit, resolved when Flint accepts the request. Credit-note refunds return card and bank payments collected through Flint, largest remaining first; gift card value is not refunded through credit notes yet. Set refund_type to full for the full remaining refundable amount, amount for an explicit amount_money, or targets for named line items, charges, and taxes. To refund a gift card redemption made outside a Flint order, set refund_type to amount and send one tender_allocations entry per redemption, with no order_id. A created refund is returned even when processing fails; inspect `status` and `failure_reason`. A same-key replay returns the original refund without another money attempt. This is a financial operation.
 
 ```typescript
 // Persist this key with the action before sending; reuse it for every resubmission.
@@ -79,13 +79,13 @@ const refundsCreateIdempotencyKey = crypto.randomUUID();
 
 const refundsCreateResult = await client.refunds.create(
   {
-    refund_type: "full",
     order_id: "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+    refund_type: "full",
   },
   { idempotencyKey: refundsCreateIdempotencyKey },
 );
+console.log(refundsCreateResult.merchant_id);
 console.log(refundsCreateResult.refund_id);
-console.log(refundsCreateResult.status);
 ```
 
 [Run the standalone example](examples/refunds-create.mjs)

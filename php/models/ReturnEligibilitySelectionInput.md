@@ -8,8 +8,8 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `line_items` | Conditional | Array of [ReturnEligibilityLineItemRequestInput](../models/ReturnEligibilityLineItemRequestInput.md#returneligibilitylineitemrequestinput) |  |
-| `selection_type` | Required | string | Values: `"all_remaining_fulfilled"`, `"line_items"`. |
+| `line_items` | Conditional | Array of [ReturnEligibilityLineItemRequestInput](../models/ReturnEligibilityLineItemRequestInput.md#returneligibilitylineitemrequestinput) | The lines to check or return, each naming an order line item. |
+| `selection_type` | Required | string | How the selection picks units. Values: `"all_remaining_fulfilled"`, `"line_items"`. |
 
 ### ReturnEligibilitySelectionInput variant 1: `selection_type` = `"all_remaining_fulfilled"`
 

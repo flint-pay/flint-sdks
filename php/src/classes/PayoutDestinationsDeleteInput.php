@@ -10,13 +10,13 @@ namespace Flint;
 final class PayoutDestinationsDeleteInput extends Model {
     /** @param array{'payout_destination_id': string, 'expected_version'?: int}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PayoutDestinationsDeleteInput')); }
-    /** Flint payout destination ID. Example: "pdest_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Flint payout destination ID. Example: "pdest_01KEZF7C00M55HZDZXZP6YVE6B".
      * @return string
      * @throws SdkError When payout_destination_id is omitted; use hasPayoutDestinationId() or valueOrDefault().
      */
     public function getPayoutDestinationId(): string { return $this->get('payout_destination_id'); }
     public function hasPayoutDestinationId(): bool { return $this->has('payout_destination_id'); }
-    /** Format: uint64. minimum: 1.
+    /** Optional payout destination version last read by the caller. Format: uint64. minimum: 1.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */

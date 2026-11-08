@@ -14,7 +14,7 @@ final class InvoiceSentInstalledMerchantsEventDataObjectCollectionExternal exten
      */
     public function getMode(): string { return $this->get('mode'); }
     public function hasMode(): bool { return $this->has('mode'); }
-    /**  anyOf[1] (Value): (string or null). The saved card Flint charges. Present only with automatic. On a draft, null means Flint charges the customer's default card, selected at issue. After issue it is the selected card. anyOf[2] (Value): null.
+    /**  anyOf[1] (Value): (string or null). The saved card Flint charges. Present only with automatic. `null` when the draft will use the customer's default card, selected at issue. After issue it is the selected card. anyOf[2] (Value): null.
      * @return string|null
      */
     public function getPaymentMethodId(): string|null { return $this->get('payment_method_id'); }

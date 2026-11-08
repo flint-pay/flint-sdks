@@ -49,7 +49,7 @@ final class OrderPaymentAttempt extends Model {
      */
     public function getMode(): string { return $this->get('mode'); }
     public function hasMode(): bool { return $this->has('mode'); }
-    /** order_payment_attempt_id
+    /** Unique identifier for this order payment attempt, prefixed `opat_`.
      * @return string
      */
     public function getOrderPaymentAttemptId(): string { return $this->get('order_payment_attempt_id'); }

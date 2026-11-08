@@ -11,25 +11,25 @@ namespace Flint;
 final class DeliveryMethodOriginSelectorPickupLocationCollectionInput extends Model {
     /** @param mixed $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryMethodOriginSelectorPickupLocationCollectionInput')); }
-    /** delivery_location_set_id
+    /** Example: "dls_01KEZF7C00C4WWN7RYTRF55C4H".
      * @return string
      * @throws SdkError When delivery_location_set_id is omitted; use hasDeliveryLocationSetId() or valueOrDefault().
      */
     public function getDeliveryLocationSetId(): string { return $this->get('delivery_location_set_id'); }
     public function hasDeliveryLocationSetId(): bool { return $this->has('delivery_location_set_id'); }
-    /** delivery_location_set_revision_id
+    /** Example: "dlsr_01KEZF7C00HN2NT80H5VNQSVFJ".
      * @return string
      * @throws SdkError When delivery_location_set_revision_id is omitted; use hasDeliveryLocationSetRevisionId() or valueOrDefault().
      */
     public function getDeliveryLocationSetRevisionId(): string { return $this->get('delivery_location_set_revision_id'); }
     public function hasDeliveryLocationSetRevisionId(): bool { return $this->has('delivery_location_set_revision_id'); }
-    /** location_id
+    /** Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When location_id is omitted; use hasLocationId() or valueOrDefault().
      */
     public function getLocationId(): string { return $this->get('location_id'); }
     public function hasLocationId(): bool { return $this->has('location_id'); }
-    /** minItems: 1. maxItems: 1000. uniqueItems: true. [] (Value): string.
+    /** minItems: 1. maxItems: 1000. uniqueItems: true. [] (Value): string. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return list<string>
      * @throws SdkError When location_ids is omitted; use hasLocationIds() or valueOrDefault().
      */

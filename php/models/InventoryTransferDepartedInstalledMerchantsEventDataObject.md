@@ -2,9 +2,11 @@
 
 ## InventoryTransferDepartedInstalledMerchantsEventDataObject
 
-Stock moving between locations.
+The affected public resource without expansions, client authority fields, or fields computed for an individual caller.
+
+The resource snapshot, without expansions. Webhooks omit no additional fields.
 
 Response model.
 
-Fields, types, descriptions and enum values: [InventoryTransfer](../models/InventoryTransfer.md#inventorytransfer).
+Fields, types, descriptions and enum values: [InventoryTransferClosedMerchantEventDataObject](../models/InventoryTransferClosedMerchantEventDataObject.md#inventorytransferclosedmerchanteventdataobject).
 

@@ -1,0 +1,1 @@
+{"shared":"OrderCalculatedChargeTaxRequest","dependencies":["MoneyValue","OrderCalculatedChargeTaxRequest","TaxCalculationRequestRequest","TaxComponentRequestRequest","TaxJurisdictionRequest"]}

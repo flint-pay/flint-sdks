@@ -1,0 +1,21 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/**
+ * @property-read RefundWithGiftCardCodesTenderAllocationsItemDestinationCardsItemAmountMoney $amount_money
+ * @property-read string $gift_card_id
+ * Presence-aware response; omitted optional fields return null. */
+final class RefundWithGiftCardCodesTenderAllocationsItemDestinationCardsItem extends Model {
+    /** @param array{'amount_money': mixed, 'gift_card_id': string, ...}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RefundWithGiftCardCodesTenderAllocationsItemDestinationCardsItem')); }
+    /** Amount credited to this gift card. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return RefundWithGiftCardCodesTenderAllocationsItemDestinationCardsItemAmountMoney
+     */
+    public function getAmountMoney(): RefundWithGiftCardCodesTenderAllocationsItemDestinationCardsItemAmountMoney { return $this->get('amount_money'); }
+    public function hasAmountMoney(): bool { return $this->has('amount_money'); }
+    /** ID of the gift card that received the value.
+     * @return string
+     */
+    public function getGiftCardId(): string { return $this->get('gift_card_id'); }
+    public function hasGiftCardId(): bool { return $this->has('gift_card_id'); }
+}

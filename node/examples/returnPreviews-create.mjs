@@ -8,7 +8,7 @@ const result = await client.returnPreviews.create(
   {
     mode: "eligibility",
     eligibility: {
-      order_id: "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+      order_id: "ord_01KEZF7C0054GQKJ142A8X367A",
       selection: {
         selection_type: "all_remaining_fulfilled",
       },

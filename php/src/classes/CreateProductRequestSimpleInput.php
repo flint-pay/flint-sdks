@@ -10,14 +10,12 @@ namespace Flint;
  * @property-read MetadataRequestInput|array<array-key, mixed>|\stdClass $metadata
  * @property-read string|null $modifier_set_id
  * @property-read string $name
- * @property-read list<CreateProductOptionRequestInput|array<array-key, mixed>|\stdClass> $options
  * @property-read string $product_type
  * @property-read string $status
  * @property-read string $variant_mode
- * @property-read list<ProductVariantRequestInput|array<array-key, mixed>|\stdClass> $variants
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateProductRequestSimpleInput extends Model {
-    /** @param array{'category_handles'?: list<string>, 'default_variant': ProductVariantRequestInput|array<array-key, mixed>|\stdClass, 'description'?: string, 'external_reference_id'?: string, 'images'?: list<ImageRequestInput|array<array-key, mixed>|\stdClass>, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'modifier_set_id'?: string|null, 'name': string, 'options'?: list<CreateProductOptionRequestInput|array<array-key, mixed>|\stdClass>, 'product_type': string, 'status'?: string, 'variant_mode': string, 'variants'?: list<ProductVariantRequestInput|array<array-key, mixed>|\stdClass>}|object $values */
+    /** @param array{'category_handles'?: list<string>, 'default_variant': ProductVariantRequestInput|array<array-key, mixed>|\stdClass, 'description'?: string, 'external_reference_id'?: string, 'images'?: list<ImageRequestInput|array<array-key, mixed>|\stdClass>, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'modifier_set_id'?: string|null, 'name': string, 'product_type': string, 'status'?: string, 'variant_mode': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateProductRequestSimpleInput')); }
     /** Relationship set of category handles that must already exist. Each handle has 1 to 100 characters (Unicode code points). Unknown handles return RESOURCE_NOT_FOUND. Replaces the whole set when present; send [] to clear it. On PATCH, omission leaves it unchanged. Does not require expected_version. maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. maxLength: 100. pattern: ^[a-z0-9]+(-[a-z0-9]+)*$.
      * @return list<string>
@@ -37,7 +35,7 @@ final class CreateProductRequestSimpleInput extends Model {
      */
     public function getDescription(): string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -55,7 +53,7 @@ final class CreateProductRequestSimpleInput extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Attached modifier set. Send null on update to remove it. minLength: 1.
+    /** Attached modifier set. Send null on update to remove it. minLength: 1. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR".
      * @return string|null
      * @throws SdkError When modifier_set_id is omitted; use hasModifierSetId() or valueOrDefault().
      */
@@ -67,12 +65,6 @@ final class CreateProductRequestSimpleInput extends Model {
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Options and values that distinguish this product's variants. Send with variants instead of default_variant. minItems: 1. [] (Value): {@see CreateProductOptionRequestInput}. A product option to create with a product, such as size, with its values, position, and status.
-     * @return list<CreateProductOptionRequestInput|array<array-key, mixed>|\stdClass>
-     * @throws SdkError When options is omitted; use hasOptions() or valueOrDefault().
-     */
-    public function getOptions(): array { return $this->get('options'); }
-    public function hasOptions(): bool { return $this->has('options'); }
     /** Kind of goods or service this product represents. New variants of digital products store digital_goods when line_item_tax_category is omitted; explicit categories are preserved. Value enum: "physical", "service", "fee", "digital", "gift_card".
      * @return string
      * @throws SdkError When product_type is omitted; use hasProductType() or valueOrDefault().
@@ -91,10 +83,4 @@ final class CreateProductRequestSimpleInput extends Model {
      */
     public function getVariantMode(): string { return $this->get('variant_mode'); }
     public function hasVariantMode(): bool { return $this->has('variant_mode'); }
-    /** Independent variants to create with this product, at most 100. Add more with `POST /v1/products/{product_id}/variants`. minItems: 1. maxItems: 100. [] (Value): {@see ProductVariantRequestInput}. The request body for: Create product variant.
-     * @return list<ProductVariantRequestInput|array<array-key, mixed>|\stdClass>
-     * @throws SdkError When variants is omitted; use hasVariants() or valueOrDefault().
-     */
-    public function getVariants(): array { return $this->get('variants'); }
-    public function hasVariants(): bool { return $this->has('variants'); }
 }

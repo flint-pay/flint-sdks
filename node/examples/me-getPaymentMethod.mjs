@@ -8,7 +8,7 @@ const client = new Client({
   customerToken,
 });
 const result = await client.me.getPaymentMethod(
-  "pm_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "pm_01KEZF7C0034B248TXXE4NXYFZ"
 );
 console.log(result.customer_id);
-console.log(result.payment_method_id);
+console.log(result.merchant_id);

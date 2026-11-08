@@ -10,5 +10,5 @@ One reminder in an invoice reminder policy. `days_from_due` sets when it is sent
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `days_from_due` | Required | integer | Format: `int32`. minimum: `-90`. maximum: `365`. |
+| `days_from_due` | Required | integer | Calendar days from the due date in the invoice timezone. Negative values send before it, zero sends on it, and positive values send after it. Format: `int32`. minimum: `-90`. maximum: `365`. |
 

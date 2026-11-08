@@ -15,7 +15,7 @@ final class UpdateCustomerEmailPreferencesRequestInput extends Model {
      */
     public function getCheckoutReminders(): bool { return $this->get('checkout_reminders'); }
     public function hasCheckoutReminders(): bool { return $this->has('checkout_reminders'); }
-    /** Format: uint64. minimum: 1.
+    /** The `version` of the preferences you last read. The update fails with a conflict if they have changed since. Format: uint64. minimum: 1.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */

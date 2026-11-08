@@ -13,37 +13,37 @@ namespace Flint;
 final class InvoiceDiscount extends Model {
     /** @param array{'amount_money': mixed, 'applied_money': mixed, 'customer_facing_name'?: string, 'discount_class'?: string, 'promotion_code'?: string, 'promotion_id'?: string, 'source': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceDiscount')); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Discount amount before limits apply, such as 20% of $100 resolving to $20. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getAmountMoney(): MoneyValue { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Amount the discount took off. It is less than `amount_money` when a limit applies, such as a discount that would take the order below zero. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getAppliedMoney(): MoneyValue { return $this->get('applied_money'); }
     public function hasAppliedMoney(): bool { return $this->has('applied_money'); }
-    /** customer_facing_name
+    /** Name the buyer sees for the discount.
      * @return ?string
      */
     public function getCustomerFacingName(): ?string { return $this->get('customer_facing_name'); }
     public function hasCustomerFacingName(): bool { return $this->has('customer_facing_name'); }
-    /** Value enum: "order", "line_item".
+    /** Which part of the order the discount reduces. Value enum: "order", "line_item".
      * @return ?string
      */
     public function getDiscountClass(): ?string { return $this->get('discount_class'); }
     public function hasDiscountClass(): bool { return $this->has('discount_class'); }
-    /** promotion_code
+    /** Promotion code used to create this discount. Present only when `source` is `promotion` and a code was used.
      * @return ?string
      */
     public function getPromotionCode(): ?string { return $this->get('promotion_code'); }
     public function hasPromotionCode(): bool { return $this->has('promotion_code'); }
-    /** promotion_id
+    /** ID of the promotion that supplied this discount. Absent for a manual discount.
      * @return ?string
      */
     public function getPromotionId(): ?string { return $this->get('promotion_id'); }
     public function hasPromotionId(): bool { return $this->has('promotion_id'); }
-    /** Value enum: "manual", "promotion", "plan_change_credit".
+    /** Where the discount came from. Value enum: "manual", "promotion", "plan_change_credit", "proration".
      * @return string
      */
     public function getSource(): string { return $this->get('source'); }

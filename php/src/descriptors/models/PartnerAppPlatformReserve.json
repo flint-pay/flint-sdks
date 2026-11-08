@@ -1,0 +1,1 @@
+{"shared":"PartnerAppPlatformReserve","phpRepresentation":{"kind":"record","fields":{"percent":{"kind":"value","type":"float"},"release_delay_seconds":{"kind":"value","type":"int"}}},"dependencies":["PartnerAppPlatformReserve"]}

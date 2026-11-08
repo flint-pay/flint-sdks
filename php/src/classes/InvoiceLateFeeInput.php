@@ -10,13 +10,14 @@ namespace Flint;
  * @property-read array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'application_mode'?: string, 'grace_period_days': int, 'percent'?: int|float, 'type': string}|object|array{'amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'application_mode'?: string, 'grace_period_days': int, 'percent': int|float, 'type': string}|object|null $late_fee_policy
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $outstanding_money
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $paid_money
+ * @property-read list<string> $supported_actions
  * @property-read string|\DateTimeInterface $waived_at
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $waived_money
  * @property-read string $waiver_reason_message
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $written_off_money
  * Presence-aware input; omitted fields throw when accessed. */
 final class InvoiceLateFeeInput extends Model {
-    /** @param array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'assessed_at': string|\DateTimeInterface, 'base_outstanding_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'invoice_late_fee_id': string, 'invoice_schedule_entry_id'?: string, 'late_fee_policy': array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'application_mode'?: string, 'grace_period_days': int, 'percent'?: int|float, 'type': string}|object|array{'amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'application_mode'?: string, 'grace_period_days': int, 'percent': int|float, 'type': string}|object|null, 'outstanding_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'paid_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'waived_at'?: string|\DateTimeInterface, 'waived_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'waiver_reason_message'?: string, 'written_off_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'assessed_at': string|\DateTimeInterface, 'base_outstanding_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'invoice_late_fee_id': string, 'invoice_schedule_entry_id'?: string, 'late_fee_policy': array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'application_mode'?: string, 'grace_period_days': int, 'percent'?: int|float, 'type': string}|object|array{'amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'application_mode'?: string, 'grace_period_days': int, 'percent': int|float, 'type': string}|object|null, 'outstanding_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'paid_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'supported_actions': list<string>, 'waived_at'?: string|\DateTimeInterface, 'waived_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'waiver_reason_message'?: string, 'written_off_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceLateFeeInput')); }
     /** The assessed fee: the policy's fixed amount, or its percent of base_outstanding_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
@@ -24,7 +25,7 @@ final class InvoiceLateFeeInput extends Model {
      */
     public function getAmountMoney(): mixed { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** When the fee was assessed. Format: date-time.
+    /** When the fee was assessed. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When assessed_at is omitted; use hasAssessedAt() or valueOrDefault().
      */
@@ -36,19 +37,19 @@ final class InvoiceLateFeeInput extends Model {
      */
     public function getBaseOutstandingMoney(): mixed { return $this->get('base_outstanding_money'); }
     public function hasBaseOutstandingMoney(): bool { return $this->has('base_outstanding_money'); }
-    /** Flint invoice late fee ID.
+    /** Flint invoice late fee ID. Example: "inlf_01KEZF7C00NVR97MBH5AHR4W1X".
      * @return string
      * @throws SdkError When invoice_late_fee_id is omitted; use hasInvoiceLateFeeId() or valueOrDefault().
      */
     public function getInvoiceLateFeeId(): string { return $this->get('invoice_late_fee_id'); }
     public function hasInvoiceLateFeeId(): bool { return $this->has('invoice_late_fee_id'); }
-    /** The schedule entry this fee applies to. Absent on an invoice without a schedule, where the fee applies to the whole invoice. Each invoice, or each entry, takes at most one fee, even after a waiver.
+    /** The schedule entry this fee applies to. Absent on an invoice without a schedule, where the fee applies to the whole invoice. Each invoice, or each entry, takes at most one fee, even after a waiver. Example: "invse_01KEZF7C006JCPQBD8VZ0RNT6R".
      * @return string
      * @throws SdkError When invoice_schedule_entry_id is omitted; use hasInvoiceScheduleEntryId() or valueOrDefault().
      */
     public function getInvoiceScheduleEntryId(): string { return $this->get('invoice_schedule_entry_id'); }
     public function hasInvoiceScheduleEntryId(): bool { return $this->has('invoice_schedule_entry_id'); }
-    /** The late fee policy from payment_terms_snapshot, copied when the fee was assessed. anyOf[1] (Value): {@see InvoiceLateFeePolicyInput}. A late fee for overdue invoices: a fixed amount or a percentage, a grace period in days, and whether Flint applies it automatically. anyOf[2] (Value): null.
+    /** The late fee policy from payment_terms_snapshot, copied when the fee was assessed. `null` when no policy was captured. anyOf[1] (Value): {@see InvoiceLateFeePolicyInput}. A late fee for overdue invoices: a fixed amount or a percentage, a grace period in days, and whether Flint applies it automatically. anyOf[2] (Value): null.
      * @return array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'application_mode'?: string, 'grace_period_days': int, 'percent'?: int|float, 'type': string}|object|array{'amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'application_mode'?: string, 'grace_period_days': int, 'percent': int|float, 'type': string}|object|null
      * @throws SdkError When late_fee_policy is omitted; use hasLateFeePolicy() or valueOrDefault().
      */
@@ -66,7 +67,13 @@ final class InvoiceLateFeeInput extends Model {
      */
     public function getPaidMoney(): mixed { return $this->get('paid_money'); }
     public function hasPaidMoney(): bool { return $this->has('paid_money'); }
-    /** When the fee was waived. Absent unless it was waived. Format: date-time.
+    /** Lifecycle actions Flint accepts for this resource now, based on stored state. Independent of the caller's permissions; each action still requires its route's scope. Always [] when no action is available. [] enum: "waive". [] (Value): string.  Value enum: "waive".
+     * @return list<string>
+     * @throws SdkError When supported_actions is omitted; use hasSupportedActions() or valueOrDefault().
+     */
+    public function getSupportedActions(): array { return $this->get('supported_actions'); }
+    public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
+    /** When the fee was waived. Absent unless it was waived. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When waived_at is omitted; use hasWaivedAt() or valueOrDefault().
      */

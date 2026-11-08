@@ -21,5 +21,5 @@ $result = $client->subscriptions->changePlan('sub_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
   'subscription_plan_id' => 'plan_00000000000000000000000000',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->subscription->customer_id . PHP_EOL;
-echo $result->subscription->payment_method_id . PHP_EOL;
+echo $result->subscription->merchant_id . PHP_EOL;
 $client->close();

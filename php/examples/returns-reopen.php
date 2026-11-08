@@ -16,8 +16,9 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->returns->reopen('ret_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
-  'reason' => 'linked_effect_changed',
+$result = $client->returns->reopen('ret_01KEZF7C00PG93650ZKVQNGF7X', [
+  'expected_version' => 5,
+  'reason' => 'additional_merchandise_received',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->order_id . PHP_EOL;
 echo $result->return_id . PHP_EOL;

@@ -10,6 +10,6 @@ The `order` variant of `InventoryReservationOwner`.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Optional | string | The order Flint holds the stock for. Absent only on a closed reservation whose order Flint can no longer identify. |
-| `type` | Required | string | Values: `"order"`. |
+| `order_id` | Optional | string | The order Flint holds the stock for. Absent only on a closed reservation whose order Flint can no longer identify. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
+| `type` | Required | string | Who holds the reservation. Values: `"order"`. |
 

@@ -10,8 +10,8 @@ The activity timeline for one resource, such as API requests, webhook events and
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `entries` | Required | Array of [ResourceTimelineEntry](../models/ResourceTimelineEntry.md#resourcetimelineentry) |  |
-| `resource_id` | Required | string |  |
-| `resource_type` | Required | [ResourceType](../models/ResourceType.md#resourcetype) | Public resource type: the resource's ID field name without `_id`. Clients must accept values added in future releases. Values: [141 declared values](APIKey.md#apikeycreated_by-resource_type-values). |
-| `test` | Required | boolean |  |
+| `entries` | Required | Array of [ResourceTimelineEntry](../models/ResourceTimelineEntry.md#resourcetimelineentry) | Timeline entries for the resource, each tagged by `entry_type`. Narrowed by `include`, `occurred_after`, and `occurred_before`. |
+| `resource_id` | Required | string | ID of the resource this timeline is for. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
+| `resource_type` | Required | string | Type of the resource this timeline is for. Example: `"order"`. Values: [146 declared values](APIRequestLog.md#apirequestlog-resource_type-values). |
+| `test` | Required | boolean | `true` when the timeline is for test mode data and `false` for live data. |
 

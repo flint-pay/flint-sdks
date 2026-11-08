@@ -7,7 +7,7 @@ namespace Flint;
 final class CreateDigitalFulfillmentDetailsInput extends Model {
     /** @param array{'delivery_url'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateDigitalFulfillmentDetailsInput')); }
-    /** minLength: 1.
+    /** URL where the recipient can access the delivered digital goods. minLength: 1.
      * @return string
      * @throws SdkError When delivery_url is omitted; use hasDeliveryUrl() or valueOrDefault().
      */

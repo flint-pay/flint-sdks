@@ -25,7 +25,7 @@ namespace Flint;
 final class ResourceTimelineEntriesItemApiRequest extends Model {
     /** @param array{'api_request_log_id': string, 'caller'?: mixed, 'client_request_id'?: string, 'client_trace_id'?: string, 'entry_type': string, 'error_code'?: string, 'error_summary'?: string, 'error_type'?: string, 'http_method': string, 'latency_milliseconds': int, 'occurred_at': string, 'path': string, 'recommended_action'?: string, 'reference_url'?: string, 'request_id': string, 'resource_timeline_entry_id': string, 'retry'?: string, 'route_pattern': string, 'status_code': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ResourceTimelineEntriesItemApiRequest')); }
-    /** api_request_log_id
+    /** Stable identifier of this log entry.
      * @return string
      */
     public function getApiRequestLogId(): string { return $this->get('api_request_log_id'); }
@@ -45,12 +45,12 @@ final class ResourceTimelineEntriesItemApiRequest extends Model {
      */
     public function getClientTraceId(): ?string { return $this->get('client_trace_id'); }
     public function hasClientTraceId(): bool { return $this->has('client_trace_id'); }
-    /** Value enum: "api_request".
+    /** Always `api_request` for this kind of entry. Value enum: "api_request".
      * @return string
      */
     public function getEntryType(): string { return $this->get('entry_type'); }
     public function hasEntryType(): bool { return $this->has('entry_type'); }
-    /** error_code
+    /** The response's top-level error `code`. Absent for successful requests.
      * @return ?string
      */
     public function getErrorCode(): ?string { return $this->get('error_code'); }
@@ -65,12 +65,12 @@ final class ResourceTimelineEntriesItemApiRequest extends Model {
      */
     public function getErrorType(): ?string { return $this->get('error_type'); }
     public function hasErrorType(): bool { return $this->has('error_type'); }
-    /** http_method
+    /** HTTP method of the request.
      * @return string
      */
     public function getHttpMethod(): string { return $this->get('http_method'); }
     public function hasHttpMethod(): bool { return $this->has('http_method'); }
-    /** Format: int64.
+    /** Time Flint spent handling the request, in milliseconds. Format: int64.
      * @return int
      */
     public function getLatencyMilliseconds(): int { return $this->get('latency_milliseconds'); }
@@ -80,7 +80,7 @@ final class ResourceTimelineEntriesItemApiRequest extends Model {
      */
     public function getOccurredAt(): string { return $this->get('occurred_at'); }
     public function hasOccurredAt(): bool { return $this->has('occurred_at'); }
-    /** path
+    /** Request path as sent, with real IDs, such as /v1/orders/ord_123.
      * @return string
      */
     public function getPath(): string { return $this->get('path'); }
@@ -90,7 +90,7 @@ final class ResourceTimelineEntriesItemApiRequest extends Model {
      */
     public function getRecommendedAction(): ?string { return $this->get('recommended_action'); }
     public function hasRecommendedAction(): bool { return $this->has('recommended_action'); }
-    /** A Flint guide that explains this failure. Absent when no guide applies.
+    /** Full URL of the Flint guide that explains this failure. Absent when no guide applies. Format: uri.
      * @return ?string
      */
     public function getReferenceUrl(): ?string { return $this->get('reference_url'); }
@@ -100,22 +100,22 @@ final class ResourceTimelineEntriesItemApiRequest extends Model {
      */
     public function getRequestId(): string { return $this->get('request_id'); }
     public function hasRequestId(): bool { return $this->has('request_id'); }
-    /** resource_timeline_entry_id
+    /** ID of this timeline entry.
      * @return string
      */
     public function getResourceTimelineEntryId(): string { return $this->get('resource_timeline_entry_id'); }
     public function hasResourceTimelineEntryId(): bool { return $this->has('resource_timeline_entry_id'); }
-    /** How to recover: same_request resends the identical request with the same Idempotency-Key; after_refresh re-reads the resource and rebuilds the request with a new key; none requires correcting the request or following next_steps or next_actions. Value enum: "same_request", "after_refresh", "none".
+    /** Whether sending this request again can succeed, and how. It depends only on code and details[0].reason; the errors reference lists the value for each. Value enum: "same_request", "after_refresh", "none".
      * @return ?string
      */
     public function getRetry(): ?string { return $this->get('retry'); }
     public function hasRetry(): bool { return $this->has('retry'); }
-    /** route_pattern
+    /** The matched route as a method and path template, such as `POST /v1/orders`.
      * @return string
      */
     public function getRoutePattern(): string { return $this->get('route_pattern'); }
     public function hasRoutePattern(): bool { return $this->has('route_pattern'); }
-    /** Format: int32.
+    /** HTTP status Flint returned. Format: int32.
      * @return int
      */
     public function getStatusCode(): int { return $this->get('status_code'); }

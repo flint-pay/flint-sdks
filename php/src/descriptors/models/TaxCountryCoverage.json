@@ -1,0 +1,1 @@
+{"shared":"TaxCountryCoverage","phpRepresentation":{"kind":"record","fields":{"category_scope":{"kind":"value","type":"string"},"country":{"kind":"value","type":"string"}}},"dependencies":["TaxCountryCoverage"]}

@@ -3,7 +3,6 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read int $active_variant_count
- * @property-read bool $available_for_sale
  * @property-read list<CategoryReferenceInput|array<array-key, mixed>|\stdClass> $categories
  * @property-read string|\DateTimeInterface $created_at
  * @property-read ProductVariantInput|array<array-key, mixed>|\stdClass $default_variant
@@ -12,6 +11,7 @@ namespace Flint;
  * @property-read string $description
  * @property-read string $external_reference_id
  * @property-read list<ImageAttachmentInput|array<array-key, mixed>|\stdClass> $images
+ * @property-read bool $is_available_for_sale
  * @property-read ProductVariantMatchInput|array<array-key, mixed>|\stdClass $matched_variant
  * @property-read string $merchant_id
  * @property-read MetadataMapInput|array<array-key, mixed>|\stdClass $metadata
@@ -30,7 +30,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class ProductInput extends Model {
-    /** @param array{'active_variant_count'?: int, 'available_for_sale'?: bool, 'categories': list<CategoryReferenceInput|array<array-key, mixed>|\stdClass>, 'created_at'?: string|\DateTimeInterface, 'default_variant'?: ProductVariantInput|array<array-key, mixed>|\stdClass, 'default_variant_id'?: string, 'delivery_configuration_status': string, 'description'?: string, 'external_reference_id'?: string, 'images': list<ImageAttachmentInput|array<array-key, mixed>|\stdClass>, 'matched_variant'?: ProductVariantMatchInput|array<array-key, mixed>|\stdClass, 'merchant_id'?: string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'modifier_set'?: array{'created_at'?: string|\DateTimeInterface, 'external_reference_id'?: string, 'merchant_id'?: string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'modifier_groups': list<ModifierSetGroupInput|array<array-key, mixed>|\stdClass>, 'modifier_set_id': string, 'name': string, 'status': string, 'updated_at'?: string|\DateTimeInterface, 'version': int, ...}|object|null, 'modifier_set_id': string|null, 'name': string, 'option_count'?: int, 'options': list<ProductOptionInput|array<array-key, mixed>|\stdClass>, 'price_range'?: ProductPriceRangeInput|array<array-key, mixed>|\stdClass, 'product_id': string, 'product_type': string, 'status': string, 'updated_at'?: string|\DateTimeInterface, 'variant_count'?: int, 'variants'?: list<ProductVariantInput|array<array-key, mixed>|\stdClass>, 'version': int, ...}|object $values */
+    /** @param array{'active_variant_count'?: int, 'categories': list<CategoryReferenceInput|array<array-key, mixed>|\stdClass>, 'created_at'?: string|\DateTimeInterface, 'default_variant'?: ProductVariantInput|array<array-key, mixed>|\stdClass, 'default_variant_id'?: string, 'delivery_configuration_status': string, 'description'?: string, 'external_reference_id'?: string, 'images': list<ImageAttachmentInput|array<array-key, mixed>|\stdClass>, 'is_available_for_sale'?: bool, 'matched_variant'?: ProductVariantMatchInput|array<array-key, mixed>|\stdClass, 'merchant_id'?: string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'modifier_set'?: array{'created_at'?: string|\DateTimeInterface, 'external_reference_id'?: string, 'merchant_id'?: string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'modifier_groups': list<ModifierSetGroupInput|array<array-key, mixed>|\stdClass>, 'modifier_set_id': string, 'name': string, 'status': string, 'updated_at'?: string|\DateTimeInterface, 'version': int, ...}|object|null, 'modifier_set_id': string|null, 'name': string, 'option_count'?: int, 'options': list<ProductOptionInput|array<array-key, mixed>|\stdClass>, 'price_range'?: ProductPriceRangeInput|array<array-key, mixed>|\stdClass, 'product_id': string, 'product_type': string, 'status': string, 'updated_at'?: string|\DateTimeInterface, 'variant_count'?: int, 'variants'?: list<ProductVariantInput|array<array-key, mixed>|\stdClass>, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ProductInput')); }
     /** Number of active variants belonging to the product. Format: int32.
      * @return int
@@ -38,19 +38,13 @@ final class ProductInput extends Model {
      */
     public function getActiveVariantCount(): int { return $this->get('active_variant_count'); }
     public function hasActiveVariantCount(): bool { return $this->has('active_variant_count'); }
-    /** Whether the product is active and has at least one active variant.
-     * @return bool
-     * @throws SdkError When available_for_sale is omitted; use hasAvailableForSale() or valueOrDefault().
-     */
-    public function getAvailableForSale(): bool { return $this->get('available_for_sale'); }
-    public function hasAvailableForSale(): bool { return $this->has('available_for_sale'); }
     /** Always present. Empty collections are returned as []. [] (Value): {@see CategoryReferenceInput}. A reference to a product category by ID, handle, and name.
      * @return list<CategoryReferenceInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When categories is omitted; use hasCategories() or valueOrDefault().
      */
     public function getCategories(): array { return $this->get('categories'); }
     public function hasCategories(): bool { return $this->has('categories'); }
-    /** When this resource was created, as an RFC3339 timestamp. Format: date-time.
+    /** When this resource was created, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
@@ -62,7 +56,7 @@ final class ProductInput extends Model {
      */
     public function getDefaultVariant(): mixed { return $this->get('default_variant'); }
     public function hasDefaultVariant(): bool { return $this->has('default_variant'); }
-    /** Identifier of the variant chosen as this product's default, when one is set.
+    /** Identifier of the variant chosen as this product's default, when one is set. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
      * @return string
      * @throws SdkError When default_variant_id is omitted; use hasDefaultVariantId() or valueOrDefault().
      */
@@ -80,7 +74,7 @@ final class ProductInput extends Model {
      */
     public function getDescription(): string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** Caller-owned identifier for this resource in an external system. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -92,13 +86,19 @@ final class ProductInput extends Model {
      */
     public function getImages(): array { return $this->get('images'); }
     public function hasImages(): bool { return $this->has('images'); }
+    /** Whether the product is active and has at least one active variant.
+     * @return bool
+     * @throws SdkError When is_available_for_sale is omitted; use hasIsAvailableForSale() or valueOrDefault().
+     */
+    public function getIsAvailableForSale(): bool { return $this->get('is_available_for_sale'); }
+    public function hasIsAvailableForSale(): bool { return $this->has('is_available_for_sale'); }
     /** On product list rows, the first non-archived variant by position, then variant_id, that matches all exact variant filters. Without exact variant filters, identifies the first variant whose SKU matches query. Omitted when no variant matches; a product name or description match alone does not set it. Page the product's variants to find all matches. A single variant witness on product list rows only. With exact variant filters, the first variant by position, then variant_id, satisfying every exact predicate. Otherwise, the first variant in that order whose SKU matches query. Use the paginated nested variant list to enumerate every match.
      * @return ProductVariantMatchInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When matched_variant is omitted; use hasMatchedVariant() or valueOrDefault().
      */
     public function getMatchedVariant(): mixed { return $this->get('matched_variant'); }
     public function hasMatchedVariant(): bool { return $this->has('matched_variant'); }
-    /** Identifier of the merchant that owns this resource.
+    /** Identifier of the merchant that owns this resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
      * @return string
      * @throws SdkError When merchant_id is omitted; use hasMerchantId() or valueOrDefault().
      */
@@ -116,7 +116,7 @@ final class ProductInput extends Model {
      */
     public function getModifierSet(): mixed { return $this->get('modifier_set'); }
     public function hasModifierSet(): bool { return $this->has('modifier_set'); }
-    /** Attached modifier set. Send null on update to remove it.
+    /** Attached modifier set. Send null on update to remove it. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR".
      * @return string|null
      * @throws SdkError When modifier_set_id is omitted; use hasModifierSetId() or valueOrDefault().
      */
@@ -140,13 +140,13 @@ final class ProductInput extends Model {
      */
     public function getOptions(): array { return $this->get('options'); }
     public function hasOptions(): bool { return $this->has('options'); }
-    /** Lowest and highest unit prices among active variants. Omitted when there are no active variants or their currencies differ. The lowest and highest unit prices across a product's variants.
+    /** Lowest and highest base unit prices among active variants, before any quantity price breaks. Omitted when there are no active variants or their currencies differ. The lowest and highest unit prices across a product's variants.
      * @return ProductPriceRangeInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When price_range is omitted; use hasPriceRange() or valueOrDefault().
      */
     public function getPriceRange(): mixed { return $this->get('price_range'); }
     public function hasPriceRange(): bool { return $this->has('price_range'); }
-    /** Stable identifier of the product.
+    /** Stable identifier of the product. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
      * @return string
      * @throws SdkError When product_id is omitted; use hasProductId() or valueOrDefault().
      */
@@ -164,7 +164,7 @@ final class ProductInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** When this resource last changed, as an RFC3339 timestamp. Format: date-time.
+    /** When this resource last changed, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */
@@ -176,7 +176,7 @@ final class ProductInput extends Model {
      */
     public function getVariantCount(): int { return $this->get('variant_count'); }
     public function hasVariantCount(): bool { return $this->has('variant_count'); }
-    /** The variants this request created, ordered by `position` and then `variant_id`. Present only on the `POST /v1/products` response. Read variants later with `GET /v1/products/{product_id}/variants`. [] (Value): {@see ProductVariantInput}. A specific purchasable version of a product.
+    /** The product's complete non-archived variants, ordered by `position` and then `variant_id`. Present when `expand=variants` is requested, and on the `POST /v1/products` response. An archived product returns an empty array. [] (Value): {@see ProductVariantInput}. A specific purchasable version of a product.
      * @return list<ProductVariantInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When variants is omitted; use hasVariants() or valueOrDefault().
      */

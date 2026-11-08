@@ -8,10 +8,10 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.orders.deleteCharge(
-  "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV",
-  "och_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "ord_01KEZF7C0054GQKJ142A8X367A",
+  "och_01KEZF7C00XX8AKACP0GHKFWWT",
   {},
   { idempotencyKey: idempotencyKey },
 );
+console.log(result.merchant_id);
 console.log(result.order_id);
-console.log(result.status);

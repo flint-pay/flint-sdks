@@ -1,5 +1,5 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-5.js';
+import type { ClientOptions } from '../declarations/types-6.js';
 import type {
     ModifierGroup,
     ModifierGroupListResponse,
@@ -9,9 +9,9 @@ import type {
     ModifierGroupsGetParams,
     ModifierGroupsListParams,
     ModifierGroupsUpdateParams
-} from '../declarations/types-35.js';
-import type { RequestOptions } from '../declarations/types-48.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-37.js';
+import type { RequestOptions } from '../declarations/types-51.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -35,43 +35,45 @@ export type {
     ModifierGroupsListParams,
     ModifierGroupListResponse,
     ModifierGroupsUpdateParams,
-    MetadataRequestInput,
     MoneyValueInput,
-    MetadataMap,
     Modifier,
     MoneyValue,
     NextAction,
-    MetadataPatchRequestInput,
-    ModifierRequestInput,
-    MetadataPatchRequest
-} from '../declarations/types-35.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { ClientOptions } from '../declarations/types-5.js';
-export type { CreateModifierGroupRequestInput, CreateModifierRequestInput } from '../declarations/types-9.js';
+    ModifierRequestInput
+} from '../declarations/types-37.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+export type { ClientOptions } from '../declarations/types-6.js';
+export type { CreateModifierGroupRequestInput, CreateModifierRequestInput } from '../declarations/types-10.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-36.js';
 export type {
     TextModifierConfigRequestInput,
     TextModifierConfig,
     TextModifierConfigPatchRequestInput,
     TextModifierConfigRequest,
     TextModifierConfigPatchRequest
-} from '../declarations/types-58.js';
+} from '../declarations/types-62.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-12.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
-export type { UpdateModifierGroupRequestInput } from '../declarations/types-59.js';
-export type { CreateInlineModifierGroupRequestInput } from '../declarations/types-8.js';
-export { makeCreateInlineModifierGroupRequest, makeCreateModifierGroupRequest, makeCreateModifierRequest } from '../declarations/types-64.js';
-export { makeMetadataPatchRequest, makeMetadataRequest, makeModifierRequest } from '../declarations/types-69.js';
-export { makeMoneyValue } from '../declarations/types-70.js';
+export type { Credentials } from '../declarations/types-13.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
+export type { UpdateModifierGroupRequestInput } from '../declarations/types-64.js';
+export type { DisputesAcceptParams } from '../declarations/types-22.js';
+export type { CreateInlineModifierGroupRequestInput } from '../declarations/types-9.js';
+export { makeCreateInlineModifierGroupRequest, makeCreateModifierGroupRequest, makeCreateModifierRequest } from '../declarations/types-69.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeModifierRequest } from '../declarations/types-74.js';
+export { makeMoneyValue } from '../declarations/types-75.js';
 export {
     makeTextModifierConfigPatchRequest,
     makeTextModifierConfigRequest,
     makeUpdateModifierGroupRequest
-} from '../declarations/types-74.js';
+} from '../declarations/types-79.js';
 export interface ModifierGroupsResource {
     /**
- * Create modifier group.
+ * Creates a modifier group, a set of choices that customize an item, such as toppings or a custom
+ * message. Send `name`. A list group offers the choices in `modifiers`, with limits on how many
+ * buyers select; a text group takes a text entry instead, and sending `text` makes the group a
+ * text group. Attach groups to products, variants, and bundles through a modifier set. Defaults
+ * must stay within the group's selection limits.
  *
  * `POST /v1/modifier-groups`
  * @see https://developers.withflintpay.com/docs/api/modifiers#createModifierGroup
@@ -83,10 +85,12 @@ export interface ModifierGroupsResource {
  */
     create(params: ModifierGroupsCreateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<ModifierGroup, ModifierGroupResponse>>;
     /**
- * Retire modifier group. Returns the archived resource exactly as GET returns it. Repeating DELETE
- * returns 200 without changing version or updated_at, sending a webhook, or checking references.
- * When expected_version is present, it is compared before the archived replay; a stale version
- * returns 409 VERSION_CONFLICT with current_version.
+ * Archives a modifier group so buyers are no longer offered it, and returns its final state. A
+ * group that a modifier set which isn't archived still uses fails with `RESOURCE_IN_USE`; remove
+ * it from those sets, or archive them, first. Returns the archived resource as a read does.
+ * Deleting an already archived resource returns it again without changing its version or
+ * `updated_at`, sending a webhook, or checking references. A stale `expected_version` fails with
+ * `VERSION_CONFLICT` and the `current_version`, even when the resource is already archived.
  *
  * `DELETE /v1/modifier-groups/{modifier_group_id}`
  * @param modifier_group_id Flint modifier group ID.
@@ -95,19 +99,20 @@ export interface ModifierGroupsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.modifierGroups.delete("mg_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey:
+ * client.modifierGroups.delete("mg_01KEZF7C00XKJJATARG7KDBYM9", {}, { idempotencyKey:
  * idempotencyKey })
  */
     delete(modifier_group_id: InputValue<string>, params?: ModifierGroupsDeleteParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<ModifierGroup, ModifierGroupResponse>>;
     /**
- * Get modifier group.
+ * Returns one modifier group by ID, with its choices, selection limits, and whether it appears on
+ * receipts and in fulfillment details.
  *
  * `GET /v1/modifier-groups/{modifier_group_id}`
  * @param modifier_group_id Flint modifier group ID.
  * @see https://developers.withflintpay.com/docs/api/modifiers#getModifierGroup
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.modifierGroups.get("mg_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.modifierGroups.get("mg_01KEZF7C00XKJJATARG7KDBYM9")
  */
     get(modifier_group_id: InputValue<string>, params?: ModifierGroupsGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<ModifierGroup, ModifierGroupResponse>>;
     /**
@@ -129,9 +134,11 @@ export interface ModifierGroupsResource {
      */
     listItems(params?: ModifierGroupsListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<ModifierGroup>;
     /**
- * Update modifier group. An archived resource returns 409 ACTION_NOT_ALLOWED with reason archived
- * and current_status archived. The error identifies the archived resource; a create under an
- * archived parent identifies that parent.
+ * Applies a sparse update to a modifier group: only the fields you send change. Sending
+ * `modifiers` replaces the whole list; modifiers you leave out are archived, and
+ * `expected_version` is required with it. A stale version fails with `VERSION_CONFLICT`. Fails
+ * with `ACTION_NOT_ALLOWED` and reason `archived` when the resource, or the parent it belongs to,
+ * is archived. The error names the archived resource and its `current_status`.
  *
  * `PATCH /v1/modifier-groups/{modifier_group_id}`
  * @param modifier_group_id Flint modifier group ID.

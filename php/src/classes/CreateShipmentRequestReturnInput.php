@@ -13,13 +13,13 @@ namespace Flint;
 final class CreateShipmentRequestReturnInput extends Model {
     /** @param array{'direction': string, 'external_reference_id'?: string, 'external_system'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'packages'?: list<PackageCreateRequestInput|array<array-key, mixed>|\stdClass>, 'return_id': string, 'return_line_items': list<ReturnShipmentLineItemAllocationRequestInput|array<array-key, mixed>|\stdClass>}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateShipmentRequestReturnInput')); }
-    /** Value enum: "return".
+    /** Whether the shipment sends items to the buyer or returns items to the merchant. Value enum: "return".
      * @return string
      * @throws SdkError When direction is omitted; use hasDirection() or valueOrDefault().
      */
     public function getDirection(): string { return $this->get('direction'); }
     public function hasDirection(): bool { return $this->has('direction'); }
-    /** Caller-owned identifier for this resource in an external system. Requires external_system. External references are not unique. Use Idempotency-Key for retries. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. Requires external_system. External references are not unique. Use Idempotency-Key for retries. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -43,13 +43,13 @@ final class CreateShipmentRequestReturnInput extends Model {
      */
     public function getPackages(): array { return $this->get('packages'); }
     public function hasPackages(): bool { return $this->has('packages'); }
-    /** minLength: 1.
+    /** Return associated with this shipment, when its direction is return. minLength: 1. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
      * @return string
      * @throws SdkError When return_id is omitted; use hasReturnId() or valueOrDefault().
      */
     public function getReturnId(): string { return $this->get('return_id'); }
     public function hasReturnId(): bool { return $this->has('return_id'); }
-    /** minItems: 1. [] (Value): {@see ReturnShipmentLineItemAllocationRequestInput}. A return line and the quantity placed in a return shipment or package.
+    /** Return lines and quantities the shipment carries. minItems: 1. [] (Value): {@see ReturnShipmentLineItemAllocationRequestInput}. A return line and the quantity placed in a return shipment or package.
      * @return list<ReturnShipmentLineItemAllocationRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When return_line_items is omitted; use hasReturnLineItems() or valueOrDefault().
      */

@@ -2,9 +2,11 @@
 
 ## PackageCreatedInstalledMerchantsEventDataObject
 
-A package within a shipment.
+The affected public resource without expansions, client authority fields, or fields computed for an individual caller.
+
+The resource snapshot, without expansions. Webhooks omit no additional fields.
 
 Response model.
 
-Fields, types, descriptions and enum values: [Package](../models/Package.md#package).
+Fields, types, descriptions and enum values: [PackageCreatedMerchantEventDataObject](../models/PackageCreatedMerchantEventDataObject.md#packagecreatedmerchanteventdataobject).
 

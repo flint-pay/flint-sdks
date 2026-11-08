@@ -13,7 +13,7 @@ namespace Flint;
 final class ReturnPolicyAdjustmentProposalInput extends Model {
     /** @param array{'adjustment_type': string, 'based_on_quantity'?: int, 'calculated_amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'calculation_type': string, 'flat_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'percent'?: int|float, 'value_effect': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnPolicyAdjustmentProposalInput')); }
-    /** Value enum: "return_shipping_fee", "restocking_fee", "other_fee", "goodwill_credit", "price_correction", "other".
+    /** What the fee or credit is for. Value enum: "return_shipping_fee", "restocking_fee", "other_fee", "goodwill_credit", "price_correction", "other".
      * @return string
      * @throws SdkError When adjustment_type is omitted; use hasAdjustmentType() or valueOrDefault().
      */
@@ -25,31 +25,31 @@ final class ReturnPolicyAdjustmentProposalInput extends Model {
      */
     public function getBasedOnQuantity(): int { return $this->get('based_on_quantity'); }
     public function hasBasedOnQuantity(): bool { return $this->has('based_on_quantity'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** The amount worked out for the line's returned quantity. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When calculated_amount_money is omitted; use hasCalculatedAmountMoney() or valueOrDefault().
      */
     public function getCalculatedAmountMoney(): mixed { return $this->get('calculated_amount_money'); }
     public function hasCalculatedAmountMoney(): bool { return $this->has('calculated_amount_money'); }
-    /** Value enum: "flat", "percent".
+    /** How the amount is worked out. Value enum: "flat", "percent".
      * @return string
      * @throws SdkError When calculation_type is omitted; use hasCalculationType() or valueOrDefault().
      */
     public function getCalculationType(): string { return $this->get('calculation_type'); }
     public function hasCalculationType(): bool { return $this->has('calculation_type'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Fixed amount proposed for the line, whatever the quantity. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When flat_money is omitted; use hasFlatMoney() or valueOrDefault().
      */
     public function getFlatMoney(): mixed { return $this->get('flat_money'); }
     public function hasFlatMoney(): bool { return $this->has('flat_money'); }
-    /** Format: double. multipleOf: 0.0001.
+    /** Percentage points of the returned units' subtotal, such as `10` for 10%. Format: double. multipleOf: 0.0001.
      * @return int|float
      * @throws SdkError When percent is omitted; use hasPercent() or valueOrDefault().
      */
     public function getPercent(): int|float { return $this->get('percent'); }
     public function hasPercent(): bool { return $this->has('percent'); }
-    /** Value enum: "deduction", "credit".
+    /** Whether the amount reduces or increases what the buyer receives. Value enum: "deduction", "credit".
      * @return string
      * @throws SdkError When value_effect is omitted; use hasValueEffect() or valueOrDefault().
      */

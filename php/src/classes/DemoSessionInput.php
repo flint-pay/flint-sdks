@@ -16,19 +16,19 @@ final class DemoSessionInput extends Model {
      */
     public function getApiKey(): mixed { return $this->get('api_key'); }
     public function hasApiKey(): bool { return $this->has('api_key'); }
-    /** demo_session_id
+    /** Unique identifier for this demo session, prefixed `demo_`. Example: "demo_01KEZF7C001S0675NAS5BPBS0V".
      * @return string
      * @throws SdkError When demo_session_id is omitted; use hasDemoSessionId() or valueOrDefault().
      */
     public function getDemoSessionId(): string { return $this->get('demo_session_id'); }
     public function hasDemoSessionId(): bool { return $this->has('demo_session_id'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When expires_at is omitted; use hasExpiresAt() or valueOrDefault().
      */
     public function getExpiresAt(): string|\DateTimeInterface { return $this->get('expires_at'); }
     public function hasExpiresAt(): bool { return $this->has('expires_at'); }
-    /** sandbox_id
+    /** ID of the sandbox this resource belongs to. Example: "test_01KEZF7C00JC77HTMTB2XHNPE0".
      * @return string
      * @throws SdkError When sandbox_id is omitted; use hasSandboxId() or valueOrDefault().
      */

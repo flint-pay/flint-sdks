@@ -14,5 +14,4 @@ const result = await client.partnerApps.update(
   },
   { idempotencyKey: idempotencyKey },
 );
-console.log(result.client_id);
-console.log(result.partner_app_id);
+console.log(result);

@@ -4,7 +4,7 @@
 
 ### riskPreviews.create
 
-Validates a rule without saving anything. Send mode inline with action and predicate to check a draft; add risk_rule_id to check them as an edit to that rule. Send mode stored_rule with risk_rule_id, and no action or predicate, to check the saved rule as it is. Requires risk.read. Rule content issues return 200 with is_valid false, every issue in order, analysis null, and empty warnings. A valid rule returns analysis and any warnings about how the change would affect evaluation. List reference issues are reported at the list_alias path. A new rule at the active-rule limit gets a risk_rule_limit_reached warning. A malformed request returns 400, and an unknown risk_rule_id returns 404. Proposing a different action or predicate for a Flint default rule returns 409 ACTION_NOT_ALLOWED with reason managed_externally.
+Validates a rule without saving anything. Send mode inline with action and predicate to check a draft; add risk_rule_id to check them as an edit to that rule. Send mode stored_rule with risk_rule_id, to check the saved rule, optionally overriding action or predicate. An omitted or null override keeps the saved value. Requires risk.read. Rule content issues produce a preview with `is_valid: false`, every issue in order, `analysis` null, and empty `warnings`. A valid rule returns analysis and any warnings about how the change would affect evaluation. List reference issues are reported at the list_alias path. A new rule at the active-rule limit gets a risk_rule_limit_reached warning. A malformed request fails with `INVALID_REQUEST`, and an unknown `risk_rule_id` fails with `RESOURCE_NOT_FOUND`. Proposing a different action or predicate for a Flint default rule fails with `ACTION_NOT_ALLOWED` and reason `managed_externally`.
 
 `POST /v1/risk-previews`
 
@@ -14,6 +14,9 @@ Signature: `create(params: RiskPreviewsCreateParams, options?: _SdkWithoutIdempo
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [CreateRiskPreviewRequestInput](../models/CreateRiskPreviewRequest.md#createriskpreviewrequest) | The request body for: Create a risk preview. |
 
 Body model: [CreateRiskPreviewRequestInput](../models/CreateRiskPreviewRequest.md#createriskpreviewrequest).
@@ -22,10 +25,10 @@ Body model: [CreateRiskPreviewRequestInput](../models/CreateRiskPreviewRequest.m
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `action` | Optional | string | Values: `"allow"`, `"block"`, `"review"`, `"require_3ds"`. |
+| `action` | Optional | string or null | Action to preview. In stored_rule mode, omitted or null keeps the saved action. Values: `"allow"`, `"block"`, `"review"`, `"require_3ds"`, `null`. |
 | `mode` | Required | string | What to check: a rule in this request, or a saved rule. Values: `"inline"`, `"stored_rule"`. |
-| `predicate` | Optional | [RiskPredicateNodeInput](../models/RiskPredicateNode.md#riskpredicatenode) | A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not` group of other nodes. |
-| `risk_rule_id` | Optional | string | minLength: `1`. |
+| `predicate` | Optional | [RiskPredicateNodeRequestInput](../models/RiskPredicateNodeRequest.md#riskpredicatenoderequest) or null | Predicate to preview. In stored_rule mode, omitted or null keeps the saved predicate. |
+| `risk_rule_id` | Optional | string | ID of the saved rule to check. minLength: `1`. |
 
 #### riskPreviews.create with `mode: "inline"`
 
@@ -52,7 +55,6 @@ Returned payload: [RiskPreview](../models/RiskPreview.md#riskpreview).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |

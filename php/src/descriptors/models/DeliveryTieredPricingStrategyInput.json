@@ -1,1 +1,1 @@
-{"shared":"DeliveryTieredPricingStrategy","dependencies":["DeliveryPricingTierBand","DeliveryTieredPricingStrategy","MoneyValue","SharedCodec513","SharedCodec514","SharedCodec515"]}
+{"shared":"DeliveryTieredPricingStrategy","dependencies":["DeliveryPricingTierBand","DeliveryTieredPricingStrategy","MoneyValue","SharedCodec593","SharedCodec594","SharedCodec595"]}

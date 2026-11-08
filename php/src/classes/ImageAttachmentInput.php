@@ -18,7 +18,7 @@ final class ImageAttachmentInput extends Model {
      */
     public function getAlt(): string { return $this->get('alt'); }
     public function hasAlt(): bool { return $this->has('alt'); }
-    /** Identifier of the file attached as this image.
+    /** Identifier of the file attached as this image. Example: "file_01KEZF7C00BZ179303GY9R0P03".
      * @return string
      * @throws SdkError When file_id is omitted; use hasFileId() or valueOrDefault().
      */

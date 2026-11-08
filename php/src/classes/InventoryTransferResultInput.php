@@ -14,7 +14,7 @@ final class InventoryTransferResultInput extends Model {
      */
     public function getInventoryLevels(): array { return $this->get('inventory_levels'); }
     public function hasInventoryLevels(): bool { return $this->has('inventory_levels'); }
-    /** Stock moving between locations.
+    /** The inventory transfer. Stock moving between locations.
      * @return InventoryTransferInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When inventory_transfer is omitted; use hasInventoryTransfer() or valueOrDefault().
      */

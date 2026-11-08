@@ -9,7 +9,7 @@ namespace Flint;
  * @property-read string $state
  * Presence-aware input; omitted fields throw when accessed. */
 final class TaxJurisdictionInput extends Model {
-    /** @param array{'code': string, 'country': string, 'level': string, 'name': string, 'state': string, ...}|object $values */
+    /** @param array{'code': string, 'country': string, 'level': string, 'name': string, 'state'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('TaxJurisdictionInput')); }
     /** Stable opaque Flint jurisdiction key used for equality and report grouping. minLength: 1.
      * @return string
@@ -23,19 +23,19 @@ final class TaxJurisdictionInput extends Model {
      */
     public function getCountry(): string { return $this->get('country'); }
     public function hasCountry(): bool { return $this->has('country'); }
-    /** Value enum: "state", "county", "city", "district".
+    /** The level of government that imposes the tax. Value enum: "state", "county", "city", "district", "country", "province".
      * @return string
      * @throws SdkError When level is omitted; use hasLevel() or valueOrDefault().
      */
     public function getLevel(): string { return $this->get('level'); }
     public function hasLevel(): bool { return $this->has('level'); }
-    /** minLength: 1.
+    /** Name of the jurisdiction, up to 200 characters. minLength: 1.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** minLength: 1.
+    /** Two-letter US state at every level. Elsewhere, the ISO 3166-2 suffix (1 to 3 uppercase letters or digits), required below country level and omitted at country level. minLength: 1.
      * @return string
      * @throws SdkError When state is omitted; use hasState() or valueOrDefault().
      */

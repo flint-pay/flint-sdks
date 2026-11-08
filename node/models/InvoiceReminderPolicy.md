@@ -10,5 +10,5 @@ Rules for automatic invoice reminders, each sent a set number of days before or 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `rules` | Required | Array of [InvoiceReminderRule](../models/InvoiceReminderRule.md#invoicereminderrule) | maxItems: `20`. |
+| `rules` | Required | Array of [InvoiceReminderRule](../models/InvoiceReminderRule.md#invoicereminderrule) | Reminder dates relative to the invoice due date. At most 20 rules; [] disables scheduled reminders. maxItems: `20`. |
 

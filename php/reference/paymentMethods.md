@@ -14,13 +14,19 @@ Signature: `create(array|Model $params, ?RequestOptions $options = null)`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [SavePaymentMethodRequestInput](../models/SavePaymentMethodRequestInput.md#savepaymentmethodrequestinput) | The request body for: Create a payment method. |
 
 Body model: [SavePaymentMethodRequestInput](../models/SavePaymentMethodRequestInput.md#savepaymentmethodrequestinput).
 
 #### paymentMethods.create body fields
 
-Field definitions: [shared fields](../models/SavePaymentMethodRequestInput.md#savepaymentmethodrequestinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `customer_id` | Required | string | The customer to save the payment method for. minLength: `1`. |
+| `type` | Optional | string | Kind of payment method to save. card is the only value and the default. Values: `"card"`. |
 
 #### Response
 
@@ -34,7 +40,6 @@ Returned payload: [PaymentMethodWithSetup](../models/PaymentMethodWithSetup.md#p
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -82,10 +87,13 @@ Signature: `delete(string|Model $payment_method_id, array|Model|null $params = n
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `payment_method_id` | Required | string | Flint payment method ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
-Returned payload: [PaymentMethod](../models/PaymentMethod.md#paymentmethod).
+Returned payload: [PaymentMethod](../models/PaymentMethodActivatedMerchantEventDataObject.md#paymentmethodactivatedmerchanteventdataobject).
 
 #### Errors
 
@@ -96,7 +104,6 @@ Returned payload: [PaymentMethod](../models/PaymentMethod.md#paymentmethod).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 502 | ServerError |
@@ -121,7 +128,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->paymentMethods->delete('pm_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->paymentMethods->delete('pm_01KEZF7C0034B248TXXE4NXYFZ', [], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/paymentMethods-delete.php)
@@ -139,11 +146,14 @@ Signature: `get(string|Model $payment_method_id, array|Model|null $params = null
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `payment_method_id` | Required | string | Flint payment method ID. |
-| `expand` | Optional | Array of string or string | Supported expansions: customer. Expansion requires payments.payment_methods.read plus customers.read. Limits: at most 10 unique expand paths per request. Pass expand=customer. Items values: `"customer"`. Values: `"customer"`. |
+| `expand` | Optional | Array of string or string | Include related objects in the response. Supported expansions: customer. Expansion requires payments.payment_methods.read plus customers.read. Limits: at most 10 unique expand paths per request. Items values: `"customer"`. Values: `"customer"`. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
-Returned payload: [PaymentMethod](../models/PaymentMethod.md#paymentmethod).
+Returned payload: [PaymentMethod](../models/PaymentMethodActivatedMerchantEventDataObject.md#paymentmethodactivatedmerchanteventdataobject).
 
 #### Errors
 
@@ -154,7 +164,6 @@ Returned payload: [PaymentMethod](../models/PaymentMethod.md#paymentmethod).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -172,7 +181,7 @@ Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#a
 #### Example
 
 ```php
-$result = $client->paymentMethods->get('pm_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
+$result = $client->paymentMethods->get('pm_01KEZF7C0034B248TXXE4NXYFZ', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/paymentMethods-get.php)
@@ -191,13 +200,16 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 | --- | --- | --- | --- |
 | `customer_id` | Optional | string | Optional Flint customer ID filter. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
-| `type` | Optional | Array of string or string | Filter by payment method type. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"card"`. Values: `"card"`. |
-| `status` | Optional | Array of string or string | Filter by status. Repeat the parameter or send comma-separated values to match any of several. Omitted, the list leaves out archived rows; name archived to include them. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"pending"`, `"expired"`, `"archived"`, `"failed"`. Values: `"active"`, `"pending"`, `"expired"`, `"archived"`, `"failed"`. |
-| `usage` | Optional | Array of string or string | Filter by usage: off_session payment methods can be charged without the buyer; on_session ones were saved by buyers for faster checkout. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"on_session"`, `"off_session"`. Values: `"on_session"`, `"off_session"`. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
+| `type` | Optional | Array of string or string | Filter by payment method type. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"card"`. Values: `"card"`. |
+| `status` | Optional | Array of string or string | Filter by status. Omitted, the list leaves out archived rows; name archived to include them. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"pending"`, `"expired"`, `"archived"`, `"failed"`. Values: `"active"`, `"pending"`, `"expired"`, `"archived"`, `"failed"`. |
+| `usage` | Optional | Array of string or string | Filter by usage: off_session payment methods can be charged without the buyer; on_session ones were saved by buyers for faster checkout. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"on_session"`, `"off_session"`. Values: `"on_session"`, `"off_session"`. |
 | `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
 | `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
-| `expand` | Optional | Array of string or string | Supported expansions: customer. Include the requested related resources using scoped batch reads for this page. Each relationship requires its existing target read scopes. Expansion changes the representation without changing pagination tokens. Limits: at most 10 unique expand paths per request. Pass expand=customer. Items values: `"customer"`. Values: `"customer"`. |
+| `expand` | Optional | Array of string or string | Include related objects in the response. Supported expansions: customer. Include the requested related resources using scoped batch reads for this page. Each relationship requires its existing target read scopes. Expansion changes the representation without changing pagination tokens. Limits: at most 10 unique expand paths per request. Items values: `"customer"`. Values: `"customer"`. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -210,8 +222,8 @@ Returned payload: [PaymentMethodListResponse](../models/PaymentMethodListRespons
 | 400 | InvalidRequestError |
 | 401 | AuthenticationError |
 | 403 | PermissionError |
+| 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |

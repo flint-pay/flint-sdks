@@ -1,1 +1,1 @@
-{"shared":"ReturnWindow","phpRepresentation":{"kind":"record","fields":{"duration_seconds":{"kind":"value","type":"int"},"starts_at_event":{"kind":"value","type":"string"}}},"dependencies":["ReturnWindow"]}
+{"shared":"ReturnWindowRequest","phpRepresentation":{"kind":"record","fields":{"duration_seconds":{"kind":"value","type":"int"},"starts_at_event":{"kind":"value","type":"string"}}},"dependencies":["ReturnWindowRequest"]}

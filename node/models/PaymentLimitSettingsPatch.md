@@ -17,8 +17,8 @@ Changes to a merchant's payment amount limits. Each map replaces the existing on
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
-| `currency` | Required | string | minLength: `1`. Values: `"USD"`. |
+| `amount` | Required | integer string | The limit in the currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
+| `currency` | Required | string | Currency of the limit. Only USD is accepted. Uses ISO 4217 currency codes. minLength: `1`. Values: `"USD"`. |
 
 ### PaymentLimitSettingsPatch.min_amounts{}
 

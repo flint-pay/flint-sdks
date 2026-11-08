@@ -16,7 +16,7 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->disputes->simulate('du_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
+$result = $client->disputes->simulate('du_01KEZF7C00DEJSF1KTXRT4BBQD', [
   'outcome' => 'won',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->dispute_id . PHP_EOL;

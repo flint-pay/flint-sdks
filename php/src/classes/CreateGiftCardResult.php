@@ -22,22 +22,22 @@ final class CreateGiftCardResult extends Model {
      */
     public function getCodeRecoveryExpiresAt(): ?string { return $this->get('code_recovery_expires_at'); }
     public function hasCodeRecoveryExpiresAt(): bool { return $this->has('code_recovery_expires_at'); }
-    /** Merchant-issued purchased gift card. Posted balance includes reserved value; available value is balance minus reservations. Frozen value remains part of outstanding liability. Gift cards are independent resources and cannot be transferred across merchants or currencies.
+    /** The gift card after the command. Merchant-issued purchased gift card. Posted balance includes reserved value; available value is balance minus reservations. Frozen value remains part of outstanding liability. Gift cards are independent resources and cannot be transferred across merchants or currencies.
      * @return GiftCard
      */
     public function getGiftCard(): GiftCard { return $this->get('gift_card'); }
     public function hasGiftCard(): bool { return $this->has('gift_card'); }
-    /** Independent funding resource. Value and consideration are separate. External funding and import provenance are merchant-attested; no payment is collected by recording them. Replacement refund lots retain original funding provenance and do not represent new paid funding.
+    /** The load the command created. Top-level child of a gift card. Value and consideration are separate. External funding and import provenance are merchant-attested; no payment is collected by recording them. Replacement refund lots retain original funding provenance and do not represent new paid funding.
      * @return ?GiftCardLoad
      */
     public function getGiftCardLoad(): ?GiftCardLoad { return $this->get('gift_card_load'); }
     public function hasGiftCardLoad(): bool { return $this->has('gift_card_load'); }
-    /** A message sent to a gift card recipient.
+    /** The notification the command created because the request included `notification`. Omitted otherwise. A message sent to a gift card recipient.
      * @return ?GiftCardNotification
      */
     public function getGiftCardNotification(): ?GiftCardNotification { return $this->get('gift_card_notification'); }
     public function hasGiftCardNotification(): bool { return $this->has('gift_card_notification'); }
-    /**  [] (Value): {@see GiftCardTransaction}. Immutable posted financial movement with signed amount, per-card sequence, merchant sequence and balance snapshots. Corrections create new transactions.
+    /** The transactions the command posted to the card. [] (Value): {@see GiftCardTransaction}. Immutable posted financial movement with signed amount, per-card sequence, merchant sequence and balance snapshots. Corrections create new transactions.
      * @return list<GiftCardTransaction>
      */
     public function getGiftCardTransactions(): array { return $this->get('gift_card_transactions'); }

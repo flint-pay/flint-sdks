@@ -2,7 +2,7 @@
 
 ## FeedbackReportingClient
 
-The client that submits a feedback report, with its name, platform, version, and schema version.
+
 
 
 
@@ -14,4 +14,16 @@ The client that submits a feedback report, with its name, platform, version, and
 | `platform` | Optional | string | Platform on which the submitting client runs. Values: `"macos"`, `"linux"`, `"windows"`, `"ios"`, `"android"`, `"web"`, `"other"`. |
 | `schema_version` | Optional | string | Feedback schema version used by the submitting tool. Limited to 64 characters (Unicode code points), counted before whitespace and line-ending normalization. minLength: `1`. maxLength: `64`. |
 | `version` | Optional | string | Version of the submitting tool. Limited to 64 characters (Unicode code points), counted before whitespace and line-ending normalization. minLength: `1`. maxLength: `64`. |
+
+### FeedbackReportingClient variant 1
+
+anyOf variant 1: Declared schema FeedbackReportingClient. The client that submits a feedback report, with its name, platform, version, and schema version..
+
+No additional constraints.
+
+### FeedbackReportingClient variant 2
+
+anyOf variant 2: Declared schema FeedbackReportingClientRequest. The client that submits a feedback report, with its name, platform, version, and schema version..
+
+No additional constraints.
 

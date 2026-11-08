@@ -18,7 +18,7 @@ namespace Flint;
 final class CustomDomainUpdatedEventDataObject extends Model {
     /** @param array{'active_payment_attempt_count': int|null, 'created_at': string, 'custom_domain_id': string, 'dns_records': list<mixed>, 'hostname': string, 'last_checked_at': string|null, 'payment_method_domain_id': string|null, 'redirect_expires_at': string|null, 'status': string, 'status_reason': string|null, 'type': string, 'updated_at': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomDomainUpdatedEventDataObject')); }
-    /** Payment attempts in progress on this checkout hostname; null for customer account domains. Format: int64.
+    /** Payment attempts in progress on this checkout hostname. `null` when `type` is `customer_account`. Format: int64.
      * @return int|null
      */
     public function getActivePaymentAttemptCount(): int|null { return $this->get('active_payment_attempt_count'); }
@@ -43,17 +43,17 @@ final class CustomDomainUpdatedEventDataObject extends Model {
      */
     public function getHostname(): string { return $this->get('hostname'); }
     public function hasHostname(): bool { return $this->has('hostname'); }
-    /** When the domain was last checked, in RFC3339 format; null when no check time is available. Format: date-time.
+    /** When the domain was last checked, in RFC3339 format; `null` when no check time is available. Format: date-time.
      * @return string|null
      */
     public function getLastCheckedAt(): string|null { return $this->get('last_checked_at'); }
     public function hasLastCheckedAt(): bool { return $this->has('last_checked_at'); }
-    /** Payment method domain associated with this hostname, or null when none is reported.
+    /** Payment method domain associated with this hostname. `null` when none is reported.
      * @return string|null
      */
     public function getPaymentMethodDomainId(): string|null { return $this->get('payment_method_domain_id'); }
     public function hasPaymentMethodDomainId(): bool { return $this->has('payment_method_domain_id'); }
-    /** End of the redirect window for an archived hostname. After archive, dns_records lists records you can delete. Format: date-time.
+    /** End of the redirect window for an archived hostname. After archive, dns_records lists records you can delete. `null` when the hostname isn't archived. Format: date-time.
      * @return string|null
      */
     public function getRedirectExpiresAt(): string|null { return $this->get('redirect_expires_at'); }
@@ -63,7 +63,7 @@ final class CustomDomainUpdatedEventDataObject extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Machine-readable detail for the current status, or null when no reason is reported. Value enum: "dns_record_missing", "dns_record_mismatch", "ownership_record_missing", "ownership_record_mismatch", "caa_record_blocks_certificate", "proxied_by_another_provider", "certificate_pending", "custom_domains_inactive", "other", null.
+    /** Machine-readable detail for the current status. `null` when no reason is reported, including for active and archived domains. Value enum: "dns_record_missing", "dns_record_mismatch", "ownership_record_missing", "ownership_record_mismatch", "caa_record_blocks_certificate", "proxied_by_another_provider", "certificate_pending", "custom_domains_inactive", "other", null.
      * @return string|null
      */
     public function getStatusReason(): string|null { return $this->get('status_reason'); }

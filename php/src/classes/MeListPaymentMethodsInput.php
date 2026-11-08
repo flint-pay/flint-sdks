@@ -21,25 +21,25 @@ final class MeListPaymentMethodsInput extends Model {
      */
     public function getPageSize(): int { return $this->get('page_size'); }
     public function hasPageSize(): bool { return $this->has('page_size'); }
-    /** Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error.
+    /** Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error.
      * @return string
      * @throws SdkError When page_token is omitted; use hasPageToken() or valueOrDefault().
      */
     public function getPageToken(): string { return $this->get('page_token'); }
     public function hasPageToken(): bool { return $this->has('page_token'); }
-    /** Filter by payment method type. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "card". Value enum: "card". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "card". anyOf[1][] (Value): string.  Value enum: "card". anyOf[2] (Value): string.  Value enum: "card".
+    /** Filter by payment method type. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "card". Value enum: "card". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "card". anyOf[1][] (Value): string.  Value enum: "card". anyOf[2] (Value): string.  Value enum: "card".
      * @return list<string>|string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */
     public function getType(): mixed { return $this->get('type'); }
     public function hasType(): bool { return $this->has('type'); }
-    /** Filter by status. Repeat the parameter or send comma-separated values to match any of several. Omitted, the list leaves out archived rows; name archived to include them. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "active", "pending", "expired", "archived", "failed". Value enum: "active", "pending", "expired", "archived", "failed". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "active", "pending", "expired", "archived", "failed". anyOf[1][] (Value): string.  Value enum: "active", "pending", "expired", "archived", "failed". anyOf[2] (Value): string.  Value enum: "active", "pending", "expired", "archived", "failed".
+    /** Filter by status. Omitted, the list leaves out archived rows; name archived to include them. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "active", "pending", "expired", "archived", "failed". Value enum: "active", "pending", "expired", "archived", "failed". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "active", "pending", "expired", "archived", "failed". anyOf[1][] (Value): string.  Value enum: "active", "pending", "expired", "archived", "failed". anyOf[2] (Value): string.  Value enum: "active", "pending", "expired", "archived", "failed".
      * @return list<string>|string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
     public function getStatus(): mixed { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Filter by usage: off_session payment methods can be charged without the buyer; on_session ones were saved by buyers for faster checkout. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "on_session", "off_session". Value enum: "on_session", "off_session". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "on_session", "off_session". anyOf[1][] (Value): string.  Value enum: "on_session", "off_session". anyOf[2] (Value): string.  Value enum: "on_session", "off_session".
+    /** Filter by usage: off_session payment methods can be charged without the buyer; on_session ones were saved by buyers for faster checkout. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "on_session", "off_session". Value enum: "on_session", "off_session". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "on_session", "off_session". anyOf[1][] (Value): string.  Value enum: "on_session", "off_session". anyOf[2] (Value): string.  Value enum: "on_session", "off_session".
      * @return list<string>|string
      * @throws SdkError When usage is omitted; use hasUsage() or valueOrDefault().
      */

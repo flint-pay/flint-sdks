@@ -9,17 +9,17 @@ namespace Flint;
 final class PartnerAppWithSecretResponse extends Model {
     /** @param array{'data': mixed, 'meta'?: mixed, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PartnerAppWithSecretResponse')); }
-    /** A partner app returned with its client secret, as in the response to creating a partner app. An application that merchants can authorize to access their accounts.
+    /** Resource, collection, or operation result returned by this request. A partner app returned with a one-time client secret when create or PATCH issues one. An application that merchants can authorize to access their accounts.
      * @return PartnerAppWithSecret
      */
     public function getData(): PartnerAppWithSecret { return $this->get('data'); }
     public function hasData(): bool { return $this->has('data'); }
-    /** Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+    /** Additional information about this response. Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
      * @return ?ResponseMeta
      */
     public function getMeta(): ?ResponseMeta { return $this->get('meta'); }
     public function hasMeta(): bool { return $this->has('meta'); }
-    /** maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$.
+    /** Identifier of this API request, used to correlate logs and support requests. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$.
      * @return string
      */
     public function getRequestId(): string { return $this->get('request_id'); }

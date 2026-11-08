@@ -10,6 +10,6 @@ A postal code, with an optional country, you supply as an order's tax location.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `country` | Optional | string | ISO 3166-1 alpha-2 country code. minLength: `2`. maxLength: `2`. pattern: `^[A-Z]{2}$`. Default: `"US"`. Example: `"US"`. Values: `"US"`. |
-| `postal_code` | Required | string | minLength: `1`. pattern: `\S`. |
+| `country` | Optional | string | ISO 3166-1 alpha-2 country code. External tax accepts any ISO country; automatic tax supports only CA, US. minLength: `2`. maxLength: `2`. pattern: `^[A-Z]{2}$`. Default: `"US"`. Example: `"US"`. |
+| `postal_code` | Required | string | Postal code. minLength: `1`. pattern: `\S`. |
 

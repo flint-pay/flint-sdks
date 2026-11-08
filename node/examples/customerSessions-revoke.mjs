@@ -8,7 +8,7 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.customerSessions.revoke(
-  "cses_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "cses_01KEZF7C00FBVRP25FZTW7KWZV",
   {},
   { idempotencyKey: idempotencyKey },
 );

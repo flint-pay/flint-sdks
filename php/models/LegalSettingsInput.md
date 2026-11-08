@@ -8,9 +8,9 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `contract_url` | Optional | string |  |
-| `refund_policy_url` | Optional | string |  |
-| `require_terms_of_service` | Optional | boolean |  |
-| `shipping_policy_url` | Optional | string |  |
-| `terms_of_service_url` | Optional | string |  |
+| `contract_url` | Optional | string | An `https://` URL of at most 2,048 bytes. |
+| `refund_policy_url` | Optional | string | An `https://` URL of at most 2,048 bytes. |
+| `require_terms_of_service` | Optional | boolean | Whether the buyer must accept the terms of service before paying. |
+| `shipping_policy_url` | Optional | string | An `https://` URL of at most 2,048 bytes. |
+| `terms_of_service_url` | Optional | string | An `https://` URL of at most 2,048 bytes. |
 

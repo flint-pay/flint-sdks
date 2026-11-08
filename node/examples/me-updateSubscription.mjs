@@ -18,4 +18,4 @@ const result = await client.me.updateSubscription(
   { idempotencyKey: idempotencyKey },
 );
 console.log(result.customer_id);
-console.log(result.payment_method_id);
+console.log(result.merchant_id);

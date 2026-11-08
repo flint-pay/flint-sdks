@@ -14,13 +14,16 @@ Signature: `create(array|Model $params, ?RequestOptions $options = null)`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [CreateRiskRuleRequestInput](../models/CreateRiskRuleRequestInput.md#createriskrulerequestinput) | The request body for: Create a risk rule. |
 
 Body model: [CreateRiskRuleRequestInput](../models/CreateRiskRuleRequestInput.md#createriskrulerequestinput).
 
 #### riskRules.create body fields
 
-Field definitions: [shared fields](../models/CreateRiskRuleRequestInput.md#createriskrulerequestinput). Models: [RiskPredicateNodeInput](../models/RiskPredicateNodeInput.md#riskpredicatenodeinput).
+Field definitions: [shared fields](../models/CreateRiskRuleRequestInput.md#createriskrulerequestinput). Models: [RiskPredicateNodeRequestInput](../models/RiskPredicateNodeRequestInput.md#riskpredicatenoderequestinput).
 
 #### Response
 
@@ -35,7 +38,6 @@ Returned payload: [RiskRule](../models/RiskRule.md#riskrule).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -87,6 +89,9 @@ Signature: `delete(string|Model $risk_rule_id, array|Model|null $params = null, 
 | --- | --- | --- | --- |
 | `risk_rule_id` | Required | string | Flint risk rule ID. |
 | `expected_version` | Optional | integer | Optional risk rule version last read by the caller. Format: `int64`. minimum: `1`. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -101,7 +106,6 @@ Returned payload: [RiskRule](../models/RiskRule.md#riskrule).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -124,7 +128,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->riskRules->delete('rule_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->riskRules->delete('rule_01KEZF7C00FWGAQJXXA8CRA319', [], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/riskRules-delete.php)
@@ -142,6 +146,9 @@ Signature: `get(string|Model $risk_rule_id, array|Model|null $params = null, ?Re
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `risk_rule_id` | Required | string | Flint risk rule ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -155,7 +162,6 @@ Returned payload: [RiskRule](../models/RiskRule.md#riskrule).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -173,7 +179,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```php
-$result = $client->riskRules->get('rule_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
+$result = $client->riskRules->get('rule_01KEZF7C00FWGAQJXXA8CRA319', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/riskRules-get.php)
@@ -188,7 +194,7 @@ Signature: `getAttributes(array|Model|null $params = null, ?RequestOptions $opti
 
 #### Request fields
 
-No request fields.
+Field definitions: [shared fields](authContext.md#request-fields).
 
 #### Response
 
@@ -202,7 +208,6 @@ Returned payload: [RiskAttributeRegistry](../models/RiskAttributeRegistry.md#ris
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -237,9 +242,12 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `status` | Optional | Array of string or string | Filter by status. Repeat the parameter or send comma-separated values to match any of several. Omitted, the list leaves out archived rows; name archived to include them. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"inactive"`, `"archived"`. Values: `"active"`, `"inactive"`, `"archived"`. |
+| `status` | Optional | Array of string or string | Filter by status. Omitted, the list leaves out archived rows; name archived to include them. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"inactive"`, `"archived"`. Values: `"active"`, `"inactive"`, `"archived"`. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -253,7 +261,6 @@ Returned payload: [RiskRuleListResponse](../models/RiskRuleListResponse.md#riskr
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -291,6 +298,9 @@ Signature: `update(string|Model $risk_rule_id, array|Model $params, ?RequestOpti
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `risk_rule_id` | Required | string | Flint risk rule ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [UpdateRiskRuleRequestInput](../models/UpdateRiskRuleRequestInput.md#updateriskrulerequestinput) | The request body for: Update a risk rule. |
 
 Body model: [UpdateRiskRuleRequestInput](../models/UpdateRiskRuleRequestInput.md#updateriskrulerequestinput).
@@ -299,11 +309,11 @@ Body model: [UpdateRiskRuleRequestInput](../models/UpdateRiskRuleRequestInput.md
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `action` | Optional | string | Values: `"allow"`, `"block"`, `"review"`, `"require_3ds"`. |
-| `description` | Optional | string | minLength: `1`. |
+| `action` | Optional | string | What Flint does with a payment the rule matches. Values: `"allow"`, `"block"`, `"review"`, `"require_3ds"`. |
+| `description` | Optional | string | Your note on what the rule is for. Limited to 512 characters (Unicode code points). Leading and trailing whitespace is trimmed. minLength: `1`. maxLength: `512`. |
 | `expected_version` | Optional | integer | Optional risk rule version last read by the caller. Format: `int64`. minimum: `1`. |
-| `predicate` | Optional | [RiskPredicateNodeInput](../models/RiskPredicateNodeInput.md#riskpredicatenodeinput) | A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not` group of other nodes. |
-| `status` | Optional | string | Values: `"active"`, `"inactive"`. |
+| `predicate` | Optional | [RiskPredicateNodeRequestInput](../models/RiskPredicateNodeRequestInput.md#riskpredicatenoderequestinput) | The condition a payment must meet for the rule to match. A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not` group of other nodes. |
+| `status` | Optional | string | Whether the rule runs. Values: `"active"`, `"inactive"`. |
 
 #### riskRules.update: variant 1
 
@@ -311,11 +321,11 @@ Body model: [UpdateRiskRuleRequestInput](../models/UpdateRiskRuleRequestInput.md
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `action` | Required | string | Values: `"allow"`, `"block"`, `"review"`, `"require_3ds"`. |
-| `description` | Optional | string | minLength: `1`. |
+| `action` | Required | string | What Flint does with a payment the rule matches. Values: `"allow"`, `"block"`, `"review"`, `"require_3ds"`. |
+| `description` | Optional | string | Your note on what the rule is for. Limited to 512 characters (Unicode code points). Leading and trailing whitespace is trimmed. minLength: `1`. maxLength: `512`. |
 | `expected_version` | Optional | integer | Optional risk rule version last read by the caller. Format: `int64`. minimum: `1`. |
-| `predicate` | Optional | [RiskPredicateNodeInput](../models/RiskPredicateNodeInput.md#riskpredicatenodeinput) | A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not` group of other nodes. |
-| `status` | Optional | string | Values: `"active"`, `"inactive"`. |
+| `predicate` | Optional | [RiskPredicateNodeRequestInput](../models/RiskPredicateNodeRequestInput.md#riskpredicatenoderequestinput) | The condition a payment must meet for the rule to match. A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not` group of other nodes. |
+| `status` | Optional | string | Whether the rule runs. Values: `"active"`, `"inactive"`. |
 
 #### riskRules.update: variant 2
 
@@ -323,11 +333,11 @@ Body model: [UpdateRiskRuleRequestInput](../models/UpdateRiskRuleRequestInput.md
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `action` | Optional | string | Values: `"allow"`, `"block"`, `"review"`, `"require_3ds"`. |
-| `description` | Optional | string | minLength: `1`. |
+| `action` | Optional | string | What Flint does with a payment the rule matches. Values: `"allow"`, `"block"`, `"review"`, `"require_3ds"`. |
+| `description` | Optional | string | Your note on what the rule is for. Limited to 512 characters (Unicode code points). Leading and trailing whitespace is trimmed. minLength: `1`. maxLength: `512`. |
 | `expected_version` | Optional | integer | Optional risk rule version last read by the caller. Format: `int64`. minimum: `1`. |
-| `predicate` | Required | [RiskPredicateNodeInput](../models/RiskPredicateNodeInput.md#riskpredicatenodeinput) | A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not` group of other nodes. |
-| `status` | Optional | string | Values: `"active"`, `"inactive"`. |
+| `predicate` | Required | [RiskPredicateNodeRequestInput](../models/RiskPredicateNodeRequestInput.md#riskpredicatenoderequestinput) | The condition a payment must meet for the rule to match. A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not` group of other nodes. |
+| `status` | Optional | string | Whether the rule runs. Values: `"active"`, `"inactive"`. |
 
 #### riskRules.update: variant 3
 
@@ -335,11 +345,11 @@ Body model: [UpdateRiskRuleRequestInput](../models/UpdateRiskRuleRequestInput.md
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `action` | Optional | string | Values: `"allow"`, `"block"`, `"review"`, `"require_3ds"`. |
-| `description` | Required | string | minLength: `1`. |
+| `action` | Optional | string | What Flint does with a payment the rule matches. Values: `"allow"`, `"block"`, `"review"`, `"require_3ds"`. |
+| `description` | Required | string | Your note on what the rule is for. Limited to 512 characters (Unicode code points). Leading and trailing whitespace is trimmed. minLength: `1`. maxLength: `512`. |
 | `expected_version` | Optional | integer | Optional risk rule version last read by the caller. Format: `int64`. minimum: `1`. |
-| `predicate` | Optional | [RiskPredicateNodeInput](../models/RiskPredicateNodeInput.md#riskpredicatenodeinput) | A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not` group of other nodes. |
-| `status` | Optional | string | Values: `"active"`, `"inactive"`. |
+| `predicate` | Optional | [RiskPredicateNodeRequestInput](../models/RiskPredicateNodeRequestInput.md#riskpredicatenoderequestinput) | The condition a payment must meet for the rule to match. A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not` group of other nodes. |
+| `status` | Optional | string | Whether the rule runs. Values: `"active"`, `"inactive"`. |
 
 #### riskRules.update: variant 4
 
@@ -347,11 +357,11 @@ Body model: [UpdateRiskRuleRequestInput](../models/UpdateRiskRuleRequestInput.md
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `action` | Optional | string | Values: `"allow"`, `"block"`, `"review"`, `"require_3ds"`. |
-| `description` | Optional | string | minLength: `1`. |
+| `action` | Optional | string | What Flint does with a payment the rule matches. Values: `"allow"`, `"block"`, `"review"`, `"require_3ds"`. |
+| `description` | Optional | string | Your note on what the rule is for. Limited to 512 characters (Unicode code points). Leading and trailing whitespace is trimmed. minLength: `1`. maxLength: `512`. |
 | `expected_version` | Optional | integer | Optional risk rule version last read by the caller. Format: `int64`. minimum: `1`. |
-| `predicate` | Optional | [RiskPredicateNodeInput](../models/RiskPredicateNodeInput.md#riskpredicatenodeinput) | A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not` group of other nodes. |
-| `status` | Required | string | Values: `"active"`, `"inactive"`. |
+| `predicate` | Optional | [RiskPredicateNodeRequestInput](../models/RiskPredicateNodeRequestInput.md#riskpredicatenoderequestinput) | The condition a payment must meet for the rule to match. A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not` group of other nodes. |
+| `status` | Required | string | Whether the rule runs. Values: `"active"`, `"inactive"`. |
 
 #### Response
 
@@ -366,7 +376,6 @@ Returned payload: [RiskRule](../models/RiskRule.md#riskrule).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |

@@ -13,7 +13,7 @@ namespace Flint;
  * @property-read string $source_external_reference_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class GiftCardLoadsListParams extends Model {
-    /** @param array{'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'funding_source_type'?: list<string>|string, 'gift_card_id'?: string, 'idempotency_key'?: string, 'order_id'?: string, 'page_size'?: int, 'page_token'?: string, 'source_external_reference_id'?: string}|object $values */
+    /** @param array{'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'funding_source_type'?: list<string>|string, 'gift_card_id'?: string, 'idempotency_key'?: string, 'order_id'?: string, 'page_size'?: int, 'page_token'?: string, 'source_external_reference_id'?: string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardLoadsListParams')); }
     /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z".
      * @return string|\DateTimeInterface
@@ -27,13 +27,13 @@ final class GiftCardLoadsListParams extends Model {
      */
     public function getCreatedBefore(): string|\DateTimeInterface { return $this->get('created_before'); }
     public function hasCreatedBefore(): bool { return $this->has('created_before'); }
-    /** Exact, case-sensitive filter. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "adjustment", "external_payment", "flint_manual_payment", "flint_payment", "gift_card_purchase_refund_recovery", "gift_card_refund", "import", "store_credit". Value enum: "adjustment", "external_payment", "flint_manual_payment", "flint_payment", "gift_card_purchase_refund_recovery", "gift_card_refund", "import", "store_credit". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "adjustment", "external_payment", "flint_manual_payment", "flint_payment", "gift_card_purchase_refund_recovery", "gift_card_refund", "import", "store_credit". anyOf[1][] (Value): string. maxLength: 255. Value enum: "adjustment", "external_payment", "flint_manual_payment", "flint_payment", "gift_card_purchase_refund_recovery", "gift_card_refund", "import", "store_credit". anyOf[2] (Value): string. maxLength: 255. Value enum: "adjustment", "external_payment", "flint_manual_payment", "flint_payment", "gift_card_purchase_refund_recovery", "gift_card_refund", "import", "store_credit".
+    /** Exact, case-sensitive filter. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "adjustment", "external_payment", "flint_manual_payment", "flint_payment", "gift_card_purchase_refund_recovery", "gift_card_refund", "import", "store_credit". Value enum: "adjustment", "external_payment", "flint_manual_payment", "flint_payment", "gift_card_purchase_refund_recovery", "gift_card_refund", "import", "store_credit". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "adjustment", "external_payment", "flint_manual_payment", "flint_payment", "gift_card_purchase_refund_recovery", "gift_card_refund", "import", "store_credit". anyOf[1][] (Value): string. maxLength: 255. Value enum: "adjustment", "external_payment", "flint_manual_payment", "flint_payment", "gift_card_purchase_refund_recovery", "gift_card_refund", "import", "store_credit". anyOf[2] (Value): string. maxLength: 255. Value enum: "adjustment", "external_payment", "flint_manual_payment", "flint_payment", "gift_card_purchase_refund_recovery", "gift_card_refund", "import", "store_credit".
      * @return list<string>|string
      * @throws SdkError When funding_source_type is omitted; use hasFundingSourceType() or valueOrDefault().
      */
     public function getFundingSourceType(): mixed { return $this->get('funding_source_type'); }
     public function hasFundingSourceType(): bool { return $this->has('funding_source_type'); }
-    /** Exact, case-sensitive filter. maxLength: 255. Example: "gc_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Exact, case-sensitive filter. maxLength: 255. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
      * @return string
      * @throws SdkError When gift_card_id is omitted; use hasGiftCardId() or valueOrDefault().
      */
@@ -45,7 +45,7 @@ final class GiftCardLoadsListParams extends Model {
      */
     public function getIdempotencyKey(): string { return $this->get('idempotency_key'); }
     public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
-    /** Exact, case-sensitive filter. maxLength: 255. Example: "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Exact, case-sensitive filter. maxLength: 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */
@@ -57,16 +57,34 @@ final class GiftCardLoadsListParams extends Model {
      */
     public function getPageSize(): int { return $this->get('page_size'); }
     public function hasPageSize(): bool { return $this->has('page_size'); }
-    /** Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error.
+    /** Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error.
      * @return string
      * @throws SdkError When page_token is omitted; use hasPageToken() or valueOrDefault().
      */
     public function getPageToken(): string { return $this->get('page_token'); }
     public function hasPageToken(): bool { return $this->has('page_token'); }
-    /** Exact, case-sensitive reference for the payment or import record that funded this value. minLength: 1. maxLength: 255.
+    /** Exact, case-sensitive reference for the payment or import record that funded this value. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When source_external_reference_id is omitted; use hasSourceExternalReferenceId() or valueOrDefault().
      */
     public function getSourceExternalReferenceId(): string { return $this->get('source_external_reference_id'); }
     public function hasSourceExternalReferenceId(): bool { return $this->has('source_external_reference_id'); }
+    /** Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Merchant-Id is omitted; use hasFlintMerchantId() or valueOrDefault().
+     */
+    public function getFlintMerchantId(): string { return $this->get('Flint-Merchant-Id'); }
+    public function hasFlintMerchantId(): bool { return $this->has('Flint-Merchant-Id'); }
+    /** Mode of the request context, live or test. Optional; it must match the credential's mode. Value enum: "test", "live".
+     * @return string
+     * @throws SdkError When Flint-Mode is omitted; use hasFlintMode() or valueOrDefault().
+     */
+    public function getFlintMode(): string { return $this->get('Flint-Mode'); }
+    public function hasFlintMode(): bool { return $this->has('Flint-Mode'); }
+    /** Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Sandbox-Id is omitted; use hasFlintSandboxId() or valueOrDefault().
+     */
+    public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
+    public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
 }

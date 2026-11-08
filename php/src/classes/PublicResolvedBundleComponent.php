@@ -11,12 +11,12 @@ namespace Flint;
 final class PublicResolvedBundleComponent extends Model {
     /** @param array{'position': int, 'product_id'?: string, 'quantity': int, 'variant'?: mixed, 'variant_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PublicResolvedBundleComponent')); }
-    /** Format: int32.
+    /** Position of the component within the bundle. Format: int32.
      * @return int
      */
     public function getPosition(): int { return $this->get('position'); }
     public function hasPosition(): bool { return $this->has('position'); }
-    /** product_id
+    /** ID of the product the component's variant belongs to.
      * @return ?string
      */
     public function getProductId(): ?string { return $this->get('product_id'); }
@@ -26,12 +26,12 @@ final class PublicResolvedBundleComponent extends Model {
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
-    /** A summary of a bundle component's variant, with its name, SKU, selected options, and whether it is available for sale.
+    /** Summary of the component's variant. A summary of a bundle component's variant, with its name, SKU, selected options, and whether it is available for sale.
      * @return ?PublicResolvedBundleVariantSummary
      */
     public function getVariant(): ?PublicResolvedBundleVariantSummary { return $this->get('variant'); }
     public function hasVariant(): bool { return $this->has('variant'); }
-    /** variant_id
+    /** ID of the component's variant.
      * @return string
      */
     public function getVariantId(): string { return $this->get('variant_id'); }

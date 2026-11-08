@@ -8,7 +8,7 @@ namespace Flint;
 final class AddOrderChargeRequestInput extends Model {
     /** @param array{'charge': OrderChargeRequestInput|array<array-key, mixed>|\stdClass, 'expected_version'?: int}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('AddOrderChargeRequestInput')); }
-    /** A charge you add to an order, such as a delivery or service fee, set as a fixed amount or a percentage with its tax settings.
+    /** The charge to add. A charge you add to an order, such as a delivery or service fee, set as a fixed amount or a percentage with its tax settings.
      * @return OrderChargeRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When charge is omitted; use hasCharge() or valueOrDefault().
      */

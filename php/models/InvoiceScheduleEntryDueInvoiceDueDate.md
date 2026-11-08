@@ -10,6 +10,6 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `due_at` | Optional | string | When this entry is due. Always set for `date`. For `at_issue` and `invoice_due_date`, absent on a draft and set when the invoice is issued: the issue time for `at_issue` and the invoice's `due_at` for `invoice_due_date`. Format: `date-time`. |
-| `type` | Required | string | How the entry's due time is set. Values: `"invoice_due_date"`. |
+| `due_date` | Optional | string | Calendar due date in YYYY-MM-DD format in the invoice timezone (UTC when absent). Collectible from the start of this date, overdue only after it ends. Always present for date; for at_issue and invoice_due_date, omitted on drafts and resolved at issue to the issue date or invoice due_date. Format: `date`. |
+| `type` | Required | string | How the entry's due date is set. Values: `"invoice_due_date"`. |
 

@@ -5,7 +5,7 @@ const client = new Client({
   allowInsecureHttp: !!baseUrl && ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
 });
 const result = await client.inventoryCounts.get(
-  "invc_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "invc_01KEZF7C00B47NXRE3ET37QQ59"
 );
 console.log(result.inventory_count_id);
 console.log(result.location_id);

@@ -10,7 +10,7 @@ namespace Flint;
 final class GiftCardRestrictionInput extends Model {
     /** @param array{'dispute_id'?: string, 'dispute_status'?: string, 'reason'?: string, 'type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardRestrictionInput')); }
-    /** Present only for type funding_dispute. The dispute on the payment that funded value on this card. pattern: ^du_[0-9A-HJKMNP-TV-Z]{26}$.
+    /** Present only for type funding_dispute. The dispute on the payment that funded value on this card. pattern: ^du_[0-9A-HJKMNP-TV-Z]{26}$. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD".
      * @return string
      * @throws SdkError When dispute_id is omitted; use hasDisputeId() or valueOrDefault().
      */

@@ -12,7 +12,7 @@ Where a subscription's service is delivered: a saved customer address by ID, or 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `customer_address_id` | Conditional | string | minLength: `1`. |
+| `customer_address_id` | Conditional | string | minLength: `1`. Example: `"caddr_01KEZF7C00K2Q127FBJAXWB0FP"`. |
 | `type` | Required | string |  |
 | `address` | Conditional | [AddressRequestInput](../models/AddressRequestInput.md#addressrequestinput) | A complete postal address. State and postal_code are required for US addresses and optional for other countries. Send null or omit line2, state, and postal_code when the address has none. |
 

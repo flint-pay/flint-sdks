@@ -14,10 +14,15 @@ Request input.
 | `contract_term_months` | Optional | integer | The term agreed with the buyer, in months, when configured. Flint records it on the subscription and does not stop the buyer from canceling earlier. Format: `int32`. |
 | `delivery_required` | Required | boolean | True when the plan has a line that ships or is delivered, so each renewal adds a shipping or delivery charge chosen at checkout. The amount is not known until the buyer enters an address and chooses a method. |
 | `early_termination_fee_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | The fee agreed for canceling before the recorded term ends, when configured. Flint records it on the subscription but never charges it. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `plan_image` | Optional | [ImageInput](../models/ImageInput.md#imageinput) | Plan image shown to the buyer, when configured. An image with its `url`, `width`, and `height`, and optional `alt` text. |
+| `line_items` | Required | Array of object | Identified plan lines with buyer quantity permissions and bounds. The checkout freezes the terms when it is created. `line_items[]`: [field definitions](../models/CheckoutSubscriptionTermsInput.md#checkoutsubscriptiontermsinputline_items). |
+| `plan_image` | Optional | [ImageInput](../models/ImageInput.md#imageinput) | Plan image shown to the buyer, when configured. An image with its URL, size, and alt text. |
 | `plan_name` | Required | string | Plan name shown to the buyer. |
 | `quantity_options` | Required | Array of integer | Quantities the plan offers, which the buyer chooses among on the checkout this link opens. The same values as the subscription plan's `quantity_options`. maxItems: `10`. uniqueItems: `true`. Items: Format: `int32`. minimum: `1`. maximum: `100`. |
 | `recurring_total_money` | Required | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Recurring total for one billing interval, including line quantities and resolved modifiers. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `setup_fee_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Setup fee added to the first amount due, when configured. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `trial_period_days` | Optional | integer | Number of trial days before the first recurring charge, when configured. Format: `int32`. |
+
+### PaymentLinkSubscriptionPreviewInput.line_items[]
+
+Field definitions: [CheckoutSubscriptionTermsInput.line_items[]](../models/CheckoutSubscriptionTermsInput.md#checkoutsubscriptiontermsinputline_items).
 

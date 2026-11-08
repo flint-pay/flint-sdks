@@ -10,19 +10,19 @@ namespace Flint;
 final class LineItemInventoryDemandInput extends Model {
     /** @param array{'bundle_component_id'?: string, 'component_snapshot_id'?: string, 'inventory_item_id': string, 'quantity_per_line_item_unit': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('LineItemInventoryDemandInput')); }
-    /** bundle_component_id
+    /** Example: "bunc_01KEZF7C00CQASEZGAPEANTGD1".
      * @return string
      * @throws SdkError When bundle_component_id is omitted; use hasBundleComponentId() or valueOrDefault().
      */
     public function getBundleComponentId(): string { return $this->get('bundle_component_id'); }
     public function hasBundleComponentId(): bool { return $this->has('bundle_component_id'); }
-    /** component_snapshot_id
+    /** Example: "component-1842".
      * @return string
      * @throws SdkError When component_snapshot_id is omitted; use hasComponentSnapshotId() or valueOrDefault().
      */
     public function getComponentSnapshotId(): string { return $this->get('component_snapshot_id'); }
     public function hasComponentSnapshotId(): bool { return $this->has('component_snapshot_id'); }
-    /** inventory_item_id
+    /** ID of the inventory item each unit of the line item uses. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
      * @return string
      * @throws SdkError When inventory_item_id is omitted; use hasInventoryItemId() or valueOrDefault().
      */

@@ -12,14 +12,13 @@ Request input.
 | --- | --- | --- | --- |
 | `autopay_retry_policy` | Optional | [InvoiceAutopayRetryPolicyInput](../models/InvoiceAutopayRetryPolicyInput.md#invoiceautopayretrypolicyinput) or null | Replaced as a whole: send every field you want to keep. |
 | `credit_note_number_prefix` | Optional | string or null | Up to 12 ASCII letters, digits, underscores, or hyphens. Counted before normalization. Send null to clear it. minLength: `1`. maxLength: `12`. pattern: `^[A-Za-z0-9_-]*$`. |
-| `default_collection_mode` | Optional | string or null | Values: `"buyer_initiated"`, `"automatic"`, `"external"`, `null`. |
+| `default_collection_mode` | Optional | string or null | How new invoices that ask for `merchant_default` collection are collected. Defaults to `buyer_initiated`. Values: `"buyer_initiated"`, `"automatic"`, `"external"`, `null`. |
 | `default_footer` | Optional | string or null | Limited to 4096 characters (Unicode code points), counted before normalization. Send null to clear it. minLength: `1`. maxLength: `4096`. |
-| `default_invoice_payment_term_id` | Optional | string or null | Send null to clear it. minLength: `1`. pattern: `^ipt_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `default_invoice_payment_term_id` | Optional | string or null | ID of the invoice payment term that applies to your invoices created with `payment_due.type` set to `merchant_default`. minLength: `1`. pattern: `^ipt_[0-9A-HJKMNP-TV-Z]{26}$`. Example: `"ipt_01KEZF7C0064N1V301BBMQ37R4"`. |
 | `default_memo` | Optional | string or null | Limited to 4096 characters (Unicode code points), counted before normalization. Send null to clear it. minLength: `1`. maxLength: `4096`. |
 | `invoice_number_prefix` | Optional | string or null | Up to 12 ASCII letters, digits, underscores, or hyphens. Counted before normalization. Send null to clear it. minLength: `1`. maxLength: `12`. pattern: `^[A-Za-z0-9_-]*$`. |
-| `payment_policy` | Optional | [InvoicePaymentPolicyInput](../models/InvoicePaymentPolicyInput.md#invoicepaymentpolicyinput) or null | Replaced as a whole: send every field you want to keep. |
+| `payment_policy` | Optional | [InvoicePaymentPolicyRequestInput](../models/InvoicePaymentPolicyRequestInput.md#invoicepaymentpolicyrequestinput) or null | Replaced as a whole: send every field you want to keep. |
 | `reminder_policy` | Optional | [InvoiceReminderPolicyInput](../models/InvoiceReminderPolicyInput.md#invoicereminderpolicyinput) or null | Replaced as a whole: send every field you want to keep. |
 | `remit_to_address` | Optional | [AddressRequestInput](../models/AddressRequestInput.md#addressrequestinput) or null | Replaced as a whole: send every field you want to keep. |
-| `reply_to_email` | Optional | string or null | Limited to 255 characters (Unicode code points), counted before normalization. Send null to clear it. Format: `email`. minLength: `1`. maxLength: `255`. |
-| `timezone` | Optional | string or null | Limited to 255 characters (Unicode code points), counted before normalization. Send null to clear it. minLength: `1`. maxLength: `255`. |
+| `reply_to_email` | Optional | string or null | Limited to 255 characters (Unicode code points), counted before normalization. Send null to clear it. Format: `email`. minLength: `1`. maxLength: `255`. Example: `"buyer@example.com"`. |
 

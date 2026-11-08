@@ -23,14 +23,19 @@ Response model.
 | `payment_flow` | Required | string | Values: `"checkout"`, `"payment_link"`, `"invoice"`, `"subscription_initial"`, `"subscription_renewal"`, `"virtual_terminal"`, `"api"`. |
 | `payment_intent` | Optional | [ExpandedPaymentIntentSummary](../models/ExpandedPaymentIntentSummary.md#expandedpaymentintentsummary) or null | Present only when `expand` includes `payment_intent`; `null` when expanded and there is no related payment intent. |
 | `payment_intent_id` | Required | string |  |
-| `payment_review_id` | Required | string |  |
-| `payment_summary` | Required | [PaymentReviewPaymentSummary](../models/PaymentReviewPaymentSummary.md#paymentreviewpaymentsummary) | The payment details shown on a review: amount, capture method, authorization expiry, card brand and last four digits, and buyer email. |
+| `payment_review_id` | Required | string | Unique identifier for this payment review, prefixed `rev_`. |
+| `payment_summary` | Required | [PaymentReviewPaymentSummary](../models/PaymentReviewPaymentSummary.md#paymentreviewpaymentsummary) | The payment details shown on a review: amount, capture method, authorization expiry, card brand and last four digits, and buyer email. `payment_summary`: [field definitions](../models/PaymentReviewResponse.md#paymentreviewresponsedatapayment_summary). |
 | `pending_action` | Required | string or null | The decision being carried out. `null` when status isn't resolving. Values: `"approve"`, `"decline"`, `"expire"`, `null`. |
 | `refund_id` | Required | string or null | The refund that closed this review. Null otherwise. |
 | `refunded_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Refunded amount for this review. Null when no refund is recorded. |
 | `resolution_started_at` | Required | string or null | RFC3339 timestamp. Format: `date-time`. |
-| `resolution_started_by` | Required | [ResourceReference](../models/ResourceReference.md#resourcereference) or null | The credential that started resolving this payment review. Null when Flint started it. |
+| `resolution_started_by` | Required | [ResourceReference](../models/ResourceReference.md#resourcereference) or null | The credential that started resolving this payment review, retained after closure. Null when no resolution has started or Flint started it. |
 | `risk` | Required | [PaymentReviewRisk](../models/PaymentReviewRisk.md#paymentreviewrisk) | The risk assessment shown on a review: a `level` and, when available, a numeric `score`. |
 | `status` | Required | string | Values: `"open"`, `"resolving"`, `"closed"`. |
+| `supported_actions` | Required | Array of string | Lifecycle actions accepted in the current stored review state. An action remains listed while it is processing or can be repeated without changing the result. Items values: `"approve"`, `"decline"`. |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
+
+### PaymentReview.payment_summary
+
+Field definitions: [PaymentReviewResponse.data.payment_summary](../models/PaymentReviewResponse.md#paymentreviewresponsedatapayment_summary).
 

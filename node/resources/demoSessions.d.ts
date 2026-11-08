@@ -1,7 +1,8 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-5.js';
-import type { DemoSession, DemoSessionResponse, DemoSessionsCreateParams, DemoSessionsResetParams } from '../declarations/types-20.js';
-import type { RequestOptions } from '../declarations/types-48.js';
+import type { ClientOptions } from '../declarations/types-6.js';
+import type { DemoSession } from '../declarations/types-21.js';
+import type { DemoSessionResponse, DemoSessionsCreateParams, DemoSessionsResetParams } from '../declarations/types-22.js';
+import type { RequestOptions } from '../declarations/types-51.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -16,23 +17,18 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type {
-    DemoSessionsCreateParams,
-    DemoSession,
-    DemoSessionResponse,
-    DemoSessionsResetParams,
-    DemoSessionAPIKey
-} from '../declarations/types-20.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResetDemoSessionRequestInput } from '../declarations/types-48.js';
-export type { ClientOptions } from '../declarations/types-5.js';
-export type { CreateDemoSessionRequestInput } from '../declarations/types-7.js';
+export type { DemoSessionsCreateParams, DemoSessionResponse, DemoSessionsResetParams, DemoSessionAPIKey } from '../declarations/types-22.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference, ResetDemoSessionRequestInput } from '../declarations/types-51.js';
+export type { DemoSession } from '../declarations/types-21.js';
+export type { ClientOptions } from '../declarations/types-6.js';
+export type { CreateDemoSessionRequestInput } from '../declarations/types-8.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-12.js';
-export type { NextAction, MoneyValue } from '../declarations/types-35.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
-export { makeCreateDemoSessionRequest } from '../declarations/types-64.js';
-export { makeMoneyValue } from '../declarations/types-70.js';
-export { makeResetDemoSessionRequest } from '../declarations/types-72.js';
+export type { Credentials } from '../declarations/types-13.js';
+export type { NextAction, MoneyValue } from '../declarations/types-37.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
+export { makeCreateDemoSessionRequest } from '../declarations/types-69.js';
+export { makeMoneyValue } from '../declarations/types-75.js';
+export { makeResetDemoSessionRequest } from '../declarations/types-77.js';
 export interface DemoSessionsResource {
     /**
  * Creates a temporary demo sandbox and returns a short-lived test API key. The secret key is
@@ -45,14 +41,14 @@ export interface DemoSessionsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.demoSessions.create({template: "quickstart", "Flint-Challenge-Token": "example"}, {
- * idempotencyKey: idempotencyKey })
+ * client.demoSessions.create({"Flint-Challenge-Token": "example"}, { idempotencyKey:
+ * idempotencyKey })
  */
     create(params: DemoSessionsCreateParams, options?: RequestOptions<never>): Promise<WithResponseInfo<DemoSession, DemoSessionResponse>>;
     /**
  * Ends the active or provisioning demo session identified by demo_session_id for this client and
  * provisions a fresh one. A client that lost its create response gets the current session ID from
- * current_resource.resource_id on ALREADY_EXISTS. A retry with the same Idempotency-Key and body
+ * current_resource.resource_id on ALREADY_EXISTS. A retry with the same idempotency key and body
  * replays the replacement before checking the current session, including its secret during the
  * secret delivery window. After that window, the retry returns ALREADY_EXISTS with the current
  * session reference. The daily cap applies only to fresh executions. Omit template to use
@@ -65,8 +61,8 @@ export interface DemoSessionsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.demoSessions.reset("demo_01ARZ3NDEKTSV4RRFFQ69G5FAV", {template: "quickstart",
- * "Flint-Challenge-Token": "example"}, { idempotencyKey: idempotencyKey })
+ * client.demoSessions.reset("demo_01KEZF7C001S0675NAS5BPBS0V", {"Flint-Challenge-Token":
+ * "example"}, { idempotencyKey: idempotencyKey })
  */
     reset(demo_session_id: InputValue<string>, params: DemoSessionsResetParams, options?: RequestOptions<never>): Promise<WithResponseInfo<DemoSession, DemoSessionResponse>>;
 }

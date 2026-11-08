@@ -9,5 +9,5 @@ Response model.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `expires_at` | Required | string | Time the browser session expires. Format: `date-time`. |
-| `stripe` | Required | [DisputeResponseSessionStripe](../models/DisputeResponseSessionStripe.md#disputeresponsesessionstripe) | Stripe details for the embedded dispute response component: the publishable key, an account session, and the components to render. |
+| `stripe` | Required | [DisputeResponseSessionStripe](../models/DisputeResponseSessionStripe.md#disputeresponsesessionstripe) | What the browser needs to load Stripe's embedded dispute component. Stripe details for the embedded dispute response component: the publishable key, an account session, and the components to render. |
 

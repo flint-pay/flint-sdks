@@ -17,7 +17,7 @@ final class DocumentTaxIDRequestInput extends Model {
      */
     public function getCountry(): string { return $this->get('country'); }
     public function hasCountry(): bool { return $this->has('country'); }
-    /** Server-generated identity of an existing entry. Omit when adding an entry. minLength: 1. pattern: ^dti_[0-9A-HJKMNP-TV-Z]{26}$.
+    /** Server-generated identity of an existing entry. Omit when adding an entry. minLength: 1. pattern: ^dti_[0-9A-HJKMNP-TV-Z]{26}$. Example: "dti_01KEZF7C00NS1FDK30F1BE6HPH".
      * @return string
      * @throws SdkError When document_tax_id is omitted; use hasDocumentTaxId() or valueOrDefault().
      */
@@ -29,7 +29,7 @@ final class DocumentTaxIDRequestInput extends Model {
      */
     public function getIdentifierType(): string { return $this->get('identifier_type'); }
     public function hasIdentifierType(): bool { return $this->has('identifier_type'); }
-    /** minLength: 1. maxLength: 64.
+    /** State or province of the country, when the ID applies to one region only. Omitted for IDs that apply to the whole country. minLength: 1. maxLength: 64.
      * @return string
      * @throws SdkError When region is omitted; use hasRegion() or valueOrDefault().
      */

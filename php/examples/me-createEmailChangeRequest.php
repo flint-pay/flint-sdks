@@ -20,7 +20,7 @@ $client = new Client(new ClientOptions(
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->me->createEmailChangeRequest([
-  'new_email' => 'example@example.invalid',
+  'new_email' => 'alex.new@example.com',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->customer_id . PHP_EOL;
 echo $result->email_change_request_id . PHP_EOL;

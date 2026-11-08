@@ -10,7 +10,7 @@ namespace Flint;
 final class PaymentCollectionStripeInput extends Model {
     /** @param array{'account_id'?: string, 'elements'?: PaymentCollectionStripeElementsInput|array<array-key, mixed>|\stdClass, 'publishable_key'?: string, 'return_url'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentCollectionStripeInput')); }
-    /** Stripe account to use when initializing the payment client.
+    /** Stripe account to use when initializing the payment client. Example: "acct_1234567890".
      * @return string
      * @throws SdkError When account_id is omitted; use hasAccountId() or valueOrDefault().
      */

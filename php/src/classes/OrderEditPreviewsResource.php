@@ -1,0 +1,11 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+final class OrderEditPreviewsResource {
+    public function __construct(private readonly Runtime $runtime) {}
+    /** Calculates a removal from a paid order without changing it. Only whole unassigned units are removable; bundle components must all be unassigned. Original line quantity and pricing stay unchanged. Each removed unit's refund includes its share of discounts and tax. Charges are refunded only when you list them in charge_refunds. Invoice-collected, subscription-owned, return-owned, and disputed orders, and orders with an unresolved inventory exception, cannot be edited. Refund a line without fulfillment quantities, such as a digital item or service, with POST /v1/refunds. This calculation holds no stock and sets aside no refundable amount.
+     * @param OrderEditPreviewsCreateParams|array<array-key, mixed>|Model $params Flat body fields and query/header parameters; path arguments follow URL order.
+     * @return OrderEditPreview
+     */
+    public function create(array|Model $params, ?RequestOptions $options = null): OrderEditPreview { $input = []; $params = $params instanceof Model ? $params->toInputArray() : $params; $rest = $params ?? []; if ($rest && array_is_list($rest)) throw SdkError::create('validation', 'body must be an object', 'not_sent', errorCode: 'INVALID_REQUEST', details: [['code' => 'INVALID_VALUE', 'param' => 'body']]); foreach (array_keys($rest) as $name) { foreach (['Flint-Version', 'X-Request-Id'] as $header) { if (strtolower((string)$name) === strtolower($header)) throw SdkError::create('validation', $header . " can't be sent: supply this header through request options", errorCode: 'INVALID_REQUEST', details: [['code' => 'NOT_ALLOWED', 'param' => $header]]); } } if (array_key_exists('Flint-Merchant-Id', $rest)) { $input['Flint-Merchant-Id'] = $rest['Flint-Merchant-Id']; unset($rest['Flint-Merchant-Id']); } if (array_key_exists('Flint-Mode', $rest)) { $input['Flint-Mode'] = $rest['Flint-Mode']; unset($rest['Flint-Mode']); } if (array_key_exists('Flint-Sandbox-Id', $rest)) { $input['Flint-Sandbox-Id'] = $rest['Flint-Sandbox-Id']; unset($rest['Flint-Sandbox-Id']); } if (true) $input['body'] = (object) $rest; return Runtime::responsePayload($this->runtime->request('createOrderEditPreview', $input, $options), ['data']); }
+}

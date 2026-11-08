@@ -9,7 +9,7 @@ namespace Flint;
 final class WorkloadIdentitiesGetInput extends Model {
     /** @param array{'workload_identity_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WorkloadIdentitiesGetInput')); }
-    /** Flint workload identity ID. Example: "wid_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Flint workload identity ID. Example: "wid_01KEZF7C00GKCN7Y1482VY8TWP".
      * @return string
      * @throws SdkError When workload_identity_id is omitted; use hasWorkloadIdentityId() or valueOrDefault().
      */

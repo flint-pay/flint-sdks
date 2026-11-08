@@ -11,7 +11,7 @@ namespace Flint;
 final class InvoicePaymentTermLateFeePolicyPercentage extends Model {
     /** @param array{'amount_money'?: mixed, 'application_mode'?: string, 'grace_period_days': int, 'percent': float, 'type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoicePaymentTermLateFeePolicyPercentage')); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Fixed fee in the invoice currency. Required for fixed and omitted for percentage. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return ?InvoicePaymentTermLateFeePolicyPercentageAmountMoney
      */
     public function getAmountMoney(): ?InvoicePaymentTermLateFeePolicyPercentageAmountMoney { return $this->get('amount_money'); }
@@ -21,7 +21,7 @@ final class InvoicePaymentTermLateFeePolicyPercentage extends Model {
      */
     public function getApplicationMode(): ?string { return $this->get('application_mode'); }
     public function hasApplicationMode(): bool { return $this->has('application_mode'); }
-    /** Format: int32. minimum: 0. maximum: 365.
+    /** Calendar days from the start of due_date in the invoice timezone (UTC when absent) before a late fee is eligible. Never eligible before the due date ends. An on_receipt term requires at least 1 day. Format: int32. minimum: 0. maximum: 365.
      * @return int
      */
     public function getGracePeriodDays(): int { return $this->get('grace_period_days'); }
@@ -31,7 +31,7 @@ final class InvoicePaymentTermLateFeePolicyPercentage extends Model {
      */
     public function getPercent(): float { return $this->get('percent'); }
     public function hasPercent(): bool { return $this->has('percent'); }
-    /** Value enum: "percentage".
+    /** How the one-time late fee is calculated. Value enum: "percentage".
      * @return string
      */
     public function getType(): string { return $this->get('type'); }

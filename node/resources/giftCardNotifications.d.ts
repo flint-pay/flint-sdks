@@ -1,16 +1,16 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-5.js';
+import type { ClientOptions } from '../declarations/types-6.js';
+import type { GiftCardNotification } from '../declarations/types-25.js';
 import type {
-    GiftCardNotification,
     GiftCardNotificationListResponse,
     GiftCardNotificationResponse,
     GiftCardNotificationsCancelParams,
     GiftCardNotificationsCreateParams,
     GiftCardNotificationsGetParams,
     GiftCardNotificationsListParams
-} from '../declarations/types-24.js';
-import type { RequestOptions } from '../declarations/types-48.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-26.js';
+import type { RequestOptions } from '../declarations/types-51.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -27,7 +27,6 @@ export type {
 } from '../runtime.js';
 export type {
     GiftCardNotificationsCancelParams,
-    GiftCardNotification,
     GiftCardNotificationResponse,
     GiftCardNotificationsCreateParams,
     GiftCardNotificationsGetParams,
@@ -38,20 +37,22 @@ export type {
     GiftCardNotificationDeliveryEvent,
     GiftCardPurchaseRecipient,
     GiftCardNotificationRecipientInput
-} from '../declarations/types-24.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { ClientOptions } from '../declarations/types-5.js';
-export type { CancelGiftCardNotificationRequestInput } from '../declarations/types-3.js';
+} from '../declarations/types-26.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
+export type { GiftCardNotification } from '../declarations/types-25.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+export type { ClientOptions } from '../declarations/types-6.js';
+export type { CancelGiftCardNotificationRequestInput } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-12.js';
-export type { NextAction, MoneyValue } from '../declarations/types-35.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
-export type { CreateGiftCardNotificationRequestInput } from '../declarations/types-8.js';
-export { makeCancelGiftCardNotificationRequest } from '../declarations/types-62.js';
-export { makeCreateGiftCardNotificationRequest } from '../declarations/types-64.js';
-export { makeGiftCardNotificationRecipient } from '../declarations/types-68.js';
-export { makeMoneyValue } from '../declarations/types-70.js';
+export type { Credentials } from '../declarations/types-13.js';
+export type { NextAction, MoneyValue } from '../declarations/types-37.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
+export type { CreateGiftCardNotificationRequestInput } from '../declarations/types-9.js';
+export type { DisputesAcceptParams } from '../declarations/types-22.js';
+export { makeCancelGiftCardNotificationRequest } from '../declarations/types-67.js';
+export { makeCreateGiftCardNotificationRequest } from '../declarations/types-69.js';
+export { makeGiftCardNotificationRecipient } from '../declarations/types-73.js';
+export { makeMoneyValue } from '../declarations/types-75.js';
 export interface GiftCardNotificationsResource {
     /**
  * Cancels a notification before sending starts or after confirmed failure. A sending or
@@ -64,7 +65,7 @@ export interface GiftCardNotificationsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.giftCardNotifications.cancel("gcn_01ARZ3NDEKTSV4RRFFQ69G5FAV", undefined, {
+ * client.giftCardNotifications.cancel("gcn_01KEZF7C0023FN0HF9GH34RZA1", undefined, {
  * idempotencyKey: idempotencyKey })
  */
     cancel(gift_card_notification_id: InputValue<string>, params?: GiftCardNotificationsCancelParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<GiftCardNotification, GiftCardNotificationResponse>>;
@@ -79,8 +80,8 @@ export interface GiftCardNotificationsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.giftCardNotifications.create({gift_card_id: "gc_01ARZ3NDEKTSV4RRFFQ69G5FAV", recipient:
- * {email: "example@example.invalid"}}, { idempotencyKey: idempotencyKey })
+ * client.giftCardNotifications.create({gift_card_id: "gc_01KEZF7C00Z8CQGX4BKKBJ3B5S", recipient:
+ * {email: "alex@example.com", name: "Alex Morgan"}}, { idempotencyKey: idempotencyKey })
  */
     create(params: GiftCardNotificationsCreateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<GiftCardNotification, GiftCardNotificationResponse>>;
     /**
@@ -92,7 +93,7 @@ export interface GiftCardNotificationsResource {
  * @see https://developers.withflintpay.com/docs/api/gift-cards#getGiftCardNotification
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.giftCardNotifications.get("gcn_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.giftCardNotifications.get("gcn_01KEZF7C0023FN0HF9GH34RZA1")
  */
     get(gift_card_notification_id: InputValue<string>, params?: GiftCardNotificationsGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<GiftCardNotification, GiftCardNotificationResponse>>;
     /**

@@ -8,7 +8,7 @@ namespace Flint;
 final class DisconnectTaxConnectionResult extends Model {
     /** @param array{'settings': mixed, 'tax_connection': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DisconnectTaxConnectionResult')); }
-    /** Merchant settings, as returned by GET /v1/settings. The settings for one scope (organization, merchant, location, or device), grouped by area such as checkout, tax, receipts, and tipping.
+    /** Merchant settings, as returned by GET /v1/settings. The settings for one merchant environment.
      * @return Settings
      */
     public function getSettings(): Settings { return $this->get('settings'); }

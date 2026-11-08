@@ -17,13 +17,17 @@ $client = new Client(new ClientOptions(
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->subscriptionOffers->create([
-  'name' => 'example',
   'billing_interval_options' => [
     (object) [
-      'billing_interval' => 'daily',
+      'billing_interval' => 'monthly',
       'billing_interval_count' => 1,
     ],
   ],
+  'name' => 'Monthly coffee',
+  'product_ids' => [
+    'prod_01KEZF7C00027JTCXQ7TQF86X8',
+  ],
+  'status' => 'active',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->status . PHP_EOL;
 echo $result->subscription_offer_id . PHP_EOL;

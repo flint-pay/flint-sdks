@@ -29,7 +29,6 @@ Response body (inside Result.data): null.
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -45,7 +44,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```php
-$result = $client->reportDownloads->get('rdl_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
+$result = $client->reportDownloads->get('rdl_01KEZF7C003GGGDW1N5QT46JDZ', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/reportDownloads-get.php)

@@ -10,8 +10,8 @@
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `maximum_money` | Required | object | Largest gift card value buyers can choose, in the face value currency. `maximum_money`: [field definitions](../models/GiftCardCustomAmountBounds.md#giftcardcustomamountboundsmaximum_money). |
-| `minimum_money` | Required | object | Smallest gift card value buyers can choose, in the face value currency. `minimum_money`: [field definitions](../models/GiftCardCustomAmountBounds.md#giftcardcustomamountboundsminimum_money). |
+| `maximum_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Largest gift card value buyers can choose, in the face value currency. Currency must be USD. Amount must be between 1 and 200000 minor units, inclusive. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `maximum_money`: [field definitions](../models/GiftCardCustomAmountBounds.md#giftcardcustomamountboundsmaximum_money). |
+| `minimum_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Smallest gift card value buyers can choose, in the face value currency. Currency must be USD. Amount must be between 1 and 200000 minor units, inclusive. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `minimum_money`: [field definitions](../models/GiftCardCustomAmountBounds.md#giftcardcustomamountboundsminimum_money). |
 
 ### GiftCardCustomAmountBounds variant 1
 
@@ -27,13 +27,13 @@ No additional constraints.
 
 ### GiftCardCustomAmountBounds.maximum_money
 
-Largest gift card value buyers can choose, in the face value currency.
+Largest gift card value buyers can choose, in the face value currency. Currency must be USD. Amount must be between 1 and 200000 minor units, inclusive. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
 
-Field definitions: [shared fields](AddLineItemsRequest.md#addlineitemsrequestline_itemsgift_card_purchaseface_value_money).
+Field definitions: [shared fields](MoneyValueInput.md#moneyvalueinput).
 
 ### GiftCardCustomAmountBounds.minimum_money
 
-Smallest gift card value buyers can choose, in the face value currency.
+Smallest gift card value buyers can choose, in the face value currency. Currency must be USD. Amount must be between 1 and 200000 minor units, inclusive. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
 
-Field definitions: [shared fields](AddLineItemsRequest.md#addlineitemsrequestline_itemsgift_card_purchaseface_value_money).
+Field definitions: [shared fields](MoneyValueInput.md#moneyvalueinput).
 

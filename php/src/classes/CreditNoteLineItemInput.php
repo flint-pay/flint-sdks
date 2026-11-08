@@ -20,7 +20,7 @@ final class CreditNoteLineItemInput extends Model {
      */
     public function getCorrection(): mixed { return $this->get('correction'); }
     public function hasCorrection(): bool { return $this->has('correction'); }
-    /** Unique identifier of the credit note line item.
+    /** Unique identifier of the credit note line item. Example: "cnli_01KEZF7C006N101PGMWKNHFD1J".
      * @return string
      * @throws SdkError When credit_note_line_item_id is omitted; use hasCreditNoteLineItemId() or valueOrDefault().
      */
@@ -32,7 +32,7 @@ final class CreditNoteLineItemInput extends Model {
      */
     public function getDiscountMoney(): mixed { return $this->get('discount_money'); }
     public function hasDiscountMoney(): bool { return $this->has('discount_money'); }
-    /** The invoice snapshot line this corrects.
+    /** The invoice snapshot line this corrects. Example: "invli_01KEZF7C00H767MAT1DY7ZWSVW".
      * @return string
      * @throws SdkError When invoice_line_item_id is omitted; use hasInvoiceLineItemId() or valueOrDefault().
      */

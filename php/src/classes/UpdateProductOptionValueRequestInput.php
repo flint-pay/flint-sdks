@@ -17,7 +17,7 @@ final class UpdateProductOptionValueRequestInput extends Model {
      */
     public function getMetadata(): array|object|null { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Identifier of an existing option value to retain. Omit it to create a new value. minLength: 1. pattern: ^optv_[0-9A-HJKMNP-TV-Z]{26}$.
+    /** Identifier of an existing option value to retain. Omit it to create a new value. minLength: 1. pattern: ^optv_[0-9A-HJKMNP-TV-Z]{26}$. Example: "optv_01KEZF7C0078SVZ1T7PVRXQK7F".
      * @return string
      * @throws SdkError When option_value_id is omitted; use hasOptionValueId() or valueOrDefault().
      */

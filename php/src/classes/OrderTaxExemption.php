@@ -9,17 +9,17 @@ namespace Flint;
 final class OrderTaxExemption extends Model {
     /** @param array{'customer_id'?: string, 'source'?: string, 'tax_exempt': bool, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderTaxExemption')); }
-    /** customer_id
+    /** ID of the customer the exemption was assessed from.
      * @return ?string
      */
     public function getCustomerId(): ?string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** The source of the tax exemption assessment. Omitted when the source has not been established. Value enum: "none", "customer".
+    /** The source of the tax exemption assessment. Omitted when the source has not been established. Value enum: "none", "customer", "order".
      * @return ?string
      */
     public function getSource(): ?string { return $this->get('source'); }
     public function hasSource(): bool { return $this->has('source'); }
-    /** tax_exempt
+    /** Whether the customer is tax-exempt. When `true`, every tax row has zero tax with the reason `customer_exempt`.
      * @return bool
      */
     public function getTaxExempt(): bool { return $this->get('tax_exempt'); }

@@ -4,7 +4,7 @@
 
 ### inventoryReceipts.create
 
-Record a completed inventory receipt and disposition. This is a downstream stock effect, not the customer Return lifecycle. Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, list inventory receipts with the same idempotency_key, or list inventory movements with that idempotency_key.
+Record returned units against a consumed inventory reservation and their disposition. For supplier deliveries, use POST /v1/inventory-adjustments with reason: received. This is a downstream stock effect, not the customer Return lifecycle. Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, list inventory receipts with the same idempotency_key, or list inventory movements with that idempotency_key.
 
 `POST /v1/inventory-receipts`
 
@@ -14,7 +14,10 @@ Signature: `create(array|Model $params, ?RequestOptions $options = null)`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `body` | Required | [CreateInventoryReceiptRequestInput](../models/CreateInventoryReceiptRequestInput.md#createinventoryreceiptrequestinput) | The request body for: Create inventory receipt. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `body` | Required | [CreateInventoryReceiptRequestInput](../models/CreateInventoryReceiptRequestInput.md#createinventoryreceiptrequestinput) | Record returned stock against consumed inventory reservations. For supplier deliveries, use POST /v1/inventory-adjustments with reason: received. |
 
 Body model: [CreateInventoryReceiptRequestInput](../models/CreateInventoryReceiptRequestInput.md#createinventoryreceiptrequestinput).
 
@@ -23,9 +26,9 @@ Body model: [CreateInventoryReceiptRequestInput](../models/CreateInventoryReceip
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `external_actor_id` | Optional | string | Your identifier for the actor who recorded the event. Don't put secrets in this field. minLength: `1`. maxLength: `255`. |
-| `lines` | Required | Array of [InventoryReceiptLineRequestInput](../models/InventoryReceiptLineRequestInput.md#inventoryreceiptlinerequestinput) | Items: One line of an inventory receipt you supply: a quantity of an item received at a Location with its disposition. |
+| `lines` | Required | Array of [InventoryReceiptLineRequestInput](../models/InventoryReceiptLineRequestInput.md#inventoryreceiptlinerequestinput) | Received lines, each with the item, receiving Location, quantity, and disposition. |
 | `occurred_at` | Optional | string | When the event occurred, at most 5 minutes in the future. Required when source_system.type is pos, wms, erp, or other. Format: `date-time`. minLength: `1`. |
-| `source_system` | Optional | [InventorySourceSystemRequestInput](../models/InventorySourceSystemRequestInput.md#inventorysourcesystemrequestinput) | The source system you report for an inventory event, such as manual, pos, wms, erp, or other, with your identifier when it applies. |
+| `source_system` | Optional | [InventorySourceSystemRequestInput](../models/InventorySourceSystemRequestInput.md#inventorysourcesystemrequestinput) | System the change came from, such as a point-of-sale or warehouse system. The source system you report for an inventory event, such as manual, pos, wms, erp, or other, with your identifier when it applies. |
 
 #### Response
 
@@ -40,7 +43,6 @@ Returned payload: [InventoryReceiptResult](../models/InventoryReceiptResult.md#i
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -100,6 +102,9 @@ Signature: `get(string|Model $inventory_receipt_id, array|Model|null $params = n
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `inventory_receipt_id` | Required | string | Flint inventory receipt ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -113,7 +118,6 @@ Returned payload: [InventoryReceipt](../models/InventoryReceipt.md#inventoryrece
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -131,7 +135,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```php
-$result = $client->inventoryReceipts->get('invrec_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
+$result = $client->inventoryReceipts->get('invrec_01KEZF7C00JXXCYA06SH8RCM2N', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/inventoryReceipts-get.php)
@@ -149,20 +153,23 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `inventory_item_id` | Optional | string | Filter by inventory item. |
 | `receiving_location_id` | Optional | string | Filter by receiving Location. |
 | `inventory_reservation_id` | Optional | string | Filter by source reservation. |
 | `return_id` | Optional | string | Filter by the customer Return that produced the receipt. |
 | `return_disposition_id` | Optional | string | Filter by the Return disposition that produced the receipt. |
 | `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. |
-| `source_system_type` | Optional | Array of string or string | Filter by source-system type. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"manual"`, `"pos"`, `"wms"`, `"erp"`, `"flint"`, `"other"`. Values: `"manual"`, `"pos"`, `"wms"`, `"erp"`, `"flint"`, `"other"`. |
+| `source_system_type` | Optional | Array of string or string | Filter by source-system type. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"manual"`, `"pos"`, `"wms"`, `"erp"`, `"flint"`, `"other"`. Values: `"manual"`, `"pos"`, `"wms"`, `"erp"`, `"flint"`, `"other"`. |
 | `external_source_id` | Optional | string | Filter by external source ID. |
 | `external_actor_id` | Optional | string | Filter by external actor ID. |
 | `occurred_after` | Optional | string | Inclusive lower bound on occurred_at. Format: `date-time`. |
 | `occurred_before` | Optional | string | Exclusive upper bound on occurred_at. Format: `date-time`. |
 | `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
 | `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -176,7 +183,6 @@ Returned payload: [InventoryReceiptListResponse](../models/InventoryReceiptListR
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |

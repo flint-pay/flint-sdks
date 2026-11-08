@@ -9,13 +9,13 @@ namespace Flint;
 final class ErrorResourceReferenceInput extends Model {
     /** @param array{'resource_id': string, 'resource_type': string, 'status'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ErrorResourceReferenceInput')); }
-    /** Public Flint ID of the referenced resource.
+    /** Public Flint ID of the referenced resource. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When resource_id is omitted; use hasResourceId() or valueOrDefault().
      */
     public function getResourceId(): string { return $this->get('resource_id'); }
     public function hasResourceId(): bool { return $this->has('resource_id'); }
-    /** Stable public resource name for the referenced resource: a ResourceType value, or resource when the resource has no public type.
+    /** Stable public resource name for the referenced resource: a ResourceType value, or resource when the resource has no public type. Example: "order".
      * @return string
      * @throws SdkError When resource_type is omitted; use hasResourceType() or valueOrDefault().
      */

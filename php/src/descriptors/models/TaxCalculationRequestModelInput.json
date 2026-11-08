@@ -1,1 +1,1 @@
-{"shared":"TaxCalculationRequestModel","dependencies":["MoneyValue","TaxCalculationRequestModel","TaxComponentRequestModel","TaxJurisdictionRequest"]}
+{"shared":"TaxCalculationRequestModel","dependencies":["MoneyValue","TaxCalculationRequestModel","TaxComponentRequestModel","TaxJurisdictionRequestModel"]}

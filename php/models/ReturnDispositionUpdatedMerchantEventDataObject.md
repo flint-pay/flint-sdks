@@ -2,9 +2,11 @@
 
 ## ReturnDispositionUpdatedMerchantEventDataObject
 
-A decision about how returned merchandise will be handled.
+The affected public resource without expansions, client authority fields, or fields computed for an individual caller.
+
+The resource snapshot, without expansions. Webhooks omit no additional fields.
 
 Response model.
 
-Fields, types, descriptions and enum values: [ReturnDisposition](../models/ReturnDisposition.md#returndisposition).
+Fields, types, descriptions and enum values: [ReturnDispositionCreatedMerchantEventDataObject](../models/ReturnDispositionCreatedMerchantEventDataObject.md#returndispositioncreatedmerchanteventdataobject).
 

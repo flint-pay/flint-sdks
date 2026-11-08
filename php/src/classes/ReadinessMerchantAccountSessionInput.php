@@ -10,19 +10,19 @@ namespace Flint;
 final class ReadinessMerchantAccountSessionInput extends Model {
     /** @param array{'collection_strategy': string, 'components': list<string>, 'future_requirements': string, 'targeted_requirements'?: list<string>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReadinessMerchantAccountSessionInput')); }
-    /** Value enum: "upfront", "incremental".
+    /** How onboarding collects requirements. upfront asks for everything the account will eventually need; incremental asks only for what is currently due. Value enum: "upfront", "incremental".
      * @return string
      * @throws SdkError When collection_strategy is omitted; use hasCollectionStrategy() or valueOrDefault().
      */
     public function getCollectionStrategy(): string { return $this->get('collection_strategy'); }
     public function hasCollectionStrategy(): bool { return $this->has('collection_strategy'); }
-    /** [] enum: "account_onboarding", "account_management", "payouts", "balances", "tax_documents", "notification_banner". [] (Value): string.  Value enum: "account_onboarding", "account_management", "payouts", "balances", "tax_documents", "notification_banner".
+    /** Flint components to request. Send this list as components in POST /v1/merchant-account-sessions. [] enum: "account_onboarding", "account_management", "payouts", "balances", "tax_documents", "notification_banner", "payments". [] (Value): string.  Value enum: "account_onboarding", "account_management", "payouts", "balances", "tax_documents", "notification_banner", "payments".
      * @return list<string>
      * @throws SdkError When components is omitted; use hasComponents() or valueOrDefault().
      */
     public function getComponents(): array { return $this->get('components'); }
     public function hasComponents(): bool { return $this->has('components'); }
-    /** Value enum: "omit", "include".
+    /** Whether onboarding also collects requirements the processor has scheduled for a future date. include collects them now; omit leaves them until they are due. Value enum: "omit", "include".
      * @return string
      * @throws SdkError When future_requirements is omitted; use hasFutureRequirements() or valueOrDefault().
      */

@@ -6,20 +6,22 @@ namespace Flint;
  * @property-read ?string $closed_reason
  * @property-read ?string $created_at
  * @property-read ?string $customer_id
+ * @property-read list<DeferredPromotion> $deferred_promotions
  * @property-read ?string $fulfillment_status
  * @property-read string|null $governing_delivery_selection_id
  * @property-read string $order_id
  * @property-read ?string $order_number
+ * @property-read string|null $paid_at
  * @property-read ?list<string> $payment_intent_ids
  * @property-read string $payment_status
  * @property-read PricingAmounts $pricing_amounts
  * @property-read string $refund_status
- * @property-read SettlementAmounts $settlement_amounts
+ * @property-read OrderSettlementAmounts $settlement_amounts
  * @property-read string $status
  * @property-read ?string $updated_at
  * Presence-aware response; omitted optional fields return null. */
 final class BuyerExpandedOrderSummary extends Model {
-    /** @param array{'closed_at'?: string, 'closed_reason'?: string, 'created_at'?: string, 'customer_id'?: string, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': mixed, 'refund_status': string, 'settlement_amounts': mixed, 'status': string, 'updated_at'?: string, ...}|object $values */
+    /** @param array{'closed_at'?: string, 'closed_reason'?: string, 'created_at'?: string, 'customer_id'?: string, 'deferred_promotions': list<mixed>, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'paid_at': string|null, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': mixed, 'refund_status': string, 'settlement_amounts': mixed, 'status': string, 'updated_at'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerExpandedOrderSummary')); }
     /** When the order closed. Present exactly when status is closed. Set once at the transition and never changed. Format: date-time.
      * @return ?string
@@ -41,6 +43,11 @@ final class BuyerExpandedOrderSummary extends Model {
      */
     public function getCustomerId(): ?string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
+    /** Promotions accepted at subscription signup. They attach when the subscription is provisioned and first discount its first charged cycle. They do not discount this order and are separate from discounts and order totals. Always present; empty when no promotions are deferred. [] (Value): {@see DeferredPromotion}. A promotion accepted at subscription signup for the subscription's first charged cycle. It does not discount the signup order.
+     * @return list<DeferredPromotion>
+     */
+    public function getDeferredPromotions(): array { return $this->get('deferred_promotions'); }
+    public function hasDeferredPromotions(): bool { return $this->has('deferred_promotions'); }
     /** Aggregate progress across the order's fulfillment quantities. Value enum: "not_fulfilled", "partially_fulfilled", "fulfilled", "canceled", "not_applicable", "closed".
      * @return ?string
      */
@@ -61,6 +68,11 @@ final class BuyerExpandedOrderSummary extends Model {
      */
     public function getOrderNumber(): ?string { return $this->get('order_number'); }
     public function hasOrderNumber(): bool { return $this->has('order_number'); }
+    /** When `payment_status` became `paid`, including a final capture that releases the remaining balance. Set once and never changed, including after refunds. `null` when `payment_status` isn't `paid`, including an order whose balance was written off without being paid. Format: date-time.
+     * @return string|null
+     */
+    public function getPaidAt(): string|null { return $this->get('paid_at'); }
+    public function hasPaidAt(): bool { return $this->has('paid_at'); }
     /** Payment intents associated with the order. [] (Value): string.
      * @return ?list<string>
      */
@@ -81,10 +93,10 @@ final class BuyerExpandedOrderSummary extends Model {
      */
     public function getRefundStatus(): string { return $this->get('refund_status'); }
     public function hasRefundStatus(): bool { return $this->has('refund_status'); }
-    /** Payments, refunds, credits, and amounts still owed for the order. How much of an order has been paid, refunded, credited, written off, and settled as tips, and what balance and outstanding amount remain.
-     * @return SettlementAmounts
+    /** Payments, refunds, credits, and amounts still owed for the order. The bill settlement amounts plus order overpayments, settled tips, and debt discharged by final capture. Money collected, returned, waived, and still owed on a bill.
+     * @return OrderSettlementAmounts
      */
-    public function getSettlementAmounts(): SettlementAmounts { return $this->get('settlement_amounts'); }
+    public function getSettlementAmounts(): OrderSettlementAmounts { return $this->get('settlement_amounts'); }
     public function hasSettlementAmounts(): bool { return $this->has('settlement_amounts'); }
     /** Whether the order still accepts changes and new payments. Refunds, fulfillment, disputes, returns, and metadata or note edits continue on a closed order. Value enum: "open", "closed".
      * @return string

@@ -10,7 +10,7 @@ namespace Flint;
 final class MeUpdateParams extends Model {
     /** @param array{'default_payment_method_id'?: string|null, 'expected_version'?: int, 'name'?: string|null, 'phone'?: string|null}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MeUpdateParams')); }
-    /** The active off_session payment method to use by default. Omit to leave unchanged; null clears it. minLength: 1. Example: "pm_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** The active off_session payment method to use by default. Omit to leave unchanged; null clears it. minLength: 1. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
      * @return string|null
      * @throws SdkError When default_payment_method_id is omitted; use hasDefaultPaymentMethodId() or valueOrDefault().
      */

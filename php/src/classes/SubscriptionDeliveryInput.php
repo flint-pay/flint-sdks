@@ -28,7 +28,7 @@ final class SubscriptionDeliveryInput extends Model {
      */
     public function getDeliveryMethod(): mixed { return $this->get('delivery_method'); }
     public function hasDeliveryMethod(): bool { return $this->has('delivery_method'); }
-    /** delivery_method_id
+    /** Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
      * @return string
      * @throws SdkError When delivery_method_id is omitted; use hasDeliveryMethodId() or valueOrDefault().
      */
@@ -64,7 +64,7 @@ final class SubscriptionDeliveryInput extends Model {
      */
     public function getType(): string { return $this->get('type'); }
     public function hasType(): bool { return $this->has('type'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */

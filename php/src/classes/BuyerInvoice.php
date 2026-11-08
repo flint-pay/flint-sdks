@@ -9,11 +9,11 @@ namespace Flint;
  * @property-read ?string $closed_at
  * @property-read string $collection_block_status
  * @property-read ?string $collection_mode
- * @property-read ?string $created_at
+ * @property-read string $created_at
  * @property-read MoneyValue $credit_money
  * @property-read MoneyValue $currently_due_money
  * @property-read ?string $customer_id
- * @property-read ?string $due_at
+ * @property-read ?string $due_date
  * @property-read string|null $footer
  * @property-read string $invoice_id
  * @property-read ?string $invoice_number
@@ -50,25 +50,25 @@ namespace Flint;
  * @property-read ?CheckoutTheme $theme
  * @property-read ?string $timezone
  * @property-read MoneyValue $total_money
- * @property-read ?string $updated_at
+ * @property-read string $updated_at
  * @property-read int $version
  * @property-read ?string $viewed_at
  * @property-read ?string $voided_at
  * Presence-aware response; omitted optional fields return null. */
 final class BuyerInvoice extends Model {
-    /** @param array{'active_payment_attempt'?: mixed, 'balance_rows'?: list<mixed>, 'buyer_actions': list<mixed>, 'cc_emails': list<string>, 'closed_at'?: string, 'collection_block_status': string, 'collection_mode'?: string, 'created_at'?: string, 'credit_money': mixed, 'currently_due_money': mixed, 'customer_id'?: string, 'due_at'?: string, 'footer': string|null, 'invoice_id': string, 'invoice_number'?: string, 'is_overdue': bool, 'issue_rows'?: list<mixed>, 'issued_at'?: string, 'late_fee_money': mixed, 'late_fees': list<mixed>, 'memo': string|null, 'merchant_icon'?: mixed, 'merchant_id': string, 'merchant_logo'?: mixed, 'merchant_support'?: mixed, 'order_id': string, 'outstanding_money': mixed, 'paid_at'?: string, 'paid_money': mixed, 'payment_option_cost_comparison'?: mixed, 'payment_options'?: list<string>, 'payment_terms_snapshot'?: mixed, 'po_number': string|null, 'recipient_email': string|null, 'reference': string|null, 'refund_status': string, 'refunded_money': mixed, 'remit_to_address'?: mixed, 'schedule_entries': list<mixed>, 'scheduled_issue_at': string|null, 'service_date': string|null, 'show_flint_mark'?: bool, 'snapshot'?: mixed, 'status': string, 'subscription_id': string|null, 'theme'?: mixed, 'timezone'?: string, 'total_money': mixed, 'updated_at'?: string, 'version': int, 'viewed_at'?: string, 'voided_at'?: string, ...}|object $values */
+    /** @param array{'active_payment_attempt'?: mixed, 'balance_rows'?: list<mixed>, 'buyer_actions': list<mixed>, 'cc_emails': list<string>, 'closed_at'?: string, 'collection_block_status': string, 'collection_mode'?: string, 'created_at': string, 'credit_money': mixed, 'currently_due_money': mixed, 'customer_id'?: string, 'due_date'?: string, 'footer': string|null, 'invoice_id': string, 'invoice_number'?: string, 'is_overdue': bool, 'issue_rows'?: list<mixed>, 'issued_at'?: string, 'late_fee_money': mixed, 'late_fees': list<mixed>, 'memo': string|null, 'merchant_icon'?: mixed, 'merchant_id': string, 'merchant_logo'?: mixed, 'merchant_support'?: mixed, 'order_id': string, 'outstanding_money': mixed, 'paid_at'?: string, 'paid_money': mixed, 'payment_option_cost_comparison'?: mixed, 'payment_options'?: list<string>, 'payment_terms_snapshot'?: mixed, 'po_number': string|null, 'recipient_email': string|null, 'reference': string|null, 'refund_status': string, 'refunded_money': mixed, 'remit_to_address'?: mixed, 'schedule_entries': list<mixed>, 'scheduled_issue_at': string|null, 'service_date': string|null, 'show_flint_mark'?: bool, 'snapshot'?: mixed, 'status': string, 'subscription_id': string|null, 'theme'?: mixed, 'timezone'?: string, 'total_money': mixed, 'updated_at': string, 'version': int, 'viewed_at'?: string, 'voided_at'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerInvoice')); }
     /** The payment attempt in progress for this invoice, such as a bank debit still processing. Omitted when none is open. Returned by `GET /v1/me/invoices/{invoice_id}` and in the invoice checkout session result; `GET /v1/me/invoices` omits it. An attempt to collect payment for an invoice.
      * @return ?InvoicePaymentAttempt
      */
     public function getActivePaymentAttempt(): ?InvoicePaymentAttempt { return $this->get('active_payment_attempt'); }
     public function hasActivePaymentAttempt(): bool { return $this->has('active_payment_attempt'); }
-    /** What changed after the invoice was issued, in display order, such as late fees, payments, credit notes, and write-offs. When present, rows where `is_informational` is `false` sum to `outstanding_money`. The opening `total` row contributes to the sum; the closing `amount_due` row is informational and states it. `[]` when nothing changed or the invoice is void. Returned by `GET /v1/me/invoices/{invoice_id}` and in the invoice checkout session result; `GET /v1/me/invoices` omits it. [] (Value): {@see InvoiceDocumentRow}. One row of an invoice document, such as a subtotal, discount, tax, late fee, payment, or amount due, with its amount.
+    /** What changed after the invoice was issued, in display order, such as late fees, payments, credit notes, and write-offs. When present, rows where `is_informational` is `false` sum to `outstanding_money`. The opening `total` row contributes to the sum; the closing `amount_due` row is informational and states it. `[]` when nothing changed or the invoice is voided. Returned by `GET /v1/me/invoices/{invoice_id}` and in the invoice checkout session result; `GET /v1/me/invoices` omits it. [] (Value): {@see InvoiceDocumentRow}. One row of an invoice document, such as a subtotal, discount, tax, late fee, payment, or amount due, with its amount.
      * @return ?list<InvoiceDocumentRow>
      */
     public function getBalanceRows(): ?array { return $this->get('balance_rows'); }
     public function hasBalanceRows(): bool { return $this->has('balance_rows'); }
-    /** What the buyer can do with the invoice: pay. pay is available when a checkout session can take a payment now, and then required, due by due_at or by the due date of the installment it collects. [] (Value): {@see BuyerAction}. One thing a buyer can do with an order, subscription, invoice or return they read through /v1/me. Show the actions with is_required as what needs the buyer's attention, and the first available action as the primary action on the resource's page in your account.
+    /** What the buyer can do with the invoice: pay. pay is available when a checkout session can take a payment now, and then required. Its due_at deadline is the end of the invoice or installment due_date in the invoice timezone (UTC when absent). [] (Value): {@see BuyerAction}. One thing a buyer can do with an order, subscription, invoice or return they read through /v1/me. Show the actions with is_required as what needs the buyer's attention, and the first available action as the primary action on the resource's page in your account.
      * @return list<BuyerAction>
      */
     public function getBuyerActions(): array { return $this->get('buyer_actions'); }
@@ -94,16 +94,16 @@ final class BuyerInvoice extends Model {
     public function getCollectionMode(): ?string { return $this->get('collection_mode'); }
     public function hasCollectionMode(): bool { return $this->has('collection_mode'); }
     /** When the invoice was created. Format: date-time.
-     * @return ?string
+     * @return string
      */
-    public function getCreatedAt(): ?string { return $this->get('created_at'); }
+    public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
     /** Credit note credit allocated to this invoice, minus reversed allocations. Unallocated credit isn't included. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getCreditMoney(): MoneyValue { return $this->get('credit_money'); }
     public function hasCreditMoney(): bool { return $this->has('credit_money'); }
-    /** The part of the balance due now. Without schedule_entries, it equals outstanding_money. With schedule_entries, it is the outstanding amount of the first entry, in schedule order, whose due time has arrived and that still has a balance, or 0 when there is none. It is the amount the next collect call or checkout session charges. To total everything past due, add the outstanding_money of the entries whose status is due or overdue. Always 0 unless the invoice is open or partially_paid. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** The part of the balance due now. Without schedule_entries, it equals outstanding_money. With schedule_entries, it is the outstanding amount of the first entry, in schedule order, whose due date has started and that still has a balance, or 0 when there is none. It is the amount the next collect call or checkout session charges. To total everything overdue, add the outstanding_money of the entries whose status is overdue. Always 0 unless the invoice is open or partially_paid. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getCurrentlyDueMoney(): MoneyValue { return $this->get('currently_due_money'); }
@@ -113,12 +113,12 @@ final class BuyerInvoice extends Model {
      */
     public function getCustomerId(): ?string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** When payment is due. With payment terms, issue sets it from issued_at and the terms, counted in the invoice's timezone. Absent when the invoice has no due date. Format: date-time.
+    /** Calendar due date in YYYY-MM-DD format, interpreted in timezone (UTC when absent). The outstanding balance becomes overdue only after this date ends. Automatic collection runs at the later of issue and the start of this date. With payment terms, issue computes this date from issued_at. Absent when there is no due date. Format: date.
      * @return ?string
      */
-    public function getDueAt(): ?string { return $this->get('due_at'); }
-    public function hasDueAt(): bool { return $this->has('due_at'); }
-    /** Fine print at the bottom of the invoice and PDF. It cannot change after issue. null when unset.
+    public function getDueDate(): ?string { return $this->get('due_date'); }
+    public function hasDueDate(): bool { return $this->has('due_date'); }
+    /** Fine print at the bottom of the invoice and PDF. It cannot change after issue. `null` when unset.
      * @return string|null
      */
     public function getFooter(): string|null { return $this->get('footer'); }
@@ -133,7 +133,7 @@ final class BuyerInvoice extends Model {
      */
     public function getInvoiceNumber(): ?string { return $this->get('invoice_number'); }
     public function hasInvoiceNumber(): bool { return $this->has('invoice_number'); }
-    /** Whether the invoice is open or partially_paid and past due with a balance remaining. Without schedule_entries, due_at has passed and outstanding_money is above zero; with them, at least one entry is overdue. Computed when the invoice is read.
+    /** Whether the invoice is open or partially_paid and past due with a balance remaining. Without schedule_entries, the due_date has ended in timezone (UTC when absent) and outstanding_money is above zero; with them, at least one entry is overdue. Computed when the invoice is read.
      * @return bool
      */
     public function getIsOverdue(): bool { return $this->get('is_overdue'); }
@@ -158,12 +158,12 @@ final class BuyerInvoice extends Model {
      */
     public function getLateFees(): array { return $this->get('late_fees'); }
     public function hasLateFees(): bool { return $this->has('late_fees'); }
-    /** Message to the customer, printed on the invoice and PDF. It cannot change after issue. null when unset.
+    /** Message to the customer, printed on the invoice and PDF. It cannot change after issue. `null` when unset.
      * @return string|null
      */
     public function getMemo(): string|null { return $this->get('memo'); }
     public function hasMemo(): bool { return $this->has('memo'); }
-    /** The merchant's square icon, shown in browser tabs and compact headers. Returned by `GET /v1/me/invoices/{invoice_id}` and in the invoice checkout session result; `GET /v1/me/invoices` omits it. An image with its `url`, `width`, and `height`, and optional `alt` text.
+    /** The merchant's square icon, shown in browser tabs and compact headers. Returned by `GET /v1/me/invoices/{invoice_id}` and in the invoice checkout session result; `GET /v1/me/invoices` omits it. An image with its URL, size, and alt text.
      * @return ?Image
      */
     public function getMerchantIcon(): ?Image { return $this->get('merchant_icon'); }
@@ -173,7 +173,7 @@ final class BuyerInvoice extends Model {
      */
     public function getMerchantId(): string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** The merchant's logo. Returned by `GET /v1/me/invoices/{invoice_id}` and in the invoice checkout session result; `GET /v1/me/invoices` omits it. An image with its `url`, `width`, and `height`, and optional `alt` text.
+    /** The merchant's logo. Returned by `GET /v1/me/invoices/{invoice_id}` and in the invoice checkout session result; `GET /v1/me/invoices` omits it. An image with its URL, size, and alt text.
      * @return ?Image
      */
     public function getMerchantLogo(): ?Image { return $this->get('merchant_logo'); }
@@ -188,7 +188,7 @@ final class BuyerInvoice extends Model {
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** What is still owed. On an open or partially_paid invoice it is total_money + late_fee_money - paid_money - credit_money, never below zero. 0 on paid, credited, uncollectible, and void invoices. Refunds don't change it. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** What is still owed. On an open or partially_paid invoice it is total_money + late_fee_money - paid_money - credit_money, never below zero. 0 on paid, credited, uncollectible, and voided invoices. Refunds don't change it. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getOutstandingMoney(): MoneyValue { return $this->get('outstanding_money'); }
@@ -218,17 +218,17 @@ final class BuyerInvoice extends Model {
      */
     public function getPaymentTermsSnapshot(): ?InvoicePaymentTermsSnapshot { return $this->get('payment_terms_snapshot'); }
     public function hasPaymentTermsSnapshot(): bool { return $this->has('payment_terms_snapshot'); }
-    /** The buyer's purchase order number, printed on the invoice and PDF. It cannot change after issue. null when unset.
+    /** The buyer's purchase order number, printed on the invoice and PDF. It cannot change after issue. `null` when unset.
      * @return string|null
      */
     public function getPoNumber(): string|null { return $this->get('po_number'); }
     public function hasPoNumber(): bool { return $this->has('po_number'); }
-    /** Where Flint emails the invoice and its reminders. Email delivery requires it at issue. null when unset.
+    /** Where Flint emails the invoice and its reminders. Email delivery requires it at issue. `null` when unset.
      * @return string|null
      */
     public function getRecipientEmail(): string|null { return $this->get('recipient_email'); }
     public function hasRecipientEmail(): bool { return $this->has('recipient_email'); }
-    /** Your reference for the invoice, printed on the invoice and PDF. The buyer's purchase order number goes in po_number. It cannot change after issue. null when unset.
+    /** Your reference for the invoice, printed on the invoice and PDF. The buyer's purchase order number goes in po_number. It cannot change after issue. `null` when unset.
      * @return string|null
      */
     public function getReference(): string|null { return $this->get('reference'); }
@@ -253,12 +253,12 @@ final class BuyerInvoice extends Model {
      */
     public function getScheduleEntries(): array { return $this->get('schedule_entries'); }
     public function hasScheduleEntries(): bool { return $this->has('schedule_entries'); }
-    /** When Flint will issue and deliver this draft. null when no issue is scheduled. Cleared when the draft is issued or voided, or when you send null. Format: date-time.
+    /** When Flint will issue and deliver this draft. `null` when no issue is scheduled. Cleared when the draft is issued or voided, or when you send null. Format: date-time.
      * @return string|null
      */
     public function getScheduledIssueAt(): string|null { return $this->get('scheduled_issue_at'); }
     public function hasScheduledIssueAt(): bool { return $this->has('scheduled_issue_at'); }
-    /** The calendar date of the billed service, in YYYY-MM-DD format. The invoice and PDF print it as written, without timezone conversion. null when unset. Format: date.
+    /** The calendar date of the billed service, in YYYY-MM-DD format. The invoice and PDF print it as written, without timezone conversion. `null` when unset. Format: date.
      * @return string|null
      */
     public function getServiceDate(): string|null { return $this->get('service_date'); }
@@ -273,12 +273,12 @@ final class BuyerInvoice extends Model {
      */
     public function getSnapshot(): ?InvoiceSnapshot { return $this->get('snapshot'); }
     public function hasSnapshot(): bool { return $this->has('snapshot'); }
-    /** Current invoice status. paid and credited close the current balance and can reopen to open or partially_paid after a payment or credit allocation reversal; invoice.reopened reports that change. void and uncollectible are final. Refunds change refund_status without reopening the balance. Value enum: "open", "partially_paid", "paid", "void", "uncollectible", "credited".
+    /** Current invoice status. paid and credited close the current balance and can reopen to open or partially_paid after a payment or credit allocation reversal; invoice.reopened reports that change. An uncollectible invoice accepts manual recovery payments and becomes paid when fully recovered; reversals restore the write-off. voided is final. Refunds change refund_status without reopening the balance. Value enum: "open", "partially_paid", "paid", "voided", "uncollectible", "credited".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** The subscription the backing order belongs to, copied when the draft is created and never changed. null when the order isn't part of a subscription.
+    /** The subscription the backing order belongs to, copied when the draft is created and never changed. `null` when the order isn't part of a subscription.
      * @return string|null
      */
     public function getSubscriptionId(): string|null { return $this->get('subscription_id'); }
@@ -288,7 +288,7 @@ final class BuyerInvoice extends Model {
      */
     public function getTheme(): ?CheckoutTheme { return $this->get('theme'); }
     public function hasTheme(): bool { return $this->has('theme'); }
-    /** IANA time zone for the invoice's calendar dates, such as due dates from payment terms and reminder and late fee day counts. At issue, an invoice without one takes the invoice settings timezone.
+    /** IANA time zone snapshot for invoice due dates, reminders, and late fee calendar days. Taken from the merchant's timezone when the draft is written, or UTC when unset. Later merchant changes do not alter this invoice's calendar.
      * @return ?string
      */
     public function getTimezone(): ?string { return $this->get('timezone'); }
@@ -299,9 +299,9 @@ final class BuyerInvoice extends Model {
     public function getTotalMoney(): MoneyValue { return $this->get('total_money'); }
     public function hasTotalMoney(): bool { return $this->has('total_money'); }
     /** When the invoice last changed. Format: date-time.
-     * @return ?string
+     * @return string
      */
-    public function getUpdatedAt(): ?string { return $this->get('updated_at'); }
+    public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
     /** Current invoice version. Send this as expected_version when updating the draft. Format: int64. minimum: 1.
      * @return int

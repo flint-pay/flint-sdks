@@ -1,0 +1,93 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/**
+ * @property-read string $api_version
+ * @property-read string|\DateTimeInterface $created_at
+ * @property-read array{'object': array{'archived_at': string|\DateTimeInterface|null, 'created_at': string|\DateTimeInterface, 'currency': string, 'customer_segments': list<string>, 'external_reference_id': string|null, 'merchant_id': string, 'metadata': MetadataMapInput|array<array-key, mixed>|\stdClass, 'name': string, 'price_count': int, 'price_list_id': string, 'status': string, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object, 'previous_attributes'?: array<array-key, mixed>|\stdClass}|object $data
+ * @property-read string $event_source
+ * @property-read string $event_type
+ * @property-read string $merchant_id
+ * @property-read string $mode
+ * @property-read int $payload_version
+ * @property-read array{'id': string, 'idempotency_key'?: string}|object|null $request
+ * @property-read string $sandbox_id
+ * @property-read bool $test
+ * @property-read string $webhook_event_id
+ * Presence-aware input; omitted fields throw when accessed. */
+final class PriceListUpdatedMerchantEventInput extends Model {
+    /** @param array{'api_version': string, 'created_at': string|\DateTimeInterface, 'data': array{'object': array{'archived_at': string|\DateTimeInterface|null, 'created_at': string|\DateTimeInterface, 'currency': string, 'customer_segments': list<string>, 'external_reference_id': string|null, 'merchant_id': string, 'metadata': MetadataMapInput|array<array-key, mixed>|\stdClass, 'name': string, 'price_count': int, 'price_list_id': string, 'status': string, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object, 'previous_attributes'?: array<array-key, mixed>|\stdClass}|object, 'event_source': string, 'event_type': string, 'merchant_id': string, 'mode': string, 'payload_version': int, 'request': array{'id': string, 'idempotency_key'?: string}|object|null, 'sandbox_id'?: string, 'test': bool, 'webhook_event_id': string, ...}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PriceListUpdatedMerchantEventInput')); }
+    /** API version used to render this delivery attempt. The older of the event version and the endpoint version when the attempt runs, with default resolved to the merchant pin. Format: date. Example: "2026-08-02".
+     * @return string
+     * @throws SdkError When api_version is omitted; use hasApiVersion() or valueOrDefault().
+     */
+    public function getApiVersion(): string { return $this->get('api_version'); }
+    public function hasApiVersion(): bool { return $this->has('api_version'); }
+    /** When Flint recorded the event. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * @return string|\DateTimeInterface
+     * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
+     */
+    public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
+    public function hasCreatedAt(): bool { return $this->has('created_at'); }
+    /** The resource snapshot recorded for this event and rendered at the delivery API version. object (Required): object. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. object.archived_at (Required): string or null. When this price list was soft-deleted, as an RFC3339 timestamp. Null when it has not been archived. Format: date-time. Example: "2026-08-02T16:00:00Z". object.created_at (Required): string. When this price list was created, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.currency (Required): string. Immutable currency of every price in this list. Currently USD. Uses ISO 4217 currency codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". object.customer_segments (Required): Array of string. Customer.segment labels assigned to this list. Empty when no segments are assigned. maxItems: 20. uniqueItems: true. object.customer_segments[] (Value): string. object.external_reference_id (Required): string or null. Caller-owned identifier for this resource in an external system. `null` when unset. minLength: 1. maxLength: 255. Example: "warehouse-1842". object.merchant_id (Required): string. Identifier of the merchant that owns this price list. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Required): {@see MetadataMapInput}. Caller-owned metadata stored on this price list. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. object.name (Required): string. Name used to identify this price list. object.price_count (Required): integer. Number of variant prices in the list. Format: int64. minimum: 0. maximum: 10000. object.price_list_id (Required): string. Stable identifier of this price list. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q". object.status (Required): string. Availability or retirement state. Derived as archived when archived_at is set; otherwise active or inactive. Value enum: "active", "inactive", "archived". object.updated_at (Required): string. When this price list or its prices last changed, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Aggregate version, increased once for a request that changes the list or its prices. No-op writes preserve it. Format: uint64. minimum: 1. previous_attributes (Optional): object. Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
+     * @return array{'object': array{'archived_at': string|\DateTimeInterface|null, 'created_at': string|\DateTimeInterface, 'currency': string, 'customer_segments': list<string>, 'external_reference_id': string|null, 'merchant_id': string, 'metadata': MetadataMapInput|array<array-key, mixed>|\stdClass, 'name': string, 'price_count': int, 'price_list_id': string, 'status': string, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object, 'previous_attributes'?: array<array-key, mixed>|\stdClass}|object
+     * @throws SdkError When data is omitted; use hasData() or valueOrDefault().
+     */
+    public function getData(): array|object { return $this->get('data'); }
+    public function hasData(): bool { return $this->has('data'); }
+    /** The origin of the event. Selects the webhook envelope and the fields in source. Value enum: "merchant".
+     * @return string
+     * @throws SdkError When event_source is omitted; use hasEventSource() or valueOrDefault().
+     */
+    public function getEventSource(): string { return $this->get('event_source'); }
+    public function hasEventSource(): bool { return $this->has('event_source'); }
+    /** The resource change or condition this event announces. Value enum: "price_list.updated".
+     * @return string
+     * @throws SdkError When event_type is omitted; use hasEventType() or valueOrDefault().
+     */
+    public function getEventType(): string { return $this->get('event_type'); }
+    public function hasEventType(): bool { return $this->has('event_type'); }
+    /** ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * @return string
+     * @throws SdkError When merchant_id is omitted; use hasMerchantId() or valueOrDefault().
+     */
+    public function getMerchantId(): string { return $this->get('merchant_id'); }
+    public function hasMerchantId(): bool { return $this->has('merchant_id'); }
+    /** Environment used for this resource or request. Value enum: "test", "live".
+     * @return string
+     * @throws SdkError When mode is omitted; use hasMode() or valueOrDefault().
+     */
+    public function getMode(): string { return $this->get('mode'); }
+    public function hasMode(): bool { return $this->has('mode'); }
+    /** 2 for every current event. 1 only for an event queued before 2026-10-16 and delivered afterwards, which keeps its previous data shape. Value enum: 1, 2.
+     * @return int
+     * @throws SdkError When payload_version is omitted; use hasPayloadVersion() or valueOrDefault().
+     */
+    public function getPayloadVersion(): int { return $this->get('payload_version'); }
+    public function hasPayloadVersion(): bool { return $this->has('payload_version'); }
+    /** The originating request. `null` when the event has no originating request ID. id (Required): string. Request ID of the request that caused the event. idempotency_key (Optional): string. The Idempotency-Key the originating request sent. Absent when it sent none.
+     * @return array{'id': string, 'idempotency_key'?: string}|object|null
+     * @throws SdkError When request is omitted; use hasRequest() or valueOrDefault().
+     */
+    public function getRequest(): array|object|null { return $this->get('request'); }
+    public function hasRequest(): bool { return $this->has('request'); }
+    /** Public sandbox ID for this event. Present exactly when mode is test; omitted in live mode. Example: "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     * @return string
+     * @throws SdkError When sandbox_id is omitted; use hasSandboxId() or valueOrDefault().
+     */
+    public function getSandboxId(): string { return $this->get('sandbox_id'); }
+    public function hasSandboxId(): bool { return $this->has('sandbox_id'); }
+    /** true for a synthetic event sent from the test-events endpoint, false otherwise.
+     * @return bool
+     * @throws SdkError When test is omitted; use hasTest() or valueOrDefault().
+     */
+    public function getTest(): bool { return $this->get('test'); }
+    public function hasTest(): bool { return $this->has('test'); }
+    /** Stable ID of the recorded webhook event, shared by its delivery attempts. Example: "whev_01KEZF7C00362MS3HV970TRZGS".
+     * @return string
+     * @throws SdkError When webhook_event_id is omitted; use hasWebhookEventId() or valueOrDefault().
+     */
+    public function getWebhookEventId(): string { return $this->get('webhook_event_id'); }
+    public function hasWebhookEventId(): bool { return $this->has('webhook_event_id'); }
+}

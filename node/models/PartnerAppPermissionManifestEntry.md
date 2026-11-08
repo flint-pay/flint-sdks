@@ -12,7 +12,7 @@
 | --- | --- | --- | --- |
 | `description` | Required | string |  |
 | `optional` | Optional | boolean | Whether the merchant can decline this permission when they approve the install. Defaults to false: the permission is required and is always granted. |
-| `permission_id` | Required | string |  |
+| `permission_id` | Required | string | Example: `"manage_orders"`. |
 | `required_scopes` | Required | Array of string |  |
 | `title` | Required | string |  |
 

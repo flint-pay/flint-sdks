@@ -9,17 +9,17 @@ namespace Flint;
 final class GiftCardLoadResponse extends Model {
     /** @param array{'data': mixed, 'meta'?: mixed, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardLoadResponse')); }
-    /** Independent funding resource. Value and consideration are separate. External funding and import provenance are merchant-attested; no payment is collected by recording them. Replacement refund lots retain original funding provenance and do not represent new paid funding.
+    /** Resource, collection, or operation result returned by this request. Top-level child of a gift card. Value and consideration are separate. External funding and import provenance are merchant-attested; no payment is collected by recording them. Replacement refund lots retain original funding provenance and do not represent new paid funding.
      * @return GiftCardLoad
      */
     public function getData(): GiftCardLoad { return $this->get('data'); }
     public function hasData(): bool { return $this->has('data'); }
-    /** Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+    /** Additional information about this response. Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
      * @return ?ResponseMeta
      */
     public function getMeta(): ?ResponseMeta { return $this->get('meta'); }
     public function hasMeta(): bool { return $this->has('meta'); }
-    /** maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$.
+    /** Identifier of this API request, used to correlate logs and support requests. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$.
      * @return string
      */
     public function getRequestId(): string { return $this->get('request_id'); }

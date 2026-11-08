@@ -2,12 +2,15 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read int $backordered_quantity
  * @property-read MoneyValue $base_subtotal_money
  * @property-read list<BundleComponent> $bundle_components
  * @property-read ?string $bundle_id
+ * @property-read ?CatalogPricing $catalog_pricing
  * @property-read list<CategoryReference> $categories
  * @property-read ?string $description
  * @property-read MoneyValue $discount_money
+ * @property-read string|null $expected_ship_date
  * @property-read ?list<OrderLineItemFulfillmentQuantities> $fulfillment_quantities
  * @property-read ?OrderLineItemFulfillmentRequirements $fulfillment_requirements
  * @property-read ?GiftCardPurchaseSnapshot $gift_card_purchase
@@ -18,29 +21,37 @@ namespace Flint;
  * @property-read list<OrderLineItemModifier> $modifiers
  * @property-read string $name
  * @property-read string $order_line_item_id
+ * @property-read string|null $payment_link_line_item_key
  * @property-read ?string $product_id
  * @property-read list<PurchasedGiftCard> $purchased_gift_cards
  * @property-read int $quantity
  * @property-read MoneyValue $refunded_money
  * @property-read int $refunded_quantity
+ * @property-read string|null $release_date
+ * @property-read int $removed_quantity
  * @property-read list<SelectedProductOption> $selected_options
  * @property-read ?string $sku
- * @property-read ?string $source_type
  * @property-read ?SubscribedLine $subscription
  * @property-read ?string $subscription_id
  * @property-read ?OrderLineSubscriptionOfferSummary $subscription_offer
  * @property-read MoneyValue $subtotal_money
  * @property-read ?OrderCalculatedLineItemTax $tax
  * @property-read MoneyValue $tax_money
- * @property-read SignedMoney $total_money
+ * @property-read MoneyValue $total_money
+ * @property-read string $type
  * @property-read ?Dimensions $unit_dimensions
  * @property-read MoneyValue $unit_price_money
  * @property-read ?Weight $unit_weight
  * @property-read ?string $variant_id
  * Presence-aware response; omitted optional fields return null. */
 final class OrderLineItem extends Model {
-    /** @param array{'base_subtotal_money': mixed, 'bundle_components': list<mixed>, 'bundle_id'?: string, 'categories': list<mixed>, 'description'?: string, 'discount_money': mixed, 'fulfillment_quantities'?: list<mixed>, 'fulfillment_requirements'?: mixed, 'gift_card_purchase'?: mixed, 'image'?: mixed, 'inventory_snapshot': mixed, 'metadata'?: mixed, 'modifier_total_money': mixed, 'modifiers': list<mixed>, 'name': string, 'order_line_item_id': string, 'product_id'?: string, 'purchased_gift_cards': list<mixed>, 'quantity': int, 'refunded_money': mixed, 'refunded_quantity': int, 'selected_options': list<mixed>, 'sku'?: string, 'source_type'?: string, 'subscription'?: mixed, 'subscription_id'?: string, 'subscription_offer'?: mixed, 'subtotal_money': mixed, 'tax'?: mixed, 'tax_money': mixed, 'total_money': mixed, 'unit_dimensions'?: mixed, 'unit_price_money': mixed, 'unit_weight'?: mixed, 'variant_id'?: string, ...}|object $values */
+    /** @param array{'backordered_quantity': int, 'base_subtotal_money': mixed, 'bundle_components': list<mixed>, 'bundle_id'?: string, 'catalog_pricing'?: mixed, 'categories': list<mixed>, 'description'?: string, 'discount_money': mixed, 'expected_ship_date': string|null, 'fulfillment_quantities'?: list<mixed>, 'fulfillment_requirements'?: mixed, 'gift_card_purchase'?: mixed, 'image'?: mixed, 'inventory_snapshot': mixed, 'metadata'?: mixed, 'modifier_total_money': mixed, 'modifiers': list<mixed>, 'name': string, 'order_line_item_id': string, 'payment_link_line_item_key': string|null, 'product_id'?: string, 'purchased_gift_cards': list<mixed>, 'quantity': int, 'refunded_money': mixed, 'refunded_quantity': int, 'release_date': string|null, 'removed_quantity': int, 'selected_options': list<mixed>, 'sku'?: string, 'subscription'?: mixed, 'subscription_id'?: string, 'subscription_offer'?: mixed, 'subtotal_money': mixed, 'tax'?: mixed, 'tax_money': mixed, 'total_money': mixed, 'type': string, 'unit_dimensions'?: mixed, 'unit_price_money': mixed, 'unit_weight'?: mixed, 'variant_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderLineItem')); }
+    /** Tracked line units waiting for stock. Always 0 when none are backordered. Whole-number quantity; fractional quantities are not supported. Format: int64. minimum: 0.
+     * @return int
+     */
+    public function getBackorderedQuantity(): int { return $this->get('backordered_quantity'); }
+    public function hasBackorderedQuantity(): bool { return $this->has('backordered_quantity'); }
     /** Unit price multiplied by quantity, before modifiers, discounts, and tax. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
@@ -51,17 +62,22 @@ final class OrderLineItem extends Model {
      */
     public function getBundleComponents(): array { return $this->get('bundle_components'); }
     public function hasBundleComponents(): bool { return $this->has('bundle_components'); }
-    /** bundle_id
+    /** ID of the bundle the line was sold from.
      * @return ?string
      */
     public function getBundleId(): ?string { return $this->get('bundle_id'); }
     public function hasBundleId(): bool { return $this->has('bundle_id'); }
-    /**  [] (Value): {@see CategoryReference}. A reference to a product category by ID, handle, and name.
+    /** Price source and applied quantity break frozen for a catalog variant line. Omitted for older lines, custom lines, and bundles. The source of a catalog variant line's selected net unit price.
+     * @return ?CatalogPricing
+     */
+    public function getCatalogPricing(): ?CatalogPricing { return $this->get('catalog_pricing'); }
+    public function hasCatalogPricing(): bool { return $this->has('catalog_pricing'); }
+    /** Catalog categories of the item. [] (Value): {@see CategoryReference}. A reference to a product category by ID, handle, and name.
      * @return list<CategoryReference>
      */
     public function getCategories(): array { return $this->get('categories'); }
     public function hasCategories(): bool { return $this->has('categories'); }
-    /** description
+    /** Description of the item as sold.
      * @return ?string
      */
     public function getDescription(): ?string { return $this->get('description'); }
@@ -71,7 +87,12 @@ final class OrderLineItem extends Model {
      */
     public function getDiscountMoney(): MoneyValue { return $this->get('discount_money'); }
     public function hasDiscountMoney(): bool { return $this->has('discount_money'); }
-    /** Current quantities for each required fulfillment obligation: one entry for a single item or one per bundle component that requires fulfillment. Quantities use line units for single items and component units for bundles. required_quantity equals unassigned_quantity + assigned_quantity + fulfilled_quantity + canceled_quantity + failed_quantity. Omitted when the line needs no fulfillment or the order's obligations cannot be computed, including older lines without recorded requirements. [] (Value): {@see OrderLineItemFulfillmentQuantities}. Counts of how much of an order line item is assigned, fulfilled, failed, canceled, or still unassigned for fulfillment.
+    /** Expected calendar ship date in YYYY-MM-DD format, shown once a delivery or payment hold exists. Null when no hold exists yet, or when neither a future copied release_date nor the inventory item supplies an applicable date. A future copied release_date takes precedence even when physical stock covers every unit; otherwise the inventory item's expected ship date applies only to backordered units when it is today or later in the merchant's timezone. Past item dates are omitted and never frozen. The estimate may change before payment and freezes at settlement. Thereafter only a paid-line PATCH changes or clears it; allocation preserves it. Null or past dates add no delay. Earlier fulfillment is permitted. Format: date.
+     * @return string|null
+     */
+    public function getExpectedShipDate(): string|null { return $this->get('expected_ship_date'); }
+    public function hasExpectedShipDate(): bool { return $this->has('expected_ship_date'); }
+    /** Current quantities for each required fulfillment obligation: one entry for a single item or one per bundle component that requires fulfillment. Quantities use line units for single items and component units for bundles. required_quantity equals unassigned_quantity + assigned_quantity + fulfilled_quantity + canceled_quantity + failed_quantity + removed_quantity. Omitted when the line needs no fulfillment or the order's obligations cannot be computed, including older lines without recorded requirements. [] (Value): {@see OrderLineItemFulfillmentQuantities}. Counts of how much of an order line item is assigned, fulfilled, failed, canceled, removed, or still unassigned for fulfillment.
      * @return ?list<OrderLineItemFulfillmentQuantities>
      */
     public function getFulfillmentQuantities(): ?array { return $this->get('fulfillment_quantities'); }
@@ -81,22 +102,22 @@ final class OrderLineItem extends Model {
      */
     public function getFulfillmentRequirements(): ?OrderLineItemFulfillmentRequirements { return $this->get('fulfillment_requirements'); }
     public function hasFulfillmentRequirements(): bool { return $this->has('fulfillment_requirements'); }
-    /** The gift card purchase details saved on an order line item: configuration, face value, price paid, and recipient.
+    /** Gift card details for a gift card purchase line. The gift card purchase details saved on an order line item: configuration, face value, price paid, and recipient.
      * @return ?GiftCardPurchaseSnapshot
      */
     public function getGiftCardPurchase(): ?GiftCardPurchaseSnapshot { return $this->get('gift_card_purchase'); }
     public function hasGiftCardPurchase(): bool { return $this->has('gift_card_purchase'); }
-    /** An image with its `url`, `width`, and `height`, and optional `alt` text.
+    /** Image of the item as sold. An image with its URL, size, and alt text.
      * @return ?Image
      */
     public function getImage(): ?Image { return $this->get('image'); }
     public function hasImage(): bool { return $this->has('image'); }
-    /**  anyOf[1] (Value): {@see LineItemInventorySnapshot}. Whether an order line item tracks inventory, and the inventory item quantities each unit demands. anyOf[2] (Value): null.
+    /** Whether the line tracks inventory, and the inventory demands fixed when the line was added. `null` when no inventory snapshot was recorded for the line. anyOf[1] (Value): {@see LineItemInventorySnapshot}. Whether an order line item tracks inventory, and the inventory item quantities each unit demands. anyOf[2] (Value): null.
      * @return LineItemInventorySnapshot|null
      */
     public function getInventorySnapshot(): LineItemInventorySnapshot|null { return $this->get('inventory_snapshot'); }
     public function hasInventorySnapshot(): bool { return $this->has('inventory_snapshot'); }
-    /** Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
+    /** Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      * @return ?array<array-key, string>
      */
     public function getMetadata(): ?array { return $this->get('metadata'); }
@@ -106,22 +127,27 @@ final class OrderLineItem extends Model {
      */
     public function getModifierTotalMoney(): MoneyValue { return $this->get('modifier_total_money'); }
     public function hasModifierTotalMoney(): bool { return $this->has('modifier_total_money'); }
-    /**  [] (Value): {@see OrderLineItemModifier}. A modifier selected on an order line item, with its quantity, price change, total, and display flags.
+    /** Modifiers selected on the line, with their prices. [] (Value): {@see OrderLineItemModifier}. A modifier selected on an order line item.
      * @return list<OrderLineItemModifier>
      */
     public function getModifiers(): array { return $this->get('modifiers'); }
     public function hasModifiers(): bool { return $this->has('modifiers'); }
-    /** name
+    /** Name of the item as sold.
      * @return string
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** order_line_item_id
+    /** Unique identifier for this order line item, prefixed `li_`.
      * @return string
      */
     public function getOrderLineItemId(): string { return $this->get('order_line_item_id'); }
     public function hasOrderLineItemId(): bool { return $this->has('order_line_item_id'); }
-    /** product_id
+    /** The `key` of the payment link line item this line was created from. Match order lines to the link's line items with it instead of by name. Flint sets it when checkout starts and it never changes; metadata updates don't affect it. `null` when the line didn't come from a payment link line item: the order didn't come from a payment link, the line was added to the order later, or the line came from a subscription plan through a subscription signup link. minLength: 1. maxLength: 100.
+     * @return string|null
+     */
+    public function getPaymentLinkLineItemKey(): string|null { return $this->get('payment_link_line_item_key'); }
+    public function hasPaymentLinkLineItemKey(): bool { return $this->has('payment_link_line_item_key'); }
+    /** ID of the catalog product the item was sold from.
      * @return ?string
      */
     public function getProductId(): ?string { return $this->get('product_id'); }
@@ -136,7 +162,7 @@ final class OrderLineItem extends Model {
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Amount of this line already refunded. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getRefundedMoney(): MoneyValue { return $this->get('refunded_money'); }
@@ -146,21 +172,26 @@ final class OrderLineItem extends Model {
      */
     public function getRefundedQuantity(): int { return $this->get('refunded_quantity'); }
     public function hasRefundedQuantity(): bool { return $this->has('refunded_quantity'); }
-    /**  [] (Value): {@see SelectedProductOption}. An option and value chosen for a product variant, such as size Large.
+    /** Future release date copied when the line was created, in YYYY-MM-DD format. Null when the line is not a pre-order. Earlier fulfillment is permitted. Format: date.
+     * @return string|null
+     */
+    public function getReleaseDate(): string|null { return $this->get('release_date'); }
+    public function hasReleaseDate(): bool { return $this->has('release_date'); }
+    /** Whole-number quantity; fractional quantities are not supported. Whole line units removed by paid-order edits. For bundles, each removed line unit removes all of its component units. The original quantity and pricing remain the sale record; refunds are tracked separately. Format: int64.
+     * @return int
+     */
+    public function getRemovedQuantity(): int { return $this->get('removed_quantity'); }
+    public function hasRemovedQuantity(): bool { return $this->has('removed_quantity'); }
+    /** Variant options selected for the item, such as size and color. [] (Value): {@see SelectedProductOption}. An option and value chosen for a product variant, such as size Large.
      * @return list<SelectedProductOption>
      */
     public function getSelectedOptions(): array { return $this->get('selected_options'); }
     public function hasSelectedOptions(): bool { return $this->has('selected_options'); }
-    /** sku
+    /** SKU of the item as sold.
      * @return ?string
      */
     public function getSku(): ?string { return $this->get('sku'); }
     public function hasSku(): bool { return $this->has('sku'); }
-    /** Value enum: "variant", "bundle".
-     * @return ?string
-     */
-    public function getSourceType(): ?string { return $this->get('source_type'); }
-    public function hasSourceType(): bool { return $this->has('source_type'); }
     /** Recurring offer and cadence frozen for this line at signup. The subscription offer and billing interval an order line was bought under, with the recurring amount.
      * @return ?SubscribedLine
      */
@@ -181,7 +212,7 @@ final class OrderLineItem extends Model {
      */
     public function getSubtotalMoney(): MoneyValue { return $this->get('subtotal_money'); }
     public function hasSubtotalMoney(): bool { return $this->has('subtotal_money'); }
-    /** Tax settings for an order line item calculated by Flint or supplied by you, including the line item tax category and whether it is taxable.
+    /** How tax was calculated for this line item. Tax settings for an order line item calculated by Flint or supplied by you, including the line item tax category and whether it is taxable.
      * @return ?OrderCalculatedLineItemTax
      */
     public function getTax(): ?OrderCalculatedLineItemTax { return $this->get('tax'); }
@@ -191,17 +222,22 @@ final class OrderLineItem extends Model {
      */
     public function getTaxMoney(): MoneyValue { return $this->get('tax_money'); }
     public function hasTaxMoney(): bool { return $this->has('tax_money'); }
-    /** Subtotal minus discounts, plus tax that is not already included in the price. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * @return SignedMoney
+    /** Subtotal minus discounts, plus tax that is not already included in the price. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValue
      */
-    public function getTotalMoney(): SignedMoney { return $this->get('total_money'); }
+    public function getTotalMoney(): MoneyValue { return $this->get('total_money'); }
     public function hasTotalMoney(): bool { return $this->has('total_money'); }
+    /** Whether the line was sold from a catalog variant, a bundle, or a custom item. Value enum: "variant", "bundle", "custom".
+     * @return string
+     */
+    public function getType(): string { return $this->get('type'); }
+    public function hasType(): bool { return $this->has('type'); }
     /** Dimensions of one unit fixed when the line was created. Omitted when unknown and for bundle lines. Package or item dimensions as `length`, `width`, and `height` in the given `unit`.
      * @return ?Dimensions
      */
     public function getUnitDimensions(): ?Dimensions { return $this->get('unit_dimensions'); }
     public function hasUnitDimensions(): bool { return $this->has('unit_dimensions'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Price of one unit before modifiers, discounts, and tax. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getUnitPriceMoney(): MoneyValue { return $this->get('unit_price_money'); }
@@ -211,7 +247,7 @@ final class OrderLineItem extends Model {
      */
     public function getUnitWeight(): ?Weight { return $this->get('unit_weight'); }
     public function hasUnitWeight(): bool { return $this->has('unit_weight'); }
-    /** variant_id
+    /** ID of the catalog variant the item was sold from.
      * @return ?string
      */
     public function getVariantId(): ?string { return $this->get('variant_id'); }

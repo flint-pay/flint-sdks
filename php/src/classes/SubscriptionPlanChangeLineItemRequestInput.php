@@ -14,7 +14,7 @@ final class SubscriptionPlanChangeLineItemRequestInput extends Model {
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
-    /** A line in the target subscription plan. minLength: 1. pattern: ^spli_[0-9A-HJKMNP-TV-Z]{26}$.
+    /** A line in the target subscription plan. minLength: 1. pattern: ^spli_[0-9A-HJKMNP-TV-Z]{26}$. Example: "spli_01KEZF7C00H9FGC2KBRF82H87N".
      * @return string
      * @throws SdkError When subscription_plan_line_item_id is omitted; use hasSubscriptionPlanLineItemId() or valueOrDefault().
      */

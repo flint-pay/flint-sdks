@@ -12,7 +12,7 @@ Response model.
 | `instructions` | Optional | string |  |
 | `location_id` | Required | string |  |
 | `name` | Required | string |  |
-| `timezone` | Optional | string |  |
+| `timezone` | Optional | string | Uses an IANA time zone name. |
 
 ### DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueCannotCalculateOptionPickupLocation.address fields 1
 

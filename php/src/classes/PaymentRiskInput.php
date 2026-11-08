@@ -14,7 +14,7 @@ namespace Flint;
 final class PaymentRiskInput extends Model {
     /** @param array{'evaluated_at': string|\DateTimeInterface, 'level': string, 'matched_risk_rule_id'?: string, 'outcome'?: string|null, 'outcome_reason'?: string|null, 'payment_review_id'?: string, 'score'?: int, 'statement': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentRiskInput')); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When evaluated_at is omitted; use hasEvaluatedAt() or valueOrDefault().
      */
@@ -26,7 +26,7 @@ final class PaymentRiskInput extends Model {
      */
     public function getLevel(): string { return $this->get('level'); }
     public function hasLevel(): bool { return $this->has('level'); }
-    /** matched_risk_rule_id
+    /** Example: "rule_01KEZF7C00FWGAQJXXA8CRA319".
      * @return string
      * @throws SdkError When matched_risk_rule_id is omitted; use hasMatchedRiskRuleId() or valueOrDefault().
      */
@@ -44,7 +44,7 @@ final class PaymentRiskInput extends Model {
      */
     public function getOutcomeReason(): string|null { return $this->get('outcome_reason'); }
     public function hasOutcomeReason(): bool { return $this->has('outcome_reason'); }
-    /** payment_review_id
+    /** Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
      * @return string
      * @throws SdkError When payment_review_id is omitted; use hasPaymentReviewId() or valueOrDefault().
      */

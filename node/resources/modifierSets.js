@@ -5,9 +5,9 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/modifierSets.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import r0 from '../descriptors/resources/modifierSets.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import settings from '../descriptors/settings.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createModifierSet"]:r0,["deleteModifierSet"]:r0,["getModifierSet"]:r0,["listModifierSets"]:r0,["updateModifierSet"]:r0});
 export class Client {
@@ -15,7 +15,11 @@ export class Client {
 constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.modifierSets = Object.freeze({
-      create: async (params, options) => this.#runtime.request("createModifierSet", _sdkRequestInput([], [], [], true, true, params, [
+      create: async (params, options) => this.#runtime.request("createModifierSet", _sdkRequestInput([], [], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
@@ -23,7 +27,10 @@ this.modifierSets = Object.freeze({
       delete: async (modifier_set_id, params, options) => this.#runtime.request("deleteModifierSet", _sdkRequestInput([
   "modifier_set_id"
 ], [modifier_set_id], [
-  "expected_version"
+  "expected_version",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Idempotency-Key",
   "Flint-Version",
@@ -31,7 +38,11 @@ this.modifierSets = Object.freeze({
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("deleteModifierSet", result, path))),
       get: async (modifier_set_id, params, options) => this.#runtime.request("getModifierSet", _sdkRequestInput([
   "modifier_set_id"
-], [modifier_set_id], [], false, false, params, [
+], [modifier_set_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getModifierSet", result, path))),
@@ -46,7 +57,10 @@ this.modifierSets = Object.freeze({
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before"
+  "updated_before",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -62,7 +76,10 @@ this.modifierSets = Object.freeze({
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before"
+  "updated_before",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -78,14 +95,21 @@ this.modifierSets = Object.freeze({
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before"
+  "updated_before",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
 ]), options),
       update: async (modifier_set_id, params, options) => this.#runtime.request("updateModifierSet", _sdkRequestInput([
   "modifier_set_id"
-], [modifier_set_id], [], true, true, params, [
+], [modifier_set_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
@@ -104,7 +128,7 @@ export { makeCreateModifierSetRequest } from '../models/CreateModifierSetRequest
 export { makeInlineModifierGroupRequest } from '../models/InlineModifierGroupRequest.js';
 export { makeMetadataPatchRequest } from '../models/MetadataPatchRequest.js';
 export { makeMetadataRequest } from '../models/MetadataRequest.js';
-export { makeModifierOverride } from '../models/ModifierOverride.js';
+export { makeModifierOverrideRequest } from '../models/ModifierOverrideRequest.js';
 export { makeModifierRequest } from '../models/ModifierRequest.js';
 export { makeModifierSetGroupInputExisting } from '../models/ModifierSetGroupInputExisting.js';
 export { makeModifierSetGroupInputInline } from '../models/ModifierSetGroupInputInline.js';

@@ -10,25 +10,25 @@ namespace Flint;
 final class CreateServiceFulfillmentDetailsInput extends Model {
     /** @param array{'notes'?: string, 'scheduled_end_at'?: string|\DateTimeInterface, 'scheduled_start_at'?: string|\DateTimeInterface, 'timezone'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateServiceFulfillmentDetailsInput')); }
-    /** minLength: 1.
+    /** Additional instructions or notes for performing the service. minLength: 1.
      * @return string
      * @throws SdkError When notes is omitted; use hasNotes() or valueOrDefault().
      */
     public function getNotes(): string { return $this->get('notes'); }
     public function hasNotes(): bool { return $this->has('notes'); }
-    /** RFC3339 timestamp. Format: date-time. minLength: 1.
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When scheduled_end_at is omitted; use hasScheduledEndAt() or valueOrDefault().
      */
     public function getScheduledEndAt(): string|\DateTimeInterface { return $this->get('scheduled_end_at'); }
     public function hasScheduledEndAt(): bool { return $this->has('scheduled_end_at'); }
-    /** RFC3339 timestamp. Format: date-time. minLength: 1.
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When scheduled_start_at is omitted; use hasScheduledStartAt() or valueOrDefault().
      */
     public function getScheduledStartAt(): string|\DateTimeInterface { return $this->get('scheduled_start_at'); }
     public function hasScheduledStartAt(): bool { return $this->has('scheduled_start_at'); }
-    /** minLength: 1.
+    /** Uses an IANA time zone name. minLength: 1.
      * @return string
      * @throws SdkError When timezone is omitted; use hasTimezone() or valueOrDefault().
      */

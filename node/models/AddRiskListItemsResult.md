@@ -10,5 +10,5 @@ Risk list item additions, one per request value in request order. Repeated value
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `additions` | Required | Array of [RiskListItemAddition](../models/RiskListItemAddition.md#risklistitemaddition) |  |
+| `additions` | Required | Array of [RiskListItemAddition](../models/RiskListItemAddition.md#risklistitemaddition) | One entry for each value you sent, in request order. |
 

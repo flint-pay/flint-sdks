@@ -9,8 +9,8 @@ Request input.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `expected_version` | Optional | integer | Optional order version from the last order read. The mutation fails if the order changed. Format: `int64`. minimum: `1`. |
-| `manual` | Conditional | [ManualDiscountRequestInput](../models/ManualDiscountRequestInput.md#manualdiscountrequestinput) | A discount you apply by hand to an order, with a name, an amount, and the order, line items, or charges it applies to. |
-| `promotion` | Conditional | [PromotionRefRequestInput](../models/PromotionRefRequestInput.md#promotionrefrequestinput) | Identifies the promotion to apply, by promotion code or by promotion ID. |
+| `manual` | Conditional | [ManualDiscountRequestInput](../models/ManualDiscountRequestInput.md#manualdiscountrequestinput) | A discount you set by hand, with a name and an amount. A discount you apply by hand to an order, with a name, an amount, and the order, line items, or charges it applies to. |
+| `promotion` | Conditional | [PromotionRefRequestInput](../models/PromotionRefRequestInput.md#promotionrefrequestinput) | The promotion to apply. Identifies the promotion to apply, by promotion code or by promotion ID. |
 
 ### ApplyDiscountRequestInput variant 1
 

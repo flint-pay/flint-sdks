@@ -13,7 +13,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   allowInsecureHttp: $baseUrl !== null && in_array(parse_url($baseUrl, PHP_URL_HOST), ['localhost', '127.0.0.1'], true) && parse_url($baseUrl, PHP_URL_SCHEME) === 'http',
 ));
-$result = $client->fraudWarnings->get('frw_01ARZ3NDEKTSV4RRFFQ69G5FAV');
+$result = $client->fraudWarnings->get('frw_01KEZF7C00WD6W4TAFS0FH851W');
 echo $result->fraud_warning_id . PHP_EOL;
 echo $result->payment_intent_id . PHP_EOL;
 $client->close();

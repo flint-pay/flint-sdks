@@ -10,13 +10,13 @@ namespace Flint;
 final class SubscriptionDeliveryHoldInput extends Model {
     /** @param array{'ends_at': string|\DateTimeInterface, 'fixable_by': string, 'reason': string, 'started_at': string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionDeliveryHoldInput')); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** When the hold runs out: 14 days or one billing interval after the billing date, whichever is sooner. A hold that runs out pauses the subscription with `pause_reason: delivery_action_required`. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When ends_at is omitted; use hasEndsAt() or valueOrDefault().
      */
     public function getEndsAt(): string|\DateTimeInterface { return $this->get('ends_at'); }
     public function hasEndsAt(): bool { return $this->has('ends_at'); }
-    /** Value enum: "buyer", "merchant".
+    /** Who can clear the hold. `method_unavailable` holds are `buyer` unless your `customer_account.buyer_capabilities.can_update_delivery` is false. Value enum: "buyer", "merchant".
      * @return string
      * @throws SdkError When fixable_by is omitted; use hasFixableBy() or valueOrDefault().
      */
@@ -28,7 +28,7 @@ final class SubscriptionDeliveryHoldInput extends Model {
      */
     public function getReason(): string { return $this->get('reason'); }
     public function hasReason(): bool { return $this->has('reason'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** When Flint held the renewal. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When started_at is omitted; use hasStartedAt() or valueOrDefault().
      */

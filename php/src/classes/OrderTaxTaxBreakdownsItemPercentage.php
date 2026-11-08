@@ -20,12 +20,12 @@ namespace Flint;
 final class OrderTaxTaxBreakdownsItemPercentage extends Model {
     /** @param array{'calculation_type': string, 'flat_money'?: mixed, 'fulfillment_choice_group_id'?: string, 'jurisdiction': mixed, 'location_id'?: string, 'order_charge_id'?: string, 'order_line_item_id'?: string, 'percent': float, 'price_mode': string, 'tax_breakdown_id': string, 'tax_money': mixed, 'tax_type': string, 'taxability_reason': string, 'taxable_money': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderTaxTaxBreakdownsItemPercentage')); }
-    /** Value enum: "percentage".
+    /** How the tax is figured: a percentage of the taxable amount, or a fixed amount. Value enum: "percentage".
      * @return string
      */
     public function getCalculationType(): string { return $this->get('calculation_type'); }
     public function hasCalculationType(): bool { return $this->has('calculation_type'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** The fixed tax amount. Present on `flat_amount` rows. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return ?OrderTaxTaxBreakdownsItemPercentageFlatMoney
      */
     public function getFlatMoney(): ?OrderTaxTaxBreakdownsItemPercentageFlatMoney { return $this->get('flat_money'); }
@@ -35,7 +35,7 @@ final class OrderTaxTaxBreakdownsItemPercentage extends Model {
      */
     public function getFulfillmentChoiceGroupId(): ?string { return $this->get('fulfillment_choice_group_id'); }
     public function hasFulfillmentChoiceGroupId(): bool { return $this->has('fulfillment_choice_group_id'); }
-    /** A taxing jurisdiction with its level, such as state or city, name, state, and country.
+    /** The taxing authority this row's tax is owed to. A taxing jurisdiction with its level, such as state or city, name, state, and country.
      * @return OrderTaxTaxBreakdownsItemPercentageJurisdiction
      */
     public function getJurisdiction(): OrderTaxTaxBreakdownsItemPercentageJurisdiction { return $this->get('jurisdiction'); }
@@ -45,47 +45,47 @@ final class OrderTaxTaxBreakdownsItemPercentage extends Model {
      */
     public function getLocationId(): ?string { return $this->get('location_id'); }
     public function hasLocationId(): bool { return $this->has('location_id'); }
-    /** order_charge_id
+    /** ID of the order charge this row taxes. Absent on rows for a line item or a flat order tax.
      * @return ?string
      */
     public function getOrderChargeId(): ?string { return $this->get('order_charge_id'); }
     public function hasOrderChargeId(): bool { return $this->has('order_charge_id'); }
-    /** order_line_item_id
+    /** ID of the order line item this row taxes. Absent on rows for a charge or a flat order tax.
      * @return ?string
      */
     public function getOrderLineItemId(): ?string { return $this->get('order_line_item_id'); }
     public function hasOrderLineItemId(): bool { return $this->has('order_line_item_id'); }
-    /** minimum: 0. maximum: 100. multipleOf: 0.0001.
+    /** Tax rate in percentage points, from 0 to 100 with up to four decimal places: `6.5` is 6.5%. Present on `percentage` rows. minimum: 0. maximum: 100. multipleOf: 0.0001.
      * @return float
      */
     public function getPercent(): float { return $this->get('percent'); }
     public function hasPercent(): bool { return $this->has('percent'); }
-    /** Value enum: "additive", "inclusive".
+    /** Whether the price this row taxes already includes the tax. Value enum: "additive", "inclusive".
      * @return string
      */
     public function getPriceMode(): string { return $this->get('price_mode'); }
     public function hasPriceMode(): bool { return $this->has('price_mode'); }
-    /** tax_breakdown_id
+    /** ID of this tax row. A refund names it in `tax_breakdown_refunds` to reverse this row's tax.
      * @return string
      */
     public function getTaxBreakdownId(): string { return $this->get('tax_breakdown_id'); }
     public function hasTaxBreakdownId(): bool { return $this->has('tax_breakdown_id'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** The tax this row adds up to. Zero when the amount isn't taxable or the customer is tax-exempt. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return OrderTaxTaxBreakdownsItemPercentageTaxMoney
      */
     public function getTaxMoney(): OrderTaxTaxBreakdownsItemPercentageTaxMoney { return $this->get('tax_money'); }
     public function hasTaxMoney(): bool { return $this->has('tax_money'); }
-    /** Value enum: "sales_tax", "use_tax", "retail_delivery_fee".
+    /** The kind of tax this row collects. Value enum: "sales_tax", "use_tax", "retail_delivery_fee", "vat", "gst", "hst", "pst", "qst".
      * @return string
      */
     public function getTaxType(): string { return $this->get('tax_type'); }
     public function hasTaxType(): bool { return $this->has('tax_type'); }
-    /** Value enum: "standard_rated", "not_taxable", "customer_exempt", "tax_disabled", "location_required", "calculation_incomplete".
+    /** Why the row's tax is what it is. Value enum: "standard_rated", "not_taxable", "customer_exempt", "tax_disabled", "location_required", "calculation_incomplete", "reverse_charge".
      * @return string
      */
     public function getTaxabilityReason(): string { return $this->get('taxability_reason'); }
     public function hasTaxabilityReason(): bool { return $this->has('taxability_reason'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** The amount this row's tax is based on. On an additive percentage row it is the price, on an inclusive row it is the price minus the tax in it, and on a flat row it is the order's taxable amount. Zero when the amount isn't taxable. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return OrderTaxTaxBreakdownsItemPercentageTaxableMoney
      */
     public function getTaxableMoney(): OrderTaxTaxBreakdownsItemPercentageTaxableMoney { return $this->get('taxable_money'); }

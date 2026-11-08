@@ -16,11 +16,15 @@ Response model.
 | `invoice_id` | Required | string | The invoice this attempt collects. |
 | `invoice_payment_attempt_id` | Required | string | Flint invoice payment attempt ID. |
 | `invoice_schedule_entry_id` | Optional | string | The schedule entry this attempt collects. Absent when the attempt collects the invoice balance. |
-| `last_payment_error` | Optional | [PaymentErrorSummary](../models/PaymentErrorSummary.md#paymenterrorsummary) | Why the payment failed. Present only when status is failed. A summary of why a payment attempt failed, with a normalized error code, a message, the failure time, and remediation. |
+| `last_payment_error` | Optional | [PaymentErrorSummary](../models/PaymentErrorSummary.md#paymenterrorsummary) | Why the payment failed. Present only when status is failed. A summary of why a payment attempt failed, with a normalized error code, a message, the failure time, and remediation. `last_payment_error`: [field definitions](../models/InvoicePaymentAttemptResponse.md#invoicepaymentattemptresponsedatalast_payment_error). |
 | `payment_intent_id` | Optional | string | The payment intent behind this attempt. Absent until payment starts, such as a hosted attempt the buyer hasn't paid yet. |
 | `rail` | Required | string | How the attempt collects: card, including Apple Pay, Google Pay, and Affirm, or ACH debit. Values: `"card"`, `"ach_debit"`. |
 | `settled_at` | Optional | string | When this attempt first settled successfully. Duplicate payment notifications preserve this timestamp. Format: `date-time`. |
 | `started_at` | Optional | string | When the attempt was created. Format: `date-time`. |
 | `status` | Required | string | Current payment attempt status. settled means this attempt completed successfully, even if the invoice still has an outstanding balance. invoice_payment_attempt.settled reports that completion. Values: `"open"`, `"settled"`, `"failed"`, `"canceled"`, `"expired"`, `"processing"`. |
-| `updated_at` | Optional | string | When this attempt last changed. Duplicate payment notifications preserve this timestamp. Format: `date-time`. |
+| `updated_at` | Required | string | When this attempt last changed. Duplicate payment notifications preserve this timestamp. Format: `date-time`. |
+
+### InvoicePaymentAttempt.last_payment_error
+
+Field definitions: [InvoicePaymentAttemptResponse.data.last_payment_error](../models/InvoicePaymentAttemptResponse.md#invoicepaymentattemptresponsedatalast_payment_error).
 

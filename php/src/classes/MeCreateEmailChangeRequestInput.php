@@ -9,7 +9,7 @@ namespace Flint;
 final class MeCreateEmailChangeRequestInput extends Model {
     /** @param array{'body': array{'new_email': string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MeCreateEmailChangeRequestInput')); }
-    /** The request body for: Request an email change.
+    /** The request body for: Request an email change. Example: {"new_email":"alex.new@example.com"}.
      * @return array{'new_email': string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

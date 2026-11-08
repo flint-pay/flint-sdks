@@ -8,7 +8,7 @@ namespace Flint;
 final class TaxConnectionSellerAttestationInput extends Model {
     /** @param array{'attested_at': string|\DateTimeInterface, 'disclosure_version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('TaxConnectionSellerAttestationInput')); }
-    /** When Flint recorded the seller's agreement. Format: date-time.
+    /** When Flint recorded the seller's agreement. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When attested_at is omitted; use hasAttestedAt() or valueOrDefault().
      */

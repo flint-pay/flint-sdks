@@ -12,7 +12,7 @@ namespace Flint;
 final class ReturnProcessInspectionRequestInput extends Model {
     /** @param array{'acceptance_status': string, 'condition': string, 'external_reference_id'?: string, 'finding_codes'?: list<string>, 'inspected_at': string|\DateTimeInterface, 'internal_note'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnProcessInspectionRequestInput')); }
-    /** Value enum: "accepted", "rejected", "review_required".
+    /** Whether the inspected units were accepted, rejected, or need a merchant's decision. Value enum: "accepted", "rejected", "review_required".
      * @return string
      * @throws SdkError When acceptance_status is omitted; use hasAcceptanceStatus() or valueOrDefault().
      */
@@ -24,25 +24,25 @@ final class ReturnProcessInspectionRequestInput extends Model {
      */
     public function getCondition(): string { return $this->get('condition'); }
     public function hasCondition(): bool { return $this->has('condition'); }
-    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** [] enum: "matches_expected_item", "wrong_item", "damaged", "defective", "used", "missing_parts", "empty_package", "counterfeit_suspected", "other". [] (Value): string.  Value enum: "matches_expected_item", "wrong_item", "damaged", "defective", "used", "missing_parts", "empty_package", "counterfeit_suspected", "other".
+    /** What the inspection found. Up to 50 values, none repeated. [] enum: "matches_expected_item", "wrong_item", "damaged", "defective", "used", "missing_parts", "empty_package", "counterfeit_suspected", "other". [] (Value): string.  Value enum: "matches_expected_item", "wrong_item", "damaged", "defective", "used", "missing_parts", "empty_package", "counterfeit_suspected", "other".
      * @return list<string>
      * @throws SdkError When finding_codes is omitted; use hasFindingCodes() or valueOrDefault().
      */
     public function getFindingCodes(): array { return $this->get('finding_codes'); }
     public function hasFindingCodes(): bool { return $this->has('finding_codes'); }
-    /** RFC3339 timestamp. Format: date-time. minLength: 1.
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When inspected_at is omitted; use hasInspectedAt() or valueOrDefault().
      */
     public function getInspectedAt(): string|\DateTimeInterface { return $this->get('inspected_at'); }
     public function hasInspectedAt(): bool { return $this->has('inspected_at'); }
-    /** minLength: 1.
+    /** Note for your own team about this line. minLength: 1.
      * @return string
      * @throws SdkError When internal_note is omitted; use hasInternalNote() or valueOrDefault().
      */

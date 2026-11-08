@@ -18,7 +18,7 @@ $customerSessionId = 'cses_01ARZ3NDEKTSV4RRFFQ69G5FAV';
 $idempotencyKey = 'refresh-' . $customerSessionId;
 
 $result = $client->customerSessions->refresh([
-  'refresh_token' => 'example',
+  'refresh_token' => 'flint_cref_YmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmI',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo json_encode($result, JSON_THROW_ON_ERROR) . PHP_EOL;
 $client->close();

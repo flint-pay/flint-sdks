@@ -1,16 +1,16 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-5.js';
-import type { DecideReturnInspectionLineItemResponse } from '../declarations/types-14.js';
-import type { GetReturnInspectionResponse } from '../declarations/types-23.js';
-import type { ListReturnInspectionsResponse } from '../declarations/types-32.js';
-import type { RequestOptions } from '../declarations/types-48.js';
+import type { ClientOptions } from '../declarations/types-6.js';
+import type { DecideReturnInspectionLineItemResponse } from '../declarations/types-15.js';
+import type { GetReturnInspectionResponse } from '../declarations/types-25.js';
+import type { ListReturnInspectionsResponse } from '../declarations/types-34.js';
+import type { RequestOptions } from '../declarations/types-51.js';
 import type {
     ReturnInspection,
     ReturnInspectionsDecideLineItemParams,
     ReturnInspectionsGetParams,
     ReturnInspectionsListParams
-} from '../declarations/types-49.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-52.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -30,21 +30,25 @@ export type {
     ReturnInspection,
     ReturnInspectionsGetParams,
     ReturnInspectionsListParams,
+    ReturnDisposition,
+    ReturnActor,
     ReturnInspectionLineItem
-} from '../declarations/types-49.js';
-export type { RequestOptions, ReturnDisposition, ReturnActor, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
-export type { DecideReturnInspectionLineItemResponse, DecideReturnInspectionLineItemRequestInput } from '../declarations/types-14.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { GetReturnInspectionResponse } from '../declarations/types-23.js';
-export type { ListReturnInspectionsResponse } from '../declarations/types-32.js';
-export type { ClientOptions } from '../declarations/types-5.js';
+} from '../declarations/types-52.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
+export type { DecideReturnInspectionLineItemResponse, DecideReturnInspectionLineItemRequestInput } from '../declarations/types-15.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+export type { GetReturnInspectionResponse } from '../declarations/types-25.js';
+export type { ListReturnInspectionsResponse } from '../declarations/types-34.js';
+export type { ClientOptions } from '../declarations/types-6.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-12.js';
-export type { MetadataMap, NextAction, MoneyValue } from '../declarations/types-35.js';
-export type { ReturnSourceSystem } from '../declarations/types-51.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
-export { makeDecideReturnInspectionLineItemRequest } from '../declarations/types-66.js';
-export { makeMoneyValue } from '../declarations/types-70.js';
+export type { Credentials } from '../declarations/types-13.js';
+export type { MetadataMap } from '../declarations/types-36.js';
+export type { ReturnSourceSystem } from '../declarations/types-54.js';
+export type { NextAction, MoneyValue } from '../declarations/types-37.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
+export type { DisputesAcceptParams } from '../declarations/types-22.js';
+export { makeDecideReturnInspectionLineItemRequest } from '../declarations/types-71.js';
+export { makeMoneyValue } from '../declarations/types-75.js';
 export interface ReturnInspectionsResource {
     /**
  * Record the accept or reject outcome for inspected quantity. expected_version compares against
@@ -61,9 +65,9 @@ export interface ReturnInspectionsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returnInspections.decideLineItem("retins_01ARZ3NDEKTSV4RRFFQ69G5FAV",
- * "retinli_01ARZ3NDEKTSV4RRFFQ69G5FAV", {acceptance_decision_reason: "inspection_result",
- * acceptance_status: "accepted"}, { idempotencyKey: idempotencyKey })
+ * client.returnInspections.decideLineItem("retins_01KEZF7C00WPB0BR4WTT7CMSB8",
+ * "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4", {acceptance_decision_reason: "manual_review",
+ * acceptance_status: "accepted", expected_version: 1}, { idempotencyKey: idempotencyKey })
  */
     decideLineItem(return_inspection_id: InputValue<string>, return_inspection_line_item_id: InputValue<string>, params: ReturnInspectionsDecideLineItemParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<ReturnInspection, DecideReturnInspectionLineItemResponse>>;
     /**
@@ -75,7 +79,7 @@ export interface ReturnInspectionsResource {
  * @see https://developers.withflintpay.com/docs/api/return-inspections#getReturnInspection
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.returnInspections.get("retins_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.returnInspections.get("retins_01KEZF7C00WPB0BR4WTT7CMSB8")
  */
     get(return_inspection_id: InputValue<string>, params?: ReturnInspectionsGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<ReturnInspection, GetReturnInspectionResponse>>;
     /**

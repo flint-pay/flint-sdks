@@ -1,5 +1,5 @@
 import type { WithResponseInfo } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-5.js';
+import type { ClientOptions } from '../declarations/types-6.js';
 import type {
     Merchant,
     MerchantAccountSession,
@@ -32,12 +32,16 @@ import type {
     MerchantBillingInvoicesListParams,
     MerchantGetParams,
     MerchantReadiness,
+    MerchantReadinessUpdatedInstalledMerchantsEvent,
+    MerchantReadinessUpdatedMerchantEvent,
     MerchantResponse,
-    MerchantUpdateParams
-} from '../declarations/types-34.js';
-import type { MerchantWebhookEnvelope } from '../declarations/types-35.js';
-import type { RequestOptions } from '../declarations/types-48.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+    MerchantUpdateParams,
+    MerchantUpdatedInstalledMerchantsEvent,
+    MerchantUpdatedMerchantEvent,
+    MerchantWebhookEnvelope
+} from '../declarations/types-36.js';
+import type { RequestOptions } from '../declarations/types-51.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -79,42 +83,43 @@ export type {
     MerchantBillingInvoiceListResponse,
     MerchantBillingInvoiceResponse,
     MerchantReadiness,
+    MerchantReadinessUpdatedInstalledMerchantsEvent,
+    MerchantReadinessUpdatedMerchantEvent,
+    MerchantUpdatedInstalledMerchantsEvent,
+    MerchantUpdatedMerchantEvent,
+    MerchantWebhookEnvelope,
     MerchantAccountSessionsCreateParams,
     MerchantBillingBalancesGetParams,
     MerchantBillingInvoicesGetParams,
     MerchantBillingBalancesListParams,
     MerchantBillingEntriesListParams,
     MerchantBillingInvoicesListParams,
-    MerchantAccountSessionsRefreshParams
-} from '../declarations/types-34.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
-export type {
-    MerchantWebhookEnvelope,
+    MerchantAccountSessionsRefreshParams,
     MetadataMap,
-    NextAction,
-    MoneyValue,
     MetadataPatchRequestInput,
     MetadataPatchRequest
-} from '../declarations/types-35.js';
-export type { ClientOptions } from '../declarations/types-5.js';
+} from '../declarations/types-36.js';
+export type { _SdkWithoutIdempotency, WebhookEventSource } from '../declarations/types-66.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
+export type { ClientOptions } from '../declarations/types-6.js';
 export type { AuthMode, Address, AddressRequestInput, AddressRequest } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-12.js';
-export type { ImageAttachment, ImageRequestInput, ImageInputSourceURLInput, ImageInputFileInput } from '../declarations/types-25.js';
-export type { ExpandedOrganizationSummary } from '../declarations/types-21.js';
-export type { ReadinessMerchantAccountSession, ReadinessAction, ReadinessRequirements, ReadinessAxis } from '../declarations/types-46.js';
-export type { UpdateMerchantRequestInput } from '../declarations/types-59.js';
-export type { DisputeResponseSessionStripeAccountSession } from '../declarations/types-20.js';
+export type { Credentials } from '../declarations/types-13.js';
+export type { ImageAttachment, ImageRequestInput, ImageInputSourceURLInput, ImageInputFileInput } from '../declarations/types-27.js';
+export type { NextAction, MoneyValue } from '../declarations/types-37.js';
+export type { ReadinessMerchantAccountSession, ReadinessAction, ReadinessRequirements, ReadinessAxis } from '../declarations/types-49.js';
+export type { UpdateMerchantRequestInput } from '../declarations/types-64.js';
+export type { DisputeResponseSessionStripeAccountSession, DisputesAcceptParams } from '../declarations/types-22.js';
 export type { CapabilityReadiness } from '../declarations/types-4.js';
-export { makeAddressRequest } from '../declarations/types-62.js';
-export { makeImageInputFile, makeImageInputSourceURL, makeImageRequest } from '../declarations/types-68.js';
+export type { PartnerWebhookEnvelope } from '../declarations/types-42.js';
+export { makeAddressRequest } from '../declarations/types-66.js';
+export { makeImageInputFile, makeImageInputSourceURL, makeImageRequest } from '../declarations/types-73.js';
 export {
     makeMerchantAccountSessionCreateRequest,
     makeMerchantAccountSessionRefreshRequest,
     makeMetadataPatchRequest
-} from '../declarations/types-69.js';
-export { makeMoneyValue } from '../declarations/types-70.js';
-export { makeUpdateMerchantRequest } from '../declarations/types-74.js';
+} from '../declarations/types-74.js';
+export { makeMoneyValue } from '../declarations/types-75.js';
+export { makeUpdateMerchantRequest } from '../declarations/types-79.js';
 export interface MerchantResource {
     /**
  * Returns the authenticated merchant.
@@ -129,9 +134,11 @@ export interface MerchantResource {
     /**
  * Applies a sparse update to the authenticated merchant's profile, shared across live and all
  * sandboxes. Every mutable field requires a live-mode credential or a Dashboard session in any
- * selected environment. Test credentials receive 403 FORBIDDEN with reason live_mode_required and
- * one detail per supplied shared field, including nulls and metadata changes. Nothing is saved on
- * refusal.
+ * selected environment. Test credentials fail with `FORBIDDEN` and reason `live_mode_required`,
+ * with one detail per supplied shared field, including nulls and metadata changes. Nothing is
+ * saved on refusal. A partner app install token can change only `business_name`, `icon`, and
+ * `logo`; another field returns `400 INVALID_REQUEST` with a `NOT_ALLOWED` detail whose `param`
+ * names it.
  *
  * `PATCH /v1/merchant`
  * @see https://developers.withflintpay.com/docs/api/merchants#updateMerchant

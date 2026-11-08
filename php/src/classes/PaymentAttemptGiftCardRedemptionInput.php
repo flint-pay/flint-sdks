@@ -17,13 +17,13 @@ final class PaymentAttemptGiftCardRedemptionInput extends Model {
      */
     public function getAmountMoney(): mixed { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** gift_card_id
+    /** Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
      * @return string
      * @throws SdkError When gift_card_id is omitted; use hasGiftCardId() or valueOrDefault().
      */
     public function getGiftCardId(): string { return $this->get('gift_card_id'); }
     public function hasGiftCardId(): bool { return $this->has('gift_card_id'); }
-    /** gift_card_redemption_id
+    /** Example: "gcr_01KEZF7C002YD2G2J734RRZTWT".
      * @return string
      * @throws SdkError When gift_card_redemption_id is omitted; use hasGiftCardRedemptionId() or valueOrDefault().
      */

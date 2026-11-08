@@ -37,7 +37,6 @@ Returned payload: [CustomerDeletionRequest](../models/CustomerDeletionRequest.md
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -62,7 +61,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.customerDeletionRequests.create({customer_id: "cus_01ARZ3NDEKTSV4RRFFQ69G5FAV"}, { idempotencyKey: idempotencyKey });
+const result = await client.customerDeletionRequests.create({customer_id: "cus_01KEZF7C003ACYXT6Q5EQZ78EE"}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/customerDeletionRequests-create.mjs)
@@ -99,7 +98,6 @@ Returned payload: [CustomerDeletionRequest](../models/CustomerDeletionRequest.md
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -117,7 +115,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```typescript
-const result = await client.customerDeletionRequests.get("cdel_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
+const result = await client.customerDeletionRequests.get("cdel_01KEZF7C009P94WEXW5RMRFXAY", {}, {  });
 ```
 
 [Complete runnable example](../examples/customerDeletionRequests-get.mjs)
@@ -134,10 +132,10 @@ Signature: `list(params?: CustomerDeletionRequestsListParams, options?: _SdkWith
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `status` | Optional | Array of string or string | Only return requests in this lifecycle state. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"pending_review"`, `"processing"`, `"completed"`, `"rejected"`, `"failed"`. Values: `"pending_review"`, `"processing"`, `"completed"`, `"rejected"`, `"failed"`. |
+| `status` | Optional | Array of string or string | Only return requests in this lifecycle state. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"pending_review"`, `"processing"`, `"completed"`, `"rejected"`, `"failed"`. Values: `"pending_review"`, `"processing"`, `"completed"`, `"rejected"`, `"failed"`. |
 | `customer_id` | Optional | string | Only return requests for this Flint customer ID. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 
 #### Response
 
@@ -151,7 +149,6 @@ Returned payload: [CustomerDeletionRequestListResponse](../models/CustomerDeleti
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -201,9 +198,7 @@ Body model: [ResolveCustomerDeletionRequestInput](../models/ResolveCustomerDelet
 
 #### customerDeletionRequests.resolve body fields
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `decision` | Required | string | Values: `"approve"`, `"reject"`. |
+Field definitions: [shared fields](../models/ResolveCustomerDeletionRequest.md#resolvecustomerdeletionrequest).
 
 #### Response
 
@@ -218,7 +213,6 @@ Returned payload: [CustomerDeletionRequest](../models/CustomerDeletionRequest.md
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -243,7 +237,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.customerDeletionRequests.resolve("cdel_01ARZ3NDEKTSV4RRFFQ69G5FAV", {decision: "approve"}, { idempotencyKey: idempotencyKey });
+const result = await client.customerDeletionRequests.resolve("cdel_01KEZF7C009P94WEXW5RMRFXAY", {decision: "approve"}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/customerDeletionRequests-resolve.mjs)

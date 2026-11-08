@@ -14,7 +14,7 @@ final class PublishReturnPolicyRevisionRequestInput extends Model {
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** The rules for a return policy revision: scope, eligibility, return window, approval and resolution modes, shipping, and restocking fee.
+    /** The revision with the complete rules. A field you leave out doesn't carry over from the previous revision. The rules for a return policy revision: scope, eligibility, return window, approval and resolution modes, shipping, and restocking fee.
      * @return ReturnPolicyRevisionRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When revision is omitted; use hasRevision() or valueOrDefault().
      */

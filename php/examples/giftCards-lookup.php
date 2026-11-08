@@ -14,7 +14,7 @@ $client = new Client(new ClientOptions(
   allowInsecureHttp: $baseUrl !== null && in_array(parse_url($baseUrl, PHP_URL_HOST), ['localhost', '127.0.0.1'], true) && parse_url($baseUrl, PHP_URL_SCHEME) === 'http',
 ));
 $result = $client->giftCards->lookup([
-  'code' => 'example',
+  'code' => '0123456789AB1234',
 ]);
 echo $result->gift_card_id . PHP_EOL;
 echo $result->merchant_id . PHP_EOL;

@@ -16,19 +16,19 @@ final class RotateGiftCardCodeResultInput extends Model {
      */
     public function getCode(): string { return $this->get('code'); }
     public function hasCode(): bool { return $this->has('code'); }
-    /** When recovery of this code expires. Omitted when the code cannot be recovered. Format: date-time.
+    /** When recovery of this code expires. Omitted when the code cannot be recovered. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When code_recovery_expires_at is omitted; use hasCodeRecoveryExpiresAt() or valueOrDefault().
      */
     public function getCodeRecoveryExpiresAt(): string|\DateTimeInterface { return $this->get('code_recovery_expires_at'); }
     public function hasCodeRecoveryExpiresAt(): bool { return $this->has('code_recovery_expires_at'); }
-    /** Merchant-issued purchased gift card. Posted balance includes reserved value; available value is balance minus reservations. Frozen value remains part of outstanding liability. Gift cards are independent resources and cannot be transferred across merchants or currencies.
+    /** The gift card after the command. Merchant-issued purchased gift card. Posted balance includes reserved value; available value is balance minus reservations. Frozen value remains part of outstanding liability. Gift cards are independent resources and cannot be transferred across merchants or currencies.
      * @return GiftCardInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When gift_card is omitted; use hasGiftCard() or valueOrDefault().
      */
     public function getGiftCard(): mixed { return $this->get('gift_card'); }
     public function hasGiftCard(): bool { return $this->has('gift_card'); }
-    /** A message sent to a gift card recipient.
+    /** The notification the command created because the request included `notification`. Omitted otherwise. A message sent to a gift card recipient.
      * @return GiftCardNotificationInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When gift_card_notification is omitted; use hasGiftCardNotification() or valueOrDefault().
      */

@@ -4,6 +4,7 @@ namespace Flint;
 /**
  * @property-read string $bundle_id
  * @property-read string $description
+ * @property-read LineItemFulfillmentRequestModelInput|array<array-key, mixed>|\stdClass $fulfillment
  * @property-read string $name
  * @property-read int $quantity
  * @property-read string $return_replacement_line_item_id
@@ -13,21 +14,27 @@ namespace Flint;
  * @property-read string $variant_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class UpdateReturnReplacementLineItemInputBundleInput extends Model {
-    /** @param array{'bundle_id': string, 'description'?: string, 'name'?: string, 'quantity': int, 'return_replacement_line_item_id'?: string, 'sku'?: string, 'type': string, 'unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id'?: string}|object $values */
+    /** @param array{'bundle_id': string, 'description'?: string, 'fulfillment'?: LineItemFulfillmentRequestModelInput|array<array-key, mixed>|\stdClass, 'name'?: string, 'quantity': int, 'return_replacement_line_item_id'?: string, 'sku'?: string, 'type': string, 'unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdateReturnReplacementLineItemInputBundleInput')); }
-    /** minLength: 1.
+    /** ID of the bundle to send. Used when `type` is `bundle`. minLength: 1. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
      * @return string
      * @throws SdkError When bundle_id is omitted; use hasBundleId() or valueOrDefault().
      */
     public function getBundleId(): string { return $this->get('bundle_id'); }
     public function hasBundleId(): bool { return $this->has('bundle_id'); }
-    /** minLength: 1.
+    /** Description of the replacement item. minLength: 1.
      * @return string
      * @throws SdkError When description is omitted; use hasDescription() or valueOrDefault().
      */
     public function getDescription(): string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** minLength: 1.
+    /** Fulfillment requirements for custom replacement merchandise, using the same input as an order line. Required for custom lines; catalog lines use their catalog fulfillment profile. Fulfillment requirements you supply for an order line item, such as allowed fulfillment types, package size and weight, and origin.
+     * @return LineItemFulfillmentRequestModelInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When fulfillment is omitted; use hasFulfillment() or valueOrDefault().
+     */
+    public function getFulfillment(): mixed { return $this->get('fulfillment'); }
+    public function hasFulfillment(): bool { return $this->has('fulfillment'); }
+    /** Name of the replacement item. Required when `type` is `custom`. minLength: 1.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
@@ -39,13 +46,13 @@ final class UpdateReturnReplacementLineItemInputBundleInput extends Model {
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
-    /** minLength: 1.
+    /** ID of an existing replacement line to keep. Leave out to add a new line. minLength: 1. Example: "retrepli_01KEZF7C00F6P8VWG80G0JC8W2".
      * @return string
      * @throws SdkError When return_replacement_line_item_id is omitted; use hasReturnReplacementLineItemId() or valueOrDefault().
      */
     public function getReturnReplacementLineItemId(): string { return $this->get('return_replacement_line_item_id'); }
     public function hasReturnReplacementLineItemId(): bool { return $this->has('return_replacement_line_item_id'); }
-    /** minLength: 1.
+    /** SKU of the replacement item. minLength: 1.
      * @return string
      * @throws SdkError When sku is omitted; use hasSku() or valueOrDefault().
      */
@@ -57,13 +64,13 @@ final class UpdateReturnReplacementLineItemInputBundleInput extends Model {
      */
     public function getType(): string { return $this->get('type'); }
     public function hasType(): bool { return $this->has('type'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Price of one replacement unit. Required when `type` is `custom` or `pricing_basis` is `merchant_agreed_price`. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When unit_price_money is omitted; use hasUnitPriceMoney() or valueOrDefault().
      */
     public function getUnitPriceMoney(): mixed { return $this->get('unit_price_money'); }
     public function hasUnitPriceMoney(): bool { return $this->has('unit_price_money'); }
-    /** minLength: 1.
+    /** ID of the variant to send. Used when `type` is `variant`. minLength: 1. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
      * @return string
      * @throws SdkError When variant_id is omitted; use hasVariantId() or valueOrDefault().
      */

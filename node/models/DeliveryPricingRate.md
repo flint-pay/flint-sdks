@@ -11,7 +11,7 @@ One rate in a rate table pricing strategy: a `when` condition, a `priority`, and
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `currency_options` | Required | Map of [MoneyValue](../models/MoneyValue.md#moneyvalue) | `currency_options{}`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options). |
-| `delivery_rate_id` | Required | string |  |
+| `delivery_rate_id` | Required | string | Example: `"drate_01KEZF7C00FD0B4QEC0M00MJ4S"`. |
 | `priority` | Required | integer | Rates are checked from the highest priority to the lowest. The first matching rate sets the price. Priorities must be unique and at least 0. Format: `int32`. |
 | `when` | Required | [DeliveryEligibilityExpression](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpression) or null | `when`: [declared alternatives](../models/DeliveryPricingRate.md#deliverypricingratewhen). |
 
@@ -21,7 +21,7 @@ Field definitions: [BuyerCheckoutSession.tip.smart_tip_money_options[]](../model
 
 ### DeliveryPricingRate.when
 
-Field definitions: [shared fields](DeliveryMethodConfigurationPatchRequest.md#deliverymethodconfigurationpatchrequesteligibility).
+Field definitions: [shared fields](DeliveryEligibilityExpression.md#deliveryeligibilityexpressionall).
 
 ### DeliveryPricingRate.when variant 1
 
@@ -130,169 +130,337 @@ anyOf variant 2.
 
 ### DeliveryPricingRate.when variant 1.country
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.country](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationcountry).
+Field definitions: [DeliveryEligibilityExpression.all[].country](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcountry).
 
 ### DeliveryPricingRate.when variant 1.customer_segment
 
 Field definitions: [DeliveryEligibilityExpression.all[].customer_segment](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcustomer_segment).
 
+### DeliveryPricingRate.when variant 1.postal_code
+
+Field definitions: [DeliveryEligibilityExpression.all[].postal_code](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallpostal_code).
+
+### DeliveryPricingRate.when variant 1.radius
+
+Field definitions: [DeliveryEligibilityExpression.all[].radius](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallradius).
+
 ### DeliveryPricingRate.when variant 1.state
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.state](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationstate).
+Field definitions: [DeliveryEligibilityExpression.all[].state](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallstate).
+
+### DeliveryPricingRate.when variant 1.zone
+
+Field definitions: [DeliveryEligibilityExpression.all[].zone](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallzone).
 
 ### DeliveryPricingRate.when variant 2.country
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.country](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationcountry).
+Field definitions: [DeliveryEligibilityExpression.all[].country](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcountry).
 
 ### DeliveryPricingRate.when variant 2.customer_segment
 
 Field definitions: [DeliveryEligibilityExpression.all[].customer_segment](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcustomer_segment).
 
+### DeliveryPricingRate.when variant 2.postal_code
+
+Field definitions: [DeliveryEligibilityExpression.all[].postal_code](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallpostal_code).
+
+### DeliveryPricingRate.when variant 2.radius
+
+Field definitions: [DeliveryEligibilityExpression.all[].radius](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallradius).
+
 ### DeliveryPricingRate.when variant 2.state
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.state](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationstate).
+Field definitions: [DeliveryEligibilityExpression.all[].state](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallstate).
+
+### DeliveryPricingRate.when variant 2.zone
+
+Field definitions: [DeliveryEligibilityExpression.all[].zone](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallzone).
 
 ### DeliveryPricingRate.when variant 3.country
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.country](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationcountry).
+Field definitions: [DeliveryEligibilityExpression.all[].country](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcountry).
 
 ### DeliveryPricingRate.when variant 3.customer_segment
 
 Field definitions: [DeliveryEligibilityExpression.all[].customer_segment](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcustomer_segment).
 
+### DeliveryPricingRate.when variant 3.postal_code
+
+Field definitions: [DeliveryEligibilityExpression.all[].postal_code](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallpostal_code).
+
+### DeliveryPricingRate.when variant 3.radius
+
+Field definitions: [DeliveryEligibilityExpression.all[].radius](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallradius).
+
 ### DeliveryPricingRate.when variant 3.state
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.state](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationstate).
+Field definitions: [DeliveryEligibilityExpression.all[].state](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallstate).
+
+### DeliveryPricingRate.when variant 3.zone
+
+Field definitions: [DeliveryEligibilityExpression.all[].zone](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallzone).
 
 ### DeliveryPricingRate.when variant 4.country
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.country](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationcountry).
+Field definitions: [DeliveryEligibilityExpression.all[].country](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcountry).
 
 ### DeliveryPricingRate.when variant 4.customer_segment
 
 Field definitions: [DeliveryEligibilityExpression.all[].customer_segment](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcustomer_segment).
 
+### DeliveryPricingRate.when variant 4.postal_code
+
+Field definitions: [DeliveryEligibilityExpression.all[].postal_code](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallpostal_code).
+
+### DeliveryPricingRate.when variant 4.radius
+
+Field definitions: [DeliveryEligibilityExpression.all[].radius](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallradius).
+
 ### DeliveryPricingRate.when variant 4.state
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.state](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationstate).
+Field definitions: [DeliveryEligibilityExpression.all[].state](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallstate).
+
+### DeliveryPricingRate.when variant 4.zone
+
+Field definitions: [DeliveryEligibilityExpression.all[].zone](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallzone).
 
 ### DeliveryPricingRate.when variant 5.country
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.country](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationcountry).
+Field definitions: [DeliveryEligibilityExpression.all[].country](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcountry).
 
 ### DeliveryPricingRate.when variant 5.customer_segment
 
 Field definitions: [DeliveryEligibilityExpression.all[].customer_segment](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcustomer_segment).
 
+### DeliveryPricingRate.when variant 5.postal_code
+
+Field definitions: [DeliveryEligibilityExpression.all[].postal_code](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallpostal_code).
+
+### DeliveryPricingRate.when variant 5.radius
+
+Field definitions: [DeliveryEligibilityExpression.all[].radius](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallradius).
+
 ### DeliveryPricingRate.when variant 5.state
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.state](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationstate).
+Field definitions: [DeliveryEligibilityExpression.all[].state](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallstate).
+
+### DeliveryPricingRate.when variant 5.zone
+
+Field definitions: [DeliveryEligibilityExpression.all[].zone](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallzone).
 
 ### DeliveryPricingRate.when variant 6.country
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.country](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationcountry).
+Field definitions: [DeliveryEligibilityExpression.all[].country](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcountry).
 
 ### DeliveryPricingRate.when variant 6.customer_segment
 
 Field definitions: [DeliveryEligibilityExpression.all[].customer_segment](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcustomer_segment).
 
+### DeliveryPricingRate.when variant 6.postal_code
+
+Field definitions: [DeliveryEligibilityExpression.all[].postal_code](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallpostal_code).
+
+### DeliveryPricingRate.when variant 6.radius
+
+Field definitions: [DeliveryEligibilityExpression.all[].radius](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallradius).
+
 ### DeliveryPricingRate.when variant 6.state
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.state](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationstate).
+Field definitions: [DeliveryEligibilityExpression.all[].state](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallstate).
+
+### DeliveryPricingRate.when variant 6.zone
+
+Field definitions: [DeliveryEligibilityExpression.all[].zone](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallzone).
 
 ### DeliveryPricingRate.when variant 7.country
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.country](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationcountry).
+Field definitions: [DeliveryEligibilityExpression.all[].country](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcountry).
 
 ### DeliveryPricingRate.when variant 7.customer_segment
 
 Field definitions: [DeliveryEligibilityExpression.all[].customer_segment](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcustomer_segment).
 
+### DeliveryPricingRate.when variant 7.postal_code
+
+Field definitions: [DeliveryEligibilityExpression.all[].postal_code](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallpostal_code).
+
+### DeliveryPricingRate.when variant 7.radius
+
+Field definitions: [DeliveryEligibilityExpression.all[].radius](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallradius).
+
 ### DeliveryPricingRate.when variant 7.state
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.state](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationstate).
+Field definitions: [DeliveryEligibilityExpression.all[].state](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallstate).
+
+### DeliveryPricingRate.when variant 7.zone
+
+Field definitions: [DeliveryEligibilityExpression.all[].zone](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallzone).
 
 ### DeliveryPricingRate.when variant 8.country
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.country](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationcountry).
+Field definitions: [DeliveryEligibilityExpression.all[].country](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcountry).
 
 ### DeliveryPricingRate.when variant 8.customer_segment
 
 Field definitions: [DeliveryEligibilityExpression.all[].customer_segment](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcustomer_segment).
 
+### DeliveryPricingRate.when variant 8.postal_code
+
+Field definitions: [DeliveryEligibilityExpression.all[].postal_code](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallpostal_code).
+
+### DeliveryPricingRate.when variant 8.radius
+
+Field definitions: [DeliveryEligibilityExpression.all[].radius](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallradius).
+
 ### DeliveryPricingRate.when variant 8.state
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.state](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationstate).
+Field definitions: [DeliveryEligibilityExpression.all[].state](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallstate).
+
+### DeliveryPricingRate.when variant 8.zone
+
+Field definitions: [DeliveryEligibilityExpression.all[].zone](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallzone).
 
 ### DeliveryPricingRate.when variant 9.country
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.country](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationcountry).
+Field definitions: [DeliveryEligibilityExpression.all[].country](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcountry).
 
 ### DeliveryPricingRate.when variant 9.customer_segment
 
 Field definitions: [DeliveryEligibilityExpression.all[].customer_segment](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcustomer_segment).
 
+### DeliveryPricingRate.when variant 9.postal_code
+
+Field definitions: [DeliveryEligibilityExpression.all[].postal_code](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallpostal_code).
+
+### DeliveryPricingRate.when variant 9.radius
+
+Field definitions: [DeliveryEligibilityExpression.all[].radius](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallradius).
+
 ### DeliveryPricingRate.when variant 9.state
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.state](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationstate).
+Field definitions: [DeliveryEligibilityExpression.all[].state](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallstate).
+
+### DeliveryPricingRate.when variant 9.zone
+
+Field definitions: [DeliveryEligibilityExpression.all[].zone](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallzone).
 
 ### DeliveryPricingRate.when variant 10.country
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.country](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationcountry).
+Field definitions: [DeliveryEligibilityExpression.all[].country](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcountry).
 
 ### DeliveryPricingRate.when variant 10.customer_segment
 
 Field definitions: [DeliveryEligibilityExpression.all[].customer_segment](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcustomer_segment).
 
+### DeliveryPricingRate.when variant 10.postal_code
+
+Field definitions: [DeliveryEligibilityExpression.all[].postal_code](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallpostal_code).
+
+### DeliveryPricingRate.when variant 10.radius
+
+Field definitions: [DeliveryEligibilityExpression.all[].radius](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallradius).
+
 ### DeliveryPricingRate.when variant 10.state
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.state](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationstate).
+Field definitions: [DeliveryEligibilityExpression.all[].state](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallstate).
+
+### DeliveryPricingRate.when variant 10.zone
+
+Field definitions: [DeliveryEligibilityExpression.all[].zone](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallzone).
 
 ### DeliveryPricingRate.when variant 11.country
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.country](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationcountry).
+Field definitions: [DeliveryEligibilityExpression.all[].country](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcountry).
 
 ### DeliveryPricingRate.when variant 11.customer_segment
 
 Field definitions: [DeliveryEligibilityExpression.all[].customer_segment](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcustomer_segment).
 
+### DeliveryPricingRate.when variant 11.postal_code
+
+Field definitions: [DeliveryEligibilityExpression.all[].postal_code](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallpostal_code).
+
+### DeliveryPricingRate.when variant 11.radius
+
+Field definitions: [DeliveryEligibilityExpression.all[].radius](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallradius).
+
 ### DeliveryPricingRate.when variant 11.state
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.state](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationstate).
+Field definitions: [DeliveryEligibilityExpression.all[].state](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallstate).
+
+### DeliveryPricingRate.when variant 11.zone
+
+Field definitions: [DeliveryEligibilityExpression.all[].zone](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallzone).
 
 ### DeliveryPricingRate.when variant 12.country
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.country](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationcountry).
+Field definitions: [DeliveryEligibilityExpression.all[].country](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcountry).
 
 ### DeliveryPricingRate.when variant 12.customer_segment
 
 Field definitions: [DeliveryEligibilityExpression.all[].customer_segment](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcustomer_segment).
 
+### DeliveryPricingRate.when variant 12.postal_code
+
+Field definitions: [DeliveryEligibilityExpression.all[].postal_code](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallpostal_code).
+
+### DeliveryPricingRate.when variant 12.radius
+
+Field definitions: [DeliveryEligibilityExpression.all[].radius](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallradius).
+
 ### DeliveryPricingRate.when variant 12.state
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.state](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationstate).
+Field definitions: [DeliveryEligibilityExpression.all[].state](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallstate).
+
+### DeliveryPricingRate.when variant 12.zone
+
+Field definitions: [DeliveryEligibilityExpression.all[].zone](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallzone).
 
 ### DeliveryPricingRate.when variant 13.country
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.country](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationcountry).
+Field definitions: [DeliveryEligibilityExpression.all[].country](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcountry).
 
 ### DeliveryPricingRate.when variant 13.customer_segment
 
 Field definitions: [DeliveryEligibilityExpression.all[].customer_segment](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcustomer_segment).
 
+### DeliveryPricingRate.when variant 13.postal_code
+
+Field definitions: [DeliveryEligibilityExpression.all[].postal_code](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallpostal_code).
+
+### DeliveryPricingRate.when variant 13.radius
+
+Field definitions: [DeliveryEligibilityExpression.all[].radius](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallradius).
+
 ### DeliveryPricingRate.when variant 13.state
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.state](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationstate).
+Field definitions: [DeliveryEligibilityExpression.all[].state](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallstate).
+
+### DeliveryPricingRate.when variant 13.zone
+
+Field definitions: [DeliveryEligibilityExpression.all[].zone](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallzone).
 
 ### DeliveryPricingRate.when variant 14.country
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.country](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationcountry).
+Field definitions: [DeliveryEligibilityExpression.all[].country](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcountry).
 
 ### DeliveryPricingRate.when variant 14.customer_segment
 
 Field definitions: [DeliveryEligibilityExpression.all[].customer_segment](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcustomer_segment).
 
+### DeliveryPricingRate.when variant 14.postal_code
+
+Field definitions: [DeliveryEligibilityExpression.all[].postal_code](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallpostal_code).
+
+### DeliveryPricingRate.when variant 14.radius
+
+Field definitions: [DeliveryEligibilityExpression.all[].radius](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallradius).
+
 ### DeliveryPricingRate.when variant 14.state
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.state](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationstate).
+Field definitions: [DeliveryEligibilityExpression.all[].state](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallstate).
+
+### DeliveryPricingRate.when variant 14.zone
+
+Field definitions: [DeliveryEligibilityExpression.all[].zone](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallzone).
 

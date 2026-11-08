@@ -8,7 +8,7 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.files.complete(
-  "file_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "file_01KEZF7C00BZ179303GY9R0P03",
   undefined,
   { idempotencyKey: idempotencyKey },
 );

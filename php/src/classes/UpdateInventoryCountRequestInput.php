@@ -11,13 +11,13 @@ namespace Flint;
 final class UpdateInventoryCountRequestInput extends Model {
     /** @param array{'expected_version': int, 'external_actor_id'?: string, 'observations': list<InventoryCountObservationRequestInput|array<array-key, mixed>|\stdClass>, 'occurred_at'?: string|\DateTimeInterface, 'source_system'?: InventorySourceSystemRequestInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdateInventoryCountRequestInput')); }
-    /** Format: uint64. minimum: 1.
+    /** Version last read from the resource returned in `data` (the primary resource for a result object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on the operation and fields being changed. Format: uint64. minimum: 1.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** Your identifier for the actor who recorded the event. Don't put secrets in this field. minLength: 1. maxLength: 255.
+    /** Your identifier for the actor who recorded the event. Don't put secrets in this field. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_actor_id is omitted; use hasExternalActorId() or valueOrDefault().
      */
@@ -29,13 +29,13 @@ final class UpdateInventoryCountRequestInput extends Model {
      */
     public function getObservations(): array { return $this->get('observations'); }
     public function hasObservations(): bool { return $this->has('observations'); }
-    /** When the event occurred, at most 5 minutes in the future. Required when source_system.type is pos, wms, erp, or other. Format: date-time. minLength: 1.
+    /** When the event occurred, at most 5 minutes in the future. Required when source_system.type is pos, wms, erp, or other. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When occurred_at is omitted; use hasOccurredAt() or valueOrDefault().
      */
     public function getOccurredAt(): string|\DateTimeInterface { return $this->get('occurred_at'); }
     public function hasOccurredAt(): bool { return $this->has('occurred_at'); }
-    /** The source system you report for an inventory event, such as manual, pos, wms, erp, or other, with your identifier when it applies.
+    /** System the change came from, such as a point-of-sale or warehouse system. The source system you report for an inventory event, such as manual, pos, wms, erp, or other, with your identifier when it applies.
      * @return InventorySourceSystemRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When source_system is omitted; use hasSourceSystem() or valueOrDefault().
      */

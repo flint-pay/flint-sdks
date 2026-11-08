@@ -12,8 +12,8 @@ The reason to record for a refund adjustment, as a `code` with an optional descr
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `code` | Required | string | Values: [7 declared values](#refundadjustmentreasonrequestinput-code-values). |
-| `description` | Optional | string | minLength: `1`. |
+| `code` | Required | string | Why the adjustment was made. Values: [7 declared values](#refundadjustmentreasonrequestinput-code-values). |
+| `description` | Optional | string | Note explaining the reason, up to 1,024 characters. Required when `code` is `other`. minLength: `1`. |
 
 #### RefundAdjustmentReasonRequestInput code values
 

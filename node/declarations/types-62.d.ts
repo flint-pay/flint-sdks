@@ -1,727 +1,3679 @@
-import type { ResourceType, ResourceReference, ResponseMeta } from './types-48.js';
-import type {
-    WebhookVerificationOptions as _SdkWebhookVerificationOptions,
-    InputValue,
-    CredentialProvider,
-    Model
-} from '../runtime.js';
-import type { CreateWorkloadIdentityRequestInput } from './types-12.js';
-import type { UpdateWorkloadIdentityRequestInput } from './types-61.js';
-import type {
-    AddLineItemsRequestInput,
-    AddOrderChargeRequestInput,
-    AddReturnLineItemRequestInput,
-    AddRiskListItemsRequestInput,
-    AddressRequestInput,
-    AdjustGiftCardBalanceRequestInput,
-    AdvanceTestClockRequestInput,
-    ApplyDiscountRequestInput,
-    ApplyDiscountRequestManualInput,
-    ApplyDiscountRequestPromotionInput,
-    ApplyOrderGiftCardRequestInput,
-    AssessInvoiceLateFeeRequestInput,
-    AssignToUnconfiguredDeliveryProfileRequestInput
-} from './types-0.js';
-import type {
-    BrandingSettingsRequestInput,
-    BuyerCapabilitiesInput,
-    BuyerCreateReturnPreviewRequestInput,
-    BuyerCreateReturnPreviewRequestEligibilityInput,
-    BuyerCreateReturnPreviewRequestResolutionInput,
-    BuyerCreateReturnRequestInput,
-    BuyerCreateReturnResolutionPreviewRequestInput
-} from './types-1.js';
-import type { BuyerInstructionsConfigRequestInput, BuyerPauseCapabilityInput, BuyerRetentionOfferInput } from './types-2.js';
-import type {
-    BuyerReturnReplacementLineItemInputBundleInput,
-    BuyerReturnReplacementLineItemInputVariantInput,
-    BuyerReturnReplacementLineItemRequestInput,
-    BuyerSkipCapabilityInput,
-    CLIContextsRequestInput,
-    CLIDeviceRequestInput,
-    CLIReauthorizeRequestInput,
-    CallerSuppliedDeliveryMethodResultRequestInput,
-    CallerSuppliedDeliveryOutcomeRequestInput,
-    CallerSuppliedDeliveryOutcomeRequestAvailableInput,
-    CallerSuppliedDeliveryOutcomeRequestCannotCalculateInput,
-    CallerSuppliedDeliveryOutcomeRequestUnavailableInput,
-    CancelGiftCardNotificationRequestInput,
-    CancelOrderPaymentAttemptRequestInput,
-    CancelPaymentIntentRequestInput
-} from './types-3.js';
-import type {
-    CancelPayoutRequestInput,
-    CancelReturnDispositionRequestInput,
-    CancelReturnLineItemRequestInput,
-    CancelReturnRequestInput,
-    CancelReturnResolutionRequestInput,
-    CancelSubscriptionRequestInput
-} from './types-4.js';
-/**
- * Sent on the webhook event stream when events could not be replayed from the requested cursor,
- * with a `resume_cursor` to continue from.
- */
-export type WebhookStreamGap = {
-    /** Value enum: "cursor_unavailable", "payload_expired". */
-    "reason": "cursor_unavailable" | "payload_expired" | (string & {});
-    "requested_cursor"?: string;
-    "resume_cursor"?: string;
-};
-/** Sent when a webhook event stream connects, with the current `cursor`. */
-export type WebhookStreamReady = {
-    "cursor"?: string;
-};
-/**
- * Sent on the webhook event stream in place of an event that was withheld, such as when the caller
- * lacks a required scope, with the `reason`.
- */
-export type WebhookStreamWithheld = {
+import type { ResponseMeta } from './types-51.js';
+import type { TaxRegistration } from './types-61.js';
+import type { MerchantWebhookEnvelope, MetadataMap } from './types-36.js';
+import type { InputValue } from '../runtime.js';
+import type { AdvanceTestClockRequestInput } from './types-0.js';
+import type { CreateTestClockRequestInput } from './types-13.js';
+import type { ExpandedOrderSummary } from './types-23.js';
+import type { PartnerWebhookEnvelope } from './types-42.js';
+import type { CheckInTicketRequestInput } from './types-5.js';
+import type { LookupTicketRequestInput } from './types-34.js';
+import type { UpdateTicketRequestInput } from './types-65.js';
+import type { MoneyValue, MoneyValueInput } from './types-37.js';
+import type { CloseGiftCardRequest } from './types-6.js';
+/** A page of `TaxRegistration` objects. */
+export type TaxRegistrationListResponse = {
     /**
-     * Value enum: "balance.updated", "balance_transaction.created", "balance_transaction.updated",
-     * "bundle.archived", "bundle.created", "bundle.updated", "category.created",
-     * "category.deleted", "category.updated", "checkout_session.closed",
-     * "checkout_session.created", "checkout_session.expired", "checkout_session.invalidated",
-     * "checkout_session.paid", "checkout_session.partially_paid", "credit_note.created",
-     * "credit_note.issued", "credit_note.updated", "credit_note.voided",
-     * "credit_note_allocation.created", "credit_note_allocation.reversed",
-     * "custom_domain.archived", "custom_domain.updated", "customer.created", "customer.deleted",
-     * "customer.updated", "customer_deletion_request.completed",
-     * "customer_deletion_request.created", "customer_deletion_request.failed",
-     * "customer_deletion_request.processing", "customer_deletion_request.rejected",
-     * "delivery_location_set.activated", "delivery_location_set.archived",
-     * "delivery_location_set.created", "delivery_location_set.deactivated",
-     * "delivery_location_set.updated", "delivery_method.activated", "delivery_method.archived",
-     * "delivery_method.created", "delivery_method.deactivated", "delivery_method.updated",
-     * "delivery_profile.activated", "delivery_profile.archived", "delivery_profile.created",
-     * "delivery_profile.deactivated", "delivery_profile.updated",
-     * "delivery_rate_callback.activated", "delivery_rate_callback.archived",
-     * "delivery_rate_callback.created", "delivery_rate_callback.deactivated",
-     * "delivery_rate_callback.updated", "delivery_revocation.created",
-     * "delivery_selection.committed", "delivery_zone.activated", "delivery_zone.archived",
-     * "delivery_zone.created", "delivery_zone.deactivated", "delivery_zone.updated",
-     * "dispute.created", "dispute.inquiry_closed", "dispute.lost", "dispute.needs_response",
-     * "dispute.prevented", "dispute.updated", "dispute.won", "environment_grant.created",
-     * "environment_grant.revoked", "fraud_warning.created", "fraud_warning.updated",
-     * "fulfillment.canceled", "fulfillment.completed", "fulfillment.created",
-     * "fulfillment.failed", "fulfillment.updated", "fulfillment_event.created",
-     * "gift_card.created", "gift_card.updated", "gift_card_load.created",
-     * "gift_card_load.updated", "gift_card_notification.created",
-     * "gift_card_notification.updated", "gift_card_redemption.created",
-     * "gift_card_redemption.updated", "gift_card_transaction.created", "inventory_count.applied",
-     * "inventory_level.shortage_detected", "inventory_level.updated", "inventory_receipt.created",
-     * "inventory_reservation.action_required", "inventory_reservation.at_risk",
-     * "inventory_reservation.closed", "inventory_reservation.committed",
-     * "inventory_reservation.consumed", "inventory_reservation.created",
-     * "inventory_reservation.hold_expired", "inventory_reservation.released",
-     * "inventory_transfer.closed", "inventory_transfer.departed", "inventory_transfer.lost",
-     * "inventory_transfer.received", "inventory_transfer.returned",
-     * "invoice.collection_block_resolved", "invoice.collection_blocked", "invoice.created",
-     * "invoice.credited", "invoice.issue_failed", "invoice.issued", "invoice.late_fee_assessed",
-     * "invoice.late_fee_due", "invoice.late_fee_waived", "invoice.marked_uncollectible",
-     * "invoice.overdue", "invoice.paid", "invoice.partially_paid", "invoice.partially_refunded",
-     * "invoice.refunded", "invoice.reminder_due", "invoice.reopened", "invoice.sent",
-     * "invoice.updated", "invoice.voided", "invoice_delivery_attempt.failed",
-     * "invoice_delivery_attempt.sent", "invoice_delivery_attempt.suppressed",
-     * "invoice_manual_payment.created", "invoice_manual_payment.reversed",
-     * "invoice_payment_attempt.canceled", "invoice_payment_attempt.expired",
-     * "invoice_payment_attempt.failed", "invoice_payment_attempt.processing",
-     * "invoice_payment_attempt.settled", "merchant.readiness_updated", "merchant.updated",
-     * "merchant_billing_balance.updated", "merchant_billing_invoice.issued",
-     * "merchant_billing_invoice.updated", "modifier_group.archived", "modifier_group.created",
-     * "modifier_group.updated", "modifier_set.archived", "modifier_set.created",
-     * "modifier_set.updated", "order.closed", "order.created",
-     * "order.inventory_exception_created", "order.inventory_exception_resolved", "order.paid",
-     * "order.partially_paid", "order.partially_refunded", "order.refunded", "order.updated",
-     * "package.created", "package.updated", "partner_app_install.created",
-     * "partner_app_install.permissions_updated", "partner_app_install.revoked",
-     * "partner_app_install.updated", "payment_intent.canceled", "payment_intent.created",
-     * "payment_intent.expired", "payment_intent.fulfillment_hold_updated",
-     * "payment_intent.payment_failed", "payment_intent.processing",
-     * "payment_intent.requires_action", "payment_intent.requires_capture",
-     * "payment_intent.succeeded", "payment_intent.updated", "payment_link.created",
-     * "payment_link.updated", "payment_method.activated", "payment_method.archived",
-     * "payment_method.failed", "payment_review.closed", "payment_review.opened",
-     * "payment_review.reopened", "payout.canceled", "payout.created", "payout.failed",
-     * "payout.paid", "payout.reversed", "payout.updated", "payout_destination.archived",
-     * "payout_destination.created", "payout_destination.disabled", "payout_destination.updated",
-     * "payout_settings.updated", "product.archived", "product.created", "product.updated",
-     * "product_variant.archived", "product_variant.created", "product_variant.updated",
-     * "promotion.archived", "promotion.created", "promotion.updated", "promotion_code.archived",
-     * "promotion_code.created", "promotion_code.updated", "refund.created", "refund.failed",
-     * "refund.partially_succeeded", "refund.succeeded", "refund.updated", "report.failed",
-     * "report.succeeded", "return.canceled", "return.completed", "return.created",
-     * "return.decision_recorded", "return.reopened", "return.updated",
-     * "return_disposition.created", "return_disposition.updated",
-     * "return_inspection.acceptance_decided", "return_inspection.created",
-     * "return_inspection.superseded", "return_receipt.created", "return_receipt.superseded",
-     * "return_receipt.verified", "return_resolution.created", "return_resolution.updated",
-     * "shipment.created", "shipment.updated", "subscription.activated", "subscription.canceled",
-     * "subscription.cancellation_scheduled", "subscription.created", "subscription.cycle_skipped",
-     * "subscription.delivery_action_required", "subscription.delivery_pause_upcoming",
-     * "subscription.delivery_updated", "subscription.dunning_exhausted", "subscription.past_due",
-     * "subscription.paused", "subscription.payment_succeeded", "subscription.plan_changed",
-     * "subscription.reactivated", "subscription.renewal_upcoming", "subscription.resumed",
-     * "subscription.trial_ending", "subscription.updated",
-     * "subscription_delivery_migration.completed", "subscription_payment_retry.created",
-     * "subscription_payment_retry.failed", "subscription_payment_retry.succeeded",
-     * "tax_connection.updated", "test_clock.advancing", "test_clock.archived",
-     * "test_clock.created", "test_clock.failed", "test_clock.ready".
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * TaxRegistration}. An independent registration for a country and optional subdivision, with a
+     * non-overlapping date window. Scheduled and ended are derived from the UTC date at read time
+     * without advancing version or sending a webhook. Removed is a final DELETE snapshot and is
+     * never listed.
      */
-    "event_type": "balance.updated"
-        | "balance_transaction.created"
-        | "balance_transaction.updated"
-        | "bundle.archived"
-        | "bundle.created"
-        | "bundle.updated"
-        | "category.created"
-        | "category.deleted"
-        | "category.updated"
-        | "checkout_session.closed"
-        | "checkout_session.created"
-        | "checkout_session.expired"
-        | "checkout_session.invalidated"
-        | "checkout_session.paid"
-        | "checkout_session.partially_paid"
-        | "credit_note.created"
-        | "credit_note.issued"
-        | "credit_note.updated"
-        | "credit_note.voided"
-        | "credit_note_allocation.created"
-        | "credit_note_allocation.reversed"
-        | "custom_domain.archived"
-        | "custom_domain.updated"
-        | "customer.created"
-        | "customer.deleted"
-        | "customer.updated"
-        | "customer_deletion_request.completed"
-        | "customer_deletion_request.created"
-        | "customer_deletion_request.failed"
-        | "customer_deletion_request.processing"
-        | "customer_deletion_request.rejected"
-        | "delivery_location_set.activated"
-        | "delivery_location_set.archived"
-        | "delivery_location_set.created"
-        | "delivery_location_set.deactivated"
-        | "delivery_location_set.updated"
-        | "delivery_method.activated"
-        | "delivery_method.archived"
-        | "delivery_method.created"
-        | "delivery_method.deactivated"
-        | "delivery_method.updated"
-        | "delivery_profile.activated"
-        | "delivery_profile.archived"
-        | "delivery_profile.created"
-        | "delivery_profile.deactivated"
-        | "delivery_profile.updated"
-        | "delivery_rate_callback.activated"
-        | "delivery_rate_callback.archived"
-        | "delivery_rate_callback.created"
-        | "delivery_rate_callback.deactivated"
-        | "delivery_rate_callback.updated"
-        | "delivery_revocation.created"
-        | "delivery_selection.committed"
-        | "delivery_zone.activated"
-        | "delivery_zone.archived"
-        | "delivery_zone.created"
-        | "delivery_zone.deactivated"
-        | "delivery_zone.updated"
-        | "dispute.created"
-        | "dispute.inquiry_closed"
-        | "dispute.lost"
-        | "dispute.needs_response"
-        | "dispute.prevented"
-        | "dispute.updated"
-        | "dispute.won"
-        | "environment_grant.created"
-        | "environment_grant.revoked"
-        | "fraud_warning.created"
-        | "fraud_warning.updated"
-        | "fulfillment.canceled"
-        | "fulfillment.completed"
-        | "fulfillment.created"
-        | "fulfillment.failed"
-        | "fulfillment.updated"
-        | "fulfillment_event.created"
-        | "gift_card.created"
-        | "gift_card.updated"
-        | "gift_card_load.created"
-        | "gift_card_load.updated"
-        | "gift_card_notification.created"
-        | "gift_card_notification.updated"
-        | "gift_card_redemption.created"
-        | "gift_card_redemption.updated"
-        | "gift_card_transaction.created"
-        | "inventory_count.applied"
-        | "inventory_level.shortage_detected"
-        | "inventory_level.updated"
-        | "inventory_receipt.created"
-        | "inventory_reservation.action_required"
-        | "inventory_reservation.at_risk"
-        | "inventory_reservation.closed"
-        | "inventory_reservation.committed"
-        | "inventory_reservation.consumed"
-        | "inventory_reservation.created"
-        | "inventory_reservation.hold_expired"
-        | "inventory_reservation.released"
-        | "inventory_transfer.closed"
-        | "inventory_transfer.departed"
-        | "inventory_transfer.lost"
-        | "inventory_transfer.received"
-        | "inventory_transfer.returned"
-        | "invoice.collection_block_resolved"
-        | "invoice.collection_blocked"
-        | "invoice.created"
-        | "invoice.credited"
-        | "invoice.issue_failed"
-        | "invoice.issued"
-        | "invoice.late_fee_assessed"
-        | "invoice.late_fee_due"
-        | "invoice.late_fee_waived"
-        | "invoice.marked_uncollectible"
-        | "invoice.overdue"
-        | "invoice.paid"
-        | "invoice.partially_paid"
-        | "invoice.partially_refunded"
-        | "invoice.refunded"
-        | "invoice.reminder_due"
-        | "invoice.reopened"
-        | "invoice.sent"
-        | "invoice.updated"
-        | "invoice.voided"
-        | "invoice_delivery_attempt.failed"
-        | "invoice_delivery_attempt.sent"
-        | "invoice_delivery_attempt.suppressed"
-        | "invoice_manual_payment.created"
-        | "invoice_manual_payment.reversed"
-        | "invoice_payment_attempt.canceled"
-        | "invoice_payment_attempt.expired"
-        | "invoice_payment_attempt.failed"
-        | "invoice_payment_attempt.processing"
-        | "invoice_payment_attempt.settled"
-        | "merchant.readiness_updated"
-        | "merchant.updated"
-        | "merchant_billing_balance.updated"
-        | "merchant_billing_invoice.issued"
-        | "merchant_billing_invoice.updated"
-        | "modifier_group.archived"
-        | "modifier_group.created"
-        | "modifier_group.updated"
-        | "modifier_set.archived"
-        | "modifier_set.created"
-        | "modifier_set.updated"
-        | "order.closed"
-        | "order.created"
-        | "order.inventory_exception_created"
-        | "order.inventory_exception_resolved"
-        | "order.paid"
-        | "order.partially_paid"
-        | "order.partially_refunded"
-        | "order.refunded"
-        | "order.updated"
-        | "package.created"
-        | "package.updated"
-        | "partner_app_install.created"
-        | "partner_app_install.permissions_updated"
-        | "partner_app_install.revoked"
-        | "partner_app_install.updated"
-        | "payment_intent.canceled"
-        | "payment_intent.created"
-        | "payment_intent.expired"
-        | "payment_intent.fulfillment_hold_updated"
-        | "payment_intent.payment_failed"
-        | "payment_intent.processing"
-        | "payment_intent.requires_action"
-        | "payment_intent.requires_capture"
-        | "payment_intent.succeeded"
-        | "payment_intent.updated"
-        | "payment_link.created"
-        | "payment_link.updated"
-        | "payment_method.activated"
-        | "payment_method.archived"
-        | "payment_method.failed"
-        | "payment_review.closed"
-        | "payment_review.opened"
-        | "payment_review.reopened"
-        | "payout.canceled"
-        | "payout.created"
-        | "payout.failed"
-        | "payout.paid"
-        | "payout.reversed"
-        | "payout.updated"
-        | "payout_destination.archived"
-        | "payout_destination.created"
-        | "payout_destination.disabled"
-        | "payout_destination.updated"
-        | "payout_settings.updated"
-        | "product.archived"
-        | "product.created"
-        | "product.updated"
-        | "product_variant.archived"
-        | "product_variant.created"
-        | "product_variant.updated"
-        | "promotion.archived"
-        | "promotion.created"
-        | "promotion.updated"
-        | "promotion_code.archived"
-        | "promotion_code.created"
-        | "promotion_code.updated"
-        | "refund.created"
-        | "refund.failed"
-        | "refund.partially_succeeded"
-        | "refund.succeeded"
-        | "refund.updated"
-        | "report.failed"
-        | "report.succeeded"
-        | "return.canceled"
-        | "return.completed"
-        | "return.created"
-        | "return.decision_recorded"
-        | "return.reopened"
-        | "return.updated"
-        | "return_disposition.created"
-        | "return_disposition.updated"
-        | "return_inspection.acceptance_decided"
-        | "return_inspection.created"
-        | "return_inspection.superseded"
-        | "return_receipt.created"
-        | "return_receipt.superseded"
-        | "return_receipt.verified"
-        | "return_resolution.created"
-        | "return_resolution.updated"
-        | "shipment.created"
-        | "shipment.updated"
-        | "subscription.activated"
-        | "subscription.canceled"
-        | "subscription.cancellation_scheduled"
-        | "subscription.created"
-        | "subscription.cycle_skipped"
-        | "subscription.delivery_action_required"
-        | "subscription.delivery_pause_upcoming"
-        | "subscription.delivery_updated"
-        | "subscription.dunning_exhausted"
-        | "subscription.past_due"
-        | "subscription.paused"
-        | "subscription.payment_succeeded"
-        | "subscription.plan_changed"
-        | "subscription.reactivated"
-        | "subscription.renewal_upcoming"
-        | "subscription.resumed"
-        | "subscription.trial_ending"
-        | "subscription.updated"
-        | "subscription_delivery_migration.completed"
-        | "subscription_payment_retry.created"
-        | "subscription_payment_retry.failed"
-        | "subscription_payment_retry.succeeded"
-        | "tax_connection.updated"
-        | "test_clock.advancing"
-        | "test_clock.archived"
-        | "test_clock.created"
-        | "test_clock.failed"
-        | "test_clock.ready"
+    "data": Array<TaxRegistration>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `TaxRegistration` data. */
+export type TaxRegistrationResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. An independent
+     * registration for a country and optional subdivision, with a non-overlapping date window.
+     * Scheduled and ended are derived from the UTC date at read time without advancing version or
+     * sending a webhook. Removed is a final DELETE snapshot and is never listed.
+     */
+    "data": TaxRegistration;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * Tax settings: whether tax is calculated by default and the default tax categories for line items
+ * and delivery charges.
+ */
+export type TaxSettings = {
+    /**
+     * The active tax calculation callback selected for this merchant and environment. Switching
+     * IDs is atomic. Omitted when no callback is selected. minLength: 1. Example:
+     * "tcb_01KEZF7C00N7SER74Y2E6D1ZGT".
+     */
+    "calculation_callback_id"?: string | null;
+    /**
+     * Charge category inherited by delivery methods that omit charge_tax_category. `null` when no
+     * default is set; the category then follows the method type: shipping for shipments, delivery
+     * for local delivery, and service_fee for pickup. Value enum: "service_fee", "shipping",
+     * "delivery", "handling", "surcharge", null.
+     */
+    "default_delivery_tax_category"?: "service_fee" | "shipping" | "delivery" | "handling" | "surcharge" | null | (string & {}) | null;
+    /**
+     * Taxability of delivery charges for delivery methods that don't set `taxable`. Defaults to
+     * true.
+     */
+    "default_delivery_taxable"?: boolean;
+    /**
+     * Whether new checkouts and orders calculate tax by default. This does not decide whether an
+     * individual line item or delivery charge is taxable.
+     */
+    "default_enabled"?: boolean;
+    /**
+     * Flint line-item tax category. Value enum: "general", "physical_goods", "digital_goods",
+     * "software", "saas", "services", "professional_services", "food", "prepared_food",
+     * "clothing", "medical_goods", "admission".
+     */
+    "default_line_item_tax_category"?: "general"
+        | "physical_goods"
+        | "digital_goods"
+        | "software"
+        | "saas"
+        | "services"
+        | "professional_services"
+        | "food"
+        | "prepared_food"
+        | "clothing"
+        | "medical_goods"
+        | "admission"
         | (string & {});
-    /** Value enum: "missing_resource_scope", "resource_unattributed". */
-    "reason": "missing_resource_scope" | "resource_unattributed" | (string & {});
-    /**  [] (Value): string. */
-    "required_scopes"?: Array<string>;
-    "resource_id"?: string;
     /**
-     * Public resource type: the resource's ID field name without `_id`. Clients must accept values
-     * added in future releases. Value enum: "api_key", "api_request_log", "balance",
-     * "balance_transaction", "bundle", "bundle_component", "category", "checkout_session",
-     * "checkout_session_customer_verification", "credit_note", "credit_note_allocation",
-     * "custom_domain", "customer", "customer_address", "customer_deletion_request",
-     * "customer_email_preferences", "customer_session", "customer_verification",
-     * "delivery_location_set", "delivery_method", "delivery_profile", "delivery_quote",
-     * "delivery_rate", "delivery_rate_callback", "delivery_revocation", "delivery_selection",
-     * "delivery_zone", "demo_session", "device", "discount", "dispute", "email_change_request",
-     * "environment_grant", "feedback_report", "file", "flint_wallet", "flint_wallet_card",
-     * "fraud_warning", "fulfillment", "fulfillment_event", "fulfillment_notification",
-     * "gift_card", "gift_card_funding_disposition", "gift_card_load", "gift_card_notification",
-     * "gift_card_redemption", "gift_card_transaction", "image", "inventory_adjustment",
-     * "inventory_allocation_policy", "inventory_allocation_policy_revision", "inventory_count",
-     * "inventory_item", "inventory_level", "inventory_movement", "inventory_receipt",
-     * "inventory_reservation", "inventory_reservation_line", "inventory_transfer",
-     * "inventory_transfer_line", "invoice", "invoice_delivery_attempt", "invoice_late_fee",
-     * "invoice_line_item", "invoice_manual_payment", "invoice_payment_attempt",
-     * "invoice_payment_term", "location", "merchant", "merchant_billing_balance",
-     * "merchant_billing_entry", "merchant_billing_invoice", "modifier", "modifier_group",
-     * "modifier_set", "order", "order_charge", "order_line_item", "order_line_item_modifier",
-     * "order_payment_attempt", "organization", "package", "package_item", "partner_app",
-     * "partner_app_credential", "partner_app_install", "payment_intent", "payment_link",
-     * "payment_link_custom_field", "payment_link_line_item", "payment_method",
-     * "payment_method_domain", "payment_review", "payout", "payout_destination",
-     * "payout_settings", "product", "product_option", "product_option_value", "product_variant",
-     * "promotion", "promotion_code", "purchase_refund_allocation", "refund", "refund_allocation",
-     * "refund_line_item_adjustment", "report", "report_download", "return", "return_activity",
-     * "return_disposition", "return_inspection", "return_inspection_line_item",
-     * "return_line_item", "return_policy", "return_policy_revision", "return_reason",
-     * "return_receipt", "return_receipt_line_item", "return_resolution", "risk_list",
-     * "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "subscription",
-     * "subscription_delivery_migration", "subscription_line_item", "subscription_offer",
-     * "subscription_payment_retry", "subscription_plan", "subscription_plan_line_item",
-     * "tax_connection", "tax_registration", "test_clock", "user", "webhook_delivery",
-     * "webhook_endpoint", "webhook_event", "workload_identity".
+     * Price mode an order takes when it starts calculating tax without its own tax.calculation:
+     * when it is created, from a checkout session or payment link, or when tax is turned on later.
+     * additive (the default) adds tax to prices, and inclusive treats every line item and charge
+     * price as including its tax. Subscription orders, including renewals, stay additive, and
+     * orders that already calculate tax keep their mode. Value enum: "additive", "inclusive".
      */
-    "resource_type"?: ResourceType;
-    "webhook_event_id": string;
+    "default_price_mode"?: "additive" | "inclusive" | (string & {});
+    /**
+     * Automatic tax basis for delivery-method charges. Defaults to full_charge.
+     * taxable_items_share taxes the charge in proportion to discounted gross taxable merchandise
+     * in its fulfillment group, rounded half up. Explicit taxable:false wins. Direct order charges
+     * and external tax are unchanged. Saved values take effect only when Flint enables this
+     * capability; until then the full charge is used. Open orders use the setting at their next
+     * calculation; committed tax keeps its basis. Value enum: "full_charge",
+     * "taxable_items_share".
+     */
+    "delivery_charge_tax_basis"?: "full_charge" | "taxable_items_share" | (string & {});
 };
-export type WebhookVerificationOptions = _SdkWebhookVerificationOptions;
+/** Tax settings to change when updating settings. Send null for a category to clear it. */
+export type TaxSettingsRequest = {
+    /**
+     * The active tax calculation callback selected for this merchant and environment. Switching
+     * IDs is atomic. Omit to preserve the selection; send null to clear it. minLength: 1. Example:
+     * "tcb_01KEZF7C00N7SER74Y2E6D1ZGT".
+     */
+    "calculation_callback_id"?: string | null;
+    /**
+     * Charge category inherited by delivery methods that omit charge_tax_category. `null` when no
+     * default is set; the category then follows the method type: shipping for shipments, delivery
+     * for local delivery, and service_fee for pickup. Send null to clear it. Value enum:
+     * "service_fee", "shipping", "delivery", "handling", "surcharge", null.
+     */
+    "default_delivery_tax_category"?: "service_fee" | "shipping" | "delivery" | "handling" | "surcharge" | null | (string & {}) | null;
+    /**
+     * Taxability of delivery charges for delivery methods that don't set `taxable`. Defaults to
+     * true.
+     */
+    "default_delivery_taxable"?: boolean;
+    /**
+     * Whether new checkouts and orders calculate tax by default. This does not decide whether an
+     * individual line item or delivery charge is taxable.
+     */
+    "default_enabled"?: boolean;
+    /**
+     * Flint line-item tax category. Send null to clear it. Value enum: "general",
+     * "physical_goods", "digital_goods", "software", "saas", "services", "professional_services",
+     * "food", "prepared_food", "clothing", "medical_goods", "admission", null.
+     */
+    "default_line_item_tax_category"?: "general"
+        | "physical_goods"
+        | "digital_goods"
+        | "software"
+        | "saas"
+        | "services"
+        | "professional_services"
+        | "food"
+        | "prepared_food"
+        | "clothing"
+        | "medical_goods"
+        | "admission"
+        | null
+        | (string & {})
+        | null;
+    /**
+     * Price mode an order takes when it starts calculating tax without its own tax.calculation:
+     * when it is created, from a checkout session or payment link, or when tax is turned on later.
+     * additive (the default) adds tax to prices, and inclusive treats every line item and charge
+     * price as including its tax. Subscription orders, including renewals, stay additive, and
+     * orders that already calculate tax keep their mode. Value enum: "additive", "inclusive".
+     */
+    "default_price_mode"?: "additive" | "inclusive" | (string & {});
+    /**
+     * Automatic tax basis for delivery-method charges. Defaults to full_charge.
+     * taxable_items_share taxes the charge in proportion to discounted gross taxable merchandise
+     * in its fulfillment group, rounded half up. Explicit taxable:false wins. Direct order charges
+     * and external tax are unchanged. Saved values take effect only when Flint enables this
+     * capability; until then the full charge is used. Open orders use the setting at their next
+     * calculation; committed tax keeps its basis. Value enum: "full_charge",
+     * "taxable_items_share".
+     */
+    "delivery_charge_tax_basis"?: "full_charge" | "taxable_items_share" | (string & {});
+};
+/** Tax settings to change when updating settings. Send null for a category to clear it. */
+export type TaxSettingsRequestInput = {
+    /**
+     * The active tax calculation callback selected for this merchant and environment. Switching
+     * IDs is atomic. Omit to preserve the selection; send null to clear it. minLength: 1. Example:
+     * "tcb_01KEZF7C00N7SER74Y2E6D1ZGT".
+     */
+    "calculation_callback_id"?: string | null;
+    /**
+     * Charge category inherited by delivery methods that omit charge_tax_category. `null` when no
+     * default is set; the category then follows the method type: shipping for shipments, delivery
+     * for local delivery, and service_fee for pickup. Send null to clear it. Value enum:
+     * "service_fee", "shipping", "delivery", "handling", "surcharge", null.
+     */
+    "default_delivery_tax_category"?: "service_fee" | "shipping" | "delivery" | "handling" | "surcharge" | null;
+    /**
+     * Taxability of delivery charges for delivery methods that don't set `taxable`. Defaults to
+     * true.
+     */
+    "default_delivery_taxable"?: boolean;
+    /**
+     * Whether new checkouts and orders calculate tax by default. This does not decide whether an
+     * individual line item or delivery charge is taxable.
+     */
+    "default_enabled"?: boolean;
+    /**
+     * Flint line-item tax category. Send null to clear it. Value enum: "general",
+     * "physical_goods", "digital_goods", "software", "saas", "services", "professional_services",
+     * "food", "prepared_food", "clothing", "medical_goods", "admission", null.
+     */
+    "default_line_item_tax_category"?: "general"
+        | "physical_goods"
+        | "digital_goods"
+        | "software"
+        | "saas"
+        | "services"
+        | "professional_services"
+        | "food"
+        | "prepared_food"
+        | "clothing"
+        | "medical_goods"
+        | "admission"
+        | null;
+    /**
+     * Price mode an order takes when it starts calculating tax without its own tax.calculation:
+     * when it is created, from a checkout session or payment link, or when tax is turned on later.
+     * additive (the default) adds tax to prices, and inclusive treats every line item and charge
+     * price as including its tax. Subscription orders, including renewals, stay additive, and
+     * orders that already calculate tax keep their mode. Value enum: "additive", "inclusive".
+     */
+    "default_price_mode"?: "additive" | "inclusive";
+    /**
+     * Automatic tax basis for delivery-method charges. Defaults to full_charge.
+     * taxable_items_share taxes the charge in proportion to discounted gross taxable merchandise
+     * in its fulfillment group, rounded half up. Explicit taxable:false wins. Direct order charges
+     * and external tax are unchanged. Saved values take effect only when Flint enables this
+     * capability; until then the full charge is used. Open orders use the setting at their next
+     * calculation; committed tax keeps its basis. Value enum: "full_charge",
+     * "taxable_items_share".
+     */
+    "delivery_charge_tax_basis"?: "full_charge" | "taxable_items_share";
+};
 /**
- * A weight value in grams, kilograms, ounces, or pounds, used in delivery profile configuration.
+ * A sandbox clock that customers created on it, and their subscriptions, read as the current time.
  */
-export type Weight = {
+export type TestClock = {
     /**
-     * Weight unit. Use gram, kilogram, ounce, or pound. Value enum: "gram", "kilogram", "ounce",
-     * "pound".
+     * When the test clock was created, in real time. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
      */
-    "unit": "gram" | "kilogram" | "ounce" | "pound" | (string & {});
+    "created_at": string;
     /**
-     * Weight measured in the specified unit. maximum: 1000000. exclusiveMinimum: 0. multipleOf:
-     * 0.001.
+     * The time the test clock shows. Customers created on the clock, and their subscriptions,
+     * treat it as the current time. After you advance the clock, `frozen_at` is the time you
+     * advanced it to, while `status` is `advancing` and after. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
      */
-    "value": number;
+    "frozen_at": string;
+    /**
+     * Your label for the test clock. Omitted when you didn't set one. minLength: 1. maxLength:
+     * 255.
+     */
+    "name"?: string;
+    /**
+     * Where the test clock is in its lifecycle. Read it before advancing, and after an advance
+     * until it's `ready` or `failed`. Value enum: "ready", "advancing", "failed", "archived".
+     */
+    "status": "ready" | "advancing" | "failed" | "archived" | (string & {});
+    /** Unique identifier for the test clock. Example: "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ". */
+    "test_clock_id": string;
+    /**
+     * When the test clock last changed, in real time. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "updated_at": string;
+    /**
+     * Persisted version of this resource's owned state. Expanded resources and external
+     * observations can change independently. Format: uint64. minimum: 1.
+     */
+    "version": number;
 };
-/**
- * A weight value in grams, kilograms, ounces, or pounds, used in delivery profile configuration.
- */
-export type WeightInput = {
+export type TestClockAdvancingEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "created_at": string;
+            "frozen_at": string;
+            "name"?: string;
+            "status": "ready" | "advancing" | "failed" | "archived" | (string & {});
+            "test_clock_id": string;
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<TestClock>;
+    };
+    "event_source"?: "merchant" | (string & {});
+    "event_type"?: "test_clock.advancing";
+})
+    & {
+    "event_type": "test_clock.advancing";
+});
+export type TestClockArchivedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "created_at": string;
+            "frozen_at": string;
+            "name"?: string;
+            "status": "ready" | "advancing" | "failed" | "archived" | (string & {});
+            "test_clock_id": string;
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<TestClock>;
+    };
+    "event_source"?: "merchant" | (string & {});
+    "event_type"?: "test_clock.archived";
+})
+    & {
+    "event_type": "test_clock.archived";
+});
+export type TestClockCreatedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "created_at": string;
+            "frozen_at": string;
+            "name"?: string;
+            "status": "ready" | "advancing" | "failed" | "archived" | (string & {});
+            "test_clock_id": string;
+            "updated_at": string;
+            "version": number;
+        };
+    };
+    "event_source"?: "merchant" | (string & {});
+    "event_type"?: "test_clock.created";
+})
+    & {
+    "event_type": "test_clock.created";
+});
+export type TestClockFailedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "created_at": string;
+            "frozen_at": string;
+            "name"?: string;
+            "status": "ready" | "advancing" | "failed" | "archived" | (string & {});
+            "test_clock_id": string;
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<TestClock>;
+    };
+    "event_source"?: "merchant" | (string & {});
+    "event_type"?: "test_clock.failed";
+})
+    & {
+    "event_type": "test_clock.failed";
+});
+/** A page of `TestClock` objects. */
+export type TestClockListResponse = {
     /**
-     * Weight unit. Use gram, kilogram, ounce, or pound. Value enum: "gram", "kilogram", "ounce",
-     * "pound".
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * TestClock}. A sandbox clock that customers created on it, and their subscriptions, read as
+     * the current time.
      */
-    "unit": "gram" | "kilogram" | "ounce" | "pound";
+    "data": Array<TestClock>;
     /**
-     * Weight measured in the specified unit. maximum: 1000000. exclusiveMinimum: 0. multipleOf:
-     * 0.001.
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
      */
-    "value": number;
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
 };
-export type WorkloadIdentitiesCreateParams = (InputValue<CreateWorkloadIdentityRequestInput>);
-export type WorkloadIdentitiesDeleteParams = {
-    /** Optional version most recently read. Format: int64. minimum: 1. */
+export type TestClockReadyEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "created_at": string;
+            "frozen_at": string;
+            "name"?: string;
+            "status": "ready" | "advancing" | "failed" | "archived" | (string & {});
+            "test_clock_id": string;
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<TestClock>;
+    };
+    "event_source"?: "merchant" | (string & {});
+    "event_type"?: "test_clock.ready";
+})
+    & {
+    "event_type": "test_clock.ready";
+});
+/** A response containing `TestClock` data. */
+export type TestClockResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A sandbox clock that
+     * customers created on it, and their subscriptions, read as the current time.
+     */
+    "data": TestClock;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type TestClocksAdvanceParams = (InputValue<AdvanceTestClockRequestInput>);
+export type TestClocksCreateParams = (InputValue<CreateTestClockRequestInput>);
+export type TestClocksDeleteParams = {
+    /**
+     * Optional version most recently read. A stale value fails with `VERSION_CONFLICT` and the
+     * current version. Format: int64. minimum: 1.
+     */
     "expected_version"?: InputValue<number>;
 };
-export type WorkloadIdentitiesGetParams = {};
-export type WorkloadIdentitiesListParams = {
+export type TestClocksGetParams = {};
+export type TestClocksListParams = {
     /**
-     * Filter by status. Repeat the parameter or send comma-separated values to match any of
-     * several. Omitted, the list leaves out archived rows; name archived to include them. Accepts
-     * repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in
-     * first-seen order; empty or unknown entries are rejected. Values within this filter are ORed;
-     * separate filters are ANDed. [] enum: "active", "inactive", "archived". Value enum: "active",
-     * "inactive", "archived". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "active",
-     * "inactive", "archived". anyOf[1][] (Value): string. Value enum: "active", "inactive",
-     * "archived". anyOf[2] (Value): string. Value enum: "active", "inactive", "archived".
+     * Filter by status. Omitted, the list leaves out archived rows; name archived to include them.
+     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
+     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "ready",
+     * "advancing", "failed", "archived". Value enum: "ready", "advancing", "failed", "archived".
+     * anyOf[1] (Value): Array of string. minItems: 1. [] enum: "ready", "advancing", "failed",
+     * "archived". anyOf[1][] (Value): string. Value enum: "ready", "advancing", "failed",
+     * "archived". anyOf[2] (Value): string. Value enum: "ready", "advancing", "failed",
+     * "archived".
      */
-    "status"?: InputValue<("active" | "inactive" | "archived") | readonly ("active" | "inactive" | "archived")[]>;
+    "status"?: InputValue<("ready" | "advancing" | "failed" | "archived")
+        | readonly ("ready" | "advancing" | "failed" | "archived")[]>;
     /**
      * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
      * 100. Default: 20.
      */
     "page_size"?: InputValue<number>;
     /**
-     * Opaque next_page_token from the previous response. Omit on the first request. You may change
-     * `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request
-     * context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns
-     * a validation error.
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
      */
     "page_token"?: InputValue<string>;
-    /**
-     * Field to sort by. Defaults to created_at; ties are broken by workload_identity_id. Default:
-     * "created_at". Value enum: "created_at", "last_used_at", "name".
-     */
-    "sort_by"?: InputValue<"created_at" | "last_used_at" | "name">;
-    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
-    "sort_direction"?: InputValue<"asc" | "desc">;
-    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
-    /** Inclusive lower bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_before"?: InputValue<string | globalThis.Date>;
 };
-export type WorkloadIdentitiesUpdateParams = (InputValue<UpdateWorkloadIdentityRequestInput>);
-/** A policy that grants API access to a workload authenticated by an external identity provider. */
-export type WorkloadIdentity = {
-    /** Time the identity was archived. Omitted before archival. Format: date-time. */
-    "archived_at"?: string;
-    "audience": string;
+/**
+ * Settings for a text modifier group: whether input is required or multiline, and its length
+ * limits.
+ */
+export type TextModifierConfig = {
     /**
-     * Bounded value array of top-level scalar claim conditions. Replaced as a whole on PATCH; []
-     * clears it when the remaining policy is valid. [] (Value): {@link
-     * WorkloadIdentityClaimCondition}. A condition matching one top-level scalar claim in the
-     * workload's identity token.
+     * Maximum length of the buyer's text in UTF-8 bytes after trimming surrounding whitespace.
+     * Format: int32.
      */
-    "claim_conditions": Array<WorkloadIdentityClaimCondition>;
-    /** Time the identity was created. Format: date-time. */
+    "max_length"?: number;
+    /**
+     * Minimum length of the buyer's text in UTF-8 bytes after trimming surrounding whitespace.
+     * Format: int32.
+     */
+    "min_length"?: number;
+    /** Whether the buyer's text can include line breaks. */
+    "multiline": boolean;
+    /**
+     * Whether buyers must enter text for this group. A modifier set's required override takes
+     * precedence.
+     */
+    "required": boolean;
+};
+/**
+ * Send only text fields to change. Omitted fields keep their stored values. null clears min_length
+ * or max_length. An empty object is invalid. The merged configuration is validated. minProperties:
+ * 1.
+ */
+export type TextModifierConfigPatchRequest = {
+    /**
+     * Maximum length of the buyer's text in UTF-8 bytes after trimming surrounding whitespace.
+     * Omit it to keep the current limit; send null to clear it. Format: int32. minimum: 1.
+     * maximum: 500.
+     */
+    "max_length"?: number | null;
+    /**
+     * Minimum length of the buyer's text in UTF-8 bytes after trimming surrounding whitespace.
+     * Omit it to keep the current minimum; send null to clear it. Format: int32. minimum: 0.
+     */
+    "min_length"?: number | null;
+    /** Whether the buyer's text can include line breaks. */
+    "multiline"?: boolean;
+    /**
+     * Whether buyers must enter text for this group. A modifier set's required override takes
+     * precedence.
+     */
+    "required"?: boolean;
+};
+/**
+ * Send only text fields to change. Omitted fields keep their stored values. null clears min_length
+ * or max_length. An empty object is invalid. The merged configuration is validated. minProperties:
+ * 1.
+ */
+export type TextModifierConfigPatchRequestInput = TextModifierConfigPatchRequest;
+/**
+ * Settings for a text modifier group when creating or updating one: required, multiline, and
+ * length limits.
+ */
+export type TextModifierConfigRequest = {
+    /**
+     * Maximum length of the buyer's text in UTF-8 bytes after trimming surrounding whitespace,
+     * from 1 to 500. Format: int32. minimum: 1. maximum: 500.
+     */
+    "max_length"?: number;
+    /**
+     * Minimum length of the buyer's text in UTF-8 bytes after trimming surrounding whitespace.
+     * Must be 0 or more, and no more than `max_length`. Format: int32. minimum: 0.
+     */
+    "min_length"?: number;
+    /** Whether the buyer's text can include line breaks. Default: false. */
+    "multiline"?: boolean;
+    /**
+     * Whether buyers must enter text for this group. A modifier set's required override takes
+     * precedence. Default: false.
+     */
+    "required"?: boolean;
+};
+/**
+ * Settings for a text modifier group when creating or updating one: required, multiline, and
+ * length limits.
+ */
+export type TextModifierConfigRequestInput = TextModifierConfigRequest;
+/** Text a buyer entered for a text modifier group on an order line item. */
+export type TextModifierRequest = {
+    /**
+     * Identifier of the text modifier group. For a group a modifier set owns (source: inline),
+     * read it through GET /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return
+     * it. minLength: 1. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
+     */
+    "modifier_group_id": string;
+    /**
+     * Text the buyer entered. Flint trims surrounding whitespace, then checks the length in UTF-8
+     * bytes against the group's `text.min_length` and `text.max_length`. Line breaks are allowed
+     * only when the group's `text.multiline` is true. minLength: 1.
+     */
+    "value": string;
+};
+/** Text a buyer entered for a text modifier group on an order line item. */
+export type TextModifierRequestInput = TextModifierRequest;
+/** Colors and title applied to a payment link's checkout page. */
+export type ThemeConfig = {
+    /** Accent color of the checkout, such as #1A73E8. */
+    "accent_color"?: string;
+    /** Primary color of the checkout, such as #1A73E8. */
+    "primary_color"?: string;
+    /** Title shown in place of the merchant's business name. */
+    "title"?: string;
+};
+/** Colors and title to apply to a checkout session's page. */
+export type ThemeConfigRequestInput = {
+    /** Accent color of the checkout, such as #1A73E8. minLength: 1. */
+    "accent_color"?: string;
+    /** Primary color of the checkout, such as #1A73E8. minLength: 1. */
+    "primary_color"?: string;
+    /** Title shown in place of the merchant's business name. minLength: 1. */
+    "title"?: string;
+};
+/**
+ * An individual admission, a top-level child of an order. Merchant reads and webhooks never
+ * include the bearer admission code.
+ */
+export type Ticket = {
+    /**
+     * The ticket's 16-character Crockford base32 admission code, the value its QR code holds. A
+     * bearer secret: only the paid checkout session's own paying credential receives it, on its
+     * own order's tickets that aren't voided. A checkout credential from a launch URL a merchant
+     * reads or requests after payment never does. Returned only to the checkout credential; never
+     * in webhook payloads. minLength: 16.
+     */
+    "admission_code"?: string;
+    /** Last four characters of the current admission code. */
+    "admission_code_last4": string;
+    /** Optional attendee name. Null when not supplied. minLength: 1. maxLength: 200. */
+    "attendee_name": string | null;
+    /**
+     * How the ticket was admitted. Null when the ticket is not checked in. Value enum:
+     * "admission_code", "manual". anyOf[1] (Value): string. Value enum: "admission_code",
+     * "manual". anyOf[2] (Value): null.
+     */
+    "check_in_method": (("admission_code" | "manual" | (string & {})) | (null));
+    /**
+     * When the ticket was admitted. Null when the ticket is not checked in. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z".
+     */
+    "checked_in_at": string | null;
+    /** When the ticket was issued. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "created_at": string;
     /**
-     * The user or credential that created a workload identity, identified by resource type and ID.
+     * Order summary, present only with expand=order. Requires commerce.orders.read. An order's
+     * summary fields, including status, payment and refund status, and pricing and settlement
+     * amounts, returned when the order is expanded.
      */
-    "created_by": ResourceReference;
-    "issuer": string;
-    /** Most recent use. Omitted before the first use. Format: date-time. */
-    "last_used_at"?: string;
-    /** Value enum: "test", "live". */
-    "mode": "test" | "live" | (string & {});
-    "name": string;
+    "order"?: ExpandedOrderSummary;
+    /** The order that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+    "order_id": string;
+    /** The purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". */
+    "order_line_item_id": string;
+    /** The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". */
+    "payment_link_id": string;
+    /** The admission lifecycle. Value enum: "issued", "checked_in", "voided". */
+    "status": "issued" | "checked_in" | "voided" | (string & {});
     /**
-     * Computed from the issuer. New platform values may be added. Value enum: "generic",
-     * "github_actions", "gitlab_ci", "google_cloud", "aws", "azure", "kubernetes", "circleci",
-     * "buildkite", "vercel", "fly_io".
+     * Actions currently offered for this ticket. [] enum: "check_in", "undo_check_in", "void". []
+     * (Value): string. Value enum: "check_in", "undo_check_in", "void".
      */
-    "platform": "generic"
-        | "github_actions"
-        | "gitlab_ci"
-        | "google_cloud"
-        | "aws"
-        | "azure"
-        | "kubernetes"
-        | "circleci"
-        | "buildkite"
-        | "vercel"
-        | "fly_io"
-        | (string & {});
-    /** The sandbox containing this identity. Present only in test mode. */
-    "sandbox_id"?: string;
+    "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
+    /** Unique ticket identity with the tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". */
+    "ticket_id": string;
     /**
-     * Complete scope set granted to this identity. Replaced as a whole on PATCH. [] (Value):
-     * string.
+     * The event prefix and sequence, such as GAL001. Numbers are never reused and do not authorize
+     * entry.
      */
-    "scopes": Array<string>;
-    /** Value enum: "active", "inactive", "archived". */
-    "status": "active" | "inactive" | "archived" | (string & {});
-    "subject": string;
-    /** Value enum: "exact", "glob". */
-    "subject_match": "exact" | "glob" | (string & {});
-    /** Time the identity last changed. Format: date-time. */
+    "ticket_number": string;
+    /** When the ticket last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "updated_at": string;
     /**
-     * Positive concurrency version. Increases on policy and lifecycle changes. Format: int64.
-     * minimum: 1.
+     * Persisted version of this resource's owned state. Expanded resources and external
+     * observations can change independently. Format: uint64. minimum: 1.
      */
     "version": number;
-    "workload_identity_id": string;
-};
-/** A condition matching one top-level scalar claim in the workload's identity token. */
-export type WorkloadIdentityClaimCondition = {
-    /** Literal top-level scalar claim name. Registered JWT claims are reserved. */
-    "claim": string;
-    /** Default: "exact". Value enum: "exact", "glob". */
-    "match": "exact" | "glob" | (string & {});
-    "value": string;
-};
-/**
- * A condition to match one top-level scalar claim in the workload's identity token. Omitted match
- * defaults to exact.
- */
-export type WorkloadIdentityClaimConditionRequest = {
-    /** Literal top-level scalar claim name. Registered JWT claims are reserved. minLength: 1. */
-    "claim": string;
-    /** Default: "exact". Value enum: "exact", "glob". */
-    "match"?: "exact" | "glob" | (string & {});
-    /** minLength: 1. */
-    "value": string;
-};
-/**
- * A condition to match one top-level scalar claim in the workload's identity token. Omitted match
- * defaults to exact.
- */
-export type WorkloadIdentityClaimConditionRequestInput = {
-    /** Literal top-level scalar claim name. Registered JWT claims are reserved. minLength: 1. */
-    "claim": string;
-    /** Default: "exact". Value enum: "exact", "glob". */
-    "match"?: "exact" | "glob";
-    /** minLength: 1. */
-    "value": string;
-};
-/** A page of `WorkloadIdentity` objects. */
-export type WorkloadIdentityListResponse = {
     /**
-     *  [] (Value): {@link WorkloadIdentity}. A policy that grants API access to a workload
-     * authenticated by an external identity provider.
+     * When the ticket was permanently voided. Null when the ticket has not been voided. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z".
      */
-    "data": Array<WorkloadIdentity>;
+    "voided_at": string | null;
+};
+export type TicketCheckedInEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "admission_code"?: string;
+            "admission_code_last4": string;
+            "attendee_name": string | null;
+            "check_in_method": (("admission_code" | "manual" | (string & {})) | (null));
+            "checked_in_at": string | null;
+            "created_at": string;
+            "order"?: ExpandedOrderSummary;
+            "order_id": string;
+            "order_line_item_id": string;
+            "payment_link_id": string;
+            "status": "issued" | "checked_in" | "voided" | (string & {});
+            "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
+            "ticket_id": string;
+            "ticket_number": string;
+            "updated_at": string;
+            "version": number;
+            "voided_at": string | null;
+        };
+        "previous_attributes"?: Partial<Ticket>;
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "ticket.checked_in";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "admission_code"?: string;
+            "admission_code_last4": string;
+            "attendee_name": string | null;
+            "check_in_method": (("admission_code" | "manual" | (string & {})) | (null));
+            "checked_in_at": string | null;
+            "created_at": string;
+            "order"?: ExpandedOrderSummary;
+            "order_id": string;
+            "order_line_item_id": string;
+            "payment_link_id": string;
+            "status": "issued" | "checked_in" | "voided" | (string & {});
+            "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
+            "ticket_id": string;
+            "ticket_number": string;
+            "updated_at": string;
+            "version": number;
+            "voided_at": string | null;
+        };
+        "previous_attributes"?: Partial<Ticket>;
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "ticket.checked_in";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "ticket.checked_in";
+});
+/**
+ * The `ticket.checked_in` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type TicketCheckedInInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
     /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.admission_code (Optional): string. The ticket's 16-character
+     * Crockford base32 admission code, the value its QR code holds. A bearer secret: only the paid
+     * checkout session's own paying credential receives it, on its own order's tickets that aren't
+     * voided. A checkout credential from a launch URL a merchant reads or requests after payment
+     * never does. Returned only to the checkout credential; never in webhook payloads. minLength:
+     * 16. object.admission_code_last4 (Required): string. Last four characters of the current
+     * admission code. object.attendee_name (Required): string or null. Optional attendee name.
+     * Null when not supplied. minLength: 1. maxLength: 200. object.check_in_method (Required):
+     * string or null. How the ticket was admitted. Null when the ticket is not checked in. Value
+     * enum: "admission_code", "manual". object.check_in_method.anyOf[1] (Value): string. Value
+     * enum: "admission_code", "manual". object.check_in_method.anyOf[2] (Value): null.
+     * object.checked_in_at (Required): string or null. When the ticket was admitted. Null when the
+     * ticket is not checked in. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.created_at (Required): string. When the ticket was issued. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.order (Optional): {@link ExpandedOrderSummary}.
+     * Order summary, present only with expand=order. Requires commerce.orders.read. An order's
+     * summary fields, including status, payment and refund status, and pricing and settlement
+     * amounts, returned when the order is expanded. object.order_id (Required): string. The order
+     * that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * object.order_line_item_id (Required): string. The purchased ticket tier. Example:
+     * "li_01KEZF7C008YPRCK7VDKTGWR31". object.payment_link_id (Required): string. The event
+     * payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.status (Required): string.
+     * The admission lifecycle. Value enum: "issued", "checked_in", "voided".
+     * object.supported_actions (Required): Array of string. Actions currently offered for this
+     * ticket. [] enum: "check_in", "undo_check_in", "void". object.supported_actions[] (Value):
+     * string. Value enum: "check_in", "undo_check_in", "void". object.ticket_id (Required):
+     * string. Unique ticket identity with the tkt_ prefix. Example:
+     * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". object.ticket_number (Required): string. The event prefix
+     * and sequence, such as GAL001. Numbers are never reused and do not authorize entry.
+     * object.updated_at (Required): string. When the ticket last changed. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Persisted version of
+     * this resource's owned state. Expanded resources and external observations can change
+     * independently. Format: uint64. minimum: 1. object.voided_at (Required): string or null. When
+     * the ticket was permanently voided. Null when the ticket has not been voided. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes (Optional): object. Previous
+     * values of changed top-level fields in data.object, at this delivery's API version. Nested
+     * changes include the whole previous top-level value. A value is null when the field was
+     * absent before the change. Omitted when Flint did not record the previous state, including
+     * synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * admission_code (Optional): string. The ticket's 16-character Crockford base32 admission
+         * code, the value its QR code holds. A bearer secret: only the paid checkout session's own
+         * paying credential receives it, on its own order's tickets that aren't voided. A checkout
+         * credential from a launch URL a merchant reads or requests after payment never does.
+         * Returned only to the checkout credential; never in webhook payloads. minLength: 16.
+         * admission_code_last4 (Required): string. Last four characters of the current admission
+         * code. attendee_name (Required): string or null. Optional attendee name. Null when not
+         * supplied. minLength: 1. maxLength: 200. check_in_method (Required): string or null. How
+         * the ticket was admitted. Null when the ticket is not checked in. Value enum:
+         * "admission_code", "manual". check_in_method.anyOf[1] (Value): string. Value enum:
+         * "admission_code", "manual". check_in_method.anyOf[2] (Value): null. checked_in_at
+         * (Required): string or null. When the ticket was admitted. Null when the ticket is not
+         * checked in. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at (Required):
+         * string. When the ticket was issued. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * order (Optional): {@link ExpandedOrderSummary}. Order summary, present only with
+         * expand=order. Requires commerce.orders.read. An order's summary fields, including
+         * status, payment and refund status, and pricing and settlement amounts, returned when the
+         * order is expanded. order_id (Required): string. The order that purchased this ticket.
+         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_line_item_id (Required): string. The
+         * purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". payment_link_id
+         * (Required): string. The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+         * status (Required): string. The admission lifecycle. Value enum: "issued", "checked_in",
+         * "voided". supported_actions (Required): Array of string. Actions currently offered for
+         * this ticket. [] enum: "check_in", "undo_check_in", "void". supported_actions[] (Value):
+         * string. Value enum: "check_in", "undo_check_in", "void". ticket_id (Required): string.
+         * Unique ticket identity with the tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
+         * ticket_number (Required): string. The event prefix and sequence, such as GAL001. Numbers
+         * are never reused and do not authorize entry. updated_at (Required): string. When the
+         * ticket last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
+         * (Required): integer. Persisted version of this resource's owned state. Expanded
+         * resources and external observations can change independently. Format: uint64. minimum:
+         * 1. voided_at (Required): string or null. When the ticket was permanently voided. Null
+         * when the ticket has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         */
+        "object": {
+            /**
+             * The ticket's 16-character Crockford base32 admission code, the value its QR code
+             * holds. A bearer secret: only the paid checkout session's own paying credential
+             * receives it, on its own order's tickets that aren't voided. A checkout credential
+             * from a launch URL a merchant reads or requests after payment never does. Returned
+             * only to the checkout credential; never in webhook payloads. minLength: 16.
+             */
+            "admission_code"?: string;
+            /** Last four characters of the current admission code. */
+            "admission_code_last4": string;
+            /** Optional attendee name. Null when not supplied. minLength: 1. maxLength: 200. */
+            "attendee_name": string | null;
+            /**
+             * How the ticket was admitted. Null when the ticket is not checked in. Value enum:
+             * "admission_code", "manual". anyOf[1] (Value): string. Value enum: "admission_code",
+             * "manual". anyOf[2] (Value): null.
+             */
+            "check_in_method": (("admission_code" | "manual" | (string & {})) | (null));
+            /**
+             * When the ticket was admitted. Null when the ticket is not checked in. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "checked_in_at": string | null;
+            /** When the ticket was issued. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Order summary, present only with expand=order. Requires commerce.orders.read. An
+             * order's summary fields, including status, payment and refund status, and pricing and
+             * settlement amounts, returned when the order is expanded.
+             */
+            "order"?: ExpandedOrderSummary;
+            /** The order that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+            "order_id": string;
+            /** The purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". */
+            "order_line_item_id": string;
+            /** The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". */
+            "payment_link_id": string;
+            /** The admission lifecycle. Value enum: "issued", "checked_in", "voided". */
+            "status": "issued" | "checked_in" | "voided" | (string & {});
+            /**
+             * Actions currently offered for this ticket. [] enum: "check_in", "undo_check_in",
+             * "void". [] (Value): string. Value enum: "check_in", "undo_check_in", "void".
+             */
+            "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
+            /**
+             * Unique ticket identity with the tkt_ prefix. Example:
+             * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
+             */
+            "ticket_id": string;
+            /**
+             * The event prefix and sequence, such as GAL001. Numbers are never reused and do not
+             * authorize entry.
+             */
+            "ticket_number": string;
+            /** When the ticket last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * Persisted version of this resource's owned state. Expanded resources and external
+             * observations can change independently. Format: uint64. minimum: 1.
+             */
+            "version": number;
+            /**
+             * When the ticket was permanently voided. Null when the ticket has not been voided.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "voided_at": string | null;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<Ticket>;
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "ticket.checked_in". */
+    "event_type"?: "ticket.checked_in";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `ticket.checked_in` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type TicketCheckedInMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.admission_code (Optional): string. The ticket's 16-character
+     * Crockford base32 admission code, the value its QR code holds. A bearer secret: only the paid
+     * checkout session's own paying credential receives it, on its own order's tickets that aren't
+     * voided. A checkout credential from a launch URL a merchant reads or requests after payment
+     * never does. Returned only to the checkout credential; never in webhook payloads. minLength:
+     * 16. object.admission_code_last4 (Required): string. Last four characters of the current
+     * admission code. object.attendee_name (Required): string or null. Optional attendee name.
+     * Null when not supplied. minLength: 1. maxLength: 200. object.check_in_method (Required):
+     * string or null. How the ticket was admitted. Null when the ticket is not checked in. Value
+     * enum: "admission_code", "manual". object.check_in_method.anyOf[1] (Value): string. Value
+     * enum: "admission_code", "manual". object.check_in_method.anyOf[2] (Value): null.
+     * object.checked_in_at (Required): string or null. When the ticket was admitted. Null when the
+     * ticket is not checked in. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.created_at (Required): string. When the ticket was issued. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.order (Optional): {@link ExpandedOrderSummary}.
+     * Order summary, present only with expand=order. Requires commerce.orders.read. An order's
+     * summary fields, including status, payment and refund status, and pricing and settlement
+     * amounts, returned when the order is expanded. object.order_id (Required): string. The order
+     * that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * object.order_line_item_id (Required): string. The purchased ticket tier. Example:
+     * "li_01KEZF7C008YPRCK7VDKTGWR31". object.payment_link_id (Required): string. The event
+     * payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.status (Required): string.
+     * The admission lifecycle. Value enum: "issued", "checked_in", "voided".
+     * object.supported_actions (Required): Array of string. Actions currently offered for this
+     * ticket. [] enum: "check_in", "undo_check_in", "void". object.supported_actions[] (Value):
+     * string. Value enum: "check_in", "undo_check_in", "void". object.ticket_id (Required):
+     * string. Unique ticket identity with the tkt_ prefix. Example:
+     * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". object.ticket_number (Required): string. The event prefix
+     * and sequence, such as GAL001. Numbers are never reused and do not authorize entry.
+     * object.updated_at (Required): string. When the ticket last changed. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Persisted version of
+     * this resource's owned state. Expanded resources and external observations can change
+     * independently. Format: uint64. minimum: 1. object.voided_at (Required): string or null. When
+     * the ticket was permanently voided. Null when the ticket has not been voided. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes (Optional): object. Previous
+     * values of changed top-level fields in data.object, at this delivery's API version. Nested
+     * changes include the whole previous top-level value. A value is null when the field was
+     * absent before the change. Omitted when Flint did not record the previous state, including
+     * synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * admission_code (Optional): string. The ticket's 16-character Crockford base32 admission
+         * code, the value its QR code holds. A bearer secret: only the paid checkout session's own
+         * paying credential receives it, on its own order's tickets that aren't voided. A checkout
+         * credential from a launch URL a merchant reads or requests after payment never does.
+         * Returned only to the checkout credential; never in webhook payloads. minLength: 16.
+         * admission_code_last4 (Required): string. Last four characters of the current admission
+         * code. attendee_name (Required): string or null. Optional attendee name. Null when not
+         * supplied. minLength: 1. maxLength: 200. check_in_method (Required): string or null. How
+         * the ticket was admitted. Null when the ticket is not checked in. Value enum:
+         * "admission_code", "manual". check_in_method.anyOf[1] (Value): string. Value enum:
+         * "admission_code", "manual". check_in_method.anyOf[2] (Value): null. checked_in_at
+         * (Required): string or null. When the ticket was admitted. Null when the ticket is not
+         * checked in. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at (Required):
+         * string. When the ticket was issued. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * order (Optional): {@link ExpandedOrderSummary}. Order summary, present only with
+         * expand=order. Requires commerce.orders.read. An order's summary fields, including
+         * status, payment and refund status, and pricing and settlement amounts, returned when the
+         * order is expanded. order_id (Required): string. The order that purchased this ticket.
+         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_line_item_id (Required): string. The
+         * purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". payment_link_id
+         * (Required): string. The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+         * status (Required): string. The admission lifecycle. Value enum: "issued", "checked_in",
+         * "voided". supported_actions (Required): Array of string. Actions currently offered for
+         * this ticket. [] enum: "check_in", "undo_check_in", "void". supported_actions[] (Value):
+         * string. Value enum: "check_in", "undo_check_in", "void". ticket_id (Required): string.
+         * Unique ticket identity with the tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
+         * ticket_number (Required): string. The event prefix and sequence, such as GAL001. Numbers
+         * are never reused and do not authorize entry. updated_at (Required): string. When the
+         * ticket last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
+         * (Required): integer. Persisted version of this resource's owned state. Expanded
+         * resources and external observations can change independently. Format: uint64. minimum:
+         * 1. voided_at (Required): string or null. When the ticket was permanently voided. Null
+         * when the ticket has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         */
+        "object": {
+            /**
+             * The ticket's 16-character Crockford base32 admission code, the value its QR code
+             * holds. A bearer secret: only the paid checkout session's own paying credential
+             * receives it, on its own order's tickets that aren't voided. A checkout credential
+             * from a launch URL a merchant reads or requests after payment never does. Returned
+             * only to the checkout credential; never in webhook payloads. minLength: 16.
+             */
+            "admission_code"?: string;
+            /** Last four characters of the current admission code. */
+            "admission_code_last4": string;
+            /** Optional attendee name. Null when not supplied. minLength: 1. maxLength: 200. */
+            "attendee_name": string | null;
+            /**
+             * How the ticket was admitted. Null when the ticket is not checked in. Value enum:
+             * "admission_code", "manual". anyOf[1] (Value): string. Value enum: "admission_code",
+             * "manual". anyOf[2] (Value): null.
+             */
+            "check_in_method": (("admission_code" | "manual" | (string & {})) | (null));
+            /**
+             * When the ticket was admitted. Null when the ticket is not checked in. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "checked_in_at": string | null;
+            /** When the ticket was issued. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Order summary, present only with expand=order. Requires commerce.orders.read. An
+             * order's summary fields, including status, payment and refund status, and pricing and
+             * settlement amounts, returned when the order is expanded.
+             */
+            "order"?: ExpandedOrderSummary;
+            /** The order that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+            "order_id": string;
+            /** The purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". */
+            "order_line_item_id": string;
+            /** The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". */
+            "payment_link_id": string;
+            /** The admission lifecycle. Value enum: "issued", "checked_in", "voided". */
+            "status": "issued" | "checked_in" | "voided" | (string & {});
+            /**
+             * Actions currently offered for this ticket. [] enum: "check_in", "undo_check_in",
+             * "void". [] (Value): string. Value enum: "check_in", "undo_check_in", "void".
+             */
+            "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
+            /**
+             * Unique ticket identity with the tkt_ prefix. Example:
+             * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
+             */
+            "ticket_id": string;
+            /**
+             * The event prefix and sequence, such as GAL001. Numbers are never reused and do not
+             * authorize entry.
+             */
+            "ticket_number": string;
+            /** When the ticket last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * Persisted version of this resource's owned state. Expanded resources and external
+             * observations can change independently. Format: uint64. minimum: 1.
+             */
+            "version": number;
+            /**
+             * When the ticket was permanently voided. Null when the ticket has not been voided.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "voided_at": string | null;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<Ticket>;
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "ticket.checked_in". */
+    "event_type"?: "ticket.checked_in";
+});
+export type TicketCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "admission_code"?: string;
+            "admission_code_last4": string;
+            "attendee_name": string | null;
+            "check_in_method": (("admission_code" | "manual" | (string & {})) | (null));
+            "checked_in_at": string | null;
+            "created_at": string;
+            "order"?: ExpandedOrderSummary;
+            "order_id": string;
+            "order_line_item_id": string;
+            "payment_link_id": string;
+            "status": "issued" | "checked_in" | "voided" | (string & {});
+            "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
+            "ticket_id": string;
+            "ticket_number": string;
+            "updated_at": string;
+            "version": number;
+            "voided_at": string | null;
+        };
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "ticket.created";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "admission_code"?: string;
+            "admission_code_last4": string;
+            "attendee_name": string | null;
+            "check_in_method": (("admission_code" | "manual" | (string & {})) | (null));
+            "checked_in_at": string | null;
+            "created_at": string;
+            "order"?: ExpandedOrderSummary;
+            "order_id": string;
+            "order_line_item_id": string;
+            "payment_link_id": string;
+            "status": "issued" | "checked_in" | "voided" | (string & {});
+            "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
+            "ticket_id": string;
+            "ticket_number": string;
+            "updated_at": string;
+            "version": number;
+            "voided_at": string | null;
+        };
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "ticket.created";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "ticket.created";
+});
+/**
+ * The `ticket.created` webhook payload for the `installed_merchants` event source. Fields shared
+ * by partner webhook payloads.
+ */
+export type TicketCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.admission_code (Optional): string. The ticket's 16-character
+     * Crockford base32 admission code, the value its QR code holds. A bearer secret: only the paid
+     * checkout session's own paying credential receives it, on its own order's tickets that aren't
+     * voided. A checkout credential from a launch URL a merchant reads or requests after payment
+     * never does. Returned only to the checkout credential; never in webhook payloads. minLength:
+     * 16. object.admission_code_last4 (Required): string. Last four characters of the current
+     * admission code. object.attendee_name (Required): string or null. Optional attendee name.
+     * Null when not supplied. minLength: 1. maxLength: 200. object.check_in_method (Required):
+     * string or null. How the ticket was admitted. Null when the ticket is not checked in. Value
+     * enum: "admission_code", "manual". object.check_in_method.anyOf[1] (Value): string. Value
+     * enum: "admission_code", "manual". object.check_in_method.anyOf[2] (Value): null.
+     * object.checked_in_at (Required): string or null. When the ticket was admitted. Null when the
+     * ticket is not checked in. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.created_at (Required): string. When the ticket was issued. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.order (Optional): {@link ExpandedOrderSummary}.
+     * Order summary, present only with expand=order. Requires commerce.orders.read. An order's
+     * summary fields, including status, payment and refund status, and pricing and settlement
+     * amounts, returned when the order is expanded. object.order_id (Required): string. The order
+     * that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * object.order_line_item_id (Required): string. The purchased ticket tier. Example:
+     * "li_01KEZF7C008YPRCK7VDKTGWR31". object.payment_link_id (Required): string. The event
+     * payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.status (Required): string.
+     * The admission lifecycle. Value enum: "issued", "checked_in", "voided".
+     * object.supported_actions (Required): Array of string. Actions currently offered for this
+     * ticket. [] enum: "check_in", "undo_check_in", "void". object.supported_actions[] (Value):
+     * string. Value enum: "check_in", "undo_check_in", "void". object.ticket_id (Required):
+     * string. Unique ticket identity with the tkt_ prefix. Example:
+     * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". object.ticket_number (Required): string. The event prefix
+     * and sequence, such as GAL001. Numbers are never reused and do not authorize entry.
+     * object.updated_at (Required): string. When the ticket last changed. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Persisted version of
+     * this resource's owned state. Expanded resources and external observations can change
+     * independently. Format: uint64. minimum: 1. object.voided_at (Required): string or null. When
+     * the ticket was permanently voided. Null when the ticket has not been voided. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * admission_code (Optional): string. The ticket's 16-character Crockford base32 admission
+         * code, the value its QR code holds. A bearer secret: only the paid checkout session's own
+         * paying credential receives it, on its own order's tickets that aren't voided. A checkout
+         * credential from a launch URL a merchant reads or requests after payment never does.
+         * Returned only to the checkout credential; never in webhook payloads. minLength: 16.
+         * admission_code_last4 (Required): string. Last four characters of the current admission
+         * code. attendee_name (Required): string or null. Optional attendee name. Null when not
+         * supplied. minLength: 1. maxLength: 200. check_in_method (Required): string or null. How
+         * the ticket was admitted. Null when the ticket is not checked in. Value enum:
+         * "admission_code", "manual". check_in_method.anyOf[1] (Value): string. Value enum:
+         * "admission_code", "manual". check_in_method.anyOf[2] (Value): null. checked_in_at
+         * (Required): string or null. When the ticket was admitted. Null when the ticket is not
+         * checked in. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at (Required):
+         * string. When the ticket was issued. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * order (Optional): {@link ExpandedOrderSummary}. Order summary, present only with
+         * expand=order. Requires commerce.orders.read. An order's summary fields, including
+         * status, payment and refund status, and pricing and settlement amounts, returned when the
+         * order is expanded. order_id (Required): string. The order that purchased this ticket.
+         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_line_item_id (Required): string. The
+         * purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". payment_link_id
+         * (Required): string. The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+         * status (Required): string. The admission lifecycle. Value enum: "issued", "checked_in",
+         * "voided". supported_actions (Required): Array of string. Actions currently offered for
+         * this ticket. [] enum: "check_in", "undo_check_in", "void". supported_actions[] (Value):
+         * string. Value enum: "check_in", "undo_check_in", "void". ticket_id (Required): string.
+         * Unique ticket identity with the tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
+         * ticket_number (Required): string. The event prefix and sequence, such as GAL001. Numbers
+         * are never reused and do not authorize entry. updated_at (Required): string. When the
+         * ticket last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
+         * (Required): integer. Persisted version of this resource's owned state. Expanded
+         * resources and external observations can change independently. Format: uint64. minimum:
+         * 1. voided_at (Required): string or null. When the ticket was permanently voided. Null
+         * when the ticket has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         */
+        "object": {
+            /**
+             * The ticket's 16-character Crockford base32 admission code, the value its QR code
+             * holds. A bearer secret: only the paid checkout session's own paying credential
+             * receives it, on its own order's tickets that aren't voided. A checkout credential
+             * from a launch URL a merchant reads or requests after payment never does. Returned
+             * only to the checkout credential; never in webhook payloads. minLength: 16.
+             */
+            "admission_code"?: string;
+            /** Last four characters of the current admission code. */
+            "admission_code_last4": string;
+            /** Optional attendee name. Null when not supplied. minLength: 1. maxLength: 200. */
+            "attendee_name": string | null;
+            /**
+             * How the ticket was admitted. Null when the ticket is not checked in. Value enum:
+             * "admission_code", "manual". anyOf[1] (Value): string. Value enum: "admission_code",
+             * "manual". anyOf[2] (Value): null.
+             */
+            "check_in_method": (("admission_code" | "manual" | (string & {})) | (null));
+            /**
+             * When the ticket was admitted. Null when the ticket is not checked in. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "checked_in_at": string | null;
+            /** When the ticket was issued. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Order summary, present only with expand=order. Requires commerce.orders.read. An
+             * order's summary fields, including status, payment and refund status, and pricing and
+             * settlement amounts, returned when the order is expanded.
+             */
+            "order"?: ExpandedOrderSummary;
+            /** The order that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+            "order_id": string;
+            /** The purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". */
+            "order_line_item_id": string;
+            /** The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". */
+            "payment_link_id": string;
+            /** The admission lifecycle. Value enum: "issued", "checked_in", "voided". */
+            "status": "issued" | "checked_in" | "voided" | (string & {});
+            /**
+             * Actions currently offered for this ticket. [] enum: "check_in", "undo_check_in",
+             * "void". [] (Value): string. Value enum: "check_in", "undo_check_in", "void".
+             */
+            "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
+            /**
+             * Unique ticket identity with the tkt_ prefix. Example:
+             * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
+             */
+            "ticket_id": string;
+            /**
+             * The event prefix and sequence, such as GAL001. Numbers are never reused and do not
+             * authorize entry.
+             */
+            "ticket_number": string;
+            /** When the ticket last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * Persisted version of this resource's owned state. Expanded resources and external
+             * observations can change independently. Format: uint64. minimum: 1.
+             */
+            "version": number;
+            /**
+             * When the ticket was permanently voided. Null when the ticket has not been voided.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "voided_at": string | null;
+        };
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "ticket.created". */
+    "event_type"?: "ticket.created";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `ticket.created` webhook payload for the `merchant` event source. Fields shared by merchant
+ * webhook payloads.
+ */
+export type TicketCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.admission_code (Optional): string. The ticket's 16-character
+     * Crockford base32 admission code, the value its QR code holds. A bearer secret: only the paid
+     * checkout session's own paying credential receives it, on its own order's tickets that aren't
+     * voided. A checkout credential from a launch URL a merchant reads or requests after payment
+     * never does. Returned only to the checkout credential; never in webhook payloads. minLength:
+     * 16. object.admission_code_last4 (Required): string. Last four characters of the current
+     * admission code. object.attendee_name (Required): string or null. Optional attendee name.
+     * Null when not supplied. minLength: 1. maxLength: 200. object.check_in_method (Required):
+     * string or null. How the ticket was admitted. Null when the ticket is not checked in. Value
+     * enum: "admission_code", "manual". object.check_in_method.anyOf[1] (Value): string. Value
+     * enum: "admission_code", "manual". object.check_in_method.anyOf[2] (Value): null.
+     * object.checked_in_at (Required): string or null. When the ticket was admitted. Null when the
+     * ticket is not checked in. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.created_at (Required): string. When the ticket was issued. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.order (Optional): {@link ExpandedOrderSummary}.
+     * Order summary, present only with expand=order. Requires commerce.orders.read. An order's
+     * summary fields, including status, payment and refund status, and pricing and settlement
+     * amounts, returned when the order is expanded. object.order_id (Required): string. The order
+     * that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * object.order_line_item_id (Required): string. The purchased ticket tier. Example:
+     * "li_01KEZF7C008YPRCK7VDKTGWR31". object.payment_link_id (Required): string. The event
+     * payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.status (Required): string.
+     * The admission lifecycle. Value enum: "issued", "checked_in", "voided".
+     * object.supported_actions (Required): Array of string. Actions currently offered for this
+     * ticket. [] enum: "check_in", "undo_check_in", "void". object.supported_actions[] (Value):
+     * string. Value enum: "check_in", "undo_check_in", "void". object.ticket_id (Required):
+     * string. Unique ticket identity with the tkt_ prefix. Example:
+     * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". object.ticket_number (Required): string. The event prefix
+     * and sequence, such as GAL001. Numbers are never reused and do not authorize entry.
+     * object.updated_at (Required): string. When the ticket last changed. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Persisted version of
+     * this resource's owned state. Expanded resources and external observations can change
+     * independently. Format: uint64. minimum: 1. object.voided_at (Required): string or null. When
+     * the ticket was permanently voided. Null when the ticket has not been voided. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * admission_code (Optional): string. The ticket's 16-character Crockford base32 admission
+         * code, the value its QR code holds. A bearer secret: only the paid checkout session's own
+         * paying credential receives it, on its own order's tickets that aren't voided. A checkout
+         * credential from a launch URL a merchant reads or requests after payment never does.
+         * Returned only to the checkout credential; never in webhook payloads. minLength: 16.
+         * admission_code_last4 (Required): string. Last four characters of the current admission
+         * code. attendee_name (Required): string or null. Optional attendee name. Null when not
+         * supplied. minLength: 1. maxLength: 200. check_in_method (Required): string or null. How
+         * the ticket was admitted. Null when the ticket is not checked in. Value enum:
+         * "admission_code", "manual". check_in_method.anyOf[1] (Value): string. Value enum:
+         * "admission_code", "manual". check_in_method.anyOf[2] (Value): null. checked_in_at
+         * (Required): string or null. When the ticket was admitted. Null when the ticket is not
+         * checked in. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at (Required):
+         * string. When the ticket was issued. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * order (Optional): {@link ExpandedOrderSummary}. Order summary, present only with
+         * expand=order. Requires commerce.orders.read. An order's summary fields, including
+         * status, payment and refund status, and pricing and settlement amounts, returned when the
+         * order is expanded. order_id (Required): string. The order that purchased this ticket.
+         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_line_item_id (Required): string. The
+         * purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". payment_link_id
+         * (Required): string. The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+         * status (Required): string. The admission lifecycle. Value enum: "issued", "checked_in",
+         * "voided". supported_actions (Required): Array of string. Actions currently offered for
+         * this ticket. [] enum: "check_in", "undo_check_in", "void". supported_actions[] (Value):
+         * string. Value enum: "check_in", "undo_check_in", "void". ticket_id (Required): string.
+         * Unique ticket identity with the tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
+         * ticket_number (Required): string. The event prefix and sequence, such as GAL001. Numbers
+         * are never reused and do not authorize entry. updated_at (Required): string. When the
+         * ticket last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
+         * (Required): integer. Persisted version of this resource's owned state. Expanded
+         * resources and external observations can change independently. Format: uint64. minimum:
+         * 1. voided_at (Required): string or null. When the ticket was permanently voided. Null
+         * when the ticket has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         */
+        "object": {
+            /**
+             * The ticket's 16-character Crockford base32 admission code, the value its QR code
+             * holds. A bearer secret: only the paid checkout session's own paying credential
+             * receives it, on its own order's tickets that aren't voided. A checkout credential
+             * from a launch URL a merchant reads or requests after payment never does. Returned
+             * only to the checkout credential; never in webhook payloads. minLength: 16.
+             */
+            "admission_code"?: string;
+            /** Last four characters of the current admission code. */
+            "admission_code_last4": string;
+            /** Optional attendee name. Null when not supplied. minLength: 1. maxLength: 200. */
+            "attendee_name": string | null;
+            /**
+             * How the ticket was admitted. Null when the ticket is not checked in. Value enum:
+             * "admission_code", "manual". anyOf[1] (Value): string. Value enum: "admission_code",
+             * "manual". anyOf[2] (Value): null.
+             */
+            "check_in_method": (("admission_code" | "manual" | (string & {})) | (null));
+            /**
+             * When the ticket was admitted. Null when the ticket is not checked in. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "checked_in_at": string | null;
+            /** When the ticket was issued. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Order summary, present only with expand=order. Requires commerce.orders.read. An
+             * order's summary fields, including status, payment and refund status, and pricing and
+             * settlement amounts, returned when the order is expanded.
+             */
+            "order"?: ExpandedOrderSummary;
+            /** The order that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+            "order_id": string;
+            /** The purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". */
+            "order_line_item_id": string;
+            /** The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". */
+            "payment_link_id": string;
+            /** The admission lifecycle. Value enum: "issued", "checked_in", "voided". */
+            "status": "issued" | "checked_in" | "voided" | (string & {});
+            /**
+             * Actions currently offered for this ticket. [] enum: "check_in", "undo_check_in",
+             * "void". [] (Value): string. Value enum: "check_in", "undo_check_in", "void".
+             */
+            "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
+            /**
+             * Unique ticket identity with the tkt_ prefix. Example:
+             * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
+             */
+            "ticket_id": string;
+            /**
+             * The event prefix and sequence, such as GAL001. Numbers are never reused and do not
+             * authorize entry.
+             */
+            "ticket_number": string;
+            /** When the ticket last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * Persisted version of this resource's owned state. Expanded resources and external
+             * observations can change independently. Format: uint64. minimum: 1.
+             */
+            "version": number;
+            /**
+             * When the ticket was permanently voided. Null when the ticket has not been voided.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "voided_at": string | null;
+        };
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "ticket.created". */
+    "event_type"?: "ticket.created";
+});
+/** A page of `Ticket` objects. */
+export type TicketListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * Ticket}. An individual admission, a top-level child of an order. Merchant reads and webhooks
+     * never include the bearer admission code.
+     */
+    "data": Array<Ticket>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
      */
     "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
     "next_page_token"?: string;
     /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
     "request_id": string;
 };
-/** A response containing `WorkloadIdentity` data. */
-export type WorkloadIdentityResponse = {
+/** A response containing `Ticket` data. */
+export type TicketResponse = {
     /**
-     * A policy that grants API access to a workload authenticated by an external identity
-     * provider.
+     * Resource, collection, or operation result returned by this request. An individual admission,
+     * a top-level child of an order. Merchant reads and webhooks never include the bearer
+     * admission code.
      */
-    "data": WorkloadIdentity;
+    "data": Ticket;
     /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
      */
     "meta"?: ResponseMeta;
     /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
     "request_id": string;
 };
-export type _SdkRequiredIdempotency<T> = T extends unknown ? Omit<T, 'idempotencyKey'> & {
-    idempotencyKey: string;
-} : never;
-export type _SdkWithoutIdempotency<T> = T extends unknown ? Omit<T, 'idempotencyKey'> & {
-    idempotencyKey?: never;
-} : never;
-export declare function defaultCredentials(): CredentialProvider;
-export declare function makeAddLineItemsRequest(value: InputValue<AddLineItemsRequestInput>): Model<AddLineItemsRequestInput>;
-export declare function makeAddOrderChargeRequest(value: InputValue<AddOrderChargeRequestInput>): Model<AddOrderChargeRequestInput>;
-export declare function makeAddReturnLineItemRequest(value: InputValue<AddReturnLineItemRequestInput>): Model<AddReturnLineItemRequestInput>;
-export declare function makeAddRiskListItemsRequest(value: InputValue<AddRiskListItemsRequestInput>): Model<AddRiskListItemsRequestInput>;
-export declare function makeAddressRequest(value: InputValue<AddressRequestInput>): Model<AddressRequestInput>;
-export declare function makeAdjustGiftCardBalanceRequest(value: InputValue<AdjustGiftCardBalanceRequestInput>): Model<AdjustGiftCardBalanceRequestInput>;
-export declare function makeAdvanceTestClockRequest(value: InputValue<AdvanceTestClockRequestInput>): Model<AdvanceTestClockRequestInput>;
-export declare function makeApplyDiscountRequest(value: InputValue<ApplyDiscountRequestInput>): Model<ApplyDiscountRequestInput>;
-export declare function makeApplyDiscountRequestManual(value: InputValue<ApplyDiscountRequestManualInput>): Model<ApplyDiscountRequestManualInput>;
-export declare function makeApplyDiscountRequestPromotion(value: InputValue<ApplyDiscountRequestPromotionInput>): Model<ApplyDiscountRequestPromotionInput>;
-export declare function makeApplyOrderGiftCardRequest(value: InputValue<ApplyOrderGiftCardRequestInput>): Model<ApplyOrderGiftCardRequestInput>;
-export declare function makeAssessInvoiceLateFeeRequest(value: InputValue<AssessInvoiceLateFeeRequestInput>): Model<AssessInvoiceLateFeeRequestInput>;
-export declare function makeAssignToUnconfiguredDeliveryProfileRequest(value: InputValue<AssignToUnconfiguredDeliveryProfileRequestInput>): Model<AssignToUnconfiguredDeliveryProfileRequestInput>;
-export declare function makeBrandingSettingsRequest(value: InputValue<BrandingSettingsRequestInput>): Model<BrandingSettingsRequestInput>;
-export declare function makeBuyerCapabilities(value: InputValue<BuyerCapabilitiesInput>): Model<BuyerCapabilitiesInput>;
-export declare function makeBuyerCreateReturnPreviewRequest(value: InputValue<BuyerCreateReturnPreviewRequestInput>): Model<BuyerCreateReturnPreviewRequestInput>;
-export declare function makeBuyerCreateReturnPreviewRequestEligibility(value: InputValue<BuyerCreateReturnPreviewRequestEligibilityInput>): Model<BuyerCreateReturnPreviewRequestEligibilityInput>;
-export declare function makeBuyerCreateReturnPreviewRequestResolution(value: InputValue<BuyerCreateReturnPreviewRequestResolutionInput>): Model<BuyerCreateReturnPreviewRequestResolutionInput>;
-export declare function makeBuyerCreateReturnRequest(value: InputValue<BuyerCreateReturnRequestInput>): Model<BuyerCreateReturnRequestInput>;
-export declare function makeBuyerCreateReturnResolutionPreviewRequest(value: InputValue<BuyerCreateReturnResolutionPreviewRequestInput>): Model<BuyerCreateReturnResolutionPreviewRequestInput>;
-export declare function makeBuyerInstructionsConfigRequest(value: InputValue<BuyerInstructionsConfigRequestInput>): Model<BuyerInstructionsConfigRequestInput>;
-export declare function makeBuyerPauseCapability(value: InputValue<BuyerPauseCapabilityInput>): Model<BuyerPauseCapabilityInput>;
-export declare function makeBuyerRetentionOffer(value: InputValue<BuyerRetentionOfferInput>): Model<BuyerRetentionOfferInput>;
-export declare function makeBuyerReturnReplacementLineItemInputBundle(value: InputValue<BuyerReturnReplacementLineItemInputBundleInput>): Model<BuyerReturnReplacementLineItemInputBundleInput>;
-export declare function makeBuyerReturnReplacementLineItemInputVariant(value: InputValue<BuyerReturnReplacementLineItemInputVariantInput>): Model<BuyerReturnReplacementLineItemInputVariantInput>;
-export declare function makeBuyerReturnReplacementLineItemRequest(value: InputValue<BuyerReturnReplacementLineItemRequestInput>): Model<BuyerReturnReplacementLineItemRequestInput>;
-export declare function makeBuyerSkipCapability(value: InputValue<BuyerSkipCapabilityInput>): Model<BuyerSkipCapabilityInput>;
-export declare function makeCLIContextsRequest(value: InputValue<CLIContextsRequestInput>): Model<CLIContextsRequestInput>;
-export declare function makeCLIDeviceRequest(value: InputValue<CLIDeviceRequestInput>): Model<CLIDeviceRequestInput>;
-export declare function makeCLIReauthorizeRequest(value: InputValue<CLIReauthorizeRequestInput>): Model<CLIReauthorizeRequestInput>;
-export declare function makeCallerSuppliedDeliveryMethodResultRequest(value: InputValue<CallerSuppliedDeliveryMethodResultRequestInput>): Model<CallerSuppliedDeliveryMethodResultRequestInput>;
-export declare function makeCallerSuppliedDeliveryOutcomeRequest(value: InputValue<CallerSuppliedDeliveryOutcomeRequestInput>): Model<CallerSuppliedDeliveryOutcomeRequestInput>;
-export declare function makeCallerSuppliedDeliveryOutcomeRequestAvailable(value: InputValue<CallerSuppliedDeliveryOutcomeRequestAvailableInput>): Model<CallerSuppliedDeliveryOutcomeRequestAvailableInput>;
-export declare function makeCallerSuppliedDeliveryOutcomeRequestCannotCalculate(value: InputValue<CallerSuppliedDeliveryOutcomeRequestCannotCalculateInput>): Model<CallerSuppliedDeliveryOutcomeRequestCannotCalculateInput>;
-export declare function makeCallerSuppliedDeliveryOutcomeRequestUnavailable(value: InputValue<CallerSuppliedDeliveryOutcomeRequestUnavailableInput>): Model<CallerSuppliedDeliveryOutcomeRequestUnavailableInput>;
-export declare function makeCancelGiftCardNotificationRequest(value: InputValue<CancelGiftCardNotificationRequestInput>): Model<CancelGiftCardNotificationRequestInput>;
-export declare function makeCancelOrderPaymentAttemptRequest(value: InputValue<CancelOrderPaymentAttemptRequestInput>): Model<CancelOrderPaymentAttemptRequestInput>;
-export declare function makeCancelPaymentIntentRequest(value: InputValue<CancelPaymentIntentRequestInput>): Model<CancelPaymentIntentRequestInput>;
-export declare function makeCancelPayoutRequest(value: InputValue<CancelPayoutRequestInput>): Model<CancelPayoutRequestInput>;
-export declare function makeCancelReturnDispositionRequest(value: InputValue<CancelReturnDispositionRequestInput>): Model<CancelReturnDispositionRequestInput>;
-export declare function makeCancelReturnLineItemRequest(value: InputValue<CancelReturnLineItemRequestInput>): Model<CancelReturnLineItemRequestInput>;
-export declare function makeCancelReturnRequest(value: InputValue<CancelReturnRequestInput>): Model<CancelReturnRequestInput>;
-export declare function makeCancelReturnResolutionRequest(value: InputValue<CancelReturnResolutionRequestInput>): Model<CancelReturnResolutionRequestInput>;
-export declare function makeCancelSubscriptionRequest(value: InputValue<CancelSubscriptionRequestInput>): Model<CancelSubscriptionRequestInput>;
+export type TicketUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "admission_code"?: string;
+            "admission_code_last4": string;
+            "attendee_name": string | null;
+            "check_in_method": (("admission_code" | "manual" | (string & {})) | (null));
+            "checked_in_at": string | null;
+            "created_at": string;
+            "order"?: ExpandedOrderSummary;
+            "order_id": string;
+            "order_line_item_id": string;
+            "payment_link_id": string;
+            "status": "issued" | "checked_in" | "voided" | (string & {});
+            "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
+            "ticket_id": string;
+            "ticket_number": string;
+            "updated_at": string;
+            "version": number;
+            "voided_at": string | null;
+        };
+        "previous_attributes"?: Partial<Ticket>;
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "ticket.updated";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "admission_code"?: string;
+            "admission_code_last4": string;
+            "attendee_name": string | null;
+            "check_in_method": (("admission_code" | "manual" | (string & {})) | (null));
+            "checked_in_at": string | null;
+            "created_at": string;
+            "order"?: ExpandedOrderSummary;
+            "order_id": string;
+            "order_line_item_id": string;
+            "payment_link_id": string;
+            "status": "issued" | "checked_in" | "voided" | (string & {});
+            "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
+            "ticket_id": string;
+            "ticket_number": string;
+            "updated_at": string;
+            "version": number;
+            "voided_at": string | null;
+        };
+        "previous_attributes"?: Partial<Ticket>;
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "ticket.updated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "ticket.updated";
+});
+/**
+ * The `ticket.updated` webhook payload for the `installed_merchants` event source. Fields shared
+ * by partner webhook payloads.
+ */
+export type TicketUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.admission_code (Optional): string. The ticket's 16-character
+     * Crockford base32 admission code, the value its QR code holds. A bearer secret: only the paid
+     * checkout session's own paying credential receives it, on its own order's tickets that aren't
+     * voided. A checkout credential from a launch URL a merchant reads or requests after payment
+     * never does. Returned only to the checkout credential; never in webhook payloads. minLength:
+     * 16. object.admission_code_last4 (Required): string. Last four characters of the current
+     * admission code. object.attendee_name (Required): string or null. Optional attendee name.
+     * Null when not supplied. minLength: 1. maxLength: 200. object.check_in_method (Required):
+     * string or null. How the ticket was admitted. Null when the ticket is not checked in. Value
+     * enum: "admission_code", "manual". object.check_in_method.anyOf[1] (Value): string. Value
+     * enum: "admission_code", "manual". object.check_in_method.anyOf[2] (Value): null.
+     * object.checked_in_at (Required): string or null. When the ticket was admitted. Null when the
+     * ticket is not checked in. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.created_at (Required): string. When the ticket was issued. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.order (Optional): {@link ExpandedOrderSummary}.
+     * Order summary, present only with expand=order. Requires commerce.orders.read. An order's
+     * summary fields, including status, payment and refund status, and pricing and settlement
+     * amounts, returned when the order is expanded. object.order_id (Required): string. The order
+     * that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * object.order_line_item_id (Required): string. The purchased ticket tier. Example:
+     * "li_01KEZF7C008YPRCK7VDKTGWR31". object.payment_link_id (Required): string. The event
+     * payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.status (Required): string.
+     * The admission lifecycle. Value enum: "issued", "checked_in", "voided".
+     * object.supported_actions (Required): Array of string. Actions currently offered for this
+     * ticket. [] enum: "check_in", "undo_check_in", "void". object.supported_actions[] (Value):
+     * string. Value enum: "check_in", "undo_check_in", "void". object.ticket_id (Required):
+     * string. Unique ticket identity with the tkt_ prefix. Example:
+     * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". object.ticket_number (Required): string. The event prefix
+     * and sequence, such as GAL001. Numbers are never reused and do not authorize entry.
+     * object.updated_at (Required): string. When the ticket last changed. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Persisted version of
+     * this resource's owned state. Expanded resources and external observations can change
+     * independently. Format: uint64. minimum: 1. object.voided_at (Required): string or null. When
+     * the ticket was permanently voided. Null when the ticket has not been voided. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes (Optional): object. Previous
+     * values of changed top-level fields in data.object, at this delivery's API version. Nested
+     * changes include the whole previous top-level value. A value is null when the field was
+     * absent before the change. Omitted when Flint did not record the previous state, including
+     * synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * admission_code (Optional): string. The ticket's 16-character Crockford base32 admission
+         * code, the value its QR code holds. A bearer secret: only the paid checkout session's own
+         * paying credential receives it, on its own order's tickets that aren't voided. A checkout
+         * credential from a launch URL a merchant reads or requests after payment never does.
+         * Returned only to the checkout credential; never in webhook payloads. minLength: 16.
+         * admission_code_last4 (Required): string. Last four characters of the current admission
+         * code. attendee_name (Required): string or null. Optional attendee name. Null when not
+         * supplied. minLength: 1. maxLength: 200. check_in_method (Required): string or null. How
+         * the ticket was admitted. Null when the ticket is not checked in. Value enum:
+         * "admission_code", "manual". check_in_method.anyOf[1] (Value): string. Value enum:
+         * "admission_code", "manual". check_in_method.anyOf[2] (Value): null. checked_in_at
+         * (Required): string or null. When the ticket was admitted. Null when the ticket is not
+         * checked in. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at (Required):
+         * string. When the ticket was issued. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * order (Optional): {@link ExpandedOrderSummary}. Order summary, present only with
+         * expand=order. Requires commerce.orders.read. An order's summary fields, including
+         * status, payment and refund status, and pricing and settlement amounts, returned when the
+         * order is expanded. order_id (Required): string. The order that purchased this ticket.
+         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_line_item_id (Required): string. The
+         * purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". payment_link_id
+         * (Required): string. The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+         * status (Required): string. The admission lifecycle. Value enum: "issued", "checked_in",
+         * "voided". supported_actions (Required): Array of string. Actions currently offered for
+         * this ticket. [] enum: "check_in", "undo_check_in", "void". supported_actions[] (Value):
+         * string. Value enum: "check_in", "undo_check_in", "void". ticket_id (Required): string.
+         * Unique ticket identity with the tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
+         * ticket_number (Required): string. The event prefix and sequence, such as GAL001. Numbers
+         * are never reused and do not authorize entry. updated_at (Required): string. When the
+         * ticket last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
+         * (Required): integer. Persisted version of this resource's owned state. Expanded
+         * resources and external observations can change independently. Format: uint64. minimum:
+         * 1. voided_at (Required): string or null. When the ticket was permanently voided. Null
+         * when the ticket has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         */
+        "object": {
+            /**
+             * The ticket's 16-character Crockford base32 admission code, the value its QR code
+             * holds. A bearer secret: only the paid checkout session's own paying credential
+             * receives it, on its own order's tickets that aren't voided. A checkout credential
+             * from a launch URL a merchant reads or requests after payment never does. Returned
+             * only to the checkout credential; never in webhook payloads. minLength: 16.
+             */
+            "admission_code"?: string;
+            /** Last four characters of the current admission code. */
+            "admission_code_last4": string;
+            /** Optional attendee name. Null when not supplied. minLength: 1. maxLength: 200. */
+            "attendee_name": string | null;
+            /**
+             * How the ticket was admitted. Null when the ticket is not checked in. Value enum:
+             * "admission_code", "manual". anyOf[1] (Value): string. Value enum: "admission_code",
+             * "manual". anyOf[2] (Value): null.
+             */
+            "check_in_method": (("admission_code" | "manual" | (string & {})) | (null));
+            /**
+             * When the ticket was admitted. Null when the ticket is not checked in. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "checked_in_at": string | null;
+            /** When the ticket was issued. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Order summary, present only with expand=order. Requires commerce.orders.read. An
+             * order's summary fields, including status, payment and refund status, and pricing and
+             * settlement amounts, returned when the order is expanded.
+             */
+            "order"?: ExpandedOrderSummary;
+            /** The order that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+            "order_id": string;
+            /** The purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". */
+            "order_line_item_id": string;
+            /** The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". */
+            "payment_link_id": string;
+            /** The admission lifecycle. Value enum: "issued", "checked_in", "voided". */
+            "status": "issued" | "checked_in" | "voided" | (string & {});
+            /**
+             * Actions currently offered for this ticket. [] enum: "check_in", "undo_check_in",
+             * "void". [] (Value): string. Value enum: "check_in", "undo_check_in", "void".
+             */
+            "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
+            /**
+             * Unique ticket identity with the tkt_ prefix. Example:
+             * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
+             */
+            "ticket_id": string;
+            /**
+             * The event prefix and sequence, such as GAL001. Numbers are never reused and do not
+             * authorize entry.
+             */
+            "ticket_number": string;
+            /** When the ticket last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * Persisted version of this resource's owned state. Expanded resources and external
+             * observations can change independently. Format: uint64. minimum: 1.
+             */
+            "version": number;
+            /**
+             * When the ticket was permanently voided. Null when the ticket has not been voided.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "voided_at": string | null;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<Ticket>;
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "ticket.updated". */
+    "event_type"?: "ticket.updated";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `ticket.updated` webhook payload for the `merchant` event source. Fields shared by merchant
+ * webhook payloads.
+ */
+export type TicketUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.admission_code (Optional): string. The ticket's 16-character
+     * Crockford base32 admission code, the value its QR code holds. A bearer secret: only the paid
+     * checkout session's own paying credential receives it, on its own order's tickets that aren't
+     * voided. A checkout credential from a launch URL a merchant reads or requests after payment
+     * never does. Returned only to the checkout credential; never in webhook payloads. minLength:
+     * 16. object.admission_code_last4 (Required): string. Last four characters of the current
+     * admission code. object.attendee_name (Required): string or null. Optional attendee name.
+     * Null when not supplied. minLength: 1. maxLength: 200. object.check_in_method (Required):
+     * string or null. How the ticket was admitted. Null when the ticket is not checked in. Value
+     * enum: "admission_code", "manual". object.check_in_method.anyOf[1] (Value): string. Value
+     * enum: "admission_code", "manual". object.check_in_method.anyOf[2] (Value): null.
+     * object.checked_in_at (Required): string or null. When the ticket was admitted. Null when the
+     * ticket is not checked in. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.created_at (Required): string. When the ticket was issued. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.order (Optional): {@link ExpandedOrderSummary}.
+     * Order summary, present only with expand=order. Requires commerce.orders.read. An order's
+     * summary fields, including status, payment and refund status, and pricing and settlement
+     * amounts, returned when the order is expanded. object.order_id (Required): string. The order
+     * that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * object.order_line_item_id (Required): string. The purchased ticket tier. Example:
+     * "li_01KEZF7C008YPRCK7VDKTGWR31". object.payment_link_id (Required): string. The event
+     * payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.status (Required): string.
+     * The admission lifecycle. Value enum: "issued", "checked_in", "voided".
+     * object.supported_actions (Required): Array of string. Actions currently offered for this
+     * ticket. [] enum: "check_in", "undo_check_in", "void". object.supported_actions[] (Value):
+     * string. Value enum: "check_in", "undo_check_in", "void". object.ticket_id (Required):
+     * string. Unique ticket identity with the tkt_ prefix. Example:
+     * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". object.ticket_number (Required): string. The event prefix
+     * and sequence, such as GAL001. Numbers are never reused and do not authorize entry.
+     * object.updated_at (Required): string. When the ticket last changed. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Persisted version of
+     * this resource's owned state. Expanded resources and external observations can change
+     * independently. Format: uint64. minimum: 1. object.voided_at (Required): string or null. When
+     * the ticket was permanently voided. Null when the ticket has not been voided. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes (Optional): object. Previous
+     * values of changed top-level fields in data.object, at this delivery's API version. Nested
+     * changes include the whole previous top-level value. A value is null when the field was
+     * absent before the change. Omitted when Flint did not record the previous state, including
+     * synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * admission_code (Optional): string. The ticket's 16-character Crockford base32 admission
+         * code, the value its QR code holds. A bearer secret: only the paid checkout session's own
+         * paying credential receives it, on its own order's tickets that aren't voided. A checkout
+         * credential from a launch URL a merchant reads or requests after payment never does.
+         * Returned only to the checkout credential; never in webhook payloads. minLength: 16.
+         * admission_code_last4 (Required): string. Last four characters of the current admission
+         * code. attendee_name (Required): string or null. Optional attendee name. Null when not
+         * supplied. minLength: 1. maxLength: 200. check_in_method (Required): string or null. How
+         * the ticket was admitted. Null when the ticket is not checked in. Value enum:
+         * "admission_code", "manual". check_in_method.anyOf[1] (Value): string. Value enum:
+         * "admission_code", "manual". check_in_method.anyOf[2] (Value): null. checked_in_at
+         * (Required): string or null. When the ticket was admitted. Null when the ticket is not
+         * checked in. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at (Required):
+         * string. When the ticket was issued. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * order (Optional): {@link ExpandedOrderSummary}. Order summary, present only with
+         * expand=order. Requires commerce.orders.read. An order's summary fields, including
+         * status, payment and refund status, and pricing and settlement amounts, returned when the
+         * order is expanded. order_id (Required): string. The order that purchased this ticket.
+         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_line_item_id (Required): string. The
+         * purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". payment_link_id
+         * (Required): string. The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+         * status (Required): string. The admission lifecycle. Value enum: "issued", "checked_in",
+         * "voided". supported_actions (Required): Array of string. Actions currently offered for
+         * this ticket. [] enum: "check_in", "undo_check_in", "void". supported_actions[] (Value):
+         * string. Value enum: "check_in", "undo_check_in", "void". ticket_id (Required): string.
+         * Unique ticket identity with the tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
+         * ticket_number (Required): string. The event prefix and sequence, such as GAL001. Numbers
+         * are never reused and do not authorize entry. updated_at (Required): string. When the
+         * ticket last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
+         * (Required): integer. Persisted version of this resource's owned state. Expanded
+         * resources and external observations can change independently. Format: uint64. minimum:
+         * 1. voided_at (Required): string or null. When the ticket was permanently voided. Null
+         * when the ticket has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         */
+        "object": {
+            /**
+             * The ticket's 16-character Crockford base32 admission code, the value its QR code
+             * holds. A bearer secret: only the paid checkout session's own paying credential
+             * receives it, on its own order's tickets that aren't voided. A checkout credential
+             * from a launch URL a merchant reads or requests after payment never does. Returned
+             * only to the checkout credential; never in webhook payloads. minLength: 16.
+             */
+            "admission_code"?: string;
+            /** Last four characters of the current admission code. */
+            "admission_code_last4": string;
+            /** Optional attendee name. Null when not supplied. minLength: 1. maxLength: 200. */
+            "attendee_name": string | null;
+            /**
+             * How the ticket was admitted. Null when the ticket is not checked in. Value enum:
+             * "admission_code", "manual". anyOf[1] (Value): string. Value enum: "admission_code",
+             * "manual". anyOf[2] (Value): null.
+             */
+            "check_in_method": (("admission_code" | "manual" | (string & {})) | (null));
+            /**
+             * When the ticket was admitted. Null when the ticket is not checked in. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "checked_in_at": string | null;
+            /** When the ticket was issued. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Order summary, present only with expand=order. Requires commerce.orders.read. An
+             * order's summary fields, including status, payment and refund status, and pricing and
+             * settlement amounts, returned when the order is expanded.
+             */
+            "order"?: ExpandedOrderSummary;
+            /** The order that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+            "order_id": string;
+            /** The purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". */
+            "order_line_item_id": string;
+            /** The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". */
+            "payment_link_id": string;
+            /** The admission lifecycle. Value enum: "issued", "checked_in", "voided". */
+            "status": "issued" | "checked_in" | "voided" | (string & {});
+            /**
+             * Actions currently offered for this ticket. [] enum: "check_in", "undo_check_in",
+             * "void". [] (Value): string. Value enum: "check_in", "undo_check_in", "void".
+             */
+            "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
+            /**
+             * Unique ticket identity with the tkt_ prefix. Example:
+             * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
+             */
+            "ticket_id": string;
+            /**
+             * The event prefix and sequence, such as GAL001. Numbers are never reused and do not
+             * authorize entry.
+             */
+            "ticket_number": string;
+            /** When the ticket last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * Persisted version of this resource's owned state. Expanded resources and external
+             * observations can change independently. Format: uint64. minimum: 1.
+             */
+            "version": number;
+            /**
+             * When the ticket was permanently voided. Null when the ticket has not been voided.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "voided_at": string | null;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<Ticket>;
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "ticket.updated". */
+    "event_type"?: "ticket.updated";
+});
+/** An optional version fence for the ticket. */
+export type TicketVersionRequestInput = {
+    /**
+     * The ticket version last read. The change applies only while the ticket is at this version; a
+     * stale value returns 409 VERSION_CONFLICT, even when the ticket's status would also refuse
+     * the change. Door scanners usually omit it. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+};
+export type TicketVoidedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "admission_code"?: string;
+            "admission_code_last4": string;
+            "attendee_name": string | null;
+            "check_in_method": (("admission_code" | "manual" | (string & {})) | (null));
+            "checked_in_at": string | null;
+            "created_at": string;
+            "order"?: ExpandedOrderSummary;
+            "order_id": string;
+            "order_line_item_id": string;
+            "payment_link_id": string;
+            "status": "issued" | "checked_in" | "voided" | (string & {});
+            "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
+            "ticket_id": string;
+            "ticket_number": string;
+            "updated_at": string;
+            "version": number;
+            "voided_at": string | null;
+        };
+        "previous_attributes"?: Partial<Ticket>;
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "ticket.voided";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "admission_code"?: string;
+            "admission_code_last4": string;
+            "attendee_name": string | null;
+            "check_in_method": (("admission_code" | "manual" | (string & {})) | (null));
+            "checked_in_at": string | null;
+            "created_at": string;
+            "order"?: ExpandedOrderSummary;
+            "order_id": string;
+            "order_line_item_id": string;
+            "payment_link_id": string;
+            "status": "issued" | "checked_in" | "voided" | (string & {});
+            "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
+            "ticket_id": string;
+            "ticket_number": string;
+            "updated_at": string;
+            "version": number;
+            "voided_at": string | null;
+        };
+        "previous_attributes"?: Partial<Ticket>;
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "ticket.voided";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "ticket.voided";
+});
+/**
+ * The `ticket.voided` webhook payload for the `installed_merchants` event source. Fields shared by
+ * partner webhook payloads.
+ */
+export type TicketVoidedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.admission_code (Optional): string. The ticket's 16-character
+     * Crockford base32 admission code, the value its QR code holds. A bearer secret: only the paid
+     * checkout session's own paying credential receives it, on its own order's tickets that aren't
+     * voided. A checkout credential from a launch URL a merchant reads or requests after payment
+     * never does. Returned only to the checkout credential; never in webhook payloads. minLength:
+     * 16. object.admission_code_last4 (Required): string. Last four characters of the current
+     * admission code. object.attendee_name (Required): string or null. Optional attendee name.
+     * Null when not supplied. minLength: 1. maxLength: 200. object.check_in_method (Required):
+     * string or null. How the ticket was admitted. Null when the ticket is not checked in. Value
+     * enum: "admission_code", "manual". object.check_in_method.anyOf[1] (Value): string. Value
+     * enum: "admission_code", "manual". object.check_in_method.anyOf[2] (Value): null.
+     * object.checked_in_at (Required): string or null. When the ticket was admitted. Null when the
+     * ticket is not checked in. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.created_at (Required): string. When the ticket was issued. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.order (Optional): {@link ExpandedOrderSummary}.
+     * Order summary, present only with expand=order. Requires commerce.orders.read. An order's
+     * summary fields, including status, payment and refund status, and pricing and settlement
+     * amounts, returned when the order is expanded. object.order_id (Required): string. The order
+     * that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * object.order_line_item_id (Required): string. The purchased ticket tier. Example:
+     * "li_01KEZF7C008YPRCK7VDKTGWR31". object.payment_link_id (Required): string. The event
+     * payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.status (Required): string.
+     * The admission lifecycle. Value enum: "issued", "checked_in", "voided".
+     * object.supported_actions (Required): Array of string. Actions currently offered for this
+     * ticket. [] enum: "check_in", "undo_check_in", "void". object.supported_actions[] (Value):
+     * string. Value enum: "check_in", "undo_check_in", "void". object.ticket_id (Required):
+     * string. Unique ticket identity with the tkt_ prefix. Example:
+     * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". object.ticket_number (Required): string. The event prefix
+     * and sequence, such as GAL001. Numbers are never reused and do not authorize entry.
+     * object.updated_at (Required): string. When the ticket last changed. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Persisted version of
+     * this resource's owned state. Expanded resources and external observations can change
+     * independently. Format: uint64. minimum: 1. object.voided_at (Required): string or null. When
+     * the ticket was permanently voided. Null when the ticket has not been voided. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes (Optional): object. Previous
+     * values of changed top-level fields in data.object, at this delivery's API version. Nested
+     * changes include the whole previous top-level value. A value is null when the field was
+     * absent before the change. Omitted when Flint did not record the previous state, including
+     * synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * admission_code (Optional): string. The ticket's 16-character Crockford base32 admission
+         * code, the value its QR code holds. A bearer secret: only the paid checkout session's own
+         * paying credential receives it, on its own order's tickets that aren't voided. A checkout
+         * credential from a launch URL a merchant reads or requests after payment never does.
+         * Returned only to the checkout credential; never in webhook payloads. minLength: 16.
+         * admission_code_last4 (Required): string. Last four characters of the current admission
+         * code. attendee_name (Required): string or null. Optional attendee name. Null when not
+         * supplied. minLength: 1. maxLength: 200. check_in_method (Required): string or null. How
+         * the ticket was admitted. Null when the ticket is not checked in. Value enum:
+         * "admission_code", "manual". check_in_method.anyOf[1] (Value): string. Value enum:
+         * "admission_code", "manual". check_in_method.anyOf[2] (Value): null. checked_in_at
+         * (Required): string or null. When the ticket was admitted. Null when the ticket is not
+         * checked in. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at (Required):
+         * string. When the ticket was issued. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * order (Optional): {@link ExpandedOrderSummary}. Order summary, present only with
+         * expand=order. Requires commerce.orders.read. An order's summary fields, including
+         * status, payment and refund status, and pricing and settlement amounts, returned when the
+         * order is expanded. order_id (Required): string. The order that purchased this ticket.
+         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_line_item_id (Required): string. The
+         * purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". payment_link_id
+         * (Required): string. The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+         * status (Required): string. The admission lifecycle. Value enum: "issued", "checked_in",
+         * "voided". supported_actions (Required): Array of string. Actions currently offered for
+         * this ticket. [] enum: "check_in", "undo_check_in", "void". supported_actions[] (Value):
+         * string. Value enum: "check_in", "undo_check_in", "void". ticket_id (Required): string.
+         * Unique ticket identity with the tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
+         * ticket_number (Required): string. The event prefix and sequence, such as GAL001. Numbers
+         * are never reused and do not authorize entry. updated_at (Required): string. When the
+         * ticket last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
+         * (Required): integer. Persisted version of this resource's owned state. Expanded
+         * resources and external observations can change independently. Format: uint64. minimum:
+         * 1. voided_at (Required): string or null. When the ticket was permanently voided. Null
+         * when the ticket has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         */
+        "object": {
+            /**
+             * The ticket's 16-character Crockford base32 admission code, the value its QR code
+             * holds. A bearer secret: only the paid checkout session's own paying credential
+             * receives it, on its own order's tickets that aren't voided. A checkout credential
+             * from a launch URL a merchant reads or requests after payment never does. Returned
+             * only to the checkout credential; never in webhook payloads. minLength: 16.
+             */
+            "admission_code"?: string;
+            /** Last four characters of the current admission code. */
+            "admission_code_last4": string;
+            /** Optional attendee name. Null when not supplied. minLength: 1. maxLength: 200. */
+            "attendee_name": string | null;
+            /**
+             * How the ticket was admitted. Null when the ticket is not checked in. Value enum:
+             * "admission_code", "manual". anyOf[1] (Value): string. Value enum: "admission_code",
+             * "manual". anyOf[2] (Value): null.
+             */
+            "check_in_method": (("admission_code" | "manual" | (string & {})) | (null));
+            /**
+             * When the ticket was admitted. Null when the ticket is not checked in. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "checked_in_at": string | null;
+            /** When the ticket was issued. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Order summary, present only with expand=order. Requires commerce.orders.read. An
+             * order's summary fields, including status, payment and refund status, and pricing and
+             * settlement amounts, returned when the order is expanded.
+             */
+            "order"?: ExpandedOrderSummary;
+            /** The order that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+            "order_id": string;
+            /** The purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". */
+            "order_line_item_id": string;
+            /** The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". */
+            "payment_link_id": string;
+            /** The admission lifecycle. Value enum: "issued", "checked_in", "voided". */
+            "status": "issued" | "checked_in" | "voided" | (string & {});
+            /**
+             * Actions currently offered for this ticket. [] enum: "check_in", "undo_check_in",
+             * "void". [] (Value): string. Value enum: "check_in", "undo_check_in", "void".
+             */
+            "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
+            /**
+             * Unique ticket identity with the tkt_ prefix. Example:
+             * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
+             */
+            "ticket_id": string;
+            /**
+             * The event prefix and sequence, such as GAL001. Numbers are never reused and do not
+             * authorize entry.
+             */
+            "ticket_number": string;
+            /** When the ticket last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * Persisted version of this resource's owned state. Expanded resources and external
+             * observations can change independently. Format: uint64. minimum: 1.
+             */
+            "version": number;
+            /**
+             * When the ticket was permanently voided. Null when the ticket has not been voided.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "voided_at": string | null;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<Ticket>;
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "ticket.voided". */
+    "event_type"?: "ticket.voided";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `ticket.voided` webhook payload for the `merchant` event source. Fields shared by merchant
+ * webhook payloads.
+ */
+export type TicketVoidedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.admission_code (Optional): string. The ticket's 16-character
+     * Crockford base32 admission code, the value its QR code holds. A bearer secret: only the paid
+     * checkout session's own paying credential receives it, on its own order's tickets that aren't
+     * voided. A checkout credential from a launch URL a merchant reads or requests after payment
+     * never does. Returned only to the checkout credential; never in webhook payloads. minLength:
+     * 16. object.admission_code_last4 (Required): string. Last four characters of the current
+     * admission code. object.attendee_name (Required): string or null. Optional attendee name.
+     * Null when not supplied. minLength: 1. maxLength: 200. object.check_in_method (Required):
+     * string or null. How the ticket was admitted. Null when the ticket is not checked in. Value
+     * enum: "admission_code", "manual". object.check_in_method.anyOf[1] (Value): string. Value
+     * enum: "admission_code", "manual". object.check_in_method.anyOf[2] (Value): null.
+     * object.checked_in_at (Required): string or null. When the ticket was admitted. Null when the
+     * ticket is not checked in. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.created_at (Required): string. When the ticket was issued. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.order (Optional): {@link ExpandedOrderSummary}.
+     * Order summary, present only with expand=order. Requires commerce.orders.read. An order's
+     * summary fields, including status, payment and refund status, and pricing and settlement
+     * amounts, returned when the order is expanded. object.order_id (Required): string. The order
+     * that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * object.order_line_item_id (Required): string. The purchased ticket tier. Example:
+     * "li_01KEZF7C008YPRCK7VDKTGWR31". object.payment_link_id (Required): string. The event
+     * payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.status (Required): string.
+     * The admission lifecycle. Value enum: "issued", "checked_in", "voided".
+     * object.supported_actions (Required): Array of string. Actions currently offered for this
+     * ticket. [] enum: "check_in", "undo_check_in", "void". object.supported_actions[] (Value):
+     * string. Value enum: "check_in", "undo_check_in", "void". object.ticket_id (Required):
+     * string. Unique ticket identity with the tkt_ prefix. Example:
+     * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". object.ticket_number (Required): string. The event prefix
+     * and sequence, such as GAL001. Numbers are never reused and do not authorize entry.
+     * object.updated_at (Required): string. When the ticket last changed. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Persisted version of
+     * this resource's owned state. Expanded resources and external observations can change
+     * independently. Format: uint64. minimum: 1. object.voided_at (Required): string or null. When
+     * the ticket was permanently voided. Null when the ticket has not been voided. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes (Optional): object. Previous
+     * values of changed top-level fields in data.object, at this delivery's API version. Nested
+     * changes include the whole previous top-level value. A value is null when the field was
+     * absent before the change. Omitted when Flint did not record the previous state, including
+     * synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * admission_code (Optional): string. The ticket's 16-character Crockford base32 admission
+         * code, the value its QR code holds. A bearer secret: only the paid checkout session's own
+         * paying credential receives it, on its own order's tickets that aren't voided. A checkout
+         * credential from a launch URL a merchant reads or requests after payment never does.
+         * Returned only to the checkout credential; never in webhook payloads. minLength: 16.
+         * admission_code_last4 (Required): string. Last four characters of the current admission
+         * code. attendee_name (Required): string or null. Optional attendee name. Null when not
+         * supplied. minLength: 1. maxLength: 200. check_in_method (Required): string or null. How
+         * the ticket was admitted. Null when the ticket is not checked in. Value enum:
+         * "admission_code", "manual". check_in_method.anyOf[1] (Value): string. Value enum:
+         * "admission_code", "manual". check_in_method.anyOf[2] (Value): null. checked_in_at
+         * (Required): string or null. When the ticket was admitted. Null when the ticket is not
+         * checked in. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at (Required):
+         * string. When the ticket was issued. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * order (Optional): {@link ExpandedOrderSummary}. Order summary, present only with
+         * expand=order. Requires commerce.orders.read. An order's summary fields, including
+         * status, payment and refund status, and pricing and settlement amounts, returned when the
+         * order is expanded. order_id (Required): string. The order that purchased this ticket.
+         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_line_item_id (Required): string. The
+         * purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". payment_link_id
+         * (Required): string. The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+         * status (Required): string. The admission lifecycle. Value enum: "issued", "checked_in",
+         * "voided". supported_actions (Required): Array of string. Actions currently offered for
+         * this ticket. [] enum: "check_in", "undo_check_in", "void". supported_actions[] (Value):
+         * string. Value enum: "check_in", "undo_check_in", "void". ticket_id (Required): string.
+         * Unique ticket identity with the tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
+         * ticket_number (Required): string. The event prefix and sequence, such as GAL001. Numbers
+         * are never reused and do not authorize entry. updated_at (Required): string. When the
+         * ticket last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
+         * (Required): integer. Persisted version of this resource's owned state. Expanded
+         * resources and external observations can change independently. Format: uint64. minimum:
+         * 1. voided_at (Required): string or null. When the ticket was permanently voided. Null
+         * when the ticket has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         */
+        "object": {
+            /**
+             * The ticket's 16-character Crockford base32 admission code, the value its QR code
+             * holds. A bearer secret: only the paid checkout session's own paying credential
+             * receives it, on its own order's tickets that aren't voided. A checkout credential
+             * from a launch URL a merchant reads or requests after payment never does. Returned
+             * only to the checkout credential; never in webhook payloads. minLength: 16.
+             */
+            "admission_code"?: string;
+            /** Last four characters of the current admission code. */
+            "admission_code_last4": string;
+            /** Optional attendee name. Null when not supplied. minLength: 1. maxLength: 200. */
+            "attendee_name": string | null;
+            /**
+             * How the ticket was admitted. Null when the ticket is not checked in. Value enum:
+             * "admission_code", "manual". anyOf[1] (Value): string. Value enum: "admission_code",
+             * "manual". anyOf[2] (Value): null.
+             */
+            "check_in_method": (("admission_code" | "manual" | (string & {})) | (null));
+            /**
+             * When the ticket was admitted. Null when the ticket is not checked in. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "checked_in_at": string | null;
+            /** When the ticket was issued. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Order summary, present only with expand=order. Requires commerce.orders.read. An
+             * order's summary fields, including status, payment and refund status, and pricing and
+             * settlement amounts, returned when the order is expanded.
+             */
+            "order"?: ExpandedOrderSummary;
+            /** The order that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+            "order_id": string;
+            /** The purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". */
+            "order_line_item_id": string;
+            /** The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". */
+            "payment_link_id": string;
+            /** The admission lifecycle. Value enum: "issued", "checked_in", "voided". */
+            "status": "issued" | "checked_in" | "voided" | (string & {});
+            /**
+             * Actions currently offered for this ticket. [] enum: "check_in", "undo_check_in",
+             * "void". [] (Value): string. Value enum: "check_in", "undo_check_in", "void".
+             */
+            "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
+            /**
+             * Unique ticket identity with the tkt_ prefix. Example:
+             * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
+             */
+            "ticket_id": string;
+            /**
+             * The event prefix and sequence, such as GAL001. Numbers are never reused and do not
+             * authorize entry.
+             */
+            "ticket_number": string;
+            /** When the ticket last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * Persisted version of this resource's owned state. Expanded resources and external
+             * observations can change independently. Format: uint64. minimum: 1.
+             */
+            "version": number;
+            /**
+             * When the ticket was permanently voided. Null when the ticket has not been voided.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "voided_at": string | null;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<Ticket>;
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "ticket.voided". */
+    "event_type"?: "ticket.voided";
+});
+/**
+ * A ticket with the admission code a rotation just minted. An individual admission, a top-level
+ * child of an order. Merchant reads and webhooks never include the bearer admission code.
+ */
+export type TicketWithAdmissionCode = (Exclude<Ticket & object, readonly unknown[]>)
+    & ({
+    /**
+     * The new bearer admission code, formatted as XXXX-XXXX-XXXX-XXXX. Returned only by the
+     * rotation that minted it, and by a retry of that rotation within 24 hours while the ticket is
+     * unchanged; omitted otherwise. Encode it in a QR code without hyphens, and treat it like a
+     * password. minLength: 19. maxLength: 19.
+     */
+    "admission_code"?: string;
+});
+/** A response containing `TicketWithAdmissionCode` data. */
+export type TicketWithAdmissionCodeResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A ticket with the
+     * admission code a rotation just minted. An individual admission, a top-level child of an
+     * order. Merchant reads and webhooks never include the bearer admission code.
+     */
+    "data": TicketWithAdmissionCode;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * Event details for a ticketed order: name, location, start time, time zone, and the tickets
+ * issued.
+ */
+export type TicketedEvent = {
+    /** Where the event takes place. */
+    "location"?: string;
+    /** Event name when the order was placed. */
+    "name": string;
+    /**
+     * When the event starts. RFC 3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "starts_at"?: string;
+    /**
+     * Ticket numbers issued for this order. Empty while ticket_status is pending. [] (Value):
+     * string.
+     */
+    "ticket_numbers": Array<string>;
+    /** Whether the order's tickets are issued. Value enum: "pending", "issued", "voided". */
+    "ticket_status": "pending" | "issued" | "voided" | (string & {});
+    /** IANA time zone Flint shows the event in. */
+    "timezone"?: string;
+};
+export type TicketsCheckInParams = (InputValue<CheckInTicketRequestInput>);
+export type TicketsGetParams = {
+    /**
+     * Include related objects in the response. Supported expansions: order. Include the order
+     * summary. Limits: at most 10 unique expand paths per request. [] enum: "order". Value enum:
+     * "order". anyOf[1] (Value): Array of string. [] enum: "order". anyOf[1][] (Value): string.
+     * Value enum: "order". anyOf[2] (Value): string. Value enum: "order".
+     */
+    "expand"?: InputValue<("order") | readonly ("order")[]>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type TicketsListParams = {
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /** Only tickets for this event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". */
+    "payment_link_id"?: InputValue<string>;
+    /** Only tickets belonging to this order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+    "order_id"?: InputValue<string>;
+    /**
+     * Filter by ticket status. Values are trimmed and deduplicated in first-seen order; empty or
+     * unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "issued", "checked_in", "voided". Value enum: "issued", "checked_in",
+     * "voided". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "issued", "checked_in",
+     * "voided". anyOf[1][] (Value): string. Value enum: "issued", "checked_in", "voided". anyOf[2]
+     * (Value): string. Value enum: "issued", "checked_in", "voided".
+     */
+    "status"?: InputValue<("issued" | "checked_in" | "voided") | readonly ("issued" | "checked_in" | "voided")[]>;
+    /**
+     * Case-insensitive text search across ticket number, attendee name, buyer name and buyer
+     * email. For Dashboard check-in staff it matches ticket number and attendee name only.
+     */
+    "query"?: InputValue<string>;
+    /**
+     * Field to sort by. Defaults to created_at; ties are broken by ticket_id. Default:
+     * "created_at". Value enum: "created_at", "attendee_name".
+     */
+    "sort_by"?: InputValue<"created_at" | "attendee_name">;
+    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
+    "sort_direction"?: InputValue<"asc" | "desc">;
+    /**
+     * Inclusive lower bound on checked_in_at. Format: date-time. Example: "2026-03-17T14:30:00Z".
+     */
+    "checked_in_after"?: InputValue<string | globalThis.Date>;
+    /**
+     * Exclusive upper bound on checked_in_at. Format: date-time. Example: "2026-03-17T14:30:00Z".
+     */
+    "checked_in_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Include related objects in the response. Supported expansions: order. Include the requested
+     * related resources using scoped batch reads for this page. Each relationship requires its
+     * existing target read scopes. Expansion changes the representation without changing
+     * pagination tokens. Limits: at most 10 unique expand paths per request. [] enum: "order".
+     * Value enum: "order". anyOf[1] (Value): Array of string. [] enum: "order". anyOf[1][]
+     * (Value): string. Value enum: "order". anyOf[2] (Value): string. Value enum: "order".
+     */
+    "expand"?: InputValue<("order") | readonly ("order")[]>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type TicketsLookupParams = (InputValue<LookupTicketRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type TicketsRotateCodeParams = (InputValue<TicketVersionRequestInput>);
+export type TicketsUndoCheckInParams = TicketsRotateCodeParams;
+export type TicketsUpdateParams = (InputValue<UpdateTicketRequestInput>);
+export type TicketsVoidParams = TicketsRotateCodeParams;
+/**
+ * A tip on an order, with its requested, settled, and refunded amounts, status, and how it was
+ * paid.
+ */
+export type Tip = {
+    /**
+     * Fixed tip amount, when the tip is set as an amount. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "amount_money"?: MoneyValue;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /** Optional description that stays on the tip for your reporting. */
+    "description"?: string;
+    /**
+     * The tip amount the order collects. For a percent tip, the resolved amount. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "effective_amount_money": MoneyValue;
+    /**
+     * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
+     * Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them.
+     */
+    "metadata"?: MetadataMap;
+    /** Optional name that stays on the tip for your reporting. */
+    "name"?: string;
+    /** Example: "tip_01KEZF7C00JRPYP11RTMB97MYH". */
+    "order_tip_id": string;
+    /**
+     *  [] (Value): {@link TipPaymentIntentAllocation}. The part of a tip paid through one payment
+     * intent.
+     */
+    "payment_intent_allocations": Array<TipPaymentIntentAllocation>;
+    /**
+     * Tip percentage in percentage points, such as `18` for 18%, when the tip is set as a percent.
+     * multipleOf: 0.0001.
+     */
+    "percent"?: number;
+    /**
+     * How much of the tip has been refunded. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code.
+     */
+    "refunded_money": MoneyValue;
+    /**
+     * How much of the tip has been paid. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "settled_amount_money": MoneyValue;
+    /**
+     * Whether the tip is awaiting payment, paid in full, refunded in part or in full, or canceled
+     * before collection. Value enum: "requested", "paid", "partially_refunded", "refunded",
+     * "canceled".
+     */
+    "status": "requested" | "paid" | "partially_refunded" | "refunded" | "canceled" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /**
+     *  [] (Value): {@link TipValueSettlementAllocation}. The part of a tip paid through one value
+     * settlement.
+     */
+    "value_settlement_allocations": Array<TipValueSettlementAllocation>;
+};
+/** The part of a tip paid through one payment intent. */
+export type TipPaymentIntentAllocation = {
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "amount_money": MoneyValue;
+    /** Example: "pi_01KEZF7C00G8H9D509YEV22P7R". */
+    "payment_intent_id": string;
+};
+/** The part of a tip paid through one value settlement. */
+export type TipValueSettlementAllocation = {
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "amount_money": MoneyValue;
+    /** Example: "ovst_01KEZF7C00EMVZ016PM34KKFGY". */
+    "value_settlement_id": string;
+};
+/**
+ * Tipping settings: percent and fixed tip options, the preselected tip, and whether custom tips
+ * are allowed.
+ */
+export type TippingSettings = {
+    /** Whether buyers can enter a custom tip amount. */
+    "custom_tip_enabled"?: boolean;
+    /**
+     * Whether hosted checkout offers tips when a checkout session or payment link doesn't set its
+     * own `tip`. Defaults to false.
+     */
+    "default_enabled"?: boolean;
+    /**
+     * Replaced as a whole: send every field you want to keep. The preselected fixed tip. Its
+     * amount and currency must match one of the effective smart_tip_money_options. `null` when no
+     * preselection is set; effective settings use Flint's default. anyOf[1] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code. anyOf[1].amount (Required): integer string. Use an integer string (decimal digits),
+     * not a floating-point number. Format: int64. minimum: 1. Amount in the currency's minor unit,
+     * such as cents for USD. Use an integer string (decimal digits), not a floating-point number.
+     * Format: int64. minimum: 0. anyOf[1].currency (Required): string. ISO 4217 currency code for
+     * this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. anyOf[2] (Value): null.
+     */
+    "default_smart_tip_money": ((({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 1.
+         */
+        "amount"?: `${bigint}`;
+    })
+        & (Exclude<MoneyValue & object, readonly unknown[]>))
+        | (null)
+        | (unknown));
+    /**
+     * The preselected tip percent, from 1 through 100 with at most four decimal places. It must
+     * match one of the effective tip_percent_options. `null` when no preselection is set;
+     * effective settings use Flint's default. minimum: 1. maximum: 100. multipleOf: 0.0001.
+     */
+    "default_tip_percent": number | null;
+    /**
+     * Three fixed tip amounts to offer. minItems: 3. maxItems: 3. [] (Value): {@link MoneyValue}.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code. [].amount
+     * (Required): integer string. Use an integer string (decimal digits), not a floating-point
+     * number. Format: int64. minimum: 1. Amount in the currency's minor unit, such as cents for
+     * USD. Use an integer string (decimal digits), not a floating-point number. Format: int64.
+     * minimum: 0. [].currency (Required): string. ISO 4217 currency code for this amount.
+     * minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     */
+    "smart_tip_money_options"?: Array<({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 1.
+         */
+        "amount"?: `${bigint}`;
+    })
+        & (Exclude<MoneyValue & object, readonly unknown[]>)>;
+    /** Whether checkout offers fixed tip amounts instead of tip percentages. */
+    "smart_tips_enabled"?: boolean;
+    /**
+     * Three tip percents to offer, each from 1 through 100 with at most four decimal places.
+     * minItems: 3. maxItems: 3. [] (Value): number. minimum: 1. maximum: 100. multipleOf: 0.0001.
+     */
+    "tip_percent_options"?: Array<number>;
+};
+/**
+ * Tipping settings to change when updating settings. Omit a field to keep it; send null to clear a
+ * preselected tip. minProperties: 1.
+ */
+export type TippingSettingsPatch = {
+    /** Whether buyers can enter a custom tip amount. */
+    "custom_tip_enabled"?: boolean;
+    /**
+     * Whether hosted checkout offers tips when a checkout session or payment link doesn't set its
+     * own `tip`. Defaults to false.
+     */
+    "default_enabled"?: boolean;
+    /**
+     * Replaced as a whole: send every field you want to keep. Omit to preserve the current value.
+     * Send null to clear the preselection and use Flint's default. When replacing presets,
+     * explicitly replace or clear a preselection that is no longer offered. anyOf[1] (Value):
+     * {@link MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code. anyOf[1].amount (Required): integer string. Use an integer string (decimal
+     * digits), not a floating-point number. Format: int64. minimum: 1. Amount in the currency's
+     * minor unit, such as cents for USD. Use an integer string (decimal digits), not a
+     * floating-point number. Format: int64. minimum: 0. anyOf[1].currency (Required): string. ISO
+     * 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     * anyOf[2] (Value): null.
+     */
+    "default_smart_tip_money"?: ((({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 1.
+         */
+        "amount"?: `${bigint}`;
+    })
+        & (Exclude<MoneyValue & object, readonly unknown[]>))
+        | (null)
+        | (unknown));
+    /**
+     * Omit to preserve the current value. Send null to clear the preselection and use Flint's
+     * default. When replacing presets, explicitly replace or clear a preselection that is no
+     * longer offered. minimum: 1. maximum: 100. multipleOf: 0.0001.
+     */
+    "default_tip_percent"?: number | null;
+    /**
+     * Three fixed tip amounts to offer. minItems: 3. maxItems: 3. [] (Value): {@link MoneyValue}.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code. [].amount
+     * (Required): integer string. Use an integer string (decimal digits), not a floating-point
+     * number. Format: int64. minimum: 1. Amount in the currency's minor unit, such as cents for
+     * USD. Use an integer string (decimal digits), not a floating-point number. Format: int64.
+     * minimum: 0. [].currency (Required): string. ISO 4217 currency code for this amount.
+     * minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     */
+    "smart_tip_money_options"?: Array<({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 1.
+         */
+        "amount"?: `${bigint}`;
+    })
+        & (Exclude<MoneyValue & object, readonly unknown[]>)>;
+    /** Whether checkout offers fixed tip amounts instead of tip percentages. */
+    "smart_tips_enabled"?: boolean;
+    /**
+     * Three tip percents to offer, each from 1 through 100 with at most four decimal places.
+     * minItems: 3. maxItems: 3. [] (Value): number. minimum: 1. maximum: 100. multipleOf: 0.0001.
+     */
+    "tip_percent_options"?: Array<number>;
+};
+/**
+ * Tipping settings to change when updating settings. Omit a field to keep it; send null to clear a
+ * preselected tip. minProperties: 1.
+ */
+export type TippingSettingsPatchInput = {
+    /** Whether buyers can enter a custom tip amount. */
+    "custom_tip_enabled"?: boolean;
+    /**
+     * Whether hosted checkout offers tips when a checkout session or payment link doesn't set its
+     * own `tip`. Defaults to false.
+     */
+    "default_enabled"?: boolean;
+    /**
+     * Replaced as a whole: send every field you want to keep. Omit to preserve the current value.
+     * Send null to clear the preselection and use Flint's default. When replacing presets,
+     * explicitly replace or clear a preselection that is no longer offered. anyOf[1] (Value):
+     * {@link MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code. anyOf[1].amount (Required): integer string. Use an integer string (decimal
+     * digits), not a floating-point number. Format: int64. minimum: 1. Amount in the currency's
+     * minor unit, such as cents for USD. Use an integer string (decimal digits), not a
+     * floating-point number. Format: int64. minimum: 0. anyOf[1].currency (Required): string. ISO
+     * 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     * anyOf[2] (Value): null.
+     */
+    "default_smart_tip_money"?: ((({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 1.
+         */
+        "amount"?: `${bigint}` | bigint;
+    })
+        & (Exclude<MoneyValueInput & object, readonly unknown[]>))
+        | (null));
+    /**
+     * Omit to preserve the current value. Send null to clear the preselection and use Flint's
+     * default. When replacing presets, explicitly replace or clear a preselection that is no
+     * longer offered. minimum: 1. maximum: 100. multipleOf: 0.0001.
+     */
+    "default_tip_percent"?: number | null;
+    /**
+     * Three fixed tip amounts to offer. minItems: 3. maxItems: 3. [] (Value): {@link
+     * MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code. [].amount (Required): integer string. Use an integer string (decimal digits),
+     * not a floating-point number. Format: int64. minimum: 1. Amount in the currency's minor unit,
+     * such as cents for USD. Use an integer string (decimal digits), not a floating-point number.
+     * Format: int64. minimum: 0. [].currency (Required): string. ISO 4217 currency code for this
+     * amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     */
+    "smart_tip_money_options"?: Array<({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 1.
+         */
+        "amount"?: `${bigint}` | bigint;
+    })
+        & (Exclude<MoneyValueInput & object, readonly unknown[]>)>;
+    /** Whether checkout offers fixed tip amounts instead of tip percentages. */
+    "smart_tips_enabled"?: boolean;
+    /**
+     * Three tip percents to offer, each from 1 through 100 with at most four decimal places.
+     * minItems: 3. maxItems: 3. [] (Value): number. minimum: 1. maximum: 100. multipleOf: 0.0001.
+     */
+    "tip_percent_options"?: Array<number>;
+};
+/** An optional version fence for removing the merchant freeze. */
+export type UnfreezeGiftCardRequestInput = CloseGiftCardRequest;
+/** The request body for: Update an API key. */
+export type UpdateAPIKeyRequest = ({
+    /**
+     * Key access. Full and read_only resolve from the current scope catalog for the key's mode;
+     * restricted holds only its listed scopes. Granting full or read_only requires a freshly
+     * verified authorized user session, or a full-access API key in the key's mode or a live
+     * full-access key granting a test key. Value enum: "full", "read_only", "restricted".
+     */
+    "access"?: "full" | "read_only" | "restricted" | (string & {});
+    /**
+     * Resource version last read by the caller. Required when access or scopes is present.
+     * Optional for scalar updates. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Future RFC3339 timestamp. Send null to clear an existing API-key expiration. Format:
+     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "expires_at"?: string | null;
+    /** minLength: 1. maxLength: 100. */
+    "name"?: string;
+    /**
+     * The scopes to grant. Required only with access restricted; forbidden with full or read_only.
+     * minItems: 1. uniqueItems: true. [] enum: "accounts.api_keys.read",
+     * "accounts.api_keys.write", "accounts.devices.read", "accounts.devices.write",
+     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
+     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
+     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
+     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
+     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
+     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
+     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
+     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
+     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
+     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
+     * "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write",
+     * "commerce.products.read", "commerce.products.write", "commerce.promotions.read",
+     * "commerce.promotions.write", "commerce.refunds.read",
+     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
+     * "commerce.returns.operations.write", "commerce.returns.policies.write",
+     * "commerce.returns.read", "commerce.returns.reasons.write",
+     * "commerce.returns.resolutions.write", "commerce.returns.write",
+     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
+     * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
+     * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
+     * "developer.feedback_reports.read", "developer.feedback_reports.write",
+     * "developer.partner_apps.read", "developer.partner_apps.write",
+     * "developer.request_logs.read", "developer.request_logs.self.read",
+     * "developer.resource_timelines.read", "developer.sandboxes.read",
+     * "developer.sandboxes.write", "developer.test_clocks.read", "developer.test_clocks.write",
+     * "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read",
+     * "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write",
+     * "merchants.profile.read", "merchants.profile.write",
+     * "money_movement.balance_transactions.read", "money_movement.balances.read",
+     * "money_movement.payout_settings.read", "money_movement.payout_settings.write",
+     * "money_movement.payouts.read", "money_movement.payouts.write", "payments.disputes.read",
+     * "payments.disputes.write", "payments.payment_intents.read",
+     * "payments.payment_intents.write", "payments.payment_method_domains.read",
+     * "payments.payment_method_domains.write", "payments.payment_methods.read",
+     * "payments.payment_methods.write", "reports.read", "reports.write", "risk.controls.write",
+     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
+     * "webhooks.write". [] (Value): string. Value enum: "accounts.api_keys.read",
+     * "accounts.api_keys.write", "accounts.devices.read", "accounts.devices.write",
+     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
+     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
+     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
+     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
+     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
+     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
+     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
+     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
+     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
+     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
+     * "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write",
+     * "commerce.products.read", "commerce.products.write", "commerce.promotions.read",
+     * "commerce.promotions.write", "commerce.refunds.read",
+     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
+     * "commerce.returns.operations.write", "commerce.returns.policies.write",
+     * "commerce.returns.read", "commerce.returns.reasons.write",
+     * "commerce.returns.resolutions.write", "commerce.returns.write",
+     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
+     * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
+     * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
+     * "developer.feedback_reports.read", "developer.feedback_reports.write",
+     * "developer.partner_apps.read", "developer.partner_apps.write",
+     * "developer.request_logs.read", "developer.request_logs.self.read",
+     * "developer.resource_timelines.read", "developer.sandboxes.read",
+     * "developer.sandboxes.write", "developer.test_clocks.read", "developer.test_clocks.write",
+     * "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read",
+     * "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write",
+     * "merchants.profile.read", "merchants.profile.write",
+     * "money_movement.balance_transactions.read", "money_movement.balances.read",
+     * "money_movement.payout_settings.read", "money_movement.payout_settings.write",
+     * "money_movement.payouts.read", "money_movement.payouts.write", "payments.disputes.read",
+     * "payments.disputes.write", "payments.payment_intents.read",
+     * "payments.payment_intents.write", "payments.payment_method_domains.read",
+     * "payments.payment_method_domains.write", "payments.payment_methods.read",
+     * "payments.payment_methods.write", "reports.read", "reports.write", "risk.controls.write",
+     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
+     * "webhooks.write".
+     */
+    "scopes"?: Array<"accounts.api_keys.read"
+        | "accounts.api_keys.write"
+        | "accounts.devices.read"
+        | "accounts.devices.write"
+        | "accounts.workload_identities.read"
+        | "accounts.workload_identities.write"
+        | "analytics.read"
+        | "checkouts.checkout_sessions.read"
+        | "checkouts.checkout_sessions.write"
+        | "checkouts.payment_links.read"
+        | "checkouts.payment_links.write"
+        | "commerce.bundles.read"
+        | "commerce.bundles.write"
+        | "commerce.catalog.read"
+        | "commerce.catalog.write"
+        | "commerce.credit_notes.read"
+        | "commerce.credit_notes.write"
+        | "commerce.delivery.read"
+        | "commerce.delivery.write"
+        | "commerce.gift_cards.adjustments.write"
+        | "commerce.gift_cards.read"
+        | "commerce.gift_cards.redemptions.write"
+        | "commerce.gift_cards.secrets.write"
+        | "commerce.gift_cards.write"
+        | "commerce.inventory.allocation.write"
+        | "commerce.inventory.policies.write"
+        | "commerce.inventory.read"
+        | "commerce.inventory.write"
+        | "commerce.invoices.read"
+        | "commerce.invoices.write"
+        | "commerce.orders.read"
+        | "commerce.orders.write"
+        | "commerce.products.read"
+        | "commerce.products.write"
+        | "commerce.promotions.read"
+        | "commerce.promotions.write"
+        | "commerce.refunds.read"
+        | "commerce.refunds.tax_overrides.write"
+        | "commerce.refunds.write"
+        | "commerce.returns.operations.write"
+        | "commerce.returns.policies.write"
+        | "commerce.returns.read"
+        | "commerce.returns.reasons.write"
+        | "commerce.returns.resolutions.write"
+        | "commerce.returns.write"
+        | "commerce.subscription_plans.read"
+        | "commerce.subscription_plans.write"
+        | "commerce.subscriptions.read"
+        | "commerce.subscriptions.write"
+        | "commerce.tickets.read"
+        | "commerce.tickets.write"
+        | "customers.read"
+        | "customers.sessions.write"
+        | "customers.write"
+        | "developer.feedback_reports.read"
+        | "developer.feedback_reports.write"
+        | "developer.partner_apps.read"
+        | "developer.partner_apps.write"
+        | "developer.request_logs.read"
+        | "developer.request_logs.self.read"
+        | "developer.resource_timelines.read"
+        | "developer.sandboxes.read"
+        | "developer.sandboxes.write"
+        | "developer.test_clocks.read"
+        | "developer.test_clocks.write"
+        | "merchant_billing.read"
+        | "merchants.account_sessions.write"
+        | "merchants.locations.read"
+        | "merchants.locations.write"
+        | "merchants.onboarding.read"
+        | "merchants.onboarding.write"
+        | "merchants.profile.read"
+        | "merchants.profile.write"
+        | "money_movement.balance_transactions.read"
+        | "money_movement.balances.read"
+        | "money_movement.payout_settings.read"
+        | "money_movement.payout_settings.write"
+        | "money_movement.payouts.read"
+        | "money_movement.payouts.write"
+        | "payments.disputes.read"
+        | "payments.disputes.write"
+        | "payments.payment_intents.read"
+        | "payments.payment_intents.write"
+        | "payments.payment_method_domains.read"
+        | "payments.payment_method_domains.write"
+        | "payments.payment_methods.read"
+        | "payments.payment_methods.write"
+        | "reports.read"
+        | "reports.write"
+        | "risk.controls.write"
+        | "risk.read"
+        | "risk.reviews.write"
+        | "settings.read"
+        | "settings.write"
+        | "webhooks.read"
+        | "webhooks.write"
+        | (string & {})>;
+})
+    & ((({
+    /** Value enum: "full". */
+    "access": unknown;
+}))
+    | (({
+    /** Value enum: "read_only". */
+    "access": unknown;
+}))
+    | ({
+    /** Value enum: "restricted". */
+    "access": unknown;
+    /**
+     * The scopes to grant. Required only with access restricted; forbidden with full or read_only.
+     * minItems: 1. uniqueItems: true. [] enum: "accounts.api_keys.read",
+     * "accounts.api_keys.write", "accounts.devices.read", "accounts.devices.write",
+     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
+     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
+     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
+     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
+     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
+     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
+     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
+     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
+     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
+     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
+     * "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write",
+     * "commerce.products.read", "commerce.products.write", "commerce.promotions.read",
+     * "commerce.promotions.write", "commerce.refunds.read",
+     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
+     * "commerce.returns.operations.write", "commerce.returns.policies.write",
+     * "commerce.returns.read", "commerce.returns.reasons.write",
+     * "commerce.returns.resolutions.write", "commerce.returns.write",
+     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
+     * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
+     * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
+     * "developer.feedback_reports.read", "developer.feedback_reports.write",
+     * "developer.partner_apps.read", "developer.partner_apps.write",
+     * "developer.request_logs.read", "developer.request_logs.self.read",
+     * "developer.resource_timelines.read", "developer.sandboxes.read",
+     * "developer.sandboxes.write", "developer.test_clocks.read", "developer.test_clocks.write",
+     * "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read",
+     * "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write",
+     * "merchants.profile.read", "merchants.profile.write",
+     * "money_movement.balance_transactions.read", "money_movement.balances.read",
+     * "money_movement.payout_settings.read", "money_movement.payout_settings.write",
+     * "money_movement.payouts.read", "money_movement.payouts.write", "payments.disputes.read",
+     * "payments.disputes.write", "payments.payment_intents.read",
+     * "payments.payment_intents.write", "payments.payment_method_domains.read",
+     * "payments.payment_method_domains.write", "payments.payment_methods.read",
+     * "payments.payment_methods.write", "reports.read", "reports.write", "risk.controls.write",
+     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
+     * "webhooks.write". [] (Value): string. Value enum: "accounts.api_keys.read",
+     * "accounts.api_keys.write", "accounts.devices.read", "accounts.devices.write",
+     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
+     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
+     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
+     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
+     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
+     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
+     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
+     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
+     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
+     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
+     * "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write",
+     * "commerce.products.read", "commerce.products.write", "commerce.promotions.read",
+     * "commerce.promotions.write", "commerce.refunds.read",
+     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
+     * "commerce.returns.operations.write", "commerce.returns.policies.write",
+     * "commerce.returns.read", "commerce.returns.reasons.write",
+     * "commerce.returns.resolutions.write", "commerce.returns.write",
+     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
+     * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
+     * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
+     * "developer.feedback_reports.read", "developer.feedback_reports.write",
+     * "developer.partner_apps.read", "developer.partner_apps.write",
+     * "developer.request_logs.read", "developer.request_logs.self.read",
+     * "developer.resource_timelines.read", "developer.sandboxes.read",
+     * "developer.sandboxes.write", "developer.test_clocks.read", "developer.test_clocks.write",
+     * "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read",
+     * "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write",
+     * "merchants.profile.read", "merchants.profile.write",
+     * "money_movement.balance_transactions.read", "money_movement.balances.read",
+     * "money_movement.payout_settings.read", "money_movement.payout_settings.write",
+     * "money_movement.payouts.read", "money_movement.payouts.write", "payments.disputes.read",
+     * "payments.disputes.write", "payments.payment_intents.read",
+     * "payments.payment_intents.write", "payments.payment_method_domains.read",
+     * "payments.payment_method_domains.write", "payments.payment_methods.read",
+     * "payments.payment_methods.write", "reports.read", "reports.write", "risk.controls.write",
+     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
+     * "webhooks.write".
+     */
+    "scopes": Array<"accounts.api_keys.read"
+        | "accounts.api_keys.write"
+        | "accounts.devices.read"
+        | "accounts.devices.write"
+        | "accounts.workload_identities.read"
+        | "accounts.workload_identities.write"
+        | "analytics.read"
+        | "checkouts.checkout_sessions.read"
+        | "checkouts.checkout_sessions.write"
+        | "checkouts.payment_links.read"
+        | "checkouts.payment_links.write"
+        | "commerce.bundles.read"
+        | "commerce.bundles.write"
+        | "commerce.catalog.read"
+        | "commerce.catalog.write"
+        | "commerce.credit_notes.read"
+        | "commerce.credit_notes.write"
+        | "commerce.delivery.read"
+        | "commerce.delivery.write"
+        | "commerce.gift_cards.adjustments.write"
+        | "commerce.gift_cards.read"
+        | "commerce.gift_cards.redemptions.write"
+        | "commerce.gift_cards.secrets.write"
+        | "commerce.gift_cards.write"
+        | "commerce.inventory.allocation.write"
+        | "commerce.inventory.policies.write"
+        | "commerce.inventory.read"
+        | "commerce.inventory.write"
+        | "commerce.invoices.read"
+        | "commerce.invoices.write"
+        | "commerce.orders.read"
+        | "commerce.orders.write"
+        | "commerce.products.read"
+        | "commerce.products.write"
+        | "commerce.promotions.read"
+        | "commerce.promotions.write"
+        | "commerce.refunds.read"
+        | "commerce.refunds.tax_overrides.write"
+        | "commerce.refunds.write"
+        | "commerce.returns.operations.write"
+        | "commerce.returns.policies.write"
+        | "commerce.returns.read"
+        | "commerce.returns.reasons.write"
+        | "commerce.returns.resolutions.write"
+        | "commerce.returns.write"
+        | "commerce.subscription_plans.read"
+        | "commerce.subscription_plans.write"
+        | "commerce.subscriptions.read"
+        | "commerce.subscriptions.write"
+        | "commerce.tickets.read"
+        | "commerce.tickets.write"
+        | "customers.read"
+        | "customers.sessions.write"
+        | "customers.write"
+        | "developer.feedback_reports.read"
+        | "developer.feedback_reports.write"
+        | "developer.partner_apps.read"
+        | "developer.partner_apps.write"
+        | "developer.request_logs.read"
+        | "developer.request_logs.self.read"
+        | "developer.resource_timelines.read"
+        | "developer.sandboxes.read"
+        | "developer.sandboxes.write"
+        | "developer.test_clocks.read"
+        | "developer.test_clocks.write"
+        | "merchant_billing.read"
+        | "merchants.account_sessions.write"
+        | "merchants.locations.read"
+        | "merchants.locations.write"
+        | "merchants.onboarding.read"
+        | "merchants.onboarding.write"
+        | "merchants.profile.read"
+        | "merchants.profile.write"
+        | "money_movement.balance_transactions.read"
+        | "money_movement.balances.read"
+        | "money_movement.payout_settings.read"
+        | "money_movement.payout_settings.write"
+        | "money_movement.payouts.read"
+        | "money_movement.payouts.write"
+        | "payments.disputes.read"
+        | "payments.disputes.write"
+        | "payments.payment_intents.read"
+        | "payments.payment_intents.write"
+        | "payments.payment_method_domains.read"
+        | "payments.payment_method_domains.write"
+        | "payments.payment_methods.read"
+        | "payments.payment_methods.write"
+        | "reports.read"
+        | "reports.write"
+        | "risk.controls.write"
+        | "risk.read"
+        | "risk.reviews.write"
+        | "settings.read"
+        | "settings.write"
+        | "webhooks.read"
+        | "webhooks.write"
+        | (string & {})>;
+})
+    | (unknown)
+    | (Record<string, unknown>));
+/** The request body for: Update an API key. */
+export type UpdateAPIKeyRequestInput = ({
+    /**
+     * Key access. Full and read_only resolve from the current scope catalog for the key's mode;
+     * restricted holds only its listed scopes. Granting full or read_only requires a freshly
+     * verified authorized user session, or a full-access API key in the key's mode or a live
+     * full-access key granting a test key. Value enum: "full", "read_only", "restricted".
+     */
+    "access"?: "full" | "read_only" | "restricted";
+    /**
+     * Resource version last read by the caller. Required when access or scopes is present.
+     * Optional for scalar updates. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Future RFC3339 timestamp. Send null to clear an existing API-key expiration. Format:
+     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "expires_at"?: string | globalThis.Date | null;
+    /** minLength: 1. maxLength: 100. */
+    "name"?: string;
+    /**
+     * The scopes to grant. Required only with access restricted; forbidden with full or read_only.
+     * minItems: 1. uniqueItems: true. [] enum: "accounts.api_keys.read",
+     * "accounts.api_keys.write", "accounts.devices.read", "accounts.devices.write",
+     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
+     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
+     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
+     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
+     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
+     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
+     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
+     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
+     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
+     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
+     * "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write",
+     * "commerce.products.read", "commerce.products.write", "commerce.promotions.read",
+     * "commerce.promotions.write", "commerce.refunds.read",
+     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
+     * "commerce.returns.operations.write", "commerce.returns.policies.write",
+     * "commerce.returns.read", "commerce.returns.reasons.write",
+     * "commerce.returns.resolutions.write", "commerce.returns.write",
+     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
+     * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
+     * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
+     * "developer.feedback_reports.read", "developer.feedback_reports.write",
+     * "developer.partner_apps.read", "developer.partner_apps.write",
+     * "developer.request_logs.read", "developer.request_logs.self.read",
+     * "developer.resource_timelines.read", "developer.sandboxes.read",
+     * "developer.sandboxes.write", "developer.test_clocks.read", "developer.test_clocks.write",
+     * "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read",
+     * "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write",
+     * "merchants.profile.read", "merchants.profile.write",
+     * "money_movement.balance_transactions.read", "money_movement.balances.read",
+     * "money_movement.payout_settings.read", "money_movement.payout_settings.write",
+     * "money_movement.payouts.read", "money_movement.payouts.write", "payments.disputes.read",
+     * "payments.disputes.write", "payments.payment_intents.read",
+     * "payments.payment_intents.write", "payments.payment_method_domains.read",
+     * "payments.payment_method_domains.write", "payments.payment_methods.read",
+     * "payments.payment_methods.write", "reports.read", "reports.write", "risk.controls.write",
+     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
+     * "webhooks.write". [] (Value): string. Value enum: "accounts.api_keys.read",
+     * "accounts.api_keys.write", "accounts.devices.read", "accounts.devices.write",
+     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
+     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
+     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
+     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
+     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
+     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
+     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
+     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
+     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
+     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
+     * "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write",
+     * "commerce.products.read", "commerce.products.write", "commerce.promotions.read",
+     * "commerce.promotions.write", "commerce.refunds.read",
+     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
+     * "commerce.returns.operations.write", "commerce.returns.policies.write",
+     * "commerce.returns.read", "commerce.returns.reasons.write",
+     * "commerce.returns.resolutions.write", "commerce.returns.write",
+     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
+     * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
+     * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
+     * "developer.feedback_reports.read", "developer.feedback_reports.write",
+     * "developer.partner_apps.read", "developer.partner_apps.write",
+     * "developer.request_logs.read", "developer.request_logs.self.read",
+     * "developer.resource_timelines.read", "developer.sandboxes.read",
+     * "developer.sandboxes.write", "developer.test_clocks.read", "developer.test_clocks.write",
+     * "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read",
+     * "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write",
+     * "merchants.profile.read", "merchants.profile.write",
+     * "money_movement.balance_transactions.read", "money_movement.balances.read",
+     * "money_movement.payout_settings.read", "money_movement.payout_settings.write",
+     * "money_movement.payouts.read", "money_movement.payouts.write", "payments.disputes.read",
+     * "payments.disputes.write", "payments.payment_intents.read",
+     * "payments.payment_intents.write", "payments.payment_method_domains.read",
+     * "payments.payment_method_domains.write", "payments.payment_methods.read",
+     * "payments.payment_methods.write", "reports.read", "reports.write", "risk.controls.write",
+     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
+     * "webhooks.write".
+     */
+    "scopes"?: Array<"accounts.api_keys.read"
+        | "accounts.api_keys.write"
+        | "accounts.devices.read"
+        | "accounts.devices.write"
+        | "accounts.workload_identities.read"
+        | "accounts.workload_identities.write"
+        | "analytics.read"
+        | "checkouts.checkout_sessions.read"
+        | "checkouts.checkout_sessions.write"
+        | "checkouts.payment_links.read"
+        | "checkouts.payment_links.write"
+        | "commerce.bundles.read"
+        | "commerce.bundles.write"
+        | "commerce.catalog.read"
+        | "commerce.catalog.write"
+        | "commerce.credit_notes.read"
+        | "commerce.credit_notes.write"
+        | "commerce.delivery.read"
+        | "commerce.delivery.write"
+        | "commerce.gift_cards.adjustments.write"
+        | "commerce.gift_cards.read"
+        | "commerce.gift_cards.redemptions.write"
+        | "commerce.gift_cards.secrets.write"
+        | "commerce.gift_cards.write"
+        | "commerce.inventory.allocation.write"
+        | "commerce.inventory.policies.write"
+        | "commerce.inventory.read"
+        | "commerce.inventory.write"
+        | "commerce.invoices.read"
+        | "commerce.invoices.write"
+        | "commerce.orders.read"
+        | "commerce.orders.write"
+        | "commerce.products.read"
+        | "commerce.products.write"
+        | "commerce.promotions.read"
+        | "commerce.promotions.write"
+        | "commerce.refunds.read"
+        | "commerce.refunds.tax_overrides.write"
+        | "commerce.refunds.write"
+        | "commerce.returns.operations.write"
+        | "commerce.returns.policies.write"
+        | "commerce.returns.read"
+        | "commerce.returns.reasons.write"
+        | "commerce.returns.resolutions.write"
+        | "commerce.returns.write"
+        | "commerce.subscription_plans.read"
+        | "commerce.subscription_plans.write"
+        | "commerce.subscriptions.read"
+        | "commerce.subscriptions.write"
+        | "commerce.tickets.read"
+        | "commerce.tickets.write"
+        | "customers.read"
+        | "customers.sessions.write"
+        | "customers.write"
+        | "developer.feedback_reports.read"
+        | "developer.feedback_reports.write"
+        | "developer.partner_apps.read"
+        | "developer.partner_apps.write"
+        | "developer.request_logs.read"
+        | "developer.request_logs.self.read"
+        | "developer.resource_timelines.read"
+        | "developer.sandboxes.read"
+        | "developer.sandboxes.write"
+        | "developer.test_clocks.read"
+        | "developer.test_clocks.write"
+        | "merchant_billing.read"
+        | "merchants.account_sessions.write"
+        | "merchants.locations.read"
+        | "merchants.locations.write"
+        | "merchants.onboarding.read"
+        | "merchants.onboarding.write"
+        | "merchants.profile.read"
+        | "merchants.profile.write"
+        | "money_movement.balance_transactions.read"
+        | "money_movement.balances.read"
+        | "money_movement.payout_settings.read"
+        | "money_movement.payout_settings.write"
+        | "money_movement.payouts.read"
+        | "money_movement.payouts.write"
+        | "payments.disputes.read"
+        | "payments.disputes.write"
+        | "payments.payment_intents.read"
+        | "payments.payment_intents.write"
+        | "payments.payment_method_domains.read"
+        | "payments.payment_method_domains.write"
+        | "payments.payment_methods.read"
+        | "payments.payment_methods.write"
+        | "reports.read"
+        | "reports.write"
+        | "risk.controls.write"
+        | "risk.read"
+        | "risk.reviews.write"
+        | "settings.read"
+        | "settings.write"
+        | "webhooks.read"
+        | "webhooks.write">;
+})
+    & ((({
+    /** Value enum: "full". */
+    "access": ("full") & ("full");
+})
+    & ({
+    "scopes"?: never;
+}))
+    | (({
+    /** Value enum: "read_only". */
+    "access": ("read_only") & ("read_only");
+})
+    & ({
+    "scopes"?: never;
+}))
+    | ({
+    /** Value enum: "restricted". */
+    "access": ("restricted") & ("restricted");
+    /**
+     * The scopes to grant. Required only with access restricted; forbidden with full or read_only.
+     * minItems: 1. uniqueItems: true. [] enum: "accounts.api_keys.read",
+     * "accounts.api_keys.write", "accounts.devices.read", "accounts.devices.write",
+     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
+     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
+     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
+     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
+     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
+     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
+     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
+     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
+     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
+     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
+     * "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write",
+     * "commerce.products.read", "commerce.products.write", "commerce.promotions.read",
+     * "commerce.promotions.write", "commerce.refunds.read",
+     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
+     * "commerce.returns.operations.write", "commerce.returns.policies.write",
+     * "commerce.returns.read", "commerce.returns.reasons.write",
+     * "commerce.returns.resolutions.write", "commerce.returns.write",
+     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
+     * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
+     * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
+     * "developer.feedback_reports.read", "developer.feedback_reports.write",
+     * "developer.partner_apps.read", "developer.partner_apps.write",
+     * "developer.request_logs.read", "developer.request_logs.self.read",
+     * "developer.resource_timelines.read", "developer.sandboxes.read",
+     * "developer.sandboxes.write", "developer.test_clocks.read", "developer.test_clocks.write",
+     * "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read",
+     * "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write",
+     * "merchants.profile.read", "merchants.profile.write",
+     * "money_movement.balance_transactions.read", "money_movement.balances.read",
+     * "money_movement.payout_settings.read", "money_movement.payout_settings.write",
+     * "money_movement.payouts.read", "money_movement.payouts.write", "payments.disputes.read",
+     * "payments.disputes.write", "payments.payment_intents.read",
+     * "payments.payment_intents.write", "payments.payment_method_domains.read",
+     * "payments.payment_method_domains.write", "payments.payment_methods.read",
+     * "payments.payment_methods.write", "reports.read", "reports.write", "risk.controls.write",
+     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
+     * "webhooks.write". [] (Value): string. Value enum: "accounts.api_keys.read",
+     * "accounts.api_keys.write", "accounts.devices.read", "accounts.devices.write",
+     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
+     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
+     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
+     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
+     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
+     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
+     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
+     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
+     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
+     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
+     * "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write",
+     * "commerce.products.read", "commerce.products.write", "commerce.promotions.read",
+     * "commerce.promotions.write", "commerce.refunds.read",
+     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
+     * "commerce.returns.operations.write", "commerce.returns.policies.write",
+     * "commerce.returns.read", "commerce.returns.reasons.write",
+     * "commerce.returns.resolutions.write", "commerce.returns.write",
+     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
+     * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
+     * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
+     * "developer.feedback_reports.read", "developer.feedback_reports.write",
+     * "developer.partner_apps.read", "developer.partner_apps.write",
+     * "developer.request_logs.read", "developer.request_logs.self.read",
+     * "developer.resource_timelines.read", "developer.sandboxes.read",
+     * "developer.sandboxes.write", "developer.test_clocks.read", "developer.test_clocks.write",
+     * "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read",
+     * "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write",
+     * "merchants.profile.read", "merchants.profile.write",
+     * "money_movement.balance_transactions.read", "money_movement.balances.read",
+     * "money_movement.payout_settings.read", "money_movement.payout_settings.write",
+     * "money_movement.payouts.read", "money_movement.payouts.write", "payments.disputes.read",
+     * "payments.disputes.write", "payments.payment_intents.read",
+     * "payments.payment_intents.write", "payments.payment_method_domains.read",
+     * "payments.payment_method_domains.write", "payments.payment_methods.read",
+     * "payments.payment_methods.write", "reports.read", "reports.write", "risk.controls.write",
+     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
+     * "webhooks.write".
+     */
+    "scopes": Array<"accounts.api_keys.read"
+        | "accounts.api_keys.write"
+        | "accounts.devices.read"
+        | "accounts.devices.write"
+        | "accounts.workload_identities.read"
+        | "accounts.workload_identities.write"
+        | "analytics.read"
+        | "checkouts.checkout_sessions.read"
+        | "checkouts.checkout_sessions.write"
+        | "checkouts.payment_links.read"
+        | "checkouts.payment_links.write"
+        | "commerce.bundles.read"
+        | "commerce.bundles.write"
+        | "commerce.catalog.read"
+        | "commerce.catalog.write"
+        | "commerce.credit_notes.read"
+        | "commerce.credit_notes.write"
+        | "commerce.delivery.read"
+        | "commerce.delivery.write"
+        | "commerce.gift_cards.adjustments.write"
+        | "commerce.gift_cards.read"
+        | "commerce.gift_cards.redemptions.write"
+        | "commerce.gift_cards.secrets.write"
+        | "commerce.gift_cards.write"
+        | "commerce.inventory.allocation.write"
+        | "commerce.inventory.policies.write"
+        | "commerce.inventory.read"
+        | "commerce.inventory.write"
+        | "commerce.invoices.read"
+        | "commerce.invoices.write"
+        | "commerce.orders.read"
+        | "commerce.orders.write"
+        | "commerce.products.read"
+        | "commerce.products.write"
+        | "commerce.promotions.read"
+        | "commerce.promotions.write"
+        | "commerce.refunds.read"
+        | "commerce.refunds.tax_overrides.write"
+        | "commerce.refunds.write"
+        | "commerce.returns.operations.write"
+        | "commerce.returns.policies.write"
+        | "commerce.returns.read"
+        | "commerce.returns.reasons.write"
+        | "commerce.returns.resolutions.write"
+        | "commerce.returns.write"
+        | "commerce.subscription_plans.read"
+        | "commerce.subscription_plans.write"
+        | "commerce.subscriptions.read"
+        | "commerce.subscriptions.write"
+        | "commerce.tickets.read"
+        | "commerce.tickets.write"
+        | "customers.read"
+        | "customers.sessions.write"
+        | "customers.write"
+        | "developer.feedback_reports.read"
+        | "developer.feedback_reports.write"
+        | "developer.partner_apps.read"
+        | "developer.partner_apps.write"
+        | "developer.request_logs.read"
+        | "developer.request_logs.self.read"
+        | "developer.resource_timelines.read"
+        | "developer.sandboxes.read"
+        | "developer.sandboxes.write"
+        | "developer.test_clocks.read"
+        | "developer.test_clocks.write"
+        | "merchant_billing.read"
+        | "merchants.account_sessions.write"
+        | "merchants.locations.read"
+        | "merchants.locations.write"
+        | "merchants.onboarding.read"
+        | "merchants.onboarding.write"
+        | "merchants.profile.read"
+        | "merchants.profile.write"
+        | "money_movement.balance_transactions.read"
+        | "money_movement.balances.read"
+        | "money_movement.payout_settings.read"
+        | "money_movement.payout_settings.write"
+        | "money_movement.payouts.read"
+        | "money_movement.payouts.write"
+        | "payments.disputes.read"
+        | "payments.disputes.write"
+        | "payments.payment_intents.read"
+        | "payments.payment_intents.write"
+        | "payments.payment_method_domains.read"
+        | "payments.payment_method_domains.write"
+        | "payments.payment_methods.read"
+        | "payments.payment_methods.write"
+        | "reports.read"
+        | "reports.write"
+        | "risk.controls.write"
+        | "risk.read"
+        | "risk.reviews.write"
+        | "settings.read"
+        | "settings.write"
+        | "webhooks.read"
+        | "webhooks.write">;
+})
+    | ((({
+    "access"?: never;
+}) & ({
+    "scopes"?: never;
+}))));
+/**
+ * A component to keep or add when updating a bundle, with its variant, quantity, position, and
+ * delivery profile.
+ */
+export type UpdateBundleComponentRequest = {
+    /**
+     * Identifier of an existing component to retain. Omit it to add a new component. minLength: 1.
+     * pattern: ^bunc_[0-9A-HJKMNP-TV-Z]{26}$. Example: "bunc_01KEZF7C00CQASEZGAPEANTGD1".
+     */
+    "bundle_component_id"?: string;
+    /**
+     * Delivery profile for this component. Omit it to copy the variant's current profile when the
+     * component is saved; later changes to the variant's profile don't follow. On update, omitting
+     * it on a retained component replaces any override with the variant's current profile, so
+     * resend it to keep it. Send null to leave the component without a profile, which makes a
+     * physical component `action_required` and a digital or service component `not_applicable`
+     * with no delivery requirement. Digital and service components never use defaults; explicit
+     * and inherited profiles must be required/manual with allowed_types exactly [digital] or
+     * [service], matching the component product type. Existing order delivery snapshots do not
+     * change. minLength: 1. Example: "dprof_01KEZF7C0020J13FQYNY9854R0".
+     */
+    "delivery_profile_id"?: string | null;
+    /** Display order among the bundle's components, starting at zero. Format: int32. minimum: 0. */
+    "position"?: number;
+    /**
+     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
+     * maximum: 9999. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Identifier of the product variant included in the bundle. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id": string;
+};

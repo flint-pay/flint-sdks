@@ -1,0 +1,1 @@
+{"codec":{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec4918"},"dependencies":["MoneyValue","QuantityPriceBreakRequest","SharedCodec1639","SharedCodec4313","SharedCodec4918","SharedCodec4919"]}

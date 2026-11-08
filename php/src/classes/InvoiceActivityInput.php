@@ -37,13 +37,13 @@ final class InvoiceActivityInput extends Model {
      */
     public function getActivityType(): string { return $this->get('activity_type'); }
     public function hasActivityType(): bool { return $this->has('activity_type'); }
-    /** Merchant ID of the actor, when actor_type is merchant. Some system activities also carry the merchant ID.
+    /** Merchant ID of the actor, when actor_type is merchant. Some system activities also carry the merchant ID. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
      * @return string
      * @throws SdkError When actor_id is omitted; use hasActorId() or valueOrDefault().
      */
     public function getActorId(): string { return $this->get('actor_id'); }
     public function hasActorId(): bool { return $this->has('actor_id'); }
-    /** Who performed the activity: the merchant (an API key or dashboard user), the buyer, or Flint on a schedule or in response to a payment event. Absent when no actor was recorded. Value enum: "merchant", "buyer", "system".
+    /** Who performed the activity: the merchant (an API key or dashboard user), the buyer, or Flint on a schedule or in response to a payment event. Absent when no actor was recorded. Example: "merchant". Value enum: "merchant", "buyer", "system".
      * @return string
      * @throws SdkError When actor_type is omitted; use hasActorType() or valueOrDefault().
      */
@@ -61,7 +61,7 @@ final class InvoiceActivityInput extends Model {
      */
     public function getChannel(): string { return $this->get('channel'); }
     public function hasChannel(): bool { return $this->has('channel'); }
-    /** Checkout session the buyer paid through. Present on payment_attempt_started for hosted payments.
+    /** Checkout session the buyer paid through. Present on payment_attempt_started for hosted payments. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
      * @return string
      * @throws SdkError When checkout_session_id is omitted; use hasCheckoutSessionId() or valueOrDefault().
      */
@@ -73,7 +73,7 @@ final class InvoiceActivityInput extends Model {
      */
     public function getCollectionBlockReason(): string { return $this->get('collection_block_reason'); }
     public function hasCollectionBlockReason(): bool { return $this->has('collection_block_reason'); }
-    /** When the activity happened. Format: date-time.
+    /** When the activity happened. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
@@ -85,7 +85,7 @@ final class InvoiceActivityInput extends Model {
      */
     public function getCreditMoney(): mixed { return $this->get('credit_money'); }
     public function hasCreditMoney(): bool { return $this->has('credit_money'); }
-    /** Credit note that requested the refund. Present on updated when a credit note refund was requested or changed.
+    /** Credit note that requested the refund. Present on updated when a credit note refund was requested or changed. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
      * @return string
      * @throws SdkError When credit_note_id is omitted; use hasCreditNoteId() or valueOrDefault().
      */
@@ -97,7 +97,7 @@ final class InvoiceActivityInput extends Model {
      */
     public function getDescription(): string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** Due date that triggered the activity. Present on overdue, reminder_due, and late_fee_due. Format: date-time.
+    /** Due date that triggered the activity. Present on overdue, reminder_due, and late_fee_due. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When due_at is omitted; use hasDueAt() or valueOrDefault().
      */
@@ -115,43 +115,43 @@ final class InvoiceActivityInput extends Model {
      */
     public function getExpectedAmountMoney(): mixed { return $this->get('expected_amount_money'); }
     public function hasExpectedAmountMoney(): bool { return $this->has('expected_amount_money'); }
-    /** Flint invoice activity ID. IDs begin with inevt_.
+    /** Flint invoice activity ID. IDs begin with inevt_. Example: "inevt_01KEZF7C00RQVKGDVE88YNX9FQ".
      * @return string
      * @throws SdkError When invoice_activity_id is omitted; use hasInvoiceActivityId() or valueOrDefault().
      */
     public function getInvoiceActivityId(): string { return $this->get('invoice_activity_id'); }
     public function hasInvoiceActivityId(): bool { return $this->has('invoice_activity_id'); }
-    /** The delivery attempt that sent the email. Present on delivery_sent and reminder_sent.
+    /** The delivery attempt that sent the email. Present on delivery_sent and reminder_sent. Example: "indel_01KEZF7C001BBS41T0ZVY8VMEQ".
      * @return string
      * @throws SdkError When invoice_delivery_attempt_id is omitted; use hasInvoiceDeliveryAttemptId() or valueOrDefault().
      */
     public function getInvoiceDeliveryAttemptId(): string { return $this->get('invoice_delivery_attempt_id'); }
     public function hasInvoiceDeliveryAttemptId(): bool { return $this->has('invoice_delivery_attempt_id'); }
-    /** The late fee. Present on late_fee_assessed and late_fee_waived.
+    /** The late fee. Present on late_fee_assessed and late_fee_waived. Example: "inlf_01KEZF7C00NVR97MBH5AHR4W1X".
      * @return string
      * @throws SdkError When invoice_late_fee_id is omitted; use hasInvoiceLateFeeId() or valueOrDefault().
      */
     public function getInvoiceLateFeeId(): string { return $this->get('invoice_late_fee_id'); }
     public function hasInvoiceLateFeeId(): bool { return $this->has('invoice_late_fee_id'); }
-    /** The manual payment. Present on manual_payment_recorded and manual_payment_reversed.
+    /** The manual payment. Present on manual_payment_recorded and manual_payment_reversed. Example: "omp_01KEZF7C007J18203RBJKB9TYE".
      * @return string
      * @throws SdkError When invoice_manual_payment_id is omitted; use hasInvoiceManualPaymentId() or valueOrDefault().
      */
     public function getInvoiceManualPaymentId(): string { return $this->get('invoice_manual_payment_id'); }
     public function hasInvoiceManualPaymentId(): bool { return $this->has('invoice_manual_payment_id'); }
-    /** The payment attempt. Present on payment_attempt_started and payment_processing.
+    /** The payment attempt. Present on payment_attempt_started and payment_processing. Example: "invpa_01KEZF7C00PMWEDPAYYEKDTPBX".
      * @return string
      * @throws SdkError When invoice_payment_attempt_id is omitted; use hasInvoicePaymentAttemptId() or valueOrDefault().
      */
     public function getInvoicePaymentAttemptId(): string { return $this->get('invoice_payment_attempt_id'); }
     public function hasInvoicePaymentAttemptId(): bool { return $this->has('invoice_payment_attempt_id'); }
-    /** Schedule entry the activity applies to. Present on overdue, reminder_due, late_fee_due, late_fee_assessed, and late_fee_waived when the invoice has a payment schedule.
+    /** Schedule entry the activity applies to. Present on overdue, reminder_due, late_fee_due, late_fee_assessed, and late_fee_waived when the invoice has a payment schedule. Example: "invse_01KEZF7C006JCPQBD8VZ0RNT6R".
      * @return string
      * @throws SdkError When invoice_schedule_entry_id is omitted; use hasInvoiceScheduleEntryId() or valueOrDefault().
      */
     public function getInvoiceScheduleEntryId(): string { return $this->get('invoice_schedule_entry_id'); }
     public function hasInvoiceScheduleEntryId(): bool { return $this->has('invoice_schedule_entry_id'); }
-    /** Payment intent whose funds were applied. Present on payment_applied.
+    /** Payment intent whose funds were applied. Present on payment_applied. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
      * @return string
      * @throws SdkError When payment_intent_id is omitted; use hasPaymentIntentId() or valueOrDefault().
      */
@@ -163,7 +163,7 @@ final class InvoiceActivityInput extends Model {
      */
     public function getRail(): string { return $this->get('rail'); }
     public function hasRail(): bool { return $this->has('rail'); }
-    /** Related refund. Present on refund_succeeded, and on updated when a card refund changed or a credit note refund was requested or changed. Read the refund for its current status.
+    /** Related refund. Present on refund_succeeded, and on updated when a card refund changed or a credit note refund was requested or changed. Read the refund for its current status. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
      * @return string
      * @throws SdkError When refund_id is omitted; use hasRefundId() or valueOrDefault().
      */

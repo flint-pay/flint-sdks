@@ -2,7 +2,7 @@
 
 ## FeedbackReportResponseDataPraiseReportingClient
 
-Tool submitting the feedback, independently of the product being discussed. Its name is required when present.
+Tool that submitted the feedback, independently of the product being discussed.
 
 The client that submits a feedback report, with its name, platform, version, and schema version.
 

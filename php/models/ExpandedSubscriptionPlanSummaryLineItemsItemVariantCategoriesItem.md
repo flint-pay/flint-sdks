@@ -9,6 +9,5 @@ Response model.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `category_id` | Required | string | Stable identifier of the category. |
-| `handle` | Required | string | Category handle recorded with this reference. |
-| `name` | Required | string | Category name recorded with this reference. |
+| `handle` | Required | string | Immutable handle of the referenced category. Read the category resource for its current name. |
 

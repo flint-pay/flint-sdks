@@ -17,9 +17,10 @@ $client = new Client(new ClientOptions(
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->taxConnection->createRegistration([
-  'state' => 'AL',
-  'registration_number' => 'example',
+  'country' => 'US',
+  'registration_number' => '1234561234',
   'start_date' => '2026-01-01',
+  'state' => 'TX',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->status . PHP_EOL;
 echo $result->tax_registration_id . PHP_EOL;

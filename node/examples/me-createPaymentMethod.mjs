@@ -11,9 +11,7 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.me.createPaymentMethod(
-  {
-    type: "card",
-  },
+  undefined,
   { idempotencyKey: idempotencyKey },
 );
 console.log(result);

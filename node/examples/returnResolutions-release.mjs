@@ -8,8 +8,9 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.returnResolutions.release(
-  "retres_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "retres_01KEZF7C00C7RZJN31W9SGMEQ3",
   {
+    expected_version: 2,
     reason: "merchant_approved",
   },
   { idempotencyKey: idempotencyKey },

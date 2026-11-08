@@ -8,13 +8,13 @@ namespace Flint;
 final class DiscountPreviewRequestInput extends Model {
     /** @param array{'discount'?: CreateOrderDiscountInput|array<array-key, mixed>|\stdClass, 'order_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DiscountPreviewRequestInput')); }
-    /** A discount to apply when creating an order: either a manual discount or a reference to a promotion.
+    /** A discount to evaluate as if it were applied to the order. A discount to apply when creating an order: either a manual discount or a reference to a promotion.
      * @return CreateOrderDiscountInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When discount is omitted; use hasDiscount() or valueOrDefault().
      */
     public function getDiscount(): mixed { return $this->get('discount'); }
     public function hasDiscount(): bool { return $this->has('discount'); }
-    /** The order to evaluate. Checkout session credentials can use only their own order. minLength: 1.
+    /** The order to evaluate. Checkout session credentials can use only their own order. minLength: 1. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */

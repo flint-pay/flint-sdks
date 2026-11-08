@@ -1,5 +1,5 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-5.js';
+import type { ClientOptions } from '../declarations/types-6.js';
 import type {
     Device,
     DeviceListResponse,
@@ -9,9 +9,9 @@ import type {
     DevicesGetParams,
     DevicesListParams,
     DevicesUpdateParams
-} from '../declarations/types-20.js';
-import type { RequestOptions } from '../declarations/types-48.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-22.js';
+import type { RequestOptions } from '../declarations/types-51.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -35,31 +35,25 @@ export type {
     DevicesListParams,
     DeviceListResponse,
     DevicesUpdateParams
-} from '../declarations/types-20.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { ClientOptions } from '../declarations/types-5.js';
-export type { CreateDeviceRequestInput } from '../declarations/types-7.js';
-export type {
-    MetadataRequestInput,
-    MetadataMap,
-    NextAction,
-    MoneyValue,
-    MetadataPatchRequestInput,
-    MetadataPatchRequest
-} from '../declarations/types-35.js';
+} from '../declarations/types-22.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+export type { ClientOptions } from '../declarations/types-6.js';
+export type { CreateDeviceRequestInput } from '../declarations/types-8.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-36.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-12.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
-export type { UpdateDeviceRequestInput } from '../declarations/types-59.js';
-export { makeCreateDeviceRequest } from '../declarations/types-64.js';
-export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-69.js';
-export { makeMoneyValue } from '../declarations/types-70.js';
-export { makeUpdateDeviceRequest } from '../declarations/types-74.js';
+export type { Credentials } from '../declarations/types-13.js';
+export type { NextAction, MoneyValue } from '../declarations/types-37.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
+export type { UpdateDeviceRequestInput } from '../declarations/types-63.js';
+export { makeCreateDeviceRequest } from '../declarations/types-69.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-74.js';
+export { makeMoneyValue } from '../declarations/types-75.js';
+export { makeUpdateDeviceRequest } from '../declarations/types-79.js';
 export interface DevicesResource {
     /**
- * Creates a device. If an active device already has the hardware_fingerprint, returns 409
- * ALREADY_EXISTS with reason hardware_fingerprint_already_exists and changes nothing. The
+ * Creates a device. If an active device already has the hardware_fingerprint, fails with
+ * `ALREADY_EXISTS` and reason `hardware_fingerprint_already_exists`, and changes nothing. The
  * details[0].current_resource field names the existing device.
  *
  * `POST /v1/devices`
@@ -84,7 +78,7 @@ export interface DevicesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.devices.delete("dev_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey })
+ * client.devices.delete("dev_01KEZF7C0051ZP8MZSGHP989F6", {}, { idempotencyKey: idempotencyKey })
  */
     delete(device_id: InputValue<string>, params?: DevicesDeleteParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Device, DeviceResponse>>;
     /**
@@ -95,7 +89,7 @@ export interface DevicesResource {
  * @see https://developers.withflintpay.com/docs/api/devices#getDevice
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.devices.get("dev_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.devices.get("dev_01KEZF7C0051ZP8MZSGHP989F6")
  */
     get(device_id: InputValue<string>, params?: DevicesGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<Device, DeviceResponse>>;
     /**

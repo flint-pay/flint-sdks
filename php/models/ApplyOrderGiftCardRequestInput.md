@@ -8,6 +8,6 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `code` | Required | string | minLength: `1`. maxLength: `64`. Input only. |
+| `code` | Required | string | The gift card's code. Spaces and hyphens are ignored. minLength: `1`. maxLength: `64`. Input only. |
 | `expected_version` | Optional | integer | Optional order version from the last order read. The mutation fails if the order changed. Format: `int64`. minimum: `1`. |
 

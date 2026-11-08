@@ -23,6 +23,9 @@ decideLineItem(return_inspection_id: InputValue<string>,
 | --- | --- | --- | --- |
 | `return_inspection_id` | Required | string | Flint return inspection id. |
 | `return_inspection_line_item_id` | Required | string | Flint return inspection line item id. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [DecideReturnInspectionLineItemRequestInput](../models/DecideReturnInspectionLineItemRequest.md#decidereturninspectionlineitemrequest) | The request body for: Decide return inspection line item. |
 
 Body model: [DecideReturnInspectionLineItemRequestInput](../models/DecideReturnInspectionLineItemRequest.md#decidereturninspectionlineitemrequest).
@@ -44,7 +47,6 @@ Returned payload: [ReturnInspection](../models/ReturnInspection.md#returninspect
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -69,7 +71,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.returnInspections.decideLineItem("retins_01ARZ3NDEKTSV4RRFFQ69G5FAV", "retinli_01ARZ3NDEKTSV4RRFFQ69G5FAV", {acceptance_decision_reason: "inspection_result", acceptance_status: "accepted"}, { idempotencyKey: idempotencyKey });
+const result = await client.returnInspections.decideLineItem("retins_01KEZF7C00WPB0BR4WTT7CMSB8", "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4", {acceptance_decision_reason: "manual_review", acceptance_status: "accepted", expected_version: 1}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/returnInspections-decideLineItem.mjs)
@@ -93,6 +95,9 @@ get(return_inspection_id: InputValue<string>,
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `return_inspection_id` | Required | string | Flint return inspection id. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -106,7 +111,6 @@ Returned payload: [ReturnInspection](../models/ReturnInspection.md#returninspect
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -124,7 +128,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```typescript
-const result = await client.returnInspections.get("retins_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
+const result = await client.returnInspections.get("retins_01KEZF7C00WPB0BR4WTT7CMSB8", {}, {  });
 ```
 
 [Complete runnable example](../examples/returnInspections-get.mjs)
@@ -141,7 +145,7 @@ Signature: `list(params?: ReturnInspectionsListParams, options?: _SdkWithoutIdem
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `acceptance_status` | Optional | Array of string or string | Filter by acceptance status. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"accepted"`, `"rejected"`, `"review_required"`. Values: `"accepted"`, `"rejected"`, `"review_required"`. |
+| `acceptance_status` | Optional | Array of string or string | Filter by acceptance status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"accepted"`, `"rejected"`, `"review_required"`. Values: `"accepted"`, `"rejected"`, `"review_required"`. |
 | `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
 | `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
 | `external_reference_id` | Optional | string | Exact-match filter on the caller-owned external reference ID. minLength: `1`. maxLength: `255`. |
@@ -150,15 +154,18 @@ Signature: `list(params?: ReturnInspectionsListParams, options?: _SdkWithoutIdem
 | `inspected_before` | Optional | string | Exclusive upper bound on inspected_at. Format: `date-time`. |
 | `inspection_location_id` | Optional | string | Filter by inspection location id. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. Format: `int32`. minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `query` | Optional | string | Search by return inspection ID or external reference ID. |
 | `return_id` | Optional | string | Filter by return id. |
 | `return_line_item_id` | Optional | string | Filter by return line item id. |
 | `return_receipt_id` | Optional | string | Filter by return receipt id. |
-| `source_system_type` | Optional | Array of string or string | Filter by source system type. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"manual"`, `"pos"`, `"wms"`, `"erp"`, `"other"`, `"flint"`. Values: `"manual"`, `"pos"`, `"wms"`, `"erp"`, `"other"`, `"flint"`. |
-| `status` | Optional | Array of string or string | Filter by status. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"current"`, `"superseded"`. Values: `"current"`, `"superseded"`. |
+| `source_system_type` | Optional | Array of string or string | Filter by source system type. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"manual"`, `"pos"`, `"wms"`, `"erp"`, `"other"`, `"flint"`. Values: `"manual"`, `"pos"`, `"wms"`, `"erp"`, `"other"`, `"flint"`. |
+| `status` | Optional | Array of string or string | Filter by status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"current"`, `"superseded"`. Values: `"current"`, `"superseded"`. |
 | `updated_after` | Optional | string | Inclusive lower bound on updated_at. Format: `date-time`. |
 | `updated_before` | Optional | string | Exclusive upper bound on updated_at. Format: `date-time`. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -172,7 +179,6 @@ Returned payload: [ListReturnInspectionsResponse](../models/ListReturnInspection
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |

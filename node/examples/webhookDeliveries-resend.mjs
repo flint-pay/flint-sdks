@@ -8,7 +8,7 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.webhookDeliveries.resend(
-  "wdel_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "wdel_01KEZF7C001DWSNDCDZHCTBN0A",
   undefined,
   { idempotencyKey: idempotencyKey },
 );

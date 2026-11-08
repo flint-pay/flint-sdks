@@ -14,8 +14,11 @@ Signature: `get(inventory_level_id: InputValue<string>, params?: InventoryLevels
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `expand` | Optional | Array of string or string | Supported expansions: inventory_item. Include the full inventory item with expand=inventory_item. Requires commerce.inventory.read. Limits: at most 10 unique expand paths per request. Pass expand=inventory_item. Items values: `"inventory_item"`. Values: `"inventory_item"`. |
+| `expand` | Optional | Array of string or string | Include related objects in the response. Supported expansions: inventory_item. Include the full inventory item with expand=inventory_item. Requires commerce.inventory.read. Limits: at most 10 unique expand paths per request. Items values: `"inventory_item"`. Values: `"inventory_item"`. |
 | `inventory_level_id` | Required | string | Flint inventory level ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -29,7 +32,6 @@ Returned payload: [InventoryLevel](../models/InventoryLevel.md#inventorylevel).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -47,7 +49,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```typescript
-const result = await client.inventoryLevels.get("invl_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
+const result = await client.inventoryLevels.get("invl_01KEZF7C00H201XZXKRX5KMDDE", {}, {  });
 ```
 
 [Complete runnable example](../examples/inventoryLevels-get.mjs)
@@ -65,10 +67,10 @@ Signature: `list(params?: InventoryLevelsListParams, options?: _SdkWithoutIdempo
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `inventory_item_id` | Optional | string | Filter by inventory item. |
 | `location_id` | Optional | string | Filter by Location. |
-| `inventory_item_status` | Optional | Array of string or string | Filter by the status of the inventory item the level belongs to. Only active items can be routed or reserved. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"inactive"`, `"archived"`. Values: `"active"`, `"inactive"`, `"archived"`. |
+| `inventory_item_status` | Optional | Array of string or string | Filter by the status of the inventory item the level belongs to. Only active items can be routed or reserved. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"inactive"`, `"archived"`. Values: `"active"`, `"inactive"`, `"archived"`. |
 | `has_available_quantity` | Optional | boolean | True selects levels with available quantity; false selects levels with zero available quantity. Omit for all levels. |
 | `has_unavailable_condition` | Optional | boolean | True selects levels with unavailable physical stock; false selects levels with none. Omit for all levels. |
 | `has_shortage` | Optional | boolean | True selects levels with a shortage; false selects levels with none. Omit for all levels. |
@@ -77,7 +79,10 @@ Signature: `list(params?: InventoryLevelsListParams, options?: _SdkWithoutIdempo
 | `max_available_quantity` | Optional | integer | Inclusive upper bound on available_quantity. Format: `int64`. minimum: `0`. |
 | `updated_after` | Optional | string | Inclusive lower bound on updated_at. Format: `date-time`. |
 | `updated_before` | Optional | string | Exclusive upper bound on updated_at. Format: `date-time`. |
-| `expand` | Optional | Array of string or string | Supported expansions: inventory_item. The expansion resolves with one batched lookup per page. Expansion requires commerce.inventory.read. Limits: at most 10 unique expand paths per request. Pass expand=inventory_item. Items values: `"inventory_item"`. Values: `"inventory_item"`. |
+| `expand` | Optional | Array of string or string | Include related objects in the response. Supported expansions: inventory_item. The expansion resolves with one batched lookup per page. Expansion requires commerce.inventory.read. Limits: at most 10 unique expand paths per request. Items values: `"inventory_item"`. Values: `"inventory_item"`. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -91,7 +96,6 @@ Returned payload: [InventoryLevelListResponse](../models/InventoryLevelListRespo
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -129,6 +133,9 @@ Signature: `update(inventory_level_id: InputValue<string>, params: InventoryLeve
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `inventory_level_id` | Required | string | Flint inventory level ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [UpdateInventoryLevelRequestInput](../models/UpdateInventoryLevelRequest.md#updateinventorylevelrequest) | The request body for: Update inventory level. |
 
 Body model: [UpdateInventoryLevelRequestInput](../models/UpdateInventoryLevelRequest.md#updateinventorylevelrequest).
@@ -150,7 +157,6 @@ Returned payload: [InventoryLevel](../models/InventoryLevel.md#inventorylevel).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |

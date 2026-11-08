@@ -8,14 +8,8 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.customers.create(
-  {
-    email: "jane@example.com",
-    metadata: {
-      crm_id: "crm_123",
-    },
-    name: "Jane Doe",
-  },
+  undefined,
   { idempotencyKey: idempotencyKey },
 );
 console.log(result.customer_id);
-console.log(result.status);
+console.log(result.merchant_id);

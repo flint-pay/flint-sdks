@@ -35,7 +35,6 @@ Returned payload: [MerchantBillingBalance](../models/MerchantBillingBalance.md#m
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -53,7 +52,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```typescript
-const result = await client.merchantBillingBalances.get("mbbal_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
+const result = await client.merchantBillingBalances.get("mbbal_01KEZF7C002TWWZA70R4DRVJC9", {}, {  });
 ```
 
 [Complete runnable example](../examples/merchantBillingBalances-get.mjs)
@@ -82,7 +81,6 @@ Returned payload: [MerchantBillingBalanceListResponse](../models/MerchantBilling
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |

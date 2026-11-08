@@ -38,12 +38,12 @@ final class PaymentIntentActivity extends Model {
      */
     public function getDescription(): string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** dispute_id
+    /** ID of the dispute this entry is about. Present on dispute entries.
      * @return ?string
      */
     public function getDisputeId(): ?string { return $this->get('dispute_id'); }
     public function hasDisputeId(): bool { return $this->has('dispute_id'); }
-    /** Value enum: "none", "inquiry_needs_response", "inquiry_under_review", "inquiry_closed", "needs_response", "under_review", "won", "lost", "prevented", "other".
+    /** The payment's dispute status before the change. Present on `dispute_status_changed` entries. Value enum: "none", "inquiry_needs_response", "inquiry_under_review", "inquiry_closed", "needs_response", "under_review", "won", "lost", "prevented", "other".
      * @return ?string
      */
     public function getFromDisputeStatus(): ?string { return $this->get('from_dispute_status'); }
@@ -63,12 +63,12 @@ final class PaymentIntentActivity extends Model {
      */
     public function getPaymentIntentActivityId(): string { return $this->get('payment_intent_activity_id'); }
     public function hasPaymentIntentActivityId(): bool { return $this->has('payment_intent_activity_id'); }
-    /** refund_id
+    /** ID of the refund this entry is about. Present on refund entries.
      * @return ?string
      */
     public function getRefundId(): ?string { return $this->get('refund_id'); }
     public function hasRefundId(): bool { return $this->has('refund_id'); }
-    /** Value enum: "none", "inquiry_needs_response", "inquiry_under_review", "inquiry_closed", "needs_response", "under_review", "won", "lost", "prevented", "other".
+    /** The payment's dispute status after the change. Present on `dispute_status_changed` entries. Value enum: "none", "inquiry_needs_response", "inquiry_under_review", "inquiry_closed", "needs_response", "under_review", "won", "lost", "prevented", "other".
      * @return ?string
      */
     public function getToDisputeStatus(): ?string { return $this->get('to_dispute_status'); }

@@ -8,13 +8,13 @@ namespace Flint;
 final class InventoryReservationOwnerOrderInput extends Model {
     /** @param array{'order_id'?: string, 'type': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryReservationOwnerOrderInput')); }
-    /** The order Flint holds the stock for. Absent only on a closed reservation whose order Flint can no longer identify.
+    /** The order Flint holds the stock for. Absent only on a closed reservation whose order Flint can no longer identify. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** Value enum: "order".
+    /** Who holds the reservation. Value enum: "order".
      * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */

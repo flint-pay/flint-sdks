@@ -9,8 +9,9 @@ const idempotencyKey = crypto.randomUUID();
 
 const result = await client.returnReasons.create(
   {
-    handle: "example",
-    name: "example",
+    handle: "too_small",
+    is_note_required: false,
+    name: "Too small",
   },
   { idempotencyKey: idempotencyKey },
 );

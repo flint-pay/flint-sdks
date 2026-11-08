@@ -18,10 +18,11 @@ Response model.
 | `price_type` | Required | string | Values: `"fixed"`, `"quoted"`. |
 | `selectable` | Required | boolean | True when this method is offered, renewable, and currently serves the destination. |
 | `type` | Required | string | Values: `"shipment"`, `"local_delivery"`. |
-| `unavailable_reason` | Optional | string | Reason the method cannot serve this subscription destination. Values can expand as delivery capabilities change. Values: [7 declared values](#subscriptiondeliveryoption-unavailable_reason-values). |
+| `unavailable_reason` | Optional | string | Reason the method cannot serve this subscription destination. Values can expand as delivery capabilities change. Values: [8 declared values](#subscriptiondeliveryoption-unavailable_reason-values). |
 
 #### SubscriptionDeliveryOption unavailable_reason values
 
+- `"dependency_revoked"`
 - `"destination_not_served"`
 - `"pickup_unavailable"`
 - `"no_window_available"`

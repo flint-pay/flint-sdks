@@ -15,13 +15,13 @@ namespace Flint;
 final class InventoryAdjustmentInput extends Model {
     /** @param array{'created_at': string|\DateTimeInterface, 'external_actor_id'?: string, 'idempotency_key'?: string, 'inventory_adjustment_id': string, 'lines': list<InventoryAdjustmentLineInput|array<array-key, mixed>|\stdClass>, 'note'?: string, 'occurred_at': string|\DateTimeInterface, 'reason': string, 'source_system': array{'external_source_id'?: string, 'type': string, ...}|object|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryAdjustmentInput')); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Your identifier for the actor who recorded the event. Don't put secrets in this field. maxLength: 255.
+    /** Your identifier for the actor who recorded the event. Don't put secrets in this field. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_actor_id is omitted; use hasExternalActorId() or valueOrDefault().
      */
@@ -33,37 +33,37 @@ final class InventoryAdjustmentInput extends Model {
      */
     public function getIdempotencyKey(): string { return $this->get('idempotency_key'); }
     public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
-    /** inventory_adjustment_id
+    /** Unique identifier for this inventory adjustment, prefixed `invadj_`. Example: "invadj_01KEZF7C00HFCAS32T4NVHX75M".
      * @return string
      * @throws SdkError When inventory_adjustment_id is omitted; use hasInventoryAdjustmentId() or valueOrDefault().
      */
     public function getInventoryAdjustmentId(): string { return $this->get('inventory_adjustment_id'); }
     public function hasInventoryAdjustmentId(): bool { return $this->has('inventory_adjustment_id'); }
-    /**  [] (Value): {@see InventoryAdjustmentLineInput}. One line of an inventory adjustment, with the item, Location, movement written, and the change in on-hand and each non-sellable quantity.
+    /** Stock changes, one for each inventory item and Location, from 1 to 100 lines. [] (Value): {@see InventoryAdjustmentLineInput}. One line of an inventory adjustment, with the item, Location, movement written, and the change in on-hand and each non-sellable quantity.
      * @return list<InventoryAdjustmentLineInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When lines is omitted; use hasLines() or valueOrDefault().
      */
     public function getLines(): array { return $this->get('lines'); }
     public function hasLines(): bool { return $this->has('lines'); }
-    /** note
+    /** Free-text note explaining the change. Required when `reason` is `correction`.
      * @return string
      * @throws SdkError When note is omitted; use hasNote() or valueOrDefault().
      */
     public function getNote(): string { return $this->get('note'); }
     public function hasNote(): bool { return $this->has('note'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When occurred_at is omitted; use hasOccurredAt() or valueOrDefault().
      */
     public function getOccurredAt(): string|\DateTimeInterface { return $this->get('occurred_at'); }
     public function hasOccurredAt(): bool { return $this->has('occurred_at'); }
-    /** Value enum: "received", "returned", "sold", "theft", "loss", "condition_changed", "counted", "correction".
+    /** Why the stock changed. It decides which fields each line takes. Value enum: "received", "returned", "sold", "theft", "loss", "condition_changed", "counted", "correction".
      * @return string
      * @throws SdkError When reason is omitted; use hasReason() or valueOrDefault().
      */
     public function getReason(): string { return $this->get('reason'); }
     public function hasReason(): bool { return $this->has('reason'); }
-    /**  anyOf[1] (Value): {@see InventorySourceSystemInput}. The system an inventory event came from, such as manual entry, a point of sale, a warehouse system, or Flint, with your source identifier when it applies. anyOf[2] (Value): null.
+    /** System the change came from, such as a point-of-sale or warehouse system. `null` when the request named no source system. anyOf[1] (Value): {@see InventorySourceSystemInput}. The system an inventory event came from, such as manual entry, a point of sale, a warehouse system, or Flint, with your source identifier when it applies. anyOf[2] (Value): null.
      * @return array{'external_source_id'?: string, 'type': string, ...}|object|null
      * @throws SdkError When source_system is omitted; use hasSourceSystem() or valueOrDefault().
      */

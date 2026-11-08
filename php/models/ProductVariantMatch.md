@@ -6,5 +6,10 @@ A single variant witness on product list rows only. With exact variant filters, 
 
 Response model.
 
-Fields, types, descriptions and enum values: [ProductVariantMatchInput](../models/ProductVariantMatchInput.md#productvariantmatchinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `name` | Optional | string | Name of the matching variant, when set. |
+| `product_id` | Required | string | Identifier of the product the matching variant belongs to. |
+| `sku` | Optional | string | Stock keeping unit of the matching variant, when set. |
+| `variant_id` | Required | string | Identifier of the variant that matched the product list's variant filters or query. |
 

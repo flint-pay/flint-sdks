@@ -2,22 +2,22 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read InventoryAllocationConfigurationValueInput|array<array-key, mixed>|\stdClass $configuration
+ * @property-read InventoryAllocationPolicyConfigurationRequestInput|array<array-key, mixed>|\stdClass $configuration
  * @property-read string $external_reference_id
  * @property-read MetadataRequestInput|array<array-key, mixed>|\stdClass $metadata
  * @property-read string $name
  * @property-read string $status
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateInventoryAllocationPolicyRequestInput extends Model {
-    /** @param array{'configuration': InventoryAllocationConfigurationValueInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'name': string, 'status'?: string}|object $values */
+    /** @param array{'configuration': InventoryAllocationPolicyConfigurationRequestInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'name': string, 'status'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateInventoryAllocationPolicyRequestInput')); }
-    /** Routing rules for an inventory allocation policy: ranked groups of Locations, whether demand can be split, and how many Locations one assignment may use.
-     * @return InventoryAllocationConfigurationValueInput|array<array-key, mixed>|\stdClass
+    /** Routing rules: ranked groups of Locations, whether demand can be split, and the most Locations one assignment may use. Routing rules for an inventory allocation policy: ranked groups of Locations, whether demand can be split, and how many Locations one assignment may use.
+     * @return InventoryAllocationPolicyConfigurationRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When configuration is omitted; use hasConfiguration() or valueOrDefault().
      */
     public function getConfiguration(): mixed { return $this->get('configuration'); }
     public function hasConfiguration(): bool { return $this->has('configuration'); }
-    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -29,13 +29,13 @@ final class CreateInventoryAllocationPolicyRequestInput extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** minLength: 1.
+    /** Merchant-facing policy name. minLength: 1.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Default: "active". Value enum: "active", "inactive".
+    /** Status the allocation policy starts in. Defaults to `active`. Default: "active". Value enum: "active", "inactive".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */

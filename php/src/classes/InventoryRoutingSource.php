@@ -10,22 +10,22 @@ namespace Flint;
 final class InventoryRoutingSource extends Model {
     /** @param array{'inventory_allocation_policy_id'?: string, 'inventory_allocation_policy_revision_id'?: string, 'location_id'?: string, 'type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryRoutingSource')); }
-    /** inventory_allocation_policy_id
+    /** ID of the allocation policy that routes demand.
      * @return ?string
      */
     public function getInventoryAllocationPolicyId(): ?string { return $this->get('inventory_allocation_policy_id'); }
     public function hasInventoryAllocationPolicyId(): bool { return $this->has('inventory_allocation_policy_id'); }
-    /** inventory_allocation_policy_revision_id
+    /** ID of the allocation policy revision that routes demand.
      * @return ?string
      */
     public function getInventoryAllocationPolicyRevisionId(): ?string { return $this->get('inventory_allocation_policy_revision_id'); }
     public function hasInventoryAllocationPolicyRevisionId(): bool { return $this->has('inventory_allocation_policy_revision_id'); }
-    /** location_id
+    /** ID of the fixed Location that serves all demand.
      * @return ?string
      */
     public function getLocationId(): ?string { return $this->get('location_id'); }
     public function hasLocationId(): bool { return $this->has('location_id'); }
-    /** Value enum: "fixed_location", "policy", "policy_revision".
+    /** How Flint routes demand to Locations. Value enum: "fixed_location", "policy", "policy_revision".
      * @return string
      */
     public function getType(): string { return $this->get('type'); }

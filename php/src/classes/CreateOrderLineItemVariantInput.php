@@ -23,19 +23,19 @@ namespace Flint;
 final class CreateOrderLineItemVariantInput extends Model {
     /** @param array{'bundle_id'?: string, 'description'?: string, 'fulfillment'?: LineItemFulfillmentRequestInput|array<array-key, mixed>|\stdClass, 'gift_card_purchase'?: GiftCardPurchaseRequestInput|array<array-key, mixed>|\stdClass, 'image'?: ImageReferenceRequestInput|array<array-key, mixed>|\stdClass, 'inventory_demands'?: list<OrderDraftLineItemInventoryDemandRequestInput|array<array-key, mixed>|\stdClass>, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'modifiers'?: list<array{'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'modifier_id': string, 'order_line_item_modifier_id'?: string, 'quantity'?: int, 'text'?: TextModifierRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object|array{'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'modifier_id'?: string, 'order_line_item_modifier_id'?: string, 'quantity'?: int, 'text': TextModifierRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object>, 'name'?: string, 'quantity'?: int, 'subscription'?: SubscribedLineRequestInput|array<array-key, mixed>|\stdClass, 'tax'?: array{'calculation'?: OrderDraftLineItemTaxCalculationRequestInput|array<array-key, mixed>|\stdClass, 'line_item_tax_category'?: string, 'taxable'?: bool}|object, 'type': string, 'unit_dimensions'?: DimensionsInput|array<array-key, mixed>|\stdClass, 'unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'unit_weight'?: WeightInput|array<array-key, mixed>|\stdClass, 'variant_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateOrderLineItemVariantInput')); }
-    /** bundle_id
+    /** ID of the bundle to add. A catalog line item sends this or `variant_id`; a custom line item sends neither. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
      * @return string
      * @throws SdkError When bundle_id is omitted; use hasBundleId() or valueOrDefault().
      */
     public function getBundleId(): string { return $this->get('bundle_id'); }
     public function hasBundleId(): bool { return $this->has('bundle_id'); }
-    /** description
+    /** Description of the item as it appears on the order.
      * @return string
      * @throws SdkError When description is omitted; use hasDescription() or valueOrDefault().
      */
     public function getDescription(): string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** Required on line items without variant_id or bundle_id, and rejected on catalog lines, which use the catalog's delivery settings. Send {"requirement": "none"} for services, digital goods, and items handed over at the point of sale. Fulfillment requirements you supply for an order line item, such as allowed fulfillment types, package size and weight, and origin.
+    /** Required on line items without variant_id or bundle_id, and rejected on catalog lines, which use the catalog's delivery settings. Send {"requirement": "none"} when nothing is delivered. For manual digital or service delivery, send requirement required, resolution_mode manual, and allowed_types containing digital or service. Fulfillment requirements you supply for an order line item, such as allowed fulfillment types, package size and weight, and origin.
      * @return LineItemFulfillmentRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When fulfillment is omitted; use hasFulfillment() or valueOrDefault().
      */
@@ -47,13 +47,13 @@ final class CreateOrderLineItemVariantInput extends Model {
      */
     public function getGiftCardPurchase(): mixed { return $this->get('gift_card_purchase'); }
     public function hasGiftCardPurchase(): bool { return $this->has('gift_card_purchase'); }
-    /** A reference to an image by `url`, with optional `alt` text, used on an order line item.
+    /** Image of the item as it appears on the order. A reference to an image by `url`, with optional `alt` text, used on an order line item.
      * @return ImageReferenceRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When image is omitted; use hasImage() or valueOrDefault().
      */
     public function getImage(): mixed { return $this->get('image'); }
     public function hasImage(): bool { return $this->has('image'); }
-    /**  [] (Value): {@see OrderDraftLineItemInventoryDemandRequestInput}. The quantity of one inventory item that each unit of a draft order line item uses, supplied when creating the line item.
+    /** Inventory items and quantities each unit of the line takes from stock. [] (Value): {@see OrderDraftLineItemInventoryDemandRequestInput}. The quantity of one inventory item that each unit of a draft order line item uses, supplied when creating the line item.
      * @return list<OrderDraftLineItemInventoryDemandRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When inventory_demands is omitted; use hasInventoryDemands() or valueOrDefault().
      */
@@ -65,13 +65,13 @@ final class CreateOrderLineItemVariantInput extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /**  [] (Value): {@see OrderLineItemModifierRequestInput}. A modifier selection you supply on a line item: a catalog modifier by ID or a text modifier, with a quantity. [].metadata (Optional): {@see MetadataRequestInput}. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: 50. [].modifier_id (Optional): string. ID of the existing modifier. Treated as an opaque resource reference; accepted spellings follow resource ID validation. Its resolved price and the resulting line subtotal must satisfy the order money ceiling. The amount and every computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment option limits can apply. minLength: 1. [].order_line_item_modifier_id (Optional): string. Existing selection ID to retain during replacement. minLength: 1. pattern: ^olim_[0-9A-HJKMNP-TV-Z]{26}$. [].quantity (Optional): integer. Whole-number quantity; fractional quantities are not supported. Format: int64. [].text (Optional): {@see TextModifierRequestInput}. Text a buyer entered for a text modifier group on an order line item. [].type (Required): string. Selects the type branch. Value enum: "catalog", "text". [].oneOf[1] (Value): {@see OrderLineItemModifierInputCatalogInput}. The `catalog` variant of `OrderLineItemModifierInput`. [].oneOf[2] (Value): {@see OrderLineItemModifierInputTextInput}. The `text` variant of `OrderLineItemModifierInput`.
+    /** Modifiers sold with the item, each chosen from the catalog or typed as text. [] (Value): {@see OrderLineItemModifierRequestInput}. A modifier selection you supply on a line item: a catalog modifier by ID or a text modifier, with a quantity. [].metadata (Optional): {@see MetadataRequestInput}. Caller-owned metadata for this selection, returned on the order line item's modifier. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: 50. [].modifier_id (Optional): string. ID of the existing modifier. Treated as an opaque resource reference; accepted spellings follow resource ID validation. Its resolved price and the resulting line subtotal must satisfy the order money ceiling. The amount and every computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment option limits can apply. minLength: 1. Example: "mod_01KEZF7C00SAWDZBQJX5H0XW1S". [].order_line_item_modifier_id (Optional): string. Existing selection ID to retain during replacement. minLength: 1. pattern: ^olim_[0-9A-HJKMNP-TV-Z]{26}$. Example: "olim_01KEZF7C00YP0WSZGRAD25EB1Z". [].quantity (Optional): integer. Whole-number quantity; fractional quantities are not supported. Format: int64. [].text (Optional): {@see TextModifierRequestInput}. The text to use. Send it with a `text` modifier. Text a buyer entered for a text modifier group on an order line item. [].type (Required): string. Selects the type branch. Value enum: "catalog", "text". [].oneOf[1] (Value): {@see OrderLineItemModifierInputCatalogInput}. The `catalog` variant of `OrderLineItemModifierInput`. [].oneOf[2] (Value): {@see OrderLineItemModifierInputTextInput}. The `text` variant of `OrderLineItemModifierInput`.
      * @return list<array{'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'modifier_id': string, 'order_line_item_modifier_id'?: string, 'quantity'?: int, 'text'?: TextModifierRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object|array{'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'modifier_id'?: string, 'order_line_item_modifier_id'?: string, 'quantity'?: int, 'text': TextModifierRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object>
      * @throws SdkError When modifiers is omitted; use hasModifiers() or valueOrDefault().
      */
     public function getModifiers(): array { return $this->get('modifiers'); }
     public function hasModifiers(): bool { return $this->has('modifiers'); }
-    /** name
+    /** Name of the item as it appears on the order.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
@@ -89,7 +89,7 @@ final class CreateOrderLineItemVariantInput extends Model {
      */
     public function getSubscription(): mixed { return $this->get('subscription'); }
     public function hasSubscription(): bool { return $this->has('subscription'); }
-    /** Tax settings you supply for a draft order line item: its tax category, whether it is taxable, and an optional tax calculation. calculation (Optional): {@see OrderDraftLineItemTaxCalculationRequestInput}. A tax calculation you supply for a draft order line item, made of tax components and a price mode. line_item_tax_category (Optional): string. Flint line-item tax category. Value enum: "general", "physical_goods", "digital_goods", "software", "saas", "services", "professional_services", "food", "prepared_food", "clothing", "medical_goods", "admission". taxable (Optional): boolean.
+    /** How tax applies to this line item. Tax settings you supply for a draft order line item: its tax category, whether it is taxable, and an optional tax calculation. calculation (Optional): {@see OrderDraftLineItemTaxCalculationRequestInput}. The tax you supply for this line item. Used when the order's tax `mode` is `external`. A tax calculation you supply for a draft order line item, made of tax components and a price mode. line_item_tax_category (Optional): string. Flint line-item tax category. Value enum: "general", "physical_goods", "digital_goods", "software", "saas", "services", "professional_services", "food", "prepared_food", "clothing", "medical_goods", "admission". taxable (Optional): boolean. Whether the line item is subject to tax.
      * @return array{'calculation'?: OrderDraftLineItemTaxCalculationRequestInput|array<array-key, mixed>|\stdClass, 'line_item_tax_category'?: string, 'taxable'?: bool}|object
      * @throws SdkError When tax is omitted; use hasTax() or valueOrDefault().
      */
@@ -119,7 +119,7 @@ final class CreateOrderLineItemVariantInput extends Model {
      */
     public function getUnitWeight(): mixed { return $this->get('unit_weight'); }
     public function hasUnitWeight(): bool { return $this->has('unit_weight'); }
-    /** variant_id
+    /** ID of the product variant to add. A catalog line item sends this or `bundle_id`; a custom line item sends neither. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
      * @return string
      * @throws SdkError When variant_id is omitted; use hasVariantId() or valueOrDefault().
      */

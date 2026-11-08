@@ -9,6 +9,7 @@ namespace Flint;
  * @property-read int $expected_version
  * @property-read string $name
  * @property-read list<PartnerAppPermissionManifestEntryRequestInput|array<array-key, mixed>|\stdClass> $permission_manifest
+ * @property-read array{'estimated_merchant_count': int, 'estimated_monthly_volume_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'merchant_description': string, 'merchant_onboarding_description': string, 'product_description': string, 'support_email': string, 'support_phone'?: string, 'website_url': string}|object|null $platform_profile
  * @property-read list<string> $redirect_uris
  * Presence-aware input; omitted fields throw when accessed. */
 final class PartnerAppsUpdateParams extends Model {
@@ -20,7 +21,7 @@ final class PartnerAppsUpdateParams extends Model {
      */
     public function getApiVersion(): string { return $this->get('api_version'); }
     public function hasApiVersion(): bool { return $this->has('api_version'); }
-    /** client_secret_enabled
+    /** Set true to issue a client secret when secret authentication is disabled. The response returns the secret once; setting true when already enabled does not rotate or reveal it. Set false to end current and previous secrets immediately.
      * @return bool
      * @throws SdkError When client_secret_enabled is omitted; use hasClientSecretEnabled() or valueOrDefault().
      */
@@ -56,6 +57,12 @@ final class PartnerAppsUpdateParams extends Model {
      */
     public function getPermissionManifest(): array { return $this->get('permission_manifest'); }
     public function hasPermissionManifest(): bool { return $this->has('permission_manifest'); }
+    /** Replaces the whole platform profile, which Flint reviews before it approves the app as a platform. Every field is validated together. Send null to remove it while platform.status is not_started; afterwards null returns 400 INVALID_REQUEST with detail NOT_ALLOWED, and edits are recorded for Flint's review without changing platform.status. An unchanged profile changes nothing. anyOf[1] (Value): {@see PartnerAppPlatformProfileRequestInput}. The whole platform profile. Every field is required except support_phone, and a write replaces the profile whole. anyOf[2] (Value): null.
+     * @return array{'estimated_merchant_count': int, 'estimated_monthly_volume_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'merchant_description': string, 'merchant_onboarding_description': string, 'product_description': string, 'support_email': string, 'support_phone'?: string, 'website_url': string}|object|null
+     * @throws SdkError When platform_profile is omitted; use hasPlatformProfile() or valueOrDefault().
+     */
+    public function getPlatformProfile(): mixed { return $this->get('platform_profile'); }
+    public function hasPlatformProfile(): bool { return $this->has('platform_profile'); }
     /** Replaces the entire list of registered redirect URIs. [] (Value): string. minLength: 1.
      * @return list<string>
      * @throws SdkError When redirect_uris is omitted; use hasRedirectUris() or valueOrDefault().

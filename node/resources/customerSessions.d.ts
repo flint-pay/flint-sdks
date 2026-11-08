@@ -1,5 +1,5 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-5.js';
+import type { ClientOptions } from '../declarations/types-6.js';
 import type {
     CustomerSession,
     CustomerSessionResponse,
@@ -7,11 +7,12 @@ import type {
     CustomerSessionWithSecretResponse,
     CustomerSessionsCreateParams,
     CustomerSessionsRefreshParams,
-    CustomerSessionsRevocation
-} from '../declarations/types-13.js';
-import type { CustomerSessionsRevocationResponse, CustomerSessionsRevokeParams } from '../declarations/types-14.js';
-import type { RequestOptions } from '../declarations/types-48.js';
-import type { _SdkRequiredIdempotency } from '../declarations/types-62.js';
+    CustomerSessionsRevocation,
+    CustomerSessionsRevocationResponse,
+    CustomerSessionsRevokeParams
+} from '../declarations/types-15.js';
+import type { RequestOptions } from '../declarations/types-51.js';
+import type { _SdkRequiredIdempotency } from '../declarations/types-66.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -31,26 +32,24 @@ export type {
     CustomerSessionWithSecret,
     CustomerSessionWithSecretResponse,
     CustomerSessionsRefreshParams,
+    CustomerSessionsRevokeParams,
     CustomerSession,
     CustomerSessionResponse,
-    CustomerSessionsRevocation
-} from '../declarations/types-13.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
-export type { _SdkRequiredIdempotency } from '../declarations/types-62.js';
-export type { CustomerSessionsRevokeParams, CustomerSessionsRevocationResponse } from '../declarations/types-14.js';
-export type { ClientOptions } from '../declarations/types-5.js';
-export type { CreateCustomerSessionRequestInput, CreateCustomerSessionRequest } from '../declarations/types-7.js';
+    CustomerSessionsRevocation,
+    CustomerSessionsRevocationResponse
+} from '../declarations/types-15.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
+export type { _SdkRequiredIdempotency } from '../declarations/types-66.js';
+export type { ClientOptions } from '../declarations/types-6.js';
+export type { CreateCustomerSessionRequestInput, CreateCustomerSessionRequest } from '../declarations/types-8.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-12.js';
-export type { NextAction, MoneyValue } from '../declarations/types-35.js';
-export type {
-    ReadinessMerchantAccountSession,
-    RefreshCustomerSessionRequestInput,
-    RefreshCustomerSessionRequest
-} from '../declarations/types-46.js';
-export { makeCreateCustomerSessionRequest } from '../declarations/types-63.js';
-export { makeMoneyValue } from '../declarations/types-70.js';
-export { makeRefreshCustomerSessionRequest } from '../declarations/types-72.js';
+export type { Credentials } from '../declarations/types-13.js';
+export type { NextAction, MoneyValue } from '../declarations/types-37.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
+export type { RefreshCustomerSessionRequestInput, RefreshCustomerSessionRequest } from '../declarations/types-50.js';
+export { makeCreateCustomerSessionRequest } from '../declarations/types-68.js';
+export { makeMoneyValue } from '../declarations/types-75.js';
+export { makeRefreshCustomerSessionRequest } from '../declarations/types-77.js';
 export interface CustomerSessionsResource {
     /**
  * Mints a server-side, customer-scoped credential after the merchant has authenticated the buyer.
@@ -63,15 +62,16 @@ export interface CustomerSessionsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.customerSessions.create({customer_id: "cus_01ARZ3NDEKTSV4RRFFQ69G5FAV"}, {
- * idempotencyKey: idempotencyKey })
+ * client.customerSessions.create({customer_id: "cus_01KEZF7C003ACYXT6Q5EQZ78EE",
+ * expires_in_seconds: 3600, refresh_expires_in_seconds: 604800}, { idempotencyKey: idempotencyKey
+ * })
  */
     create(params: CustomerSessionsCreateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<CustomerSessionWithSecret, CustomerSessionWithSecretResponse>>;
     /**
  * Rotates a customer session secret and refresh token without a merchant API key. Reusing a
- * rotated refresh token revokes the session family. Send one fixed Idempotency-Key per session:
+ * rotated refresh token revokes the session family. Use one fixed idempotency key per session:
  * Flint scopes the key to the refresh token, so concurrent refreshes replay the same pair. On
- * IDEMPOTENCY_KEY_IN_PROGRESS, retry the same key and token.
+ * `IDEMPOTENCY_KEY_IN_PROGRESS`, retry with the same key and token.
  *
  * `POST /v1/customer-sessions/refresh`
  * @see https://developers.withflintpay.com/docs/api/customer-sessions#refreshCustomerSession
@@ -80,7 +80,8 @@ export interface CustomerSessionsResource {
  * const customerSessionId = "cses_01ARZ3NDEKTSV4RRFFQ69G5FAV";
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = `refresh-${customerSessionId}`;
- * client.customerSessions.refresh({refresh_token: "example"}, { idempotencyKey: idempotencyKey })
+ * client.customerSessions.refresh({refresh_token:
+ * "flint_cref_YmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmI"}, { idempotencyKey: idempotencyKey })
  */
     refresh(params: CustomerSessionsRefreshParams, options: _SdkRequiredIdempotency<RequestOptions<never>>): Promise<WithResponseInfo<CustomerSessionWithSecret, CustomerSessionWithSecretResponse>>;
     /**
@@ -94,7 +95,7 @@ export interface CustomerSessionsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.customerSessions.revoke("cses_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey:
+ * client.customerSessions.revoke("cses_01KEZF7C00FBVRP25FZTW7KWZV", {}, { idempotencyKey:
  * idempotencyKey })
  */
     revoke(customer_session_id: InputValue<string>, params?: CustomerSessionsRevokeParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<CustomerSession, CustomerSessionResponse>>;

@@ -9,19 +9,19 @@ namespace Flint;
 final class RefundLineItemAdjustmentRefundInput extends Model {
     /** @param array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'original_refund_line_item_adjustment_id': string, 'refund_line_item_adjustment_refund_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RefundLineItemAdjustmentRefundInput')); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Amount refunded back against the adjustment. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
      */
     public function getAmountMoney(): mixed { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** original_refund_line_item_adjustment_id
+    /** ID of the adjustment this amount was refunded against. Example: "rlia_01KEZF7C00GA968004EWM2QQBC".
      * @return string
      * @throws SdkError When original_refund_line_item_adjustment_id is omitted; use hasOriginalRefundLineItemAdjustmentId() or valueOrDefault().
      */
     public function getOriginalRefundLineItemAdjustmentId(): string { return $this->get('original_refund_line_item_adjustment_id'); }
     public function hasOriginalRefundLineItemAdjustmentId(): bool { return $this->has('original_refund_line_item_adjustment_id'); }
-    /** refund_line_item_adjustment_refund_id
+    /** Unique identifier for this refund line item adjustment refund, prefixed `rliar_`. Example: "rliar_01KEZF7C003HSYWXKXGJVRAKZD".
      * @return string
      * @throws SdkError When refund_line_item_adjustment_refund_id is omitted; use hasRefundLineItemAdjustmentRefundId() or valueOrDefault().
      */

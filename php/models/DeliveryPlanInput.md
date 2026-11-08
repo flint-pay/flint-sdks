@@ -6,5 +6,10 @@ Whether a delivery option is fulfilled in one delivery or several, with the firs
 
 Request input.
 
-Fields, types, descriptions and enum values: [DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueAvailableOptionDeliveryPlan](../models/DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueAvailableOptionDeliveryPlan.md#deliveryquotechoicegroupresourcecandidateoutcomesvalueavailableoptiondeliveryplan).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `complete_by_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
+| `first_arrival_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
+| `planned_delivery_count` | Optional | integer |  |
+| `type` | Required | string | Values: `"single_delivery"`, `"multiple_deliveries"`. |
 

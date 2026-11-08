@@ -5,6 +5,7 @@ namespace Flint;
  * @property-read bool $available
  * @property-read string $code
  * @property-read string|\DateTimeInterface $created_at
+ * @property-read string|null $customer_id
  * @property-read string|\DateTimeInterface $expires_at
  * @property-read int $max_uses
  * @property-read string $merchant_id
@@ -20,7 +21,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class PromotionCodeInput extends Model {
-    /** @param array{'available': bool, 'code': string, 'created_at'?: string|\DateTimeInterface, 'expires_at'?: string|\DateTimeInterface, 'max_uses'?: int, 'merchant_id'?: string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'promotion'?: PromotionInput|array<array-key, mixed>|\stdClass, 'promotion_code_id': string, 'promotion_id': string, 'status': string, 'timezone'?: string, 'unavailable_reason'?: string, 'updated_at'?: string|\DateTimeInterface, 'uses_count': int, 'version': int, ...}|object $values */
+    /** @param array{'available': bool, 'code': string, 'created_at': string|\DateTimeInterface, 'customer_id': string|null, 'expires_at'?: string|\DateTimeInterface, 'max_uses'?: int, 'merchant_id': string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'promotion'?: PromotionInput|array<array-key, mixed>|\stdClass, 'promotion_code_id': string, 'promotion_id': string, 'status': string, 'timezone'?: string, 'unavailable_reason'?: string, 'updated_at': string|\DateTimeInterface, 'uses_count': int, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PromotionCodeInput')); }
     /** Whether a buyer can redeem the code right now: the code is active, not expired, and under its max_uses, and its promotion is available.
      * @return bool
@@ -34,13 +35,19 @@ final class PromotionCodeInput extends Model {
      */
     public function getCode(): string { return $this->get('code'); }
     public function hasCode(): bool { return $this->has('code'); }
-    /** When the promotion code was created, as an RFC3339 timestamp. Format: date-time.
+    /** When the promotion code was created, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** When the code stops being redeemable, as an absolute RFC3339 timestamp. Omitted when the code does not expire. Format: date-time.
+    /** Only this identified customer can redeem the code. The customer must belong to the same merchant and environment. A checkout may use its merchant-named or email-verified customer; a typed email does not identify a customer. Null when the code is unbound. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * @return string|null
+     * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
+     */
+    public function getCustomerId(): string|null { return $this->get('customer_id'); }
+    public function hasCustomerId(): bool { return $this->has('customer_id'); }
+    /** When the code stops being redeemable, as an absolute RFC3339 timestamp. Omitted when the code does not expire. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When expires_at is omitted; use hasExpiresAt() or valueOrDefault().
      */
@@ -52,7 +59,7 @@ final class PromotionCodeInput extends Model {
      */
     public function getMaxUses(): int { return $this->get('max_uses'); }
     public function hasMaxUses(): bool { return $this->has('max_uses'); }
-    /** Identifier of the merchant that owns the promotion code.
+    /** Identifier of the merchant that owns the promotion code. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
      * @return string
      * @throws SdkError When merchant_id is omitted; use hasMerchantId() or valueOrDefault().
      */
@@ -70,13 +77,13 @@ final class PromotionCodeInput extends Model {
      */
     public function getPromotion(): mixed { return $this->get('promotion'); }
     public function hasPromotion(): bool { return $this->has('promotion'); }
-    /** Unique identifier for the promotion code.
+    /** Unique identifier for the promotion code. Example: "pcode_01KEZF7C00JCC7QXWC262EF05T".
      * @return string
      * @throws SdkError When promotion_code_id is omitted; use hasPromotionCodeId() or valueOrDefault().
      */
     public function getPromotionCodeId(): string { return $this->get('promotion_code_id'); }
     public function hasPromotionCodeId(): bool { return $this->has('promotion_code_id'); }
-    /** Identifier of the promotion this code redeems.
+    /** Identifier of the promotion this code redeems. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
      * @return string
      * @throws SdkError When promotion_id is omitted; use hasPromotionId() or valueOrDefault().
      */
@@ -100,7 +107,7 @@ final class PromotionCodeInput extends Model {
      */
     public function getUnavailableReason(): string { return $this->get('unavailable_reason'); }
     public function hasUnavailableReason(): bool { return $this->has('unavailable_reason'); }
-    /** When the promotion code was last updated, as an RFC3339 timestamp. Format: date-time.
+    /** When the promotion code was last updated, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */

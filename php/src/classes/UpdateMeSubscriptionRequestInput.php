@@ -9,9 +9,10 @@ namespace Flint;
  * @property-read int $expected_version
  * @property-read string $payment_method_id
  * @property-read int $quantity
+ * @property-read null $scheduled_plan_change
  * Presence-aware input; omitted fields throw when accessed. */
 final class UpdateMeSubscriptionRequestInput extends Model {
-    /** @param array{'billing_interval'?: string, 'billing_interval_count'?: int, 'cancel_at_period_end'?: bool, 'delivery'?: SubscriptionDeliveryRequestInput|array<array-key, mixed>|\stdClass, 'expected_version'?: int, 'payment_method_id'?: string, 'quantity'?: int}|object $values */
+    /** @param array{'billing_interval'?: string, 'billing_interval_count'?: int, 'cancel_at_period_end'?: bool, 'delivery'?: SubscriptionDeliveryRequestInput|array<array-key, mixed>|\stdClass, 'expected_version'?: int, 'payment_method_id'?: string, 'quantity'?: int, 'scheduled_plan_change'?: null}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdateMeSubscriptionRequestInput')); }
     /** Value enum: "daily", "weekly", "monthly", "yearly".
      * @return string
@@ -37,13 +38,13 @@ final class UpdateMeSubscriptionRequestInput extends Model {
      */
     public function getDelivery(): mixed { return $this->get('delivery'); }
     public function hasDelivery(): bool { return $this->has('delivery'); }
-    /** Format: uint64. minimum: 1.
+    /** Version last read from the resource returned in `data` (the primary resource for a result object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on the operation and fields being changed. Format: uint64. minimum: 1.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** minLength: 1.
+    /** minLength: 1. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
      * @return string
      * @throws SdkError When payment_method_id is omitted; use hasPaymentMethodId() or valueOrDefault().
      */
@@ -55,4 +56,10 @@ final class UpdateMeSubscriptionRequestInput extends Model {
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
+    /** Send null to cancel a scheduled plan change and keep the current plan. Omit to leave it unchanged. Schedule or replace through change-plan.
+     * @return null
+     * @throws SdkError When scheduled_plan_change is omitted; use hasScheduledPlanChange() or valueOrDefault().
+     */
+    public function getScheduledPlanChange(): null { return $this->get('scheduled_plan_change'); }
+    public function hasScheduledPlanChange(): bool { return $this->has('scheduled_plan_change'); }
 }

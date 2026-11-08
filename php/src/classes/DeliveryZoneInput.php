@@ -22,25 +22,25 @@ final class DeliveryZoneInput extends Model {
      */
     public function getConfiguration(): mixed { return $this->get('configuration'); }
     public function hasConfiguration(): bool { return $this->has('configuration'); }
-    /** Time the zone was created. Format: date-time.
+    /** Time the zone was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Immutable revision used for new quotes.
+    /** Immutable revision used for new quotes. Example: "dzoner_01KEZF7C00DF2H9VW29JN861K6".
      * @return string
      * @throws SdkError When current_delivery_zone_revision_id is omitted; use hasCurrentDeliveryZoneRevisionId() or valueOrDefault().
      */
     public function getCurrentDeliveryZoneRevisionId(): string { return $this->get('current_delivery_zone_revision_id'); }
     public function hasCurrentDeliveryZoneRevisionId(): bool { return $this->has('current_delivery_zone_revision_id'); }
-    /** Stable delivery zone ID.
+    /** Stable delivery zone ID. Example: "dzone_01KEZF7C005RY7KGCN4M2CH5WP".
      * @return string
      * @throws SdkError When delivery_zone_id is omitted; use hasDeliveryZoneId() or valueOrDefault().
      */
     public function getDeliveryZoneId(): string { return $this->get('delivery_zone_id'); }
     public function hasDeliveryZoneId(): bool { return $this->has('delivery_zone_id'); }
-    /** Caller-owned identifier for this resource in an external system. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -64,7 +64,7 @@ final class DeliveryZoneInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Time the zone last changed. Format: date-time.
+    /** Time the zone last changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */

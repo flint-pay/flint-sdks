@@ -10,5 +10,5 @@ The request body for: Void package.
 
 
 
-Fields, types, descriptions and enum values: [VoidPackageRequest](../models/VoidPackageRequest.md#voidpackagerequest).
+Fields, types, descriptions and enum values: [VoidShipmentRequestInput](../models/VoidShipmentRequestInput.md#voidshipmentrequestinput).
 

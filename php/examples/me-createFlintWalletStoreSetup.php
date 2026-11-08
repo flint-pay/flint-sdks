@@ -19,7 +19,7 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->me->createFlintWalletStoreSetup('fwc_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->me->createFlintWalletStoreSetup('fwc_EKAB7CMBXELKYMJUU2LYLJP5J25FESR6YR5WENVFIUZHTTG3BZWA', [], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->payment_method_id . PHP_EOL;
 echo $result->status . PHP_EOL;
 $client->close();

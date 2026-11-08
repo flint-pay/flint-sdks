@@ -12,7 +12,7 @@ namespace Flint;
 final class ResourceTimelineEntriesItemImageMutation extends Model {
     /** @param array{'entry_type': string, 'image_version': int, 'mutation_kind': string, 'occurred_at': string, 'request_id'?: string, 'resource_timeline_entry_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ResourceTimelineEntriesItemImageMutation')); }
-    /** Value enum: "image_mutation".
+    /** Always `image_mutation` for this kind of entry. Value enum: "image_mutation".
      * @return string
      */
     public function getEntryType(): string { return $this->get('entry_type'); }
@@ -37,7 +37,7 @@ final class ResourceTimelineEntriesItemImageMutation extends Model {
      */
     public function getRequestId(): ?string { return $this->get('request_id'); }
     public function hasRequestId(): bool { return $this->has('request_id'); }
-    /** resource_timeline_entry_id
+    /** ID of this timeline entry.
      * @return string
      */
     public function getResourceTimelineEntryId(): string { return $this->get('resource_timeline_entry_id'); }

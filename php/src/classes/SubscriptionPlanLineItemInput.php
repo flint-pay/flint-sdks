@@ -2,11 +2,14 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read bool $allow_quantity_adjustment
  * @property-read list<BundleComponentInput|array<array-key, mixed>|\stdClass> $bundle_components
  * @property-read string $bundle_id
  * @property-read list<CategoryReferenceInput|array<array-key, mixed>|\stdClass> $categories
  * @property-read string $description
  * @property-read ImageInput|array<array-key, mixed>|\stdClass $image
+ * @property-read int $max_quantity
+ * @property-read int $min_quantity
  * @property-read list<OrderLineItemModifierInput|array<array-key, mixed>|\stdClass> $modifiers
  * @property-read string $name
  * @property-read string $product_id
@@ -22,15 +25,21 @@ namespace Flint;
  * @property-read string $variant_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionPlanLineItemInput extends Model {
-    /** @param array{'bundle_components'?: list<BundleComponentInput|array<array-key, mixed>|\stdClass>, 'bundle_id'?: string, 'categories'?: list<CategoryReferenceInput|array<array-key, mixed>|\stdClass>, 'description'?: string, 'image'?: ImageInput|array<array-key, mixed>|\stdClass, 'modifiers'?: list<OrderLineItemModifierInput|array<array-key, mixed>|\stdClass>, 'name'?: string, 'product_id'?: string, 'quantity': int, 'selected_options'?: list<SelectedProductOptionInput|array<array-key, mixed>|\stdClass>, 'sku'?: string, 'subscription_plan_line_item_id': string, 'swap_variant_ids': list<string>, 'swap_variants'?: list<SubscriptionPlanSwapVariantInput|array<array-key, mixed>|\stdClass>, 'tax'?: OrderLineItemTaxInput|array<array-key, mixed>|\stdClass, 'type': string, 'unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id': string, ...}|object|array{'bundle_components'?: list<BundleComponentInput|array<array-key, mixed>|\stdClass>, 'bundle_id': string, 'categories'?: list<CategoryReferenceInput|array<array-key, mixed>|\stdClass>, 'description'?: string, 'image'?: ImageInput|array<array-key, mixed>|\stdClass, 'modifiers'?: list<OrderLineItemModifierInput|array<array-key, mixed>|\stdClass>, 'name'?: string, 'product_id'?: string, 'quantity': int, 'selected_options'?: list<SelectedProductOptionInput|array<array-key, mixed>|\stdClass>, 'sku'?: string, 'subscription_plan_line_item_id': string, 'swap_variant_ids': list<string>, 'swap_variants'?: list<SubscriptionPlanSwapVariantInput|array<array-key, mixed>|\stdClass>, 'tax'?: OrderLineItemTaxInput|array<array-key, mixed>|\stdClass, 'type': string, 'unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id'?: string, ...}|object|array{'bundle_components'?: list<BundleComponentInput|array<array-key, mixed>|\stdClass>, 'bundle_id'?: string, 'categories'?: list<CategoryReferenceInput|array<array-key, mixed>|\stdClass>, 'description'?: string, 'image'?: ImageInput|array<array-key, mixed>|\stdClass, 'modifiers'?: list<OrderLineItemModifierInput|array<array-key, mixed>|\stdClass>, 'name': string, 'product_id'?: string, 'quantity': int, 'selected_options'?: list<SelectedProductOptionInput|array<array-key, mixed>|\stdClass>, 'sku'?: string, 'subscription_plan_line_item_id': string, 'swap_variant_ids': list<string>, 'swap_variants'?: list<SubscriptionPlanSwapVariantInput|array<array-key, mixed>|\stdClass>, 'tax'?: OrderLineItemTaxInput|array<array-key, mixed>|\stdClass, 'type': string, 'unit_price_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id'?: string, ...}|object $values */
+    /** @param array{'allow_quantity_adjustment'?: bool, 'bundle_components'?: list<BundleComponentInput|array<array-key, mixed>|\stdClass>, 'bundle_id'?: string, 'categories'?: list<CategoryReferenceInput|array<array-key, mixed>|\stdClass>, 'description'?: string, 'image'?: ImageInput|array<array-key, mixed>|\stdClass, 'max_quantity'?: int, 'min_quantity'?: int, 'modifiers'?: list<OrderLineItemModifierInput|array<array-key, mixed>|\stdClass>, 'name'?: string, 'product_id'?: string, 'quantity': int, 'selected_options'?: list<SelectedProductOptionInput|array<array-key, mixed>|\stdClass>, 'sku'?: string, 'subscription_plan_line_item_id': string, 'swap_variant_ids': list<string>, 'swap_variants'?: list<SubscriptionPlanSwapVariantInput|array<array-key, mixed>|\stdClass>, 'tax'?: OrderLineItemTaxInput|array<array-key, mixed>|\stdClass, 'type': string, 'unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id': string, ...}|object|array{'allow_quantity_adjustment'?: bool, 'bundle_components'?: list<BundleComponentInput|array<array-key, mixed>|\stdClass>, 'bundle_id': string, 'categories'?: list<CategoryReferenceInput|array<array-key, mixed>|\stdClass>, 'description'?: string, 'image'?: ImageInput|array<array-key, mixed>|\stdClass, 'max_quantity'?: int, 'min_quantity'?: int, 'modifiers'?: list<OrderLineItemModifierInput|array<array-key, mixed>|\stdClass>, 'name'?: string, 'product_id'?: string, 'quantity': int, 'selected_options'?: list<SelectedProductOptionInput|array<array-key, mixed>|\stdClass>, 'sku'?: string, 'subscription_plan_line_item_id': string, 'swap_variant_ids': list<string>, 'swap_variants'?: list<SubscriptionPlanSwapVariantInput|array<array-key, mixed>|\stdClass>, 'tax'?: OrderLineItemTaxInput|array<array-key, mixed>|\stdClass, 'type': string, 'unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id'?: string, ...}|object|array{'allow_quantity_adjustment'?: bool, 'bundle_components'?: list<BundleComponentInput|array<array-key, mixed>|\stdClass>, 'bundle_id'?: string, 'categories'?: list<CategoryReferenceInput|array<array-key, mixed>|\stdClass>, 'description'?: string, 'image'?: ImageInput|array<array-key, mixed>|\stdClass, 'max_quantity'?: int, 'min_quantity'?: int, 'modifiers'?: list<OrderLineItemModifierInput|array<array-key, mixed>|\stdClass>, 'name': string, 'product_id'?: string, 'quantity': int, 'selected_options'?: list<SelectedProductOptionInput|array<array-key, mixed>|\stdClass>, 'sku'?: string, 'subscription_plan_line_item_id': string, 'swap_variant_ids': list<string>, 'swap_variants'?: list<SubscriptionPlanSwapVariantInput|array<array-key, mixed>|\stdClass>, 'tax'?: OrderLineItemTaxInput|array<array-key, mixed>|\stdClass, 'type': string, 'unit_price_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id'?: string, ...}|object $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionPlanLineItemInput')); }
+    /** Whether buyers may adjust this line quantity. Defaults to false. At most one line per plan may allow adjustment. Default: false.
+     * @return bool
+     * @throws SdkError When allow_quantity_adjustment is omitted; use hasAllowQuantityAdjustment() or valueOrDefault().
+     */
+    public function getAllowQuantityAdjustment(): bool { return $this->get('allow_quantity_adjustment'); }
+    public function hasAllowQuantityAdjustment(): bool { return $this->has('allow_quantity_adjustment'); }
     /**  [] (Value): {@see BundleComponentInput}. An item included in a bundle.
      * @return list<BundleComponentInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When bundle_components is omitted; use hasBundleComponents() or valueOrDefault().
      */
     public function getBundleComponents(): array { return $this->get('bundle_components'); }
     public function hasBundleComponents(): bool { return $this->has('bundle_components'); }
-    /** bundle_id
+    /** Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
      * @return string
      * @throws SdkError When bundle_id is omitted; use hasBundleId() or valueOrDefault().
      */
@@ -48,13 +57,25 @@ final class SubscriptionPlanLineItemInput extends Model {
      */
     public function getDescription(): string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** An image with its `url`, `width`, and `height`, and optional `alt` text.
+    /** An image with its URL, size, and alt text.
      * @return ImageInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When image is omitted; use hasImage() or valueOrDefault().
      */
     public function getImage(): mixed { return $this->get('image'); }
     public function hasImage(): bool { return $this->has('image'); }
-    /**  [] (Value): {@see OrderLineItemModifierInput}. A modifier selected on an order line item, with its quantity, price change, total, and display flags.
+    /** Maximum buyer quantity. Defaults to 9999. Merchants may set any line quantity from 1 to 9999. Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1. maximum: 9999. Default: 9999.
+     * @return int
+     * @throws SdkError When max_quantity is omitted; use hasMaxQuantity() or valueOrDefault().
+     */
+    public function getMaxQuantity(): int { return $this->get('max_quantity'); }
+    public function hasMaxQuantity(): bool { return $this->has('max_quantity'); }
+    /** Minimum buyer quantity. Defaults to 1. The bounds must enclose the plan line quantity. Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1. maximum: 9999. Default: 1.
+     * @return int
+     * @throws SdkError When min_quantity is omitted; use hasMinQuantity() or valueOrDefault().
+     */
+    public function getMinQuantity(): int { return $this->get('min_quantity'); }
+    public function hasMinQuantity(): bool { return $this->has('min_quantity'); }
+    /**  [] (Value): {@see OrderLineItemModifierInput}. A modifier selected on an order line item.
      * @return list<OrderLineItemModifierInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When modifiers is omitted; use hasModifiers() or valueOrDefault().
      */
@@ -66,7 +87,7 @@ final class SubscriptionPlanLineItemInput extends Model {
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** product_id
+    /** Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
      * @return string
      * @throws SdkError When product_id is omitted; use hasProductId() or valueOrDefault().
      */
@@ -90,13 +111,13 @@ final class SubscriptionPlanLineItemInput extends Model {
      */
     public function getSku(): string { return $this->get('sku'); }
     public function hasSku(): bool { return $this->has('sku'); }
-    /** subscription_plan_line_item_id
+    /** Unique identifier for this subscription plan line item, prefixed `spli_`. Example: "spli_01KEZF7C00H9FGC2KBRF82H87N".
      * @return string
      * @throws SdkError When subscription_plan_line_item_id is omitted; use hasSubscriptionPlanLineItemId() or valueOrDefault().
      */
     public function getSubscriptionPlanLineItemId(): string { return $this->get('subscription_plan_line_item_id'); }
     public function hasSubscriptionPlanLineItemId(): bool { return $this->has('subscription_plan_line_item_id'); }
-    /** maxItems: 25. uniqueItems: true. [] (Value): string. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
+    /** maxItems: 25. uniqueItems: true. [] (Value): string. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
      * @return list<string>
      * @throws SdkError When swap_variant_ids is omitted; use hasSwapVariantIds() or valueOrDefault().
      */
@@ -126,7 +147,7 @@ final class SubscriptionPlanLineItemInput extends Model {
      */
     public function getUnitPriceMoney(): mixed { return $this->get('unit_price_money'); }
     public function hasUnitPriceMoney(): bool { return $this->has('unit_price_money'); }
-    /** variant_id
+    /** Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
      * @return string
      * @throws SdkError When variant_id is omitted; use hasVariantId() or valueOrDefault().
      */

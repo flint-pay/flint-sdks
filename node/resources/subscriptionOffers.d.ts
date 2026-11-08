@@ -1,17 +1,15 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-5.js';
-import type { RequestOptions } from '../declarations/types-48.js';
+import type { ClientOptions } from '../declarations/types-6.js';
+import type { RequestOptions } from '../declarations/types-51.js';
 import type {
     SubscriptionOffer,
     SubscriptionOfferListResponse,
     SubscriptionOfferResponse,
     SubscriptionOffersCreateParams,
-    SubscriptionOffersDeleteParams,
-    SubscriptionOffersGetParams,
-    SubscriptionOffersListParams,
-    SubscriptionOffersUpdateParams
-} from '../declarations/types-55.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+    SubscriptionOffersDeleteParams
+} from '../declarations/types-58.js';
+import type { SubscriptionOffersGetParams, SubscriptionOffersListParams, SubscriptionOffersUpdateParams } from '../declarations/types-59.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -31,34 +29,27 @@ export type {
     SubscriptionOffer,
     SubscriptionOfferResponse,
     SubscriptionOffersDeleteParams,
-    SubscriptionOffersGetParams,
-    SubscriptionOffersListParams,
     SubscriptionOfferListResponse,
-    SubscriptionOffersUpdateParams,
-    SubscriptionIntervalOptionInput,
+    SubscriptionIntervalOptionRequestInput,
     SubscriptionIntervalOption
-} from '../declarations/types-55.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { ClientOptions } from '../declarations/types-5.js';
-export type { CreateSubscriptionOfferRequestInput } from '../declarations/types-11.js';
-export type {
-    MetadataRequestInput,
-    MetadataMap,
-    NextAction,
-    MoneyValue,
-    MetadataPatchRequestInput,
-    MetadataPatchRequest
-} from '../declarations/types-35.js';
+} from '../declarations/types-58.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
+export type { SubscriptionOffersGetParams, SubscriptionOffersListParams, SubscriptionOffersUpdateParams } from '../declarations/types-59.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+export type { ClientOptions } from '../declarations/types-6.js';
+export type { CreateSubscriptionOfferRequestInput } from '../declarations/types-12.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-36.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-12.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
-export type { UpdateSubscriptionOfferRequestInput } from '../declarations/types-60.js';
-export { makeCreateSubscriptionOfferRequest } from '../declarations/types-66.js';
-export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-69.js';
-export { makeMoneyValue } from '../declarations/types-70.js';
-export { makeSubscriptionIntervalOption } from '../declarations/types-73.js';
-export { makeUpdateSubscriptionOfferRequest } from '../declarations/types-75.js';
+export type { Credentials } from '../declarations/types-13.js';
+export type { NextAction, MoneyValue } from '../declarations/types-37.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
+export type { UpdateSubscriptionOfferRequestInput } from '../declarations/types-65.js';
+export type { DisputesAcceptParams } from '../declarations/types-22.js';
+export { makeCreateSubscriptionOfferRequest } from '../declarations/types-71.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-74.js';
+export { makeMoneyValue } from '../declarations/types-75.js';
+export { makeSubscriptionIntervalOptionRequest } from '../declarations/types-78.js';
+export { makeUpdateSubscriptionOfferRequest } from '../declarations/types-80.js';
 export interface SubscriptionOffersResource {
     /**
  * Create subscription offer. Offer changes affect new signups only. Existing subscriptions keep
@@ -70,8 +61,9 @@ export interface SubscriptionOffersResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.subscriptionOffers.create({name: "example", billing_interval_options: [{billing_interval:
- * "daily", billing_interval_count: 1}]}, { idempotencyKey: idempotencyKey })
+ * client.subscriptionOffers.create({billing_interval_options: [{billing_interval: "monthly",
+ * billing_interval_count: 1}], name: "Monthly coffee", product_ids:
+ * ["prod_01KEZF7C00027JTCXQ7TQF86X8"], status: "active"}, { idempotencyKey: idempotencyKey })
  */
     create(params: SubscriptionOffersCreateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<SubscriptionOffer, SubscriptionOfferResponse>>;
     /**
@@ -85,7 +77,7 @@ export interface SubscriptionOffersResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.subscriptionOffers.delete("soffer_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey:
+ * client.subscriptionOffers.delete("soffer_01KEZF7C00KAA9Y1X1KM70YFAA", {}, { idempotencyKey:
  * idempotencyKey })
  */
     delete(subscription_offer_id: InputValue<string>, params?: SubscriptionOffersDeleteParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<SubscriptionOffer, SubscriptionOfferResponse>>;
@@ -98,7 +90,7 @@ export interface SubscriptionOffersResource {
  * @see https://developers.withflintpay.com/docs/api/subscription-offers#getSubscriptionOffer
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.subscriptionOffers.get("soffer_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.subscriptionOffers.get("soffer_01KEZF7C00KAA9Y1X1KM70YFAA")
  */
     get(subscription_offer_id: InputValue<string>, params?: SubscriptionOffersGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<SubscriptionOffer, SubscriptionOfferResponse>>;
     /**

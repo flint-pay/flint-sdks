@@ -14,7 +14,7 @@ namespace Flint;
 final class CreateCheckoutDeliveryQuoteRequestInput extends Model {
     /** @param array{'basis_delivery_quote_id'?: string, 'buyer_location'?: DeliveryBuyerLocationRequestInput|array<array-key, mixed>|\stdClass, 'destination_address'?: DeliveryAddressRequestInput|array<array-key, mixed>|\stdClass, 'expected_delivery_selection_id'?: string|null, 'inventory_assignments'?: list<DeliveryInventoryAssignmentRequestInput|array<array-key, mixed>|\stdClass>, 'method_results'?: list<CallerSuppliedDeliveryMethodResultRequestInput|array<array-key, mixed>|\stdClass>, 'pickup_location_id'?: string, 'tier_key'?: int}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateCheckoutDeliveryQuoteRequestInput')); }
-    /** minLength: 1.
+    /** minLength: 1. Example: "dqt_01KEZF7C009EB1AVCDJBN4BBVV".
      * @return string
      * @throws SdkError When basis_delivery_quote_id is omitted; use hasBasisDeliveryQuoteId() or valueOrDefault().
      */
@@ -32,7 +32,7 @@ final class CreateCheckoutDeliveryQuoteRequestInput extends Model {
      */
     public function getDestinationAddress(): mixed { return $this->get('destination_address'); }
     public function hasDestinationAddress(): bool { return $this->has('destination_address'); }
-    /** Optional assertion on CheckoutSession.delivery.delivery_selection_id. Omit to make no assertion, send null to assert that no selection exists, or send an ID to assert that it is current. minLength: 1.
+    /** Optional assertion on CheckoutSession.delivery.delivery_selection_id. Omit to make no assertion, send null to assert that no selection exists, or send an ID to assert that it is current. minLength: 1. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
      * @return string|null
      * @throws SdkError When expected_delivery_selection_id is omitted; use hasExpectedDeliverySelectionId() or valueOrDefault().
      */
@@ -50,7 +50,7 @@ final class CreateCheckoutDeliveryQuoteRequestInput extends Model {
      */
     public function getMethodResults(): array { return $this->get('method_results'); }
     public function hasMethodResults(): bool { return $this->has('method_results'); }
-    /** minLength: 1.
+    /** minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When pickup_location_id is omitted; use hasPickupLocationId() or valueOrDefault().
      */

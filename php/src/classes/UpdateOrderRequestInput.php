@@ -3,18 +3,19 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string|null $buyer_note
+ * @property-read string $catalog_price_behavior
  * @property-read string $customer_id
  * @property-read array{'address': AddressRequestInput|array<array-key, mixed>|\stdClass, 'recipient'?: OrderDeliveryDestinationRecipientRequestInput|array<array-key, mixed>|\stdClass}|object|null $delivery_destination
  * @property-read int $expected_version
  * @property-read string|null $external_reference_id
  * @property-read string|null $internal_note
- * @property-read OrderInventoryRoutingSourceRequestInput|array<array-key, mixed>|\stdClass $inventory_routing_source
+ * @property-read InventoryRoutingSourceRequestInput|array<array-key, mixed>|\stdClass $inventory_routing_source
  * @property-read array<array-key, string|null>|\stdClass|null $metadata
  * @property-read array{'amount_money': array{'amount': string, 'currency': string}|object, 'calculation_type': string, 'description'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'name'?: string, 'percent'?: int|float}|object|array{'amount_money'?: array{'amount': string, 'currency': string}|object, 'calculation_type': string, 'description'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'name'?: string, 'percent': int|float}|object|null $requested_tip
  * @property-read OrderTaxUpdateRequestInput|array<array-key, mixed>|\stdClass $tax
  * Presence-aware input; omitted fields throw when accessed. */
 final class UpdateOrderRequestInput extends Model {
-    /** @param array{'buyer_note'?: string|null, 'customer_id'?: string, 'delivery_destination'?: array{'address': AddressRequestInput|array<array-key, mixed>|\stdClass, 'recipient'?: OrderDeliveryDestinationRecipientRequestInput|array<array-key, mixed>|\stdClass}|object|null, 'expected_version'?: int, 'external_reference_id'?: string|null, 'internal_note'?: string|null, 'inventory_routing_source'?: OrderInventoryRoutingSourceRequestInput|array<array-key, mixed>|\stdClass, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'requested_tip'?: array{'amount_money': array{'amount': string, 'currency': string}|object, 'calculation_type': string, 'description'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'name'?: string, 'percent'?: int|float}|object|array{'amount_money'?: array{'amount': string, 'currency': string}|object, 'calculation_type': string, 'description'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'name'?: string, 'percent': int|float}|object|null, 'tax'?: OrderTaxUpdateRequestInput|array<array-key, mixed>|\stdClass}|object $values */
+    /** @param array{'buyer_note'?: string|null, 'catalog_price_behavior'?: string, 'customer_id'?: string, 'delivery_destination'?: array{'address': AddressRequestInput|array<array-key, mixed>|\stdClass, 'recipient'?: OrderDeliveryDestinationRecipientRequestInput|array<array-key, mixed>|\stdClass}|object|null, 'expected_version'?: int, 'external_reference_id'?: string|null, 'internal_note'?: string|null, 'inventory_routing_source'?: InventoryRoutingSourceRequestInput|array<array-key, mixed>|\stdClass, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'requested_tip'?: array{'amount_money': array{'amount': string, 'currency': string}|object, 'calculation_type': string, 'description'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'name'?: string, 'percent'?: int|float}|object|array{'amount_money'?: array{'amount': string, 'currency': string}|object, 'calculation_type': string, 'description'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'name'?: string, 'percent': int|float}|object|null, 'tax'?: OrderTaxUpdateRequestInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdateOrderRequestInput')); }
     /** Buyer-provided note about this order, such as a gift message or purchase preference. Send null to clear it. minLength: 1. maxLength: 1000.
      * @return string|null
@@ -22,7 +23,13 @@ final class UpdateOrderRequestInput extends Model {
      */
     public function getBuyerNote(): string|null { return $this->get('buyer_note'); }
     public function hasBuyerNote(): bool { return $this->has('buyer_note'); }
-    /** minLength: 1.
+    /** Defaults to keep, preserving frozen prices. Send reprice with an explicit non-null customer_id to refresh every catalog variant line on an open, unpaid order. Reassigning resolves the new customer’s direct list, then segment list, then variant pricing. Subscription-owned prices remain locked. If any catalog line’s variant is no longer for sale, reprice is refused; remove that line first. Default: "keep". Value enum: "keep", "reprice".
+     * @return string
+     * @throws SdkError When catalog_price_behavior is omitted; use hasCatalogPriceBehavior() or valueOrDefault().
+     */
+    public function getCatalogPriceBehavior(): string { return $this->get('catalog_price_behavior'); }
+    public function hasCatalogPriceBehavior(): bool { return $this->has('catalog_price_behavior'); }
+    /** Customer to attach. Cannot be null or cleared. Reassignment requires catalog_price_behavior: reprice, which resolves the new customer’s direct list, then segment list, then variant pricing. minLength: 1. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */
@@ -40,7 +47,7 @@ final class UpdateOrderRequestInput extends Model {
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** Caller-owned identifier for this resource in an external system.  Send null to clear external_reference_id. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system.  Send null to clear external_reference_id. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string|null
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -52,8 +59,8 @@ final class UpdateOrderRequestInput extends Model {
      */
     public function getInternalNote(): string|null { return $this->get('internal_note'); }
     public function hasInternalNote(): bool { return $this->has('internal_note'); }
-    /** Where inventory for an order is allocated from: a fixed location, an allocation policy, or a specific policy revision.
-     * @return OrderInventoryRoutingSourceRequestInput|array<array-key, mixed>|\stdClass
+    /** How Flint chooses the Locations that fill this order's inventory: one fixed Location, an allocation policy, or a specific policy revision. Where you want inventory routed from: a fixed Location, an inventory allocation policy, or one policy revision, selected by `type`.
+     * @return InventoryRoutingSourceRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When inventory_routing_source is omitted; use hasInventoryRoutingSource() or valueOrDefault().
      */
     public function getInventoryRoutingSource(): mixed { return $this->get('inventory_routing_source'); }
@@ -70,7 +77,7 @@ final class UpdateOrderRequestInput extends Model {
      */
     public function getRequestedTip(): mixed { return $this->get('requested_tip'); }
     public function hasRequestedTip(): bool { return $this->has('requested_tip'); }
-    /** Changes to an order's tax settings: whether tax is enabled, the calculation, the location, and per-line-item or per-charge calculations.
+    /** Tax settings for the order. Changes to an order's tax settings: whether tax is enabled, the calculation, the location, and per-line-item or per-charge calculations.
      * @return OrderTaxUpdateRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When tax is omitted; use hasTax() or valueOrDefault().
      */

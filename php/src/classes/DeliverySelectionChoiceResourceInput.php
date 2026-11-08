@@ -34,19 +34,19 @@ final class DeliverySelectionChoiceResourceInput extends Model {
      */
     public function getAmountMoney(): mixed { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** delivery_choice_group_id
+    /** Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
      * @return string
      * @throws SdkError When delivery_choice_group_id is omitted; use hasDeliveryChoiceGroupId() or valueOrDefault().
      */
     public function getDeliveryChoiceGroupId(): string { return $this->get('delivery_choice_group_id'); }
     public function hasDeliveryChoiceGroupId(): bool { return $this->has('delivery_choice_group_id'); }
-    /** delivery_method_id
+    /** Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
      * @return string
      * @throws SdkError When delivery_method_id is omitted; use hasDeliveryMethodId() or valueOrDefault().
      */
     public function getDeliveryMethodId(): string { return $this->get('delivery_method_id'); }
     public function hasDeliveryMethodId(): bool { return $this->has('delivery_method_id'); }
-    /** delivery_option_id
+    /** Example: "dopt_01KEZF7C00JM9TDZQZ5KQJ6923".
      * @return string
      * @throws SdkError When delivery_option_id is omitted; use hasDeliveryOptionId() or valueOrDefault().
      */
@@ -58,7 +58,7 @@ final class DeliverySelectionChoiceResourceInput extends Model {
      */
     public function getDeliveryPlan(): mixed { return $this->get('delivery_plan'); }
     public function hasDeliveryPlan(): bool { return $this->has('delivery_plan'); }
-    /** delivery_window_id
+    /** Example: "fwin_f3539d59e7d8e9ea803c681d0d155ecdce9de54aa27b90aec630cae8f086b31d".
      * @return string
      * @throws SdkError When delivery_window_id is omitted; use hasDeliveryWindowId() or valueOrDefault().
      */
@@ -100,7 +100,7 @@ final class DeliverySelectionChoiceResourceInput extends Model {
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Always present with an API key or dashboard credential. Null when the choice has no order charge.
+    /** Always present with an API key or dashboard credential. Null when the choice has no order charge. Example: "och_01KEZF7C00XX8AKACP0GHKFWWT".
      * @return string|null
      * @throws SdkError When order_charge_id is omitted; use hasOrderChargeId() or valueOrDefault().
      */
@@ -148,13 +148,13 @@ final class DeliverySelectionChoiceResourceInput extends Model {
      */
     public function getType(): string { return $this->get('type'); }
     public function hasType(): bool { return $this->has('type'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When window_end_at is omitted; use hasWindowEndAt() or valueOrDefault().
      */
     public function getWindowEndAt(): string|\DateTimeInterface { return $this->get('window_end_at'); }
     public function hasWindowEndAt(): bool { return $this->has('window_end_at'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When window_start_at is omitted; use hasWindowStartAt() or valueOrDefault().
      */

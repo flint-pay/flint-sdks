@@ -7,14 +7,14 @@ namespace Flint;
  * @property-read DeliveryAddressRequestInput|array<array-key, mixed>|\stdClass $destination_address
  * @property-read string|null $expected_delivery_selection_id
  * @property-read list<array{'demand_key': string, 'inventory_item_id': string, 'location_id': string, 'quantity': int}|object> $inventory_assignments
- * @property-read list<array{'delivery_choice_group_id': string, 'delivery_method_revision_id': string, 'outcome': CallerSuppliedDeliveryOutcomeRequestInput|array<array-key, mixed>|\stdClass}|object> $method_results
+ * @property-read list<CallerSuppliedDeliveryMethodResultRequestInput|array<array-key, mixed>|\stdClass> $method_results
  * @property-read string $pickup_location_id
  * @property-read int $tier_key
  * Presence-aware input; omitted fields throw when accessed. */
 final class CheckoutSessionsCreateDeliveryQuoteParams extends Model {
-    /** @param array{'basis_delivery_quote_id'?: string, 'buyer_location'?: DeliveryBuyerLocationRequestInput|array<array-key, mixed>|\stdClass, 'destination_address'?: DeliveryAddressRequestInput|array<array-key, mixed>|\stdClass, 'expected_delivery_selection_id'?: string|null, 'inventory_assignments'?: list<array{'demand_key': string, 'inventory_item_id': string, 'location_id': string, 'quantity': int}|object>, 'method_results'?: list<array{'delivery_choice_group_id': string, 'delivery_method_revision_id': string, 'outcome': CallerSuppliedDeliveryOutcomeRequestInput|array<array-key, mixed>|\stdClass}|object>, 'pickup_location_id'?: string, 'tier_key'?: int}|object $values */
+    /** @param array{'basis_delivery_quote_id'?: string, 'buyer_location'?: DeliveryBuyerLocationRequestInput|array<array-key, mixed>|\stdClass, 'destination_address'?: DeliveryAddressRequestInput|array<array-key, mixed>|\stdClass, 'expected_delivery_selection_id'?: string|null, 'inventory_assignments'?: list<array{'demand_key': string, 'inventory_item_id': string, 'location_id': string, 'quantity': int}|object>, 'method_results'?: list<CallerSuppliedDeliveryMethodResultRequestInput|array<array-key, mixed>|\stdClass>, 'pickup_location_id'?: string, 'tier_key'?: int, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutSessionsCreateDeliveryQuoteParams')); }
-    /** minLength: 1.
+    /** minLength: 1. Example: "dqt_01KEZF7C009EB1AVCDJBN4BBVV".
      * @return string
      * @throws SdkError When basis_delivery_quote_id is omitted; use hasBasisDeliveryQuoteId() or valueOrDefault().
      */
@@ -32,7 +32,7 @@ final class CheckoutSessionsCreateDeliveryQuoteParams extends Model {
      */
     public function getDestinationAddress(): mixed { return $this->get('destination_address'); }
     public function hasDestinationAddress(): bool { return $this->has('destination_address'); }
-    /** Optional assertion on CheckoutSession.delivery.delivery_selection_id. Omit to make no assertion, send null to assert that no selection exists, or send an ID to assert that it is current. minLength: 1.
+    /** Optional assertion on CheckoutSession.delivery.delivery_selection_id. Omit to make no assertion, send null to assert that no selection exists, or send an ID to assert that it is current. minLength: 1. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
      * @return string|null
      * @throws SdkError When expected_delivery_selection_id is omitted; use hasExpectedDeliverySelectionId() or valueOrDefault().
      */
@@ -45,12 +45,12 @@ final class CheckoutSessionsCreateDeliveryQuoteParams extends Model {
     public function getInventoryAssignments(): array { return $this->get('inventory_assignments'); }
     public function hasInventoryAssignments(): bool { return $this->has('inventory_assignments'); }
     /**  [] (Value): {@see CallerSuppliedDeliveryMethodResultRequestInput}. The rate result you supply for one delivery method and choice group when creating a delivery quote with caller-supplied pricing.
-     * @return list<array{'delivery_choice_group_id': string, 'delivery_method_revision_id': string, 'outcome': CallerSuppliedDeliveryOutcomeRequestInput|array<array-key, mixed>|\stdClass}|object>
+     * @return list<CallerSuppliedDeliveryMethodResultRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When method_results is omitted; use hasMethodResults() or valueOrDefault().
      */
     public function getMethodResults(): array { return $this->get('method_results'); }
     public function hasMethodResults(): bool { return $this->has('method_results'); }
-    /** minLength: 1.
+    /** minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When pickup_location_id is omitted; use hasPickupLocationId() or valueOrDefault().
      */
@@ -62,4 +62,22 @@ final class CheckoutSessionsCreateDeliveryQuoteParams extends Model {
      */
     public function getTierKey(): int { return $this->get('tier_key'); }
     public function hasTierKey(): bool { return $this->has('tier_key'); }
+    /** Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Merchant-Id is omitted; use hasFlintMerchantId() or valueOrDefault().
+     */
+    public function getFlintMerchantId(): string { return $this->get('Flint-Merchant-Id'); }
+    public function hasFlintMerchantId(): bool { return $this->has('Flint-Merchant-Id'); }
+    /** Mode of the request context, live or test. Optional; it must match the credential's mode. Value enum: "test", "live".
+     * @return string
+     * @throws SdkError When Flint-Mode is omitted; use hasFlintMode() or valueOrDefault().
+     */
+    public function getFlintMode(): string { return $this->get('Flint-Mode'); }
+    public function hasFlintMode(): bool { return $this->has('Flint-Mode'); }
+    /** Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Sandbox-Id is omitted; use hasFlintSandboxId() or valueOrDefault().
+     */
+    public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
+    public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
 }

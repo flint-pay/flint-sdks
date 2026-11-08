@@ -19,7 +19,7 @@ namespace Flint;
 final class BuyerOrderPaymentAttemptInput extends Model {
     /** @param array{'completed_at'?: string|\DateTimeInterface, 'expected_outstanding_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'gift_card_redemptions': list<PaymentAttemptGiftCardRedemptionInput|array<array-key, mixed>|\stdClass>, 'is_resumable': bool, 'last_payment_error'?: BuyerPaymentErrorSummaryInput|array<array-key, mixed>|\stdClass, 'mode': string, 'order_payment_attempt_id': string, 'payment_intents': list<BuyerPaymentAttemptPaymentIntentInput|array<array-key, mixed>|\stdClass>, 'payment_method_save'?: OrderPaymentAttemptPaymentMethodSaveInput|array<array-key, mixed>|\stdClass, 'pending_actions': list<PendingPaymentActionInput|array<array-key, mixed>|\stdClass>, 'started_at'?: string|\DateTimeInterface, 'status': string, 'status_reason'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerOrderPaymentAttemptInput')); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When completed_at is omitted; use hasCompletedAt() or valueOrDefault().
      */
@@ -55,7 +55,7 @@ final class BuyerOrderPaymentAttemptInput extends Model {
      */
     public function getMode(): string { return $this->get('mode'); }
     public function hasMode(): bool { return $this->has('mode'); }
-    /** order_payment_attempt_id
+    /** Unique identifier for this order payment attempt, prefixed `opat_`. Example: "opat_01KEZF7C00B5PW9F2R8A4YSH5D".
      * @return string
      * @throws SdkError When order_payment_attempt_id is omitted; use hasOrderPaymentAttemptId() or valueOrDefault().
      */
@@ -79,7 +79,7 @@ final class BuyerOrderPaymentAttemptInput extends Model {
      */
     public function getPendingActions(): array { return $this->get('pending_actions'); }
     public function hasPendingActions(): bool { return $this->has('pending_actions'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When started_at is omitted; use hasStartedAt() or valueOrDefault().
      */

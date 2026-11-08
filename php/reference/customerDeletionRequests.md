@@ -26,7 +26,7 @@ Body model: [CreateCustomerDeletionRequestInput](../models/CreateCustomerDeletio
 
 #### Response
 
-Returned payload: [CustomerDeletionRequest](../models/CustomerDeletionRequestInput.md#customerdeletionrequestinput).
+Returned payload: [CustomerDeletionRequest](../models/CustomerDeletionRequestCompletedEventDataObject.md#customerdeletionrequestcompletedeventdataobject).
 
 #### Errors
 
@@ -37,7 +37,6 @@ Returned payload: [CustomerDeletionRequest](../models/CustomerDeletionRequestInp
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -63,7 +62,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->customerDeletionRequests->create([
-  'customer_id' => 'cus_01ARZ3NDEKTSV4RRFFQ69G5FAV',
+  'customer_id' => 'cus_01KEZF7C003ACYXT6Q5EQZ78EE',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
@@ -85,7 +84,7 @@ Signature: `get(string|Model $customer_deletion_request_id, array|Model|null $pa
 
 #### Response
 
-Returned payload: [CustomerDeletionRequest](../models/CustomerDeletionRequestInput.md#customerdeletionrequestinput).
+Returned payload: [CustomerDeletionRequest](../models/CustomerDeletionRequestCompletedEventDataObject.md#customerdeletionrequestcompletedeventdataobject).
 
 #### Errors
 
@@ -95,7 +94,6 @@ Returned payload: [CustomerDeletionRequest](../models/CustomerDeletionRequestInp
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -113,7 +111,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```php
-$result = $client->customerDeletionRequests->get('cdel_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
+$result = $client->customerDeletionRequests->get('cdel_01KEZF7C009P94WEXW5RMRFXAY', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/customerDeletionRequests-get.php)
@@ -130,10 +128,10 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `status` | Optional | Array of string or string | Only return requests in this lifecycle state. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"pending_review"`, `"processing"`, `"completed"`, `"rejected"`, `"failed"`. Values: `"pending_review"`, `"processing"`, `"completed"`, `"rejected"`, `"failed"`. |
+| `status` | Optional | Array of string or string | Only return requests in this lifecycle state. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"pending_review"`, `"processing"`, `"completed"`, `"rejected"`, `"failed"`. Values: `"pending_review"`, `"processing"`, `"completed"`, `"rejected"`, `"failed"`. |
 | `customer_id` | Optional | string | Only return requests for this Flint customer ID. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 
 #### Response
 
@@ -147,7 +145,6 @@ Returned payload: [CustomerDeletionRequestListResponse](../models/CustomerDeleti
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -191,13 +188,11 @@ Body model: [ResolveCustomerDeletionRequestInput](../models/ResolveCustomerDelet
 
 #### customerDeletionRequests.resolve body fields
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `decision` | Required | string | Values: `"approve"`, `"reject"`. |
+Field definitions: [shared fields](../models/ResolveCustomerDeletionRequestInput.md#resolvecustomerdeletionrequestinput).
 
 #### Response
 
-Returned payload: [CustomerDeletionRequest](../models/CustomerDeletionRequestInput.md#customerdeletionrequestinput).
+Returned payload: [CustomerDeletionRequest](../models/CustomerDeletionRequestCompletedEventDataObject.md#customerdeletionrequestcompletedeventdataobject).
 
 #### Errors
 
@@ -208,7 +203,6 @@ Returned payload: [CustomerDeletionRequest](../models/CustomerDeletionRequestInp
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -233,7 +227,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->customerDeletionRequests->resolve('cdel_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
+$result = $client->customerDeletionRequests->resolve('cdel_01KEZF7C009P94WEXW5RMRFXAY', [
   'decision' => 'approve',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```

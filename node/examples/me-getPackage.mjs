@@ -8,7 +8,7 @@ const client = new Client({
   customerToken,
 });
 const result = await client.me.getPackage(
-  "pkg_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R"
 );
 console.log(result.fulfillment_id);
 console.log(result.order_id);

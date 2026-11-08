@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read int $backordered_quantity_delta
  * @property-read int $committed_quantity_delta
  * @property-read string $created_at
  * @property-read ResourceReference|null $created_by
@@ -34,8 +35,13 @@ namespace Flint;
  * @property-read string $type
  * Presence-aware response; omitted optional fields return null. */
 final class InventoryMovement extends Model {
-    /** @param array{'committed_quantity_delta': int, 'created_at': string, 'created_by': mixed, 'damaged_quantity_delta': int, 'external_actor_id'?: string, 'held_quantity_delta': int, 'idempotency_key'?: string, 'incoming_quantity_delta': int, 'inventory_item'?: mixed, 'inventory_item_id': string, 'inventory_level_claim_version': int, 'inventory_level_id': string, 'inventory_level_physical_version': int, 'inventory_level_version': int, 'inventory_movement_id': string, 'location_id': string, 'note'?: string, 'occurred_at': string, 'on_hand_quantity_delta': int, 'quality_control_quantity_delta': int, 'quarantined_quantity_delta': int, 'reason'?: string, 'resulting_inventory_level': mixed, 'return_disposition_id'?: string, 'return_id'?: string, 'safety_stock_quantity_delta': int, 'source_observation_sequence'?: int, 'source_reference': mixed, 'source_system': mixed, 'type': string, ...}|object $values */
+    /** @param array{'backordered_quantity_delta': int, 'committed_quantity_delta': int, 'created_at': string, 'created_by': mixed, 'damaged_quantity_delta': int, 'external_actor_id'?: string, 'held_quantity_delta': int, 'idempotency_key'?: string, 'incoming_quantity_delta': int, 'inventory_item'?: mixed, 'inventory_item_id': string, 'inventory_level_claim_version': int, 'inventory_level_id': string, 'inventory_level_physical_version': int, 'inventory_level_version': int, 'inventory_movement_id': string, 'location_id': string, 'note'?: string, 'occurred_at': string, 'on_hand_quantity_delta': int, 'quality_control_quantity_delta': int, 'quarantined_quantity_delta': int, 'reason'?: string, 'resulting_inventory_level': mixed, 'return_disposition_id'?: string, 'return_id'?: string, 'safety_stock_quantity_delta': int, 'source_observation_sequence'?: int, 'source_reference': mixed, 'source_system': mixed, 'type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryMovement')); }
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64.
+     * @return int
+     */
+    public function getBackorderedQuantityDelta(): int { return $this->get('backordered_quantity_delta'); }
+    public function hasBackorderedQuantityDelta(): bool { return $this->has('backordered_quantity_delta'); }
     /** Whole-number quantity; fractional quantities are not supported. Format: int64.
      * @return int
      */
@@ -46,7 +52,7 @@ final class InventoryMovement extends Model {
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** The credential that recorded this movement. null when Flint recorded it on its own, such as an expired hold or a fulfillment handoff. anyOf[1] (Value): {@see ResourceReference}. A reference to another resource by `resource_type` and `resource_id`. anyOf[2] (Value): null.
+    /** The credential that recorded this movement. `null` when Flint recorded it on its own, such as an expired hold or a fulfillment handoff. anyOf[1] (Value): {@see ResourceReference}. A reference to another resource by `resource_type` and `resource_id`. anyOf[2] (Value): null.
      * @return ResourceReference|null
      */
     public function getCreatedBy(): ResourceReference|null { return $this->get('created_by'); }
@@ -81,7 +87,7 @@ final class InventoryMovement extends Model {
      */
     public function getInventoryItem(): ?InventoryItem { return $this->get('inventory_item'); }
     public function hasInventoryItem(): bool { return $this->has('inventory_item'); }
-    /** inventory_item_id
+    /** ID of the inventory item the stock is for.
      * @return string
      */
     public function getInventoryItemId(): string { return $this->get('inventory_item_id'); }
@@ -91,7 +97,7 @@ final class InventoryMovement extends Model {
      */
     public function getInventoryLevelClaimVersion(): int { return $this->get('inventory_level_claim_version'); }
     public function hasInventoryLevelClaimVersion(): bool { return $this->has('inventory_level_claim_version'); }
-    /** inventory_level_id
+    /** ID of the inventory level this movement changed.
      * @return string
      */
     public function getInventoryLevelId(): string { return $this->get('inventory_level_id'); }
@@ -106,17 +112,17 @@ final class InventoryMovement extends Model {
      */
     public function getInventoryLevelVersion(): int { return $this->get('inventory_level_version'); }
     public function hasInventoryLevelVersion(): bool { return $this->has('inventory_level_version'); }
-    /** inventory_movement_id
+    /** Unique identifier for this inventory movement, prefixed `invm_`.
      * @return string
      */
     public function getInventoryMovementId(): string { return $this->get('inventory_movement_id'); }
     public function hasInventoryMovementId(): bool { return $this->has('inventory_movement_id'); }
-    /** location_id
+    /** ID of the Location that holds the stock.
      * @return string
      */
     public function getLocationId(): string { return $this->get('location_id'); }
     public function hasLocationId(): bool { return $this->has('location_id'); }
-    /** note
+    /** Note recorded with the command that wrote this movement. Absent when it had none.
      * @return ?string
      */
     public function getNote(): ?string { return $this->get('note'); }
@@ -146,17 +152,17 @@ final class InventoryMovement extends Model {
      */
     public function getReason(): ?string { return $this->get('reason'); }
     public function hasReason(): bool { return $this->has('reason'); }
-    /** The quantity state of one inventory item at one Location.
+    /** The inventory level as it stood after this movement. The quantity state of one inventory item at one Location.
      * @return InventoryLevel
      */
     public function getResultingInventoryLevel(): InventoryLevel { return $this->get('resulting_inventory_level'); }
     public function hasResultingInventoryLevel(): bool { return $this->has('resulting_inventory_level'); }
-    /** return_disposition_id
+    /** ID of the Return disposition whose receipt wrote this movement. Absent on other movements.
      * @return ?string
      */
     public function getReturnDispositionId(): ?string { return $this->get('return_disposition_id'); }
     public function hasReturnDispositionId(): bool { return $this->has('return_disposition_id'); }
-    /** return_id
+    /** ID of the Return whose receipt wrote this movement. Absent on other movements.
      * @return ?string
      */
     public function getReturnId(): ?string { return $this->get('return_id'); }
@@ -176,12 +182,12 @@ final class InventoryMovement extends Model {
      */
     public function getSourceReference(): ResourceReference { return $this->get('source_reference'); }
     public function hasSourceReference(): bool { return $this->has('source_reference'); }
-    /**  anyOf[1] (Value): {@see InventorySourceSystem}. The system an inventory event came from, such as manual entry, a point of sale, a warehouse system, or Flint, with your source identifier when it applies. anyOf[2] (Value): null.
+    /** System the change came from, such as a point-of-sale or warehouse system. `null` when the request named no source system. anyOf[1] (Value): {@see InventorySourceSystem}. The system an inventory event came from, such as manual entry, a point of sale, a warehouse system, or Flint, with your source identifier when it applies. anyOf[2] (Value): null.
      * @return InventorySourceSystem|null
      */
     public function getSourceSystem(): InventorySourceSystem|null { return $this->get('source_system'); }
     public function hasSourceSystem(): bool { return $this->has('source_system'); }
-    /** Value enum: "adjustment", "count_applied", "reservation_consumed", "reservation_committed", "reservation_commitment_released", "reservation_expired", "reservation_held", "reservation_hold_released", "reservation_reallocated_in", "reservation_reallocated_out", "return_received", "safety_stock_change", "transfer_departed", "transfer_received", "transfer_returned", "transfer_lost".
+    /** What caused this movement. Value enum: "adjustment", "count_applied", "reservation_consumed", "reservation_committed", "reservation_commitment_released", "reservation_expired", "reservation_held", "reservation_hold_released", "reservation_reallocated_in", "reservation_reallocated_out", "return_received", "safety_stock_change", "transfer_departed", "transfer_received", "transfer_returned", "transfer_lost".
      * @return string
      */
     public function getType(): string { return $this->get('type'); }

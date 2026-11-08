@@ -1,5 +1,5 @@
 import type { KeyObject, JsonWebKey } from "node:crypto";
-import type { Client } from "../index.js";
+import type { Client, CredentialProvider } from "../index.js";
 
 /** Flint's API origin, which is also the client assertion audience. */
 export declare const DEFAULT_BASE_URL: "https://api.withflintpay.com";
@@ -116,3 +116,30 @@ export declare function revokeToken(
   params: RevokeTokenParams,
   options?: Parameters<Client["oauth"]["revokeToken"]>[1],
 ): ReturnType<Client["oauth"]["revokeToken"]>;
+
+/** A cached partner app token source; pass it as a client's `token`. */
+export interface PartnerAppCredentials extends CredentialProvider {
+  readonly mode: "test" | "live";
+  /** Set for merchant-bound tokens. */
+  readonly merchantId?: string;
+  getCredential(): Promise<{ value: string; expiresAt: Date }>;
+  /** Drops the cached token; the SDK calls this after a 401 on a replay-safe request and retries once. */
+  invalidate(): void;
+}
+export interface PartnerAppTokensOptions {
+  /** Authenticates every mint with a fresh assertion. */
+  clientAssertion: ClientAssertionProvider;
+  /** Each token is for one mode. */
+  mode: "test" | "live";
+  /** Mint again this many seconds before expiry, from 0 to 600; at most half the lifetime. Defaults to 60. */
+  refreshBeforeSeconds?: number;
+}
+export interface PartnerAppTokens {
+  readonly mode: "test" | "live";
+  /** A merchant-bound token provider; requests with it need no `Flint-Merchant-Id`. Reused per merchant. */
+  forMerchant(merchantId: string): PartnerAppCredentials;
+  /** An app-level token provider; each request must name the merchant in `Flint-Merchant-Id`. */
+  app(): PartnerAppCredentials;
+}
+/** Mint and cache 900-second partner app tokens with the `client_credentials` grant. */
+export declare function partnerAppTokens(client: Client, options: PartnerAppTokensOptions): PartnerAppTokens;

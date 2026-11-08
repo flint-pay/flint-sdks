@@ -8,7 +8,11 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `data` | Required | [DisconnectTaxConnectionResult](../models/DisconnectTaxConnectionResult.md#disconnecttaxconnectionresult) | The disconnected automatic tax connection and merchant settings after the requested default-tax change. |
-| `meta` | Optional | [ResponseMeta](../models/ResponseMeta.md#responsemeta) | Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings. |
-| `request_id` | Required | string | maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `data` | Required | [DisconnectTaxConnectionResult](../models/DisconnectTaxConnectionResult.md#disconnecttaxconnectionresult) | Resource, collection, or operation result returned by this request. The disconnected automatic tax connection and merchant settings after the requested default-tax change. |
+| `meta` | Optional | [ResponseMeta](../models/ResponseMeta.md#responsemeta) | Additional information about this response. Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings. `meta`: [field definitions](../models/DisputeResponse.md#disputeresponsemeta). |
+| `request_id` | Required | string | Identifier of this API request, used to correlate logs and support requests. maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. |
+
+### DisconnectTaxConnectionResponse.meta
+
+Field definitions: [DisputeResponse.meta](../models/DisputeResponse.md#disputeresponsemeta).
 

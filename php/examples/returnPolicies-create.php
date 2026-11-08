@@ -26,6 +26,7 @@ $result = $client->returnPolicies->create([
     'scope' => (object) [
       'match_type' => 'all',
     ],
+    'ineligibility_reason' => 'final_sale',
   ],
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->current_return_policy_revision_id . PHP_EOL;

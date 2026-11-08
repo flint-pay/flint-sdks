@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read MoneyValue $collected_money
- * @property-read MoneyValue $credit_money
+ * @property-read MoneyValue $credit_adjustment_money
  * @property-read MoneyValue $deduction_money
  * @property-read MoneyValue $due_from_buyer_money
  * @property-read MoneyValue $due_to_buyer_money
@@ -15,7 +15,7 @@ namespace Flint;
  * @property-read MoneyValue $returned_total_money
  * Presence-aware response; omitted optional fields return null. */
 final class ReturnFinancialSummary extends Model {
-    /** @param array{'collected_money': mixed, 'credit_money': mixed, 'deduction_money': mixed, 'due_from_buyer_money': mixed, 'due_to_buyer_money': mixed, 'refunded_money': mixed, 'replacement_total_money': mixed, 'returned_discount_money': mixed, 'returned_subtotal_money': mixed, 'returned_tax_money': mixed, 'returned_total_money': mixed, ...}|object $values */
+    /** @param array{'collected_money': mixed, 'credit_adjustment_money': mixed, 'deduction_money': mixed, 'due_from_buyer_money': mixed, 'due_to_buyer_money': mixed, 'refunded_money': mixed, 'replacement_total_money': mixed, 'returned_discount_money': mixed, 'returned_subtotal_money': mixed, 'returned_tax_money': mixed, 'returned_total_money': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnFinancialSummary')); }
     /** Balances collected from the buyer. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
@@ -25,8 +25,8 @@ final class ReturnFinancialSummary extends Model {
     /** Credits added by confirmed, non-canceled resolutions. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
-    public function getCreditMoney(): MoneyValue { return $this->get('credit_money'); }
-    public function hasCreditMoney(): bool { return $this->has('credit_money'); }
+    public function getCreditAdjustmentMoney(): MoneyValue { return $this->get('credit_adjustment_money'); }
+    public function hasCreditAdjustmentMoney(): bool { return $this->has('credit_adjustment_money'); }
     /** Fees withheld by confirmed, non-canceled resolutions. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */

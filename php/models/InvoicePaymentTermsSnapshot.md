@@ -8,89 +8,17 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `calculation` | Required | object and ([InvoicePaymentTermCalculationOnReceipt](../models/InvoicePaymentTermCalculationOnReceipt.md#invoicepaymenttermcalculationonreceipt) or [InvoicePaymentTermCalculationNetDays](../models/InvoicePaymentTermCalculationNetDays.md#invoicepaymenttermcalculationnetdays) or [InvoicePaymentTermCalculationDaysAfterMonthEnd](../models/InvoicePaymentTermCalculationDaysAfterMonthEnd.md#invoicepaymenttermcalculationdaysaftermonthend) or [InvoicePaymentTermCalculationDayOfMonth](../models/InvoicePaymentTermCalculationDayOfMonth.md#invoicepaymenttermcalculationdayofmonth) or [InvoicePaymentTermCalculationDayOfNextMonth](../models/InvoicePaymentTermCalculationDayOfNextMonth.md#invoicepaymenttermcalculationdayofnextmonth)) | How an invoice due date is calculated from payment terms, such as on receipt, net days, or a day of the month. `calculation`: [declared alternatives](../models/InvoicePaymentTermsSnapshot.md#invoicepaymenttermssnapshotcalculation). |
-| `invoice_payment_term_id` | Required | string |  |
-| `late_fee_policy` | Optional | object and Alternative shapes (see declared variants) | A late fee for overdue invoices: a fixed amount or a percentage, a grace period in days, and whether Flint applies it automatically. `late_fee_policy`: [declared alternatives](../models/InvoicePaymentTermsSnapshot.md#invoicepaymenttermssnapshotlate_fee_policy). |
-| `name` | Required | string |  |
+| `calculation` | Required | object and ([InvoicePaymentTermCalculationOnReceipt](../models/InvoicePaymentTermCalculationOnReceipt.md#invoicepaymenttermcalculationonreceipt) or [InvoicePaymentTermCalculationNetDays](../models/InvoicePaymentTermCalculationNetDays.md#invoicepaymenttermcalculationnetdays) or [InvoicePaymentTermCalculationDaysAfterMonthEnd](../models/InvoicePaymentTermCalculationDaysAfterMonthEnd.md#invoicepaymenttermcalculationdaysaftermonthend) or [InvoicePaymentTermCalculationDayOfMonth](../models/InvoicePaymentTermCalculationDayOfMonth.md#invoicepaymenttermcalculationdayofmonth) or [InvoicePaymentTermCalculationDayOfNextMonth](../models/InvoicePaymentTermCalculationDayOfNextMonth.md#invoicepaymenttermcalculationdayofnextmonth)) | Rule used to calculate the invoice's due date when it is issued. How an invoice due date is calculated from payment terms, such as on receipt, net days, or a day of the month. `calculation`: [declared alternatives](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoicepayment_terms_snapshotcalculation). |
+| `invoice_payment_term_id` | Required | string | ID of the payment term captured on this invoice. |
+| `late_fee_policy` | Optional | object and Alternative shapes (see declared variants) | One-time late fee policy captured with this term. Absent when no late fee policy applies. A late fee for overdue invoices: a fixed amount or a percentage, a grace period in days, and whether Flint applies it automatically. `late_fee_policy`: [declared alternatives](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoicepayment_terms_snapshotlate_fee_policy). |
+| `name` | Required | string | Name of the payment term shown on invoices. |
 | `version` | Required | integer | Version of the invoice payment term captured in this snapshot. Format: `int32`. |
 
 ### InvoicePaymentTermsSnapshot.calculation
 
-How an invoice due date is calculated from payment terms, such as on receipt, net days, or a day of the month.
-
-Field definitions: [shared fields](InvoicePaymentTermCalculationInput.md#invoicepaymenttermcalculationinput).
-
-### InvoicePaymentTermsSnapshot.calculation variant 1: `type` = `"on_receipt"`
-
-oneOf with type: "on_receipt": The `on_receipt` variant of `InvoicePaymentTermCalculation`..
-
-- Condition: not (at least one(present(`days`); present(`day`))).
-- Optional: `day`, `days`.
-- Constraints for `type`: Values: `"on_receipt"`.
-
-### InvoicePaymentTermsSnapshot.calculation variant 2: `type` = `"net_days"`
-
-oneOf with type: "net_days": The `net_days` variant of `InvoicePaymentTermCalculation`..
-
-- Condition: not (present(`day`)).
-- Required: `days`.
-- Optional: `day`.
-- Constraints for `type`: Values: `"net_days"`.
-
-### InvoicePaymentTermsSnapshot.calculation variant 3: `type` = `"days_after_month_end"`
-
-oneOf with type: "days_after_month_end": The `days_after_month_end` variant of `InvoicePaymentTermCalculation`..
-
-- Condition: not (present(`day`)).
-- Required: `days`.
-- Optional: `day`.
-- Constraints for `type`: Values: `"days_after_month_end"`.
-
-### InvoicePaymentTermsSnapshot.calculation variant 4: `type` = `"day_of_month"`
-
-oneOf with type: "day_of_month": The `day_of_month` variant of `InvoicePaymentTermCalculation`..
-
-- Condition: not (present(`days`)).
-- Required: `day`.
-- Optional: `days`.
-- Constraints for `type`: Values: `"day_of_month"`.
-
-### InvoicePaymentTermsSnapshot.calculation variant 5: `type` = `"day_of_next_month"`
-
-oneOf with type: "day_of_next_month": The `day_of_next_month` variant of `InvoicePaymentTermCalculation`..
-
-- Condition: not (present(`days`)).
-- Required: `day`.
-- Optional: `days`.
-- Constraints for `type`: Values: `"day_of_next_month"`.
+Declared alternatives: [CollectInvoiceResponse.data.invoice.payment_terms_snapshot.calculation](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoicepayment_terms_snapshotcalculation).
 
 ### InvoicePaymentTermsSnapshot.late_fee_policy
 
-A late fee for overdue invoices: a fixed amount or a percentage, a grace period in days, and whether Flint applies it automatically.
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `amount_money` | Conditional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `application_mode` | Optional | string | Whether Flint applies the one-time fee automatically after the grace period. Omission defaults to manual. Frozen when the invoice is issued. Default: `"manual"`. Values: `"manual"`, `"automatic"`. |
-| `grace_period_days` | Required | integer | Format: `int32`. minimum: `0`. maximum: `365`. |
-| `percent` | Conditional | number | Percentage applied to the fee base_outstanding_money. maximum: `100`. exclusiveMinimum: `0`. multipleOf: `0.0001`. |
-| `type` | Required | string | Values: `"fixed"`, `"percentage"`. |
-
-### InvoicePaymentTermsSnapshot.late_fee_policy variant 1: `type` = `"fixed"`
-
-oneOf with type: "fixed": The `fixed` variant of `InvoiceLateFeePolicy`..
-
-- Condition: not (present(`percent`)).
-- Required: `amount_money`.
-- Optional: `percent`.
-- Constraints for `type`: Values: `"fixed"`.
-
-### InvoicePaymentTermsSnapshot.late_fee_policy variant 2: `type` = `"percentage"`
-
-oneOf with type: "percentage": The `percentage` variant of `InvoiceLateFeePolicy`..
-
-- Condition: not (present(`amount_money`)).
-- Required: `percent`.
-- Optional: `amount_money`.
-- Constraints for `type`: Values: `"percentage"`.
+Declared alternatives: [CollectInvoiceResponse.data.invoice.payment_terms_snapshot.late_fee_policy](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoicepayment_terms_snapshotlate_fee_policy).
 

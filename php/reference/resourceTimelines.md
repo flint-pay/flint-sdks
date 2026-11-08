@@ -16,9 +16,9 @@ Signature: `get(string|Model $resource_id, array|Model|null $params = null, ?Req
 | --- | --- | --- | --- |
 | `resource_id` | Required | string | Flint public API resource ID. |
 | `resource_type` | Optional | string | Optional resource type. Must match the resource_id prefix when present. Values: [49 declared values](#resourcetimelinesget-input-resource_type-values). |
-| `include` | Optional | Array of string | Optional comma-separated timeline entry groups. Defaults to all four groups: requests,webhooks,attempts,image_mutations. Items values: `"requests"`, `"webhooks"`, `"attempts"`, `"image_mutations"`. |
+| `include` | Optional | Array of string | Timeline entry groups to include. Defaults to all four: requests, webhooks, attempts, image_mutations. Items values: `"requests"`, `"webhooks"`, `"attempts"`, `"image_mutations"`. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `occurred_after` | Optional | string | Inclusive lower bound on occurred_at. Format: `date-time`. |
 | `occurred_before` | Optional | string | Exclusive upper bound on occurred_at. Format: `date-time`. |
 
@@ -86,7 +86,6 @@ Returned payload: [ResourceTimeline](../models/ResourceTimeline.md#resourcetimel
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -104,7 +103,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```php
-$result = $client->resourceTimelines->get('ord_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
+$result = $client->resourceTimelines->get('ord_01KEZF7C0054GQKJ142A8X367A', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/resourceTimelines-get.php)

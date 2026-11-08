@@ -6,5 +6,10 @@ The quantity of one inventory item that each unit of an order line item uses.
 
 Response model.
 
-Fields, types, descriptions and enum values: [LineItemInventoryDemandInput](../models/LineItemInventoryDemandInput.md#lineiteminventorydemandinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `bundle_component_id` | Optional | string |  |
+| `component_snapshot_id` | Optional | string |  |
+| `inventory_item_id` | Required | string | ID of the inventory item each unit of the line item uses. |
+| `quantity_per_line_item_unit` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 

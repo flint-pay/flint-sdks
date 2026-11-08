@@ -13,7 +13,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   allowInsecureHttp: $baseUrl !== null && in_array(parse_url($baseUrl, PHP_URL_HOST), ['localhost', '127.0.0.1'], true) && parse_url($baseUrl, PHP_URL_SCHEME) === 'http',
 ));
-$result = $client->reportDownloads->get('rdl_01ARZ3NDEKTSV4RRFFQ69G5FAV');
+$result = $client->reportDownloads->get('rdl_01KEZF7C003GGGDW1N5QT46JDZ');
 // Location may be relative or use another origin. The SDK does not follow it.
 // Validate the destination before a separate download; do not forward API credentials.
 echo $result->lastResponse()->status . ' ' . ($result->data->location ?? 'No Location header') . PHP_EOL;

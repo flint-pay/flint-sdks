@@ -7,7 +7,7 @@ namespace Flint;
 final class InvoiceAutopayRetryPolicy extends Model {
     /** @param array{'retry_day_offsets': list<int>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceAutopayRetryPolicy')); }
-    /** maxItems: 5. uniqueItems: true. [] (Value): integer. Format: int32. minimum: 1. maximum: 30.
+    /** Days after the due date to retry, from 1 to 30, in strictly increasing order, at most 5. maxItems: 5. uniqueItems: true. [] (Value): integer. Format: int32. minimum: 1. maximum: 30.
      * @return list<int>
      */
     public function getRetryDayOffsets(): array { return $this->get('retry_day_offsets'); }

@@ -9,17 +9,17 @@ namespace Flint;
 final class RefundTaxBreakdownRefund extends Model {
     /** @param array{'order_charge_id'?: string, 'tax_breakdown_id': string, 'tax_money': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RefundTaxBreakdownRefund')); }
-    /** order_charge_id
+    /** ID of the order charge whose tax this reverses. Present only in the refund's top-level `tax_breakdown_refunds`.
      * @return ?string
      */
     public function getOrderChargeId(): ?string { return $this->get('order_charge_id'); }
     public function hasOrderChargeId(): bool { return $this->has('order_charge_id'); }
-    /** tax_breakdown_id
+    /** ID of the tax breakdown (one jurisdiction's tax) this entry reverses.
      * @return string
      */
     public function getTaxBreakdownId(): string { return $this->get('tax_breakdown_id'); }
     public function hasTaxBreakdownId(): bool { return $this->has('tax_breakdown_id'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Tax reversed for this breakdown. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getTaxMoney(): MoneyValue { return $this->get('tax_money'); }

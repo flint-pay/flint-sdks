@@ -18,7 +18,7 @@ $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->invoices->create([
   'type' => 'order',
-  'order_id' => 'ord_01ARZ3NDEKTSV4RRFFQ69G5FAV',
+  'order_id' => 'ord_01KEZF7C0054GQKJ142A8X367A',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->invoice_id . PHP_EOL;
 echo $result->merchant_id . PHP_EOL;

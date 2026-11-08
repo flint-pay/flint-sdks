@@ -13,7 +13,7 @@ final class InventoryReservationReleasedMerchantEventDataObjectOwnerOrder extend
      */
     public function getOrderId(): ?string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** Value enum: "order".
+    /** Who holds the reservation. Value enum: "order".
      * @return string
      */
     public function getType(): string { return $this->get('type'); }

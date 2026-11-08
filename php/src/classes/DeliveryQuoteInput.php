@@ -32,13 +32,13 @@ namespace Flint;
 final class DeliveryQuoteInput extends Model {
     /** @param array{'basis_delivery_quote_id'?: string, 'basis_delivery_selection_id'?: string, 'buyer_location'?: DeliveryBuyerLocationResourceInput|array<array-key, mixed>|\stdClass, 'buyer_reasons': list<string>, 'checkout_session_id'?: string, 'choice_groups': list<DeliveryQuoteChoiceGroupResourceInput|array<array-key, mixed>|\stdClass>, 'created_at': string|\DateTimeInterface, 'delivery_quote_id': string, 'delivery_quote_version'?: int, 'delivery_revocation_id': string|null, 'destination_address'?: AddressInput|array<array-key, mixed>|\stdClass, 'eligibility_context_version'?: int, 'evaluated_at': string|\DateTimeInterface, 'evaluation_status': string, 'expires_at': string|\DateTimeInterface, 'input_requirements': list<DeliveryInputRequirementInput|array<array-key, mixed>|\stdClass>, 'merchant_diagnostics'?: list<DeliveryMerchantDiagnosticInput|array<array-key, mixed>|\stdClass>, 'methods'?: list<DeliveryQuoteMethodResourceInput|array<array-key, mixed>|\stdClass>, 'order_id'?: string, 'pending_caller_rate_requests'?: list<DeliveryPendingCallerRateRequestInput|array<array-key, mixed>|\stdClass>, 'revocation_reason'?: string, 'revoked_at'?: string|\DateTimeInterface, 'selection_required': bool, 'stale_reason'?: string, 'status': string, 'superseded_by_delivery_quote_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryQuoteInput')); }
-    /** basis_delivery_quote_id
+    /** Example: "dqt_01KEZF7C009EB1AVCDJBN4BBVV".
      * @return string
      * @throws SdkError When basis_delivery_quote_id is omitted; use hasBasisDeliveryQuoteId() or valueOrDefault().
      */
     public function getBasisDeliveryQuoteId(): string { return $this->get('basis_delivery_quote_id'); }
     public function hasBasisDeliveryQuoteId(): bool { return $this->has('basis_delivery_quote_id'); }
-    /** basis_delivery_selection_id
+    /** Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
      * @return string
      * @throws SdkError When basis_delivery_selection_id is omitted; use hasBasisDeliverySelectionId() or valueOrDefault().
      */
@@ -56,7 +56,7 @@ final class DeliveryQuoteInput extends Model {
      */
     public function getBuyerReasons(): array { return $this->get('buyer_reasons'); }
     public function hasBuyerReasons(): bool { return $this->has('buyer_reasons'); }
-    /** Always present with an API key or dashboard credential.
+    /** Always present with an API key or dashboard credential. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
      * @return string
      * @throws SdkError When checkout_session_id is omitted; use hasCheckoutSessionId() or valueOrDefault().
      */
@@ -68,13 +68,13 @@ final class DeliveryQuoteInput extends Model {
      */
     public function getChoiceGroups(): array { return $this->get('choice_groups'); }
     public function hasChoiceGroups(): bool { return $this->has('choice_groups'); }
-    /** When Flint created this quote. Format: date-time.
+    /** When Flint created this quote. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** delivery_quote_id
+    /** Unique identifier for this delivery quote, prefixed `dqt_`. Example: "dqt_01KEZF7C009EB1AVCDJBN4BBVV".
      * @return string
      * @throws SdkError When delivery_quote_id is omitted; use hasDeliveryQuoteId() or valueOrDefault().
      */
@@ -86,7 +86,7 @@ final class DeliveryQuoteInput extends Model {
      */
     public function getDeliveryQuoteVersion(): int { return $this->get('delivery_quote_version'); }
     public function hasDeliveryQuoteVersion(): bool { return $this->has('delivery_quote_version'); }
-    /** The delivery revocation that revoked this quote, or null when no revocation applies.
+    /** The delivery revocation that revoked this quote, or null when no revocation applies. Example: "drev_01KEZF7C007Q141XJ28YAAC87B".
      * @return string|null
      * @throws SdkError When delivery_revocation_id is omitted; use hasDeliveryRevocationId() or valueOrDefault().
      */
@@ -104,7 +104,7 @@ final class DeliveryQuoteInput extends Model {
      */
     public function getEligibilityContextVersion(): int { return $this->get('eligibility_context_version'); }
     public function hasEligibilityContextVersion(): bool { return $this->has('eligibility_context_version'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When evaluated_at is omitted; use hasEvaluatedAt() or valueOrDefault().
      */
@@ -116,7 +116,7 @@ final class DeliveryQuoteInput extends Model {
      */
     public function getEvaluationStatus(): string { return $this->get('evaluation_status'); }
     public function hasEvaluationStatus(): bool { return $this->has('evaluation_status'); }
-    /** Authoritative expiry for this quote: 24 hours when every method uses fixed, tiered, or rate_table pricing, and at most 15 minutes otherwise. A cart with tracked inventory shortens it to the 5 minutes its stock check stays valid. Read this value from every response. Format: date-time.
+    /** Authoritative expiry for this quote: 24 hours when every method uses fixed, tiered, or rate_table pricing, and at most 15 minutes otherwise. A cart with tracked inventory shortens it to the 5 minutes its stock check stays valid. Read this value from every response. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When expires_at is omitted; use hasExpiresAt() or valueOrDefault().
      */
@@ -140,7 +140,7 @@ final class DeliveryQuoteInput extends Model {
      */
     public function getMethods(): array { return $this->get('methods'); }
     public function hasMethods(): bool { return $this->has('methods'); }
-    /** Always present with an API key or dashboard credential.
+    /** Always present with an API key or dashboard credential. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */
@@ -158,7 +158,7 @@ final class DeliveryQuoteInput extends Model {
      */
     public function getRevocationReason(): string { return $this->get('revocation_reason'); }
     public function hasRevocationReason(): bool { return $this->has('revocation_reason'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When revoked_at is omitted; use hasRevokedAt() or valueOrDefault().
      */
@@ -182,7 +182,7 @@ final class DeliveryQuoteInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** The priced delivery quote that replaced this quote. Its basis_delivery_quote_id names this quote.
+    /** The priced delivery quote that replaced this quote. Its basis_delivery_quote_id names this quote. Example: "dqt_01KEZF7C009EB1AVCDJBN4BBVV".
      * @return string
      * @throws SdkError When superseded_by_delivery_quote_id is omitted; use hasSupersededByDeliveryQuoteId() or valueOrDefault().
      */

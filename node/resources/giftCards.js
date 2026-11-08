@@ -5,11 +5,11 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/giftCards.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import r0 from '../descriptors/resources/giftCards.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import settings from '../descriptors/settings.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["adjustGiftCardBalance"]:r0,["cashOutGiftCard"]:r0,["createGiftCard"]:r0,["createGiftCardLoad"]:r0,["getGiftCard"]:r0,["listGiftCards"]:r0,["lookupGiftCard"]:r0,["rotateGiftCardCode"]:r0,["transitionGiftCard"]:r0,["updateGiftCard"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["adjustGiftCardBalance"]:r0,["cashOutGiftCard"]:r0,["closeGiftCard"]:r0,["createGiftCard"]:r0,["freezeGiftCard"]:r0,["getGiftCard"]:r0,["listGiftCards"]:r0,["lookupGiftCard"]:r0,["rotateGiftCardCode"]:r0,["unfreezeGiftCard"]:r0,["updateGiftCard"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
@@ -17,33 +17,64 @@ this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.giftCards = Object.freeze({
       adjustBalance: async (gift_card_id, params, options) => this.#runtime.request("adjustGiftCardBalance", _sdkRequestInput([
   "gift_card_id"
-], [gift_card_id], [], true, true, params, [
+], [gift_card_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("adjustGiftCardBalance", result, path))),
       cashOut: async (gift_card_id, params, options) => this.#runtime.request("cashOutGiftCard", _sdkRequestInput([
   "gift_card_id"
-], [gift_card_id], [], true, true, params, [
+], [gift_card_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("cashOutGiftCard", result, path))),
-      create: async (params, options) => this.#runtime.request("createGiftCard", _sdkRequestInput([], [], [], true, true, params, [
+      close: async (gift_card_id, params, options) => this.#runtime.request("closeGiftCard", _sdkRequestInput([
+  "gift_card_id"
+], [gift_card_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, false, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("closeGiftCard", result, path))),
+      create: async (params, options) => this.#runtime.request("createGiftCard", _sdkRequestInput([], [], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createGiftCard", result, path))),
-      createLoad: async (gift_card_id, params, options) => this.#runtime.request("createGiftCardLoad", _sdkRequestInput([
+      freeze: async (gift_card_id, params, options) => this.#runtime.request("freezeGiftCard", _sdkRequestInput([
   "gift_card_id"
-], [gift_card_id], [], true, true, params, [
+], [gift_card_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
-]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createGiftCardLoad", result, path))),
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("freezeGiftCard", result, path))),
       get: async (gift_card_id, params, options) => this.#runtime.request("getGiftCard", _sdkRequestInput([
   "gift_card_id"
-], [gift_card_id], [], false, false, params, [
+], [gift_card_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getGiftCard", result, path))),
@@ -55,7 +86,10 @@ this.giftCards = Object.freeze({
   "idempotency_key",
   "page_size",
   "page_token",
-  "status"
+  "status",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -68,7 +102,10 @@ this.giftCards = Object.freeze({
   "idempotency_key",
   "page_size",
   "page_token",
-  "status"
+  "status",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -81,32 +118,51 @@ this.giftCards = Object.freeze({
   "idempotency_key",
   "page_size",
   "page_token",
-  "status"
+  "status",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
 ]), options),
-      lookup: async (params, options) => this.#runtime.request("lookupGiftCard", _sdkRequestInput([], [], [], true, true, params, [
+      lookup: async (params, options) => this.#runtime.request("lookupGiftCard", _sdkRequestInput([], [], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("lookupGiftCard", result, path))),
       rotateCode: async (gift_card_id, params, options) => this.#runtime.request("rotateGiftCardCode", _sdkRequestInput([
   "gift_card_id"
-], [gift_card_id], [], true, true, params, [
+], [gift_card_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, false, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("rotateGiftCardCode", result, path))),
-      transition: async (gift_card_id, params, options) => this.#runtime.request("transitionGiftCard", _sdkRequestInput([
+      unfreeze: async (gift_card_id, params, options) => this.#runtime.request("unfreezeGiftCard", _sdkRequestInput([
   "gift_card_id"
-], [gift_card_id], [], true, true, params, [
+], [gift_card_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, false, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
-]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("transitionGiftCard", result, path))),
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("unfreezeGiftCard", result, path))),
       update: async (gift_card_id, params, options) => this.#runtime.request("updateGiftCard", _sdkRequestInput([
   "gift_card_id"
-], [gift_card_id], [], true, true, params, [
+], [gift_card_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
@@ -118,24 +174,23 @@ close() { return this.#runtime.close(); }
 }
 export { makeAdjustGiftCardBalanceRequest } from '../models/AdjustGiftCardBalanceRequest.js';
 export { makeCashOutGiftCardRequest } from '../models/CashOutGiftCardRequest.js';
-export { makeCreateGiftCardLoadRequest } from '../models/CreateGiftCardLoadRequest.js';
+export { makeCloseGiftCardRequest } from '../models/CloseGiftCardRequest.js';
 export { makeCreateGiftCardRequest } from '../models/CreateGiftCardRequest.js';
-export { makeGiftCardFundingSource } from '../models/GiftCardFundingSource.js';
-export { makeGiftCardFundingSourceAdjustment } from '../models/GiftCardFundingSourceAdjustment.js';
-export { makeGiftCardFundingSourceExternalPayment } from '../models/GiftCardFundingSourceExternalPayment.js';
-export { makeGiftCardFundingSourceFlintManualPayment } from '../models/GiftCardFundingSourceFlintManualPayment.js';
-export { makeGiftCardFundingSourceFlintPayment } from '../models/GiftCardFundingSourceFlintPayment.js';
-export { makeGiftCardFundingSourceGiftCardPurchaseRefundRecovery } from '../models/GiftCardFundingSourceGiftCardPurchaseRefundRecovery.js';
-export { makeGiftCardFundingSourceGiftCardRefund } from '../models/GiftCardFundingSourceGiftCardRefund.js';
-export { makeGiftCardFundingSourceImport } from '../models/GiftCardFundingSourceImport.js';
-export { makeGiftCardFundingSourceStoreCredit } from '../models/GiftCardFundingSourceStoreCredit.js';
+export { makeFreezeGiftCardRequest } from '../models/FreezeGiftCardRequest.js';
+export { makeGiftCardFundingSourceAdjustmentRequest } from '../models/GiftCardFundingSourceAdjustmentRequest.js';
+export { makeGiftCardFundingSourceExternalPaymentRequest } from '../models/GiftCardFundingSourceExternalPaymentRequest.js';
+export { makeGiftCardFundingSourceFlintManualPaymentRequest } from '../models/GiftCardFundingSourceFlintManualPaymentRequest.js';
+export { makeGiftCardFundingSourceFlintPaymentRequest } from '../models/GiftCardFundingSourceFlintPaymentRequest.js';
+export { makeGiftCardFundingSourceGiftCardPurchaseRefundRecoveryRequest } from '../models/GiftCardFundingSourceGiftCardPurchaseRefundRecoveryRequest.js';
+export { makeGiftCardFundingSourceGiftCardRefundRequest } from '../models/GiftCardFundingSourceGiftCardRefundRequest.js';
+export { makeGiftCardFundingSourceImportRequest } from '../models/GiftCardFundingSourceImportRequest.js';
+export { makeGiftCardFundingSourceRequest } from '../models/GiftCardFundingSourceRequest.js';
+export { makeGiftCardFundingSourceStoreCreditRequest } from '../models/GiftCardFundingSourceStoreCreditRequest.js';
 export { makeGiftCardNotificationRecipient } from '../models/GiftCardNotificationRecipient.js';
 export { makeInitialGiftCardFunding } from '../models/InitialGiftCardFunding.js';
 export { makeLookupGiftCardRequest } from '../models/LookupGiftCardRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
 export { makeRotateGiftCardCodeRequest } from '../models/RotateGiftCardCodeRequest.js';
 export { makeSignedMoneyRequest } from '../models/SignedMoneyRequest.js';
-export { makeTransitionGiftCardRequest } from '../models/TransitionGiftCardRequest.js';
-export { makeTransitionGiftCardRequestFreeze } from '../models/TransitionGiftCardRequestFreeze.js';
-export { makeTransitionGiftCardRequestWithoutReason } from '../models/TransitionGiftCardRequestWithoutReason.js';
+export { makeUnfreezeGiftCardRequest } from '../models/UnfreezeGiftCardRequest.js';
 export { makeUpdateGiftCardRequest } from '../models/UpdateGiftCardRequest.js';

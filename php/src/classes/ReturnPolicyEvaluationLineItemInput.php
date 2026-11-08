@@ -31,25 +31,25 @@ namespace Flint;
 final class ReturnPolicyEvaluationLineItemInput extends Model {
     /** @param array{'allowed_resolution_types': list<string>, 'bundle_components': list<BundleComponentInput|array<array-key, mixed>|\stdClass>, 'bundle_id'?: string, 'description'?: string, 'eligible_quantity': int, 'expires_at'?: string|\DateTimeInterface, 'fulfillment_id': string, 'image'?: ImageInput|array<array-key, mixed>|\stdClass, 'ineligibility_reason'?: string, 'is_inspection_required': bool, 'is_merchandise_return_required': bool, 'modifiers': list<OrderLineItemModifierInput|array<array-key, mixed>|\stdClass>, 'name': string, 'order_line_item_id': string, 'policy_adjustment_proposals': list<ReturnPolicyAdjustmentProposalInput|array<array-key, mixed>|\stdClass>, 'product_id'?: string, 'reason': string, 'receiving_location_id'?: string, 'release_timing': string, 'requested_quantity': int, 'selected_options': list<SelectedProductOptionInput|array<array-key, mixed>|\stdClass>, 'sku'?: string, 'status': string, 'suggested_return_reason_ids': list<string>, 'variant_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnPolicyEvaluationLineItemInput')); }
-    /** [] enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit". [] (Value): string.  Value enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit".
+    /** Resolution types the policy allows for this line. [] enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit". [] (Value): string.  Value enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit".
      * @return list<string>
      * @throws SdkError When allowed_resolution_types is omitted; use hasAllowedResolutionTypes() or valueOrDefault().
      */
     public function getAllowedResolutionTypes(): array { return $this->get('allowed_resolution_types'); }
     public function hasAllowedResolutionTypes(): bool { return $this->has('allowed_resolution_types'); }
-    /**  [] (Value): {@see BundleComponentInput}. An item included in a bundle.
+    /** Components of the bundle the line was sold from. [] (Value): {@see BundleComponentInput}. An item included in a bundle.
      * @return list<BundleComponentInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When bundle_components is omitted; use hasBundleComponents() or valueOrDefault().
      */
     public function getBundleComponents(): array { return $this->get('bundle_components'); }
     public function hasBundleComponents(): bool { return $this->has('bundle_components'); }
-    /** bundle_id
+    /** ID of the bundle the line was sold from. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
      * @return string
      * @throws SdkError When bundle_id is omitted; use hasBundleId() or valueOrDefault().
      */
     public function getBundleId(): string { return $this->get('bundle_id'); }
     public function hasBundleId(): bool { return $this->has('bundle_id'); }
-    /** description
+    /** Description of the item as sold.
      * @return string
      * @throws SdkError When description is omitted; use hasDescription() or valueOrDefault().
      */
@@ -61,19 +61,19 @@ final class ReturnPolicyEvaluationLineItemInput extends Model {
      */
     public function getEligibleQuantity(): int { return $this->get('eligible_quantity'); }
     public function hasEligibleQuantity(): bool { return $this->has('eligible_quantity'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When expires_at is omitted; use hasExpiresAt() or valueOrDefault().
      */
     public function getExpiresAt(): string|\DateTimeInterface { return $this->get('expires_at'); }
     public function hasExpiresAt(): bool { return $this->has('expires_at'); }
-    /** fulfillment_id
+    /** ID of the fulfillment the units were delivered in. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
      * @return string
      * @throws SdkError When fulfillment_id is omitted; use hasFulfillmentId() or valueOrDefault().
      */
     public function getFulfillmentId(): string { return $this->get('fulfillment_id'); }
     public function hasFulfillmentId(): bool { return $this->has('fulfillment_id'); }
-    /** An image with its `url`, `width`, and `height`, and optional `alt` text.
+    /** Image of the item as sold. An image with its URL, size, and alt text.
      * @return ImageInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When image is omitted; use hasImage() or valueOrDefault().
      */
@@ -85,55 +85,55 @@ final class ReturnPolicyEvaluationLineItemInput extends Model {
      */
     public function getIneligibilityReason(): string { return $this->get('ineligibility_reason'); }
     public function hasIneligibilityReason(): bool { return $this->has('ineligibility_reason'); }
-    /** is_inspection_required
+    /** Whether the policy requires inspection of the returned units.
      * @return bool
      * @throws SdkError When is_inspection_required is omitted; use hasIsInspectionRequired() or valueOrDefault().
      */
     public function getIsInspectionRequired(): bool { return $this->get('is_inspection_required'); }
     public function hasIsInspectionRequired(): bool { return $this->has('is_inspection_required'); }
-    /** is_merchandise_return_required
+    /** Whether the policy requires the buyer to send the merchandise back.
      * @return bool
      * @throws SdkError When is_merchandise_return_required is omitted; use hasIsMerchandiseReturnRequired() or valueOrDefault().
      */
     public function getIsMerchandiseReturnRequired(): bool { return $this->get('is_merchandise_return_required'); }
     public function hasIsMerchandiseReturnRequired(): bool { return $this->has('is_merchandise_return_required'); }
-    /**  [] (Value): {@see OrderLineItemModifierInput}. A modifier selected on an order line item, with its quantity, price change, total, and display flags.
+    /** Modifiers selected on the order line, with their prices. [] (Value): {@see OrderLineItemModifierInput}. A modifier selected on an order line item.
      * @return list<OrderLineItemModifierInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When modifiers is omitted; use hasModifiers() or valueOrDefault().
      */
     public function getModifiers(): array { return $this->get('modifiers'); }
     public function hasModifiers(): bool { return $this->has('modifiers'); }
-    /** name
+    /** Name of the item as sold.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** order_line_item_id
+    /** ID of the order line item the units come from. Example: "li_01KEZF7C008YPRCK7VDKTGWR31".
      * @return string
      * @throws SdkError When order_line_item_id is omitted; use hasOrderLineItemId() or valueOrDefault().
      */
     public function getOrderLineItemId(): string { return $this->get('order_line_item_id'); }
     public function hasOrderLineItemId(): bool { return $this->has('order_line_item_id'); }
-    /**  [] (Value): {@see ReturnPolicyAdjustmentProposalInput}. A fee or credit a return policy proposes for a line, calculated as a flat amount or a percent.
+    /** Fees or credits the policy proposes for this line, to add to a resolution as adjustments. [] (Value): {@see ReturnPolicyAdjustmentProposalInput}. A fee or credit a return policy proposes for a line, calculated as a flat amount or a percent.
      * @return list<ReturnPolicyAdjustmentProposalInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When policy_adjustment_proposals is omitted; use hasPolicyAdjustmentProposals() or valueOrDefault().
      */
     public function getPolicyAdjustmentProposals(): array { return $this->get('policy_adjustment_proposals'); }
     public function hasPolicyAdjustmentProposals(): bool { return $this->has('policy_adjustment_proposals'); }
-    /** product_id
+    /** ID of the catalog product the item was sold from. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
      * @return string
      * @throws SdkError When product_id is omitted; use hasProductId() or valueOrDefault().
      */
     public function getProductId(): string { return $this->get('product_id'); }
     public function hasProductId(): bool { return $this->has('product_id'); }
-    /** Value enum: "eligible_under_policy", "manual_review_required", "return_window_expired", "quantity_unavailable", "policy_ineligible", "resolution_not_allowed", "reason_not_allowed", "policy_conflict", "no_matching_policy".
+    /** Why the line got this result. Value enum: "eligible_under_policy", "manual_review_required", "return_window_expired", "quantity_unavailable", "policy_ineligible", "resolution_not_allowed", "reason_not_allowed", "policy_conflict", "no_matching_policy".
      * @return string
      * @throws SdkError When reason is omitted; use hasReason() or valueOrDefault().
      */
     public function getReason(): string { return $this->get('reason'); }
     public function hasReason(): bool { return $this->has('reason'); }
-    /** receiving_location_id
+    /** ID of the Location the policy sends returned merchandise to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When receiving_location_id is omitted; use hasReceivingLocationId() or valueOrDefault().
      */
@@ -151,31 +151,31 @@ final class ReturnPolicyEvaluationLineItemInput extends Model {
      */
     public function getRequestedQuantity(): int { return $this->get('requested_quantity'); }
     public function hasRequestedQuantity(): bool { return $this->has('requested_quantity'); }
-    /**  [] (Value): {@see SelectedProductOptionInput}. An option and value chosen for a product variant, such as size Large.
+    /** Variant options selected for the item, such as size and color. [] (Value): {@see SelectedProductOptionInput}. An option and value chosen for a product variant, such as size Large.
      * @return list<SelectedProductOptionInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When selected_options is omitted; use hasSelectedOptions() or valueOrDefault().
      */
     public function getSelectedOptions(): array { return $this->get('selected_options'); }
     public function hasSelectedOptions(): bool { return $this->has('selected_options'); }
-    /** sku
+    /** SKU of the item as sold.
      * @return string
      * @throws SdkError When sku is omitted; use hasSku() or valueOrDefault().
      */
     public function getSku(): string { return $this->get('sku'); }
     public function hasSku(): bool { return $this->has('sku'); }
-    /** Value enum: "eligible", "ineligible", "review_required".
+    /** Whether the policy lets the buyer return this. `review_required` means the merchant decides. Value enum: "eligible", "ineligible", "review_required".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** IDs of up to 20 active reasons that apply to this line: category-matched reasons first, then reasons with no categories, each group sorted by handle. [] (Value): string.
+    /** IDs of up to 20 active reasons that apply to this line: category-matched reasons first, then reasons with no categories, each group sorted by handle. [] (Value): string. Example: "rrsn_01KEZF7C00SEE2T4EYP1NXAH3E".
      * @return list<string>
      * @throws SdkError When suggested_return_reason_ids is omitted; use hasSuggestedReturnReasonIds() or valueOrDefault().
      */
     public function getSuggestedReturnReasonIds(): array { return $this->get('suggested_return_reason_ids'); }
     public function hasSuggestedReturnReasonIds(): bool { return $this->has('suggested_return_reason_ids'); }
-    /** variant_id
+    /** ID of the catalog variant the item was sold from. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
      * @return string
      * @throws SdkError When variant_id is omitted; use hasVariantId() or valueOrDefault().
      */

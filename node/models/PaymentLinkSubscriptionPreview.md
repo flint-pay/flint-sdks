@@ -12,20 +12,29 @@ Subscription terms shown before an active plan-backed payment link creates a che
 | --- | --- | --- | --- |
 | `billing_interval` | Required | string | Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`. |
 | `billing_interval_count` | Required | integer | Number of billing intervals between recurring charges. Format: `int32`. |
-| `billing_interval_options` | Required | Array of [SubscriptionIntervalOption](../models/SubscriptionIntervalOption.md#subscriptionintervaloption) | Billing intervals the plan offers, which the buyer chooses among on the checkout this link opens. The same values as the subscription plan's `billing_interval_options`. maxItems: `12`. uniqueItems: `true`. |
+| `billing_interval_options` | Required | Array of [SubscriptionIntervalOption](../models/SubscriptionIntervalOption.md#subscriptionintervaloption) | Billing intervals the plan offers, which the buyer chooses among on the checkout this link opens. The same values as the subscription plan's `billing_interval_options`. maxItems: `12`. uniqueItems: `true`. `billing_interval_options[]`: [field definitions](../models/BuyerExpandedSubscriptionPlanSummary.md#buyerexpandedsubscriptionplansummarybilling_interval_options). |
 | `contract_term_months` | Optional | integer | The term agreed with the buyer, in months, when configured. Flint records it on the subscription and does not stop the buyer from canceling earlier. Format: `int32`. |
 | `delivery_required` | Required | boolean | True when the plan has a line that ships or is delivered, so each renewal adds a shipping or delivery charge chosen at checkout. The amount is not known until the buyer enters an address and chooses a method. |
 | `early_termination_fee_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The fee agreed for canceling before the recorded term ends, when configured. Flint records it on the subscription but never charges it. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `early_termination_fee_money`: [field definitions](../models/CheckoutSubscriptionTerms.md#checkoutsubscriptiontermsearly_termination_fee_money). |
-| `plan_image` | Optional | [Image](../models/Image.md#image) | Plan image shown to the buyer, when configured. An image with its `url`, `width`, and `height`, and optional `alt` text. |
+| `line_items` | Required | Array of object | Identified plan lines with buyer quantity permissions and bounds. The checkout freezes the terms when it is created. `line_items[]`: [field definitions](../models/CheckoutSubscriptionTerms.md#checkoutsubscriptiontermsline_items). |
+| `plan_image` | Optional | [Image](../models/Image.md#image) | Plan image shown to the buyer, when configured. An image with its URL, size, and alt text. |
 | `plan_name` | Required | string | Plan name shown to the buyer. |
 | `quantity_options` | Required | Array of integer | Quantities the plan offers, which the buyer chooses among on the checkout this link opens. The same values as the subscription plan's `quantity_options`. maxItems: `10`. uniqueItems: `true`. Items: Format: `int32`. minimum: `1`. maximum: `100`. |
 | `recurring_total_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Recurring total for one billing interval, including line quantities and resolved modifiers. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `recurring_total_money`: [field definitions](../models/PaymentLinkSubscriptionPreview.md#paymentlinksubscriptionpreviewrecurring_total_money). |
 | `setup_fee_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Setup fee added to the first amount due, when configured. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `setup_fee_money`: [field definitions](../models/PaymentLinkSubscriptionPreview.md#paymentlinksubscriptionpreviewsetup_fee_money). |
 | `trial_period_days` | Optional | integer | Number of trial days before the first recurring charge, when configured. Format: `int32`. |
 
+### PaymentLinkSubscriptionPreview.billing_interval_options[]
+
+Field definitions: [BuyerExpandedSubscriptionPlanSummary.billing_interval_options[]](../models/BuyerExpandedSubscriptionPlanSummary.md#buyerexpandedsubscriptionplansummarybilling_interval_options).
+
 ### PaymentLinkSubscriptionPreview.early_termination_fee_money
 
 Field definitions: [CheckoutSubscriptionTerms.early_termination_fee_money](../models/CheckoutSubscriptionTerms.md#checkoutsubscriptiontermsearly_termination_fee_money).
+
+### PaymentLinkSubscriptionPreview.line_items[]
+
+Field definitions: [CheckoutSubscriptionTerms.line_items[]](../models/CheckoutSubscriptionTerms.md#checkoutsubscriptiontermsline_items).
 
 ### PaymentLinkSubscriptionPreview.recurring_total_money
 

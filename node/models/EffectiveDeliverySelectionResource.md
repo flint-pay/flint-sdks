@@ -12,6 +12,6 @@ The delivery selection currently in effect for a checkout, with its `source` (no
 | --- | --- | --- | --- |
 | `delivery_selection` | Required | [DeliverySelection](../models/DeliverySelection.md#deliveryselection) or null |  |
 | `mutable` | Required | boolean |  |
-| `originating_checkout_session_id` | Optional | string |  |
+| `originating_checkout_session_id` | Optional | string | Example: `"cs_01KEZF7C004JRWFW43H037MQRN"`. |
 | `source` | Required | string | Values: `"none"`, `"provisional"`, `"committed"`. |
 

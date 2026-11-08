@@ -8,7 +8,7 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.paymentLinks.resolve(
-  "pl_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "pl_01KEZF7C007WDMA5P9BPZ8J2AM",
   {
     resolution_context: "example",
   },

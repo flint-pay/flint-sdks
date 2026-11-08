@@ -1,137 +1,141 @@
 import type { InputValue, Model } from '../runtime.js';
-import type { ReceiptSettingsRequestInput, RefreshCustomerSessionRequestInput, RefundAdjustmentAuditInput } from './types-46.js';
 import type {
-    RefundAdjustmentReasonRequestInput,
-    RefundChargeInput,
-    RefundDestinationsInput,
-    RefundLineItemInput,
-    RefundLineItemAdjustmentInInput,
-    RefundLineItemAdjustmentRefundInInput,
-    RefundTaxBreakdownRefundInInput,
-    RefundTenderAllocationInputGiftCardRedemptionInput,
-    RefundTenderAllocationInputPaymentIntentInput,
-    RefundTenderAllocationRequestInput,
-    ReleaseReturnResolutionRequestInput,
-    RemoveDiscountsRequestInput,
-    RenewSubscriptionRequestInput,
-    ReopenReturnRequestInput
-} from './types-47.js';
+    DeliveryMethodOriginSelectorInputAllocatedOriginGroupDeliveryLocationSetInput,
+    DeliveryMethodOriginSelectorInputAllocatedOriginGroupLocationsInput,
+    DeliveryMethodOriginSelectorInputFixedLocationInput,
+    DeliveryMethodOriginSelectorInputPickupLocationCollectionInput,
+    DeliveryMethodOriginSelectorInputPickupLocationCollectionDeliveryLocationSetInput,
+    DeliveryMethodOriginSelectorInputPickupLocationCollectionLocationsInput
+} from './types-17.js';
 import type {
-    RepriceDiscountsRequestInput,
-    ResendWebhookDeliveryRequestInput,
-    ResetDemoSessionRequestInput,
-    ResolveCustomerDeletionRequestInput,
-    ResolveOrderInventoryExceptionRequestInput,
-    ResolvePaymentLinkLineItemModifierRequestInput,
-    ResolvePaymentLinkLineItemModifiersInput,
-    ResolvePaymentLinkRequestInput,
-    ResolvePaymentLinkTextModifierRequestInput,
-    ResourceVersionRequestInput,
-    RetryReturnDispositionRequestInput,
-    RetryReturnResolutionRequestInput
-} from './types-48.js';
+    DeliveryMethodOriginSelectorRequestInput,
+    DeliveryPickupAvailabilityMaximumDistanceRequestInput,
+    DeliveryPostalCodeConditionRequestInput,
+    DeliveryPostalCodeValueRequestInput,
+    DeliveryPreviewRoutingSourceInput,
+    DeliveryPricingRateCreateRequestInput,
+    DeliveryPricingRateRequestInput,
+    DeliveryPricingStrategyCreateInputCalculatedInput,
+    DeliveryPricingStrategyCreateInputCallbackInput,
+    DeliveryPricingStrategyCreateInputCallerSuppliedInput,
+    DeliveryPricingStrategyCreateInputFixedInput,
+    DeliveryPricingStrategyCreateInputRateTableInput,
+    DeliveryPricingStrategyCreateInputTieredInput,
+    DeliveryPricingStrategyCreateRequestInput,
+    DeliveryPricingStrategyInputCalculatedInput,
+    DeliveryPricingStrategyInputCallbackInput,
+    DeliveryPricingStrategyInputCallerSuppliedInput,
+    DeliveryPricingStrategyInputFixedInput,
+    DeliveryPricingStrategyInputRateTableInput
+} from './types-18.js';
 import type {
-    ReturnEligibilityLineItemRequestInput,
-    ReturnEligibilitySelectionInput,
-    ReturnEligibilitySelectionAllRemainingFulfilledInput,
-    ReturnEligibilitySelectionLineItemsInput,
-    ReturnInspectionLineItemRequestInput,
-    ReturnLineDecisionInput,
-    ReturnLineItemRequestInput,
-    ReturnPolicyRevisionInputIneligibleInput,
-    ReturnPolicyRevisionInputReturnableInput
-} from './types-49.js';
+    DeliveryPricingStrategyInputTieredInput,
+    DeliveryPricingStrategyRequestInput,
+    DeliveryPricingTierBandRequestInput,
+    DeliveryProfileConfigurationInputManualInput,
+    DeliveryProfileConfigurationInputNoneInput,
+    DeliveryProfileConfigurationInputQuoteInput,
+    DeliveryProfileConfigurationInputRequiredInput,
+    DeliveryProfileConfigurationRequestInput,
+    DeliveryProfileOriginPolicyInputFixedLocationInput,
+    DeliveryProfileOriginPolicyInputInventoryRoutingInput,
+    DeliveryProfileOriginPolicyInputMethodOriginInput,
+    DeliveryProfileOriginPolicyRequestInput
+} from './types-19.js';
 import type {
-    ReturnPolicyRevisionRequestInput,
-    ReturnPolicyScopeInput,
-    ReturnPolicyScopeAllInput,
-    ReturnPolicyScopeIncludeInput,
-    ReturnProcessDecisionInput,
-    ReturnProcessDispositionRequestInput,
-    ReturnProcessInspectionRequestInput,
-    ReturnProcessReceiptRequestInput,
-    ReturnProcessResolutionRequestInput,
-    ReturnReceiptLineItemInputExcessInput,
-    ReturnReceiptLineItemInputMatchedInput,
-    ReturnReceiptLineItemInputUnverifiedInput,
-    ReturnReceiptLineItemRequestInput,
-    ReturnReplacementLineItemInputBundleInput,
-    ReturnReplacementLineItemInputCustomInput,
-    ReturnReplacementLineItemInputVariantInput,
-    ReturnReplacementLineItemRequestInput,
-    ReturnResolutionAdjustmentRequestInput
-} from './types-50.js';
+    DeliveryRadiusConditionRequestInput,
+    DeliveryRadiusOriginInput,
+    DeliveryRateCallbackConfigurationPatchRequestInput,
+    DeliveryRateCallbackConfigurationRequestInput,
+    DeliveryRateTablePricingStrategyCreateRequestInput,
+    DeliveryRateTablePricingStrategyRequestInput,
+    DeliveryRecipientRequirementRequestInput
+} from './types-20.js';
 import type {
-    ReturnResolutionLineItemRequestInput,
-    ReturnRestockingFeePolicyInput,
-    ReturnShipmentLineItemAllocationRequestInput,
-    ReturnShippingPolicyInput,
-    ReturnSourceSystemRequestInput,
-    ReturnUnverifiedItemInput,
-    ReturnWindowInput,
-    ReverseInvoiceManualPaymentRequestInput
-} from './types-51.js';
-export declare function makeReceiptSettingsRequest(value: InputValue<ReceiptSettingsRequestInput>): Model<ReceiptSettingsRequestInput>;
-export declare function makeRefreshCustomerSessionRequest(value: InputValue<RefreshCustomerSessionRequestInput>): Model<RefreshCustomerSessionRequestInput>;
-export declare function makeRefundAdjustmentAudit(value: InputValue<RefundAdjustmentAuditInput>): Model<RefundAdjustmentAuditInput>;
-export declare function makeRefundAdjustmentReasonRequest(value: InputValue<RefundAdjustmentReasonRequestInput>): Model<RefundAdjustmentReasonRequestInput>;
-export declare function makeRefundCharge(value: InputValue<RefundChargeInput>): Model<RefundChargeInput>;
-export declare function makeRefundDestinations(value: InputValue<RefundDestinationsInput>): Model<RefundDestinationsInput>;
-export declare function makeRefundLineItem(value: InputValue<RefundLineItemInput>): Model<RefundLineItemInput>;
-export declare function makeRefundLineItemAdjustmentIn(value: InputValue<RefundLineItemAdjustmentInInput>): Model<RefundLineItemAdjustmentInInput>;
-export declare function makeRefundLineItemAdjustmentRefundIn(value: InputValue<RefundLineItemAdjustmentRefundInInput>): Model<RefundLineItemAdjustmentRefundInInput>;
-export declare function makeRefundTaxBreakdownRefundIn(value: InputValue<RefundTaxBreakdownRefundInInput>): Model<RefundTaxBreakdownRefundInInput>;
-export declare function makeRefundTenderAllocationInputGiftCardRedemption(value: InputValue<RefundTenderAllocationInputGiftCardRedemptionInput>): Model<RefundTenderAllocationInputGiftCardRedemptionInput>;
-export declare function makeRefundTenderAllocationInputPaymentIntent(value: InputValue<RefundTenderAllocationInputPaymentIntentInput>): Model<RefundTenderAllocationInputPaymentIntentInput>;
-export declare function makeRefundTenderAllocationRequest(value: InputValue<RefundTenderAllocationRequestInput>): Model<RefundTenderAllocationRequestInput>;
-export declare function makeReleaseReturnResolutionRequest(value: InputValue<ReleaseReturnResolutionRequestInput>): Model<ReleaseReturnResolutionRequestInput>;
-export declare function makeRemoveDiscountsRequest(value: InputValue<RemoveDiscountsRequestInput>): Model<RemoveDiscountsRequestInput>;
-export declare function makeRenewSubscriptionRequest(value: InputValue<RenewSubscriptionRequestInput>): Model<RenewSubscriptionRequestInput>;
-export declare function makeReopenReturnRequest(value: InputValue<ReopenReturnRequestInput>): Model<ReopenReturnRequestInput>;
-export declare function makeRepriceDiscountsRequest(value: InputValue<RepriceDiscountsRequestInput>): Model<RepriceDiscountsRequestInput>;
-export declare function makeResendWebhookDeliveryRequest(value: InputValue<ResendWebhookDeliveryRequestInput>): Model<ResendWebhookDeliveryRequestInput>;
-export declare function makeResetDemoSessionRequest(value: InputValue<ResetDemoSessionRequestInput>): Model<ResetDemoSessionRequestInput>;
-export declare function makeResolveCustomerDeletionRequest(value: InputValue<ResolveCustomerDeletionRequestInput>): Model<ResolveCustomerDeletionRequestInput>;
-export declare function makeResolveOrderInventoryExceptionRequest(value: InputValue<ResolveOrderInventoryExceptionRequestInput>): Model<ResolveOrderInventoryExceptionRequestInput>;
-export declare function makeResolvePaymentLinkLineItemModifierRequest(value: InputValue<ResolvePaymentLinkLineItemModifierRequestInput>): Model<ResolvePaymentLinkLineItemModifierRequestInput>;
-export declare function makeResolvePaymentLinkLineItemModifiers(value: InputValue<ResolvePaymentLinkLineItemModifiersInput>): Model<ResolvePaymentLinkLineItemModifiersInput>;
-export declare function makeResolvePaymentLinkRequest(value: InputValue<ResolvePaymentLinkRequestInput>): Model<ResolvePaymentLinkRequestInput>;
-export declare function makeResolvePaymentLinkTextModifierRequest(value: InputValue<ResolvePaymentLinkTextModifierRequestInput>): Model<ResolvePaymentLinkTextModifierRequestInput>;
-export declare function makeResourceVersionRequest(value: InputValue<ResourceVersionRequestInput>): Model<ResourceVersionRequestInput>;
-export declare function makeRetryReturnDispositionRequest(value: InputValue<RetryReturnDispositionRequestInput>): Model<RetryReturnDispositionRequestInput>;
-export declare function makeRetryReturnResolutionRequest(value: InputValue<RetryReturnResolutionRequestInput>): Model<RetryReturnResolutionRequestInput>;
-export declare function makeReturnEligibilityLineItemRequest(value: InputValue<ReturnEligibilityLineItemRequestInput>): Model<ReturnEligibilityLineItemRequestInput>;
-export declare function makeReturnEligibilitySelection(value: InputValue<ReturnEligibilitySelectionInput>): Model<ReturnEligibilitySelectionInput>;
-export declare function makeReturnEligibilitySelectionAllRemainingFulfilled(value: InputValue<ReturnEligibilitySelectionAllRemainingFulfilledInput>): Model<ReturnEligibilitySelectionAllRemainingFulfilledInput>;
-export declare function makeReturnEligibilitySelectionLineItems(value: InputValue<ReturnEligibilitySelectionLineItemsInput>): Model<ReturnEligibilitySelectionLineItemsInput>;
-export declare function makeReturnInspectionLineItemRequest(value: InputValue<ReturnInspectionLineItemRequestInput>): Model<ReturnInspectionLineItemRequestInput>;
-export declare function makeReturnLineDecision(value: InputValue<ReturnLineDecisionInput>): Model<ReturnLineDecisionInput>;
-export declare function makeReturnLineItemRequest(value: InputValue<ReturnLineItemRequestInput>): Model<ReturnLineItemRequestInput>;
-export declare function makeReturnPolicyRevisionInputIneligible(value: InputValue<ReturnPolicyRevisionInputIneligibleInput>): Model<ReturnPolicyRevisionInputIneligibleInput>;
-export declare function makeReturnPolicyRevisionInputReturnable(value: InputValue<ReturnPolicyRevisionInputReturnableInput>): Model<ReturnPolicyRevisionInputReturnableInput>;
-export declare function makeReturnPolicyRevisionRequest(value: InputValue<ReturnPolicyRevisionRequestInput>): Model<ReturnPolicyRevisionRequestInput>;
-export declare function makeReturnPolicyScope(value: InputValue<ReturnPolicyScopeInput>): Model<ReturnPolicyScopeInput>;
-export declare function makeReturnPolicyScopeAll(value: InputValue<ReturnPolicyScopeAllInput>): Model<ReturnPolicyScopeAllInput>;
-export declare function makeReturnPolicyScopeInclude(value: InputValue<ReturnPolicyScopeIncludeInput>): Model<ReturnPolicyScopeIncludeInput>;
-export declare function makeReturnProcessDecision(value: InputValue<ReturnProcessDecisionInput>): Model<ReturnProcessDecisionInput>;
-export declare function makeReturnProcessDispositionRequest(value: InputValue<ReturnProcessDispositionRequestInput>): Model<ReturnProcessDispositionRequestInput>;
-export declare function makeReturnProcessInspectionRequest(value: InputValue<ReturnProcessInspectionRequestInput>): Model<ReturnProcessInspectionRequestInput>;
-export declare function makeReturnProcessReceiptRequest(value: InputValue<ReturnProcessReceiptRequestInput>): Model<ReturnProcessReceiptRequestInput>;
-export declare function makeReturnProcessResolutionRequest(value: InputValue<ReturnProcessResolutionRequestInput>): Model<ReturnProcessResolutionRequestInput>;
-export declare function makeReturnReceiptLineItemInputExcess(value: InputValue<ReturnReceiptLineItemInputExcessInput>): Model<ReturnReceiptLineItemInputExcessInput>;
-export declare function makeReturnReceiptLineItemInputMatched(value: InputValue<ReturnReceiptLineItemInputMatchedInput>): Model<ReturnReceiptLineItemInputMatchedInput>;
-export declare function makeReturnReceiptLineItemInputUnverified(value: InputValue<ReturnReceiptLineItemInputUnverifiedInput>): Model<ReturnReceiptLineItemInputUnverifiedInput>;
-export declare function makeReturnReceiptLineItemRequest(value: InputValue<ReturnReceiptLineItemRequestInput>): Model<ReturnReceiptLineItemRequestInput>;
-export declare function makeReturnReplacementLineItemInputBundle(value: InputValue<ReturnReplacementLineItemInputBundleInput>): Model<ReturnReplacementLineItemInputBundleInput>;
-export declare function makeReturnReplacementLineItemInputCustom(value: InputValue<ReturnReplacementLineItemInputCustomInput>): Model<ReturnReplacementLineItemInputCustomInput>;
-export declare function makeReturnReplacementLineItemInputVariant(value: InputValue<ReturnReplacementLineItemInputVariantInput>): Model<ReturnReplacementLineItemInputVariantInput>;
-export declare function makeReturnReplacementLineItemRequest(value: InputValue<ReturnReplacementLineItemRequestInput>): Model<ReturnReplacementLineItemRequestInput>;
-export declare function makeReturnResolutionAdjustmentRequest(value: InputValue<ReturnResolutionAdjustmentRequestInput>): Model<ReturnResolutionAdjustmentRequestInput>;
-export declare function makeReturnResolutionLineItemRequest(value: InputValue<ReturnResolutionLineItemRequestInput>): Model<ReturnResolutionLineItemRequestInput>;
-export declare function makeReturnRestockingFeePolicy(value: InputValue<ReturnRestockingFeePolicyInput>): Model<ReturnRestockingFeePolicyInput>;
-export declare function makeReturnShipmentLineItemAllocationRequest(value: InputValue<ReturnShipmentLineItemAllocationRequestInput>): Model<ReturnShipmentLineItemAllocationRequestInput>;
-export declare function makeReturnShippingPolicy(value: InputValue<ReturnShippingPolicyInput>): Model<ReturnShippingPolicyInput>;
-export declare function makeReturnSourceSystemRequest(value: InputValue<ReturnSourceSystemRequestInput>): Model<ReturnSourceSystemRequestInput>;
-export declare function makeReturnUnverifiedItem(value: InputValue<ReturnUnverifiedItemInput>): Model<ReturnUnverifiedItemInput>;
-export declare function makeReturnWindow(value: InputValue<ReturnWindowInput>): Model<ReturnWindowInput>;
-export declare function makeReverseInvoiceManualPaymentRequest(value: InputValue<ReverseInvoiceManualPaymentRequestInput>): Model<ReverseInvoiceManualPaymentRequestInput>;
+    DeliveryScheduleWindowRuleRequestInput,
+    DeliverySelectionInstructionsRequestInput,
+    DeliverySelectionRecipientRequestInput,
+    DeliveryStateConditionRequestInput,
+    DeliveryTieredPricingStrategyInputQuantityOrMoneyInput,
+    DeliveryTieredPricingStrategyInputWeightInput,
+    DeliveryTieredPricingStrategyRequestInput,
+    DeliveryTransitTimeRuleRequestInput,
+    DeliveryWeeklyIntervalRequestInput,
+    DeliveryWeightUnitPriceRequestInput,
+    DeliveryWindowRequestInput,
+    DeliveryWindowTimeConditionInput,
+    DeliveryZoneConditionRequestInput,
+    DeliveryZoneConfigurationRequestInput
+} from './types-21.js';
+import type {
+    DepartInventoryTransferRequestInput,
+    DeveloperInitialAPIKeyRequestInput,
+    DimensionsRequestInput,
+    DisconnectTaxConnectionRequestInput,
+    DiscountPreviewRequestInput,
+    DispatchFulfillmentRequestInput
+} from './types-22.js';
+export declare function makeDeliveryMethodOriginSelectorInputAllocatedOriginGroupDeliveryLocationSet(value: InputValue<DeliveryMethodOriginSelectorInputAllocatedOriginGroupDeliveryLocationSetInput>): Model<DeliveryMethodOriginSelectorInputAllocatedOriginGroupDeliveryLocationSetInput>;
+export declare function makeDeliveryMethodOriginSelectorInputAllocatedOriginGroupLocations(value: InputValue<DeliveryMethodOriginSelectorInputAllocatedOriginGroupLocationsInput>): Model<DeliveryMethodOriginSelectorInputAllocatedOriginGroupLocationsInput>;
+export declare function makeDeliveryMethodOriginSelectorInputFixedLocation(value: InputValue<DeliveryMethodOriginSelectorInputFixedLocationInput>): Model<DeliveryMethodOriginSelectorInputFixedLocationInput>;
+export declare function makeDeliveryMethodOriginSelectorInputPickupLocationCollection(value: InputValue<DeliveryMethodOriginSelectorInputPickupLocationCollectionInput>): Model<DeliveryMethodOriginSelectorInputPickupLocationCollectionInput>;
+export declare function makeDeliveryMethodOriginSelectorInputPickupLocationCollectionDeliveryLocationSet(value: InputValue<DeliveryMethodOriginSelectorInputPickupLocationCollectionDeliveryLocationSetInput>): Model<DeliveryMethodOriginSelectorInputPickupLocationCollectionDeliveryLocationSetInput>;
+export declare function makeDeliveryMethodOriginSelectorInputPickupLocationCollectionLocations(value: InputValue<DeliveryMethodOriginSelectorInputPickupLocationCollectionLocationsInput>): Model<DeliveryMethodOriginSelectorInputPickupLocationCollectionLocationsInput>;
+export declare function makeDeliveryMethodOriginSelectorRequest(value: InputValue<DeliveryMethodOriginSelectorRequestInput>): Model<DeliveryMethodOriginSelectorRequestInput>;
+export declare function makeDeliveryPickupAvailabilityMaximumDistanceRequest(value: InputValue<DeliveryPickupAvailabilityMaximumDistanceRequestInput>): Model<DeliveryPickupAvailabilityMaximumDistanceRequestInput>;
+export declare function makeDeliveryPostalCodeConditionRequest(value: InputValue<DeliveryPostalCodeConditionRequestInput>): Model<DeliveryPostalCodeConditionRequestInput>;
+export declare function makeDeliveryPostalCodeValueRequest(value: InputValue<DeliveryPostalCodeValueRequestInput>): Model<DeliveryPostalCodeValueRequestInput>;
+export declare function makeDeliveryPreviewRoutingSource(value: InputValue<DeliveryPreviewRoutingSourceInput>): Model<DeliveryPreviewRoutingSourceInput>;
+export declare function makeDeliveryPricingRateCreateRequest(value: InputValue<DeliveryPricingRateCreateRequestInput>): Model<DeliveryPricingRateCreateRequestInput>;
+export declare function makeDeliveryPricingRateRequest(value: InputValue<DeliveryPricingRateRequestInput>): Model<DeliveryPricingRateRequestInput>;
+export declare function makeDeliveryPricingStrategyCreateInputCalculated(value: InputValue<DeliveryPricingStrategyCreateInputCalculatedInput>): Model<DeliveryPricingStrategyCreateInputCalculatedInput>;
+export declare function makeDeliveryPricingStrategyCreateInputCallback(value: InputValue<DeliveryPricingStrategyCreateInputCallbackInput>): Model<DeliveryPricingStrategyCreateInputCallbackInput>;
+export declare function makeDeliveryPricingStrategyCreateInputCallerSupplied(value: InputValue<DeliveryPricingStrategyCreateInputCallerSuppliedInput>): Model<DeliveryPricingStrategyCreateInputCallerSuppliedInput>;
+export declare function makeDeliveryPricingStrategyCreateInputFixed(value: InputValue<DeliveryPricingStrategyCreateInputFixedInput>): Model<DeliveryPricingStrategyCreateInputFixedInput>;
+export declare function makeDeliveryPricingStrategyCreateInputRateTable(value: InputValue<DeliveryPricingStrategyCreateInputRateTableInput>): Model<DeliveryPricingStrategyCreateInputRateTableInput>;
+export declare function makeDeliveryPricingStrategyCreateInputTiered(value: InputValue<DeliveryPricingStrategyCreateInputTieredInput>): Model<DeliveryPricingStrategyCreateInputTieredInput>;
+export declare function makeDeliveryPricingStrategyCreateRequest(value: InputValue<DeliveryPricingStrategyCreateRequestInput>): Model<DeliveryPricingStrategyCreateRequestInput>;
+export declare function makeDeliveryPricingStrategyInputCalculated(value: InputValue<DeliveryPricingStrategyInputCalculatedInput>): Model<DeliveryPricingStrategyInputCalculatedInput>;
+export declare function makeDeliveryPricingStrategyInputCallback(value: InputValue<DeliveryPricingStrategyInputCallbackInput>): Model<DeliveryPricingStrategyInputCallbackInput>;
+export declare function makeDeliveryPricingStrategyInputCallerSupplied(value: InputValue<DeliveryPricingStrategyInputCallerSuppliedInput>): Model<DeliveryPricingStrategyInputCallerSuppliedInput>;
+export declare function makeDeliveryPricingStrategyInputFixed(value: InputValue<DeliveryPricingStrategyInputFixedInput>): Model<DeliveryPricingStrategyInputFixedInput>;
+export declare function makeDeliveryPricingStrategyInputRateTable(value: InputValue<DeliveryPricingStrategyInputRateTableInput>): Model<DeliveryPricingStrategyInputRateTableInput>;
+export declare function makeDeliveryPricingStrategyInputTiered(value: InputValue<DeliveryPricingStrategyInputTieredInput>): Model<DeliveryPricingStrategyInputTieredInput>;
+export declare function makeDeliveryPricingStrategyRequest(value: InputValue<DeliveryPricingStrategyRequestInput>): Model<DeliveryPricingStrategyRequestInput>;
+export declare function makeDeliveryPricingTierBandRequest(value: InputValue<DeliveryPricingTierBandRequestInput>): Model<DeliveryPricingTierBandRequestInput>;
+export declare function makeDeliveryProfileConfigurationInputManual(value: InputValue<DeliveryProfileConfigurationInputManualInput>): Model<DeliveryProfileConfigurationInputManualInput>;
+export declare function makeDeliveryProfileConfigurationInputNone(value: InputValue<DeliveryProfileConfigurationInputNoneInput>): Model<DeliveryProfileConfigurationInputNoneInput>;
+export declare function makeDeliveryProfileConfigurationInputQuote(value: InputValue<DeliveryProfileConfigurationInputQuoteInput>): Model<DeliveryProfileConfigurationInputQuoteInput>;
+export declare function makeDeliveryProfileConfigurationInputRequired(value: InputValue<DeliveryProfileConfigurationInputRequiredInput>): Model<DeliveryProfileConfigurationInputRequiredInput>;
+export declare function makeDeliveryProfileConfigurationRequest(value: InputValue<DeliveryProfileConfigurationRequestInput>): Model<DeliveryProfileConfigurationRequestInput>;
+export declare function makeDeliveryProfileOriginPolicyInputFixedLocation(value: InputValue<DeliveryProfileOriginPolicyInputFixedLocationInput>): Model<DeliveryProfileOriginPolicyInputFixedLocationInput>;
+export declare function makeDeliveryProfileOriginPolicyInputInventoryRouting(value: InputValue<DeliveryProfileOriginPolicyInputInventoryRoutingInput>): Model<DeliveryProfileOriginPolicyInputInventoryRoutingInput>;
+export declare function makeDeliveryProfileOriginPolicyInputMethodOrigin(value: InputValue<DeliveryProfileOriginPolicyInputMethodOriginInput>): Model<DeliveryProfileOriginPolicyInputMethodOriginInput>;
+export declare function makeDeliveryProfileOriginPolicyRequest(value: InputValue<DeliveryProfileOriginPolicyRequestInput>): Model<DeliveryProfileOriginPolicyRequestInput>;
+export declare function makeDeliveryRadiusConditionRequest(value: InputValue<DeliveryRadiusConditionRequestInput>): Model<DeliveryRadiusConditionRequestInput>;
+export declare function makeDeliveryRadiusOrigin(value: InputValue<DeliveryRadiusOriginInput>): Model<DeliveryRadiusOriginInput>;
+export declare function makeDeliveryRateCallbackConfigurationPatchRequest(value: InputValue<DeliveryRateCallbackConfigurationPatchRequestInput>): Model<DeliveryRateCallbackConfigurationPatchRequestInput>;
+export declare function makeDeliveryRateCallbackConfigurationRequest(value: InputValue<DeliveryRateCallbackConfigurationRequestInput>): Model<DeliveryRateCallbackConfigurationRequestInput>;
+export declare function makeDeliveryRateTablePricingStrategyCreateRequest(value: InputValue<DeliveryRateTablePricingStrategyCreateRequestInput>): Model<DeliveryRateTablePricingStrategyCreateRequestInput>;
+export declare function makeDeliveryRateTablePricingStrategyRequest(value: InputValue<DeliveryRateTablePricingStrategyRequestInput>): Model<DeliveryRateTablePricingStrategyRequestInput>;
+export declare function makeDeliveryRecipientRequirementRequest(value: InputValue<DeliveryRecipientRequirementRequestInput>): Model<DeliveryRecipientRequirementRequestInput>;
+export declare function makeDeliveryScheduleWindowRuleRequest(value: InputValue<DeliveryScheduleWindowRuleRequestInput>): Model<DeliveryScheduleWindowRuleRequestInput>;
+export declare function makeDeliverySelectionInstructionsRequest(value: InputValue<DeliverySelectionInstructionsRequestInput>): Model<DeliverySelectionInstructionsRequestInput>;
+export declare function makeDeliverySelectionRecipientRequest(value: InputValue<DeliverySelectionRecipientRequestInput>): Model<DeliverySelectionRecipientRequestInput>;
+export declare function makeDeliveryStateConditionRequest(value: InputValue<DeliveryStateConditionRequestInput>): Model<DeliveryStateConditionRequestInput>;
+export declare function makeDeliveryTieredPricingStrategyInputQuantityOrMoney(value: InputValue<DeliveryTieredPricingStrategyInputQuantityOrMoneyInput>): Model<DeliveryTieredPricingStrategyInputQuantityOrMoneyInput>;
+export declare function makeDeliveryTieredPricingStrategyInputWeight(value: InputValue<DeliveryTieredPricingStrategyInputWeightInput>): Model<DeliveryTieredPricingStrategyInputWeightInput>;
+export declare function makeDeliveryTieredPricingStrategyRequest(value: InputValue<DeliveryTieredPricingStrategyRequestInput>): Model<DeliveryTieredPricingStrategyRequestInput>;
+export declare function makeDeliveryTransitTimeRuleRequest(value: InputValue<DeliveryTransitTimeRuleRequestInput>): Model<DeliveryTransitTimeRuleRequestInput>;
+export declare function makeDeliveryWeeklyIntervalRequest(value: InputValue<DeliveryWeeklyIntervalRequestInput>): Model<DeliveryWeeklyIntervalRequestInput>;
+export declare function makeDeliveryWeightUnitPriceRequest(value: InputValue<DeliveryWeightUnitPriceRequestInput>): Model<DeliveryWeightUnitPriceRequestInput>;
+export declare function makeDeliveryWindowRequest(value: InputValue<DeliveryWindowRequestInput>): Model<DeliveryWindowRequestInput>;
+export declare function makeDeliveryWindowTimeCondition(value: InputValue<DeliveryWindowTimeConditionInput>): Model<DeliveryWindowTimeConditionInput>;
+export declare function makeDeliveryZoneConditionRequest(value: InputValue<DeliveryZoneConditionRequestInput>): Model<DeliveryZoneConditionRequestInput>;
+export declare function makeDeliveryZoneConfigurationRequest(value: InputValue<DeliveryZoneConfigurationRequestInput>): Model<DeliveryZoneConfigurationRequestInput>;
+export declare function makeDepartInventoryTransferRequest(value: InputValue<DepartInventoryTransferRequestInput>): Model<DepartInventoryTransferRequestInput>;
+export declare function makeDeveloperInitialAPIKeyRequest(value: InputValue<DeveloperInitialAPIKeyRequestInput>): Model<DeveloperInitialAPIKeyRequestInput>;
+export declare function makeDimensionsRequest(value: InputValue<DimensionsRequestInput>): Model<DimensionsRequestInput>;
+export declare function makeDisconnectTaxConnectionRequest(value: InputValue<DisconnectTaxConnectionRequestInput>): Model<DisconnectTaxConnectionRequestInput>;
+export declare function makeDiscountPreviewRequest(value: InputValue<DiscountPreviewRequestInput>): Model<DiscountPreviewRequestInput>;
+export declare function makeDispatchFulfillmentRequest(value: InputValue<DispatchFulfillmentRequestInput>): Model<DispatchFulfillmentRequestInput>;

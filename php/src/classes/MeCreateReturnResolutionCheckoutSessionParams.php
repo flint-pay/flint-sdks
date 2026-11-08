@@ -17,7 +17,7 @@ final class MeCreateReturnResolutionCheckoutSessionParams extends Model {
      */
     public function getPageOrigin(): string { return $this->get('page_origin'); }
     public function hasPageOrigin(): bool { return $this->has('page_origin'); }
-    /** Embedded sessions only. Absolute HTTPS URL on your site where Flint sends the buyer after a redirect payment such as Affirm, whatever the outcome; read the session there to show the result. Required when the session offers affirm. It can't contain credentials, a query string, or a fragment. Test mode also accepts http loopback URLs. Up to 2,048 characters. Format: uri. minLength: 1. maxLength: 2048.
+    /** Embedded sessions only. Absolute HTTPS URL on your site where Flint sends the buyer after a redirect payment such as Affirm, whatever the outcome; read the session there to show the result. Required when the session offers affirm. It can't contain credentials, a query string, or a fragment. Test mode also accepts http loopback URLs. Up to 2,048 characters. Format: uri. minLength: 1. maxLength: 2048. Example: "https://example.com/receipt".
      * @return string
      * @throws SdkError When payment_return_url is omitted; use hasPaymentReturnUrl() or valueOrDefault().
      */
@@ -29,7 +29,7 @@ final class MeCreateReturnResolutionCheckoutSessionParams extends Model {
      */
     public function getRedirects(): mixed { return $this->get('redirects'); }
     public function hasRedirects(): bool { return $this->has('redirects'); }
-    /** Where the checkout sends the buyer after paying, such as the Return's page in the customer account. Limited to 2048 characters (Unicode code points) before trimming surrounding whitespace. It must be an HTTPS address of the merchant's customer account: /{merchant_id} on Flint's account host, the merchant's active custom account domain, or the host of customer_account.merchant_account_url when the merchant hosts the account. In test mode, any URL on localhost or a loopback IP address (such as 127.0.0.1 or [::1]) is also accepted, over HTTP or HTTPS and on any port. Anything else returns 400 INVALID_REQUEST with an INVALID_VALUE detail on return_url. An alias for redirects.success_url on hosted checkout or payment_return_url on embedded checkout; keep them consistent when sending both. Format: uri. minLength: 1. maxLength: 2048.
+    /** Where the checkout sends the buyer after paying, such as the Return's page in the customer account. Limited to 2048 characters (Unicode code points) before trimming surrounding whitespace. It must be an HTTPS address of the merchant's customer account: /{merchant_id} on Flint's account host, the merchant's active custom account domain, or the host of customer_account.merchant_account_url when the merchant hosts the account. In test mode, any URL on localhost or a loopback IP address (such as 127.0.0.1 or [::1]) is also accepted, over HTTP or HTTPS and on any port. Anything else returns 400 INVALID_REQUEST with an INVALID_VALUE detail on return_url. An alias for redirects.success_url on hosted checkout or payment_return_url on embedded checkout; keep them consistent when sending both. Format: uri. minLength: 1. maxLength: 2048. Example: "https://example.com/receipt".
      * @return string
      * @throws SdkError When return_url is omitted; use hasReturnUrl() or valueOrDefault().
      */

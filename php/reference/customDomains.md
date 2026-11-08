@@ -14,6 +14,9 @@ Signature: `create(array|Model $params, ?RequestOptions $options = null)`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [CreateCustomDomainRequestInput](../models/CreateCustomDomainRequestInput.md#createcustomdomainrequestinput) | The request body for: Create a custom domain. |
 
 Body model: [CreateCustomDomainRequestInput](../models/CreateCustomDomainRequestInput.md#createcustomdomainrequestinput).
@@ -34,7 +37,6 @@ Returned payload: [CustomDomain](../models/CustomDomain.md#customdomain).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -61,8 +63,8 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->customDomains->create([
+  'hostname' => 'pay.example.com',
   'type' => 'checkout',
-  'hostname' => 'example',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
@@ -81,6 +83,9 @@ Signature: `delete(string|Model $custom_domain_id, array|Model|null $params = nu
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `custom_domain_id` | Required | string | Flint custom domain ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -95,7 +100,6 @@ Returned payload: [CustomDomain](../models/CustomDomain.md#customdomain).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -119,7 +123,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->customDomains->delete('cdom_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->customDomains->delete('cdom_01KEZF7C00483JTTKHZVFQHKS8', [], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/customDomains-delete.php)
@@ -134,9 +138,7 @@ Signature: `get(string|Model $custom_domain_id, array|Model|null $params = null,
 
 #### Request fields
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `custom_domain_id` | Required | string | Flint custom domain ID. |
+Field definitions: [shared fields](#request-fields-1).
 
 #### Response
 
@@ -151,7 +153,6 @@ Returned payload: [CustomDomain](../models/CustomDomain.md#customdomain).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -169,7 +170,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```php
-$result = $client->customDomains->get('cdom_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
+$result = $client->customDomains->get('cdom_01KEZF7C00483JTTKHZVFQHKS8', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/customDomains-get.php)
@@ -187,9 +188,12 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
-| `type` | Optional | Array of string or string | Return domains of these types. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"checkout"`, `"customer_account"`. Values: `"checkout"`, `"customer_account"`. |
-| `status` | Optional | Array of string or string | Filter by status. Repeat the parameter or send comma-separated values to match any of several. Omitted, the list leaves out archived rows; name archived to include them. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"provisioning"`, `"active"`, `"attention_required"`, `"inactive"`, `"archived"`. Values: `"provisioning"`, `"active"`, `"attention_required"`, `"inactive"`, `"archived"`. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
+| `type` | Optional | Array of string or string | Return domains of these types. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"checkout"`, `"customer_account"`. Values: `"checkout"`, `"customer_account"`. |
+| `status` | Optional | Array of string or string | Filter by status. Omitted, the list leaves out archived rows; name archived to include them. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"provisioning"`, `"active"`, `"attention_required"`, `"inactive"`, `"archived"`. Values: `"provisioning"`, `"active"`, `"attention_required"`, `"inactive"`, `"archived"`. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -203,7 +207,6 @@ Returned payload: [CustomDomainListResponse](../models/CustomDomainListResponse.
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -230,7 +233,7 @@ $result = $client->customDomains->list([], new RequestOptions());
 
 ### customDomains.validate
 
-Starts provider and DNS checks for this domain. Send no body or an empty JSON object. Checks are limited to once every 60 seconds per domain; rate limited responses include Retry-After.
+Starts provider and DNS checks for this domain. Send no body or an empty JSON object. Checks are limited to once every 60 seconds per domain; a request over that limit fails with `RATE_LIMIT_EXCEEDED`, so wait before validating again.
 
 `POST /v1/custom-domains/{custom_domain_id}/validate`
 
@@ -238,9 +241,7 @@ Signature: `validate(string|Model $custom_domain_id, array|Model|null $params = 
 
 #### Request fields
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `custom_domain_id` | Required | string | Flint custom domain ID. |
+Field definitions: [shared fields](#request-fields-1).
 
 #### Response
 
@@ -255,7 +256,6 @@ Returned payload: [CustomDomain](../models/CustomDomain.md#customdomain).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -279,7 +279,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->customDomains->validate('cdom_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->customDomains->validate('cdom_01KEZF7C00483JTTKHZVFQHKS8', [], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/customDomains-validate.php)

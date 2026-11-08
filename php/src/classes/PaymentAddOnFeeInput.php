@@ -8,7 +8,7 @@ namespace Flint;
 final class PaymentAddOnFeeInput extends Model {
     /** @param array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'fee_type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentAddOnFeeInput')); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Amount of this fee. Added to the payment's `fee_money` on its balance transaction. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
      */

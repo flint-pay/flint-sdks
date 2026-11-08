@@ -8,19 +8,23 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.returns.createInspection(
-  "ret_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "ret_01KEZF7C00PG93650ZKVQNGF7X",
   {
-    inspected_at: "2026-01-01T00:00:00Z",
-    inspection_location_id: "loc_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+    inspected_at: "2026-09-08T14:15:00Z",
+    inspection_location_id: "loc_01K1P6G4M7H2N8Q9R3S5T6V7WX",
     line_items: [
       {
         acceptance_status: "accepted",
-        condition: "new",
+        condition: "unopened",
+        finding_codes: ["matches_expected_item"],
         quantity: 1,
-        return_receipt_line_item_id: "retrcli_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+        return_receipt_line_item_id: "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE",
       },
     ],
-    return_receipt_id: "retrc_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+    return_receipt_id: "retrc_01KEZF7C008V637A0ZWN32RQ7A",
+    source_system: {
+      source_system_type: "manual",
+    },
   },
   { idempotencyKey: idempotencyKey },
 );

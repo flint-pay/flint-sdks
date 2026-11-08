@@ -1,5 +1,5 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-5.js';
+import type { ClientOptions } from '../declarations/types-6.js';
 import type {
     PaymentMethodDomain,
     PaymentMethodDomainListResponse,
@@ -8,9 +8,9 @@ import type {
     PaymentMethodDomainsGetParams,
     PaymentMethodDomainsListParams,
     PaymentMethodDomainsUpdateParams
-} from '../declarations/types-43.js';
-import type { RequestOptions } from '../declarations/types-48.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-45.js';
+import type { RequestOptions } from '../declarations/types-51.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -34,19 +34,19 @@ export type {
     PaymentMethodDomainListResponse,
     PaymentMethodDomainsUpdateParams,
     PaymentMethodDomainPaymentOptionStatus
-} from '../declarations/types-43.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { ClientOptions } from '../declarations/types-5.js';
-export type { CreatePaymentMethodDomainRequestInput, CreatePaymentMethodDomainRequest } from '../declarations/types-9.js';
+} from '../declarations/types-45.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+export type { ClientOptions } from '../declarations/types-6.js';
+export type { CreatePaymentMethodDomainRequestInput, CreatePaymentMethodDomainRequest } from '../declarations/types-11.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-12.js';
-export type { NextAction, MoneyValue } from '../declarations/types-35.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
-export type { UpdatePaymentMethodDomainRequestInput } from '../declarations/types-59.js';
-export { makeCreatePaymentMethodDomainRequest } from '../declarations/types-65.js';
-export { makeMoneyValue } from '../declarations/types-70.js';
-export { makeUpdatePaymentMethodDomainRequest } from '../declarations/types-74.js';
+export type { Credentials } from '../declarations/types-13.js';
+export type { NextAction, MoneyValue } from '../declarations/types-37.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
+export type { UpdatePaymentMethodDomainRequestInput } from '../declarations/types-64.js';
+export { makeCreatePaymentMethodDomainRequest } from '../declarations/types-70.js';
+export { makeMoneyValue } from '../declarations/types-75.js';
+export { makeUpdatePaymentMethodDomainRequest } from '../declarations/types-80.js';
 export interface PaymentMethodDomainsResource {
     /**
  * Registers one exact domain or subdomain for Apple Pay and Google Pay in the selected Flint
@@ -71,7 +71,7 @@ export interface PaymentMethodDomainsResource {
  * @see https://developers.withflintpay.com/docs/api/payment-method-domains#getPaymentMethodDomain
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.paymentMethodDomains.get("pmdom_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.paymentMethodDomains.get("pmdom_01KEZF7C001WQCSRGH9GWR6628")
  */
     get(payment_method_domain_id: InputValue<string>, params?: PaymentMethodDomainsGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<PaymentMethodDomain, PaymentMethodDomainResponse>>;
     /**

@@ -9,19 +9,19 @@ namespace Flint;
 final class DeliveryPendingCallerRateRequestInput extends Model {
     /** @param array{'delivery_choice_group_id': string, 'delivery_method_id': string, 'delivery_method_revision_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPendingCallerRateRequestInput')); }
-    /** delivery_choice_group_id
+    /** Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
      * @return string
      * @throws SdkError When delivery_choice_group_id is omitted; use hasDeliveryChoiceGroupId() or valueOrDefault().
      */
     public function getDeliveryChoiceGroupId(): string { return $this->get('delivery_choice_group_id'); }
     public function hasDeliveryChoiceGroupId(): bool { return $this->has('delivery_choice_group_id'); }
-    /** delivery_method_id
+    /** Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
      * @return string
      * @throws SdkError When delivery_method_id is omitted; use hasDeliveryMethodId() or valueOrDefault().
      */
     public function getDeliveryMethodId(): string { return $this->get('delivery_method_id'); }
     public function hasDeliveryMethodId(): bool { return $this->has('delivery_method_id'); }
-    /** delivery_method_revision_id
+    /** Example: "dmetr_01KEZF7C001ZF9D92DY1G51GV9".
      * @return string
      * @throws SdkError When delivery_method_revision_id is omitted; use hasDeliveryMethodRevisionId() or valueOrDefault().
      */

@@ -16,7 +16,8 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->returnDispositions->cancel('retdsp_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
+$result = $client->returnDispositions->cancel('retdsp_01KEZF7C007H87J66PH2EEK1VW', [
+  'expected_version' => 1,
   'reason' => 'created_in_error',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->return_disposition_id . PHP_EOL;

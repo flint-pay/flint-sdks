@@ -2,6 +2,8 @@
 
 ## SubscriptionPreviewResponseDataDeliveryMethodUpdate
 
+Resource, collection, or operation result returned by this request.
+
 How a delivery method change affects subscriptions: current counts and how many would no longer be eligible.
 
 Response model.

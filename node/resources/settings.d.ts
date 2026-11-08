@@ -1,8 +1,8 @@
 import type { WithResponseInfo } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-5.js';
-import type { RequestOptions } from '../declarations/types-48.js';
-import type { Settings, SettingsGetEffectiveParams, SettingsGetParams, SettingsResponse, SettingsUpdateParams } from '../declarations/types-53.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+import type { ClientOptions } from '../declarations/types-6.js';
+import type { RequestOptions } from '../declarations/types-51.js';
+import type { Settings, SettingsGetEffectiveParams, SettingsGetParams, SettingsResponse, SettingsUpdateParams } from '../declarations/types-56.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -17,114 +17,115 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { SettingsGetEffectiveParams, Settings, SettingsResponse, SettingsGetParams, SettingsUpdateParams } from '../declarations/types-53.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
+export type { SettingsGetEffectiveParams, Settings, SettingsResponse, SettingsGetParams, SettingsUpdateParams } from '../declarations/types-56.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
+export type { ClientOptions, CheckoutSettings, CheckoutTaxConfig, CheckoutSettingsRequestInput } from '../declarations/types-6.js';
+export type { AuthMode, Address, AddressRequestInput, AddressRequest } from '../declarations/types-0.js';
+export type { Credentials } from '../declarations/types-13.js';
+export type { BrandingSettings, BuyerCapabilities, BrandingSettingsRequestInput, BuyerCapabilitiesRequestInput } from '../declarations/types-1.js';
 export type {
-    ClientOptions,
-    CheckoutSettings,
     CheckoutRecoveryEmailSettings,
-    CheckoutTaxConfig,
-    CheckoutSettingsRequestInput,
     CheckoutRecoveryEmailSettingsRequestInput,
     CheckoutSavedPaymentDetailsSettingsRequestInput
 } from '../declarations/types-5.js';
-export type { AuthMode, Address, AddressRequestInput, AddressRequest } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-12.js';
-export type { BrandingSettings, BuyerCapabilities, BrandingSettingsRequestInput, BuyerCapabilitiesInput } from '../declarations/types-1.js';
 export type {
     CustomerAccountSettings,
     CustomerAccountPresentation,
     CustomerAccountRouteTemplates,
-    CustomerEmailDeliverySettings,
     CustomerAccountSettingsRequestInput,
     CustomerAccountPresentationRequestInput,
-    CustomerAccountRouteTemplatesRequestInput,
-    CustomerEmailDeliverySettingsRequestInput
-} from '../declarations/types-13.js';
-export type { BuyerPauseCapability, BuyerRetentionOffer, BuyerPauseCapabilityInput, BuyerRetentionOfferInput } from '../declarations/types-2.js';
-export type { BuyerSkipCapability, BuyerSkipCapabilityInput } from '../declarations/types-3.js';
-export type { FulfillmentSettings, FulfillmentSettingsRequestInput } from '../declarations/types-22.js';
+    CustomerAccountRouteTemplatesRequestInput
+} from '../declarations/types-14.js';
+export type { BuyerPauseCapability, BuyerPauseCapabilityInput } from '../declarations/types-2.js';
+export type {
+    BuyerRetentionOffer,
+    BuyerSkipCapability,
+    BuyerRetentionOfferRequestInput,
+    BuyerSkipCapabilityInput
+} from '../declarations/types-3.js';
+export type { CustomerEmailDeliverySettings, CustomerEmailDeliverySettingsRequestInput } from '../declarations/types-15.js';
+export type { FulfillmentSettings, FulfillmentSettingsRequestInput } from '../declarations/types-24.js';
 export type {
     InventorySettings,
-    InvoiceAutopayRetryPolicy,
+    InventoryRoutingSource,
     InventorySettingsRequestInput,
-    InvoiceAutopayRetryPolicyInput
-} from '../declarations/types-28.js';
-export type { InventoryOriginPolicy, InventoryOriginPolicyRequestInput } from '../declarations/types-26.js';
-export type {
-    InvoiceSettings,
-    LegalSettings,
-    InvoiceSettingsPatchInput,
-    LegalSettingsRequestInput,
-    LegalSettingsRequest
-} from '../declarations/types-32.js';
+    InventoryRoutingSourceRequestInput,
+    InventoryRoutingSourceInputFixedLocationInput,
+    InventoryRoutingSourceInputPolicyInput,
+    InventoryRoutingSourceInputPolicyRevisionInput
+} from '../declarations/types-29.js';
+export type { InventoryOriginPolicy, InventoryOriginPolicyRequestInput } from '../declarations/types-28.js';
+export type { InvoiceSettings, InvoiceSettingsPatchInput } from '../declarations/types-33.js';
+export type { InvoiceAutopayRetryPolicy, InvoiceAutopayRetryPolicyInput } from '../declarations/types-30.js';
 export type {
     InvoicePaymentPolicy,
     InvoicePaymentOptionLimit,
-    InvoicePaymentPolicyInput,
-    InvoicePaymentOptionLimitInput
-} from '../declarations/types-30.js';
-export type {
-    MoneyValue,
-    MetadataMap,
-    NextAction,
-    MoneyValueInput,
-    MetadataPatchRequestInput,
-    MetadataPatchRequest
-} from '../declarations/types-35.js';
-export type { InvoiceReminderPolicy, InvoiceReminderRule, InvoiceReminderPolicyInput, InvoiceReminderRuleInput } from '../declarations/types-31.js';
-export type { PaymentLimitSettings, PaymentLimitSettingsPatchInput } from '../declarations/types-41.js';
-export type {
-    PromotionSettings,
-    ReceiptSettings,
-    ReadinessMerchantAccountSession,
-    PromotionSettingsRequestInput,
-    ReceiptSettingsRequestInput,
-    ReceiptSettingsRequest
-} from '../declarations/types-46.js';
-export type { SubscriptionSettings, SubscriptionSettingsRequestInput } from '../declarations/types-56.js';
-export type { TaxSettings, TaxIdentity, TaxSettingsRequestInput, TaxIdentityPatchInput } from '../declarations/types-57.js';
-export type { DocumentTaxID, DocumentTaxIDRequestInput } from '../declarations/types-21.js';
-export type { TippingSettings, TippingSettingsPatchInput } from '../declarations/types-58.js';
-export type { UpdateSettingsRequestInput } from '../declarations/types-60.js';
+    InvoiceReminderPolicy,
+    InvoiceReminderRule,
+    InvoicePaymentPolicyRequestInput,
+    InvoicePaymentOptionLimitRequestInput,
+    InvoiceReminderPolicyInput,
+    InvoiceReminderRuleInput
+} from '../declarations/types-32.js';
+export type { MoneyValue, NextAction, MoneyValueInput } from '../declarations/types-37.js';
+export type { LegalSettings, LegalSettingsRequestInput, LegalSettingsRequest } from '../declarations/types-34.js';
+export type { MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-36.js';
+export type { PaymentLimitSettings, PaymentLimitSettingsPatchInput } from '../declarations/types-44.js';
+export type { PaymentSettings, PaymentSettingsPatchInput, PaymentSettingsPatch } from '../declarations/types-45.js';
+export type { PromotionSettings, ReadinessMerchantAccountSession, PromotionSettingsRequestInput } from '../declarations/types-49.js';
+export type { SubscriptionSettings, SubscriptionSettingsRequestInput } from '../declarations/types-60.js';
+export type { TaxSettings, TippingSettings, TaxSettingsRequestInput, TippingSettingsPatchInput } from '../declarations/types-62.js';
+export type { TaxIdentity, TaxIdentityPatchInput } from '../declarations/types-61.js';
+export type { DocumentTaxID, DocumentTaxIDRequestInput } from '../declarations/types-23.js';
+export type { UpdateSettingsRequestInput } from '../declarations/types-65.js';
+export type { DisputesAcceptParams } from '../declarations/types-22.js';
+export { makeAddressRequest } from '../declarations/types-66.js';
 export {
-    makeAddressRequest,
     makeBrandingSettingsRequest,
-    makeBuyerCapabilities,
+    makeBuyerCapabilitiesRequest,
     makeBuyerPauseCapability,
-    makeBuyerRetentionOffer,
-    makeBuyerSkipCapability
-} from '../declarations/types-62.js';
-export {
+    makeBuyerRetentionOfferRequest,
+    makeBuyerSkipCapability,
     makeCheckoutRecoveryEmailSettingsRequest,
     makeCheckoutSavedPaymentDetailsSettingsRequest,
     makeCheckoutSettingsRequest
-} from '../declarations/types-63.js';
+} from '../declarations/types-67.js';
 export {
     makeCustomerAccountPresentationRequest,
     makeCustomerAccountRouteTemplatesRequest,
     makeCustomerAccountSettingsRequest,
     makeCustomerEmailDeliverySettingsRequest
-} from '../declarations/types-66.js';
-export { makeDocumentTaxIDRequest, makeFulfillmentSettingsRequest } from '../declarations/types-67.js';
-export { makeInventoryOriginPolicyRequest, makeInventorySettingsRequest } from '../declarations/types-68.js';
+} from '../declarations/types-71.js';
 export {
-    makeInvoiceAutopayRetryPolicy,
-    makeInvoicePaymentOptionLimit,
-    makeInvoicePaymentPolicy,
+    makeDocumentTaxIDRequest,
+    makeFulfillmentSettingsRequest,
+    makeInventoryOriginPolicyRequest,
+    makeInventoryRoutingSourceInputFixedLocation,
+    makeInventoryRoutingSourceInputPolicy,
+    makeInventoryRoutingSourceInputPolicyRevision,
+    makeInventoryRoutingSourceRequest,
+    makeInventorySettingsRequest,
+    makeInvoiceAutopayRetryPolicy
+} from '../declarations/types-73.js';
+export {
+    makeInvoicePaymentOptionLimitRequest,
+    makeInvoicePaymentPolicyRequest,
     makeInvoiceReminderPolicy,
     makeInvoiceReminderRule,
     makeInvoiceSettingsPatch,
     makeLegalSettingsRequest,
     makeMetadataPatchRequest
-} from '../declarations/types-69.js';
-export { makeMoneyValue } from '../declarations/types-70.js';
-export { makePaymentLimitSettingsPatch, makePromotionSettingsRequest } from '../declarations/types-71.js';
-export { makeReceiptSettingsRequest } from '../declarations/types-72.js';
-export { makeSubscriptionSettingsRequest } from '../declarations/types-73.js';
-export { makeTaxIdentityPatch, makeTaxSettingsRequest, makeTippingSettingsPatch } from '../declarations/types-74.js';
-export { makeUpdateSettingsRequest } from '../declarations/types-75.js';
+} from '../declarations/types-74.js';
+export { makeMoneyValue } from '../declarations/types-75.js';
+export { makePaymentLimitSettingsPatch, makePaymentSettingsPatch, makePromotionSettingsRequest } from '../declarations/types-76.js';
+export {
+    makeSubscriptionSettingsRequest,
+    makeTaxIdentityPatch,
+    makeTaxSettingsRequest,
+    makeTippingSettingsPatch
+} from '../declarations/types-79.js';
+export { makeUpdateSettingsRequest } from '../declarations/types-80.js';
 export interface SettingsResource {
     /**
  * Returns the authenticated merchant's settings for this environment with Flint's defaults filled
@@ -148,7 +149,17 @@ export interface SettingsResource {
  */
     get(params?: SettingsGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<Settings, SettingsResponse>>;
     /**
- * Applies a sparse patch to merchant settings. See each field for how it is patched.
+ * Applies a sparse patch to merchant settings. See each field for how it is patched. A partner app
+ * install token can't send `checkout.enabled_payment_options`,
+ * `customer_account.buyer_capabilities`, `inventory.origin_policies`,
+ * `invoices.autopay_retry_policy`, `invoices.default_collection_mode`,
+ * `invoices.default_invoice_payment_term_id`, `invoices.payment_policy`,
+ * `invoices.remit_to_address`, `payment_limits`, `payments.statement_descriptor`,
+ * `subscriptions.default_billing_schedule_owner`, `subscriptions.dunning_end_action`,
+ * `subscriptions.dunning_retry_days`, `subscriptions.external_dunning_end_action`, `tax`, or
+ * `tax_identity`, or null for `checkout`, `customer_account`, `inventory`, `invoices`, or
+ * `subscriptions`; each returns `400 INVALID_REQUEST` with a `NOT_ALLOWED` detail whose `param`
+ * names the field.
  *
  * `PATCH /v1/settings`
  * @see https://developers.withflintpay.com/docs/api/settings#updateSettings

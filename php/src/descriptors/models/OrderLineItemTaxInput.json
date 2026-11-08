@@ -1,1 +1,1 @@
-{"shared":"OrderLineItemTax","dependencies":["OrderLineItemTax"]}
+{"shared":"OrderLineItemTaxRequest","dependencies":["OrderLineItemTaxRequest"]}

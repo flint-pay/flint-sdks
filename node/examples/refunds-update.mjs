@@ -16,5 +16,5 @@ const result = await client.refunds.update(
   },
   { idempotencyKey: idempotencyKey },
 );
+console.log(result.merchant_id);
 console.log(result.refund_id);
-console.log(result.status);

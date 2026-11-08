@@ -22,13 +22,13 @@ namespace Flint;
 final class BuyerReturnEligibilityPreviewLineItemInput extends Model {
     /** @param array{'bundle_components': list<BundleComponentInput|array<array-key, mixed>|\stdClass>, 'bundle_id'?: string, 'can_buyer_request': bool, 'description'?: string, 'eligibility': BuyerReturnLineItemEligibilityInput|array<array-key, mixed>|\stdClass, 'fulfillment_id': string, 'image'?: ImageInput|array<array-key, mixed>|\stdClass, 'modifiers': list<BuyerReturnLineItemModifierInput|array<array-key, mixed>|\stdClass>, 'name': string, 'order_line_item_id': string, 'product_id'?: string, 'requested_quantity'?: int, 'selected_options': list<SelectedProductOptionInput|array<array-key, mixed>|\stdClass>, 'sku'?: string, 'suggested_return_reasons': list<ReturnReasonSummaryInput|array<array-key, mixed>|\stdClass>, 'variant_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerReturnEligibilityPreviewLineItemInput')); }
-    /**  [] (Value): {@see BundleComponentInput}. An item included in a bundle.
+    /** Components of the bundle the line was sold from. [] (Value): {@see BundleComponentInput}. An item included in a bundle.
      * @return list<BundleComponentInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When bundle_components is omitted; use hasBundleComponents() or valueOrDefault().
      */
     public function getBundleComponents(): array { return $this->get('bundle_components'); }
     public function hasBundleComponents(): bool { return $this->has('bundle_components'); }
-    /** bundle_id
+    /** ID of the bundle the line was sold from. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
      * @return string
      * @throws SdkError When bundle_id is omitted; use hasBundleId() or valueOrDefault().
      */
@@ -40,49 +40,49 @@ final class BuyerReturnEligibilityPreviewLineItemInput extends Model {
      */
     public function getCanBuyerRequest(): bool { return $this->get('can_buyer_request'); }
     public function hasCanBuyerRequest(): bool { return $this->has('can_buyer_request'); }
-    /** description
+    /** Description of the item as sold.
      * @return string
      * @throws SdkError When description is omitted; use hasDescription() or valueOrDefault().
      */
     public function getDescription(): string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** An item's Return eligibility, eligible quantity, allowed resolution types, and eligibility reasons shown to the buyer.
+    /** How the policy judged this line. An item's Return eligibility, eligible quantity, allowed resolution types, and eligibility reasons shown to the buyer.
      * @return BuyerReturnLineItemEligibilityInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When eligibility is omitted; use hasEligibility() or valueOrDefault().
      */
     public function getEligibility(): mixed { return $this->get('eligibility'); }
     public function hasEligibility(): bool { return $this->has('eligibility'); }
-    /** fulfillment_id
+    /** ID of the fulfillment the units were delivered in. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
      * @return string
      * @throws SdkError When fulfillment_id is omitted; use hasFulfillmentId() or valueOrDefault().
      */
     public function getFulfillmentId(): string { return $this->get('fulfillment_id'); }
     public function hasFulfillmentId(): bool { return $this->has('fulfillment_id'); }
-    /** An image with its `url`, `width`, and `height`, and optional `alt` text.
+    /** Image of the item as sold. An image with its URL, size, and alt text.
      * @return ImageInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When image is omitted; use hasImage() or valueOrDefault().
      */
     public function getImage(): mixed { return $this->get('image'); }
     public function hasImage(): bool { return $this->has('image'); }
-    /**  [] (Value): {@see BuyerReturnLineItemModifierInput}. A selected modifier recorded on an item in the buyer's Return, including its modifier group name and price.
+    /** Modifiers selected on the order line, with their prices. [] (Value): {@see BuyerReturnLineItemModifierInput}. A selected modifier recorded on an item in the buyer's Return, including its modifier group name and price.
      * @return list<BuyerReturnLineItemModifierInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When modifiers is omitted; use hasModifiers() or valueOrDefault().
      */
     public function getModifiers(): array { return $this->get('modifiers'); }
     public function hasModifiers(): bool { return $this->has('modifiers'); }
-    /** name
+    /** Name of the item as sold.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** order_line_item_id
+    /** ID of the order line item the units come from. Example: "li_01KEZF7C008YPRCK7VDKTGWR31".
      * @return string
      * @throws SdkError When order_line_item_id is omitted; use hasOrderLineItemId() or valueOrDefault().
      */
     public function getOrderLineItemId(): string { return $this->get('order_line_item_id'); }
     public function hasOrderLineItemId(): bool { return $this->has('order_line_item_id'); }
-    /** product_id
+    /** ID of the catalog product the item was sold from. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
      * @return string
      * @throws SdkError When product_id is omitted; use hasProductId() or valueOrDefault().
      */
@@ -94,13 +94,13 @@ final class BuyerReturnEligibilityPreviewLineItemInput extends Model {
      */
     public function getRequestedQuantity(): int { return $this->get('requested_quantity'); }
     public function hasRequestedQuantity(): bool { return $this->has('requested_quantity'); }
-    /**  [] (Value): {@see SelectedProductOptionInput}. An option and value chosen for a product variant, such as size Large.
+    /** Variant options selected for the item, such as size and color. [] (Value): {@see SelectedProductOptionInput}. An option and value chosen for a product variant, such as size Large.
      * @return list<SelectedProductOptionInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When selected_options is omitted; use hasSelectedOptions() or valueOrDefault().
      */
     public function getSelectedOptions(): array { return $this->get('selected_options'); }
     public function hasSelectedOptions(): bool { return $this->has('selected_options'); }
-    /** sku
+    /** SKU of the item as sold.
      * @return string
      * @throws SdkError When sku is omitted; use hasSku() or valueOrDefault().
      */
@@ -112,7 +112,7 @@ final class BuyerReturnEligibilityPreviewLineItemInput extends Model {
      */
     public function getSuggestedReturnReasons(): array { return $this->get('suggested_return_reasons'); }
     public function hasSuggestedReturnReasons(): bool { return $this->has('suggested_return_reasons'); }
-    /** variant_id
+    /** ID of the catalog variant the item was sold from. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
      * @return string
      * @throws SdkError When variant_id is omitted; use hasVariantId() or valueOrDefault().
      */

@@ -18,17 +18,17 @@ final class InventoryAdjustmentLine extends Model {
      */
     public function getDamagedQuantityDelta(): int { return $this->get('damaged_quantity_delta'); }
     public function hasDamagedQuantityDelta(): bool { return $this->has('damaged_quantity_delta'); }
-    /** inventory_item_id
+    /** ID of the inventory item the stock is for.
      * @return string
      */
     public function getInventoryItemId(): string { return $this->get('inventory_item_id'); }
     public function hasInventoryItemId(): bool { return $this->has('inventory_item_id'); }
-    /** Movement this line wrote, or `null` when the line changed nothing.
+    /** Movement this line wrote. `null` when the line changed nothing.
      * @return string|null
      */
     public function getInventoryMovementId(): string|null { return $this->get('inventory_movement_id'); }
     public function hasInventoryMovementId(): bool { return $this->has('inventory_movement_id'); }
-    /** location_id
+    /** ID of the Location that holds the stock.
      * @return string
      */
     public function getLocationId(): string { return $this->get('location_id'); }

@@ -10,8 +10,8 @@ A discount to apply when creating an order: either a manual discount or a refere
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `manual` | Conditional | [ManualDiscountRequest](../models/ManualDiscountRequest.md#manualdiscountrequest) | A discount you apply by hand to an order, with a name, an amount, and the order, line items, or charges it applies to. |
-| `promotion` | Conditional | [PromotionRefRequest](../models/PromotionRefRequest.md#promotionrefrequest) | Identifies the promotion to apply, by promotion code or by promotion ID. |
+| `manual` | Conditional | [ManualDiscountRequest](../models/ManualDiscountRequest.md#manualdiscountrequest) | A discount you set by hand, with a name and an amount. A discount you apply by hand to an order, with a name, an amount, and the order, line items, or charges it applies to. |
+| `promotion` | Conditional | [PromotionRefRequest](../models/PromotionRefRequest.md#promotionrefrequest) | The promotion to apply. Identifies the promotion to apply, by promotion code or by promotion ID. |
 
 ### CreateOrderDiscount variant 1
 

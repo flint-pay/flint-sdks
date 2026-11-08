@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read ?string $external_reference_id
  * @property-read ?string $merchant_id
  * @property-read ?array<array-key, string> $metadata
- * @property-read list<ModifierSetArchivedInstalledMerchantsEventDataObjectModifierGroupsItemExisting|ModifierSetArchivedInstalledMerchantsEventDataObjectModifierGroupsItemInline|\stdClass> $modifier_groups
+ * @property-read list<ModifierSetGroup> $modifier_groups
  * @property-read string $modifier_set_id
  * @property-read string $name
  * @property-read string $status
@@ -36,8 +36,8 @@ final class ModifierSetArchivedInstalledMerchantsEventDataObject extends Model {
      */
     public function getMetadata(): ?array { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Ordered group entries in this set, including references to reusable groups and groups owned by the set. [] (Value): {@see ModifierSetGroup}. A modifier group as it appears in a modifier set, with its selection limits, display options, and per-modifier overrides.
-     * @return list<ModifierSetArchivedInstalledMerchantsEventDataObjectModifierGroupsItemExisting|ModifierSetArchivedInstalledMerchantsEventDataObjectModifierGroupsItemInline|\stdClass>
+    /** Ordered group entries in this set, including the full content of reusable groups and groups owned by the set. [] (Value): {@see ModifierSetGroup}. A modifier group as it appears in a modifier set, with its selection limits, display options, and per-modifier overrides.
+     * @return list<ModifierSetGroup>
      */
     public function getModifierGroups(): array { return $this->get('modifier_groups'); }
     public function hasModifierGroups(): bool { return $this->has('modifier_groups'); }
@@ -56,12 +56,12 @@ final class ModifierSetArchivedInstalledMerchantsEventDataObject extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** When the modifier set, its group entries, or its inline groups last changed, as an RFC3339 timestamp. Format: date-time.
+    /** When the modifier set or any group it contains last changed, as an RFC3339 timestamp. Format: date-time.
      * @return ?string
      */
     public function getUpdatedAt(): ?string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** Version of the modifier set, its group entries, and its inline groups. Send it as expected_version when replacing modifier_groups. Format: uint64. minimum: 1.
+    /** Version of the modifier set, including the groups it contains. Format: uint64. minimum: 1.
      * @return int
      */
     public function getVersion(): int { return $this->get('version'); }

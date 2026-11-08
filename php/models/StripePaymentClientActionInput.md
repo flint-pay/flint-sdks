@@ -8,7 +8,7 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `account_id` | Required | string | Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. |
+| `account_id` | Required | string | Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. Example: `"acct_1234567890"`. |
 | `payment_intent` | Optional | [StripePaymentIntentClientActionInput](../models/StripePaymentIntentClientActionInput.md#stripepaymentintentclientactioninput) | PaymentIntent authority for an order payment authentication action. The client action for a Stripe payment intent: the client secret to pass to Stripe.js `handleNextAction`. |
 | `publishable_key` | Required | string | Stripe publishable key for the active Flint payment mode; use this with account_id when loading Stripe.js. |
 | `setup_intent` | Optional | [StripeSetupIntentClientActionInput](../models/StripeSetupIntentClientActionInput.md#stripesetupintentclientactioninput) | SetupIntent authority for a saved-payment-method authentication action. The client action for a Stripe setup intent: the client secret to pass to Stripe.js `handleNextAction`. |

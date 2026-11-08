@@ -9,7 +9,7 @@ namespace Flint;
 final class ReportsGetInput extends Model {
     /** @param array{'report_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReportsGetInput')); }
-    /** Flint report ID. Example: "rep_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Flint report ID. Example: "rep_01KEZF7C00M947R0GYFMT8VXKJ".
      * @return string
      * @throws SdkError When report_id is omitted; use hasReportId() or valueOrDefault().
      */

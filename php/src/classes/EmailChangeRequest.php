@@ -13,7 +13,7 @@ namespace Flint;
 final class EmailChangeRequest extends Model {
     /** @param array{'confirmed': bool, 'created_at': string, 'current_email_confirmation_required': bool, 'customer_id': string, 'email_change_request_id': string, 'expires_at': string, 'new_email': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('EmailChangeRequest')); }
-    /** confirmed
+    /** Whether both addresses have been confirmed, which completes the change.
      * @return bool
      */
     public function getConfirmed(): bool { return $this->get('confirmed'); }
@@ -23,17 +23,17 @@ final class EmailChangeRequest extends Model {
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** current_email_confirmation_required
+    /** Whether the code sent to the current address must also be confirmed. `false` for a customer with no email on file.
      * @return bool
      */
     public function getCurrentEmailConfirmationRequired(): bool { return $this->get('current_email_confirmation_required'); }
     public function hasCurrentEmailConfirmationRequired(): bool { return $this->has('current_email_confirmation_required'); }
-    /** customer_id
+    /** ID of the customer whose email is changing.
      * @return string
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** email_change_request_id
+    /** Unique identifier for this email change request, prefixed `cecr_`.
      * @return string
      */
     public function getEmailChangeRequestId(): string { return $this->get('email_change_request_id'); }
@@ -43,7 +43,7 @@ final class EmailChangeRequest extends Model {
      */
     public function getExpiresAt(): string { return $this->get('expires_at'); }
     public function hasExpiresAt(): bool { return $this->has('expires_at'); }
-    /** new_email
+    /** The address the email is changing to.
      * @return string
      */
     public function getNewEmail(): string { return $this->get('new_email'); }

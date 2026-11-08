@@ -16,7 +16,7 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->fulfillments->createShipment('ful_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
+$result = $client->fulfillments->createShipment('ful_01KEZF7C00F24WVSTTWR1FQX5T', [
   'direction' => 'outbound',
   'external_reference_id' => 'ship_789',
   'external_system' => 'merchant_wms',

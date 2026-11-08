@@ -4,28 +4,22 @@ namespace Flint;
 /**
  * @property-read list<Balance> $data
  * @property-read ?MoneyMovementListMeta $meta
- * @property-read ?string $next_page_token
  * @property-read string $request_id
  * Presence-aware response; omitted optional fields return null. */
 final class BalanceListResponse extends Model {
-    /** @param array{'data': list<mixed>, 'meta'?: mixed, 'next_page_token'?: string, 'request_id': string, ...}|object $values */
+    /** @param array{'data': list<mixed>, 'meta'?: mixed, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BalanceListResponse')); }
-    /**  [] (Value): {@see Balance}. Current balances for one currency at observed_at. Available and pending amounts are separate buckets and can be negative. Reserve and held amounts are excluded from available_money.
+    /** Resource, collection, or operation result returned by this request. [] (Value): {@see Balance}. Current balances for one currency at observed_at. Available and pending amounts are separate buckets and can be negative. Reserve and held amounts are excluded from available_money.
      * @return list<Balance>
      */
     public function getData(): array { return $this->get('data'); }
     public function hasData(): bool { return $this->has('data'); }
-    /** Response metadata for money movement lists, including request and trace IDs, warnings, and the state of the available history.
+    /** Additional information about this response. Response metadata for money movement lists, including request and trace IDs, warnings, and the state of the available history.
      * @return ?MoneyMovementListMeta
      */
     public function getMeta(): ?MoneyMovementListMeta { return $this->get('meta'); }
     public function hasMeta(): bool { return $this->has('meta'); }
-    /** Omitted because all currency balances fit on one page.
-     * @return ?string
-     */
-    public function getNextPageToken(): ?string { return $this->get('next_page_token'); }
-    public function hasNextPageToken(): bool { return $this->has('next_page_token'); }
-    /** maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$.
+    /** Identifier of this API request, used to correlate logs and support requests. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$.
      * @return string
      */
     public function getRequestId(): string { return $this->get('request_id'); }

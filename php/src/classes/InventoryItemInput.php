@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read BackorderPolicyInput|array<array-key, mixed>|\stdClass $backorder
  * @property-read string $barcode
  * @property-read string|\DateTimeInterface $created_at
  * @property-read string $external_reference_id
@@ -14,27 +15,33 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class InventoryItemInput extends Model {
-    /** @param array{'barcode'?: string, 'created_at': string|\DateTimeInterface, 'external_reference_id'?: string, 'inventory_item_id': string, 'metadata': MetadataMapInput|array<array-key, mixed>|\stdClass, 'name': string, 'sku'?: string, 'status': string, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
+    /** @param array{'backorder': BackorderPolicyInput|array<array-key, mixed>|\stdClass, 'barcode'?: string, 'created_at': string|\DateTimeInterface, 'external_reference_id'?: string, 'inventory_item_id': string, 'metadata': MetadataMapInput|array<array-key, mixed>|\stdClass, 'name': string, 'sku'?: string, 'status': string, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryItemInput')); }
+    /** Backorder settings shared by every variant using this inventory item. Backorder settings shared by every variant using an inventory item.
+     * @return BackorderPolicyInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When backorder is omitted; use hasBackorder() or valueOrDefault().
+     */
+    public function getBackorder(): mixed { return $this->get('backorder'); }
+    public function hasBackorder(): bool { return $this->has('backorder'); }
     /** Optional searchable barcode.
      * @return string
      * @throws SdkError When barcode is omitted; use hasBarcode() or valueOrDefault().
      */
     public function getBarcode(): string { return $this->get('barcode'); }
     public function hasBarcode(): bool { return $this->has('barcode'); }
-    /** Time the inventory item was created. Format: date-time.
+    /** Time the inventory item was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Caller-owned identifier for this resource in an external system. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Stable inventory item ID.
+    /** Stable inventory item ID. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
      * @return string
      * @throws SdkError When inventory_item_id is omitted; use hasInventoryItemId() or valueOrDefault().
      */
@@ -64,7 +71,7 @@ final class InventoryItemInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Time the inventory item last changed. Format: date-time.
+    /** Time the inventory item last changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */

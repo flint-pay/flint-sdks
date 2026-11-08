@@ -10,7 +10,8 @@ Paid-order sales totals for a payment link, computed on request. Paid means the 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `computed_at` | Required | string | UTC time at which the summary was computed, at second precision. Format: `date-time`. |
+| `checked_in_ticket_count` | Required | integer | Tickets for this payment link that are checked in now, counted when the summary is read. Undoing a check-in or voiding a ticket lowers it. 0 for links that have issued no tickets. Format: `int32`. minimum: `0`. |
+| `computed_at` | Required | string | UTC time at which the summary was computed, at second precision. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `paid_order_count` | Required | integer | Number of orders whose collection has completed, across all currencies, including fully and partially refunded orders. Format: `int64`. |
 | `paid_totals` | Required | Array of [MoneyValue](../models/MoneyValue.md#moneyvalue) | Gross paid totals in integer minor units, one Money object per currency with paid orders, sorted by currency. Refunds are not subtracted. Empty array when there are no paid orders. `paid_totals[]`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options). |
 | `refunded_totals` | Required | Array of [MoneyValue](../models/MoneyValue.md#moneyvalue) | Refunded totals in integer minor units on the same paid orders as paid_totals. One Money object per currency with paid orders, sorted by currency, including zero when nothing was refunded. Empty array when there are no paid orders. `refunded_totals[]`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options). |

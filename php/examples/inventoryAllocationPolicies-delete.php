@@ -16,7 +16,7 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->inventoryAllocationPolicies->delete('invp_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->inventoryAllocationPolicies->delete('invp_01KEZF7C0076BZX855WAGC5SQK', [], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->current_inventory_allocation_policy_revision_id . PHP_EOL;
 echo $result->inventory_allocation_policy_id . PHP_EOL;
 $client->close();

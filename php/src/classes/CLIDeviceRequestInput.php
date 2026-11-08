@@ -14,7 +14,7 @@ namespace Flint;
 final class CLIDeviceRequestInput extends Model {
     /** @param array{'client_id': string, 'device_name'?: string, 'merchant_id'?: string, 'mode'?: string, 'platform'?: string, 'sandbox_id'?: string, 'scope': string, 'session_mode'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CLIDeviceRequestInput')); }
-    /** Value enum: "flint-cli".
+    /** Example: "flint-cli". Value enum: "flint-cli".
      * @return string
      * @throws SdkError When client_id is omitted; use hasClientId() or valueOrDefault().
      */
@@ -26,13 +26,13 @@ final class CLIDeviceRequestInput extends Model {
      */
     public function getDeviceName(): string { return $this->get('device_name'); }
     public function hasDeviceName(): bool { return $this->has('device_name'); }
-    /** merchant_id
+    /** ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
      * @return string
      * @throws SdkError When merchant_id is omitted; use hasMerchantId() or valueOrDefault().
      */
     public function getMerchantId(): string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** Value enum: "test", "live".
+    /** Environment used for this resource or request. Value enum: "test", "live".
      * @return string
      * @throws SdkError When mode is omitted; use hasMode() or valueOrDefault().
      */
@@ -44,7 +44,7 @@ final class CLIDeviceRequestInput extends Model {
      */
     public function getPlatform(): string { return $this->get('platform'); }
     public function hasPlatform(): bool { return $this->has('platform'); }
-    /** sandbox_id
+    /** ID of the sandbox this resource belongs to. Example: "test_01KEZF7C00JC77HTMTB2XHNPE0".
      * @return string
      * @throws SdkError When sandbox_id is omitted; use hasSandboxId() or valueOrDefault().
      */
@@ -56,7 +56,7 @@ final class CLIDeviceRequestInput extends Model {
      */
     public function getScope(): string { return $this->get('scope'); }
     public function hasScope(): bool { return $this->has('scope'); }
-    /** Value enum: "contexts".
+    /** Creates a session with selectable merchant and environment contexts. Defaults to contexts when omitted. Default: "contexts". Value enum: "contexts".
      * @return string
      * @throws SdkError When session_mode is omitted; use hasSessionMode() or valueOrDefault().
      */

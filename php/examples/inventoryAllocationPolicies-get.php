@@ -13,7 +13,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   allowInsecureHttp: $baseUrl !== null && in_array(parse_url($baseUrl, PHP_URL_HOST), ['localhost', '127.0.0.1'], true) && parse_url($baseUrl, PHP_URL_SCHEME) === 'http',
 ));
-$result = $client->inventoryAllocationPolicies->get('invp_01ARZ3NDEKTSV4RRFFQ69G5FAV');
+$result = $client->inventoryAllocationPolicies->get('invp_01KEZF7C0076BZX855WAGC5SQK');
 echo $result->current_inventory_allocation_policy_revision_id . PHP_EOL;
 echo $result->inventory_allocation_policy_id . PHP_EOL;
 $client->close();

@@ -28,11 +28,12 @@ namespace Flint;
  * @property-read ?string $reversed_by_payout_id
  * @property-read ?string $statement_descriptor
  * @property-read string $status
+ * @property-read list<string> $supported_actions
  * @property-read ?PayoutTraceID $trace_id
  * @property-read string $updated_at
  * Presence-aware response; omitted optional fields return null. */
 final class Payout extends Model {
-    /** @param array{'amount_money': mixed, 'arrival_date'?: string, 'balance_source_type': string, 'created_at': string, 'currency': string, 'description'?: string, 'external_reference_id'?: string, 'failure_code'?: string, 'failure_message'?: string, 'fee_amount_status': string, 'fee_money': mixed, 'initiated_by': string, 'merchant_id': string, 'metadata'?: mixed, 'method': string, 'net_money': mixed, 'original_payout'?: mixed, 'original_payout_id'?: string, 'payout_destination'?: mixed, 'payout_destination_id'?: string, 'payout_id': string, 'reversal_status': string, 'reversed_by_payout'?: mixed, 'reversed_by_payout_id'?: string, 'statement_descriptor'?: string, 'status': string, 'trace_id'?: mixed, 'updated_at': string, ...}|object $values */
+    /** @param array{'amount_money': mixed, 'arrival_date'?: string, 'balance_source_type': string, 'created_at': string, 'currency': string, 'description'?: string, 'external_reference_id'?: string, 'failure_code'?: string, 'failure_message'?: string, 'fee_amount_status': string, 'fee_money': mixed, 'initiated_by': string, 'merchant_id': string, 'metadata'?: mixed, 'method': string, 'net_money': mixed, 'original_payout'?: mixed, 'original_payout_id'?: string, 'payout_destination'?: mixed, 'payout_destination_id'?: string, 'payout_id': string, 'reversal_status': string, 'reversed_by_payout'?: mixed, 'reversed_by_payout_id'?: string, 'statement_descriptor'?: string, 'status': string, 'supported_actions': list<string>, 'trace_id'?: mixed, 'updated_at': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('Payout')); }
     /** Amount sent to your bank. Always positive. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
@@ -84,7 +85,7 @@ final class Payout extends Model {
      */
     public function getFeeAmountStatus(): string { return $this->get('fee_amount_status'); }
     public function hasFeeAmountStatus(): bool { return $this->has('fee_amount_status'); }
-    /** Fee for this payout, never negative. Payouts carry no fee, so this is 0 once your processor records the payout, and null until then. anyOf[1] (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
+    /** Fee for this payout, never negative. Payouts carry no fee, so this is 0 once your processor records the payout. `null` when your processor hasn't recorded the payout yet. anyOf[1] (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
      * @return MoneyValue|null
      */
     public function getFeeMoney(): MoneyValue|null { return $this->get('fee_money'); }
@@ -104,12 +105,12 @@ final class Payout extends Model {
      */
     public function getMetadata(): ?array { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Payout method. instant can appear on imported payouts; unmapped methods are returned as other. Value enum: "standard", "instant", "other".
+    /** Payouts Flint sends, by API, Dashboard or schedule, are always `standard`. `instant` appears only on a payout Flint recorded from the processor that was sent outside Flint. `other` is a method Flint doesn't map. Value enum: "standard", "instant", "other".
      * @return string
      */
     public function getMethod(): string { return $this->get('method'); }
     public function hasMethod(): bool { return $this->has('method'); }
-    /** Signed effect of this payout on your Flint balance. It is negative because the payout takes money out: a 25000 payout with no fee has net_money -25000. Null until your processor records the payout. anyOf[1] (Value): {@see SignedMoney}. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
+    /** Signed effect of this payout on your Flint balance. It is negative because the payout takes money out: a 25000 payout with no fee has net_money -25000. `null` when your processor hasn't recorded the payout yet. anyOf[1] (Value): {@see SignedMoney}. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
      * @return SignedMoney|null
      */
     public function getNetMoney(): SignedMoney|null { return $this->get('net_money'); }
@@ -139,7 +140,7 @@ final class Payout extends Model {
      */
     public function getPayoutId(): string { return $this->get('payout_id'); }
     public function hasPayoutId(): bool { return $this->has('payout_id'); }
-    /** Whether Flint has pulled a paid payout back from your bank: none until the reversal completes, then reversed. A payout_reversal balance transaction returns the money, and status stays paid. Value enum: "none", "reversed".
+    /** Whether Flint has pulled a paid payout back from your bank: none until the reversal completes, then reversed. A payout_reversal balance transaction returns the money, and status stays succeeded. Value enum: "none", "reversed".
      * @return string
      */
     public function getReversalStatus(): string { return $this->get('reversal_status'); }
@@ -159,11 +160,16 @@ final class Payout extends Model {
      */
     public function getStatementDescriptor(): ?string { return $this->get('statement_descriptor'); }
     public function hasStatementDescriptor(): bool { return $this->has('statement_descriptor'); }
-    /** Where the payout is: pending until it is sent, in_transit on its way to your bank, then paid or failed. A paid payout can still become failed if the bank returns the deposit, and canceled means a manual payout was canceled while pending. Value enum: "pending", "in_transit", "paid", "failed", "canceled".
+    /** Where the payout is: pending until it is sent, in_transit on its way to your bank, then succeeded or failed. A succeeded payout can still become failed if the bank returns the deposit, and canceled means a manual payout was canceled while pending. Value enum: "pending", "in_transit", "succeeded", "failed", "canceled".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
+    /** Lifecycle actions Flint accepts now. cancel is offered while a payout is pending unless it was scheduled automatically. [] enum: "cancel". [] (Value): string.  Value enum: "cancel".
+     * @return list<string>
+     */
+    public function getSupportedActions(): array { return $this->get('supported_actions'); }
+    public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
     /** The bank's trace number for the deposit, which your bank can use to locate a late deposit. Its status says whether the number is pending, available, or unsupported, and value holds the number when Flint has it. Absent when Flint has no trace information. A payout's bank trace ID, with whether it is pending, available, or unsupported.
      * @return ?PayoutTraceID
      */

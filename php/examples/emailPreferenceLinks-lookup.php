@@ -14,7 +14,7 @@ $client = new Client(new ClientOptions(
   allowInsecureHttp: $baseUrl !== null && in_array(parse_url($baseUrl, PHP_URL_HOST), ['localhost', '127.0.0.1'], true) && parse_url($baseUrl, PHP_URL_SCHEME) === 'http',
 ));
 $result = $client->emailPreferenceLinks->lookup([
-  'token' => 'example',
+  'token' => 'b3BlbmFwaS1maXh0dXJl.eyJ2IjoxLCJwIjoic2FuZGJveCIsImQiOiJlZGVsXzAxS0VaRjdDMDA4OU1SRThFRjc4SFIxRzI2In0.6c_I5nt_K3eTi7XxJJ95dXgQZjGlaY_lVlp64YJPxuo',
 ]);
 echo json_encode($result, JSON_THROW_ON_ERROR) . PHP_EOL;
 $client->close();

@@ -9,8 +9,8 @@ Request input.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `day` | Conditional | integer | Day of the month. Later days clamp to the last day of the month. Format: `int32`. minimum: `1`. maximum: `31`. |
-| `days` | Conditional | integer | Format: `int32`. minimum: `0`. maximum: `365`. |
-| `type` | Required | string | Values: `"on_receipt"`, `"net_days"`, `"day_of_month"`, `"day_of_next_month"`, `"days_after_month_end"`. |
+| `days` | Conditional | integer | Calendar days after issue for net_days, or after the issue month's last day for days_after_month_end. Required only for those types. Format: `int32`. minimum: `0`. maximum: `365`. |
+| `type` | Required | string | How issue calculates the invoice's due date in the invoice timezone. Values: `"on_receipt"`, `"net_days"`, `"day_of_month"`, `"day_of_next_month"`, `"days_after_month_end"`. |
 
 ### InvoicePaymentTermCalculationInput variant 1: `type` = `"on_receipt"`
 

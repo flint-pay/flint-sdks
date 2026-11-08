@@ -10,7 +10,7 @@ Response model.
 | --- | --- | --- | --- |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `created_by` | Required | [ResourceReference](../models/ResourceReference.md#resourcereference) or null | The credential that created this list item. Null when Flint created it. The reference may name an API key in the other mode. |
-| `risk_list_id` | Required | string |  |
-| `risk_list_item_id` | Required | string |  |
+| `risk_list_id` | Required | string | ID of the risk list this value is on. |
+| `risk_list_item_id` | Required | string | Unique identifier for this risk list item, prefixed `rli_`. |
 | `value` | Required | string | The value as stored after item_type normalization, which is what payments are matched against. |
 

@@ -16,7 +16,8 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->returnResolutions->release('retres_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
+$result = $client->returnResolutions->release('retres_01KEZF7C00C7RZJN31W9SGMEQ3', [
+  'expected_version' => 2,
   'reason' => 'merchant_approved',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->return_id . PHP_EOL;

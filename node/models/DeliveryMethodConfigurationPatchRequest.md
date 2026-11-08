@@ -11,15 +11,15 @@ Only the keys you send change; keys you leave out keep their current values. Eac
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `buyer_instructions` | Optional | object or null | Controls whether checkout collects buyer instructions for this method. Null disables instruction collection. `buyer_instructions`: [field definitions](../models/DeliveryMethodConfigurationPatchRequest.md#deliverymethodconfigurationpatchrequestbuyer_instructions). |
-| `charge_tax_category` | Optional | string or null | Tax category of the delivery charge, which decides its automatic tax and appears in tax records and reporting. Automatic tax calculates the shipping and delivery categories at the general rate and refuses the others with AUTOMATIC_TAX_CHARGE_UNSUPPORTED. Null uses settings.tax.default_delivery_tax_category, or, when that is unset, shipping for shipment, delivery for local_delivery, or service_fee for pickup. Values: `"service_fee"`, `"shipping"`, `"delivery"`, `"handling"`, `"surcharge"`, `null`. |
-| `eligibility` | Optional | [DeliveryEligibilityExpression](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpression) or null | Conditions that decide where this method is offered. Null removes the conditions, so the method is offered everywhere the merchant serves. `eligibility`: [declared alternatives](../models/DeliveryMethodConfigurationPatchRequest.md#deliverymethodconfigurationpatchrequesteligibility). |
+| `charge_tax_category` | Optional | string or null | Tax category of the delivery charge, which decides its automatic tax and appears in tax records and reporting. Automatic tax calculates service_fee, shipping, delivery, handling, and surcharge at the general rate at the charge location, including the store for pickup. Null uses settings.tax.default_delivery_tax_category, or, when that is unset, shipping for shipment, delivery for local_delivery, or service_fee for pickup. Values: `"service_fee"`, `"shipping"`, `"delivery"`, `"handling"`, `"surcharge"`, `null`. |
+| `eligibility` | Optional | [DeliveryEligibilityExpressionRequest](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequest) or null | Conditions that decide where this method is offered. Null removes the conditions, so the method is offered everywhere the merchant serves. `eligibility`: [declared alternatives](../models/DeliveryMethodConfigurationPatchRequest.md#deliverymethodconfigurationpatchrequesteligibility). |
 | `estimate` | Optional | object or null | The buyer-visible delivery or pickup estimate. Use type none when the merchant makes no timing promise. Null restores type none, when the pricing type allows it. `estimate`: [field definitions](../models/DeliveryMethodConfigurationPatchRequest.md#deliverymethodconfigurationpatchrequestestimate). |
 | `minimum_option_lifetime_seconds` | Optional | integer or null | Minimum remaining quote lifetime required before Flint offers this method. Required for calculated, callback, and caller_supplied pricing; defaults to 0 for other pricing. Must be less than Flint's 15-minute quote lifetime. Null restores 0 for fixed, tiered, or rate_table pricing. It is invalid for calculated, callback, or caller_supplied pricing. Format: `int64`. minimum: `0`. maximum: `899`. |
 | `origin` | Optional | [DeliveryMethodOriginSelectorRequest](../models/DeliveryMethodOriginSelectorRequest.md#deliverymethodoriginselectorrequest) | Where delivery starts. A method can use a fixed location or a delivery location set; origin.type determines allocation or buyer pickup behavior. Null is invalid. The origin you supply for a delivery method, chosen by `type`: a fixed location, or locations from a delivery location set or an inline list. |
 | `pricing` | Optional | [DeliveryPricingStrategyRequest](../models/DeliveryPricingStrategyRequest.md#deliverypricingstrategyrequest) | How Flint calculates the delivery charge. Null is invalid. The pricing strategy you supply when updating a delivery method. Set `type` and the matching property. |
 | `public_details` | Optional | object or null | Buyer-visible structured details supplied by the merchant. Null removes the public details; pickup methods still require pickup_mode. minProperties: `1`. `public_details`: [field definitions](../models/DeliveryMethodConfigurationPatchRequest.md#deliverymethodconfigurationpatchrequestpublic_details). |
-| `quote_input_fields` | Optional | Array of string | Address and coordinate fields a callback method requires and is allowed to receive. Use [] to clear it. Null is invalid. maxItems: `12`. uniqueItems: `true`. Items values: [15 declared values](CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configuration-quote_input_fields--values). |
-| `recipient_requirements` | Optional | Array of [DeliveryRecipientRequirement](../models/DeliveryRecipientRequirement.md#deliveryrecipientrequirement) | Recipient fields this method asks for. A delivery selection can leave out required fields, but payment needs them. Use [] to clear it. Null is invalid. |
+| `quote_input_fields` | Optional | Array of string | Address and coordinate fields a callback method requires and is allowed to receive. Use [] to clear it. Null is invalid. maxItems: `12`. uniqueItems: `true`. Items: Request properties the callback needs. - `destination_address`: The full destination address. - `destination_address.line1`: The destination street address. - `destination_address.line2`: The destination apartment, suite, or other secondary address. - `destination_address.city`: The destination city. - `destination_address.state`: The destination state or region. - `destination_address.postal_code`: The destination postal code. - `destination_address.country`: The destination ISO 3166-1 alpha-2 country code. - `buyer_location`: The buyer location, supplied as an address or coordinates. - `buyer_location.address.line1`: The street address in the buyer location's address variant. - `buyer_location.address.line2`: The apartment, suite, or other secondary address in the buyer location's address variant. - `buyer_location.address.city`: The city in the buyer location's address variant. - `buyer_location.address.state`: The state or region in the buyer location's address variant. - `buyer_location.address.postal_code`: The postal code in the buyer location's address variant. - `buyer_location.address.country`: The ISO 3166-1 alpha-2 country code in the buyer location's address variant. - `buyer_location.coordinate`: The latitude and longitude in the buyer location's coordinate variant. Items values: [15 declared values](CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configuration-quote_input_fields--values). |
+| `recipient_requirements` | Optional | Array of [DeliveryRecipientRequirement](../models/DeliveryRecipientRequirement.md#deliveryrecipientrequirement) | Recipient fields this method asks for. A delivery selection can leave out required fields, but payment needs them. Use [] to clear it. Null is invalid. `recipient_requirements[]`: [field definitions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configurationrecipient_requirements). |
 | `selection_guarantee_seconds` | Optional | integer or null | How long after evaluation Flint guarantees a selected price, when that is later than the option expiry. Defaults to 0, which uses the option expiry. Fixed, tiered, and rate_table prices for a cart without tracked inventory hold until the checkout's calculation expiry. Null restores 0, which uses the option expiry. Format: `int64`. minimum: `0`. |
 | `taxable` | Optional | boolean or null | Whether the delivery charge is taxable. Null follows tax.default_delivery_taxable in the merchant's settings. |
 
@@ -33,117 +33,102 @@ Field definitions: [shared fields](BuyerInstructionsConfig.md#buyerinstructionsc
 
 Conditions that decide where this method is offered. Null removes the conditions, so the method is offered everywhere the merchant serves.
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `all` | Conditional | Array of [DeliveryEligibilityExpression](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpression) | minItems: `1`. maxItems: `100`. |
-| `any` | Conditional | Array of [DeliveryEligibilityExpression](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpression) | minItems: `1`. maxItems: `100`. |
-| `country` | Conditional | [DeliveryStateCondition](../models/DeliveryStateCondition.md#deliverystatecondition) | A delivery eligibility condition that matches when the address country is one of `values`. `country`: [field definitions](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationcountry). |
-| `customer_has_email` | Conditional | [DeliveryCustomerBooleanCondition](../models/DeliveryCustomerBooleanCondition.md#deliverycustomerbooleancondition) | A delivery eligibility condition that tests a true or false fact about the customer against `value`. |
-| `customer_has_phone` | Conditional | [DeliveryCustomerBooleanCondition](../models/DeliveryCustomerBooleanCondition.md#deliverycustomerbooleancondition) | A delivery eligibility condition that tests a true or false fact about the customer against `value`. |
-| `customer_merchant_verified` | Conditional | [DeliveryCustomerBooleanCondition](../models/DeliveryCustomerBooleanCondition.md#deliverycustomerbooleancondition) | Matches the is_merchant_verified flag you set on the customer against value. A delivery eligibility condition that tests a true or false fact about the customer against `value`. |
-| `customer_segment` | Conditional | [AddRiskListItemsRequest](../models/AddRiskListItemsRequest.md#addrisklistitemsrequest) | Matches the free-form segment you assign to the customer against values. A delivery eligibility condition that matches customers in one of the listed segments (`values`). `customer_segment`: [field definitions](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcustomer_segment). |
-| `not` | Conditional | [DeliveryEligibilityExpression](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpression) | A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes. |
-| `postal_code` | Conditional | [DeliveryPostalCodeCondition](../models/DeliveryPostalCodeCondition.md#deliverypostalcodecondition) | A delivery eligibility condition that matches the address postal code against exact or prefix `values`. |
-| `radius` | Conditional | [DeliveryRadiusCondition](../models/DeliveryRadiusCondition.md#deliveryradiuscondition) | Eligibility condition that matches when the destination or buyer location is within `maximum_distance` of an origin, measured in a straight line. |
-| `state` | Conditional | [DeliveryStateCondition](../models/DeliveryStateCondition.md#deliverystatecondition) | Eligibility condition that matches when the destination or buyer location is in one of the listed states or provinces, given as ISO 3166-2 codes. `state`: [field definitions](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationstate). |
-| `subscription_purchase` | Conditional | [DeliveryCustomerBooleanCondition](../models/DeliveryCustomerBooleanCondition.md#deliverycustomerbooleancondition) | A delivery eligibility condition that tests a true or false fact about the customer against `value`. |
-| `window_time` | Conditional | [DeliveryWindowTimeCondition](../models/DeliveryWindowTimeCondition.md#deliverywindowtimecondition) | Eligibility condition that matches by time of day, using `start_minute` and `end_minute`, on the listed `weekdays`. |
-| `zone` | Conditional | [DeliveryZoneCondition](../models/DeliveryZoneCondition.md#deliveryzonecondition) | Eligibility condition that matches when the destination or buyer location falls inside the delivery zone `delivery_zone_id`. |
+Field definitions: [shared fields](DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestall).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 1
 
-anyOf DeliveryEligibilityExpression: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 1.
+anyOf DeliveryEligibilityExpressionRequest: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 1.
 
 - Required: `all`.
 - Optional: `any`, `country`, `customer_has_email`, `customer_has_phone`, `customer_merchant_verified`, `customer_segment`, `not`, `postal_code`, `radius`, `state`, `subscription_purchase`, `window_time`, `zone`.
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 2
 
-anyOf DeliveryEligibilityExpression: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 2.
+anyOf DeliveryEligibilityExpressionRequest: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 2.
 
 - Required: `any`.
 - Optional: `all`, `country`, `customer_has_email`, `customer_has_phone`, `customer_merchant_verified`, `customer_segment`, `not`, `postal_code`, `radius`, `state`, `subscription_purchase`, `window_time`, `zone`.
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 3
 
-anyOf DeliveryEligibilityExpression: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 3.
+anyOf DeliveryEligibilityExpressionRequest: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 3.
 
 - Required: `not`.
 - Optional: `all`, `any`, `country`, `customer_has_email`, `customer_has_phone`, `customer_merchant_verified`, `customer_segment`, `postal_code`, `radius`, `state`, `subscription_purchase`, `window_time`, `zone`.
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 4
 
-anyOf DeliveryEligibilityExpression: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 4.
+anyOf DeliveryEligibilityExpressionRequest: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 4.
 
 - Required: `zone`.
 - Optional: `all`, `any`, `country`, `customer_has_email`, `customer_has_phone`, `customer_merchant_verified`, `customer_segment`, `not`, `postal_code`, `radius`, `state`, `subscription_purchase`, `window_time`.
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 5
 
-anyOf DeliveryEligibilityExpression: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 5.
+anyOf DeliveryEligibilityExpressionRequest: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 5.
 
 - Required: `country`.
 - Optional: `all`, `any`, `customer_has_email`, `customer_has_phone`, `customer_merchant_verified`, `customer_segment`, `not`, `postal_code`, `radius`, `state`, `subscription_purchase`, `window_time`, `zone`.
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 6
 
-anyOf DeliveryEligibilityExpression: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 6.
+anyOf DeliveryEligibilityExpressionRequest: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 6.
 
 - Required: `state`.
 - Optional: `all`, `any`, `country`, `customer_has_email`, `customer_has_phone`, `customer_merchant_verified`, `customer_segment`, `not`, `postal_code`, `radius`, `subscription_purchase`, `window_time`, `zone`.
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 7
 
-anyOf DeliveryEligibilityExpression: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 7.
+anyOf DeliveryEligibilityExpressionRequest: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 7.
 
 - Required: `postal_code`.
 - Optional: `all`, `any`, `country`, `customer_has_email`, `customer_has_phone`, `customer_merchant_verified`, `customer_segment`, `not`, `radius`, `state`, `subscription_purchase`, `window_time`, `zone`.
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 8
 
-anyOf DeliveryEligibilityExpression: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 8.
+anyOf DeliveryEligibilityExpressionRequest: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 8.
 
 - Required: `radius`.
 - Optional: `all`, `any`, `country`, `customer_has_email`, `customer_has_phone`, `customer_merchant_verified`, `customer_segment`, `not`, `postal_code`, `state`, `subscription_purchase`, `window_time`, `zone`.
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 9
 
-anyOf DeliveryEligibilityExpression: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 9.
+anyOf DeliveryEligibilityExpressionRequest: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 9.
 
 - Required: `window_time`.
 - Optional: `all`, `any`, `country`, `customer_has_email`, `customer_has_phone`, `customer_merchant_verified`, `customer_segment`, `not`, `postal_code`, `radius`, `state`, `subscription_purchase`, `zone`.
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 10
 
-anyOf DeliveryEligibilityExpression: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 10.
+anyOf DeliveryEligibilityExpressionRequest: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 10.
 
 - Required: `customer_segment`.
 - Optional: `all`, `any`, `country`, `customer_has_email`, `customer_has_phone`, `customer_merchant_verified`, `not`, `postal_code`, `radius`, `state`, `subscription_purchase`, `window_time`, `zone`.
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 11
 
-anyOf DeliveryEligibilityExpression: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 11.
+anyOf DeliveryEligibilityExpressionRequest: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 11.
 
 - Required: `customer_merchant_verified`.
 - Optional: `all`, `any`, `country`, `customer_has_email`, `customer_has_phone`, `customer_segment`, `not`, `postal_code`, `radius`, `state`, `subscription_purchase`, `window_time`, `zone`.
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 12
 
-anyOf DeliveryEligibilityExpression: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 12.
+anyOf DeliveryEligibilityExpressionRequest: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 12.
 
 - Required: `customer_has_email`.
 - Optional: `all`, `any`, `country`, `customer_has_phone`, `customer_merchant_verified`, `customer_segment`, `not`, `postal_code`, `radius`, `state`, `subscription_purchase`, `window_time`, `zone`.
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 13
 
-anyOf DeliveryEligibilityExpression: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 13.
+anyOf DeliveryEligibilityExpressionRequest: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 13.
 
 - Required: `customer_has_phone`.
 - Optional: `all`, `any`, `country`, `customer_has_email`, `customer_merchant_verified`, `customer_segment`, `not`, `postal_code`, `radius`, `state`, `subscription_purchase`, `window_time`, `zone`.
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 14
 
-anyOf DeliveryEligibilityExpression: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 14.
+anyOf DeliveryEligibilityExpressionRequest: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 14.
 
 - Required: `subscription_purchase`.
 - Optional: `all`, `any`, `country`, `customer_has_email`, `customer_has_phone`, `customer_merchant_verified`, `customer_segment`, `not`, `postal_code`, `radius`, `state`, `window_time`, `zone`.
@@ -163,9 +148,21 @@ Field definitions: [CreateDeliveryZoneRequest.configuration.country](../models/C
 
 Field definitions: [DeliveryEligibilityExpression.all[].customer_segment](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcustomer_segment).
 
+### DeliveryMethodConfigurationPatchRequest.eligibility variant 1.postal_code
+
+Field definitions: [CreateDeliveryZoneRequest.configuration.postal_code](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationpostal_code).
+
+### DeliveryMethodConfigurationPatchRequest.eligibility variant 1.radius
+
+Field definitions: [CreateDeliveryZoneRequest.configuration.radius](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationradius).
+
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 1.state
 
 Field definitions: [CreateDeliveryZoneRequest.configuration.state](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationstate).
+
+### DeliveryMethodConfigurationPatchRequest.eligibility variant 1.zone
+
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].zone](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallzone).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 2.country
 
@@ -175,9 +172,21 @@ Field definitions: [CreateDeliveryZoneRequest.configuration.country](../models/C
 
 Field definitions: [DeliveryEligibilityExpression.all[].customer_segment](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcustomer_segment).
 
+### DeliveryMethodConfigurationPatchRequest.eligibility variant 2.postal_code
+
+Field definitions: [CreateDeliveryZoneRequest.configuration.postal_code](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationpostal_code).
+
+### DeliveryMethodConfigurationPatchRequest.eligibility variant 2.radius
+
+Field definitions: [CreateDeliveryZoneRequest.configuration.radius](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationradius).
+
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 2.state
 
 Field definitions: [CreateDeliveryZoneRequest.configuration.state](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationstate).
+
+### DeliveryMethodConfigurationPatchRequest.eligibility variant 2.zone
+
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].zone](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallzone).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 3.country
 
@@ -187,9 +196,21 @@ Field definitions: [CreateDeliveryZoneRequest.configuration.country](../models/C
 
 Field definitions: [DeliveryEligibilityExpression.all[].customer_segment](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcustomer_segment).
 
+### DeliveryMethodConfigurationPatchRequest.eligibility variant 3.postal_code
+
+Field definitions: [CreateDeliveryZoneRequest.configuration.postal_code](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationpostal_code).
+
+### DeliveryMethodConfigurationPatchRequest.eligibility variant 3.radius
+
+Field definitions: [CreateDeliveryZoneRequest.configuration.radius](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationradius).
+
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 3.state
 
 Field definitions: [CreateDeliveryZoneRequest.configuration.state](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationstate).
+
+### DeliveryMethodConfigurationPatchRequest.eligibility variant 3.zone
+
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].zone](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallzone).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 4.country
 
@@ -199,9 +220,21 @@ Field definitions: [CreateDeliveryZoneRequest.configuration.country](../models/C
 
 Field definitions: [DeliveryEligibilityExpression.all[].customer_segment](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcustomer_segment).
 
+### DeliveryMethodConfigurationPatchRequest.eligibility variant 4.postal_code
+
+Field definitions: [CreateDeliveryZoneRequest.configuration.postal_code](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationpostal_code).
+
+### DeliveryMethodConfigurationPatchRequest.eligibility variant 4.radius
+
+Field definitions: [CreateDeliveryZoneRequest.configuration.radius](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationradius).
+
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 4.state
 
 Field definitions: [CreateDeliveryZoneRequest.configuration.state](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationstate).
+
+### DeliveryMethodConfigurationPatchRequest.eligibility variant 4.zone
+
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].zone](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallzone).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 5.country
 
@@ -211,9 +244,21 @@ Field definitions: [CreateDeliveryZoneRequest.configuration.country](../models/C
 
 Field definitions: [DeliveryEligibilityExpression.all[].customer_segment](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcustomer_segment).
 
+### DeliveryMethodConfigurationPatchRequest.eligibility variant 5.postal_code
+
+Field definitions: [CreateDeliveryZoneRequest.configuration.postal_code](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationpostal_code).
+
+### DeliveryMethodConfigurationPatchRequest.eligibility variant 5.radius
+
+Field definitions: [CreateDeliveryZoneRequest.configuration.radius](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationradius).
+
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 5.state
 
 Field definitions: [CreateDeliveryZoneRequest.configuration.state](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationstate).
+
+### DeliveryMethodConfigurationPatchRequest.eligibility variant 5.zone
+
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].zone](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallzone).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 6.country
 
@@ -223,9 +268,21 @@ Field definitions: [CreateDeliveryZoneRequest.configuration.country](../models/C
 
 Field definitions: [DeliveryEligibilityExpression.all[].customer_segment](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcustomer_segment).
 
+### DeliveryMethodConfigurationPatchRequest.eligibility variant 6.postal_code
+
+Field definitions: [CreateDeliveryZoneRequest.configuration.postal_code](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationpostal_code).
+
+### DeliveryMethodConfigurationPatchRequest.eligibility variant 6.radius
+
+Field definitions: [CreateDeliveryZoneRequest.configuration.radius](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationradius).
+
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 6.state
 
 Field definitions: [CreateDeliveryZoneRequest.configuration.state](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationstate).
+
+### DeliveryMethodConfigurationPatchRequest.eligibility variant 6.zone
+
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].zone](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallzone).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 7.country
 
@@ -235,9 +292,21 @@ Field definitions: [CreateDeliveryZoneRequest.configuration.country](../models/C
 
 Field definitions: [DeliveryEligibilityExpression.all[].customer_segment](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcustomer_segment).
 
+### DeliveryMethodConfigurationPatchRequest.eligibility variant 7.postal_code
+
+Field definitions: [CreateDeliveryZoneRequest.configuration.postal_code](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationpostal_code).
+
+### DeliveryMethodConfigurationPatchRequest.eligibility variant 7.radius
+
+Field definitions: [CreateDeliveryZoneRequest.configuration.radius](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationradius).
+
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 7.state
 
 Field definitions: [CreateDeliveryZoneRequest.configuration.state](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationstate).
+
+### DeliveryMethodConfigurationPatchRequest.eligibility variant 7.zone
+
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].zone](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallzone).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 8.country
 
@@ -247,9 +316,21 @@ Field definitions: [CreateDeliveryZoneRequest.configuration.country](../models/C
 
 Field definitions: [DeliveryEligibilityExpression.all[].customer_segment](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcustomer_segment).
 
+### DeliveryMethodConfigurationPatchRequest.eligibility variant 8.postal_code
+
+Field definitions: [CreateDeliveryZoneRequest.configuration.postal_code](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationpostal_code).
+
+### DeliveryMethodConfigurationPatchRequest.eligibility variant 8.radius
+
+Field definitions: [CreateDeliveryZoneRequest.configuration.radius](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationradius).
+
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 8.state
 
 Field definitions: [CreateDeliveryZoneRequest.configuration.state](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationstate).
+
+### DeliveryMethodConfigurationPatchRequest.eligibility variant 8.zone
+
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].zone](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallzone).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 9.country
 
@@ -259,9 +340,21 @@ Field definitions: [CreateDeliveryZoneRequest.configuration.country](../models/C
 
 Field definitions: [DeliveryEligibilityExpression.all[].customer_segment](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcustomer_segment).
 
+### DeliveryMethodConfigurationPatchRequest.eligibility variant 9.postal_code
+
+Field definitions: [CreateDeliveryZoneRequest.configuration.postal_code](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationpostal_code).
+
+### DeliveryMethodConfigurationPatchRequest.eligibility variant 9.radius
+
+Field definitions: [CreateDeliveryZoneRequest.configuration.radius](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationradius).
+
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 9.state
 
 Field definitions: [CreateDeliveryZoneRequest.configuration.state](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationstate).
+
+### DeliveryMethodConfigurationPatchRequest.eligibility variant 9.zone
+
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].zone](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallzone).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 10.country
 
@@ -271,9 +364,21 @@ Field definitions: [CreateDeliveryZoneRequest.configuration.country](../models/C
 
 Field definitions: [DeliveryEligibilityExpression.all[].customer_segment](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcustomer_segment).
 
+### DeliveryMethodConfigurationPatchRequest.eligibility variant 10.postal_code
+
+Field definitions: [CreateDeliveryZoneRequest.configuration.postal_code](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationpostal_code).
+
+### DeliveryMethodConfigurationPatchRequest.eligibility variant 10.radius
+
+Field definitions: [CreateDeliveryZoneRequest.configuration.radius](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationradius).
+
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 10.state
 
 Field definitions: [CreateDeliveryZoneRequest.configuration.state](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationstate).
+
+### DeliveryMethodConfigurationPatchRequest.eligibility variant 10.zone
+
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].zone](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallzone).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 11.country
 
@@ -283,9 +388,21 @@ Field definitions: [CreateDeliveryZoneRequest.configuration.country](../models/C
 
 Field definitions: [DeliveryEligibilityExpression.all[].customer_segment](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcustomer_segment).
 
+### DeliveryMethodConfigurationPatchRequest.eligibility variant 11.postal_code
+
+Field definitions: [CreateDeliveryZoneRequest.configuration.postal_code](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationpostal_code).
+
+### DeliveryMethodConfigurationPatchRequest.eligibility variant 11.radius
+
+Field definitions: [CreateDeliveryZoneRequest.configuration.radius](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationradius).
+
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 11.state
 
 Field definitions: [CreateDeliveryZoneRequest.configuration.state](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationstate).
+
+### DeliveryMethodConfigurationPatchRequest.eligibility variant 11.zone
+
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].zone](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallzone).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 12.country
 
@@ -295,9 +412,21 @@ Field definitions: [CreateDeliveryZoneRequest.configuration.country](../models/C
 
 Field definitions: [DeliveryEligibilityExpression.all[].customer_segment](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcustomer_segment).
 
+### DeliveryMethodConfigurationPatchRequest.eligibility variant 12.postal_code
+
+Field definitions: [CreateDeliveryZoneRequest.configuration.postal_code](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationpostal_code).
+
+### DeliveryMethodConfigurationPatchRequest.eligibility variant 12.radius
+
+Field definitions: [CreateDeliveryZoneRequest.configuration.radius](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationradius).
+
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 12.state
 
 Field definitions: [CreateDeliveryZoneRequest.configuration.state](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationstate).
+
+### DeliveryMethodConfigurationPatchRequest.eligibility variant 12.zone
+
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].zone](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallzone).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 13.country
 
@@ -307,9 +436,21 @@ Field definitions: [CreateDeliveryZoneRequest.configuration.country](../models/C
 
 Field definitions: [DeliveryEligibilityExpression.all[].customer_segment](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcustomer_segment).
 
+### DeliveryMethodConfigurationPatchRequest.eligibility variant 13.postal_code
+
+Field definitions: [CreateDeliveryZoneRequest.configuration.postal_code](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationpostal_code).
+
+### DeliveryMethodConfigurationPatchRequest.eligibility variant 13.radius
+
+Field definitions: [CreateDeliveryZoneRequest.configuration.radius](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationradius).
+
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 13.state
 
 Field definitions: [CreateDeliveryZoneRequest.configuration.state](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationstate).
+
+### DeliveryMethodConfigurationPatchRequest.eligibility variant 13.zone
+
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].zone](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallzone).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 14.country
 
@@ -319,9 +460,21 @@ Field definitions: [CreateDeliveryZoneRequest.configuration.country](../models/C
 
 Field definitions: [DeliveryEligibilityExpression.all[].customer_segment](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcustomer_segment).
 
+### DeliveryMethodConfigurationPatchRequest.eligibility variant 14.postal_code
+
+Field definitions: [CreateDeliveryZoneRequest.configuration.postal_code](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationpostal_code).
+
+### DeliveryMethodConfigurationPatchRequest.eligibility variant 14.radius
+
+Field definitions: [CreateDeliveryZoneRequest.configuration.radius](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationradius).
+
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 14.state
 
 Field definitions: [CreateDeliveryZoneRequest.configuration.state](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationstate).
+
+### DeliveryMethodConfigurationPatchRequest.eligibility variant 14.zone
+
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].zone](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallzone).
 
 ### DeliveryMethodConfigurationPatchRequest.estimate
 
@@ -342,4 +495,8 @@ Field definitions: [CreateDeliveryMethodRequest variant 1.configuration.estimate
 Buyer-visible structured details supplied by the merchant. Null removes the public details; pickup methods still require pickup_mode. minProperties: `1`.
 
 Field definitions: [shared fields](DeliveryMethodConfigurationCreateRequest.md#deliverymethodconfigurationcreaterequestpublic_details).
+
+### DeliveryMethodConfigurationPatchRequest.recipient_requirements[]
+
+Field definitions: [CreateDeliveryMethodRequest variant 1.configuration.recipient_requirements[]](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configurationrecipient_requirements).
 

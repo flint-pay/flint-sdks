@@ -8,7 +8,7 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `automatic_enabled` | Optional | boolean |  |
+| `automatic_enabled` | Optional | boolean | Whether automatic promotions apply to this merchant's orders, checkout sessions and payment links. Omitted means true. Explicit false stops them everywhere, and a checkout session or payment link can't turn them back on. |
 | `codes_enabled` | Optional | boolean | Merchant promotion code redemption policy. Explicit false rejects promotion-code application even when a checkout or payment link asks to show code entry. |
 | `max_promotions_per_order` | Optional | integer | Maximum promotion discounts on an order, from 1 to 10, default 2. Manual discounts do not count. See Promotion for the evaluation order. Format: `int32`. minimum: `1`. maximum: `10`. Default: `2`. |
 

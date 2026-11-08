@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $collected_money
- * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $credit_money
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $credit_adjustment_money
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $deduction_money
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $due_from_buyer_money
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $due_to_buyer_money
@@ -15,7 +15,7 @@ namespace Flint;
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $returned_total_money
  * Presence-aware input; omitted fields throw when accessed. */
 final class ReturnFinancialSummaryInput extends Model {
-    /** @param array{'collected_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'credit_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'deduction_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'due_from_buyer_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'due_to_buyer_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'replacement_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'returned_discount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'returned_subtotal_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'returned_tax_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'returned_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'collected_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'credit_adjustment_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'deduction_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'due_from_buyer_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'due_to_buyer_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'replacement_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'returned_discount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'returned_subtotal_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'returned_tax_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'returned_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnFinancialSummaryInput')); }
     /** Balances collected from the buyer. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
@@ -25,10 +25,10 @@ final class ReturnFinancialSummaryInput extends Model {
     public function hasCollectedMoney(): bool { return $this->has('collected_money'); }
     /** Credits added by confirmed, non-canceled resolutions. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
-     * @throws SdkError When credit_money is omitted; use hasCreditMoney() or valueOrDefault().
+     * @throws SdkError When credit_adjustment_money is omitted; use hasCreditAdjustmentMoney() or valueOrDefault().
      */
-    public function getCreditMoney(): mixed { return $this->get('credit_money'); }
-    public function hasCreditMoney(): bool { return $this->has('credit_money'); }
+    public function getCreditAdjustmentMoney(): mixed { return $this->get('credit_adjustment_money'); }
+    public function hasCreditAdjustmentMoney(): bool { return $this->has('credit_adjustment_money'); }
     /** Fees withheld by confirmed, non-canceled resolutions. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When deduction_money is omitted; use hasDeductionMoney() or valueOrDefault().

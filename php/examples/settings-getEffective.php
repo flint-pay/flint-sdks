@@ -14,5 +14,6 @@ $client = new Client(new ClientOptions(
   allowInsecureHttp: $baseUrl !== null && in_array(parse_url($baseUrl, PHP_URL_HOST), ['localhost', '127.0.0.1'], true) && parse_url($baseUrl, PHP_URL_SCHEME) === 'http',
 ));
 $result = $client->settings->getEffective();
+echo $result->merchant_id . PHP_EOL;
 echo $result->settings_id . PHP_EOL;
 $client->close();

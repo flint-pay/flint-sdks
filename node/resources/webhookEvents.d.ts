@@ -1,6 +1,6 @@
 import type { Result, WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-5.js';
-import type { RequestOptions } from '../declarations/types-48.js';
+import type { ClientOptions } from '../declarations/types-6.js';
+import type { RequestOptions } from '../declarations/types-51.js';
 import type {
     WebhookEvent,
     WebhookEventListResponse,
@@ -8,9 +8,9 @@ import type {
     WebhookEventsGetParams,
     WebhookEventsListParams,
     WebhookEventsStreamParams,
-    WebhookEventsStreamResponse
-} from '../declarations/types-61.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+    WebhookEventsStreamResponse,
+    _SdkWithoutIdempotency
+} from '../declarations/types-66.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -27,39 +27,42 @@ export type {
 } from '../runtime.js';
 export type {
     WebhookEventsGetParams,
+    _SdkWithoutIdempotency,
     WebhookEvent,
     WebhookEventResponse,
     WebhookEventsListParams,
     WebhookEventListResponse,
     WebhookEventsStreamParams,
     WebhookEventsStreamResponse,
-    WebhookEventSource,
-    WebhookEventSourcePartnerApp,
-    WebhookEventSourceInstalledMerchants
-} from '../declarations/types-61.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { RequestOptions, ResourceType, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
-export type { ClientOptions } from '../declarations/types-5.js';
+    WebhookEventSource
+} from '../declarations/types-66.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
+export type { ClientOptions } from '../declarations/types-6.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-12.js';
-export type { NextAction, MoneyValue } from '../declarations/types-35.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
-export { makeMoneyValue } from '../declarations/types-70.js';
+export type { Credentials } from '../declarations/types-13.js';
+export type { NextAction, MoneyValue } from '../declarations/types-37.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
+export type { DisputesAcceptParams } from '../declarations/types-22.js';
+export { makeMoneyValue } from '../declarations/types-75.js';
 export interface WebhookEventsResource {
     /**
- * Returns a specific webhook event for the authenticated merchant.
+ * Returns a specific webhook event for the authenticated merchant. Global partner-source records
+ * are invisible in sandbox mode; a direct reference returns 404 RESOURCE_NOT_FOUND.
  *
  * `GET /v1/webhook-events/{webhook_event_id}`
  * @param webhook_event_id Flint webhook event ID.
  * @see https://developers.withflintpay.com/docs/api/webhooks#getWebhookEvent
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.webhookEvents.get("whev_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.webhookEvents.get("whev_01KEZF7C00362MS3HV970TRZGS")
  */
     get(webhook_event_id: InputValue<string>, params?: WebhookEventsGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<WebhookEvent, WebhookEventResponse>>;
     /**
- * Returns recent canonical webhook events for the authenticated merchant. Default order:
- * created_at descending, then webhook_event_id descending.
+ * Returns recent canonical webhook events for the authenticated merchant. Sandbox reads omit
+ * global partner-source records. Filters selecting only partner_app or installed_merchants return
+ * an empty collection. Direct resource reads of partner-source records return 404
+ * RESOURCE_NOT_FOUND in sandbox mode; exact-ID list filters return an empty collection when no
+ * visible records match. Default order: created_at descending, then webhook_event_id descending.
  *
  * `GET /v1/webhook-events`
  * @see https://developers.withflintpay.com/docs/api/webhooks#listWebhookEvents
@@ -82,7 +85,9 @@ export interface WebhookEventsResource {
  * gap, withheld, and disconnect. Gap records indicate cursor_unavailable or payload_expired;
  * withheld records hide payloads the caller cannot read. Backpressure emits disconnect with reason
  * backpressure and resume_cursor identifying the last sent event, so clients can reconnect without
- * losing events.
+ * losing events. A partner app token streams the installed merchant's events in the environment
+ * its grant covers, and sees a payload only for an event Flint forwards to installed-merchant
+ * endpoints whose read scope the grant holds; every other event is a withheld record.
  *
  * `GET /v1/webhook-events/stream`
  * @see https://developers.withflintpay.com/docs/api/webhooks#streamWebhookEvents

@@ -2,19 +2,19 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read array{'amount': string, 'currency': string}|object $face_value_money
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $face_value_money
  * @property-read GiftCardPurchaseRecipientRequestInput|array<array-key, mixed>|\stdClass $recipient
  * Presence-aware input; omitted fields throw when accessed. */
 final class GiftCardPurchaseDetailsRequestInput extends Model {
-    /** @param array{'face_value_money'?: array{'amount': string, 'currency': string}|object, 'recipient'?: GiftCardPurchaseRecipientRequestInput|array<array-key, mixed>|\stdClass}|object $values */
+    /** @param array{'face_value_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'recipient'?: GiftCardPurchaseRecipientRequestInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardPurchaseDetailsRequestInput')); }
-    /** Buyer-selected face value within the gift card offer's limits. The amount and every computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment option limits can apply. amount (Required): integer string. Amount in the currency's smallest unit, such as cents for USD. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1. maximum: 200000. currency (Required): string. Three-letter ISO 4217 currency code. Value enum: "USD".
-     * @return array{'amount': string, 'currency': string}|object
+    /** Buyer-selected face value within the gift card offer's limits. Currency must be USD. Amount must be between 1 and 200000 minor units, inclusive. The amount and every computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When face_value_money is omitted; use hasFaceValueMoney() or valueOrDefault().
      */
-    public function getFaceValueMoney(): array|object { return $this->get('face_value_money'); }
+    public function getFaceValueMoney(): mixed { return $this->get('face_value_money'); }
     public function hasFaceValueMoney(): bool { return $this->has('face_value_money'); }
-    /** Recipient of a gift card purchase that you supply: `email`, optional `name` and `message`, and an optional `send_at` time.
+    /** Who receives the gift card. `null` when no recipient was set. Recipient of a gift card purchase that you supply: `email`, optional `name` and `message`, and an optional `send_at` time.
      * @return GiftCardPurchaseRecipientRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When recipient is omitted; use hasRecipient() or valueOrDefault().
      */

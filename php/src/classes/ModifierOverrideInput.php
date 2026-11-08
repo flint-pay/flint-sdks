@@ -31,7 +31,7 @@ final class ModifierOverrideInput extends Model {
      */
     public function getLineItemTaxCategory(): string { return $this->get('line_item_tax_category'); }
     public function hasLineItemTaxCategory(): bool { return $this->has('line_item_tax_category'); }
-    /** Identifier of the list modifier these overrides apply to. minLength: 1.
+    /** Identifier of the list modifier these overrides apply to. minLength: 1. Example: "mod_01KEZF7C00SAWDZBQJX5H0XW1S".
      * @return string
      * @throws SdkError When modifier_id is omitted; use hasModifierId() or valueOrDefault().
      */

@@ -5,6 +5,6 @@ const client = new Client({
   allowInsecureHttp: !!baseUrl && ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
 });
 const result = await client.partnerApps.listCredentials(
-  "papp_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV"
 );
 console.log(result.request_id);

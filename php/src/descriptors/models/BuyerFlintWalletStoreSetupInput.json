@@ -1,1 +1,1 @@
-{"shared":"BuyerFlintWalletStoreSetup","dependencies":["BuyerFlintWalletStoreSetup","SharedCodec42","StripeClientAuthority","StripeClientSetupStripe"]}
+{"shared":"BuyerFlintWalletStoreSetup","dependencies":["BuyerFlintWalletStoreSetup","SharedCodec54","StripeClientAuthority","StripeClientSetupStripe"]}

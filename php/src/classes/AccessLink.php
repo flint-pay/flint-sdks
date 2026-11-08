@@ -4,10 +4,11 @@ namespace Flint;
 /**
  * @property-read string $expires_at
  * @property-read string $purpose
+ * @property-read string|null $return_url
  * @property-read string $url
  * Presence-aware response; omitted optional fields return null. */
 final class AccessLink extends Model {
-    /** @param array{'expires_at': string, 'purpose': string, 'url': string, ...}|object $values */
+    /** @param array{'expires_at': string, 'purpose': string, 'return_url': string|null, 'url': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('AccessLink')); }
     /** When the link stops opening the resource or signing the buyer in. Format: date-time.
      * @return string
@@ -19,6 +20,11 @@ final class AccessLink extends Model {
      */
     public function getPurpose(): string { return $this->get('purpose'); }
     public function hasPurpose(): bool { return $this->has('purpose'); }
+    /** The merchant destination supplied when creating a customer or subscription access link. Null when omitted, and always null for order and Return links.
+     * @return string|null
+     */
+    public function getReturnUrl(): string|null { return $this->get('return_url'); }
+    public function hasReturnUrl(): bool { return $this->has('return_url'); }
     /** The link to send the buyer. It carries a bearer credential, so anyone with it can open the resource or sign in as the customer, as its purpose describes, until expires_at or until it reaches its open limit. The link uses the merchant's customer account host. Format: uri.
      * @return string
      */

@@ -43,7 +43,7 @@ final class PaymentVolumeTimeseries extends Model {
      */
     public function getPeriodStartAt(): string { return $this->get('period_start_at'); }
     public function hasPeriodStartAt(): bool { return $this->has('period_start_at'); }
-    /** IANA timezone used only for local bucket boundaries. Defaults to UTC. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.
+    /** IANA timezone used only for local bucket boundaries. Defaults to the merchant's timezone, then UTC. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.
      * @return string
      */
     public function getTimezone(): string { return $this->get('timezone'); }

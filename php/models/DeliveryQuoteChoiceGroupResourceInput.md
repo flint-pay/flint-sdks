@@ -12,13 +12,13 @@ Request input.
 | `allowed_types` | Optional | Array of string |  |
 | `availability_status` | Required | string | Values: `"ready"`, `"needs_input"`, `"needs_checkout_context"`, `"unavailable"`. |
 | `candidate_outcomes` | Optional | Map of [DeliveryCandidateOutcomeResourceInput](../models/DeliveryCandidateOutcomeResourceInput.md#deliverycandidateoutcomeresourceinput) |  |
-| `delivery_choice_group_id` | Required | string |  |
+| `delivery_choice_group_id` | Required | string | Example: `"dcgrp_01KEZF7C00KYKJQ897HWM86AT8"`. |
 | `evaluation_status` | Required | string | Values: `"complete"`, `"incomplete"`, `"degraded"`. |
 | `execution_legs` | Optional | Array of [DeliveryQuoteExecutionLegResourceInput](../models/DeliveryQuoteExecutionLegResourceInput.md#deliveryquoteexecutionlegresourceinput) | Where the group's items leave from, one leg per origin Location, when all of its methods leave from the same Locations. Omitted when the origin depends on the chosen method, such as shipping from a warehouse or picking up at a store. Each option then lists its own execution_legs. |
 | `input_requirements` | Required | Array of [DeliveryInputRequirementInput](../models/DeliveryInputRequirementInput.md#deliveryinputrequirementinput) |  |
 | `line_items` | Required | Array of [DeliveryQuoteLineItemResourceInput](../models/DeliveryQuoteLineItemResourceInput.md#deliveryquotelineitemresourceinput) |  |
 | `method_types` | Required | Array of string | Types of the delivery methods that can serve this group's items, each listed once, in the order the methods display. A type is listed before its options are priced, such as a local delivery that waits for the buyer's address, and stays listed while its methods need more input or cannot serve the current input. options lists what the buyer can choose now. A method whose type these items do not allow is left out, and the list is empty when no method can serve them. Items values: `"shipment"`, `"pickup"`, `"local_delivery"`. |
 | `options` | Required | Array of [DeliveryOptionProjectionInput](../models/DeliveryOptionProjectionInput.md#deliveryoptionprojectioninput) |  |
-| `previously_selected_delivery_method_id` | Optional | string |  |
+| `previously_selected_delivery_method_id` | Optional | string | Example: `"dmet_01KEZF7C00YSG3X2D1TZJ36TM0"`. |
 | `stable_key` | Required | string |  |
 

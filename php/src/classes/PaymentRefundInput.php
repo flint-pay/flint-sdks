@@ -8,11 +8,12 @@ namespace Flint;
  * @property-read string $payment_intent_id
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $refunded_tip_money
  * @property-read string $status
+ * @property-read string|\DateTimeInterface $succeeded_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentRefundInput extends Model {
-    /** @param array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'failure_reason'?: string, 'payment_intent'?: array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'capture_method'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'order_id'?: string, 'payment_intent_id': string, 'payment_source'?: PaymentSourceSummaryInput|array<array-key, mixed>|\stdClass, 'refund_status'?: string, 'status': string, 'updated_at'?: string|\DateTimeInterface, 'version': int, ...}|object|null, 'payment_intent_id'?: string, 'refunded_tip_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, ...}|object $values */
+    /** @param array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'failure_reason'?: string, 'payment_intent'?: array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'capture_method'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'order_id'?: string, 'payment_intent_id': string, 'payment_source'?: PaymentSourceSummaryInput|array<array-key, mixed>|\stdClass, 'refund_status'?: string, 'status': string, 'updated_at'?: string|\DateTimeInterface, 'version': int, ...}|object|null, 'payment_intent_id'?: string, 'refunded_tip_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'succeeded_at'?: string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentRefundInput')); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Amount refunded through this payment, including `refunded_tip_money`. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
      */
@@ -30,13 +31,13 @@ final class PaymentRefundInput extends Model {
      */
     public function getPaymentIntent(): mixed { return $this->get('payment_intent'); }
     public function hasPaymentIntent(): bool { return $this->has('payment_intent'); }
-    /** payment_intent_id
+    /** The payment this part of the refund returned money through. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
      * @return string
      * @throws SdkError When payment_intent_id is omitted; use hasPaymentIntentId() or valueOrDefault().
      */
     public function getPaymentIntentId(): string { return $this->get('payment_intent_id'); }
     public function hasPaymentIntentId(): bool { return $this->has('payment_intent_id'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Share of `amount_money` that refunds tips. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When refunded_tip_money is omitted; use hasRefundedTipMoney() or valueOrDefault().
      */
@@ -48,4 +49,10 @@ final class PaymentRefundInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
+    /** When this payment refund's `status` first became `succeeded`, as Flint recorded the processor's outcome. It keeps that time if the part fails and later succeeds again. The refund's `tender_allocations` entry for the same payment has the same value. Present only while `status` is `succeeded`. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * @return string|\DateTimeInterface
+     * @throws SdkError When succeeded_at is omitted; use hasSucceededAt() or valueOrDefault().
+     */
+    public function getSucceededAt(): string|\DateTimeInterface { return $this->get('succeeded_at'); }
+    public function hasSucceededAt(): bool { return $this->has('succeeded_at'); }
 }

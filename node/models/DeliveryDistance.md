@@ -21,7 +21,13 @@ No additional constraints.
 
 ### DeliveryDistance variant 2
 
-anyOf variant 2: Declared schema DeliveryPickupAvailabilityMaximumDistanceRequest. A maximum distance from the buyer location, as a value and unit, that limits which pickup locations a preview returns..
+anyOf variant 2: Declared schema DeliveryDistanceRequest. A distance as a `value` in meters, kilometers, or miles..
+
+No additional constraints.
+
+### DeliveryDistance variant 3
+
+anyOf variant 3: Declared schema DeliveryPickupAvailabilityMaximumDistanceRequest. A maximum distance from the buyer location, as a value and unit, that limits which pickup locations a preview returns..
 
 - Constraints for `value`: Maximum distance from the buyer location, greater than zero, in the selected unit. exclusiveMinimum: `0`.
 

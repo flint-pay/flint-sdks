@@ -11,5 +11,9 @@ Response model.
 | `api_version` | Optional | string | API version used to produce this response. |
 | `idempotency_replayed` | Optional | boolean | Whether this response replays a stored result for the supplied Idempotency-Key. |
 | `trace_id` | Optional | string | Trace identifier to include when contacting Flint about this request. |
-| `warnings` | Optional | Array of [ResponseWarning](../models/ResponseWarning.md#responsewarning) | Conditions that need attention even though the request succeeded. |
+| `warnings` | Optional | Array of [ResponseWarning](../models/ResponseWarning.md#responsewarning) | Conditions that need attention even though the request succeeded. `warnings[]`: [field definitions](../models/DisputeResponse.md#disputeresponsemetawarnings). |
+
+### ResponseMeta.warnings[]
+
+Field definitions: [DisputeResponse.meta.warnings[]](../models/DisputeResponse.md#disputeresponsemetawarnings).
 

@@ -5,9 +5,9 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/subscriptionPlans.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import r0 from '../descriptors/resources/subscriptionPlans.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import settings from '../descriptors/settings.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createSubscriptionPlan"]:r0,["deleteSubscriptionPlan"]:r0,["getSubscriptionPlan"]:r0,["listSubscriptionPlans"]:r0,["updateSubscriptionPlan"]:r0});
 export class Client {
@@ -15,7 +15,11 @@ export class Client {
 constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.subscriptionPlans = Object.freeze({
-      create: async (params, options) => this.#runtime.request("createSubscriptionPlan", _sdkRequestInput([], [], [], true, true, params, [
+      create: async (params, options) => this.#runtime.request("createSubscriptionPlan", _sdkRequestInput([], [], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
@@ -23,7 +27,10 @@ this.subscriptionPlans = Object.freeze({
       delete: async (subscription_plan_id, params, options) => this.#runtime.request("deleteSubscriptionPlan", _sdkRequestInput([
   "subscription_plan_id"
 ], [subscription_plan_id], [
-  "expected_version"
+  "expected_version",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Idempotency-Key",
   "Flint-Version",
@@ -31,7 +38,11 @@ this.subscriptionPlans = Object.freeze({
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("deleteSubscriptionPlan", result, path))),
       get: async (subscription_plan_id, params, options) => this.#runtime.request("getSubscriptionPlan", _sdkRequestInput([
   "subscription_plan_id"
-], [subscription_plan_id], [], false, false, params, [
+], [subscription_plan_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getSubscriptionPlan", result, path))),
@@ -46,7 +57,10 @@ this.subscriptionPlans = Object.freeze({
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before"
+  "updated_before",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -62,7 +76,10 @@ this.subscriptionPlans = Object.freeze({
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before"
+  "updated_before",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -78,14 +95,21 @@ this.subscriptionPlans = Object.freeze({
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before"
+  "updated_before",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
 ]), options),
       update: async (subscription_plan_id, params, options) => this.#runtime.request("updateSubscriptionPlan", _sdkRequestInput([
   "subscription_plan_id"
-], [subscription_plan_id], [], true, true, params, [
+], [subscription_plan_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
@@ -106,11 +130,13 @@ export { makeInventoryRoutingSourceRequest } from '../models/InventoryRoutingSou
 export { makeMetadataPatchRequest } from '../models/MetadataPatchRequest.js';
 export { makeMetadataRequest } from '../models/MetadataRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makeOrderLineItemModifierInputCatalog } from '../models/OrderLineItemModifierInputCatalog.js';
-export { makeOrderLineItemModifierInputText } from '../models/OrderLineItemModifierInputText.js';
-export { makeOrderLineItemModifierRequest } from '../models/OrderLineItemModifierRequest.js';
-export { makeOrderLineItemTax } from '../models/OrderLineItemTax.js';
-export { makeSubscriptionIntervalOption } from '../models/SubscriptionIntervalOption.js';
+export { makeOrderLineItemModifierInputCatalogRequest } from '../models/OrderLineItemModifierInputCatalogRequest.js';
+export { makeOrderLineItemModifierInputTextRequest } from '../models/OrderLineItemModifierInputTextRequest.js';
+export { makeOrderLineItemModifierRequestModel } from '../models/OrderLineItemModifierRequestModel.js';
+export { makeOrderLineItemTaxRequest } from '../models/OrderLineItemTaxRequest.js';
+export { makeSubscriptionEndAfterCyclesRequest } from '../models/SubscriptionEndAfterCyclesRequest.js';
+export { makeSubscriptionIntervalOptionRequest } from '../models/SubscriptionIntervalOptionRequest.js';
+export { makeSubscriptionPlanChangeOptionRequest } from '../models/SubscriptionPlanChangeOptionRequest.js';
 export { makeSubscriptionPlanLineItemInputBundle } from '../models/SubscriptionPlanLineItemInputBundle.js';
 export { makeSubscriptionPlanLineItemInputCustom } from '../models/SubscriptionPlanLineItemInputCustom.js';
 export { makeSubscriptionPlanLineItemInputVariant } from '../models/SubscriptionPlanLineItemInputVariant.js';

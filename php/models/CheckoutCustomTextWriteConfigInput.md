@@ -8,6 +8,6 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_summary_message` | Optional | string | minLength: `1`. |
-| `shipping_address_label` | Optional | string | minLength: `1`. |
+| `order_summary_message` | Optional | string | Message shown near the order summary in checkout. minLength: `1`. |
+| `shipping_address_label` | Optional | string | Label shown for the shipping address in checkout. minLength: `1`. |
 

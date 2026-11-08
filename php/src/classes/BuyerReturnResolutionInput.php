@@ -11,7 +11,7 @@ namespace Flint;
  * @property-read string $cancellation_reason
  * @property-read string|\DateTimeInterface $confirmed_at
  * @property-read string|\DateTimeInterface $created_at
- * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $credit_money
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $credit_adjustment_money
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $deduction_money
  * @property-read list<BuyerReturnResolutionExecutionBlockerInput|array<array-key, mixed>|\stdClass> $execution_blockers
  * @property-read string $failure_code
@@ -33,57 +33,57 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class BuyerReturnResolutionInput extends Model {
-    /** @param array{'action_reason'?: string, 'action_required_by'?: string, 'adjustments': list<BuyerReturnResolutionAdjustmentInput|array<array-key, mixed>|\stdClass>, 'buyer_payment_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'buyer_refund_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'canceled_at'?: string|\DateTimeInterface, 'cancellation_reason'?: string, 'confirmed_at'?: string|\DateTimeInterface, 'created_at': string|\DateTimeInterface, 'credit_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'deduction_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'execution_blockers': list<BuyerReturnResolutionExecutionBlockerInput|array<array-key, mixed>|\stdClass>, 'failure_code'?: string, 'failure_message'?: string, 'fulfilled_at'?: string|\DateTimeInterface, 'gift_card_refund_destination'?: string, 'line_items': list<ReturnResolutionLineItemInput|array<array-key, mixed>|\stdClass>, 'metadata': array<array-key, mixed>|\stdClass, 'pricing_basis'?: string, 'replacement_line_items': list<ReturnReplacementLineItemInput|array<array-key, mixed>|\stdClass>, 'replacement_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'resolution_type': string, 'return_id': string, 'return_resolution_id': string, 'returned_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'supported_actions': list<string>, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
+    /** @param array{'action_reason'?: string, 'action_required_by'?: string, 'adjustments': list<BuyerReturnResolutionAdjustmentInput|array<array-key, mixed>|\stdClass>, 'buyer_payment_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'buyer_refund_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'canceled_at'?: string|\DateTimeInterface, 'cancellation_reason'?: string, 'confirmed_at'?: string|\DateTimeInterface, 'created_at': string|\DateTimeInterface, 'credit_adjustment_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'deduction_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'execution_blockers': list<BuyerReturnResolutionExecutionBlockerInput|array<array-key, mixed>|\stdClass>, 'failure_code'?: string, 'failure_message'?: string, 'fulfilled_at'?: string|\DateTimeInterface, 'gift_card_refund_destination'?: string, 'line_items': list<ReturnResolutionLineItemInput|array<array-key, mixed>|\stdClass>, 'metadata': array<array-key, mixed>|\stdClass, 'pricing_basis'?: string, 'replacement_line_items': list<ReturnReplacementLineItemInput|array<array-key, mixed>|\stdClass>, 'replacement_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'resolution_type': string, 'return_id': string, 'return_resolution_id': string, 'returned_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'supported_actions': list<string>, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerReturnResolutionInput')); }
-    /** Value enum: "buyer_payment", "buyer_selection", "merchant_review", "manual_release", "linked_effect_retry", "other".
+    /** Why a requires_action resolution is waiting. buyer_payment means the buyer must pay the exchange balance; manual_release means the merchant must release the resolution. Value enum: "buyer_payment", "manual_release".
      * @return string
      * @throws SdkError When action_reason is omitted; use hasActionReason() or valueOrDefault().
      */
     public function getActionReason(): string { return $this->get('action_reason'); }
     public function hasActionReason(): bool { return $this->has('action_reason'); }
-    /** Value enum: "buyer", "merchant".
+    /** Who has to act while the resolution's status is `requires_action`. Value enum: "buyer", "merchant".
      * @return string
      * @throws SdkError When action_required_by is omitted; use hasActionRequiredBy() or valueOrDefault().
      */
     public function getActionRequiredBy(): string { return $this->get('action_required_by'); }
     public function hasActionRequiredBy(): bool { return $this->has('action_required_by'); }
-    /**  [] (Value): {@see BuyerReturnResolutionAdjustmentInput}. An adjustment to a Return resolution shown to the buyer, with its assessed amount, applied amount, status, and reason.
+    /** Fees and credits applied to the resolution's amounts. [] (Value): {@see BuyerReturnResolutionAdjustmentInput}. An adjustment to a Return resolution shown to the buyer, with its assessed amount, applied amount, status, and reason.
      * @return list<BuyerReturnResolutionAdjustmentInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When adjustments is omitted; use hasAdjustments() or valueOrDefault().
      */
     public function getAdjustments(): array { return $this->get('adjustments'); }
     public function hasAdjustments(): bool { return $this->has('adjustments'); }
-    /** Amount the buyer owes when deduction_money and replacement_total_money exceed returned_total_money plus credit_money. Zero when the buyer is owed a refund and for no_monetary_action. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Amount the buyer owes when deduction_money and replacement_total_money exceed returned_total_money plus credit_adjustment_money. Zero when the buyer is owed a refund and for no_monetary_action. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When buyer_payment_amount_money is omitted; use hasBuyerPaymentAmountMoney() or valueOrDefault().
      */
     public function getBuyerPaymentAmountMoney(): mixed { return $this->get('buyer_payment_amount_money'); }
     public function hasBuyerPaymentAmountMoney(): bool { return $this->has('buyer_payment_amount_money'); }
-    /** Value returned to the buyer: returned_total_money plus credit_money, minus deduction_money and replacement_total_money, when that balance is zero or more. For store_credit, the value issued on new gift cards. Zero for no_monetary_action. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Value returned to the buyer: returned_total_money plus credit_adjustment_money, minus deduction_money and replacement_total_money, when that balance is zero or more. For store_credit, the value issued on new gift cards. Zero for no_monetary_action. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When buyer_refund_amount_money is omitted; use hasBuyerRefundAmountMoney() or valueOrDefault().
      */
     public function getBuyerRefundAmountMoney(): mixed { return $this->get('buyer_refund_amount_money'); }
     public function hasBuyerRefundAmountMoney(): bool { return $this->has('buyer_refund_amount_money'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When canceled_at is omitted; use hasCanceledAt() or valueOrDefault().
      */
     public function getCanceledAt(): string|\DateTimeInterface { return $this->get('canceled_at'); }
     public function hasCanceledAt(): bool { return $this->has('canceled_at'); }
-    /** Value enum: "buyer_request", "merchant_request", "duplicate", "expired", "created_in_error", "other".
+    /** Why the resolution was canceled. Value enum: "buyer_request", "merchant_request", "duplicate", "expired", "created_in_error", "other".
      * @return string
      * @throws SdkError When cancellation_reason is omitted; use hasCancellationReason() or valueOrDefault().
      */
     public function getCancellationReason(): string { return $this->get('cancellation_reason'); }
     public function hasCancellationReason(): bool { return $this->has('cancellation_reason'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When confirmed_at is omitted; use hasConfirmedAt() or valueOrDefault().
      */
     public function getConfirmedAt(): string|\DateTimeInterface { return $this->get('confirmed_at'); }
     public function hasConfirmedAt(): bool { return $this->has('confirmed_at'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
@@ -91,17 +91,17 @@ final class BuyerReturnResolutionInput extends Model {
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
     /** Credits added by the resolution's adjustments. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
-     * @throws SdkError When credit_money is omitted; use hasCreditMoney() or valueOrDefault().
+     * @throws SdkError When credit_adjustment_money is omitted; use hasCreditAdjustmentMoney() or valueOrDefault().
      */
-    public function getCreditMoney(): mixed { return $this->get('credit_money'); }
-    public function hasCreditMoney(): bool { return $this->has('credit_money'); }
+    public function getCreditAdjustmentMoney(): mixed { return $this->get('credit_adjustment_money'); }
+    public function hasCreditAdjustmentMoney(): bool { return $this->has('credit_adjustment_money'); }
     /** Deductions taken by the resolution's adjustments, such as a restocking fee. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When deduction_money is omitted; use hasDeductionMoney() or valueOrDefault().
      */
     public function getDeductionMoney(): mixed { return $this->get('deduction_money'); }
     public function hasDeductionMoney(): bool { return $this->has('deduction_money'); }
-    /**  [] (Value): {@see BuyerReturnResolutionExecutionBlockerInput}. Work that must complete before a Return resolution can finish.
+    /** What a confirmed resolution is still waiting for. Empty when nothing is. [] (Value): {@see BuyerReturnResolutionExecutionBlockerInput}. Work that must complete before a Return resolution can finish.
      * @return list<BuyerReturnResolutionExecutionBlockerInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When execution_blockers is omitted; use hasExecutionBlockers() or valueOrDefault().
      */
@@ -119,7 +119,7 @@ final class BuyerReturnResolutionInput extends Model {
      */
     public function getFailureMessage(): string { return $this->get('failure_message'); }
     public function hasFailureMessage(): bool { return $this->has('failure_message'); }
-    /** When the resolution became fulfilled. Format: date-time.
+    /** When the resolution became fulfilled. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When fulfilled_at is omitted; use hasFulfilledAt() or valueOrDefault().
      */
@@ -131,7 +131,7 @@ final class BuyerReturnResolutionInput extends Model {
      */
     public function getGiftCardRefundDestination(): string { return $this->get('gift_card_refund_destination'); }
     public function hasGiftCardRefundDestination(): bool { return $this->has('gift_card_refund_destination'); }
-    /**  [] (Value): {@see ReturnResolutionLineItemInput}. A return line included in a resolution, with its quantity and returned total.
+    /** Return lines and quantities the resolution covers. Absent on a correction. [] (Value): {@see ReturnResolutionLineItemInput}. A return line included in a resolution, with its quantity and returned total.
      * @return list<ReturnResolutionLineItemInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When line_items is omitted; use hasLineItems() or valueOrDefault().
      */
@@ -143,13 +143,13 @@ final class BuyerReturnResolutionInput extends Model {
      */
     public function getMetadata(): array|object { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Value enum: "original_price", "current_price", "merchant_agreed_price".
+    /** How replacement lines are priced. Present on exchanges and replacements. Value enum: "original_price", "current_price", "merchant_agreed_price".
      * @return string
      * @throws SdkError When pricing_basis is omitted; use hasPricingBasis() or valueOrDefault().
      */
     public function getPricingBasis(): string { return $this->get('pricing_basis'); }
     public function hasPricingBasis(): bool { return $this->has('pricing_basis'); }
-    /**  [] (Value): {@see ReturnReplacementLineItemInput}. A replacement item added to a return resolution, with its quantity and price totals.
+    /** Merchandise the buyer receives instead, for an exchange or replacement. [] (Value): {@see ReturnReplacementLineItemInput}. A replacement item added to a return resolution, with its quantity and price totals.
      * @return list<ReturnReplacementLineItemInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When replacement_line_items is omitted; use hasReplacementLineItems() or valueOrDefault().
      */
@@ -161,19 +161,19 @@ final class BuyerReturnResolutionInput extends Model {
      */
     public function getReplacementTotalMoney(): mixed { return $this->get('replacement_total_money'); }
     public function hasReplacementTotalMoney(): bool { return $this->has('replacement_total_money'); }
-    /** Value enum: "refund", "exchange", "replacement", "store_credit", "no_monetary_action", "correction".
+    /** What the buyer gets for the approved quantity. Value enum: "refund", "exchange", "replacement", "store_credit", "no_monetary_action", "correction".
      * @return string
      * @throws SdkError When resolution_type is omitted; use hasResolutionType() or valueOrDefault().
      */
     public function getResolutionType(): string { return $this->get('resolution_type'); }
     public function hasResolutionType(): bool { return $this->has('resolution_type'); }
-    /** return_id
+    /** ID of the Return the resolution belongs to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
      * @return string
      * @throws SdkError When return_id is omitted; use hasReturnId() or valueOrDefault().
      */
     public function getReturnId(): string { return $this->get('return_id'); }
     public function hasReturnId(): bool { return $this->has('return_id'); }
-    /** return_resolution_id
+    /** Unique identifier for this return resolution, prefixed `retres_`. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
      * @return string
      * @throws SdkError When return_resolution_id is omitted; use hasReturnResolutionId() or valueOrDefault().
      */
@@ -197,13 +197,13 @@ final class BuyerReturnResolutionInput extends Model {
      */
     public function getSupportedActions(): array { return $this->get('supported_actions'); }
     public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */
     public function getUpdatedAt(): string|\DateTimeInterface { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** Format: int64. minimum: 0.
+    /** Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. Format: int64. minimum: 0.
      * @return int
      * @throws SdkError When version is omitted; use hasVersion() or valueOrDefault().
      */

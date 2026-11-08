@@ -15,6 +15,10 @@ Response model.
 | `position` | Required | integer | Display order among the bundle's components, starting at zero. Format: `int32`. |
 | `product_id` | Optional | string | Identifier of the product the component's variant belongs to. |
 | `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
-| `variant` | Optional | [BundleComponentVariantSummary](../models/BundleComponentVariantSummary.md#bundlecomponentvariantsummary) | Summary of the component's variant and its selected options. A summary of the variant that fills a bundle component: its names, SKU, selected options, and whether it is available for sale. |
+| `variant` | Optional | [BundleComponentVariantSummary](../models/BundleComponentVariantSummary.md#bundlecomponentvariantsummary) | Summary of the component's variant and its selected options. A summary of the variant that fills a bundle component: its names, SKU, selected options, and whether it is available for sale. `variant`: [field definitions](../models/OrderResponse.md#orderresponsedataline_itemsbundle_componentsvariant). |
 | `variant_id` | Required | string | Identifier of the product variant included in the bundle. |
+
+### BundleComponent.variant
+
+Field definitions: [OrderResponse.data.line_items[].bundle_components[].variant](../models/OrderResponse.md#orderresponsedataline_itemsbundle_componentsvariant).
 

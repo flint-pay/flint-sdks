@@ -6,5 +6,8 @@ A registered JWKS URL and its most recent successful fetch.
 
 Response model.
 
-Fields, types, descriptions and enum values: [PartnerAppCredentialJWKSURLInput](../models/PartnerAppCredentialJWKSURLInput.md#partnerappcredentialjwksurlinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `last_fetched_at` | Required | string | Most recent successful fetch of this URL by Flint. Updated at most once per minute. Format: `date-time`. |
+| `url` | Required | string |  |
 

@@ -10,6 +10,6 @@ The disclosure the seller agreed to and when Flint recorded that agreement.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `attested_at` | Required | string | When Flint recorded the seller's agreement. Format: `date-time`. |
+| `attested_at` | Required | string | When Flint recorded the seller's agreement. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `disclosure_version` | Required | string | Opaque version of the disclosure the seller agreed to. |
 

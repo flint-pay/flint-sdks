@@ -8,7 +8,7 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.modifierGroups.delete(
-  "mg_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "mg_01KEZF7C00XKJJATARG7KDBYM9",
   {},
   { idempotencyKey: idempotencyKey },
 );

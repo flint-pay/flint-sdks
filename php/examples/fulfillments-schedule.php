@@ -1,0 +1,28 @@
+<?php
+declare(strict_types=1);
+$autoload = __DIR__;
+while (!is_file($autoload . '/vendor/autoload.php') && !is_file($autoload . '/autoload.php')) {
+    $parent = dirname($autoload);
+    if ($parent === $autoload) throw new \RuntimeException('Run composer install in the application before running this example.');
+    $autoload = $parent;
+}
+require_once is_file($autoload . '/vendor/autoload.php') ? $autoload . '/vendor/autoload.php' : $autoload . '/autoload.php';
+use Flint\{Client, ClientOptions, RequestOptions};
+$baseUrl = getenv('FLINT_BASE_URL') ?: null;
+$client = new Client(new ClientOptions(
+  baseUrl: $baseUrl,
+  allowInsecureHttp: $baseUrl !== null && in_array(parse_url($baseUrl, PHP_URL_HOST), ['localhost', '127.0.0.1'], true) && parse_url($baseUrl, PHP_URL_SCHEME) === 'http',
+));
+// Persist this key with the action before sending; reuse it for every resubmission.
+$idempotencyKey = bin2hex(random_bytes(16));
+
+$result = $client->fulfillments->schedule('ful_01KEZF7C00F24WVSTTWR1FQX5T', [
+  'expected_version' => 4,
+  'occurred_at' => '2026-05-13T11:00:00Z',
+  'scheduled_end_at' => '2026-05-14T12:00:00Z',
+  'scheduled_start_at' => '2026-05-14T11:00:00Z',
+  'timezone' => 'America/New_York',
+], new RequestOptions(idempotencyKey: $idempotencyKey));
+echo $result->fulfillment_id . PHP_EOL;
+echo $result->order_id . PHP_EOL;
+$client->close();

@@ -10,30 +10,33 @@ Accept the exact gift_card_estimate returned on the current order, including all
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `gift_card_money` | Required | object | `gift_card_money`: [field definitions](../models/OrderGiftCardAllocationAcceptance.md#ordergiftcardallocationacceptancegift_card_money). |
-| `gift_cards` | Required | Array of object | minItems: `1`. maxItems: `20`. `gift_cards[]`: [field definitions](../models/OrderGiftCardAllocationAcceptance.md#ordergiftcardallocationacceptancegift_cards). |
+| `gift_card_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Order balance allocated to the selected gift cards. Currency must be USD. Amount must be nonnegative; zero is allowed. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `gift_card_money`: [field definitions](../models/OrderGiftCardAllocationAcceptance.md#ordergiftcardallocationacceptancegift_card_money). |
+| `gift_cards` | Required | Array of object | The gift cards the allocation draws from, each with the amount it covers. Copy them from the order's `gift_card_estimate`. minItems: `1`. maxItems: `20`. `gift_cards[]`: [field definitions](../models/OrderGiftCardAllocationAcceptance.md#ordergiftcardallocationacceptancegift_cards). |
 | `order_version` | Required | integer | Order version used to calculate this gift card allocation. Read the order again if its version changed. Format: `int64`. minimum: `1`. |
-| `processor_money` | Required | object | `processor_money`: [field definitions](../models/OrderGiftCardAllocationAcceptance.md#ordergiftcardallocationacceptancegift_card_money). |
+| `processor_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Order balance remaining for the payment processor. Currency must be USD. Amount must be nonnegative; zero is allowed. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `processor_money`: [field definitions](../models/OrderGiftCardAllocationAcceptance.md#ordergiftcardallocationacceptanceprocessor_money). |
 
 ### OrderGiftCardAllocationAcceptance.gift_card_money
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `amount` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `0`. |
-| `currency` | Required | string | Values: `"USD"`. |
+Order balance allocated to the selected gift cards. Currency must be USD. Amount must be nonnegative; zero is allowed. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+
+Field definitions: [shared fields](MoneyValueInput.md#moneyvalueinput).
 
 ### OrderGiftCardAllocationAcceptance.gift_cards[]
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Required | object | `amount_money`: [field definitions](../models/OrderGiftCardAllocationAcceptance.md#ordergiftcardallocationacceptancegift_card_money). |
-| `gift_card_id` | Required | string | minLength: `1`. maxLength: `64`. |
+| `amount_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Order balance allocated to this gift card. Currency must be USD. Amount must be nonnegative; zero is allowed. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `amount_money`: [field definitions](../models/OrderGiftCardAllocationAcceptance.md#ordergiftcardallocationacceptancegift_cardsamount_money). |
+| `gift_card_id` | Required | string | ID of the gift card the amount is taken from. minLength: `1`. maxLength: `64`. Example: `"gc_01KEZF7C00RT1618WYBM1Y94CG"`. |
 
 ### OrderGiftCardAllocationAcceptance.gift_cards[].amount_money
 
-Field definitions: [OrderGiftCardAllocationAcceptance.gift_card_money](../models/OrderGiftCardAllocationAcceptance.md#ordergiftcardallocationacceptancegift_card_money).
+Order balance allocated to this gift card. Currency must be USD. Amount must be nonnegative; zero is allowed. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+
+Field definitions: [shared fields](MoneyValueInput.md#moneyvalueinput).
 
 ### OrderGiftCardAllocationAcceptance.processor_money
 
-Field definitions: [OrderGiftCardAllocationAcceptance.gift_card_money](../models/OrderGiftCardAllocationAcceptance.md#ordergiftcardallocationacceptancegift_card_money).
+Order balance remaining for the payment processor. Currency must be USD. Amount must be nonnegative; zero is allowed. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+
+Field definitions: [shared fields](MoneyValueInput.md#moneyvalueinput).
 

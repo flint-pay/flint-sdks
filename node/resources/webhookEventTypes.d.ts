@@ -1,8 +1,12 @@
 import type { WithResponseInfo } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-5.js';
-import type { RequestOptions } from '../declarations/types-48.js';
-import type { WebhookEventType, WebhookEventTypeListResponse, WebhookEventTypesListParams } from '../declarations/types-61.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+import type { ClientOptions } from '../declarations/types-6.js';
+import type { RequestOptions } from '../declarations/types-51.js';
+import type {
+    WebhookEventType,
+    WebhookEventTypeListResponse,
+    WebhookEventTypesListParams,
+    _SdkWithoutIdempotency
+} from '../declarations/types-66.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -17,15 +21,19 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { WebhookEventTypesListParams, WebhookEventTypeListResponse, WebhookEventType } from '../declarations/types-61.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceType } from '../declarations/types-48.js';
-export type { ClientOptions } from '../declarations/types-5.js';
+export type {
+    WebhookEventTypesListParams,
+    _SdkWithoutIdempotency,
+    WebhookEventTypeListResponse,
+    WebhookEventType
+} from '../declarations/types-66.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
+export type { ClientOptions } from '../declarations/types-6.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-12.js';
-export type { NextAction, MoneyValue } from '../declarations/types-35.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
-export { makeMoneyValue } from '../declarations/types-70.js';
+export type { Credentials } from '../declarations/types-13.js';
+export type { NextAction, MoneyValue } from '../declarations/types-37.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
+export { makeMoneyValue } from '../declarations/types-75.js';
 export interface WebhookEventTypesResource {
     /**
  * Returns every webhook event type you can use in enabled_events and event filters, with the event

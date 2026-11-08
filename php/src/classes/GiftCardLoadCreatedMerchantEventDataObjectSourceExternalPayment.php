@@ -13,7 +13,7 @@ namespace Flint;
 final class GiftCardLoadCreatedMerchantEventDataObjectSourceExternalPayment extends Model {
     /** @param array{'customer_id': string, 'external_reference_id': string, 'funding_source_type': string, 'order_id'?: string, 'order_manual_payment_id'?: string, 'payment_intent_id'?: string, 'refund_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardLoadCreatedMerchantEventDataObjectSourceExternalPayment')); }
-    /** minLength: 1. maxLength: 255.
+    /** ID of the customer the funding is attributed to. Required for `external_payment` and `flint_manual_payment`; optional for `import`. minLength: 1. maxLength: 255.
      * @return string
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
@@ -23,17 +23,17 @@ final class GiftCardLoadCreatedMerchantEventDataObjectSourceExternalPayment exte
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Value enum: "external_payment".
+    /** Where the value came from. Value enum: "external_payment".
      * @return string
      */
     public function getFundingSourceType(): string { return $this->get('funding_source_type'); }
     public function hasFundingSourceType(): bool { return $this->has('funding_source_type'); }
-    /** minLength: 1. maxLength: 255.
+    /** ID of the order that funded the value. Required for `flint_manual_payment` and `store_credit`; not accepted for `external_payment` or `import`. minLength: 1. maxLength: 255.
      * @return ?string
      */
     public function getOrderId(): ?string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** minLength: 1. maxLength: 255.
+    /** ID of the manual payment on the order that funded the value. Required for `flint_manual_payment`. minLength: 1. maxLength: 255.
      * @return ?string
      */
     public function getOrderManualPaymentId(): ?string { return $this->get('order_manual_payment_id'); }

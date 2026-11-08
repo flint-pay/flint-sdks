@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read ?string $carrier
- * @property-read ?string $created_at
+ * @property-read string $created_at
  * @property-read ?string $delivered_at
  * @property-read ?Dimensions $dimensions
  * @property-read string|null $expected_delivery_at
@@ -25,12 +25,12 @@ namespace Flint;
  * @property-read list<string> $supported_actions
  * @property-read ?string $tracking_number
  * @property-read ?string $tracking_url
- * @property-read ?string $updated_at
+ * @property-read string $updated_at
  * @property-read int $version
  * @property-read ?Weight $weight
  * Presence-aware response; omitted optional fields return null. */
 final class PackageUpdatedInstalledMerchantsEventDataObject extends Model {
-    /** @param array{'carrier'?: string, 'created_at'?: string, 'delivered_at'?: string, 'dimensions'?: mixed, 'expected_delivery_at'?: string|null, 'external_reference_id'?: string, 'external_system'?: string, 'fulfillment_id': string, 'label_url'?: string, 'metadata'?: mixed, 'order'?: mixed, 'order_id': string, 'package_id': string, 'return_id'?: string, 'return_line_items'?: list<mixed>, 'service_code'?: string, 'shipment_id': string, 'shipped_at'?: string, 'status': string, 'status_reason'?: string, 'supported_actions': list<string>, 'tracking_number'?: string, 'tracking_url'?: string, 'updated_at'?: string, 'version': int, 'weight'?: mixed, ...}|object $values */
+    /** @param array{'carrier'?: string, 'created_at': string, 'delivered_at'?: string, 'dimensions'?: mixed, 'expected_delivery_at'?: string|null, 'external_reference_id'?: string, 'external_system'?: string, 'fulfillment_id': string, 'label_url'?: string, 'metadata'?: mixed, 'order'?: mixed, 'order_id': string, 'package_id': string, 'return_id'?: string, 'return_line_items'?: list<mixed>, 'service_code'?: string, 'shipment_id': string, 'shipped_at'?: string, 'status': string, 'status_reason'?: string, 'supported_actions': list<string>, 'tracking_number'?: string, 'tracking_url'?: string, 'updated_at': string, 'version': int, 'weight'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PackageUpdatedInstalledMerchantsEventDataObject')); }
     /** Carrier transporting the package.
      * @return ?string
@@ -38,9 +38,9 @@ final class PackageUpdatedInstalledMerchantsEventDataObject extends Model {
     public function getCarrier(): ?string { return $this->get('carrier'); }
     public function hasCarrier(): bool { return $this->has('carrier'); }
     /** Creation timestamp. Format: date-time.
-     * @return ?string
+     * @return string
      */
-    public function getCreatedAt(): ?string { return $this->get('created_at'); }
+    public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
     /** Package delivery timestamp. Format: date-time.
      * @return ?string
@@ -132,7 +132,7 @@ final class PackageUpdatedInstalledMerchantsEventDataObject extends Model {
      */
     public function getStatusReason(): ?string { return $this->get('status_reason'); }
     public function hasStatusReason(): bool { return $this->has('status_reason'); }
-    /** Read-only actions currently supported for this package. [] enum: "mark_delivered", "mark_delivery_attempted", "mark_exception", "mark_in_transit", "mark_out_for_delivery", "mark_packed", "mark_returned", "mark_shipped". [] (Value): string.  Value enum: "mark_delivered", "mark_delivery_attempted", "mark_exception", "mark_in_transit", "mark_out_for_delivery", "mark_packed", "mark_returned", "mark_shipped".
+    /** Lifecycle actions Flint accepts now. mark_in_transit can repeat while in transit to refresh expected_delivery_at. [] enum: "mark_delivered", "mark_delivery_attempted", "mark_exception", "mark_in_transit", "mark_out_for_delivery", "mark_packed", "mark_returned", "mark_shipped", "void". [] (Value): string.  Value enum: "mark_delivered", "mark_delivery_attempted", "mark_exception", "mark_in_transit", "mark_out_for_delivery", "mark_packed", "mark_returned", "mark_shipped", "void".
      * @return list<string>
      */
     public function getSupportedActions(): array { return $this->get('supported_actions'); }
@@ -148,9 +148,9 @@ final class PackageUpdatedInstalledMerchantsEventDataObject extends Model {
     public function getTrackingUrl(): ?string { return $this->get('tracking_url'); }
     public function hasTrackingUrl(): bool { return $this->has('tracking_url'); }
     /** Last update timestamp. Format: date-time.
-     * @return ?string
+     * @return string
      */
-    public function getUpdatedAt(): ?string { return $this->get('updated_at'); }
+    public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
     /** Monotonic package version for expected_version checks. Format: uint64. minimum: 1.
      * @return int

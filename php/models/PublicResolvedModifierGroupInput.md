@@ -14,12 +14,12 @@ Request input.
 | `max_total_quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `min_quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `min_selected` | Optional | integer | Format: `int32`. |
-| `modifier_group_id` | Required | string |  |
+| `modifier_group_id` | Required | string | Example: `"mg_01KEZF7C00XKJJATARG7KDBYM9"`. |
 | `modifier_group_type` | Required | string | Values: `"list"`, `"text"`. |
 | `name` | Required | string |  |
 | `options` | Optional | Array of [PublicResolvedModifierOptionInput](../models/PublicResolvedModifierOptionInput.md#publicresolvedmodifieroptioninput) |  |
 | `position` | Optional | integer | Format: `int32`. |
-| `pricing_scope` | Optional | string | Values: `"per_item"`, `"per_line"`. |
+| `pricing_scope` | Optional | string | Values: `"per_item"`. |
 | `show_on_fulfillment` | Optional | boolean |  |
 | `show_on_receipt` | Optional | boolean |  |
 | `text` | Optional | [PublicResolvedTextModifierInput](../models/PublicResolvedTextModifierInput.md#publicresolvedtextmodifierinput) | Input rules for a free-text modifier group on a payment link line item: required, multiline, and length limits. |

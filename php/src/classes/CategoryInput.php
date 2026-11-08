@@ -18,7 +18,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class CategoryInput extends Model {
-    /** @param array{'assigned_bundle_count': int, 'assigned_product_count': int, 'category_id': string, 'created_at': string|\DateTimeInterface, 'description'?: string, 'external_reference_id'?: string, 'handle': string, 'merchant_id'?: string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'name': string, 'status': string, 'targeting_reference_count': int, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
+    /** @param array{'assigned_bundle_count': int, 'assigned_product_count': int, 'category_id': string, 'created_at': string|\DateTimeInterface, 'description'?: string, 'external_reference_id'?: string, 'handle': string, 'merchant_id': string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'name': string, 'status': string, 'targeting_reference_count': int, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CategoryInput')); }
     /** Number of bundles currently assigned to the category. Format: int64.
      * @return int
@@ -32,13 +32,13 @@ final class CategoryInput extends Model {
      */
     public function getAssignedProductCount(): int { return $this->get('assigned_product_count'); }
     public function hasAssignedProductCount(): bool { return $this->has('assigned_product_count'); }
-    /** Stable identifier of the category.
+    /** Stable identifier of the category. Example: "ctg_01KEZF7C001T4WWBPVGWRZD88Q".
      * @return string
      * @throws SdkError When category_id is omitted; use hasCategoryId() or valueOrDefault().
      */
     public function getCategoryId(): string { return $this->get('category_id'); }
     public function hasCategoryId(): bool { return $this->has('category_id'); }
-    /** When this resource was created, as an RFC3339 timestamp. Format: date-time.
+    /** When this resource was created, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
@@ -50,7 +50,7 @@ final class CategoryInput extends Model {
      */
     public function getDescription(): string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** Caller-owned identifier for this resource in an external system. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -62,7 +62,7 @@ final class CategoryInput extends Model {
      */
     public function getHandle(): string { return $this->get('handle'); }
     public function hasHandle(): bool { return $this->has('handle'); }
-    /** Identifier of the merchant that owns this resource.
+    /** Identifier of the merchant that owns this resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
      * @return string
      * @throws SdkError When merchant_id is omitted; use hasMerchantId() or valueOrDefault().
      */
@@ -92,7 +92,7 @@ final class CategoryInput extends Model {
      */
     public function getTargetingReferenceCount(): int { return $this->get('targeting_reference_count'); }
     public function hasTargetingReferenceCount(): bool { return $this->has('targeting_reference_count'); }
-    /** When this resource last changed, as an RFC3339 timestamp. Format: date-time.
+    /** When this resource last changed, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */

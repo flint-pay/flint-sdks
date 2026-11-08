@@ -12,7 +12,19 @@ Signature: `cancel(string|Model $return_id, array|Model $params, ?RequestOptions
 
 #### Request fields
 
-Field definitions: [shared fields](me.md#request-fields). Models: [CancelReturnRequestInput](../models/CancelReturnRequestInput.md#cancelreturnrequestinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `return_id` | Required | string | Flint return id. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `body` | Required | [CancelReturnRequestInput](../models/CancelReturnResolutionRequestInput.md#cancelreturnresolutionrequestinput) | The request body for: Cancel return. |
+
+Body model: [CancelReturnRequestInput](../models/CancelReturnResolutionRequestInput.md#cancelreturnresolutionrequestinput).
+
+#### returns.cancel body fields
+
+Field definitions: [shared fields](../models/CancelReturnResolutionRequestInput.md#cancelreturnresolutionrequestinput).
 
 #### Response
 
@@ -27,7 +39,6 @@ Returned payload: [ReturnResource](../models/ReturnResource.md#returnresource).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -52,7 +63,8 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->returns->cancel('ret_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
+$result = $client->returns->cancel('ret_01KEZF7C00PG93650ZKVQNGF7X', [
+  'expected_version' => 1,
   'reason' => 'buyer_request',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
@@ -73,6 +85,9 @@ Signature: `cancelLineItem(string|Model $return_id, string|Model $return_line_it
 | --- | --- | --- | --- |
 | `return_id` | Required | string | Flint return id. |
 | `return_line_item_id` | Required | string | Flint return line item id. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [CancelReturnLineItemRequestInput](../models/CancelReturnLineItemRequestInput.md#cancelreturnlineitemrequestinput) | The request body for: Cancel return line item. |
 
 Body model: [CancelReturnLineItemRequestInput](../models/CancelReturnLineItemRequestInput.md#cancelreturnlineitemrequestinput).
@@ -94,7 +109,6 @@ Returned payload: [ReturnResource](../models/ReturnResource.md#returnresource).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -119,7 +133,9 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->returns->cancelLineItem('ret_01ARZ3NDEKTSV4RRFFQ69G5FAV', 'retli_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
+$result = $client->returns->cancelLineItem('ret_01KEZF7C00PG93650ZKVQNGF7X', 'retli_01KEZF7C00R813VR7ECXS062QG', [
+  'expected_version' => 2,
+  'handback_quantity' => 1,
   'quantity' => 1,
   'reason' => 'buyer_request',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
@@ -133,14 +149,17 @@ Complete a Return whose completion_mode is manual. The call fails while completi
 
 `POST /v1/returns/{return_id}/complete`
 
-Signature: `complete(string|Model $return_id, array|Model $params, ?RequestOptions $options = null)`
+Signature: `complete(string|Model $return_id, array|Model|null $params = null, ?RequestOptions $options = null)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `return_id` | Required | string | Flint return id. |
-| `body` | Required | [CompleteReturnRequestInput](../models/CompleteReturnRequestInput.md#completereturnrequestinput) | The request body for: Complete return. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `body` | Optional | [CompleteReturnRequestInput](../models/CompleteReturnRequestInput.md#completereturnrequestinput) | The request body for: Complete return. |
 
 Body model: [CompleteReturnRequestInput](../models/CompleteReturnRequestInput.md#completereturnrequestinput).
 
@@ -161,7 +180,6 @@ Returned payload: [ReturnResource](../models/ReturnResource.md#returnresource).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -186,7 +204,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->returns->complete('ret_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->returns->complete('ret_01KEZF7C00PG93650ZKVQNGF7X', null, new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/returns-complete.php)
@@ -203,6 +221,9 @@ Signature: `create(array|Model $params, ?RequestOptions $options = null)`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [CreateReturnRequestInput](../models/CreateReturnRequestInput.md#createreturnrequestinput) | The request body for: Create return. |
 
 Body model: [CreateReturnRequestInput](../models/CreateReturnRequestInput.md#createreturnrequestinput).
@@ -212,9 +233,9 @@ Body model: [CreateReturnRequestInput](../models/CreateReturnRequestInput.md#cre
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
-| `line_items` | Required | Array of [ReturnLineItemRequestInput](../models/ReturnLineItemRequestInput.md#returnlineitemrequestinput) | minItems: `1`. Items: An order line item to return, with the quantity, return reason, and optionally a note and the resolution the buyer wants. |
+| `line_items` | Required | Array of [ReturnLineItemRequestInput](../models/ReturnLineItemRequestInput.md#returnlineitemrequestinput) | The lines to check or return, each naming an order line item. minItems: `1`. |
 | `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
-| `order_id` | Required | string | minLength: `1`. |
+| `order_id` | Required | string | ID of the Order to return items from. minLength: `1`. |
 
 #### Response
 
@@ -229,7 +250,6 @@ Returned payload: [ReturnResource](../models/ReturnResource.md#returnresource).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -257,12 +277,14 @@ $idempotencyKey = bin2hex(random_bytes(16));
 $result = $client->returns->create([
   'line_items' => [
     (object) [
-      'order_line_item_id' => 'li_01ARZ3NDEKTSV4RRFFQ69G5FAV',
+      'buyer_note' => 'I changed my mind.',
+      'order_line_item_id' => 'li_01KEZF7C00XM6VK5KNWVC3T907',
       'requested_quantity' => 1,
-      'return_reason_id' => 'rrsn_01ARZ3NDEKTSV4RRFFQ69G5FAV',
+      'requested_resolution_type' => 'refund',
+      'return_reason_id' => 'rrsn_01KEZF7C005274REWXTZRJ4BM0',
     ],
   ],
-  'order_id' => 'ord_01ARZ3NDEKTSV4RRFFQ69G5FAV',
+  'order_id' => 'ord_01KEZF7C00RWKW7JDYTZ5A6ET0',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
@@ -270,7 +292,7 @@ $result = $client->returns->create([
 
 ### returns.createAccessLink
 
-Creates the link Flint's email about a Return carries, to put in buyer email or messages you send yourself. It opens the Return and its order in your Flint-hosted customer account without a sign-in. Withdrawing the Return needs the buyer to sign in. It works for 30 days or 10 opens, whichever comes first; after that the buyer signs in to see the Return. The url is a bearer credential. Flint returns it only in this response and in a retry with the same Idempotency-Key, so send it only to the buyer and keep it out of logs. A call with a new key creates another link; earlier links keep working until they expire. When customer_account.mode is merchant_hosted it returns 409 ACTION_NOT_ALLOWED with reason merchant_hosted_customer_accounts, and for a Return whose order has no customer, 409 ACTION_NOT_ALLOWED with reason configuration_required. Send no request body or an empty object ({}). Idempotency is scoped to the merchant, credential, environment, and this resource's route. A replay returns the original link without extending its lifetime or replenishing its opens. Without an Idempotency-Key, each call creates a new link and has no replay result. If Flint cannot retain a result after minting, contact support with X-Request-Id before sending a new request.
+Creates the link Flint's email about a Return carries, to put in buyer email or messages you send yourself. It opens the Return and its order in your Flint-hosted customer account without a sign-in. Withdrawing the Return needs the buyer to sign in. It works for 30 days or 10 opens, whichever comes first; after that the buyer signs in to see the Return. The url is a bearer credential. Flint returns it only in this response and in a retry with the same idempotency key, so send it only to the buyer and keep it out of logs. A call with a new key creates another link; earlier links keep working until they expire. When customer_account.mode is merchant_hosted it fails with `ACTION_NOT_ALLOWED` and reason `merchant_hosted_customer_accounts`, and for a Return whose order has no customer, with reason `configuration_required`. Send no request body or an empty object ({}). Idempotency is scoped to the merchant, credential, environment, and this resource's route. A replay returns the original link without extending its lifetime or replenishing its opens. Without an idempotency key, each call creates a new link and has no replay result. If Flint cannot retain a result after minting, contact support with the request ID before sending a new request.
 
 `POST /v1/returns/{return_id}/access-links`
 
@@ -281,13 +303,16 @@ Signature: `createAccessLink(string|Model $return_id, array|Model|null $params =
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `return_id` | Required | string | Flint return ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Optional | object | maxProperties: `0`. |
 
 Body shape: object.
 
 #### Response
 
-Returned payload: [AccessLink](../models/AccessLinkInput.md#accesslinkinput).
+Returned payload: [AccessLink](../models/AccessLink.md#accesslink).
 
 #### Errors
 
@@ -298,7 +323,6 @@ Returned payload: [AccessLink](../models/AccessLinkInput.md#accesslinkinput).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -321,7 +345,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->returns->createAccessLink('ret_01ARZ3NDEKTSV4RRFFQ69G5FAV', null, new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->returns->createAccessLink('ret_01KEZF7C00PG93650ZKVQNGF7X', null, new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/returns-createAccessLink.php)
@@ -339,6 +363,9 @@ Signature: `createDisposition(string|Model $return_id, array|Model $params, ?Req
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `return_id` | Required | string | Flint return id. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [CreateReturnDispositionRequestInput](../models/CreateReturnDispositionRequestInput.md#createreturndispositionrequestinput) | The request body for: Create return disposition. |
 
 Body model: [CreateReturnDispositionRequestInput](../models/CreateReturnDispositionRequestInput.md#createreturndispositionrequestinput).
@@ -347,17 +374,17 @@ Body model: [CreateReturnDispositionRequestInput](../models/CreateReturnDisposit
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `disposition_type` | Required | string | Values: `"sellable"`, `"quality_control"`, `"damaged"`, `"quarantined"`, `"repair"`, `"refurbish"`, `"liquidate"`, `"donate"`, `"discard"`, `"return_to_buyer"`, `"lost"`. |
+| `disposition_type` | Required | string | What happens to the received units. Values: `"sellable"`, `"quality_control"`, `"damaged"`, `"quarantined"`, `"repair"`, `"refurbish"`, `"liquidate"`, `"donate"`, `"discard"`, `"return_to_buyer"`, `"lost"`. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
-| `inventory_location_id` | Optional | string | minLength: `1`. |
+| `inventory_location_id` | Optional | string | ID of the Location whose stock the disposition changes. Required for `sellable`, `quality_control`, `damaged`, `quarantined`, and `lost`; rejected for the other types. minLength: `1`. |
 | `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
 | `occurred_at` | Required | string | RFC3339 timestamp. Format: `date-time`. minLength: `1`. |
 | `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
-| `reason` | Required | string | Values: `"inspection_result"`, `"return_policy"`, `"warehouse_override"`, `"safety_requirement"`, `"other"`. |
-| `reason_message` | Optional | string | minLength: `1`. |
-| `replaces_return_disposition_id` | Optional | string | minLength: `1`. |
-| `return_inspection_line_item_id` | Optional | string | minLength: `1`. |
-| `return_receipt_line_item_id` | Optional | string | minLength: `1`. |
+| `reason` | Required | string | Why the disposition was made. Values: `"inspection_result"`, `"return_policy"`, `"warehouse_override"`, `"safety_requirement"`, `"other"`. |
+| `reason_message` | Optional | string | Optional detail about `reason`, kept with the record. minLength: `1`. |
+| `replaces_return_disposition_id` | Optional | string | ID of the `failed` or `canceled` disposition this one replaces. It takes over that disposition's unused capacity. minLength: `1`. |
+| `return_inspection_line_item_id` | Optional | string | ID of the inspection line the disposition covers. Absent when it covers a receipt line. minLength: `1`. |
+| `return_receipt_line_item_id` | Optional | string | ID of the receipt line the disposition covers. Absent when it covers an inspection line. minLength: `1`. |
 
 #### returns.createDisposition: CreateReturnDispositionRequestReceiptLine
 
@@ -384,7 +411,6 @@ Returned payload: [ReturnDisposition](../models/ReturnDisposition.md#returndispo
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -409,12 +435,13 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->returns->createDisposition('ret_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
+$result = $client->returns->createDisposition('ret_01KEZF7C00PG93650ZKVQNGF7X', [
   'disposition_type' => 'sellable',
-  'occurred_at' => '2026-01-01T00:00:00Z',
+  'inventory_location_id' => 'loc_01K1P6G4M7H2N8Q9R3S5T6V7WX',
+  'occurred_at' => '2026-09-08T14:20:00Z',
   'quantity' => 1,
-  'reason' => 'inspection_result',
-  'return_receipt_line_item_id' => 'retrcli_01ARZ3NDEKTSV4RRFFQ69G5FAV',
+  'reason' => 'return_policy',
+  'return_receipt_line_item_id' => 'retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
@@ -433,6 +460,9 @@ Signature: `createInspection(string|Model $return_id, array|Model $params, ?Requ
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `return_id` | Required | string | Flint return id. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [CreateReturnInspectionRequestInput](../models/CreateReturnInspectionRequestInput.md#createreturninspectionrequestinput) | The request body for: Create return inspection. |
 
 Body model: [CreateReturnInspectionRequestInput](../models/CreateReturnInspectionRequestInput.md#createreturninspectionrequestinput).
@@ -441,16 +471,16 @@ Body model: [CreateReturnInspectionRequestInput](../models/CreateReturnInspectio
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `correction_reason` | Optional | string | Values: `"entry_error"`, `"duplicate_observation"`, `"source_correction"`, `"reconciliation_correction"`, `"other"`. |
-| `correction_reason_message` | Optional | string | minLength: `1`. |
+| `correction_reason` | Optional | string | Why this observation replaces an earlier one. Send with `supersedes_return_receipt_id` or `supersedes_return_inspection_id`. Values: `"entry_error"`, `"duplicate_observation"`, `"source_correction"`, `"reconciliation_correction"`, `"other"`. |
+| `correction_reason_message` | Optional | string | Detail about `correction_reason`. minLength: `1`. |
 | `external_actor_id` | Optional | string | Your identifier for the actor who recorded the event. Don't put secrets in this field. minLength: `1`. maxLength: `255`. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `inspected_at` | Required | string | When the event occurred, at most 5 minutes in the future. Format: `date-time`. minLength: `1`. |
 | `inspection_location_id` | Required | string | Location where the returned merchandise was inspected. Must match the receipt receiving_location_id. minLength: `1`. |
-| `line_items` | Required | Array of [ReturnInspectionLineItemRequestInput](../models/ReturnInspectionLineItemRequestInput.md#returninspectionlineitemrequestinput) | minItems: `1`. Items: The inspection result for one received return line: acceptance status, condition, and findings. |
-| `return_receipt_id` | Required | string | minLength: `1`. |
-| `source_system` | Optional | [ReturnSourceSystemRequestInput](../models/ReturnSourceSystemRequestInput.md#returnsourcesystemrequestinput) | The system a return event came from, such as a point of sale or warehouse system, with its own identifier. |
-| `supersedes_return_inspection_id` | Optional | string | minLength: `1`. |
+| `line_items` | Required | Array of [ReturnInspectionLineItemRequestInput](../models/ReturnInspectionLineItemRequestInput.md#returninspectionlineitemrequestinput) | The lines recorded. minItems: `1`. |
+| `return_receipt_id` | Required | string | ID of the receipt being inspected. minLength: `1`. |
+| `source_system` | Optional | [ReturnSourceSystemRequestInput](../models/ReturnSourceSystemRequestInput.md#returnsourcesystemrequestinput) | System that recorded the observation. `null` when no source system was recorded. The system a return event came from, such as a point of sale or warehouse system, with its own identifier. |
+| `supersedes_return_inspection_id` | Optional | string | ID of the inspection this one corrects. minLength: `1`. |
 
 #### Response
 
@@ -465,7 +495,6 @@ Returned payload: [ReturnInspection](../models/ReturnInspection.md#returninspect
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -490,18 +519,24 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->returns->createInspection('ret_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
-  'inspected_at' => '2026-01-01T00:00:00Z',
-  'inspection_location_id' => 'loc_01ARZ3NDEKTSV4RRFFQ69G5FAV',
+$result = $client->returns->createInspection('ret_01KEZF7C00PG93650ZKVQNGF7X', [
+  'inspected_at' => '2026-09-08T14:15:00Z',
+  'inspection_location_id' => 'loc_01K1P6G4M7H2N8Q9R3S5T6V7WX',
   'line_items' => [
     (object) [
       'acceptance_status' => 'accepted',
-      'condition' => 'new',
+      'condition' => 'unopened',
+      'finding_codes' => [
+        'matches_expected_item',
+      ],
       'quantity' => 1,
-      'return_receipt_line_item_id' => 'retrcli_01ARZ3NDEKTSV4RRFFQ69G5FAV',
+      'return_receipt_line_item_id' => 'retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE',
     ],
   ],
-  'return_receipt_id' => 'retrc_01ARZ3NDEKTSV4RRFFQ69G5FAV',
+  'return_receipt_id' => 'retrc_01KEZF7C008V637A0ZWN32RQ7A',
+  'source_system' => (object) [
+    'source_system_type' => 'manual',
+  ],
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
@@ -520,6 +555,9 @@ Signature: `createLineItem(string|Model $return_id, array|Model $params, ?Reques
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `return_id` | Required | string | Flint return id. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [AddReturnLineItemRequestInput](../models/AddReturnLineItemRequestInput.md#addreturnlineitemrequestinput) | The request body for: Add return line item. |
 
 Body model: [AddReturnLineItemRequestInput](../models/AddReturnLineItemRequestInput.md#addreturnlineitemrequestinput).
@@ -541,7 +579,6 @@ Returned payload: [ReturnResource](../models/ReturnResource.md#returnresource).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -566,11 +603,14 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->returns->createLineItem('ret_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
+$result = $client->returns->createLineItem('ret_01KEZF7C00PG93650ZKVQNGF7X', [
+  'expected_version' => 1,
   'line_item' => (object) [
-    'order_line_item_id' => 'li_01ARZ3NDEKTSV4RRFFQ69G5FAV',
+    'buyer_note' => 'I changed my mind.',
+    'order_line_item_id' => 'li_01KEZF7C00XM6VK5KNWVC3T907',
     'requested_quantity' => 1,
-    'return_reason_id' => 'rrsn_01ARZ3NDEKTSV4RRFFQ69G5FAV',
+    'requested_resolution_type' => 'refund',
+    'return_reason_id' => 'rrsn_01KEZF7C005274REWXTZRJ4BM0',
   ],
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
@@ -590,6 +630,9 @@ Signature: `createReceipt(string|Model $return_id, array|Model $params, ?Request
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `return_id` | Required | string | Flint return id. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [CreateReturnReceiptRequestInput](../models/CreateReturnReceiptRequestInput.md#createreturnreceiptrequestinput) | The request body for: Create return receipt. |
 
 Body model: [CreateReturnReceiptRequestInput](../models/CreateReturnReceiptRequestInput.md#createreturnreceiptrequestinput).
@@ -598,16 +641,16 @@ Body model: [CreateReturnReceiptRequestInput](../models/CreateReturnReceiptReque
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `correction_reason` | Optional | string | Values: `"entry_error"`, `"duplicate_observation"`, `"source_correction"`, `"reconciliation_correction"`, `"other"`. |
-| `correction_reason_message` | Optional | string | minLength: `1`. |
+| `correction_reason` | Optional | string | Why this observation replaces an earlier one. Send with `supersedes_return_receipt_id` or `supersedes_return_inspection_id`. Values: `"entry_error"`, `"duplicate_observation"`, `"source_correction"`, `"reconciliation_correction"`, `"other"`. |
+| `correction_reason_message` | Optional | string | Detail about `correction_reason`. minLength: `1`. |
 | `external_actor_id` | Optional | string | Your identifier for the actor who recorded the event. Don't put secrets in this field. minLength: `1`. maxLength: `255`. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
-| `line_items` | Required | Array of [ReturnReceiptLineItemRequestInput](../models/ReturnReceiptLineItemRequestInput.md#returnreceiptlineitemrequestinput) | minItems: `1`. Items: One line of received merchandise: a matched return line, excess quantity, or an unverified item. |
+| `line_items` | Required | Array of [ReturnReceiptLineItemRequestInput](../models/ReturnReceiptLineItemRequestInput.md#returnreceiptlineitemrequestinput) | The lines recorded. minItems: `1`. |
 | `received_at` | Required | string | When the event occurred, at most 5 minutes in the future. Format: `date-time`. minLength: `1`. |
-| `receiving_location_id` | Required | string | minLength: `1`. |
-| `shipment_id` | Optional | string | minLength: `1`. |
-| `source_system` | Optional | [ReturnSourceSystemRequestInput](../models/ReturnSourceSystemRequestInput.md#returnsourcesystemrequestinput) | The system a return event came from, such as a point of sale or warehouse system, with its own identifier. |
-| `supersedes_return_receipt_id` | Optional | string | minLength: `1`. |
+| `receiving_location_id` | Required | string | ID of the Location that received the goods. minLength: `1`. |
+| `shipment_id` | Optional | string | ID of the return shipment the goods arrived in. Absent when the receipt isn't tied to a shipment. minLength: `1`. |
+| `source_system` | Optional | [ReturnSourceSystemRequestInput](../models/ReturnSourceSystemRequestInput.md#returnsourcesystemrequestinput) | System that recorded the observation. `null` when no source system was recorded. The system a return event came from, such as a point of sale or warehouse system, with its own identifier. |
+| `supersedes_return_receipt_id` | Optional | string | ID of the receipt this one corrects. minLength: `1`. |
 
 #### Response
 
@@ -622,7 +665,6 @@ Returned payload: [ReturnReceipt](../models/ReturnReceipt.md#returnreceipt).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -647,16 +689,19 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->returns->createReceipt('ret_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
+$result = $client->returns->createReceipt('ret_01KEZF7C00PG93650ZKVQNGF7X', [
   'line_items' => [
     (object) [
-      'type' => 'matched',
       'quantity' => 1,
-      'return_line_item_id' => 'retli_01ARZ3NDEKTSV4RRFFQ69G5FAV',
+      'return_line_item_id' => 'retli_01KEZF7C001NHF6JPD83VD0MRK',
+      'type' => 'matched',
     ],
   ],
-  'received_at' => '2026-01-01T00:00:00Z',
-  'receiving_location_id' => 'loc_01ARZ3NDEKTSV4RRFFQ69G5FAV',
+  'received_at' => '2026-09-08T14:00:00Z',
+  'receiving_location_id' => 'loc_01K1P6G4M7H2N8Q9R3S5T6V7WX',
+  'source_system' => (object) [
+    'source_system_type' => 'manual',
+  ],
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
@@ -675,6 +720,9 @@ Signature: `createResolution(string|Model $return_id, array|Model $params, ?Requ
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `return_id` | Required | string | Flint return id. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [CreateReturnResolutionRequestInput](../models/CreateReturnResolutionRequestInput.md#createreturnresolutionrequestinput) | The request body for: Create return resolution. |
 
 Body model: [CreateReturnResolutionRequestInput](../models/CreateReturnResolutionRequestInput.md#createreturnresolutionrequestinput).
@@ -683,16 +731,16 @@ Body model: [CreateReturnResolutionRequestInput](../models/CreateReturnResolutio
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `adjustments` | Optional | Array of [ReturnResolutionAdjustmentRequestInput](../models/ReturnResolutionAdjustmentRequestInput.md#returnresolutionadjustmentrequestinput) | Items: A fee or credit to apply to a return resolution, with the assessed and applied amounts and whether it is applied or waived. |
-| `corrects_return_resolution_id` | Optional | string | minLength: `1`. |
+| `adjustments` | Optional | Array of [ReturnResolutionAdjustmentRequestInput](../models/ReturnResolutionAdjustmentRequestInput.md#returnresolutionadjustmentrequestinput) | Fees and credits to apply to the resolution, at most 50. |
+| `corrects_return_resolution_id` | Optional | string | ID of the settled resolution to correct. Send only with `resolution_type: correction`. minLength: `1`. |
 | `expected_return_version` | Optional | integer | Optional version of the parent Return. A stale value returns VERSION_CONFLICT with the Return ID and its current version. Format: `int64`. minimum: `1`. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `gift_card_refund_destination` | Optional | string | Where the gift-card-paid portion is refunded. original credits the original gift card; new_gift_card issues new gift cards. Accepted for refund, exchange, and correction, except a correction of store_credit. Omit for store_credit, replacement, and no_monetary_action; sending it returns INVALID_REQUEST with a NOT_ALLOWED detail and conflicting_fields naming resolution_type and gift_card_refund_destination. Store credit and its corrections always issue new gift cards. PATCH can change it only while proposed. Retry persists the chosen destination before starting the new attempt. Default: `"original"`. Values: `"original"`, `"new_gift_card"`. |
-| `line_items` | Optional | Array of [ReturnResolutionLineItemRequestInput](../models/ReturnResolutionLineItemRequestInput.md#returnresolutionlineitemrequestinput) | Items: A return line and quantity to include in a return resolution. |
+| `line_items` | Optional | Array of [ReturnResolutionLineItemRequestInput](../models/ReturnResolutionLineItemRequestInput.md#returnresolutionlineitemrequestinput) | Return lines and quantities to cover, up to 100. Not allowed on a correction. |
 | `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
-| `pricing_basis` | Optional | string | Values: `"original_price"`, `"current_price"`, `"merchant_agreed_price"`. |
-| `replacement_line_items` | Optional | Array of [ReturnReplacementLineItemRequestInput](../models/ReturnReplacementLineItemRequestInput.md#returnreplacementlineitemrequestinput) | Items: A replacement item to include in a return resolution, from a variant, a bundle, or a custom name and price. |
-| `resolution_type` | Required | string | Values: `"refund"`, `"exchange"`, `"replacement"`, `"store_credit"`, `"no_monetary_action"`, `"correction"`. |
+| `pricing_basis` | Optional | string | Required for merchant exchange and replacement requests. original_price preserves the selected units' net paid amounts using refund allocation; current_price uses catalog prices; merchant_agreed_price uses each supplied unit_price_money. Buyer requests must omit pricing_basis: replacements use original_price; exchanges use original_price when every replacement matches selected returned merchandise by variant, bundle, or product, otherwise current_price. Values: `"original_price"`, `"current_price"`, `"merchant_agreed_price"`. |
+| `replacement_line_items` | Optional | Array of [ReturnReplacementLineItemRequestInput](../models/ReturnReplacementLineItemRequestInput.md#returnreplacementlineitemrequestinput) | Merchandise the buyer receives instead, up to 100. Send with `exchange` or `replacement`. |
+| `resolution_type` | Required | string | What the buyer gets for the approved quantity. Values: `"refund"`, `"exchange"`, `"replacement"`, `"store_credit"`, `"no_monetary_action"`, `"correction"`. |
 
 #### returns.createResolution with `resolution_type: "exchange" | "no_monetary_action" | "refund" | "replacement" | "store_credit"`
 
@@ -719,7 +767,6 @@ Returned payload: [ReturnResolution](../models/ReturnResolution.md#returnresolut
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -759,7 +806,7 @@ $result = $client->returns->createResolution('ret_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
 
 ### returns.decide
 
-Record one decision for every requested line atomically, then open the Return. To defer a line, decline its quantity or remove it with DELETE /v1/returns/{return_id}/line-items/{return_line_item_id} and open a separate Return for it. Omit completion_mode to use the shared pinned policy mode, or automatic when none sets a mode; disagreeing policies require an explicit completion_mode. completion_blockers reports uncovered approved quantity as resolution_not_selected alongside blockers for unfinished resolutions. Start from each buildable pinned policy proposal or the no-policy defaults, replace every supplied decision field, fill release_timing, and validate the result. When an automatic refund can no longer run through the original payment's provider, the request fails with 409 ACTION_NOT_ALLOWED; send automatic_resolution_type as null to resolve manually, or choose no_monetary_action.
+Record one decision for every requested line atomically, then open the Return. To defer a line, decline its quantity or remove it with DELETE /v1/returns/{return_id}/line-items/{return_line_item_id} and open a separate Return for it. Omit completion_mode to use the shared pinned policy mode, or automatic when none sets a mode; disagreeing policies require an explicit completion_mode. completion_blockers reports uncovered approved quantity as resolution_not_selected alongside blockers for unfinished resolutions. Start from each buildable pinned policy proposal or the no-policy defaults, replace every supplied decision field, fill release_timing, and validate the result. When an automatic refund can no longer run through the original payment's provider, the request fails with `ACTION_NOT_ALLOWED`; send automatic_resolution_type as null to resolve manually, or choose no_monetary_action.
 
 `POST /v1/returns/{return_id}/decide`
 
@@ -770,17 +817,16 @@ Signature: `decide(string|Model $return_id, array|Model $params, ?RequestOptions
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `return_id` | Required | string | Flint return id. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [DecideReturnRequestInput](../models/DecideReturnRequestInput.md#decidereturnrequestinput) | The request body for: Decide return. |
 
 Body model: [DecideReturnRequestInput](../models/DecideReturnRequestInput.md#decidereturnrequestinput).
 
 #### returns.decide body fields
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `completion_mode` | Optional | string | Omit to use the mode shared by all pinned policies that set completion_mode, or automatic when no pinned policy sets one. Conflicting pinned policy modes return 400 naming completion_mode only when completion_mode is omitted. An explicit manual or automatic value is used as sent. Values: `"manual"`, `"automatic"`. |
-| `expected_version` | Optional | integer | Format: `int64`. minimum: `1`. |
-| `line_items` | Required | Array of [ReturnLineDecisionInput](../models/ReturnLineDecisionInput.md#returnlinedecisioninput) | minItems: `1`. Items: Start from the pinned policy proposal recomputed for approved_quantity when the line has a policy evaluation and the proposal can be built. Otherwise start with return_required_quantity equal to approved_quantity, allowed_resolution_types containing refund, exchange, replacement, no_monetary_action, and store_credit in that order regardless of whether the original payment is refundable, no automatic_resolution_type, is_inspection_required false, and no receiving_location_id. Each supplied field replaces its starting value; allowed_resolution_types replaces the whole list. Omit automatic_resolution_type to keep its starting value, or send null to resolve manually. Then fill an omitted release_timing with after_inspection when merchandise is required and inspection is required, after_receipt when merchandise is required without inspection, or after_approval when no merchandise is required. Validate the merged decision for quantity bounds, allowed resolution types, and reachable timing and inspection requirements. A pinned policy always requires override_reason when approved_quantity exceeds evaluated eligible_quantity, even when no proposal can be built. With a pinned policy but no proposal, other decision fields use these defaults and override_reason is otherwise optional. |
+Field definitions: [shared fields](../models/DecideReturnRequestInput.md#decidereturnrequestinput). Models: [ReturnLineDecisionInput](../models/ReturnLineDecisionInput.md#returnlinedecisioninput).
 
 #### Response
 
@@ -795,7 +841,6 @@ Returned payload: [ReturnResource](../models/ReturnResource.md#returnresource).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -848,6 +893,9 @@ Signature: `deleteLineItem(string|Model $return_id, string|Model $return_line_it
 | `return_id` | Required | string | Flint return id. |
 | `return_line_item_id` | Required | string | Flint return line item id. |
 | `expected_version` | Optional | integer | Optional version of the parent Return. Supply exactly once. A stale value returns VERSION_CONFLICT with the current Return version. Format: `int64`. minimum: `1`. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -862,7 +910,6 @@ Returned payload: [ReturnResource](../models/ReturnResource.md#returnresource).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -885,7 +932,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->returns->deleteLineItem('ret_01ARZ3NDEKTSV4RRFFQ69G5FAV', 'retli_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->returns->deleteLineItem('ret_01KEZF7C00PG93650ZKVQNGF7X', 'retli_01KEZF7C00R813VR7ECXS062QG', [], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/returns-deleteLineItem.php)
@@ -903,7 +950,10 @@ Signature: `get(string|Model $return_id, array|Model|null $params = null, ?Reque
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `return_id` | Required | string | Flint return id. |
-| `expand` | Optional | Array of string or string | Supported expansions: customer, line_items.fulfillment, line_items.return_reason, order, return_dispositions, return_inspections, return_receipts, return_resolutions, shipments. Expanded relationships are returned only when explicitly requested and authorized. Limits: at most 10 unique expand paths per request. To-many expansions are capped per path: at 100 related objects for return_dispositions, return_inspections, return_receipts, return_resolutions, and shipments; at 20 for line_items.fulfillment and line_items.return_reason. Repeat expand, for example expand=customer&expand=line_items.fulfillment, or pass one comma-separated value. Items values: [9 declared values](#returnsget-input-expand--values). Values: [9 declared values](#returnsget-input-expand-values). |
+| `expand` | Optional | Array of string or string | Include related objects in the response. Supported expansions: customer, line_items.fulfillment, line_items.return_reason, order, return_dispositions, return_inspections, return_receipts, return_resolutions, shipments. Expanded relationships are returned only when explicitly requested and authorized. Limits: at most 10 unique expand paths per request. To-many expansions are capped per path: at 100 related objects for return_dispositions, return_inspections, return_receipts, return_resolutions, and shipments; at 20 for line_items.fulfillment and line_items.return_reason. Items values: [9 declared values](#returnsget-input-expand--values). Values: [9 declared values](#returnsget-input-expand-values). |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### returns.get input expand [] values
 
@@ -941,7 +991,6 @@ Returned payload: [ReturnResource](../models/ReturnResource.md#returnresource).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -959,7 +1008,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```php
-$result = $client->returns->get('ret_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
+$result = $client->returns->get('ret_01KEZF7C00PG93650ZKVQNGF7X', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/returns-get.php)
@@ -978,6 +1027,9 @@ Signature: `getLineItem(string|Model $return_id, string|Model $return_line_item_
 | --- | --- | --- | --- |
 | `return_id` | Required | string | Flint return id. |
 | `return_line_item_id` | Required | string | Flint return line item id. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -991,7 +1043,6 @@ Returned payload: [ReturnLineItem](../models/ReturnLineItem.md#returnlineitem).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -1009,7 +1060,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```php
-$result = $client->returns->getLineItem('ret_01ARZ3NDEKTSV4RRFFQ69G5FAV', 'retli_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
+$result = $client->returns->getLineItem('ret_01KEZF7C00PG93650ZKVQNGF7X', 'retli_01KEZF7C00R813VR7ECXS062QG', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/returns-getLineItem.php)
@@ -1029,26 +1080,29 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 | `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
 | `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
 | `customer_id` | Optional | string | Filter by customer id. |
-| `decision_status` | Optional | Array of string or string | Filter by decision status. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"pending"`, `"approved"`, `"partially_approved"`, `"declined"`. Values: `"pending"`, `"approved"`, `"partially_approved"`, `"declined"`. |
+| `decision_status` | Optional | Array of string or string | Filter by decision status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"pending"`, `"approved"`, `"partially_approved"`, `"declined"`. Values: `"pending"`, `"approved"`, `"partially_approved"`, `"declined"`. |
 | `external_reference_id` | Optional | string | Exact-match filter on the caller-owned external reference ID. minLength: `1`. maxLength: `255`. |
 | `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. |
-| `merchandise_status` | Optional | Array of string or string | Filter by merchandise status. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [10 declared values](#returnslist-input-merchandise_status--values). Values: [10 declared values](#returnslist-input-merchandise_status-values). |
+| `merchandise_status` | Optional | Array of string or string | Filter by merchandise status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [10 declared values](#returnslist-input-merchandise_status--values). Values: [10 declared values](#returnslist-input-merchandise_status-values). |
 | `order_id` | Optional | string | Filter by order id. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. Format: `int32`. minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `query` | Optional | string | Search by return ID, return number, external reference ID, the order's number, or the buyer's email. |
 | `receiving_location_id` | Optional | string | Filter by receiving location id. |
-| `resolution_status` | Optional | Array of string or string | Filter by resolution status. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"not_selected"`, `"pending"`, `"partially_fulfilled"`, `"requires_action"`, `"fulfilled"`, `"failed"`. Values: `"not_selected"`, `"pending"`, `"partially_fulfilled"`, `"requires_action"`, `"fulfilled"`, `"failed"`. |
-| `resolution_type` | Optional | Array of string or string | Filter by resolution type. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"refund"`, `"exchange"`, `"replacement"`, `"store_credit"`, `"no_monetary_action"`, `"correction"`. Values: `"refund"`, `"exchange"`, `"replacement"`, `"store_credit"`, `"no_monetary_action"`, `"correction"`. |
+| `resolution_status` | Optional | Array of string or string | Filter by resolution status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"not_selected"`, `"pending"`, `"partially_fulfilled"`, `"requires_action"`, `"fulfilled"`, `"failed"`. Values: `"not_selected"`, `"pending"`, `"partially_fulfilled"`, `"requires_action"`, `"fulfilled"`, `"failed"`. |
+| `resolution_type` | Optional | Array of string or string | Filter by resolution type. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"refund"`, `"exchange"`, `"replacement"`, `"store_credit"`, `"no_monetary_action"`, `"correction"`. Values: `"refund"`, `"exchange"`, `"replacement"`, `"store_credit"`, `"no_monetary_action"`, `"correction"`. |
 | `return_number` | Optional | string | Filter by return number. |
 | `return_reason_id` | Optional | string | Filter by return reason id. |
 | `sort_by` | Optional | string | Field to sort by. Defaults to created_at; ties are broken by return_id. Default: `"created_at"`. Values: `"created_at"`. |
 | `sort_direction` | Optional | string | Sort direction. Defaults to desc. Default: `"desc"`. Values: `"asc"`, `"desc"`. |
-| `status` | Optional | Array of string or string | Filter by status. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"requested"`, `"open"`, `"completed"`, `"declined"`, `"canceled"`. Values: `"requested"`, `"open"`, `"completed"`, `"declined"`, `"canceled"`. |
+| `status` | Optional | Array of string or string | Filter by status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"requested"`, `"open"`, `"completed"`, `"declined"`, `"canceled"`. Values: `"requested"`, `"open"`, `"completed"`, `"declined"`, `"canceled"`. |
 | `updated_after` | Optional | string | Inclusive lower bound on updated_at. Format: `date-time`. |
 | `updated_before` | Optional | string | Exclusive upper bound on updated_at. Format: `date-time`. |
-| `work_type` | Optional | Array of string or string | Filter by work type. Matches only returns that are still requested or open. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"decision"`, `"handoff"`, `"receipt"`, `"inspection"`, `"disposition"`, `"resolution"`, `"exception"`. Values: `"decision"`, `"handoff"`, `"receipt"`, `"inspection"`, `"disposition"`, `"resolution"`, `"exception"`. |
-| `expand` | Optional | Array of string or string | Supported expansions: customer, order. Include the requested related resources using scoped batch reads for this page. Each relationship requires its existing target read scopes. Expansion changes the representation without changing pagination tokens. Limits: at most 10 unique expand paths per request. Repeat expand, for example expand=customer&expand=order, or pass one comma-separated value. Items values: `"customer"`, `"order"`. Values: `"customer"`, `"order"`. |
+| `work_type` | Optional | Array of string or string | Filter by work type. Matches only returns that are still requested or open. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"decision"`, `"handoff"`, `"receipt"`, `"inspection"`, `"disposition"`, `"resolution"`, `"exception"`. Values: `"decision"`, `"handoff"`, `"receipt"`, `"inspection"`, `"disposition"`, `"resolution"`, `"exception"`. |
+| `expand` | Optional | Array of string or string | Include related objects in the response. Supported expansions: customer, order. Include the requested related resources using scoped batch reads for this page. Each relationship requires its existing target read scopes. Expansion changes the representation without changing pagination tokens. Limits: at most 10 unique expand paths per request. Items values: `"customer"`, `"order"`. Values: `"customer"`, `"order"`. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### returns.list input merchandise_status [] values
 
@@ -1088,7 +1142,6 @@ Returned payload: [ListReturnsResponse](../models/ListReturnsResponse.md#listret
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -1127,8 +1180,11 @@ Signature: `listActivities(string|Model $return_id, array|Model|null $params = n
 | --- | --- | --- | --- |
 | `return_id` | Required | string | Flint return id. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. Format: `int32`. minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `sort_direction` | Optional | string | Sort direction. Defaults to desc. Default: `"desc"`. Values: `"asc"`, `"desc"`. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -1142,7 +1198,6 @@ Returned payload: [ListReturnActivitiesResponse](../models/ListReturnActivitiesR
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -1162,7 +1217,7 @@ Pagination: `listActivitiesItems`, `listActivitiesPages`. [Canonical pagination 
 #### Example
 
 ```php
-$result = $client->returns->listActivities('ret_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
+$result = $client->returns->listActivities('ret_01KEZF7C00PG93650ZKVQNGF7X', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/returns-listActivities.php)
@@ -1181,13 +1236,16 @@ Signature: `listLineItems(string|Model $return_id, array|Model|null $params = nu
 | --- | --- | --- | --- |
 | `return_id` | Required | string | Flint return id. |
 | `fulfillment_id` | Optional | string | Filter by fulfillment id. |
-| `merchandise_status` | Optional | Array of string or string | Filter by merchandise status. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [10 declared values](#returnslistlineitems-input-merchandise_status--values). Values: [10 declared values](#returnslistlineitems-input-merchandise_status-values). |
+| `merchandise_status` | Optional | Array of string or string | Filter by merchandise status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [10 declared values](#returnslistlineitems-input-merchandise_status--values). Values: [10 declared values](#returnslistlineitems-input-merchandise_status-values). |
 | `order_line_item_id` | Optional | string | Filter by order line item id. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. Format: `int32`. minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
-| `resolution_status` | Optional | Array of string or string | Filter by resolution status. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"not_selected"`, `"pending"`, `"requires_action"`, `"fulfilled"`, `"failed"`. Values: `"not_selected"`, `"pending"`, `"requires_action"`, `"fulfilled"`, `"failed"`. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
+| `resolution_status` | Optional | Array of string or string | Filter by resolution status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"not_selected"`, `"pending"`, `"requires_action"`, `"fulfilled"`, `"failed"`. Values: `"not_selected"`, `"pending"`, `"requires_action"`, `"fulfilled"`, `"failed"`. |
 | `return_reason_id` | Optional | string | Filter by return reason id. |
-| `status` | Optional | Array of string or string | Filter by status. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"requested"`, `"open"`, `"completed"`, `"declined"`, `"canceled"`. Values: `"requested"`, `"open"`, `"completed"`, `"declined"`, `"canceled"`. |
+| `status` | Optional | Array of string or string | Filter by status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"requested"`, `"open"`, `"completed"`, `"declined"`, `"canceled"`. Values: `"requested"`, `"open"`, `"completed"`, `"declined"`, `"canceled"`. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### returns.listLineItems input merchandise_status [] values
 
@@ -1227,7 +1285,6 @@ Returned payload: [ListReturnLineItemsResponse](../models/ListReturnLineItemsRes
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -1247,14 +1304,14 @@ Pagination: `listLineItemsItems`, `listLineItemsPages`. [Canonical pagination ex
 #### Example
 
 ```php
-$result = $client->returns->listLineItems('ret_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
+$result = $client->returns->listLineItems('ret_01KEZF7C00PG93650ZKVQNGF7X', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/returns-listLineItems.php)
 
 ### returns.process
 
-Record decisions, receipts, inspections, dispositions, and resolutions for an existing requested or open Return in one request. On a requested Return, send one decision for every requested line; missing decisions return 409 ACTION_NOT_ALLOWED with reason status_not_reached. Omit completion_mode to use the shared pinned policy mode, or automatic when none sets a mode; disagreeing policies require an explicit completion_mode. On an open Return, omit decision and completion_mode to keep committed values, or send those values unchanged; changed values return 409 ACTION_NOT_ALLOWED with reason field_locked. completion_blockers includes resolution_not_selected for any uncovered approved quantity alongside blockers for unfinished resolutions. A line can be processed here only while it has no receipt, inspection, disposition, or resolution. For each line, received_quantity must equal its committed return_required_quantity. Send inspection exactly when the line requires inspection, with acceptance_status accepted. Refunds, payments, replacement orders, and inventory updates complete asynchronously. expected_version is optional and checked only when sent. If the Return has changed since that version, the request fails with VERSION_CONFLICT. When an automatic refund can no longer run through the original payment's provider, the request fails with 409 ACTION_NOT_ALLOWED; send automatic_resolution_type as null to resolve manually, or choose no_monetary_action. Requires Idempotency-Key and all three scopes: commerce.returns.write, commerce.returns.operations.write, and commerce.returns.resolutions.write.
+Record decisions, receipts, inspections, dispositions, and resolutions for an existing requested or open Return in one request. On a requested Return, send one decision for every requested line; missing decisions fail with `ACTION_NOT_ALLOWED` and reason `status_not_reached`. Omit completion_mode to use the shared pinned policy mode, or automatic when none sets a mode; disagreeing policies require an explicit completion_mode. On an open Return, omit decision and completion_mode to keep committed values, or send those values unchanged; changed values fail with `ACTION_NOT_ALLOWED` and reason `field_locked`. completion_blockers includes resolution_not_selected for any uncovered approved quantity alongside blockers for unfinished resolutions. A line can be processed here only while it has no receipt, inspection, disposition, or resolution; otherwise ACTION_NOT_ALLOWED has reason unsupported_state and param line_items[i].return_line_item_id. A receipt location that differs from a line's committed location fails with ACTION_NOT_ALLOWED, reason field_locked, and param receipt.receiving_location_id. Missing receipt or receipt.receiving_location_id fails with INVALID_REQUEST and detail REQUIRED. For each line, received_quantity must equal its committed return_required_quantity. Send inspection exactly when the line requires inspection, with acceptance_status accepted. Refunds, payments, replacement orders, and inventory updates complete asynchronously. expected_version is optional and checked only when sent. If the Return has changed since that version, the request fails with VERSION_CONFLICT. When an automatic refund can no longer run through the original payment's provider, the request fails with `ACTION_NOT_ALLOWED`; on a decision, send automatic_resolution_type as null to resolve manually; on a resolution, choose another resolution_type, such as no_monetary_action, and reimburse the buyer another way. Requires an idempotency key and all three scopes: commerce.returns.write, commerce.returns.operations.write, and commerce.returns.resolutions.write.
 
 `POST /v1/returns/{return_id}/process`
 
@@ -1265,18 +1322,16 @@ Signature: `process(string|Model $return_id, array|Model $params, ?RequestOption
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `return_id` | Required | string | Flint return id. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [ProcessExistingReturnRequestInput](../models/ProcessExistingReturnRequestInput.md#processexistingreturnrequestinput) | The request body for: Process existing return. |
 
 Body model: [ProcessExistingReturnRequestInput](../models/ProcessExistingReturnRequestInput.md#processexistingreturnrequestinput).
 
 #### returns.process body fields
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `completion_mode` | Optional | string | Omit to use the mode shared by all pinned policies that set completion_mode, or automatic when no pinned policy sets one. Conflicting pinned policy modes return 400 naming completion_mode only when completion_mode is omitted. An explicit manual or automatic value is used as sent. On an open Return, omit to keep its committed mode. Sending that mode is accepted; a different mode returns 409 ACTION_NOT_ALLOWED with reason field_locked and param completion_mode. Values: `"manual"`, `"automatic"`. |
-| `expected_version` | Optional | integer | Format: `int64`. minimum: `1`. |
-| `line_items` | Required | Array of [ProcessExistingReturnLineItemRequestInput](../models/ProcessExistingReturnLineItemRequestInput.md#processexistingreturnlineitemrequestinput) | minItems: `1`. Items: How to process one line of an existing return: the received quantity, inspection, decision, disposition, and resolution. |
-| `receipt` | Optional | [ReturnProcessReceiptRequestInput](../models/ReturnProcessReceiptRequestInput.md#returnprocessreceiptrequestinput) | The receipt of returned merchandise, with when and where it was received, supplied when processing an existing return. |
+Field definitions: [shared fields](../models/ProcessExistingReturnRequestInput.md#processexistingreturnrequestinput). Models: [ProcessExistingReturnLineItemRequestInput](../models/ProcessExistingReturnLineItemRequestInput.md#processexistingreturnlineitemrequestinput), [ReturnProcessReceiptRequestInput](../models/ReturnProcessReceiptRequestInput.md#returnprocessreceiptrequestinput).
 
 #### Response
 
@@ -1291,7 +1346,6 @@ Returned payload: [ReturnProcessResult](../models/ReturnProcessResult.md#returnp
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -1316,10 +1370,10 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->returns->process('ret_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
+$result = $client->returns->process('ret_01KEZF7C00PG93650ZKVQNGF7X', [
   'line_items' => [
     (object) [
-      'return_line_item_id' => 'retli_01ARZ3NDEKTSV4RRFFQ69G5FAV',
+      'return_line_item_id' => 'retli_01KEZF7C00R813VR7ECXS062QG',
     ],
   ],
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
@@ -1340,6 +1394,9 @@ Signature: `reopen(string|Model $return_id, array|Model $params, ?RequestOptions
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `return_id` | Required | string | Flint return id. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [ReopenReturnRequestInput](../models/ReopenReturnRequestInput.md#reopenreturnrequestinput) | The request body for: Reopen return. |
 
 Body model: [ReopenReturnRequestInput](../models/ReopenReturnRequestInput.md#reopenreturnrequestinput).
@@ -1361,7 +1418,6 @@ Returned payload: [ReturnResource](../models/ReturnResource.md#returnresource).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -1386,8 +1442,9 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->returns->reopen('ret_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
-  'reason' => 'linked_effect_changed',
+$result = $client->returns->reopen('ret_01KEZF7C00PG93650ZKVQNGF7X', [
+  'expected_version' => 5,
+  'reason' => 'additional_merchandise_received',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
@@ -1406,13 +1463,20 @@ Signature: `update(string|Model $return_id, array|Model $params, ?RequestOptions
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `return_id` | Required | string | Flint return id. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [UpdateReturnRequestInput](../models/UpdateReturnRequestInput.md#updatereturnrequestinput) | The request body for: Update return. |
 
 Body model: [UpdateReturnRequestInput](../models/UpdateReturnRequestInput.md#updatereturnrequestinput).
 
 #### returns.update body fields
 
-Field definitions: [shared fields](../models/UpdateReturnRequestInput.md#updatereturnrequestinput). Models: [MetadataPatchRequestInput](../models/MetadataPatchRequestInput.md#metadatapatchrequestinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `expected_version` | Optional | integer | Optional version of the Return. A stale value returns VERSION_CONFLICT with the current Return version. Format: `int64`. minimum: `1`. |
+| `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. |
+| `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequestInput.md#metadatapatchrequestinput) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. |
 
 #### Response
 
@@ -1427,7 +1491,6 @@ Returned payload: [ReturnResource](../models/ReturnResource.md#returnresource).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -1473,13 +1536,22 @@ Signature: `updateLineItem(string|Model $return_id, string|Model $return_line_it
 | --- | --- | --- | --- |
 | `return_id` | Required | string | Flint return id. |
 | `return_line_item_id` | Required | string | Flint return line item id. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [UpdateReturnLineItemRequestInput](../models/UpdateReturnLineItemRequestInput.md#updatereturnlineitemrequestinput) | The request body for: Update return line item. |
 
 Body model: [UpdateReturnLineItemRequestInput](../models/UpdateReturnLineItemRequestInput.md#updatereturnlineitemrequestinput).
 
 #### returns.updateLineItem body fields
 
-Field definitions: [shared fields](../models/UpdateReturnLineItemRequestInput.md#updatereturnlineitemrequestinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `buyer_note` | Optional | string or null | Send null to clear it. minLength: `1`. |
+| `expected_version` | Optional | integer | Version last read from the resource returned in `data` (the primary resource for a result object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on the operation and fields being changed. Format: `int64`. minimum: `1`. |
+| `requested_quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
+| `requested_resolution_type` | Optional | string or null | Send null to clear it. Values: `"refund"`, `"exchange"`, `"replacement"`, `"no_monetary_action"`, `null`. |
+| `return_reason_id` | Optional | string | ID of the return reason for this line. The reason must be active. minLength: `1`. |
 
 #### Response
 
@@ -1494,7 +1566,6 @@ Returned payload: [ReturnResource](../models/ReturnResource.md#returnresource).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -1540,6 +1611,9 @@ Signature: `waiveLineItemInspection(string|Model $return_id, string|Model $retur
 | --- | --- | --- | --- |
 | `return_id` | Required | string | Flint return id. |
 | `return_line_item_id` | Required | string | Flint return line item id. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [WaiveReturnLineInspectionRequestInput](../models/WaiveReturnLineInspectionRequestInput.md#waivereturnlineinspectionrequestinput) | The request body for: Waive return line inspection. |
 
 Body model: [WaiveReturnLineInspectionRequestInput](../models/WaiveReturnLineInspectionRequestInput.md#waivereturnlineinspectionrequestinput).
@@ -1561,7 +1635,6 @@ Returned payload: [ReturnResource](../models/ReturnResource.md#returnresource).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -1586,8 +1659,9 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->returns->waiveLineItemInspection('ret_01ARZ3NDEKTSV4RRFFQ69G5FAV', 'retli_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
-  'reason' => 'policy_override',
+$result = $client->returns->waiveLineItemInspection('ret_01KEZF7C00PG93650ZKVQNGF7X', 'retli_01KEZF7C00R813VR7ECXS062QG', [
+  'expected_version' => 3,
+  'reason' => 'trusted_in_store_handoff',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 

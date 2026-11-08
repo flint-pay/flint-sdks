@@ -8,7 +8,7 @@ namespace Flint;
 final class InventoryAdjustmentResult extends Model {
     /** @param array{'inventory_adjustment': mixed, 'inventory_levels': list<mixed>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryAdjustmentResult')); }
-    /** A recorded stock change with its reason and the quantity changes Flint computed.
+    /** The recorded adjustment. A recorded stock change with its reason and the quantity changes Flint computed.
      * @return InventoryAdjustment
      */
     public function getInventoryAdjustment(): InventoryAdjustment { return $this->get('inventory_adjustment'); }

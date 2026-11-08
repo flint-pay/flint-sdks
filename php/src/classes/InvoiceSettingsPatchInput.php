@@ -9,14 +9,13 @@ namespace Flint;
  * @property-read string|null $default_invoice_payment_term_id
  * @property-read string|null $default_memo
  * @property-read string|null $invoice_number_prefix
- * @property-read array{'enabled_payment_options': list<string>, 'payment_option_limits'?: list<InvoicePaymentOptionLimitInput|array<array-key, mixed>|\stdClass>, 'show_cost_comparison'?: bool}|object|null $payment_policy
+ * @property-read array{'enabled_payment_options': list<string>, 'payment_option_limits'?: list<InvoicePaymentOptionLimitRequestInput|array<array-key, mixed>|\stdClass>, 'show_cost_comparison'?: bool}|object|null $payment_policy
  * @property-read array{'rules': list<InvoiceReminderRuleInput|array<array-key, mixed>|\stdClass>}|object|null $reminder_policy
  * @property-read array{'city': string, 'country': string, 'line1': string, 'line2'?: string|null, 'postal_code'?: string|null, 'state'?: string|null}|object|null $remit_to_address
  * @property-read string|null $reply_to_email
- * @property-read string|null $timezone
  * Presence-aware input; omitted fields throw when accessed. */
 final class InvoiceSettingsPatchInput extends Model {
-    /** @param array{'autopay_retry_policy'?: array{'retry_day_offsets': list<int>}|object|null, 'credit_note_number_prefix'?: string|null, 'default_collection_mode'?: string|null, 'default_footer'?: string|null, 'default_invoice_payment_term_id'?: string|null, 'default_memo'?: string|null, 'invoice_number_prefix'?: string|null, 'payment_policy'?: array{'enabled_payment_options': list<string>, 'payment_option_limits'?: list<InvoicePaymentOptionLimitInput|array<array-key, mixed>|\stdClass>, 'show_cost_comparison'?: bool}|object|null, 'reminder_policy'?: array{'rules': list<InvoiceReminderRuleInput|array<array-key, mixed>|\stdClass>}|object|null, 'remit_to_address'?: array{'city': string, 'country': string, 'line1': string, 'line2'?: string|null, 'postal_code'?: string|null, 'state'?: string|null}|object|null, 'reply_to_email'?: string|null, 'timezone'?: string|null}|object $values */
+    /** @param array{'autopay_retry_policy'?: array{'retry_day_offsets': list<int>}|object|null, 'credit_note_number_prefix'?: string|null, 'default_collection_mode'?: string|null, 'default_footer'?: string|null, 'default_invoice_payment_term_id'?: string|null, 'default_memo'?: string|null, 'invoice_number_prefix'?: string|null, 'payment_policy'?: array{'enabled_payment_options': list<string>, 'payment_option_limits'?: list<InvoicePaymentOptionLimitRequestInput|array<array-key, mixed>|\stdClass>, 'show_cost_comparison'?: bool}|object|null, 'reminder_policy'?: array{'rules': list<InvoiceReminderRuleInput|array<array-key, mixed>|\stdClass>}|object|null, 'remit_to_address'?: array{'city': string, 'country': string, 'line1': string, 'line2'?: string|null, 'postal_code'?: string|null, 'state'?: string|null}|object|null, 'reply_to_email'?: string|null}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceSettingsPatchInput')); }
     /** Replaced as a whole: send every field you want to keep. anyOf[1] (Value): {@see InvoiceAutopayRetryPolicyInput}. When to retry a failed automatic invoice payment, as a list of day offsets. anyOf[2] (Value): null.
      * @return array{'retry_day_offsets': list<int>}|object|null
@@ -30,7 +29,7 @@ final class InvoiceSettingsPatchInput extends Model {
      */
     public function getCreditNoteNumberPrefix(): string|null { return $this->get('credit_note_number_prefix'); }
     public function hasCreditNoteNumberPrefix(): bool { return $this->has('credit_note_number_prefix'); }
-    /** Value enum: "buyer_initiated", "automatic", "external", null.
+    /** How new invoices that ask for `merchant_default` collection are collected. Defaults to `buyer_initiated`. Value enum: "buyer_initiated", "automatic", "external", null.
      * @return string|null
      * @throws SdkError When default_collection_mode is omitted; use hasDefaultCollectionMode() or valueOrDefault().
      */
@@ -42,7 +41,7 @@ final class InvoiceSettingsPatchInput extends Model {
      */
     public function getDefaultFooter(): string|null { return $this->get('default_footer'); }
     public function hasDefaultFooter(): bool { return $this->has('default_footer'); }
-    /** Send null to clear it. minLength: 1. pattern: ^ipt_[0-9A-HJKMNP-TV-Z]{26}$.
+    /** ID of the invoice payment term that applies to your invoices created with `payment_due.type` set to `merchant_default`. minLength: 1. pattern: ^ipt_[0-9A-HJKMNP-TV-Z]{26}$. Example: "ipt_01KEZF7C0064N1V301BBMQ37R4".
      * @return string|null
      * @throws SdkError When default_invoice_payment_term_id is omitted; use hasDefaultInvoicePaymentTermId() or valueOrDefault().
      */
@@ -60,8 +59,8 @@ final class InvoiceSettingsPatchInput extends Model {
      */
     public function getInvoiceNumberPrefix(): string|null { return $this->get('invoice_number_prefix'); }
     public function hasInvoiceNumberPrefix(): bool { return $this->has('invoice_number_prefix'); }
-    /** Replaced as a whole: send every field you want to keep. anyOf[1] (Value): {@see InvoicePaymentPolicyInput}. Which payment options an invoice accepts, any per-option total limits, and whether to show a cost comparison. anyOf[2] (Value): null.
-     * @return array{'enabled_payment_options': list<string>, 'payment_option_limits'?: list<InvoicePaymentOptionLimitInput|array<array-key, mixed>|\stdClass>, 'show_cost_comparison'?: bool}|object|null
+    /** Replaced as a whole: send every field you want to keep. anyOf[1] (Value): {@see InvoicePaymentPolicyRequestInput}. Which payment options an invoice accepts, any per-option total limits, and whether to show a cost comparison. anyOf[2] (Value): null.
+     * @return array{'enabled_payment_options': list<string>, 'payment_option_limits'?: list<InvoicePaymentOptionLimitRequestInput|array<array-key, mixed>|\stdClass>, 'show_cost_comparison'?: bool}|object|null
      * @throws SdkError When payment_policy is omitted; use hasPaymentPolicy() or valueOrDefault().
      */
     public function getPaymentPolicy(): mixed { return $this->get('payment_policy'); }
@@ -78,16 +77,10 @@ final class InvoiceSettingsPatchInput extends Model {
      */
     public function getRemitToAddress(): mixed { return $this->get('remit_to_address'); }
     public function hasRemitToAddress(): bool { return $this->has('remit_to_address'); }
-    /** Limited to 255 characters (Unicode code points), counted before normalization. Send null to clear it. Format: email. minLength: 1. maxLength: 255.
+    /** Limited to 255 characters (Unicode code points), counted before normalization. Send null to clear it. Format: email. minLength: 1. maxLength: 255. Example: "buyer@example.com".
      * @return string|null
      * @throws SdkError When reply_to_email is omitted; use hasReplyToEmail() or valueOrDefault().
      */
     public function getReplyToEmail(): string|null { return $this->get('reply_to_email'); }
     public function hasReplyToEmail(): bool { return $this->has('reply_to_email'); }
-    /** Limited to 255 characters (Unicode code points), counted before normalization. Send null to clear it. minLength: 1. maxLength: 255.
-     * @return string|null
-     * @throws SdkError When timezone is omitted; use hasTimezone() or valueOrDefault().
-     */
-    public function getTimezone(): string|null { return $this->get('timezone'); }
-    public function hasTimezone(): bool { return $this->has('timezone'); }
 }

@@ -23,5 +23,5 @@ $result = $client->me->updateSubscription('sub_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
   'quantity' => 2,
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->customer_id . PHP_EOL;
-echo $result->payment_method_id . PHP_EOL;
+echo $result->merchant_id . PHP_EOL;
 $client->close();

@@ -1,0 +1,21 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/**
+ * @property-read ReportSucceededEventDataObjectPending|ReportSucceededEventDataObjectSucceeded|ReportSucceededEventDataObjectFailed|\stdClass $object
+ * @property-read ?array<array-key, mixed> $previous_attributes
+ * Presence-aware response; omitted optional fields return null. */
+final class ReportSucceededEventData extends Model {
+    /** @param array{'object': \stdClass, 'previous_attributes'?: \stdClass, ...}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReportSucceededEventData')); }
+    /** The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. as_of_date (Optional): string. Present only for receivables_aging_v1. The calendar date in timezone whose receivables are reported. Format: date. created_at (Required): string. When the report was requested. Format: date-time. currency (Required): string. Currency the report covers. A report never combines currencies. Uses ISO 4217 currency codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. download (Optional): {@see PublicDownload}. Link to download the generated report. Present only when status is succeeded. A temporary link for downloading a generated report. failure_reason (Optional): string. Why the report failed. Present only when status is failed: limit_exceeded when the report hit a size or time limit, data_unavailable when data it needs wasn't available yet, and generation_failed for other errors. Treat an unknown value like generation_failed. Value enum: "generation_failed", "data_unavailable", "limit_exceeded". interval_end_at (Required): string. Exclusive interval end instant. Each report type matches its own occurrence time. Format: date-time. interval_start_at (Required): string. Inclusive interval start instant. Each report type matches its own occurrence time. Format: date-time. report_id (Required): string. Stable identifier of the report. pattern: ^rep_[0-9A-HJKMNP-TV-Z]{26}$. report_type (Required): string. The report's type and column version. See the Reports guide for its columns. Value enum: "receivables_aging_v1", "invoices_itemized_v1", "gift_card_liability_v1", "orders_itemized_v1", "orders_itemized_v2", "payments_itemized_v1", "balance_transactions_itemized_v1", "payouts_itemized_v1", "tax_itemized_v1", "tax_summarized_v1", "merchant_billing_itemized_v1", "tax_transactions_itemized_v1", "tax_transactions_itemized_v2". status (Required): string. pending while Flint generates the report, then succeeded with a download or failed with a failure_reason. Flint sends report.succeeded or report.failed when it finishes. Value enum: "pending", "succeeded", "failed". timezone (Required): string. IANA timezone used for timestamps and date bucketing. A payout occurs at the start of its arrival_date in this timezone. oneOf[1] (Value): {@see ReportPending}. A report generated from the merchant's activity. oneOf[2] (Value): {@see ReportSucceeded}. A report generated from the merchant's activity. oneOf[3] (Value): {@see ReportFailed}. A report generated from the merchant's activity.
+     * @return ReportSucceededEventDataObjectPending|ReportSucceededEventDataObjectSucceeded|ReportSucceededEventDataObjectFailed|\stdClass
+     */
+    public function getObject(): ReportSucceededEventDataObjectPending|ReportSucceededEventDataObjectSucceeded|ReportSucceededEventDataObjectFailed|\stdClass { return $this->get('object'); }
+    public function hasObject(): bool { return $this->has('object'); }
+    /** Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
+     * @return ?array<array-key, mixed>
+     */
+    public function getPreviousAttributes(): ?array { return $this->get('previous_attributes'); }
+    public function hasPreviousAttributes(): bool { return $this->has('previous_attributes'); }
+}

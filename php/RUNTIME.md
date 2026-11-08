@@ -72,7 +72,6 @@ Timeout precedence is request > client > operation default > global default. Glo
 | orders.close | 150000 | 300000 |
 | paymentIntents.confirm | 150000 | 300000 |
 | checkoutSessions.create | 150000 | 300000 |
-| creditNotes.createRefund | 150000 | 300000 |
 | invoices.createCheckoutSession | 150000 | 300000 |
 | me.createInvoiceCheckoutSession | 150000 | 300000 |
 | orders.create | 150000 | 300000 |
@@ -96,7 +95,7 @@ These defaults are interim until the server publishes an execution bound.
 
 ```php
 $result = $client->analytics->getOverview([
-  'period_start_at' => '2026-01-01T00:00:00Z',
+  'period_start_at' => '2026-08-02T16:00:00Z',
 ], new RequestOptions(timeoutMs: 5000, deadlineMs: 15000, maxAttempts: 1));
 ```
 
@@ -254,7 +253,7 @@ if ($error instanceof SdkError && $error instanceof Errors\UnexpectedResponseErr
 
 ## Retries and idempotency
 
-Reads (GET, HEAD and OPTIONS) allow up to 3 total attempts for transport failures and HTTP 429, 500, 502, 503 and 504. 300 write operations create `Idempotency-Key` automatically when you supply none, beginning with `flint-sdk-` and allow up to 3 total attempts for transport failures and HTTP 429, 500, 502, 503 and 504. 33 write operations accept `idempotencyKey` and send once until you supply a key; with a key, they allow up to 3 total attempts for transport failures and HTTP 429, 500, 502, 503 and 504. 14 write operations declare no idempotency key and always send once. maxAttempts caps total attempts including the first. HTTP 412 never retries.
+Reads (GET, HEAD and OPTIONS) allow up to 3 total attempts for transport failures and HTTP 429, 500, 502, 503 and 504. 345 write operations create `Idempotency-Key` automatically when you supply none, beginning with `flint-sdk-` and allow up to 3 total attempts for transport failures and HTTP 429, 500, 502, 503 and 504. 39 write operations accept `idempotencyKey` and send once until you supply a key; with a key, they allow up to 3 total attempts for transport failures and HTTP 429, 500, 502, 503 and 504. 17 write operations declare no idempotency key and always send once. maxAttempts caps total attempts including the first. HTTP 412 never retries.
 
 Backoff waits uniformly between half and all of baseDelayMs * 2^(attempt - 1), capped by maxDelayMs when declared. Retry-After is a minimum wait. Nonnegative decimal seconds or canonical GMT HTTP dates are accepted; malformed values are ignored. If the next wait exceeds the deadline, the last error is returned unchanged.
 
@@ -288,7 +287,7 @@ $client = new Client(new ClientOptions(
 ));
 $idempotencyKey = getenv('API_IDEMPOTENCY_KEY');
 if (!$idempotencyKey) throw new \RuntimeException('Set API_IDEMPOTENCY_KEY to the key saved with this action');
-$result = $client->disputes->accept('du_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey, maxAttempts: 1));
+$result = $client->disputes->accept('du_01KEZF7C00DEJSF1KTXRT4BBQD', [], new RequestOptions(idempotencyKey: $idempotencyKey, maxAttempts: 1));
 echo $result->dispute_id . PHP_EOL;
 echo $result->merchant_id . PHP_EOL;
 $client->close();
@@ -419,7 +418,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   allowInsecureHttp: $baseUrl !== null && in_array(parse_url($baseUrl, PHP_URL_HOST), ['localhost', '127.0.0.1'], true) && parse_url($baseUrl, PHP_URL_SCHEME) === 'http',
 ));
-$result = $client->creditNotes->getPDF('cn_01ARZ3NDEKTSV4RRFFQ69G5FAV');
+$result = $client->creditNotes->getPDF('cn_01KEZF7C00N1TRRCVDNY8S471H');
 // Choose a destination path; PHP strings preserve every PDF byte.
 $resultPath = getenv('API_DOWNLOAD_PATH') ?: 'download.pdf';
 if (file_put_contents($resultPath, $result->data) === false) throw new \RuntimeException('Could not save PDF');
@@ -440,7 +439,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   allowInsecureHttp: $baseUrl !== null && in_array(parse_url($baseUrl, PHP_URL_HOST), ['localhost', '127.0.0.1'], true) && parse_url($baseUrl, PHP_URL_SCHEME) === 'http',
 ));
-$result = $client->reportDownloads->get('rdl_01ARZ3NDEKTSV4RRFFQ69G5FAV');
+$result = $client->reportDownloads->get('rdl_01KEZF7C003GGGDW1N5QT46JDZ');
 // Location may be relative or use another origin. The SDK does not follow it.
 // Validate the destination before a separate download; do not forward API credentials.
 echo $result->lastResponse()->status . ' ' . ($result->data->location ?? 'No Location header') . PHP_EOL;

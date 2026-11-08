@@ -28,13 +28,13 @@ final class CreatePaymentIntentRequestInput extends Model {
      */
     public function getCaptureMethod(): string { return $this->get('capture_method'); }
     public function hasCaptureMethod(): bool { return $this->has('capture_method'); }
-    /** Customer to link to this payment intent. minLength: 1.
+    /** Customer to link to this payment intent. minLength: 1. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -58,7 +58,7 @@ final class CreatePaymentIntentRequestInput extends Model {
      */
     public function getPaymentReturnUrl(): string { return $this->get('payment_return_url'); }
     public function hasPaymentReturnUrl(): bool { return $this->has('payment_return_url'); }
-    /** Email address for this payment's receipt. When omitted, Flint uses the customer's email. Format: email. minLength: 1. maxLength: 255.
+    /** Email address for this payment's receipt. When omitted, Flint uses the customer's email. Format: email. minLength: 1. maxLength: 255. Example: "buyer@example.com".
      * @return string
      * @throws SdkError When receipt_email is omitted; use hasReceiptEmail() or valueOrDefault().
      */

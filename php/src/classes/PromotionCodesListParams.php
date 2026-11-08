@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string $promotion_id
+ * @property-read string $customer_id
  * @property-read string $code
  * @property-read list<string>|string $status
  * @property-read list<string>|string $availability
@@ -17,27 +18,33 @@ namespace Flint;
  * @property-read list<string>|string $expand
  * Presence-aware input; omitted fields throw when accessed. */
 final class PromotionCodesListParams extends Model {
-    /** @param array{'promotion_id'?: string, 'code'?: string, 'status'?: list<string>|string, 'availability'?: list<string>|string, 'page_size'?: int, 'page_token'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'expand'?: list<string>|string}|object $values */
+    /** @param array{'promotion_id'?: string, 'customer_id'?: string, 'code'?: string, 'status'?: list<string>|string, 'availability'?: list<string>|string, 'page_size'?: int, 'page_token'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'expand'?: list<string>|string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PromotionCodesListParams')); }
-    /** Exact match on the parent promotion ID. Example: "promo_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Exact match on the parent promotion ID. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
      * @return string
      * @throws SdkError When promotion_id is omitted; use hasPromotionId() or valueOrDefault().
      */
     public function getPromotionId(): string { return $this->get('promotion_id'); }
     public function hasPromotionId(): bool { return $this->has('promotion_id'); }
+    /** Exact match on the customer bound to the code. Unbound codes are excluded. minLength: 1. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * @return string
+     * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
+     */
+    public function getCustomerId(): string { return $this->get('customer_id'); }
+    public function hasCustomerId(): bool { return $this->has('customer_id'); }
     /** Exact match that ignores case and accents: CAFÉ matches cafe. This is the same rule that makes promotion codes unique. Codes preserve their original spelling. Leading and trailing whitespace are rejected, not trimmed. minLength: 1. maxLength: 100.
      * @return string
      * @throws SdkError When code is omitted; use hasCode() or valueOrDefault().
      */
     public function getCode(): string { return $this->get('code'); }
     public function hasCode(): bool { return $this->has('code'); }
-    /** Filter by status. Repeat the parameter or send comma-separated values to match any of several. Omitted, the list leaves out archived rows; name archived to include them. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "active", "inactive", "archived". Value enum: "active", "inactive", "archived". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "active", "inactive", "archived". anyOf[1][] (Value): string.  Value enum: "active", "inactive", "archived". anyOf[2] (Value): string.  Value enum: "active", "inactive", "archived".
+    /** Filter by status. Omitted, the list leaves out archived rows; name archived to include them. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "active", "inactive", "archived". Value enum: "active", "inactive", "archived". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "active", "inactive", "archived". anyOf[1][] (Value): string.  Value enum: "active", "inactive", "archived". anyOf[2] (Value): string.  Value enum: "active", "inactive", "archived".
      * @return list<string>|string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
     public function getStatus(): mixed { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Filter by whether a code can be redeemed now or why it cannot. available matches available: true; every other value matches unavailable_reason. Values are ORed and ANDed with status. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "available", "inactive", "expired", "exhausted", "promotion_unavailable". Value enum: "available", "inactive", "expired", "exhausted", "promotion_unavailable". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "available", "inactive", "expired", "exhausted", "promotion_unavailable". anyOf[1][] (Value): string.  Value enum: "available", "inactive", "expired", "exhausted", "promotion_unavailable". anyOf[2] (Value): string.  Value enum: "available", "inactive", "expired", "exhausted", "promotion_unavailable".
+    /** Filter by whether a code can be redeemed now or why it cannot. available matches available: true; every other value matches unavailable_reason. Values are ORed and ANDed with status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "available", "inactive", "expired", "exhausted", "promotion_unavailable". Value enum: "available", "inactive", "expired", "exhausted", "promotion_unavailable". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "available", "inactive", "expired", "exhausted", "promotion_unavailable". anyOf[1][] (Value): string.  Value enum: "available", "inactive", "expired", "exhausted", "promotion_unavailable". anyOf[2] (Value): string.  Value enum: "available", "inactive", "expired", "exhausted", "promotion_unavailable".
      * @return list<string>|string
      * @throws SdkError When availability is omitted; use hasAvailability() or valueOrDefault().
      */
@@ -49,7 +56,7 @@ final class PromotionCodesListParams extends Model {
      */
     public function getPageSize(): int { return $this->get('page_size'); }
     public function hasPageSize(): bool { return $this->has('page_size'); }
-    /** Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error.
+    /** Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error.
      * @return string
      * @throws SdkError When page_token is omitted; use hasPageToken() or valueOrDefault().
      */
@@ -91,10 +98,28 @@ final class PromotionCodesListParams extends Model {
      */
     public function getUpdatedBefore(): string|\DateTimeInterface { return $this->get('updated_before'); }
     public function hasUpdatedBefore(): bool { return $this->has('updated_before'); }
-    /** Supported expansions: promotion. Expand each code's parent promotion. Expansion requires commerce.promotions.read. Limits: at most 10 unique expand paths per request. Pass expand=promotion. [] enum: "promotion". Value enum: "promotion". anyOf[1] (Value): Array of string.  [] enum: "promotion". anyOf[1][] (Value): string.  Value enum: "promotion". anyOf[2] (Value): string.  Value enum: "promotion".
+    /** Include related objects in the response. Supported expansions: promotion. Expand each code's parent promotion. Expansion requires commerce.promotions.read. Limits: at most 10 unique expand paths per request. [] enum: "promotion". Value enum: "promotion". anyOf[1] (Value): Array of string.  [] enum: "promotion". anyOf[1][] (Value): string.  Value enum: "promotion". anyOf[2] (Value): string.  Value enum: "promotion".
      * @return list<string>|string
      * @throws SdkError When expand is omitted; use hasExpand() or valueOrDefault().
      */
     public function getExpand(): mixed { return $this->get('expand'); }
     public function hasExpand(): bool { return $this->has('expand'); }
+    /** Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Merchant-Id is omitted; use hasFlintMerchantId() or valueOrDefault().
+     */
+    public function getFlintMerchantId(): string { return $this->get('Flint-Merchant-Id'); }
+    public function hasFlintMerchantId(): bool { return $this->has('Flint-Merchant-Id'); }
+    /** Mode of the request context, live or test. Optional; it must match the credential's mode. Value enum: "test", "live".
+     * @return string
+     * @throws SdkError When Flint-Mode is omitted; use hasFlintMode() or valueOrDefault().
+     */
+    public function getFlintMode(): string { return $this->get('Flint-Mode'); }
+    public function hasFlintMode(): bool { return $this->has('Flint-Mode'); }
+    /** Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Sandbox-Id is omitted; use hasFlintSandboxId() or valueOrDefault().
+     */
+    public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
+    public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
 }

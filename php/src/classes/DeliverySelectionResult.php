@@ -5,7 +5,7 @@ namespace Flint;
  * @property-read CheckoutSession $checkout_session
  * @property-read DeliverySelection $delivery_selection
  * @property-read ?DeliveryInventoryReservationSummary $inventory_reservation
- * @property-read Order $order
+ * @property-read DeliverySelectionOrder $order
  * Presence-aware response; omitted optional fields return null. */
 final class DeliverySelectionResult extends Model {
     /** @param array{'checkout_session': mixed, 'delivery_selection': mixed, 'inventory_reservation'?: mixed, 'order': mixed, ...}|object $values */
@@ -25,9 +25,9 @@ final class DeliverySelectionResult extends Model {
      */
     public function getInventoryReservation(): ?DeliveryInventoryReservationSummary { return $this->get('inventory_reservation'); }
     public function hasInventoryReservation(): bool { return $this->has('inventory_reservation'); }
-    /** The order after the selection, with delivery charges applied and tax recalculated. Render totals from it instead of reading the order again. When tax still needs input, order.tax.status says so. A customer's purchase and its payment and fulfillment progress.
-     * @return Order
+    /** The order after the selection, with delivery charges applied and tax recalculated. Render totals from it instead of reading the order again. When tax still needs input, order.tax.status says so. The complete order returned with a delivery selection. Credential-specific fields are omitted as annotated.
+     * @return DeliverySelectionOrder
      */
-    public function getOrder(): Order { return $this->get('order'); }
+    public function getOrder(): DeliverySelectionOrder { return $this->get('order'); }
     public function hasOrder(): bool { return $this->has('order'); }
 }

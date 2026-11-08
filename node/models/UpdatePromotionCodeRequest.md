@@ -10,8 +10,9 @@ The request body for: Update promotion code.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `customer_id` | Optional | string or null | Only this identified customer can redeem the code. The customer must belong to the same merchant and environment. A checkout may use its merchant-named or email-verified customer; a typed email does not identify a customer. Omit to preserve the binding; send a customer ID to bind or rebind the code, or null to remove the binding. minLength: `1`. Example: `"cus_01KEZF7C006X9JK6NZNA2SM9XD"`. |
 | `expected_version` | Optional | integer | Promotion code version last read by the caller. Optional for updates. Format: `uint64`. minimum: `1`. |
-| `expires_at` | Optional | string or null | Absolute RFC3339 expiry timestamp. Omission keeps the stored value; null clears it. Format: `date-time`. minLength: `1`. |
+| `expires_at` | Optional | string or null | Absolute RFC3339 expiry timestamp. Omission keeps the stored value; null clears it. Format: `date-time`. minLength: `1`. Example: `"2026-08-02T16:00:00Z"`. |
 | `max_uses` | Optional | integer or null | Maximum number of times this code can be redeemed. Send null to remove the redemption limit. Format: `int64`. |
 | `metadata` | Optional | [MetadataPatchRequest](../models/MetadataPatchRequest.md#metadatapatchrequest) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. |
 | `status` | Optional | string | Lifecycle status: active or inactive. Values: `"active"`, `"inactive"`. |

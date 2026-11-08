@@ -2,7 +2,7 @@
 
 ## ModifierOverride
 
-Settings for one modifier that apply only within a modifier set group, overriding the modifier group's own values.
+
 
 
 
@@ -13,10 +13,10 @@ Settings for one modifier that apply only within a modifier set group, overridin
 | `available` | Optional | boolean | Whether this modifier can be offered in this set. Defaults to true; the modifier must also have status active. Default: `true`. |
 | `default_quantity` | Optional | integer | Overrides the modifier's default_quantity for this set. Omit it to use the modifier's value. Ignored when the choice is unavailable. Quantities are whole numbers; fractional quantities are not supported. Format: `int64`. |
 | `line_item_tax_category` | Optional | string | Overrides the modifier's line_item_tax_category for this set. Omit it to use the modifier's value. Values: [12 declared values](#modifieroverride-line_item_tax_category-values). |
-| `modifier_id` | Required | string | Identifier of the list modifier these overrides apply to. minLength: `1`. |
+| `modifier_id` | Required | string | Identifier of the list modifier these overrides apply to. minLength: `1`. Example: `"mod_01KEZF7C00SAWDZBQJX5H0XW1S"`. |
 | `selected_by_default` | Optional | boolean | Overrides the modifier's selected_by_default for this set. Omit it to use the modifier's value. Ignored when the choice is unavailable. |
 | `taxable` | Optional | boolean | Overrides the modifier's taxable for this set. Omit it to use the modifier's value. |
-| `unit_price_delta_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Overrides the modifier's unit_price_delta_money for this set. Omit it to use the modifier's value. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `unit_price_delta_money`: [field definitions](../models/ModifierOverride.md#modifieroverrideunit_price_delta_money). |
+| `unit_price_delta_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Overrides the modifier's unit_price_delta_money for this set. Omit it to use the modifier's value. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `unit_price_delta_money`: [field definitions](../models/CreateModifierSetGroupInputExisting.md#createmodifiersetgroupinputexistingmodifier_overridesunit_price_delta_money). |
 
 #### ModifierOverride line_item_tax_category values
 
@@ -33,9 +33,19 @@ Settings for one modifier that apply only within a modifier set group, overridin
 - `"medical_goods"`
 - `"admission"`
 
+### ModifierOverride variant 1
+
+anyOf variant 1: Declared schema ModifierOverride. Settings for one modifier that apply only within a modifier set group, overriding the modifier group's own values..
+
+No additional constraints.
+
+### ModifierOverride variant 2
+
+anyOf variant 2: Declared schema ModifierOverrideRequest. Settings for one modifier that apply only within a modifier set group, overriding the modifier group's own values..
+
+No additional constraints.
+
 ### ModifierOverride.unit_price_delta_money
 
-Overrides the modifier's unit_price_delta_money for this set. Omit it to use the modifier's value. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-
-Field definitions: [shared fields](MoneyValueInput.md#moneyvalueinput).
+Field definitions: [CreateModifierSetGroupInputExisting.modifier_overrides[].unit_price_delta_money](../models/CreateModifierSetGroupInputExisting.md#createmodifiersetgroupinputexistingmodifier_overridesunit_price_delta_money).
 

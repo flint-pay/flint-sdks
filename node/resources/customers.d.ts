@@ -1,33 +1,39 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { AccessLink, AccessLinkResponse } from '../declarations/types-0.js';
-import type { ClientOptions } from '../declarations/types-5.js';
+import type { ClientOptions } from '../declarations/types-6.js';
+import type { Customer, CustomerAddress, CustomerAddressListResponse, CustomerAddressResponse } from '../declarations/types-14.js';
 import type {
-    Customer,
-    CustomerAddress,
-    CustomerAddressListResponse,
-    CustomerAddressResponse,
+    CustomerEmailPreferences,
+    CustomerEmailPreferencesResponse,
     CustomerListResponse,
     CustomerResponse,
-    CustomerSessionsRevocation
-} from '../declarations/types-13.js';
-import type {
+    CustomerSessionsRevocation,
     CustomerSessionsRevocationResponse,
+    CustomerTaxExemption,
+    CustomerTaxExemptionListResponse,
+    CustomerTaxExemptionResponse,
     CustomersCreateAccessLinkParams,
     CustomersCreateAddressParams,
     CustomersCreateParams,
+    CustomersCreateTaxExemptionParams,
     CustomersDeleteAddressParams,
+    CustomersDeleteTaxExemptionParams,
     CustomersGetAddressParams,
+    CustomersGetEmailPreferencesParams,
     CustomersGetParams,
+    CustomersGetTaxExemptionParams,
     CustomersLinkGuestPurchasesParams,
     CustomersListAddressesParams,
     CustomersListParams,
+    CustomersListTaxExemptionsParams,
     CustomersRevokeSessionsParams,
     CustomersUpdateAddressParams,
-    CustomersUpdateParams
-} from '../declarations/types-14.js';
-import type { GuestPurchaseLink, GuestPurchaseLinkResponse } from '../declarations/types-25.js';
-import type { RequestOptions } from '../declarations/types-48.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+    CustomersUpdateParams,
+    CustomersUpdateTaxExemptionParams
+} from '../declarations/types-15.js';
+import type { GuestPurchaseLink, GuestPurchaseLinkResponse } from '../declarations/types-27.js';
+import type { RequestOptions } from '../declarations/types-51.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -44,65 +50,95 @@ export type {
 } from '../runtime.js';
 export type {
     CustomersCreateParams,
+    CustomerResponse,
     CustomersCreateAccessLinkParams,
     CustomersCreateAddressParams,
+    CustomersCreateTaxExemptionParams,
+    CustomerTaxExemption,
+    CustomerTaxExemptionResponse,
     CustomersDeleteAddressParams,
+    CustomersDeleteTaxExemptionParams,
     CustomersGetParams,
     CustomersGetAddressParams,
+    CustomersGetEmailPreferencesParams,
+    CustomerEmailPreferences,
+    CustomerEmailPreferencesResponse,
+    CustomersGetTaxExemptionParams,
     CustomersLinkGuestPurchasesParams,
     CustomersListAddressesParams,
     CustomersListParams,
+    CustomerListResponse,
+    CustomersListTaxExemptionsParams,
+    CustomerTaxExemptionListResponse,
     CustomersRevokeSessionsParams,
+    CustomerSessionsRevocation,
     CustomerSessionsRevocationResponse,
     CustomersUpdateParams,
-    CustomersUpdateAddressParams
-} from '../declarations/types-14.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
-export type {
-    Customer,
-    CustomerResponse,
-    CustomerAddress,
-    CustomerAddressResponse,
-    CustomerAddressListResponse,
-    CustomerListResponse,
-    CustomerSessionsRevocation,
+    CustomersUpdateAddressParams,
+    CustomersUpdateTaxExemptionParams,
     CustomerReceivables,
-    CustomerReceivableBalance
-} from '../declarations/types-13.js';
+    CustomerReceivableBalance,
+    CustomerTaxExemptionCoverageRequestInput,
+    CustomerTaxExemptionCoverageAllStatesRequestInput,
+    CustomerTaxExemptionCoverageStatesRequestInput,
+    CustomerTaxExemptionCoverage,
+    CustomerTaxExemptionCoverageAllStates,
+    CustomerTaxExemptionCoverageStates
+} from '../declarations/types-15.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
+export type { Customer, CustomerAddress, CustomerAddressResponse, CustomerAddressListResponse } from '../declarations/types-14.js';
 export type { AccessLink, AccessLinkResponse, AddressRequestInput, AuthMode, Address, AddressRequest } from '../declarations/types-0.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { GuestPurchaseLink, GuestPurchaseLinkResponse } from '../declarations/types-25.js';
-export type { ClientOptions, CheckoutSessionsListDeliverySelectionsParams } from '../declarations/types-5.js';
-export type { CreateCustomerRequestInput, CreateCustomerAddressRequestInput } from '../declarations/types-7.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+export type { GuestPurchaseLink, GuestPurchaseLinkResponse } from '../declarations/types-27.js';
+export type { ClientOptions, CheckoutSessionsListDeliverySelectionsParams } from '../declarations/types-6.js';
 export type {
-    MetadataRequestInput,
-    MetadataMap,
-    MoneyValue,
-    NextAction,
-    MetadataPatchRequestInput,
-    MetadataPatchRequest
-} from '../declarations/types-35.js';
-export type { TaxIdentityRequestInput, TaxIdentity, TaxIdentityPatchInput } from '../declarations/types-57.js';
-export type { DocumentTaxIDRequestInput, ExpandedPaymentMethodSummary, DocumentTaxID } from '../declarations/types-21.js';
-export type { Credentials } from '../declarations/types-12.js';
+    CreateCustomerRequestInput,
+    CreateCustomerAddressRequestInput,
+    CreateCustomerTaxExemptionRequestInput
+} from '../declarations/types-8.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-36.js';
+export type { TaxIdentityRequestInput, TaxIdentity, TaxIdentityPatchInput } from '../declarations/types-61.js';
+export type { DocumentTaxIDRequestInput, ExpandedPaymentMethodSummary, DocumentTaxID } from '../declarations/types-23.js';
+export type { Credentials } from '../declarations/types-13.js';
 export type { CardDetails } from '../declarations/types-4.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
-export type { LinkCustomerGuestPurchasesRequestInput, LinkCustomerGuestPurchasesRequest } from '../declarations/types-32.js';
-export type { UpdateCustomerRequestInput, UpdateCustomerAddressRequestInput } from '../declarations/types-58.js';
-export { makeAddressRequest } from '../declarations/types-62.js';
-export { makeCreateCustomerAddressRequest, makeCreateCustomerRequest } from '../declarations/types-63.js';
-export { makeDocumentTaxIDRequest } from '../declarations/types-67.js';
-export { makeLinkCustomerGuestPurchasesRequest, makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-69.js';
-export { makeMoneyValue } from '../declarations/types-70.js';
+export type { MoneyValue, NextAction } from '../declarations/types-37.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
+export type { CreateCustomerAccessLinkRequestInput, CreateCustomerAccessLinkRequest } from '../declarations/types-7.js';
+export type { LinkCustomerGuestPurchasesRequestInput, LinkCustomerGuestPurchasesRequest } from '../declarations/types-34.js';
+export type {
+    UpdateCustomerRequestInput,
+    UpdateCustomerAddressRequestInput,
+    UpdateCustomerTaxExemptionRequestInput
+} from '../declarations/types-63.js';
+export type { DisputesAcceptParams } from '../declarations/types-22.js';
+export { makeAddressRequest } from '../declarations/types-66.js';
+export {
+    makeCreateCustomerAccessLinkRequest,
+    makeCreateCustomerAddressRequest,
+    makeCreateCustomerRequest,
+    makeCreateCustomerTaxExemptionRequest
+} from '../declarations/types-68.js';
+export {
+    makeCustomerTaxExemptionCoverageAllStatesRequest,
+    makeCustomerTaxExemptionCoverageRequest,
+    makeCustomerTaxExemptionCoverageStatesRequest
+} from '../declarations/types-71.js';
+export { makeDocumentTaxIDRequest } from '../declarations/types-73.js';
+export { makeLinkCustomerGuestPurchasesRequest, makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-74.js';
+export { makeMoneyValue } from '../declarations/types-75.js';
 export {
     makeTaxIdentityPatch,
     makeTaxIdentityRequest,
     makeUpdateCustomerAddressRequest,
-    makeUpdateCustomerRequest
-} from '../declarations/types-74.js';
+    makeUpdateCustomerRequest,
+    makeUpdateCustomerTaxExemptionRequest
+} from '../declarations/types-79.js';
 export interface CustomersResource {
     /**
- * Creates a customer for the authenticated merchant.
+ * Creates a customer record for a buyer's contact details and purchases in this environment. When
+ * an active customer already has `email`, `on_email_conflict` chooses whether to fail with
+ * `ALREADY_EXISTS`, which names that customer, or return the existing customer unchanged. Emails
+ * match case-insensitively.
  *
  * `POST /v1/customers`
  * @see https://developers.withflintpay.com/docs/api/customers#createCustomer
@@ -110,20 +146,20 @@ export interface CustomersResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.customers.create({email: "jane@example.com", metadata: {crm_id: "crm_123"}, name: "Jane
- * Doe"}, { idempotencyKey: idempotencyKey })
+ * client.customers.create(undefined, { idempotencyKey: idempotencyKey })
  */
-    create(params: CustomersCreateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Customer, CustomerResponse>>;
+    create(params?: CustomersCreateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Customer, CustomerResponse>>;
     /**
  * Signs the buyer in to your Flint-hosted customer account as this customer. Works for 15 minutes
  * and one open. The url is a bearer credential. Flint returns it only in this response and in a
- * retry with the same Idempotency-Key, so send it only to the buyer and keep it out of logs. A
- * call with a new key creates another link; earlier links keep working until they expire. Send no
- * request body or an empty object ({}). Requires customers.sessions.write. Idempotency is scoped
- * to the merchant, credential, environment, and this customer's route. A replay returns the
- * original link without extending its lifetime or replenishing its open. Without an
- * Idempotency-Key, each call creates a new link and has no replay result. If Flint cannot retain a
- * result after minting, contact support with X-Request-Id before sending a new request.
+ * retry with the same idempotency key, so send it only to the buyer and keep it out of logs. A
+ * call with a new key creates another link; earlier links keep working until they expire.
+ * Optionally send return_url for a destination on your site, or omit the body. Requires
+ * customers.sessions.write. Idempotency is scoped to the merchant, credential, environment, and
+ * this customer's route. A replay returns the original link without extending its lifetime or
+ * replenishing its open. Without an idempotency key, each call creates a new link and has no
+ * replay result. If Flint cannot retain a result after minting, contact support with the request
+ * ID before sending a new request.
  *
  * `POST /v1/customers/{customer_id}/access-links`
  * @param customer_id Flint customer ID.
@@ -132,7 +168,7 @@ export interface CustomersResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.customers.createAccessLink("cus_01ARZ3NDEKTSV4RRFFQ69G5FAV", undefined, { idempotencyKey:
+ * client.customers.createAccessLink("cus_01KEZF7C006X9JK6NZNA2SM9XD", undefined, { idempotencyKey:
  * idempotencyKey })
  */
     createAccessLink(customer_id: InputValue<string>, params?: CustomersCreateAccessLinkParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<AccessLink, AccessLinkResponse>>;
@@ -155,6 +191,29 @@ export interface CustomersResource {
  */
     createAddress(customer_id: InputValue<string>, params: CustomersCreateAddressParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<CustomerAddress, CustomerAddressResponse>>;
     /**
+ * Records a nested customer exemption with reason, coverage and an inclusive date window. At most
+ * 100 unarchived exemptions may belong to a customer; exceeding that limit returns LIMIT_REACHED
+ * with reason customer_tax_exemptions. Saving a record does not apply it to sales or change the
+ * customer's blanket tax_exempt flag. Only API keys and dashboard sessions can access these
+ * records. Retry a lost response with the same request and Idempotency-Key. If
+ * IDEMPOTENCY_RECOVERY_REQUIRED is returned, inspect this customer's list and GET records before
+ * sending a new write. Match a lost create against submitted fields across list pages; contact
+ * support with the original key and request ID if its outcome is unclear.
+ *
+ * `POST /v1/customers/{customer_id}/tax-exemptions`
+ * @param customer_id Flint ID of the customer that owns this nested child.
+ * @see
+ * https://developers.withflintpay.com/docs/api/customer-tax-exemptions#createCustomerTaxExemption
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
+ * @example
+ * // Persist this key with the action before sending; reuse it for every resubmission.
+ * const idempotencyKey = crypto.randomUUID();
+ * client.customers.createTaxExemption("cus_01KEZF7C006X9JK6NZNA2SM9XD", {coverage: {country: "US",
+ * states: ["TX"], type: "states"}, reason: "resale", start_date: "2026-01-01"}, { idempotencyKey:
+ * idempotencyKey })
+ */
+    createTaxExemption(customer_id: InputValue<string>, params: CustomersCreateTaxExemptionParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<CustomerTaxExemption, CustomerTaxExemptionResponse>>;
+    /**
  * Deletes a saved address. Deleting the billing or shipping default leaves the customer with none;
  * Flint doesn't pick another address.
  *
@@ -166,10 +225,32 @@ export interface CustomersResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.customers.deleteAddress("cus_01ARZ3NDEKTSV4RRFFQ69G5FAV",
- * "caddr_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey })
+ * client.customers.deleteAddress("cus_01KEZF7C006X9JK6NZNA2SM9XD",
+ * "caddr_01KEZF7C00K2Q127FBJAXWB0FP", {}, { idempotencyKey: idempotencyKey })
  */
     deleteAddress(customer_id: InputValue<string>, customer_address_id: InputValue<string>, params?: CustomersDeleteAddressParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<CustomerAddress, CustomerAddressResponse>>;
+    /**
+ * Archives the record and returns its archived snapshot in the same schema as GET. It stays
+ * readable by ID and is excluded from lists unless status includes archived. Expired and archived
+ * records cannot be edited. An optional expected_version query parameter rejects a stale write
+ * before effects. Retry a lost response with the same request and Idempotency-Key. If
+ * IDEMPOTENCY_RECOVERY_REQUIRED is returned, inspect this customer's list and GET records before
+ * sending a new write. Match a lost create against submitted fields across list pages; contact
+ * support with the original key and request ID if its outcome is unclear.
+ *
+ * `DELETE /v1/customers/{customer_id}/tax-exemptions/{customer_tax_exemption_id}`
+ * @param customer_id Flint ID of the customer that owns this nested child.
+ * @param customer_tax_exemption_id Flint customer tax exemption ID, prefixed ctex_.
+ * @see
+ * https://developers.withflintpay.com/docs/api/customer-tax-exemptions#deleteCustomerTaxExemption
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
+ * @example
+ * // Persist this key with the action before sending; reuse it for every resubmission.
+ * const idempotencyKey = crypto.randomUUID();
+ * client.customers.deleteTaxExemption("cus_01KEZF7C006X9JK6NZNA2SM9XD",
+ * "ctex_01KEZF7C009N0YTK0NMWP1XZPW", {}, { idempotencyKey: idempotencyKey })
+ */
+    deleteTaxExemption(customer_id: InputValue<string>, customer_tax_exemption_id: InputValue<string>, params?: CustomersDeleteTaxExemptionParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<CustomerTaxExemption, CustomerTaxExemptionResponse>>;
     /**
  * Returns a single customer by ID.
  *
@@ -178,7 +259,7 @@ export interface CustomersResource {
  * @see https://developers.withflintpay.com/docs/api/customers#getCustomer
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.customers.get("cus_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.customers.get("cus_01KEZF7C006X9JK6NZNA2SM9XD")
  */
     get(customer_id: InputValue<string>, params?: CustomersGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<Customer, CustomerResponse>>;
     /**
@@ -190,13 +271,42 @@ export interface CustomersResource {
  * @see https://developers.withflintpay.com/docs/api/customers#getCustomerAddress
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.customers.getAddress("cus_01ARZ3NDEKTSV4RRFFQ69G5FAV", "caddr_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.customers.getAddress("cus_01KEZF7C006X9JK6NZNA2SM9XD", "caddr_01KEZF7C00K2Q127FBJAXWB0FP")
  */
     getAddress(customer_id: InputValue<string>, customer_address_id: InputValue<string>, params?: CustomersGetAddressParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<CustomerAddress, CustomerAddressResponse>>;
     /**
+ * Returns the preferences for the customer's current email address in this merchant environment. A
+ * missing choice is enabled. Reads remain available while deletion is processing. Returns
+ * RESOURCE_NOT_FOUND for an unknown or deleted customer, or with reason email_missing when the
+ * customer has no email address. Merchants cannot change these preferences.
+ *
+ * `GET /v1/customers/{customer_id}/email-preferences`
+ * @param customer_id Flint customer ID.
+ * @see https://developers.withflintpay.com/docs/api/customers#getCustomerEmailPreferences
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
+ * @example
+ * client.customers.getEmailPreferences("cus_01KEZF7C006X9JK6NZNA2SM9XD")
+ */
+    getEmailPreferences(customer_id: InputValue<string>, params?: CustomersGetEmailPreferencesParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<CustomerEmailPreferences, CustomerEmailPreferencesResponse>>;
+    /**
+ * Returns one exemption belonging to this customer, including an archived record. A record
+ * belonging to another customer returns RESOURCE_NOT_FOUND. Evidence references are merchant-only;
+ * customer and checkout sessions cannot access this route.
+ *
+ * `GET /v1/customers/{customer_id}/tax-exemptions/{customer_tax_exemption_id}`
+ * @param customer_id Flint ID of the customer that owns this nested child.
+ * @param customer_tax_exemption_id Flint customer tax exemption ID, prefixed ctex_.
+ * @see https://developers.withflintpay.com/docs/api/customer-tax-exemptions#getCustomerTaxExemption
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
+ * @example
+ * client.customers.getTaxExemption("cus_01KEZF7C006X9JK6NZNA2SM9XD",
+ * "ctex_01KEZF7C009N0YTK0NMWP1XZPW")
+ */
+    getTaxExemption(customer_id: InputValue<string>, customer_tax_exemption_id: InputValue<string>, params?: CustomersGetTaxExemptionParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<CustomerTaxExemption, CustomerTaxExemptionResponse>>;
+    /**
  * Links purchases with the verified email and no customer to the verification's customer in the
  * same merchant environment. Purchases bound to another customer stay with that customer. The
- * verification is single use; use the same Idempotency-Key to retry an uncertain result.
+ * verification is single use; use the same idempotency key to retry an uncertain result.
  *
  * `POST /v1/customers/{customer_id}/link-guest-purchases`
  * @param customer_id Flint customer ID.
@@ -205,8 +315,8 @@ export interface CustomersResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.customers.linkGuestPurchases("cus_01ARZ3NDEKTSV4RRFFQ69G5FAV", {customer_verification_id:
- * "cver_01ARZ3NDEKTSV4RRFFQ69G5FAV"}, { idempotencyKey: idempotencyKey })
+ * client.customers.linkGuestPurchases("cus_01KEZF7C006X9JK6NZNA2SM9XD", {customer_verification_id:
+ * "cver_01KEZF7C00E7S01991S7457CVK"}, { idempotencyKey: idempotencyKey })
  */
     linkGuestPurchases(customer_id: InputValue<string>, params: CustomersLinkGuestPurchasesParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<GuestPurchaseLink, GuestPurchaseLinkResponse>>;
     /**
@@ -218,7 +328,7 @@ export interface CustomersResource {
  * @see https://developers.withflintpay.com/docs/api/customers#listCustomerAddresses
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.customers.listAddresses("cus_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.customers.listAddresses("cus_01KEZF7C006X9JK6NZNA2SM9XD")
  */
     listAddresses(customer_id: InputValue<string>, params?: CustomersListAddressesParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<CustomerAddressListResponse, CustomerAddressListResponse>>;
     /** Iterate pages lazily.
@@ -250,6 +360,31 @@ export interface CustomersResource {
      */
     listItems(params?: CustomersListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<Customer>;
     /**
+ * Returns the customer's exemption records ordered by created_at descending, then
+ * customer_tax_exemption_id descending. Archived records are excluded by default. Status may
+ * filter scheduled, active, expired and archived records, alone or together. Default order:
+ * created_at descending, then customer_tax_exemption_id descending.
+ *
+ * `GET /v1/customers/{customer_id}/tax-exemptions`
+ * @param customer_id Flint ID of the customer that owns this nested child.
+ * @see
+ * https://developers.withflintpay.com/docs/api/customer-tax-exemptions#listCustomerTaxExemptions
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
+ * @example
+ * client.customers.listTaxExemptions("cus_01KEZF7C006X9JK6NZNA2SM9XD")
+ */
+    listTaxExemptions(customer_id: InputValue<string>, params?: CustomersListTaxExemptionsParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<CustomerTaxExemptionListResponse, CustomerTaxExemptionListResponse>>;
+    /** Iterate pages lazily.
+     * @see
+     * https://developers.withflintpay.com/docs/api/customer-tax-exemptions#listCustomerTaxExemptions
+     */
+    listTaxExemptionsPages(customer_id: InputValue<string>, params?: CustomersListTaxExemptionsParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<WithResponseInfo<CustomerTaxExemptionListResponse, CustomerTaxExemptionListResponse>>;
+    /** Iterate items lazily.
+     * @see
+     * https://developers.withflintpay.com/docs/api/customer-tax-exemptions#listCustomerTaxExemptions
+     */
+    listTaxExemptionsItems(customer_id: InputValue<string>, params?: CustomersListTaxExemptionsParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<CustomerTaxExemption>;
+    /**
  * Revokes every customer session for one customer in the selected merchant environment. Flint
  * Account buyer sessions remain independent.
  *
@@ -260,17 +395,20 @@ export interface CustomersResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.customers.revokeSessions("cus_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey:
+ * client.customers.revokeSessions("cus_01KEZF7C006X9JK6NZNA2SM9XD", {}, { idempotencyKey:
  * idempotencyKey })
  */
     revokeSessions(customer_id: InputValue<string>, params?: CustomersRevokeSessionsParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<CustomerSessionsRevocation, CustomerSessionsRevocationResponse>>;
     /**
- * Applies a sparse update to a customer. Changing email requires customer_account.mode to be
- * merchant_hosted; otherwise Flint returns 409 ACTION_NOT_ALLOWED with reason managed_externally.
- * To change the email of a customer who signs in to your Flint-hosted account, create a customer
- * session for the customer and send `client.me.createEmailChangeRequest` with the new email; the
- * customer confirms it with the codes Flint emails them. If Flint cannot read the account
- * settings, it returns a retryable 503 SERVICE_UNAVAILABLE without changing the customer.
+ * Applies a sparse update to a customer. Clearing email while any subscription is not canceled
+ * returns 409 CUSTOMER_EMAIL_REQUIRED. Changing, case-changing, or clearing an existing email
+ * requires customer_account.mode to be merchant_hosted; otherwise the update fails with
+ * `ACTION_NOT_ALLOWED` and reason `managed_externally`. A customer with no email can be given one
+ * in either mode. To change the email of a customer who signs in to your Flint-hosted account,
+ * create a customer session for the customer and send `client.me.createEmailChangeRequest` with
+ * the new email; the customer confirms it with the codes Flint emails them. If Flint cannot read
+ * the account settings, the update fails with a retryable `SERVICE_UNAVAILABLE` and the customer
+ * is unchanged.
  *
  * `PATCH /v1/customers/{customer_id}`
  * @param customer_id Flint customer ID.
@@ -300,6 +438,31 @@ export interface CustomersResource {
  * "caddr_01ARZ3NDEKTSV4RRFFQ69G5FAV", {label: "Home"}, { idempotencyKey: idempotencyKey })
  */
     updateAddress(customer_id: InputValue<string>, customer_address_id: InputValue<string>, params: CustomersUpdateAddressParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<CustomerAddress, CustomerAddressResponse>>;
+    /**
+ * Updates only fields supplied. Coverage is replaced as a whole and requires expected_version.
+ * Null clears optional description, certificate_number, evidence_reference and end_date. Metadata
+ * merges by key; null values remove individual keys and a null map clears caller-owned metadata.
+ * Expired and archived records reject edits with ACTION_NOT_ALLOWED and reason terminal_status. A
+ * stale expected_version returns VERSION_CONFLICT before effects. Retry a lost response with the
+ * same request and Idempotency-Key. If IDEMPOTENCY_RECOVERY_REQUIRED is returned, inspect this
+ * customer's list and GET records before sending a new write. Match a lost create against
+ * submitted fields across list pages; contact support with the original key and request ID if its
+ * outcome is unclear.
+ *
+ * `PATCH /v1/customers/{customer_id}/tax-exemptions/{customer_tax_exemption_id}`
+ * @param customer_id Flint ID of the customer that owns this nested child.
+ * @param customer_tax_exemption_id Flint customer tax exemption ID, prefixed ctex_.
+ * @see
+ * https://developers.withflintpay.com/docs/api/customer-tax-exemptions#updateCustomerTaxExemption
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
+ * @example
+ * // Persist this key with the action before sending; reuse it for every resubmission.
+ * const idempotencyKey = crypto.randomUUID();
+ * client.customers.updateTaxExemption("cus_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+ * "ctex_01ARZ3NDEKTSV4RRFFQ69G5FAV", {description: "Example exemption"}, { idempotencyKey:
+ * idempotencyKey })
+ */
+    updateTaxExemption(customer_id: InputValue<string>, customer_tax_exemption_id: InputValue<string>, params: CustomersUpdateTaxExemptionParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<CustomerTaxExemption, CustomerTaxExemptionResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

@@ -1,1 +1,1 @@
-{"shared":"InventoryLevelUpdatedMerchantEvent","dependencies":["InventoryItem","InventoryLevel","InventoryLevelUpdatedMerchantEvent","MetadataMap","SharedCodec14","SharedCodec15","SharedCodec16","SharedCodec644"]}
+{"shared":"InventoryLevelUpdatedMerchantEvent","dependencies":["BackorderPolicy","InventoryItem","InventoryLevel","InventoryLevelUpdatedMerchantEvent","MetadataMap","SharedCodec18","SharedCodec23","SharedCodec24","SharedCodec25","SharedCodec26","SharedCodec745","SharedCodec748"]}

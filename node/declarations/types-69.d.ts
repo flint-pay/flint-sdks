@@ -1,138 +1,137 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
-    InventoryTransferTransitionRequestDepartInput,
-    InventoryTransferTransitionRequestReceiveInput,
-    InventoryTransferTransitionRequestReportLossInput,
-    InventoryTransferTransitionRequestReturnToOriginInput,
-    InvoiceAutopayRetryPolicyInput,
-    InvoiceCheckoutSessionRequestInput
-} from './types-28.js';
+    CreateDeliveryRevocationTargetLocationGeographyInput,
+    CreateDeliverySelectionChoiceRequestInput,
+    CreateDeliverySelectionRequestInput,
+    CreateDeliveryZoneRequestInput,
+    CreateDemoSessionRequestInput,
+    CreateDeviceRequestInput,
+    CreateDigitalFulfillmentDetailsInput,
+    CreateEmailChangeRequestInput,
+    CreateFeedbackReportNarrativeInput,
+    CreateFeedbackReportRatingInput,
+    CreateFeedbackReportRequestInput,
+    CreateFileRequestInput,
+    CreateFulfillmentEventRequestInput
+} from './types-8.js';
 import type {
-    InvoiceCollectionInputAutomaticInput,
-    InvoiceCollectionInputBuyerInitiatedInput,
-    InvoiceCollectionInputExternalInput,
-    InvoiceCollectionInputMerchantDefaultInput,
-    InvoiceCollectionRequestInput,
-    InvoiceLateFeePolicyInput,
-    InvoiceLateFeePolicyFixedInput,
-    InvoiceLateFeePolicyPercentageInput
-} from './types-29.js';
+    CreateFulfillmentRequestInput,
+    CreateFulfillmentRequestDigitalInput,
+    CreateFulfillmentRequestLocalDeliveryInput,
+    CreateFulfillmentRequestPickupInput,
+    CreateFulfillmentRequestServiceInput,
+    CreateFulfillmentRequestShipmentInput,
+    CreateGiftCardFundingDispositionRequestInput,
+    CreateGiftCardLoadRequestInput,
+    CreateGiftCardNotificationRequestInput,
+    CreateGiftCardRedemptionRequestInput,
+    CreateGiftCardRedemptionRequestAutomaticInput,
+    CreateGiftCardRedemptionRequestManualInput,
+    CreateGiftCardRequestInput,
+    CreateInlineModifierGroupRequestInput,
+    CreateIntervalReportRequestInput,
+    CreateInventoryAdjustmentConditionChangeRequestInput,
+    CreateInventoryAdjustmentCorrectionRequestInput,
+    CreateInventoryAdjustmentCountedRequestInput,
+    CreateInventoryAdjustmentQuantityRequestInput,
+    CreateInventoryAdjustmentRequestInput,
+    CreateInventoryAllocationPolicyRequestInput,
+    CreateInventoryBackorderPolicyRequestInput,
+    CreateInventoryCountRequestInput,
+    CreateInventoryItemRequestInput,
+    CreateInventoryReceiptRequestInput,
+    CreateInventoryReservationRequestInput,
+    CreateInventoryTransferRequestInput,
+    CreateInvoiceIssueRequestInput,
+    CreateInvoiceManualPaymentRequestInput,
+    CreateInvoicePaymentTermRequestInput,
+    CreateInvoiceQuickPayRequestInput
+} from './types-9.js';
 import type {
-    InvoicePaymentDueInputCustomerDefaultInput,
-    InvoicePaymentDueInputDateInput,
-    InvoicePaymentDueInputMerchantDefaultInput,
-    InvoicePaymentDueInputNoneInput,
-    InvoicePaymentDueInputPaymentTermsInput,
-    InvoicePaymentDueRequestInput,
-    InvoicePaymentOptionLimitInput,
-    InvoicePaymentPolicyInput
-} from './types-30.js';
-import type {
-    InvoicePaymentTermCalculationInput,
-    InvoicePaymentTermCalculationDayOfMonthInput,
-    InvoicePaymentTermCalculationDayOfNextMonthInput,
-    InvoicePaymentTermCalculationDaysAfterMonthEndInput,
-    InvoicePaymentTermCalculationNetDaysInput,
-    InvoicePaymentTermCalculationOnReceiptInput,
-    InvoiceReminderPolicyInput,
-    InvoiceReminderRuleInput,
-    InvoiceScheduleAmountSpecificationInput,
-    InvoiceScheduleAmountSpecificationFixedInput,
-    InvoiceScheduleAmountSpecificationPercentageInput,
-    InvoiceScheduleAmountSpecificationRemainingBalanceInput,
-    InvoiceScheduleDueWriteInput,
-    InvoiceScheduleDueWriteAtIssueInput,
-    InvoiceScheduleDueWriteDateInput,
-    InvoiceScheduleDueWriteInvoiceDueDateInput,
-    InvoiceScheduleEntryWriteInput,
-    InvoiceScheduleEntryWriteBalanceInput,
-    InvoiceScheduleEntryWriteDepositInput,
-    InvoiceScheduleEntryWriteInstallmentInput
-} from './types-31.js';
-import type {
-    InvoiceSettingsPatchInput,
-    IssueCreditNoteRequestInput,
-    IssueInvoiceRequestInput,
-    IssueSandboxAPIKeyRequestInput,
-    IssueSandboxAPIKeyRequestFullInput,
-    IssueSandboxAPIKeyRequestReadOnlyInput,
-    IssueSandboxAPIKeyRequestRestrictedInput,
-    LegalSettingsRequestInput,
-    LineItemFulfillmentOriginRequestInput,
-    LineItemFulfillmentRequestInput,
-    LinkCustomerGuestPurchasesRequestInput
-} from './types-32.js';
-import type { LocationCoordinateRequestInput, LookupGiftCardRequestInput, ManualDiscountRequestInput } from './types-33.js';
-import type { MerchantAccountSessionCreateRequestInput, MerchantAccountSessionRefreshRequestInput } from './types-34.js';
-import type {
-    MetadataPatchRequestInput,
-    MetadataRequestInput,
-    ModifierOverrideInput,
-    ModifierRequestInput,
-    ModifierSetGroupInputExistingInput,
-    ModifierSetGroupInputInlineInput
-} from './types-35.js';
-export declare function makeInventoryTransferTransitionRequestDepart(value: InputValue<InventoryTransferTransitionRequestDepartInput>): Model<InventoryTransferTransitionRequestDepartInput>;
-export declare function makeInventoryTransferTransitionRequestReceive(value: InputValue<InventoryTransferTransitionRequestReceiveInput>): Model<InventoryTransferTransitionRequestReceiveInput>;
-export declare function makeInventoryTransferTransitionRequestReportLoss(value: InputValue<InventoryTransferTransitionRequestReportLossInput>): Model<InventoryTransferTransitionRequestReportLossInput>;
-export declare function makeInventoryTransferTransitionRequestReturnToOrigin(value: InputValue<InventoryTransferTransitionRequestReturnToOriginInput>): Model<InventoryTransferTransitionRequestReturnToOriginInput>;
-export declare function makeInvoiceAutopayRetryPolicy(value: InputValue<InvoiceAutopayRetryPolicyInput>): Model<InvoiceAutopayRetryPolicyInput>;
-export declare function makeInvoiceCheckoutSessionRequest(value: InputValue<InvoiceCheckoutSessionRequestInput>): Model<InvoiceCheckoutSessionRequestInput>;
-export declare function makeInvoiceCollectionInputAutomatic(value: InputValue<InvoiceCollectionInputAutomaticInput>): Model<InvoiceCollectionInputAutomaticInput>;
-export declare function makeInvoiceCollectionInputBuyerInitiated(value: InputValue<InvoiceCollectionInputBuyerInitiatedInput>): Model<InvoiceCollectionInputBuyerInitiatedInput>;
-export declare function makeInvoiceCollectionInputExternal(value: InputValue<InvoiceCollectionInputExternalInput>): Model<InvoiceCollectionInputExternalInput>;
-export declare function makeInvoiceCollectionInputMerchantDefault(value: InputValue<InvoiceCollectionInputMerchantDefaultInput>): Model<InvoiceCollectionInputMerchantDefaultInput>;
-export declare function makeInvoiceCollectionRequest(value: InputValue<InvoiceCollectionRequestInput>): Model<InvoiceCollectionRequestInput>;
-export declare function makeInvoiceLateFeePolicy(value: InputValue<InvoiceLateFeePolicyInput>): Model<InvoiceLateFeePolicyInput>;
-export declare function makeInvoiceLateFeePolicyFixed(value: InputValue<InvoiceLateFeePolicyFixedInput>): Model<InvoiceLateFeePolicyFixedInput>;
-export declare function makeInvoiceLateFeePolicyPercentage(value: InputValue<InvoiceLateFeePolicyPercentageInput>): Model<InvoiceLateFeePolicyPercentageInput>;
-export declare function makeInvoicePaymentDueInputCustomerDefault(value: InputValue<InvoicePaymentDueInputCustomerDefaultInput>): Model<InvoicePaymentDueInputCustomerDefaultInput>;
-export declare function makeInvoicePaymentDueInputDate(value: InputValue<InvoicePaymentDueInputDateInput>): Model<InvoicePaymentDueInputDateInput>;
-export declare function makeInvoicePaymentDueInputMerchantDefault(value: InputValue<InvoicePaymentDueInputMerchantDefaultInput>): Model<InvoicePaymentDueInputMerchantDefaultInput>;
-export declare function makeInvoicePaymentDueInputNone(value: InputValue<InvoicePaymentDueInputNoneInput>): Model<InvoicePaymentDueInputNoneInput>;
-export declare function makeInvoicePaymentDueInputPaymentTerms(value: InputValue<InvoicePaymentDueInputPaymentTermsInput>): Model<InvoicePaymentDueInputPaymentTermsInput>;
-export declare function makeInvoicePaymentDueRequest(value: InputValue<InvoicePaymentDueRequestInput>): Model<InvoicePaymentDueRequestInput>;
-export declare function makeInvoicePaymentOptionLimit(value: InputValue<InvoicePaymentOptionLimitInput>): Model<InvoicePaymentOptionLimitInput>;
-export declare function makeInvoicePaymentPolicy(value: InputValue<InvoicePaymentPolicyInput>): Model<InvoicePaymentPolicyInput>;
-export declare function makeInvoicePaymentTermCalculation(value: InputValue<InvoicePaymentTermCalculationInput>): Model<InvoicePaymentTermCalculationInput>;
-export declare function makeInvoicePaymentTermCalculationDayOfMonth(value: InputValue<InvoicePaymentTermCalculationDayOfMonthInput>): Model<InvoicePaymentTermCalculationDayOfMonthInput>;
-export declare function makeInvoicePaymentTermCalculationDayOfNextMonth(value: InputValue<InvoicePaymentTermCalculationDayOfNextMonthInput>): Model<InvoicePaymentTermCalculationDayOfNextMonthInput>;
-export declare function makeInvoicePaymentTermCalculationDaysAfterMonthEnd(value: InputValue<InvoicePaymentTermCalculationDaysAfterMonthEndInput>): Model<InvoicePaymentTermCalculationDaysAfterMonthEndInput>;
-export declare function makeInvoicePaymentTermCalculationNetDays(value: InputValue<InvoicePaymentTermCalculationNetDaysInput>): Model<InvoicePaymentTermCalculationNetDaysInput>;
-export declare function makeInvoicePaymentTermCalculationOnReceipt(value: InputValue<InvoicePaymentTermCalculationOnReceiptInput>): Model<InvoicePaymentTermCalculationOnReceiptInput>;
-export declare function makeInvoiceReminderPolicy(value: InputValue<InvoiceReminderPolicyInput>): Model<InvoiceReminderPolicyInput>;
-export declare function makeInvoiceReminderRule(value: InputValue<InvoiceReminderRuleInput>): Model<InvoiceReminderRuleInput>;
-export declare function makeInvoiceScheduleAmountSpecification(value: InputValue<InvoiceScheduleAmountSpecificationInput>): Model<InvoiceScheduleAmountSpecificationInput>;
-export declare function makeInvoiceScheduleAmountSpecificationFixed(value: InputValue<InvoiceScheduleAmountSpecificationFixedInput>): Model<InvoiceScheduleAmountSpecificationFixedInput>;
-export declare function makeInvoiceScheduleAmountSpecificationPercentage(value: InputValue<InvoiceScheduleAmountSpecificationPercentageInput>): Model<InvoiceScheduleAmountSpecificationPercentageInput>;
-export declare function makeInvoiceScheduleAmountSpecificationRemainingBalance(value: InputValue<InvoiceScheduleAmountSpecificationRemainingBalanceInput>): Model<InvoiceScheduleAmountSpecificationRemainingBalanceInput>;
-export declare function makeInvoiceScheduleDueWrite(value: InputValue<InvoiceScheduleDueWriteInput>): Model<InvoiceScheduleDueWriteInput>;
-export declare function makeInvoiceScheduleDueWriteAtIssue(value: InputValue<InvoiceScheduleDueWriteAtIssueInput>): Model<InvoiceScheduleDueWriteAtIssueInput>;
-export declare function makeInvoiceScheduleDueWriteDate(value: InputValue<InvoiceScheduleDueWriteDateInput>): Model<InvoiceScheduleDueWriteDateInput>;
-export declare function makeInvoiceScheduleDueWriteInvoiceDueDate(value: InputValue<InvoiceScheduleDueWriteInvoiceDueDateInput>): Model<InvoiceScheduleDueWriteInvoiceDueDateInput>;
-export declare function makeInvoiceScheduleEntryWrite(value: InputValue<InvoiceScheduleEntryWriteInput>): Model<InvoiceScheduleEntryWriteInput>;
-export declare function makeInvoiceScheduleEntryWriteBalance(value: InputValue<InvoiceScheduleEntryWriteBalanceInput>): Model<InvoiceScheduleEntryWriteBalanceInput>;
-export declare function makeInvoiceScheduleEntryWriteDeposit(value: InputValue<InvoiceScheduleEntryWriteDepositInput>): Model<InvoiceScheduleEntryWriteDepositInput>;
-export declare function makeInvoiceScheduleEntryWriteInstallment(value: InputValue<InvoiceScheduleEntryWriteInstallmentInput>): Model<InvoiceScheduleEntryWriteInstallmentInput>;
-export declare function makeInvoiceSettingsPatch(value: InputValue<InvoiceSettingsPatchInput>): Model<InvoiceSettingsPatchInput>;
-export declare function makeIssueCreditNoteRequest(value: InputValue<IssueCreditNoteRequestInput>): Model<IssueCreditNoteRequestInput>;
-export declare function makeIssueInvoiceRequest(value: InputValue<IssueInvoiceRequestInput>): Model<IssueInvoiceRequestInput>;
-export declare function makeIssueSandboxAPIKeyRequest(value: InputValue<IssueSandboxAPIKeyRequestInput>): Model<IssueSandboxAPIKeyRequestInput>;
-export declare function makeIssueSandboxAPIKeyRequestFull(value: InputValue<IssueSandboxAPIKeyRequestFullInput>): Model<IssueSandboxAPIKeyRequestFullInput>;
-export declare function makeIssueSandboxAPIKeyRequestReadOnly(value: InputValue<IssueSandboxAPIKeyRequestReadOnlyInput>): Model<IssueSandboxAPIKeyRequestReadOnlyInput>;
-export declare function makeIssueSandboxAPIKeyRequestRestricted(value: InputValue<IssueSandboxAPIKeyRequestRestrictedInput>): Model<IssueSandboxAPIKeyRequestRestrictedInput>;
-export declare function makeLegalSettingsRequest(value: InputValue<LegalSettingsRequestInput>): Model<LegalSettingsRequestInput>;
-export declare function makeLineItemFulfillmentOriginRequest(value: InputValue<LineItemFulfillmentOriginRequestInput>): Model<LineItemFulfillmentOriginRequestInput>;
-export declare function makeLineItemFulfillmentRequest(value: InputValue<LineItemFulfillmentRequestInput>): Model<LineItemFulfillmentRequestInput>;
-export declare function makeLinkCustomerGuestPurchasesRequest(value: InputValue<LinkCustomerGuestPurchasesRequestInput>): Model<LinkCustomerGuestPurchasesRequestInput>;
-export declare function makeLocationCoordinateRequest(value: InputValue<LocationCoordinateRequestInput>): Model<LocationCoordinateRequestInput>;
-export declare function makeLookupGiftCardRequest(value: InputValue<LookupGiftCardRequestInput>): Model<LookupGiftCardRequestInput>;
-export declare function makeManualDiscountRequest(value: InputValue<ManualDiscountRequestInput>): Model<ManualDiscountRequestInput>;
-export declare function makeMerchantAccountSessionCreateRequest(value: InputValue<MerchantAccountSessionCreateRequestInput>): Model<MerchantAccountSessionCreateRequestInput>;
-export declare function makeMerchantAccountSessionRefreshRequest(value: InputValue<MerchantAccountSessionRefreshRequestInput>): Model<MerchantAccountSessionRefreshRequestInput>;
-export declare function makeMetadataPatchRequest(value: InputValue<MetadataPatchRequestInput>): Model<MetadataPatchRequestInput>;
-export declare function makeMetadataRequest(value: InputValue<MetadataRequestInput>): Model<MetadataRequestInput>;
-export declare function makeModifierOverride(value: InputValue<ModifierOverrideInput>): Model<ModifierOverrideInput>;
-export declare function makeModifierRequest(value: InputValue<ModifierRequestInput>): Model<ModifierRequestInput>;
-export declare function makeModifierSetGroupInputExisting(value: InputValue<ModifierSetGroupInputExistingInput>): Model<ModifierSetGroupInputExistingInput>;
-export declare function makeModifierSetGroupInputInline(value: InputValue<ModifierSetGroupInputInlineInput>): Model<ModifierSetGroupInputInlineInput>;
+    CreateInvoiceRequestInput,
+    CreateInvoiceRequestOrderInput,
+    CreateInvoiceRequestQuickPayInput,
+    CreateLocationRequestInput,
+    CreateMeSubscriptionPreviewRequestInput,
+    CreateMeSubscriptionPreviewRequestDeliveryOptionsInput,
+    CreateMeSubscriptionPreviewRequestNextRenewalInput,
+    CreateMeSubscriptionPreviewRequestPlanChangeInput,
+    CreateMeSubscriptionPreviewRequestQuantityChangeInput,
+    CreateModifierGroupRequestInput,
+    CreateModifierRequestInput,
+    CreateModifierSetGroupInputExistingInput,
+    CreateModifierSetGroupInputInlineInput,
+    CreateModifierSetGroupRequestInput,
+    CreateModifierSetRequestInput,
+    CreateOrderDiscountInput,
+    CreateOrderDiscountManualInput,
+    CreateOrderDiscountPromotionInput,
+    CreateOrderEditRequestInput,
+    CreateOrderLineItemInputBundleInput
+} from './types-10.js';
+export declare function makeCreateDeliveryRevocationTargetLocationGeography(value: InputValue<CreateDeliveryRevocationTargetLocationGeographyInput>): Model<CreateDeliveryRevocationTargetLocationGeographyInput>;
+export declare function makeCreateDeliverySelectionChoiceRequest(value: InputValue<CreateDeliverySelectionChoiceRequestInput>): Model<CreateDeliverySelectionChoiceRequestInput>;
+export declare function makeCreateDeliverySelectionRequest(value: InputValue<CreateDeliverySelectionRequestInput>): Model<CreateDeliverySelectionRequestInput>;
+export declare function makeCreateDeliveryZoneRequest(value: InputValue<CreateDeliveryZoneRequestInput>): Model<CreateDeliveryZoneRequestInput>;
+export declare function makeCreateDemoSessionRequest(value: InputValue<CreateDemoSessionRequestInput>): Model<CreateDemoSessionRequestInput>;
+export declare function makeCreateDeviceRequest(value: InputValue<CreateDeviceRequestInput>): Model<CreateDeviceRequestInput>;
+export declare function makeCreateDigitalFulfillmentDetails(value: InputValue<CreateDigitalFulfillmentDetailsInput>): Model<CreateDigitalFulfillmentDetailsInput>;
+export declare function makeCreateEmailChangeRequest(value: InputValue<CreateEmailChangeRequestInput>): Model<CreateEmailChangeRequestInput>;
+export declare function makeCreateFeedbackReportNarrative(value: InputValue<CreateFeedbackReportNarrativeInput>): Model<CreateFeedbackReportNarrativeInput>;
+export declare function makeCreateFeedbackReportRating(value: InputValue<CreateFeedbackReportRatingInput>): Model<CreateFeedbackReportRatingInput>;
+export declare function makeCreateFeedbackReportRequest(value: InputValue<CreateFeedbackReportRequestInput>): Model<CreateFeedbackReportRequestInput>;
+export declare function makeCreateFileRequest(value: InputValue<CreateFileRequestInput>): Model<CreateFileRequestInput>;
+export declare function makeCreateFulfillmentEventRequest(value: InputValue<CreateFulfillmentEventRequestInput>): Model<CreateFulfillmentEventRequestInput>;
+export declare function makeCreateFulfillmentRequest(value: InputValue<CreateFulfillmentRequestInput>): Model<CreateFulfillmentRequestInput>;
+export declare function makeCreateFulfillmentRequestDigital(value: InputValue<CreateFulfillmentRequestDigitalInput>): Model<CreateFulfillmentRequestDigitalInput>;
+export declare function makeCreateFulfillmentRequestLocalDelivery(value: InputValue<CreateFulfillmentRequestLocalDeliveryInput>): Model<CreateFulfillmentRequestLocalDeliveryInput>;
+export declare function makeCreateFulfillmentRequestPickup(value: InputValue<CreateFulfillmentRequestPickupInput>): Model<CreateFulfillmentRequestPickupInput>;
+export declare function makeCreateFulfillmentRequestService(value: InputValue<CreateFulfillmentRequestServiceInput>): Model<CreateFulfillmentRequestServiceInput>;
+export declare function makeCreateFulfillmentRequestShipment(value: InputValue<CreateFulfillmentRequestShipmentInput>): Model<CreateFulfillmentRequestShipmentInput>;
+export declare function makeCreateGiftCardFundingDispositionRequest(value: InputValue<CreateGiftCardFundingDispositionRequestInput>): Model<CreateGiftCardFundingDispositionRequestInput>;
+export declare function makeCreateGiftCardLoadRequest(value: InputValue<CreateGiftCardLoadRequestInput>): Model<CreateGiftCardLoadRequestInput>;
+export declare function makeCreateGiftCardNotificationRequest(value: InputValue<CreateGiftCardNotificationRequestInput>): Model<CreateGiftCardNotificationRequestInput>;
+export declare function makeCreateGiftCardRedemptionRequest(value: InputValue<CreateGiftCardRedemptionRequestInput>): Model<CreateGiftCardRedemptionRequestInput>;
+export declare function makeCreateGiftCardRedemptionRequestAutomatic(value: InputValue<CreateGiftCardRedemptionRequestAutomaticInput>): Model<CreateGiftCardRedemptionRequestAutomaticInput>;
+export declare function makeCreateGiftCardRedemptionRequestManual(value: InputValue<CreateGiftCardRedemptionRequestManualInput>): Model<CreateGiftCardRedemptionRequestManualInput>;
+export declare function makeCreateGiftCardRequest(value: InputValue<CreateGiftCardRequestInput>): Model<CreateGiftCardRequestInput>;
+export declare function makeCreateInlineModifierGroupRequest(value: InputValue<CreateInlineModifierGroupRequestInput>): Model<CreateInlineModifierGroupRequestInput>;
+export declare function makeCreateIntervalReportRequest(value: InputValue<CreateIntervalReportRequestInput>): Model<CreateIntervalReportRequestInput>;
+export declare function makeCreateInventoryAdjustmentConditionChangeRequest(value: InputValue<CreateInventoryAdjustmentConditionChangeRequestInput>): Model<CreateInventoryAdjustmentConditionChangeRequestInput>;
+export declare function makeCreateInventoryAdjustmentCorrectionRequest(value: InputValue<CreateInventoryAdjustmentCorrectionRequestInput>): Model<CreateInventoryAdjustmentCorrectionRequestInput>;
+export declare function makeCreateInventoryAdjustmentCountedRequest(value: InputValue<CreateInventoryAdjustmentCountedRequestInput>): Model<CreateInventoryAdjustmentCountedRequestInput>;
+export declare function makeCreateInventoryAdjustmentQuantityRequest(value: InputValue<CreateInventoryAdjustmentQuantityRequestInput>): Model<CreateInventoryAdjustmentQuantityRequestInput>;
+export declare function makeCreateInventoryAdjustmentRequest(value: InputValue<Exclude<CreateInventoryAdjustmentRequestInput & object, readonly unknown[]>>): Model<Exclude<CreateInventoryAdjustmentRequestInput & object, readonly unknown[]>>;
+export declare function makeCreateInventoryAdjustmentRequest(value: InputValue<CreateInventoryAdjustmentRequestInput>): Model<CreateInventoryAdjustmentRequestInput>;
+export declare function makeCreateInventoryAllocationPolicyRequest(value: InputValue<CreateInventoryAllocationPolicyRequestInput>): Model<CreateInventoryAllocationPolicyRequestInput>;
+export declare function makeCreateInventoryBackorderPolicyRequest(value: InputValue<CreateInventoryBackorderPolicyRequestInput>): Model<CreateInventoryBackorderPolicyRequestInput>;
+export declare function makeCreateInventoryCountRequest(value: InputValue<CreateInventoryCountRequestInput>): Model<CreateInventoryCountRequestInput>;
+export declare function makeCreateInventoryItemRequest(value: InputValue<CreateInventoryItemRequestInput>): Model<CreateInventoryItemRequestInput>;
+export declare function makeCreateInventoryReceiptRequest(value: InputValue<CreateInventoryReceiptRequestInput>): Model<CreateInventoryReceiptRequestInput>;
+export declare function makeCreateInventoryReservationRequest(value: InputValue<CreateInventoryReservationRequestInput>): Model<CreateInventoryReservationRequestInput>;
+export declare function makeCreateInventoryTransferRequest(value: InputValue<CreateInventoryTransferRequestInput>): Model<CreateInventoryTransferRequestInput>;
+export declare function makeCreateInvoiceIssueRequest(value: InputValue<CreateInvoiceIssueRequestInput>): Model<CreateInvoiceIssueRequestInput>;
+export declare function makeCreateInvoiceManualPaymentRequest(value: InputValue<CreateInvoiceManualPaymentRequestInput>): Model<CreateInvoiceManualPaymentRequestInput>;
+export declare function makeCreateInvoicePaymentTermRequest(value: InputValue<CreateInvoicePaymentTermRequestInput>): Model<CreateInvoicePaymentTermRequestInput>;
+export declare function makeCreateInvoiceQuickPayRequest(value: InputValue<CreateInvoiceQuickPayRequestInput>): Model<CreateInvoiceQuickPayRequestInput>;
+export declare function makeCreateInvoiceRequest(value: InputValue<CreateInvoiceRequestInput>): Model<CreateInvoiceRequestInput>;
+export declare function makeCreateInvoiceRequestOrder(value: InputValue<CreateInvoiceRequestOrderInput>): Model<CreateInvoiceRequestOrderInput>;
+export declare function makeCreateInvoiceRequestQuickPay(value: InputValue<CreateInvoiceRequestQuickPayInput>): Model<CreateInvoiceRequestQuickPayInput>;
+export declare function makeCreateLocationRequest(value: InputValue<CreateLocationRequestInput>): Model<CreateLocationRequestInput>;
+export declare function makeCreateMeSubscriptionPreviewRequest(value: InputValue<Exclude<CreateMeSubscriptionPreviewRequestInput & object, readonly unknown[]>>): Model<Exclude<CreateMeSubscriptionPreviewRequestInput & object, readonly unknown[]>>;
+export declare function makeCreateMeSubscriptionPreviewRequest(value: InputValue<CreateMeSubscriptionPreviewRequestInput>): Model<CreateMeSubscriptionPreviewRequestInput>;
+export declare function makeCreateMeSubscriptionPreviewRequestDeliveryOptions(value: InputValue<CreateMeSubscriptionPreviewRequestDeliveryOptionsInput>): Model<CreateMeSubscriptionPreviewRequestDeliveryOptionsInput>;
+export declare function makeCreateMeSubscriptionPreviewRequestNextRenewal(value: InputValue<CreateMeSubscriptionPreviewRequestNextRenewalInput>): Model<CreateMeSubscriptionPreviewRequestNextRenewalInput>;
+export declare function makeCreateMeSubscriptionPreviewRequestPlanChange(value: InputValue<CreateMeSubscriptionPreviewRequestPlanChangeInput>): Model<CreateMeSubscriptionPreviewRequestPlanChangeInput>;
+export declare function makeCreateMeSubscriptionPreviewRequestQuantityChange(value: InputValue<CreateMeSubscriptionPreviewRequestQuantityChangeInput>): Model<CreateMeSubscriptionPreviewRequestQuantityChangeInput>;
+export declare function makeCreateModifierGroupRequest(value: InputValue<CreateModifierGroupRequestInput>): Model<CreateModifierGroupRequestInput>;
+export declare function makeCreateModifierRequest(value: InputValue<CreateModifierRequestInput>): Model<CreateModifierRequestInput>;
+export declare function makeCreateModifierSetGroupInputExisting(value: InputValue<CreateModifierSetGroupInputExistingInput>): Model<CreateModifierSetGroupInputExistingInput>;
+export declare function makeCreateModifierSetGroupInputInline(value: InputValue<CreateModifierSetGroupInputInlineInput>): Model<CreateModifierSetGroupInputInlineInput>;
+export declare function makeCreateModifierSetGroupRequest(value: InputValue<CreateModifierSetGroupRequestInput>): Model<CreateModifierSetGroupRequestInput>;
+export declare function makeCreateModifierSetRequest(value: InputValue<CreateModifierSetRequestInput>): Model<CreateModifierSetRequestInput>;
+export declare function makeCreateOrderDiscount(value: InputValue<CreateOrderDiscountInput>): Model<CreateOrderDiscountInput>;
+export declare function makeCreateOrderDiscountManual(value: InputValue<CreateOrderDiscountManualInput>): Model<CreateOrderDiscountManualInput>;
+export declare function makeCreateOrderDiscountPromotion(value: InputValue<CreateOrderDiscountPromotionInput>): Model<CreateOrderDiscountPromotionInput>;
+export declare function makeCreateOrderEditRequest(value: InputValue<CreateOrderEditRequestInput>): Model<CreateOrderEditRequestInput>;
+export declare function makeCreateOrderLineItemInputBundle(value: InputValue<CreateOrderLineItemInputBundleInput>): Model<CreateOrderLineItemInputBundleInput>;

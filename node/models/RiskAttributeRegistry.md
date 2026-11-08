@@ -10,5 +10,5 @@ The attributes available to risk rules, in the current environment.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `attributes` | Required | Array of [RiskAttribute](../models/RiskAttribute.md#riskattribute) |  |
+| `attributes` | Required | Array of [RiskAttribute](../models/RiskAttribute.md#riskattribute) | The attributes a risk rule can test. |
 

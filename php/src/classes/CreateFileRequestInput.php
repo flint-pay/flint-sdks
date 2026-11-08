@@ -9,19 +9,19 @@ namespace Flint;
 final class CreateFileRequestInput extends Model {
     /** @param array{'content_type': string, 'purpose': string, 'size_bytes': int}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateFileRequestInput')); }
-    /** Value enum: "image/jpeg", "image/png", "image/webp".
+    /** Media type of the image you will upload. Value enum: "image/jpeg", "image/png", "image/webp".
      * @return string
      * @throws SdkError When content_type is omitted; use hasContentType() or valueOrDefault().
      */
     public function getContentType(): string { return $this->get('content_type'); }
     public function hasContentType(): bool { return $this->has('content_type'); }
-    /** What the image will be used for. Creating or completing merchant_logo and merchant_icon files changes shared branding and requires a live-mode credential or a Dashboard session in any selected environment. Test credentials receive 403 FORBIDDEN with reason live_mode_required. Partner installs support the five commerce purposes; merchant_logo and merchant_icon require merchants.profile.write, which partner installs cannot grant, so live install credentials receive INSUFFICIENT_SCOPE with scope_requirement. Value enum: "product", "product_variant", "bundle", "payment_link", "subscription_plan", "merchant_logo", "merchant_icon".
+    /** What the image will be used for. Creating or completing merchant_logo and merchant_icon files changes shared branding and requires a live-mode credential or a Dashboard session in any selected environment. Test credentials receive 403 FORBIDDEN with reason live_mode_required. Partner install tokens need the purpose's scope too; merchant_logo and merchant_icon need merchants.profile.write and a live install token. Value enum: "product", "product_variant", "bundle", "payment_link", "subscription_plan", "merchant_logo", "merchant_icon".
      * @return string
      * @throws SdkError When purpose is omitted; use hasPurpose() or valueOrDefault().
      */
     public function getPurpose(): string { return $this->get('purpose'); }
     public function hasPurpose(): bool { return $this->has('purpose'); }
-    /** Format: int64. minimum: 1. maximum: 5242880.
+    /** Size of the image you will upload, in bytes, from 1 to 5,242,880 (5 MiB). Format: int64. minimum: 1. maximum: 5242880.
      * @return int
      * @throws SdkError When size_bytes is omitted; use hasSizeBytes() or valueOrDefault().
      */

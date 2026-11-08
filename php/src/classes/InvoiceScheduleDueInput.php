@@ -2,19 +2,19 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read string|\DateTimeInterface $due_at
+ * @property-read string $due_date
  * @property-read string $type
  * Presence-aware input; omitted fields throw when accessed. */
 final class InvoiceScheduleDueInput extends Model {
-    /** @param array{'due_at'?: string|\DateTimeInterface, 'type': string}|object|array{'due_at': string|\DateTimeInterface, 'type': string}|object $values */
+    /** @param array{'due_date'?: string, 'type': string}|object|array{'due_date': string, 'type': string}|object $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceScheduleDueInput')); }
-    /** When this entry is due. Always set for `date`. For `at_issue` and `invoice_due_date`, absent on a draft and set when the invoice is issued: the issue time for `at_issue` and the invoice's `due_at` for `invoice_due_date`. Format: date-time.
-     * @return string|\DateTimeInterface
-     * @throws SdkError When due_at is omitted; use hasDueAt() or valueOrDefault().
+    /** Calendar due date in YYYY-MM-DD format in the invoice timezone (UTC when absent). Collectible from the start of this date, overdue only after it ends. Always present for date; for at_issue and invoice_due_date, omitted on drafts and resolved at issue to the issue date or invoice due_date. Format: date. Example: "2026-08-02".
+     * @return string
+     * @throws SdkError When due_date is omitted; use hasDueDate() or valueOrDefault().
      */
-    public function getDueAt(): string|\DateTimeInterface { return $this->get('due_at'); }
-    public function hasDueAt(): bool { return $this->has('due_at'); }
-    /** How the entry's due time is set. Value enum: "at_issue", "date", "invoice_due_date".
+    public function getDueDate(): string { return $this->get('due_date'); }
+    public function hasDueDate(): bool { return $this->has('due_date'); }
+    /** How the entry's due date is set. Value enum: "at_issue", "date", "invoice_due_date".
      * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */

@@ -9,7 +9,7 @@ const idempotencyKey = crypto.randomUUID();
 
 const result = await client.creditNotes.create(
   {
-    invoice_id: "inv_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+    invoice_id: "inv_01KEZF7C00A5GEBMWHEAJFSAR4",
     reason: "returned_goods",
   },
   { idempotencyKey: idempotencyKey },

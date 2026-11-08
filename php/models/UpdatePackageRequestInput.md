@@ -9,10 +9,10 @@ Request input.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `carrier` | Optional | string or null | Send null to clear it. minLength: `1`. |
-| `dimensions` | Optional | [DimensionsInput](../models/DimensionsInput.md#dimensionsinput) or null |  |
-| `expected_delivery_at` | Optional | string or null | When the carrier or merchant expects this package to arrive. Past dates are allowed. Send null to clear it; omit to leave it unchanged on updates and transitions. Format: `date-time`. minLength: `1`. |
+| `dimensions` | Optional | [DimensionsRequestInput](../models/DimensionsRequestInput.md#dimensionsrequestinput) or null | Dimensions of the package. |
+| `expected_delivery_at` | Optional | string or null | When the carrier or merchant expects this package to arrive. Past dates are allowed. Send null to clear it; omit to leave it unchanged on updates and transitions. Format: `date-time`. minLength: `1`. Example: `"2026-08-02T16:00:00Z"`. |
 | `expected_version` | Optional | integer | Optional resource version last read by the caller. Format: `uint64`. minimum: `1`. |
-| `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Requires external_system. External references are not unique. Use Idempotency-Key for retries. Send null to clear it. minLength: `1`. maxLength: `255`. |
+| `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Requires external_system. External references are not unique. Use Idempotency-Key for retries. Send null to clear it. minLength: `1`. maxLength: `255`. Example: `"warehouse-1842"`. |
 | `external_system` | Optional | string or null | Name of the external system that external_reference_id belongs to. External references are not unique. Use Idempotency-Key for retries. Send null to clear it. minLength: `1`. |
 | `label_url` | Optional | string or null | HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require external_system for provenance. Flint does not host the label file. Send null to clear it. minLength: `1`. |
 | `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequestInput.md#metadatapatchrequestinput) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. |
@@ -20,5 +20,5 @@ Request input.
 | `status_reason` | Optional | string or null | Send null to clear it. minLength: `1`. |
 | `tracking_number` | Optional | string or null | Send null to clear it. minLength: `1`. |
 | `tracking_url` | Optional | string or null | Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. Send null to clear it. minLength: `1`. |
-| `weight` | Optional | [WeightInput](../models/WeightInput.md#weightinput) or null |  |
+| `weight` | Optional | [WeightRequestInput](../models/WeightRequestInput.md#weightrequestinput) or null | Weight of the package. |
 

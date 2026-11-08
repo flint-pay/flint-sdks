@@ -16,19 +16,19 @@ final class BuyerReturnCompletionBlockerInput extends Model {
      */
     public function getCode(): string { return $this->get('code'); }
     public function hasCode(): bool { return $this->has('code'); }
-    /** message
+    /** Explanation of what is still owed.
      * @return string
      * @throws SdkError When message is omitted; use hasMessage() or valueOrDefault().
      */
     public function getMessage(): string { return $this->get('message'); }
     public function hasMessage(): bool { return $this->has('message'); }
-    /** return_line_item_id
+    /** ID of the Return line the entry is about. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
      * @return string
      * @throws SdkError When return_line_item_id is omitted; use hasReturnLineItemId() or valueOrDefault().
      */
     public function getReturnLineItemId(): string { return $this->get('return_line_item_id'); }
     public function hasReturnLineItemId(): bool { return $this->has('return_line_item_id'); }
-    /** return_resolution_id
+    /** ID of the resolution holding this blocker up. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
      * @return string
      * @throws SdkError When return_resolution_id is omitted; use hasReturnResolutionId() or valueOrDefault().
      */

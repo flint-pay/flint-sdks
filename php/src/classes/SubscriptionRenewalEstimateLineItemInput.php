@@ -29,7 +29,7 @@ final class SubscriptionRenewalEstimateLineItemInput extends Model {
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
-    /** The saved subscription line ID; null when previewing replacement plan lines.
+    /** The saved subscription line ID; null when previewing new or replacement lines. Example: "sli_01KEZF7C00PPWVJ2N321V84ASA".
      * @return string|null
      * @throws SdkError When subscription_line_item_id is omitted; use hasSubscriptionLineItemId() or valueOrDefault().
      */

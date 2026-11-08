@@ -16,11 +16,14 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->returns->createLineItem('ret_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
+$result = $client->returns->createLineItem('ret_01KEZF7C00PG93650ZKVQNGF7X', [
+  'expected_version' => 1,
   'line_item' => (object) [
-    'order_line_item_id' => 'li_01ARZ3NDEKTSV4RRFFQ69G5FAV',
+    'buyer_note' => 'I changed my mind.',
+    'order_line_item_id' => 'li_01KEZF7C00XM6VK5KNWVC3T907',
     'requested_quantity' => 1,
-    'return_reason_id' => 'rrsn_01ARZ3NDEKTSV4RRFFQ69G5FAV',
+    'requested_resolution_type' => 'refund',
+    'return_reason_id' => 'rrsn_01KEZF7C005274REWXTZRJ4BM0',
   ],
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->order_id . PHP_EOL;

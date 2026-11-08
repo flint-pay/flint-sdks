@@ -10,22 +10,22 @@ namespace Flint;
 final class EmailPreferenceLink extends Model {
     /** @param array{'customer_id': string|null, 'email': string, 'email_preference': string, 'enabled': bool, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('EmailPreferenceLink')); }
-    /** Flint customer ID when the email belongs to an active customer in this merchant environment. Null for a guest email.
+    /** Flint customer ID when the email belongs to an active customer in this merchant environment. `null` when the email belongs to a guest.
      * @return string|null
      */
     public function getCustomerId(): string|null { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** email
+    /** The email address the preference applies to.
      * @return string
      */
     public function getEmail(): string { return $this->get('email'); }
     public function hasEmail(): bool { return $this->has('email'); }
-    /** Value enum: "shipping_updates", "checkout_reminders".
+    /** The kind of email the preference controls. Value enum: "shipping_updates", "checkout_reminders".
      * @return string
      */
     public function getEmailPreference(): string { return $this->get('email_preference'); }
     public function hasEmailPreference(): bool { return $this->has('email_preference'); }
-    /** enabled
+    /** Whether Flint sends this kind of email to the address.
      * @return bool
      */
     public function getEnabled(): bool { return $this->get('enabled'); }

@@ -17,7 +17,9 @@ $client = new Client(new ClientOptions(
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->customerSessions->create([
-  'customer_id' => 'cus_01ARZ3NDEKTSV4RRFFQ69G5FAV',
+  'customer_id' => 'cus_01KEZF7C003ACYXT6Q5EQZ78EE',
+  'expires_in_seconds' => 3600,
+  'refresh_expires_in_seconds' => 604800,
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo json_encode($result, JSON_THROW_ON_ERROR) . PHP_EOL;
 $client->close();

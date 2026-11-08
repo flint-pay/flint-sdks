@@ -36,7 +36,7 @@ final class PartnerAppCredential extends Model {
      */
     public function getName(): string|null { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** partner_app_credential_id
+    /** Unique identifier for this partner app credential, prefixed `pacr_`.
      * @return string
      */
     public function getPartnerAppCredentialId(): string { return $this->get('partner_app_credential_id'); }

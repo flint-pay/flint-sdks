@@ -5,6 +5,6 @@ const client = new Client({
   allowInsecureHttp: !!baseUrl && ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
 });
 const result = await client.inventoryReceipts.get(
-  "invrec_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "invrec_01KEZF7C00JXXCYA06SH8RCM2N"
 );
 console.log(result.inventory_receipt_id);

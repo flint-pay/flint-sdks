@@ -8,7 +8,7 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `correction` | Required | [CreditNoteCorrectionRequestInput](../models/CreditNoteCorrectionRequestInput.md#creditnotecorrectionrequestinput) | How much of the invoice line to credit, by quantity or by amount. How much of an invoice line item a credit note line credits, by whole `quantity` or by `amount`, chosen by `type`. |
-| `credit_note_line_item_id` | Optional | string | Existing credit note line item to retain. Omit to create a new line item. minLength: `1`. |
-| `invoice_line_item_id` | Required | string | The invoice snapshot line to credit. minLength: `1`. |
+| `correction` | Required | [CreditNoteCorrectionRequestModelInput](../models/CreditNoteCorrectionRequestModelInput.md#creditnotecorrectionrequestmodelinput) | How much of the invoice line to credit, by quantity or by amount. How much of an invoice line item a credit note line credits, by whole `quantity` or by `amount`, chosen by `type`. |
+| `credit_note_line_item_id` | Optional | string | Existing credit note line item to retain. Omit to create a new line item. minLength: `1`. Example: `"cnli_01KEZF7C006N101PGMWKNHFD1J"`. |
+| `invoice_line_item_id` | Required | string | The invoice snapshot line to credit. minLength: `1`. Example: `"invli_01KEZF7C00H767MAT1DY7ZWSVW"`. |
 

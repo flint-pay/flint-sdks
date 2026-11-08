@@ -8,6 +8,6 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `client_id` | Required | string | Values: `"flint-cli"`. |
+| `client_id` | Required | string | Example: `"flint-cli"`. Values: `"flint-cli"`. |
 | `refresh_token` | Required | string |  |
 

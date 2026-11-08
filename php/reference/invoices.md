@@ -4,7 +4,7 @@
 
 ### invoices.cancelPaymentAttempt
 
-Cancels an active invoice payment attempt and its payment intent. A processing ACH debit can be canceled only until the payment processor sends it to the bank; after that the request returns 409 ACTION_NOT_ALLOWED with reason in_progress and the attempt stays processing. Safe to retry with the same Idempotency-Key. Accepts an empty body or {}.
+Cancels an active invoice payment attempt and its payment intent. A processing ACH debit can be canceled only until the payment processor sends it to the bank; after that the request returns 409 ACTION_NOT_ALLOWED with reason in_progress and the attempt stays processing. Safe to retry with the same idempotency key. Accepts an empty body or {}.
 
 `POST /v1/invoices/{invoice_id}/payment-attempts/{invoice_payment_attempt_id}/cancel`
 
@@ -27,6 +27,9 @@ cancelPaymentAttempt(string|
 | --- | --- | --- | --- |
 | `invoice_id` | Required | string | Flint invoice ID. |
 | `invoice_payment_attempt_id` | Required | string | Flint invoice payment attempt ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -41,7 +44,6 @@ Returned payload: [InvoicePaymentAttempt](../models/InvoicePaymentAttempt.md#inv
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 502 | ServerError |
@@ -66,31 +68,37 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->invoices->cancelPaymentAttempt('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV', 'invpa_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->invoices->cancelPaymentAttempt('inv_01KEZF7C00A5GEBMWHEAJFSAR4', 'invpa_01KEZF7C00PMWEDPAYYEKDTPBX', [], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/invoices-cancelPaymentAttempt.php)
 
 ### invoices.collect
 
-Charges the invoice's saved payment method or the supplied saved payment method. This command requires a caller-chosen Idempotency-Key that is reused for retries of the same collection request.
+Charges the invoice's saved payment method or the supplied saved payment method. Send a caller-chosen idempotency key, and reuse it when you retry the same collection.
 
 `POST /v1/invoices/{invoice_id}/collect`
 
-Signature: `collect(string|Model $invoice_id, array|Model $params, ?RequestOptions $options = null)`
+Signature: `collect(string|Model $invoice_id, array|Model|null $params = null, ?RequestOptions $options = null)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `invoice_id` | Required | string | Flint invoice ID. |
-| `body` | Required | [CollectInvoiceRequestInput](../models/CollectInvoiceRequestInput.md#collectinvoicerequestinput) | The request body for: Collect invoice. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `body` | Optional | [CollectInvoiceRequestInput](../models/CollectInvoiceRequestInput.md#collectinvoicerequestinput) | The request body for: Collect invoice. |
 
 Body model: [CollectInvoiceRequestInput](../models/CollectInvoiceRequestInput.md#collectinvoicerequestinput).
 
 #### invoices.collect body fields
 
-Field definitions: [shared fields](../models/CollectInvoiceRequestInput.md#collectinvoicerequestinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `invoice_schedule_entry_id` | Optional | string | Optional. The schedule entry to collect. Only the earliest entry that is due and still has an outstanding balance can be collected; omit it to collect that entry. Not allowed on an invoice without a schedule. minLength: `1`. |
+| `payment_method_id` | Optional | string | minLength: `1`. |
 
 #### Response
 
@@ -105,7 +113,6 @@ Returned payload: [CollectInvoiceResult](../models/CollectInvoiceResult.md#colle
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -132,14 +139,14 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->invoices->collect('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->invoices->collect('inv_01KEZF7C00A5GEBMWHEAJFSAR4', null, new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/invoices-collect.php)
 
 ### invoices.create
 
-Creates an invoice draft from exactly one source: order_id for an order-backed invoice, or quick_pay for an invoice with a new backing order. Include issue to issue it immediately, using merchant_default delivery when issue is empty. Idempotency-Key is required for every request because issuing an automatic-collection invoice can charge the buyer. Replays preserve the original invoice result and recover its current public_url only within 24 hours of the original request; later replays omit public_url. Use GET /v1/invoices/{invoice_id} for the current invoice. If Flint returns IDEMPOTENCY_RECOVERY_REQUIRED, contact Flint support with the original Idempotency-Key and request ID. Never retry with a new key.
+Creates an invoice draft from exactly one source: order_id for an order-backed invoice, or quick_pay for an invoice with a new backing order. Include issue to issue it immediately, using merchant_default delivery when issue is empty. An idempotency key is required for every request because issuing an automatic-collection invoice can charge the buyer. Replays preserve the original invoice result and recover its current public_url only within 24 hours of the original request; later replays omit public_url. Use GET /v1/invoices/{invoice_id} for the current invoice. If Flint returns IDEMPOTENCY_RECOVERY_REQUIRED, look up the original with GET /v1/invoices?idempotency_key={key}. Send the create again under a new key only after confirming it created no invoice, and contact Flint support with the request_id if you can't tell.
 
 `POST /v1/invoices`
 
@@ -149,6 +156,9 @@ Signature: `create(array|Model $params, ?RequestOptions $options = null)`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [CreateInvoiceRequestInput](../models/CreateInvoiceRequestInput.md#createinvoicerequestinput) | The request body for: Create invoice. |
 
 Body model: [CreateInvoiceRequestInput](../models/CreateInvoiceRequestInput.md#createinvoicerequestinput).
@@ -165,10 +175,10 @@ Body model: [CreateInvoiceRequestInput](../models/CreateInvoiceRequestInput.md#c
 | `memo` | Optional | string | Message to the customer, printed on the invoice and PDF. Omit it to use the invoice settings default_memo. minLength: `1`. |
 | `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
 | `order_id` | Optional | string | The open order to bill. It must have no payments, refunds, or other active invoice. Send exactly one of order_id or quick_pay. minLength: `1`. |
-| `payment_due` | Optional | [InvoicePaymentDueRequestInput](../models/InvoicePaymentDueRequestInput.md#invoicepaymentduerequestinput) | When the invoice is due. Omit it to use merchant_default. The invoice's payment_due object returns the resolved type, and you can send it back unchanged on update. Default: `{"type":"merchant_default"}`. When an invoice is due, used when creating or updating an invoice: no due date, a fixed time, payment terms, or a default. |
+| `payment_due` | Optional | [InvoicePaymentDueRequestInput](../models/InvoicePaymentDueRequestInput.md#invoicepaymentduerequestinput) | When the invoice is due. Omit it to use merchant_default. The invoice's payment_due object returns the resolved type, and you can send it back unchanged on update. Default: `{"type":"merchant_default"}`. When an invoice is due, used when creating or updating an invoice: no due date, a calendar date, payment terms, or a default. |
 | `po_number` | Optional | string | The buyer's purchase order number, printed on the invoice and PDF. minLength: `1`. |
 | `quick_pay` | Optional | [CreateInvoiceQuickPayRequestInput](../models/CreateInvoiceQuickPayRequestInput.md#createinvoicequickpayrequestinput) | Order details for an invoice with no existing order. Flint creates the backing order from them. Send exactly one of order_id or quick_pay. Inline order details for creating an invoice as `quick_pay`: line items, discounts, notes, customer, tip, and inventory routing. |
-| `recipient_email` | Optional | string | Where Flint emails the invoice and its reminders. Required at issue when delivery resolves to email, and when you schedule the issue. minLength: `1`. |
+| `recipient_email` | Optional | string or null | Where Flint emails the invoice and its reminders. Defaults to the linked customer's email when omitted at creation. Send null to leave it unset at creation; PATCH null clears it. Required at issue when delivery resolves to email, and when you schedule the issue. minLength: `1`. |
 | `reference` | Optional | string | Your reference for the invoice, printed on the invoice and PDF. Put the buyer's purchase order number in po_number instead. minLength: `1`. |
 | `remit_to_address` | Optional | [AddressRequestInput](../models/AddressRequestInput.md#addressrequestinput) | Where the buyer sends offline payments, printed on the invoice. Omit it to use the invoice settings remit-to address. A complete postal address. State and postal_code are required for US addresses and optional for other countries. Send null or omit line2, state, and postal_code when the address has none. |
 | `schedule_entries` | Optional | Array of [InvoiceScheduleEntryWriteInput](../models/InvoiceScheduleEntryWriteInput.md#invoicescheduleentrywriteinput) | Complete draft payment schedule with at most 14 entries. Validation errors identify the entry by index, such as schedule_entries[3].kind. Enum values are case-sensitive and must not contain surrounding whitespace. Omission preserves the current or default schedule; [] clears the authored schedule. Null is not accepted. On PATCH, include invoice_schedule_entry_id to retain an entry and expected_version to detect concurrent edits. maxItems: `14`. |
@@ -201,7 +211,6 @@ Returned payload: [Invoice](../models/Invoice.md#invoice).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -230,7 +239,7 @@ $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->invoices->create([
   'type' => 'order',
-  'order_id' => 'ord_01ARZ3NDEKTSV4RRFFQ69G5FAV',
+  'order_id' => 'ord_01KEZF7C0054GQKJ142A8X367A',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
@@ -238,7 +247,7 @@ $result = $client->invoices->create([
 
 ### invoices.createCheckoutSession
 
-Returns the current open invoice checkout session and aligned card attempt when they still match the invoice balance and collection run. A newly created session and attempt share the fixed expiration of the active invoice public-link generation. Unexpired sessions are reused regardless of remaining lifetime; active payment work returns a resolving conflict instead of creating competing collection. When the invoice's order has items to deliver, a new session offers the delivery methods in settings.checkout.default_delivery_method_ids, and the request returns 409 ACTION_NOT_ALLOWED with reason configuration_required when those methods cannot deliver every item. return_url sets where the checkout sends the buyer after paying. A reused session takes a new return_url only until a payment starts on it, and keeps the one it has after that.
+Returns the current open invoice checkout session and aligned card attempt when they still match the invoice balance and collection run. A newly created session and attempt share the fixed expiration of the active invoice public-link generation. Unexpired sessions are reused regardless of remaining lifetime; active payment work returns a resolving conflict instead of creating competing collection. When the invoice's order has items to deliver, a new session offers the delivery methods in settings.checkout.default_delivery_method_ids, and the request fails with `ACTION_NOT_ALLOWED` and reason `configuration_required` when those methods cannot deliver every item. return_url sets where the checkout sends the buyer after paying. A reused session takes a new return_url only until a payment starts on it, and keeps the one it has after that.
 
 `POST /v1/invoices/{invoice_id}/checkout-sessions`
 
@@ -249,6 +258,9 @@ Signature: `createCheckoutSession(string|Model $invoice_id, array|Model|null $pa
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `invoice_id` | Required | string | Flint invoice ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Optional | [InvoiceCheckoutSessionRequestInput](../models/InvoiceCheckoutSessionRequestInput.md#invoicecheckoutsessionrequestinput) | The request body for: Create an invoice checkout session for the current buyer; Get or create invoice checkout collection. |
 
 #### Response
@@ -264,7 +276,6 @@ Returned payload: [InvoiceCheckoutSessionResult](../models/InvoiceCheckoutSessio
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -290,7 +301,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->invoices->createCheckoutSession('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV', null, new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->invoices->createCheckoutSession('inv_01KEZF7C00A5GEBMWHEAJFSAR4', null, new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/invoices-createCheckoutSession.php)
@@ -301,20 +312,25 @@ Assesses the frozen late fee policy once per invoice or overdue schedule entry. 
 
 `POST /v1/invoices/{invoice_id}/late-fees`
 
-Signature: `createLateFee(string|Model $invoice_id, array|Model $params, ?RequestOptions $options = null)`
+Signature: `createLateFee(string|Model $invoice_id, array|Model|null $params = null, ?RequestOptions $options = null)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `invoice_id` | Required | string | Invoice ID. |
-| `body` | Required | [AssessInvoiceLateFeeRequestInput](../models/AssessInvoiceLateFeeRequestInput.md#assessinvoicelatefeerequestinput) | The request body for: Assess an invoice late fee. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `body` | Optional | [AssessInvoiceLateFeeRequestInput](../models/AssessInvoiceLateFeeRequestInput.md#assessinvoicelatefeerequestinput) | The request body for: Assess an invoice late fee. |
 
 Body model: [AssessInvoiceLateFeeRequestInput](../models/AssessInvoiceLateFeeRequestInput.md#assessinvoicelatefeerequestinput).
 
 #### invoices.createLateFee body fields
 
-Field definitions: [shared fields](../models/AssessInvoiceLateFeeRequestInput.md#assessinvoicelatefeerequestinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `invoice_schedule_entry_id` | Optional | string | Required on an invoice with a payment schedule, where it names the entry whose outstanding balance and due date the fee is based on. Omit it on an invoice without a schedule. minLength: `1`. |
 
 #### Response
 
@@ -329,7 +345,6 @@ Returned payload: [Invoice](../models/Invoice.md#invoice).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -354,14 +369,14 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->invoices->createLateFee('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->invoices->createLateFee('inv_01KEZF7C00A5GEBMWHEAJFSAR4', null, new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/invoices-createLateFee.php)
 
 ### invoices.createManualPayment
 
-Applies an offline/manual payment to an issued invoice. Recording is rejected with OPERATION_IN_PROGRESS while an online payment is still resolving; an idle open checkout does not block. A payment that clears the balance invalidates the open checkout session. Safe to retry with the same Idempotency-Key.
+Applies an offline/manual payment to an issued invoice. The monthly allowance for orders paid outside Flint never prevents recording a payment. When the order is above its current allowance, meta.warnings includes external_paid_orders_over_allowance with the order resource_id and the original usage period's resets_at. A replay preserves that original reset time. Recording is rejected with OPERATION_IN_PROGRESS while an online payment is still resolving; an idle open checkout does not block. A payment that clears the balance invalidates the open checkout session. Safe to retry with the same idempotency key.
 
 `POST /v1/invoices/{invoice_id}/manual-payments`
 
@@ -372,6 +387,9 @@ Signature: `createManualPayment(string|Model $invoice_id, array|Model $params, ?
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `invoice_id` | Required | string | Flint invoice ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [CreateInvoiceManualPaymentRequestInput](../models/CreateInvoiceManualPaymentRequestInput.md#createinvoicemanualpaymentrequestinput) | The request body for: Create invoice manual payment. |
 
 Body model: [CreateInvoiceManualPaymentRequestInput](../models/CreateInvoiceManualPaymentRequestInput.md#createinvoicemanualpaymentrequestinput).
@@ -380,9 +398,9 @@ Body model: [CreateInvoiceManualPaymentRequestInput](../models/CreateInvoiceManu
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Required | [MoneyValueInput](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantTaxCalculationComponentsItemFlatMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvarianttaxcalculationcomponentsitemflatmoney) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `amount_money` | Required | [MoneyValueInput](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseFaceValueMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantgiftcardpurchasefacevaluemoney) | Positive amount received outside Flint, in the invoice currency, no more than outstanding_money for an open invoice or written_off_money for an uncollectible invoice. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `expected_version` | Optional | integer | Expected version of the invoice. Format: `int64`. minimum: `1`. |
-| `note` | Optional | string | minLength: `1`. maxLength: `4096`. |
+| `note` | Optional | string | Note about the offline payment, up to 4096 characters. minLength: `1`. maxLength: `4096`. |
 | `payment_reference` | Optional | string | Caller-owned check, wire, or bank reference, stored unmodified. minLength: `1`. maxLength: `255`. |
 | `received_at` | Optional | string | When the payment was received. Defaults to now. Format: `date-time`. minLength: `1`. |
 
@@ -399,7 +417,6 @@ Returned payload: [InvoiceManualPaymentResult](../models/InvoiceManualPaymentRes
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -447,7 +464,10 @@ Signature: `get(string|Model $invoice_id, array|Model|null $params = null, ?Requ
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `invoice_id` | Required | string | Flint invoice ID. |
-| `expand` | Optional | Array of string or string | Supported expansions: customer, order. Expansion requires commerce.invoices.read plus the read scope for each expanded resource. Limits: at most 10 unique expand paths per request. Repeat expand, for example expand=customer&expand=order, or pass one comma-separated value. Items values: `"customer"`, `"order"`. Values: `"customer"`, `"order"`. |
+| `expand` | Optional | Array of string or string | Include related objects in the response. Supported expansions: customer, order. Expansion requires commerce.invoices.read plus the read scope for each expanded resource. Limits: at most 10 unique expand paths per request. Items values: `"customer"`, `"order"`. Values: `"customer"`, `"order"`. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -461,7 +481,6 @@ Returned payload: [Invoice](../models/Invoice.md#invoice).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -479,7 +498,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```php
-$result = $client->invoices->get('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
+$result = $client->invoices->get('inv_01KEZF7C00A5GEBMWHEAJFSAR4', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/invoices-get.php)
@@ -509,6 +528,9 @@ getManualPayment(string|
 | --- | --- | --- | --- |
 | `invoice_id` | Required | string | Flint invoice ID. |
 | `invoice_manual_payment_id` | Required | string | Flint invoice manual payment ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -522,7 +544,6 @@ Returned payload: [InvoiceManualPayment](../models/InvoiceManualPayment.md#invoi
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -540,7 +561,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```php
-$result = $client->invoices->getManualPayment('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV', 'omp_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
+$result = $client->invoices->getManualPayment('inv_01KEZF7C00A5GEBMWHEAJFSAR4', 'omp_01KEZF7C007J18203RBJKB9TYE', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/invoices-getManualPayment.php)
@@ -566,10 +587,7 @@ getPaymentAttempt(string|
 
 #### Request fields
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `invoice_id` | Required | string | Flint invoice ID. |
-| `invoice_payment_attempt_id` | Required | string | Flint invoice payment attempt ID. |
+Field definitions: [shared fields](#request-fields).
 
 #### Response
 
@@ -583,7 +601,6 @@ Returned payload: [InvoicePaymentAttempt](../models/InvoicePaymentAttempt.md#inv
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -601,7 +618,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```php
-$result = $client->invoices->getPaymentAttempt('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV', 'invpa_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
+$result = $client->invoices->getPaymentAttempt('inv_01KEZF7C00A5GEBMWHEAJFSAR4', 'invpa_01KEZF7C00PMWEDPAYYEKDTPBX', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/invoices-getPaymentAttempt.php)
@@ -619,6 +636,9 @@ Signature: `getPDF(string|Model $invoice_id, array|Model|null $params = null, ?R
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `invoice_id` | Required | string | Flint invoice ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -632,7 +652,6 @@ Response body (inside Result.data): null.
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -648,25 +667,28 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```php
-$result = $client->invoices->getPDF('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
+$result = $client->invoices->getPDF('inv_01KEZF7C00A5GEBMWHEAJFSAR4', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/invoices-getPDF.php)
 
 ### invoices.issue
 
-Issues the invoice, creates the buyer-access link, and uses the selected delivery mode. Safe to retry with the same Idempotency-Key.
+Issues the invoice, creates the buyer-access link, and uses the selected delivery mode. Safe to retry with the same idempotency key.
 
 `POST /v1/invoices/{invoice_id}/issue`
 
-Signature: `issue(string|Model $invoice_id, array|Model $params, ?RequestOptions $options = null)`
+Signature: `issue(string|Model $invoice_id, array|Model|null $params = null, ?RequestOptions $options = null)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `invoice_id` | Required | string | Flint invoice ID. |
-| `body` | Required | [IssueInvoiceRequestInput](../models/IssueInvoiceRequestInput.md#issueinvoicerequestinput) | The request body for: Issue invoice. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `body` | Optional | [IssueInvoiceRequestInput](../models/IssueInvoiceRequestInput.md#issueinvoicerequestinput) | The request body for: Issue invoice. |
 
 Body model: [IssueInvoiceRequestInput](../models/IssueInvoiceRequestInput.md#issueinvoicerequestinput).
 
@@ -687,7 +709,6 @@ Returned payload: [Invoice](../models/Invoice.md#invoice).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -704,7 +725,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
+Idempotent: key required, [As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -714,9 +735,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->invoices->issue('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
-  'delivery_mode' => 'email',
-], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->invoices->issue('inv_01KEZF7C00A5GEBMWHEAJFSAR4', null, new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/invoices-issue.php)
@@ -734,29 +753,32 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
-| `status` | Optional | Array of string or string | Filter by invoice status. Repeat the parameter or pass comma-separated values to match multiple statuses. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"draft"`, `"open"`, `"partially_paid"`, `"paid"`, `"void"`, `"uncollectible"`, `"credited"`. Values: `"draft"`, `"open"`, `"partially_paid"`, `"paid"`, `"void"`, `"uncollectible"`, `"credited"`. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
+| `status` | Optional | Array of string or string | Filter by invoice status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"draft"`, `"open"`, `"partially_paid"`, `"paid"`, `"voided"`, `"uncollectible"`, `"credited"`. Values: `"draft"`, `"open"`, `"partially_paid"`, `"paid"`, `"voided"`, `"uncollectible"`, `"credited"`. |
 | `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. |
 | `customer_id` | Optional | string | Filter by Flint customer ID. |
 | `order_id` | Optional | string | Filter by Flint order ID. |
 | `subscription_id` | Optional | string | Exact-match filter on the backing order subscription ID. |
 | `external_reference_id` | Optional | string | Exact-match filter on the caller-owned external reference ID. minLength: `1`. maxLength: `255`. |
 | `invoice_number` | Optional | string | Exact, byte-sensitive whole invoice number. Preserves casing, accents, and whitespace; drafts without a number do not match. minLength: `1`. maxLength: `255`. |
-| `collection_mode` | Optional | Array of string or string | Filter by the effective collection mode. Repeat the parameter or pass comma-separated values to match multiple modes. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"buyer_initiated"`, `"automatic"`, `"external"`. Values: `"buyer_initiated"`, `"automatic"`, `"external"`. |
+| `collection_mode` | Optional | Array of string or string | Filter by the effective collection mode. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"buyer_initiated"`, `"automatic"`, `"external"`. Values: `"buyer_initiated"`, `"automatic"`, `"external"`. |
 | `issued_after` | Optional | string | Inclusive lower bound on issued_at. Format: `date-time`. |
 | `issued_before` | Optional | string | Exclusive upper bound on issued_at. Format: `date-time`. |
 | `updated_after` | Optional | string | Inclusive lower bound on updated_at. Format: `date-time`. |
 | `updated_before` | Optional | string | Exclusive upper bound on updated_at. Format: `date-time`. |
 | `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
 | `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
-| `due_after` | Optional | string | Inclusive lower bound on due_at. Format: `date-time`. |
-| `due_before` | Optional | string | Exclusive upper bound on due_at. Format: `date-time`. |
-| `is_overdue` | Optional | boolean | Filter by whether the invoice is overdue. |
+| `due_date_from` | Optional | string | Inclusive lower bound on due_date, in YYYY-MM-DD format. Compares each invoice calendar date in its timezone (UTC when absent). Format: `date`. |
+| `due_date_to` | Optional | string | Exclusive upper bound on due_date, in YYYY-MM-DD format. Compares each invoice calendar date in its timezone (UTC when absent). Format: `date`. |
+| `is_overdue` | Optional | boolean | Filter by whether an open or partially_paid invoice has an outstanding balance after its due date ends in its timezone (UTC when absent). With a schedule, matches when any entry is overdue. |
 | `has_outstanding_balance` | Optional | boolean | Filter by whether outstanding_money is greater than zero. |
-| `sort_by` | Optional | string | Field to sort by. Defaults to created_at; ties are broken by invoice_id. Default: `"created_at"`. Values: `"created_at"`, `"updated_at"`, `"due_at"`, `"invoice_number"`, `"outstanding_money"`. |
+| `sort_by` | Optional | string | Field to sort by. Defaults to created_at; ties are broken by invoice_id. Default: `"created_at"`. Values: `"created_at"`, `"updated_at"`, `"due_date"`, `"invoice_number"`, `"outstanding_money"`. |
 | `sort_direction` | Optional | string | Sort direction. Defaults to desc. Default: `"desc"`. Values: `"asc"`, `"desc"`. |
 | `query` | Optional | string | Search across invoice_id, invoice_number, external_reference_id, recipient_email, reference, po_number, and the customer name and email on the invoice. Text fields match any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the start and need the type prefix, such as inv_01. |
-| `expand` | Optional | Array of string or string | Supported expansions: customer, order. Include the requested related resources using scoped batch reads for this page. Each relationship requires its existing target read scopes. Expansion changes the representation without changing pagination tokens. Limits: at most 10 unique expand paths per request. Repeat expand, for example expand=customer&expand=order, or pass one comma-separated value. Items values: `"customer"`, `"order"`. Values: `"customer"`, `"order"`. |
+| `expand` | Optional | Array of string or string | Include related objects in the response. Supported expansions: customer, order. Include the requested related resources using scoped batch reads for this page. Each relationship requires its existing target read scopes. Expansion changes the representation without changing pagination tokens. Limits: at most 10 unique expand paths per request. Items values: `"customer"`, `"order"`. Values: `"customer"`, `"order"`. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -769,7 +791,6 @@ Returned payload: [InvoiceListResponse](../models/InvoiceListResponse.md#invoice
 | 400 | InvalidRequestError |
 | 401 | AuthenticationError |
 | 403 | PermissionError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -808,9 +829,12 @@ Signature: `listActivities(string|Model $invoice_id, array|Model|null $params = 
 | --- | --- | --- | --- |
 | `invoice_id` | Required | string | Flint invoice ID. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `sort_direction` | Optional | string | Sort direction. Defaults to desc. Default: `"desc"`. Values: `"asc"`, `"desc"`. |
-| `activity_type` | Optional | Array of string or string | Filter by activity_type. The output-only catch-all other is not accepted. Repeat the parameter or pass comma-separated values to OR multiple types. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [25 declared values](#invoiceslistactivities-input-activity_type--values). Values: [25 declared values](#invoiceslistactivities-input-activity_type--values). |
+| `activity_type` | Optional | Array of string or string | Filter by activity_type. The output-only catch-all other is not accepted. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [25 declared values](#invoiceslistactivities-input-activity_type--values). Values: [25 declared values](#invoiceslistactivities-input-activity_type--values). |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### invoices.listActivities input activity_type [] values
 
@@ -852,7 +876,6 @@ Returned payload: [InvoiceActivityListResponse](../models/InvoiceActivityListRes
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -872,7 +895,7 @@ Pagination: `listActivitiesItems`, `listActivitiesPages`. [Canonical pagination 
 #### Example
 
 ```php
-$result = $client->invoices->listActivities('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
+$result = $client->invoices->listActivities('inv_01KEZF7C00A5GEBMWHEAJFSAR4', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/invoices-listActivities.php)
@@ -891,7 +914,10 @@ Signature: `listDeliveryAttempts(string|Model $invoice_id, array|Model|null $par
 | --- | --- | --- | --- |
 | `invoice_id` | Required | string | Flint invoice ID. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -905,7 +931,6 @@ Returned payload: [InvoiceDeliveryAttemptListResponse](../models/InvoiceDelivery
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -925,7 +950,7 @@ Pagination: `listDeliveryAttemptsItems`, `listDeliveryAttemptsPages`. [Canonical
 #### Example
 
 ```php
-$result = $client->invoices->listDeliveryAttempts('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
+$result = $client->invoices->listDeliveryAttempts('inv_01KEZF7C00A5GEBMWHEAJFSAR4', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/invoices-listDeliveryAttempts.php)
@@ -944,8 +969,11 @@ Signature: `listManualPayments(string|Model $invoice_id, array|Model|null $param
 | --- | --- | --- | --- |
 | `invoice_id` | Required | string | Flint invoice ID. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -959,7 +987,6 @@ Returned payload: [InvoiceManualPaymentListResponse](../models/InvoiceManualPaym
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -979,7 +1006,7 @@ Pagination: `listManualPaymentsItems`, `listManualPaymentsPages`. [Canonical pag
 #### Example
 
 ```php
-$result = $client->invoices->listManualPayments('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
+$result = $client->invoices->listManualPayments('inv_01KEZF7C00A5GEBMWHEAJFSAR4', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/invoices-listManualPayments.php)
@@ -1008,7 +1035,6 @@ Returned payload: [InvoicePaymentAttemptListResponse](../models/InvoicePaymentAt
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -1028,14 +1054,14 @@ Pagination: `listPaymentAttemptsItems`, `listPaymentAttemptsPages`. [Canonical p
 #### Example
 
 ```php
-$result = $client->invoices->listPaymentAttempts('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
+$result = $client->invoices->listPaymentAttempts('inv_01KEZF7C00A5GEBMWHEAJFSAR4', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/invoices-listPaymentAttempts.php)
 
 ### invoices.markUncollectible
 
-Closes the outstanding balance as a write-off and releases the order's invoice collection authority. Safe to retry with the same Idempotency-Key.
+Closes the outstanding balance as a write-off and releases the order's invoice collection authority. Safe to retry with the same idempotency key.
 
 `POST /v1/invoices/{invoice_id}/mark-uncollectible`
 
@@ -1046,6 +1072,9 @@ Signature: `markUncollectible(string|Model $invoice_id, array|Model|null $params
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `invoice_id` | Required | string | Flint invoice ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Optional | [ResourceVersionRequestInput](../models/ResourceVersionRequestInput.md#resourceversionrequestinput) | The request body for: Mark invoice uncollectible; Regenerate invoice public link; Resume one of the current buyer's subscriptions; Resume subscription; Reverse credit note allocation; Void credit note; Void invoice. |
 
 #### Response
@@ -1061,7 +1090,6 @@ Returned payload: [Invoice](../models/Invoice.md#invoice).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -1086,14 +1114,14 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->invoices->markUncollectible('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV', null, new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->invoices->markUncollectible('inv_01KEZF7C00A5GEBMWHEAJFSAR4', null, new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/invoices-markUncollectible.php)
 
 ### invoices.regeneratePublicLink
 
-Revokes the current buyer-access link and all checkout credentials derived from it, then returns a new public_url. The current checkout session and its payment lineage are preserved. Returns 409 ACTION_NOT_ALLOWED with details[0].reason in_progress when the invoice's customer is being deleted or has been deleted. Safe to retry with the same Idempotency-Key.
+Revokes the current buyer-access link and all checkout credentials derived from it, then returns a new public_url. The current checkout session and its payment lineage are preserved. Fails with `ACTION_NOT_ALLOWED` and reason `in_progress` when the invoice's customer is being deleted or has been deleted. Safe to retry with the same idempotency key.
 
 `POST /v1/invoices/{invoice_id}/regenerate-public-link`
 
@@ -1116,7 +1144,6 @@ Returned payload: [Invoice](../models/Invoice.md#invoice).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -1141,14 +1168,14 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->invoices->regeneratePublicLink('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV', null, new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->invoices->regeneratePublicLink('inv_01KEZF7C00A5GEBMWHEAJFSAR4', null, new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/invoices-regeneratePublicLink.php)
 
 ### invoices.reverseManualPayment
 
-Reverses the named manual payment in full and returns its amount to the invoice balance. To correct an amount, reverse the payment and record the correct payment. Retries with the same Idempotency-Key replay the result; retries without a key return 409 once the payment is reversed.
+Reverses the named manual payment in full and returns its amount to the invoice balance. To correct an amount, reverse the payment and record the correct payment. A retry with the same idempotency key replays the result; a retry without a key fails once the payment is already reversed.
 
 `POST /v1/invoices/{invoice_id}/manual-payments/{invoice_manual_payment_id}/reverse`
 
@@ -1160,7 +1187,8 @@ reverseManualPayment(string|
  string|
   Model $invoice_manual_payment_id,
  array|
-  Model $params,
+  Model|
+  null $params = null,
  ?RequestOptions $options = null)
 ```
 
@@ -1170,13 +1198,20 @@ reverseManualPayment(string|
 | --- | --- | --- | --- |
 | `invoice_id` | Required | string | Flint invoice ID. |
 | `invoice_manual_payment_id` | Required | string | Flint invoice manual payment ID. |
-| `body` | Required | [ReverseInvoiceManualPaymentRequestInput](../models/ReverseInvoiceManualPaymentRequestInput.md#reverseinvoicemanualpaymentrequestinput) | The request body for: Reverse manual invoice payment. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `body` | Optional | [ReverseInvoiceManualPaymentRequestInput](../models/ReverseInvoiceManualPaymentRequestInput.md#reverseinvoicemanualpaymentrequestinput) | The request body for: Reverse manual invoice payment. |
 
 Body model: [ReverseInvoiceManualPaymentRequestInput](../models/ReverseInvoiceManualPaymentRequestInput.md#reverseinvoicemanualpaymentrequestinput).
 
 #### invoices.reverseManualPayment body fields
 
-Field definitions: [shared fields](../models/ReverseInvoiceManualPaymentRequestInput.md#reverseinvoicemanualpaymentrequestinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `expected_version` | Optional | integer | Expected version of the invoice. Format: `int64`. minimum: `1`. |
+| `reversal_note` | Optional | string | Why the offline payment is being reversed, up to 4096 characters. minLength: `1`. maxLength: `4096`. |
+| `reversed_at` | Optional | string | When the payment was reversed. Defaults to now and must not precede received_at. Format: `date-time`. minLength: `1`. |
 
 #### Response
 
@@ -1191,7 +1226,6 @@ Returned payload: [InvoiceManualPaymentResult](../models/InvoiceManualPaymentRes
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -1216,16 +1250,14 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->invoices->reverseManualPayment('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV', 'omp_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
-  'reversal_note' => 'Payment returned by bank',
-], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->invoices->reverseManualPayment('inv_01KEZF7C00A5GEBMWHEAJFSAR4', 'omp_01KEZF7C007J18203RBJKB9TYE', null, new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/invoices-reverseManualPayment.php)
 
 ### invoices.sendReminder
 
-Attempts a reminder email for an already issued collectible invoice. Safe to retry with the same Idempotency-Key. Accepts an empty body or {}.
+Attempts a reminder email for an already issued collectible invoice. Safe to retry with the same idempotency key. Accepts an empty body or {}.
 
 `POST /v1/invoices/{invoice_id}/send-reminder`
 
@@ -1233,9 +1265,7 @@ Signature: `sendReminder(string|Model $invoice_id, array|Model|null $params = nu
 
 #### Request fields
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `invoice_id` | Required | string | Flint invoice ID. |
+Field definitions: [shared fields](#request-fields-9).
 
 #### Response
 
@@ -1250,7 +1280,6 @@ Returned payload: [Invoice](../models/Invoice.md#invoice).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -1274,7 +1303,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->invoices->sendReminder('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->invoices->sendReminder('inv_01KEZF7C00A5GEBMWHEAJFSAR4', [], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/invoices-sendReminder.php)
@@ -1292,13 +1321,33 @@ Signature: `update(string|Model $invoice_id, array|Model $params, ?RequestOption
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `invoice_id` | Required | string | Flint invoice ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [UpdateInvoiceRequestInput](../models/UpdateInvoiceRequestInput.md#updateinvoicerequestinput) | The request body for: Update invoice. |
 
 Body model: [UpdateInvoiceRequestInput](../models/UpdateInvoiceRequestInput.md#updateinvoicerequestinput).
 
 #### invoices.update body fields
 
-Field definitions: [shared fields](../models/UpdateInvoiceRequestInput.md#updateinvoicerequestinput). Models: [InvoiceCollectionRequestInput](../models/InvoiceCollectionRequestInput.md#invoicecollectionrequestinput), [MetadataPatchRequestInput](../models/MetadataPatchRequestInput.md#metadatapatchrequestinput), [InvoicePaymentDueRequestInput](../models/InvoicePaymentDueRequestInput.md#invoicepaymentduerequestinput), [AddressRequestInput](../models/AddressRequestInput.md#addressrequestinput), [InvoiceScheduleEntryWriteInput](../models/InvoiceScheduleEntryWriteInput.md#invoicescheduleentrywriteinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `cc_emails` | Optional | Array of string | Additional addresses copied on the invoice email and every reminder. Send the complete list; [] removes every address. Items: minLength: `1`. |
+| `collection` | Optional | [InvoiceCollectionRequestInput](../models/InvoiceCollectionRequestInput.md#invoicecollectionrequestinput) | How the invoice is collected. Send the invoice's collection object back unchanged, or a new one. merchant_default resolves again from invoice settings when the draft is written. How an invoice is collected, used when creating or updating an invoice: a `mode`, an optional saved payment method, and a payment policy. |
+| `expected_version` | Optional | integer | Invoice version last read. Required when schedule_entries is present. Required when any of these fields is present: schedule_entries. Format: `int64`. minimum: `1`. |
+| `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Use it as your sync key: it isn't printed on the invoice, and GET /v1/invoices filters on it by exact match. Send null to clear it. minLength: `1`. maxLength: `255`. |
+| `footer` | Optional | string or null | Fine print at the bottom of the invoice and PDF. Send null to clear it. minLength: `1`. |
+| `memo` | Optional | string or null | Message to the customer, printed on the invoice and PDF. Send null to clear it. minLength: `1`. |
+| `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequestInput.md#metadatapatchrequestinput) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. |
+| `payment_due` | Optional | [InvoicePaymentDueRequestInput](../models/InvoicePaymentDueRequestInput.md#invoicepaymentduerequestinput) | When the invoice is due. Send the invoice's payment_due object back unchanged, or a new one. Sending payment_terms captures the term's current revision again. When an invoice is due, used when creating or updating an invoice: no due date, a calendar date, payment terms, or a default. |
+| `po_number` | Optional | string or null | The buyer's purchase order number, printed on the invoice and PDF. Send null to clear it. minLength: `1`. |
+| `recipient_email` | Optional | string or null | Where Flint emails the invoice and its reminders. Defaults to the linked customer's email when omitted at creation. Send null to leave it unset at creation; PATCH null clears it. Required at issue when delivery resolves to email, and when you schedule the issue. Send null to clear it. minLength: `1`. |
+| `reference` | Optional | string or null | Your reference for the invoice, printed on the invoice and PDF. Put the buyer's purchase order number in po_number instead. Send null to clear it. minLength: `1`. |
+| `reminders_paused` | Optional | boolean | Pauses (true) or resumes (false) the automatic reminder cadence. Accepted only on an open or partially paid invoice with a balance remaining, and only alone or with expected_version: every other field is draft-only. While paused, manual send-reminder calls still work, and invoice.overdue and invoice.late_fee_due still fire. On resume, reminder times that passed while paused do not fire. Sending the current value succeeds without changing the invoice. |
+| `remit_to_address` | Optional | [AddressRequestInput](../models/AddressRequestInput.md#addressrequestinput) | Where the buyer sends offline payments, printed on the invoice. Omit it to use the invoice settings remit-to address. A complete postal address. State and postal_code are required for US addresses and optional for other countries. Send null or omit line2, state, and postal_code when the address has none. |
+| `schedule_entries` | Optional | Array of [InvoiceScheduleEntryWriteInput](../models/InvoiceScheduleEntryWriteInput.md#invoicescheduleentrywriteinput) | Complete draft payment schedule with at most 14 entries. Validation errors identify the entry by index, such as schedule_entries[3].kind. Enum values are case-sensitive and must not contain surrounding whitespace. Omission preserves the current or default schedule; [] clears the authored schedule. Null is not accepted. On PATCH, include invoice_schedule_entry_id to retain an entry and expected_version to detect concurrent edits. maxItems: `14`. |
+| `scheduled_issue_at` | Optional | string or null | When Flint issues and delivers this draft, as an RFC 3339 timestamp in the future. A scheduled issue delivers by email, so the draft needs recipient_email. Clearing it cancels the scheduled issue. Send null to clear it. Format: `date-time`. minLength: `1`. |
+| `service_date` | Optional | string or null | The calendar date of the billed service, in YYYY-MM-DD format. The invoice and PDF print it as written, without timezone conversion. Send null to clear it. Format: `date`. minLength: `1`. |
 
 #### Response
 
@@ -1313,7 +1362,6 @@ Returned payload: [Invoice](../models/Invoice.md#invoice).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -1370,7 +1418,6 @@ Returned payload: [Invoice](../models/Invoice.md#invoice).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -1395,7 +1442,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->invoices->void('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV', null, new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->invoices->void('inv_01KEZF7C00A5GEBMWHEAJFSAR4', null, new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/invoices-void.php)
@@ -1414,6 +1461,9 @@ Signature: `waiveLateFee(string|Model $invoice_id, string|Model $invoice_late_fe
 | --- | --- | --- | --- |
 | `invoice_id` | Required | string | Invoice ID. |
 | `invoice_late_fee_id` | Required | string | Invoice late fee ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [WaiveInvoiceLateFeeRequestInput](../models/WaiveInvoiceLateFeeRequestInput.md#waiveinvoicelatefeerequestinput) | The request body for: Waive an unpaid invoice late fee. |
 
 Body model: [WaiveInvoiceLateFeeRequestInput](../models/WaiveInvoiceLateFeeRequestInput.md#waiveinvoicelatefeerequestinput).
@@ -1437,7 +1487,6 @@ Returned payload: [Invoice](../models/Invoice.md#invoice).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -1462,7 +1511,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->invoices->waiveLateFee('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV', 'inlf_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
+$result = $client->invoices->waiveLateFee('inv_01KEZF7C00A5GEBMWHEAJFSAR4', 'inlf_01KEZF7C00NVR97MBH5AHR4W1X', [
   'reason_message' => 'Courtesy waiver',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```

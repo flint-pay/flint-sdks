@@ -17,7 +17,7 @@ final class CreateDeliverySelectionRequestInput extends Model {
      */
     public function getChoices(): array { return $this->get('choices'); }
     public function hasChoices(): bool { return $this->has('choices'); }
-    /** minLength: 1.
+    /** minLength: 1. Example: "dqt_01KEZF7C009EB1AVCDJBN4BBVV".
      * @return string
      * @throws SdkError When delivery_quote_id is omitted; use hasDeliveryQuoteId() or valueOrDefault().
      */
@@ -29,7 +29,7 @@ final class CreateDeliverySelectionRequestInput extends Model {
      */
     public function getDestinationAddress(): mixed { return $this->get('destination_address'); }
     public function hasDestinationAddress(): bool { return $this->has('destination_address'); }
-    /** Optional assertion on CheckoutSession.delivery.delivery_selection_id. Omit to make no assertion, send null to assert that no selection exists, or send an ID to assert that it is current. minLength: 1.
+    /** Optional assertion on CheckoutSession.delivery.delivery_selection_id. Omit to make no assertion, send null to assert that no selection exists, or send an ID to assert that it is current. minLength: 1. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
      * @return string|null
      * @throws SdkError When expected_delivery_selection_id is omitted; use hasExpectedDeliverySelectionId() or valueOrDefault().
      */

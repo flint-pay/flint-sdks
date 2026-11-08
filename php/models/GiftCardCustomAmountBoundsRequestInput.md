@@ -6,13 +6,8 @@ The minimum and maximum amounts a buyer can choose when buying a gift card with 
 
 Request input.
 
-Field definitions: [shared fields](GiftCardCustomAmountBoundsInput.md#giftcardcustomamountboundsinput).
-
-### GiftCardCustomAmountBoundsRequestInput.maximum_money
-
-Field definitions: [GiftCardCustomAmountBoundsInput.maximum_money](../models/GiftCardCustomAmountBoundsInput.md#giftcardcustomamountboundsinputmaximum_money).
-
-### GiftCardCustomAmountBoundsRequestInput.minimum_money
-
-Field definitions: [GiftCardCustomAmountBoundsInput.minimum_money](../models/GiftCardCustomAmountBoundsInput.md#giftcardcustomamountboundsinputminimum_money).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `maximum_money` | Required | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Largest gift card value buyers can choose, in the face value currency. Currency must be USD. Amount must be between 1 and 200000 minor units, inclusive. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `minimum_money` | Required | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Smallest gift card value buyers can choose, in the face value currency. Currency must be USD. Amount must be between 1 and 200000 minor units, inclusive. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 

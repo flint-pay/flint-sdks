@@ -9,7 +9,7 @@ namespace Flint;
 final class OrderTaxLocationInputPostalCodeInput extends Model {
     /** @param array{'address': OrderTaxLocationPostalAddressRequestInput|array<array-key, mixed>|\stdClass, 'address_source'?: string, 'address_type': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderTaxLocationInputPostalCodeInput')); }
-    /** A postal code, with an optional country, you supply as an order's tax location.
+    /** The address to calculate tax from. A postal code, with an optional country, you supply as an order's tax location.
      * @return OrderTaxLocationPostalAddressRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When address is omitted; use hasAddress() or valueOrDefault().
      */
@@ -21,7 +21,7 @@ final class OrderTaxLocationInputPostalCodeInput extends Model {
      */
     public function getAddressSource(): string { return $this->get('address_source'); }
     public function hasAddressSource(): bool { return $this->has('address_source'); }
-    /** Value enum: "postal_code".
+    /** The kind of address you are sending. Value enum: "postal_code".
      * @return string
      * @throws SdkError When address_type is omitted; use hasAddressType() or valueOrDefault().
      */

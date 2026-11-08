@@ -5,16 +5,23 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/partnerApps.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import r0 from '../descriptors/resources/partnerApps.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import settings from '../descriptors/settings.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["createPartnerApp"]:r0,["createPartnerAppCredential"]:r0,["deletePartnerApp"]:r0,["deletePartnerAppCredential"]:r0,["getPartnerApp"]:r0,["getPartnerAppCredential"]:r0,["getPartnerAppInstall"]:r0,["listPartnerAppCredentials"]:r0,["listPartnerAppInstalls"]:r0,["listPartnerApps"]:r0,["revokePartnerAppEnvironmentGrant"]:r0,["revokePartnerAppInstall"]:r0,["rotatePartnerAppSecret"]:r0,["updatePartnerApp"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["acceptPartnerAppPlatformTerms"]:r0,["createPartnerApp"]:r0,["createPartnerAppCredential"]:r0,["deletePartnerApp"]:r0,["deletePartnerAppCredential"]:r0,["getPartnerApp"]:r0,["getPartnerAppCredential"]:r0,["getPartnerAppInstall"]:r0,["listPartnerAppCredentials"]:r0,["listPartnerAppInstalls"]:r0,["listPartnerApps"]:r0,["revokePartnerAppEnvironmentGrant"]:r0,["revokePartnerAppInstall"]:r0,["rotatePartnerAppSecret"]:r0,["updatePartnerApp"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.partnerApps = Object.freeze({
+      acceptPlatformTerms: async (partner_app_id, params, options) => this.#runtime.request("acceptPartnerAppPlatformTerms", _sdkRequestInput([
+  "partner_app_id"
+], [partner_app_id], [], true, true, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("acceptPartnerAppPlatformTerms", result, path))),
       create: async (params, options) => this.#runtime.request("createPartnerApp", _sdkRequestInput([], [], [], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
@@ -184,6 +191,7 @@ this.partnerApps = Object.freeze({
 [Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
+export { makeAcceptPartnerAppPlatformTermsRequest } from '../models/AcceptPartnerAppPlatformTermsRequest.js';
 export { makeCreatePartnerAppCredentialJWKSURLRequest } from '../models/CreatePartnerAppCredentialJWKSURLRequest.js';
 export { makeCreatePartnerAppCredentialPublicKeyRequest } from '../models/CreatePartnerAppCredentialPublicKeyRequest.js';
 export { makeCreatePartnerAppCredentialRequest } from '../models/CreatePartnerAppCredentialRequest.js';
@@ -194,6 +202,7 @@ export { makePartnerAppCredentialJWKSURLRequest } from '../models/PartnerAppCred
 export { makePartnerAppCredentialPublicKeyRequest } from '../models/PartnerAppCredentialPublicKeyRequest.js';
 export { makePartnerAppCredentialWorkloadIdentityRequest } from '../models/PartnerAppCredentialWorkloadIdentityRequest.js';
 export { makePartnerAppPermissionManifestEntryRequest } from '../models/PartnerAppPermissionManifestEntryRequest.js';
+export { makePartnerAppPlatformProfileRequest } from '../models/PartnerAppPlatformProfileRequest.js';
 export { makeRotatePartnerAppSecretRequest } from '../models/RotatePartnerAppSecretRequest.js';
 export { makeUpdatePartnerAppRequest } from '../models/UpdatePartnerAppRequest.js';
 export { makeWorkloadIdentityClaimConditionRequest } from '../models/WorkloadIdentityClaimConditionRequest.js';

@@ -9,9 +9,10 @@ const idempotencyKey = crypto.randomUUID();
 
 const result = await client.feedbackReports.create(
   {
-    kind: "rating",
+    kind: "feature_request",
+    reporter_kind: "human",
+    summary: "Show the remaining credit before a refund",
     surface: "api",
-    sentiment: "positive",
   },
   { idempotencyKey: idempotencyKey },
 );

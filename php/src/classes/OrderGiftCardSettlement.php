@@ -12,7 +12,7 @@ namespace Flint;
 final class OrderGiftCardSettlement extends Model {
     /** @param array{'amount_money': mixed, 'created_at': string, 'gift_card_id': string, 'gift_card_redemption_id': string, 'last4': string, 'tip_money': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderGiftCardSettlement')); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** The amount the redemption paid toward the order, not counting the tip. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getAmountMoney(): MoneyValue { return $this->get('amount_money'); }
@@ -22,12 +22,12 @@ final class OrderGiftCardSettlement extends Model {
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** gift_card_id
+    /** ID of the gift card the redemption spent.
      * @return string
      */
     public function getGiftCardId(): string { return $this->get('gift_card_id'); }
     public function hasGiftCardId(): bool { return $this->has('gift_card_id'); }
-    /** gift_card_redemption_id
+    /** ID of the redemption that posted the spend.
      * @return string
      */
     public function getGiftCardRedemptionId(): string { return $this->get('gift_card_redemption_id'); }
@@ -37,7 +37,7 @@ final class OrderGiftCardSettlement extends Model {
      */
     public function getLast4(): string { return $this->get('last4'); }
     public function hasLast4(): bool { return $this->has('last4'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** The part of the redemption that paid a tip. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getTipMoney(): MoneyValue { return $this->get('tip_money'); }

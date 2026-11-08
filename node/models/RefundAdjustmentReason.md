@@ -10,8 +10,8 @@
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `code` | Required | string | Values: [7 declared values](#refundadjustmentreason-code-values). |
-| `description` | Optional | string |  |
+| `code` | Required | string | Why the adjustment was made. Values: [7 declared values](#refundadjustmentreason-code-values). |
+| `description` | Optional | string | Note explaining the reason, up to 1,024 characters. Required when `code` is `other`. |
 
 #### RefundAdjustmentReason code values
 

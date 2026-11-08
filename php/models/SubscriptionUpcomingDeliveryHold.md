@@ -6,5 +6,10 @@ A delivery problem detected for an upcoming renewal that will hold the subscript
 
 Response model.
 
-Fields, types, descriptions and enum values: [SubscriptionUpcomingDeliveryHoldInput](../models/SubscriptionUpcomingDeliveryHoldInput.md#subscriptionupcomingdeliveryholdinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `detected_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
+| `fixable_by` | Required | string | Values: `"buyer"`, `"merchant"`. |
+| `reason` | Required | string | Values: `"method_unavailable"`, `"destination_not_served"`, `"rate_unavailable"`. |
+| `renewal_at` | Required | string | Time of the next renewal affected by this delivery issue. Format: `date-time`. |
 

@@ -10,5 +10,5 @@ Digital fulfillment details you supply when creating a fulfillment: the delivery
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `delivery_url` | Optional | string | minLength: `1`. |
+| `delivery_url` | Optional | string | URL where the recipient can access the delivered digital goods. minLength: `1`. |
 

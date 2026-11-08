@@ -5,9 +5,9 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/oauth.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import r0 from '../descriptors/resources/oauth.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import settings from '../descriptors/settings.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["authorizeCLIDevice"]:r0,["exchangeOAuthToken"]:r0,["listCLIContexts"]:r0,["previewPartnerInstallAuthorization"]:r0,["reauthorizeCLIDevice"]:r0,["revokeOAuthToken"]:r0});
 export class Client {
@@ -61,6 +61,7 @@ export { makeMoneyValue } from '../models/MoneyValue.js';
 export { makeOAuthRevokeRequest } from '../models/OAuthRevokeRequest.js';
 export { makeOAuthTokenRequest } from '../models/OAuthTokenRequest.js';
 export { makeOAuthTokenRequestAuthorizationCode } from '../models/OAuthTokenRequestAuthorizationCode.js';
+export { makeOAuthTokenRequestClientCredentials } from '../models/OAuthTokenRequestClientCredentials.js';
 export { makeOAuthTokenRequestDeviceCode } from '../models/OAuthTokenRequestDeviceCode.js';
 export { makeOAuthTokenRequestRefreshToken } from '../models/OAuthTokenRequestRefreshToken.js';
 export { makeOAuthTokenRequestTokenExchange } from '../models/OAuthTokenRequestTokenExchange.js';

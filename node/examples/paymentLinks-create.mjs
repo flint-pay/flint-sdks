@@ -13,5 +13,5 @@ const result = await client.paymentLinks.create(
   },
   { idempotencyKey: idempotencyKey },
 );
+console.log(result.merchant_id);
 console.log(result.payment_link_id);
-console.log(result.status);

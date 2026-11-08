@@ -6,5 +6,8 @@ Where items under a delivery profile ship or leave from: a fixed Location (`loca
 
 Response model.
 
-Fields, types, descriptions and enum values: [DeliveryProfileOriginPolicyInput](../models/DeliveryProfileOriginPolicyInput.md#deliveryprofileoriginpolicyinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `location_id` | Optional | string |  |
+| `type` | Required | string | Values: `"fixed_location"`, `"inventory_routing"`, `"method_origin"`. |
 

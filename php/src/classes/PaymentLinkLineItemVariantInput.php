@@ -30,31 +30,31 @@ namespace Flint;
 final class PaymentLinkLineItemVariantInput extends Model {
     /** @param mixed $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentLinkLineItemVariantInput')); }
-    /** allow_quantity_adjustment
+    /** Whether the buyer can change the quantity in checkout.
      * @return bool
      * @throws SdkError When allow_quantity_adjustment is omitted; use hasAllowQuantityAdjustment() or valueOrDefault().
      */
     public function getAllowQuantityAdjustment(): bool { return $this->get('allow_quantity_adjustment'); }
     public function hasAllowQuantityAdjustment(): bool { return $this->has('allow_quantity_adjustment'); }
-    /** allow_unit_price_adjustment
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it.
      * @return bool
      * @throws SdkError When allow_unit_price_adjustment is omitted; use hasAllowUnitPriceAdjustment() or valueOrDefault().
      */
     public function getAllowUnitPriceAdjustment(): bool { return $this->get('allow_unit_price_adjustment'); }
     public function hasAllowUnitPriceAdjustment(): bool { return $this->has('allow_unit_price_adjustment'); }
-    /** bundle_id
+    /** ID of the catalog bundle a `bundle` line sells. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
      * @return string
      * @throws SdkError When bundle_id is omitted; use hasBundleId() or valueOrDefault().
      */
     public function getBundleId(): string { return $this->get('bundle_id'); }
     public function hasBundleId(): bool { return $this->has('bundle_id'); }
-    /** Variant selected when the page opens and used at resolve when the buyer omits a selection. Must be in variant_ids. Omit it to require a buyer selection. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
+    /** Variant selected when the page opens and used at resolve when the buyer omits a selection. Must be in variant_ids. Omit it to require a buyer selection. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
      * @return string
      * @throws SdkError When default_variant_id is omitted; use hasDefaultVariantId() or valueOrDefault().
      */
     public function getDefaultVariantId(): string { return $this->get('default_variant_id'); }
     public function hasDefaultVariantId(): bool { return $this->has('default_variant_id'); }
-    /** description
+    /** Description of an ad hoc line item.
      * @return string
      * @throws SdkError When description is omitted; use hasDescription() or valueOrDefault().
      */
@@ -78,7 +78,7 @@ final class PaymentLinkLineItemVariantInput extends Model {
      */
     public function getMaxQuantity(): int { return $this->get('max_quantity'); }
     public function hasMaxQuantity(): bool { return $this->has('max_quantity'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When max_unit_price_money is omitted; use hasMaxUnitPriceMoney() or valueOrDefault().
      */
@@ -90,25 +90,25 @@ final class PaymentLinkLineItemVariantInput extends Model {
      */
     public function getMinQuantity(): int { return $this->get('min_quantity'); }
     public function hasMinQuantity(): bool { return $this->has('min_quantity'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When min_unit_price_money is omitted; use hasMinUnitPriceMoney() or valueOrDefault().
      */
     public function getMinUnitPriceMoney(): mixed { return $this->get('min_unit_price_money'); }
     public function hasMinUnitPriceMoney(): bool { return $this->has('min_unit_price_money'); }
-    /** name
+    /** Name of an ad hoc line item. Catalog lines take the catalog name.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** payment_link_line_item_id
+    /** Unique identifier for this payment link line item, prefixed `plli_`. Example: "plli_01KEZF7C004V7GVCCNMYYCBAJS".
      * @return string
      * @throws SdkError When payment_link_line_item_id is omitted; use hasPaymentLinkLineItemId() or valueOrDefault().
      */
     public function getPaymentLinkLineItemId(): string { return $this->get('payment_link_line_item_id'); }
     public function hasPaymentLinkLineItemId(): bool { return $this->has('payment_link_line_item_id'); }
-    /** Parent catalog context only. The product that the variants in variant_ids belong to. Present only on buyer choice lines; refused on input.
+    /** Parent catalog context only. The product that the variants in variant_ids belong to. Present only on buyer choice lines; refused on input. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
      * @return string
      * @throws SdkError When product_id is omitted; use hasProductId() or valueOrDefault().
      */
@@ -132,43 +132,43 @@ final class PaymentLinkLineItemVariantInput extends Model {
      */
     public function getResolvedPriceRange(): mixed { return $this->get('resolved_price_range'); }
     public function hasResolvedPriceRange(): bool { return $this->has('resolved_price_range'); }
-    /** Current catalog unit price of the referenced variant or bundle. This is the catalog value at read time, not a stored snapshot: checkout resolves the price again when a buyer opens the link, so the amount a buyer pays can differ. Absent on ad-hoc line items, variant_ids lines, and when the catalog object no longer exists. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Current catalog unit price of the referenced variant or bundle. For a fixed variant this is the base price that applies below the first quantity price break. This is the catalog value at read time, not a stored snapshot: checkout resolves the price again when a buyer opens the link, so the amount a buyer pays can differ. Absent on ad-hoc line items, variant_ids lines, and when the catalog object no longer exists. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When resolved_unit_price_money is omitted; use hasResolvedUnitPriceMoney() or valueOrDefault().
      */
     public function getResolvedUnitPriceMoney(): mixed { return $this->get('resolved_unit_price_money'); }
     public function hasResolvedUnitPriceMoney(): bool { return $this->has('resolved_unit_price_money'); }
-    /**  [] (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return list<MoneyValueInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When suggested_unit_price_money_options is omitted; use hasSuggestedUnitPriceMoneyOptions() or valueOrDefault().
      */
     public function getSuggestedUnitPriceMoneyOptions(): array { return $this->get('suggested_unit_price_money_options'); }
     public function hasSuggestedUnitPriceMoneyOptions(): bool { return $this->has('suggested_unit_price_money_options'); }
-    /** A line item's tax category and whether it is taxable.
+    /** Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax category and whether it is taxable.
      * @return OrderLineItemTaxInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When tax is omitted; use hasTax() or valueOrDefault().
      */
     public function getTax(): mixed { return $this->get('tax'); }
     public function hasTax(): bool { return $this->has('tax'); }
-    /** Value enum: "variant".
+    /** How the line item is defined. Value enum: "variant".
      * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */
     public function getType(): string { return $this->get('type'); }
     public function hasType(): bool { return $this->has('type'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When unit_price_money is omitted; use hasUnitPriceMoney() or valueOrDefault().
      */
     public function getUnitPriceMoney(): mixed { return $this->get('unit_price_money'); }
     public function hasUnitPriceMoney(): bool { return $this->has('unit_price_money'); }
-    /** variant_id
+    /** ID of the catalog variant a `variant` line sells. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
      * @return string
      * @throws SdkError When variant_id is omitted; use hasVariantId() or valueOrDefault().
      */
     public function getVariantId(): string { return $this->get('variant_id'); }
     public function hasVariantId(): bool { return $this->has('variant_id'); }
-    /** Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active, sellable variants of one product in one currency. Available only on standard payment links. Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1. maxItems: 100. uniqueItems: true. [] (Value): string. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
+    /** Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active, sellable variants of one product in one currency. Available only on standard payment links. Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1. maxItems: 100. uniqueItems: true. [] (Value): string. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
      * @return list<string>
      * @throws SdkError When variant_ids is omitted; use hasVariantIds() or valueOrDefault().
      */

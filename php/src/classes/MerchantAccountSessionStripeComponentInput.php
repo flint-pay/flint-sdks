@@ -14,7 +14,7 @@ final class MerchantAccountSessionStripeComponentInput extends Model {
      */
     public function getCollectionOptions(): mixed { return $this->get('collection_options'); }
     public function hasCollectionOptions(): bool { return $this->has('collection_options'); }
-    /** Stripe component name authorized by this session. tax_documents uses the Stripe name documents. Convert underscores to hyphens when calling Connect.create. Value enum: "account_onboarding", "account_management", "payouts", "balances", "documents", "notification_banner".
+    /** Stripe component name authorized by this session. tax_documents uses the Stripe name documents. Convert underscores to hyphens when calling Connect.create. Value enum: "account_onboarding", "account_management", "payouts", "balances", "documents", "notification_banner", "payments".
      * @return string
      * @throws SdkError When component is omitted; use hasComponent() or valueOrDefault().
      */

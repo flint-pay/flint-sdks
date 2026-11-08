@@ -21,6 +21,6 @@ $result = $client->refunds->update('ref_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
     'reviewed_by' => 'support',
   ],
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
+echo $result->merchant_id . PHP_EOL;
 echo $result->refund_id . PHP_EOL;
-echo $result->status . PHP_EOL;
 $client->close();

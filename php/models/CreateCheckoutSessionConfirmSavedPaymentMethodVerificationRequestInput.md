@@ -8,6 +8,6 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `channel` | Required | string | Values: `"email"`, `"sms"`. |
-| `purpose` | Required | string | Values: `"confirm_saved_payment_method"`. |
+| `channel` | Required | string | How Flint delivers the code. Values: `"email"`, `"sms"`. |
+| `purpose` | Required | string | What the buyer is confirming their email or number for. Values: `"confirm_saved_payment_method"`. |
 

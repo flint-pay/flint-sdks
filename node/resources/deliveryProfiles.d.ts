@@ -1,12 +1,10 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-5.js';
+import type { ClientOptions } from '../declarations/types-6.js';
 import type {
     DeliveryProfile,
     DeliveryProfileAssignment,
     DeliveryProfileAssignmentResponse,
-    DeliveryProfileListResponse
-} from '../declarations/types-17.js';
-import type {
+    DeliveryProfileListResponse,
     DeliveryProfileResponse,
     DeliveryProfilesAssignToUnconfiguredParams,
     DeliveryProfilesCreateParams,
@@ -14,9 +12,9 @@ import type {
     DeliveryProfilesGetParams,
     DeliveryProfilesListParams,
     DeliveryProfilesUpdateParams
-} from '../declarations/types-18.js';
-import type { RequestOptions } from '../declarations/types-48.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-19.js';
+import type { RequestOptions } from '../declarations/types-51.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -33,24 +31,21 @@ export type {
 } from '../runtime.js';
 export type {
     DeliveryProfilesAssignToUnconfiguredParams,
+    DeliveryProfileAssignment,
+    DeliveryProfileAssignmentResponse,
     DeliveryProfilesCreateParams,
+    DeliveryProfile,
     DeliveryProfileResponse,
     DeliveryProfilesDeleteParams,
     DeliveryProfilesGetParams,
     DeliveryProfilesListParams,
-    DeliveryProfilesUpdateParams,
-    DeliveryProfileOriginPolicyRequestInput,
-    DeliveryProfileOriginPolicyInputInventoryRoutingInput,
-    DeliveryProfileOriginPolicyInputMethodOriginInput
-} from '../declarations/types-18.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
-export type {
-    DeliveryProfileAssignment,
-    DeliveryProfileAssignmentResponse,
-    DeliveryProfile,
     DeliveryProfileListResponse,
+    DeliveryProfilesUpdateParams,
     DeliveryProfileConfigurationRequestInput,
+    DeliveryProfileOriginPolicyRequestInput,
     DeliveryProfileOriginPolicyInputFixedLocationInput,
+    DeliveryProfileOriginPolicyInputInventoryRoutingInput,
+    DeliveryProfileOriginPolicyInputMethodOriginInput,
     DeliveryProfileConfigurationInputNoneInput,
     DeliveryProfileConfigurationInputRequiredInput,
     DeliveryProfileConfigurationInputQuoteInput,
@@ -58,25 +53,20 @@ export type {
     DeliveryProfileConfiguration,
     DeliveryProfileOriginPolicy,
     DeliveryProfileDiagnostics
-} from '../declarations/types-17.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { ClientOptions } from '../declarations/types-5.js';
+} from '../declarations/types-19.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+export type { ClientOptions } from '../declarations/types-6.js';
 export type { AssignToUnconfiguredDeliveryProfileRequestInput, AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-12.js';
-export type {
-    NextAction,
-    MoneyValue,
-    MetadataRequestInput,
-    MetadataMap,
-    MetadataPatchRequestInput,
-    MetadataPatchRequest
-} from '../declarations/types-35.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
-export type { CreateDeliveryProfileRequestInput } from '../declarations/types-7.js';
-export type { UpdateDeliveryProfileRequestInput } from '../declarations/types-58.js';
-export type { DeliveryLocationSetsDeleteParams } from '../declarations/types-15.js';
-export { makeAssignToUnconfiguredDeliveryProfileRequest } from '../declarations/types-62.js';
-export { makeCreateDeliveryProfileRequest } from '../declarations/types-64.js';
+export type { Credentials } from '../declarations/types-13.js';
+export type { NextAction, MoneyValue } from '../declarations/types-37.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
+export type { CreateDeliveryProfileRequestInput } from '../declarations/types-8.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-36.js';
+export type { UpdateDeliveryProfileRequestInput } from '../declarations/types-63.js';
+export type { DeliveryLocationSetsDeleteParams } from '../declarations/types-17.js';
+export { makeAssignToUnconfiguredDeliveryProfileRequest } from '../declarations/types-67.js';
+export { makeCreateDeliveryProfileRequest } from '../declarations/types-68.js';
 export {
     makeDeliveryProfileConfigurationInputManual,
     makeDeliveryProfileConfigurationInputNone,
@@ -87,10 +77,10 @@ export {
     makeDeliveryProfileOriginPolicyInputInventoryRouting,
     makeDeliveryProfileOriginPolicyInputMethodOrigin,
     makeDeliveryProfileOriginPolicyRequest
-} from '../declarations/types-67.js';
-export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-69.js';
-export { makeMoneyValue } from '../declarations/types-70.js';
-export { makeUpdateDeliveryProfileRequest } from '../declarations/types-74.js';
+} from '../declarations/types-72.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-74.js';
+export { makeMoneyValue } from '../declarations/types-75.js';
+export { makeUpdateDeliveryProfileRequest } from '../declarations/types-79.js';
 export interface DeliveryProfilesResource {
     /**
  * Assigns this active delivery profile to physical product variants and bundle components that do
@@ -104,10 +94,10 @@ export interface DeliveryProfilesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.deliveryProfiles.assignToUnconfigured("dprof_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {
+ * client.deliveryProfiles.assignToUnconfigured("dprof_01KEZF7C0020J13FQYNY9854R0", undefined, {
  * idempotencyKey: idempotencyKey })
  */
-    assignToUnconfigured(delivery_profile_id: InputValue<string>, params: DeliveryProfilesAssignToUnconfiguredParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<DeliveryProfileAssignment, DeliveryProfileAssignmentResponse>>;
+    assignToUnconfigured(delivery_profile_id: InputValue<string>, params?: DeliveryProfilesAssignToUnconfiguredParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<DeliveryProfileAssignment, DeliveryProfileAssignmentResponse>>;
     /**
  * Delivery profiles define reusable delivery rules assigned to catalog obligations. Creation
  * publishes immutable revision 1. It starts active.
@@ -134,7 +124,7 @@ export interface DeliveryProfilesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.deliveryProfiles.delete("dprof_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey:
+ * client.deliveryProfiles.delete("dprof_01KEZF7C0020J13FQYNY9854R0", {}, { idempotencyKey:
  * idempotencyKey })
  */
     delete(delivery_profile_id: InputValue<string>, params?: DeliveryProfilesDeleteParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<DeliveryProfile, DeliveryProfileResponse>>;
@@ -146,7 +136,7 @@ export interface DeliveryProfilesResource {
  * @see https://developers.withflintpay.com/docs/api/delivery-configuration#getDeliveryProfile
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.deliveryProfiles.get("dprof_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.deliveryProfiles.get("dprof_01KEZF7C0020J13FQYNY9854R0")
  */
     get(delivery_profile_id: InputValue<string>, params?: DeliveryProfilesGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<DeliveryProfile, DeliveryProfileResponse>>;
     /**

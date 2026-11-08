@@ -5,9 +5,9 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/deliveryRateCallbacks.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import r0 from '../descriptors/resources/deliveryRateCallbacks.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import settings from '../descriptors/settings.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["checkDeliveryRateCallbackConnection"]:r0,["createDeliveryRateCallback"]:r0,["createDeliveryRateCallbackTestDelivery"]:r0,["deleteDeliveryRateCallback"]:r0,["getDeliveryRateCallback"]:r0,["listDeliveryRateCallbacks"]:r0,["rotateDeliveryRateCallbackSigningKey"]:r0,["updateDeliveryRateCallback"]:r0});
 export class Client {
@@ -17,19 +17,31 @@ this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.deliveryRateCallbacks = Object.freeze({
       checkConnection: async (delivery_rate_callback_id, params, options) => this.#runtime.request("checkDeliveryRateCallbackConnection", _sdkRequestInput([
   "delivery_rate_callback_id"
-], [delivery_rate_callback_id], [], false, false, params, [
+], [delivery_rate_callback_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("checkDeliveryRateCallbackConnection", result, path))),
-      create: async (params, options) => this.#runtime.request("createDeliveryRateCallback", _sdkRequestInput([], [], [], true, true, params, [
+      create: async (params, options) => this.#runtime.request("createDeliveryRateCallback", _sdkRequestInput([], [], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createDeliveryRateCallback", result, path))),
       createTestDelivery: async (delivery_rate_callback_id, params, options) => this.#runtime.request("createDeliveryRateCallbackTestDelivery", _sdkRequestInput([
   "delivery_rate_callback_id"
-], [delivery_rate_callback_id], [], false, false, params, [
+], [delivery_rate_callback_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
@@ -37,7 +49,10 @@ this.deliveryRateCallbacks = Object.freeze({
       delete: async (delivery_rate_callback_id, params, options) => this.#runtime.request("deleteDeliveryRateCallback", _sdkRequestInput([
   "delivery_rate_callback_id"
 ], [delivery_rate_callback_id], [
-  "expected_version"
+  "expected_version",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Idempotency-Key",
   "Flint-Version",
@@ -45,7 +60,11 @@ this.deliveryRateCallbacks = Object.freeze({
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("deleteDeliveryRateCallback", result, path))),
       get: async (delivery_rate_callback_id, params, options) => this.#runtime.request("getDeliveryRateCallback", _sdkRequestInput([
   "delivery_rate_callback_id"
-], [delivery_rate_callback_id], [], false, false, params, [
+], [delivery_rate_callback_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getDeliveryRateCallback", result, path))),
@@ -55,7 +74,10 @@ this.deliveryRateCallbacks = Object.freeze({
   "query",
   "external_reference_id",
   "status",
-  "delivery_method_id"
+  "delivery_method_id",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -66,7 +88,10 @@ this.deliveryRateCallbacks = Object.freeze({
   "query",
   "external_reference_id",
   "status",
-  "delivery_method_id"
+  "delivery_method_id",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -77,21 +102,32 @@ this.deliveryRateCallbacks = Object.freeze({
   "query",
   "external_reference_id",
   "status",
-  "delivery_method_id"
+  "delivery_method_id",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
 ]), options),
       rotateSecret: async (delivery_rate_callback_id, params, options) => this.#runtime.request("rotateDeliveryRateCallbackSigningKey", _sdkRequestInput([
   "delivery_rate_callback_id"
-], [delivery_rate_callback_id], [], false, false, params, [
+], [delivery_rate_callback_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("rotateDeliveryRateCallbackSigningKey", result, path))),
       update: async (delivery_rate_callback_id, params, options) => this.#runtime.request("updateDeliveryRateCallback", _sdkRequestInput([
   "delivery_rate_callback_id"
-], [delivery_rate_callback_id], [], true, true, params, [
+], [delivery_rate_callback_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
@@ -102,8 +138,8 @@ this.deliveryRateCallbacks = Object.freeze({
 close() { return this.#runtime.close(); }
 }
 export { makeCreateDeliveryRateCallbackRequest } from '../models/CreateDeliveryRateCallbackRequest.js';
-export { makeDeliveryRateCallbackConfiguration } from '../models/DeliveryRateCallbackConfiguration.js';
 export { makeDeliveryRateCallbackConfigurationPatchRequest } from '../models/DeliveryRateCallbackConfigurationPatchRequest.js';
+export { makeDeliveryRateCallbackConfigurationRequest } from '../models/DeliveryRateCallbackConfigurationRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
 export { makeUpdateDeliveryRateCallbackRequest } from '../models/UpdateDeliveryRateCallbackRequest.js';
 export { makeWebhookSigningMethod } from '../models/WebhookSigningMethod.js';

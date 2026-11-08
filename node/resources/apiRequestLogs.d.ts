@@ -7,9 +7,9 @@ import type {
     ApiRequestLogsGetParams,
     ApiRequestLogsListParams
 } from '../declarations/types-0.js';
-import type { ClientOptions } from '../declarations/types-5.js';
-import type { RequestOptions } from '../declarations/types-48.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+import type { ClientOptions } from '../declarations/types-6.js';
+import type { RequestOptions } from '../declarations/types-51.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -35,13 +35,13 @@ export type {
     APIRequestLogQueryParam,
     APIRequestLogReproduction
 } from '../declarations/types-0.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { RequestOptions, ResourceReference, ResourceType, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
-export type { ClientOptions } from '../declarations/types-5.js';
-export type { Credentials } from '../declarations/types-12.js';
-export type { NextAction, MoneyValue } from '../declarations/types-35.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
-export { makeMoneyValue } from '../declarations/types-70.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-51.js';
+export type { ClientOptions } from '../declarations/types-6.js';
+export type { Credentials } from '../declarations/types-13.js';
+export type { NextAction, MoneyValue } from '../declarations/types-37.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
+export { makeMoneyValue } from '../declarations/types-75.js';
 export interface ApiRequestLogsResource {
     /**
  * Returns one request with redacted headers, the redacted request and response bodies for write
@@ -53,14 +53,17 @@ export interface ApiRequestLogsResource {
  * @see https://developers.withflintpay.com/docs/api/api-request-logs#getAPIRequestLog
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.apiRequestLogs.get("rlog_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.apiRequestLogs.get("rlog_01KEZF7C008XJCH6BHA224X46F")
  */
     get(api_request_log_id: InputValue<string>, params?: ApiRequestLogsGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<APIRequestLogDetail, APIRequestLogDetailResponse>>;
     /**
  * Returns request summaries, newest first. With developer.request_logs.read the list covers every
  * caller in the credential's environment. With developer.request_logs.self.read it covers only the
- * calling credential's requests. Headers, bodies and a reproduction are on the detail route.
- * Default order: created_at descending, then api_request_log_id descending.
+ * calling credential's requests. With partner_app_id naming a partner app your merchant owns, the
+ * list instead covers that app's partner app token requests in every merchant that installed it,
+ * in the credential's mode; the detail route still reads only the credential's environment.
+ * Headers, bodies and a reproduction are on the detail route. Default order: created_at
+ * descending, then api_request_log_id descending.
  *
  * `GET /v1/api-request-logs`
  * @see https://developers.withflintpay.com/docs/api/api-request-logs#listAPIRequestLogs

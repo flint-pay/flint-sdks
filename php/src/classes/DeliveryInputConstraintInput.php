@@ -21,7 +21,7 @@ final class DeliveryInputConstraintInput extends Model {
      */
     public function getAllowedValues(): array { return $this->get('allowed_values'); }
     public function hasAllowedValues(): bool { return $this->has('allowed_values'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When earliest_at is omitted; use hasEarliestAt() or valueOrDefault().
      */
@@ -33,7 +33,7 @@ final class DeliveryInputConstraintInput extends Model {
      */
     public function getFormat(): string { return $this->get('format'); }
     public function hasFormat(): bool { return $this->has('format'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When latest_at is omitted; use hasLatestAt() or valueOrDefault().
      */
@@ -57,7 +57,7 @@ final class DeliveryInputConstraintInput extends Model {
      */
     public function getOfferedWindows(): array { return $this->get('offered_windows'); }
     public function hasOfferedWindows(): bool { return $this->has('offered_windows'); }
-    /**  [] (Value): string.
+    /** Sorted ISO 3166-1 alpha-2 countries the delivery methods can serve, derived from eligibility and rate-table conditions. Alternative methods are unioned within each choice group; intersect across groups and, for automatic tax, order.tax.supported_countries. A listed country may still require state, postal code, or other eligibility input. Excludes CU, IR, KP, and SY; sanctioned regions within UA and RU are excluded when address data identifies them. [] (Value): string.
      * @return list<string>
      * @throws SdkError When supported_countries is omitted; use hasSupportedCountries() or valueOrDefault().
      */

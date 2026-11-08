@@ -17,7 +17,7 @@ final class UpdateReturnLineItemRequestInput extends Model {
      */
     public function getBuyerNote(): string|null { return $this->get('buyer_note'); }
     public function hasBuyerNote(): bool { return $this->has('buyer_note'); }
-    /** Format: int64. minimum: 1.
+    /** Version last read from the resource returned in `data` (the primary resource for a result object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on the operation and fields being changed. Format: int64. minimum: 1.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */
@@ -35,7 +35,7 @@ final class UpdateReturnLineItemRequestInput extends Model {
      */
     public function getRequestedResolutionType(): string|null { return $this->get('requested_resolution_type'); }
     public function hasRequestedResolutionType(): bool { return $this->has('requested_resolution_type'); }
-    /** minLength: 1.
+    /** ID of the return reason for this line. The reason must be active. minLength: 1. Example: "rrsn_01KEZF7C00SEE2T4EYP1NXAH3E".
      * @return string
      * @throws SdkError When return_reason_id is omitted; use hasReturnReasonId() or valueOrDefault().
      */

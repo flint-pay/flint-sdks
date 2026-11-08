@@ -43,7 +43,7 @@ final class DeliveryAvailabilityInput extends Model {
      */
     public function getSameDayCutoffMinute(): int { return $this->get('same_day_cutoff_minute'); }
     public function hasSameDayCutoffMinute(): bool { return $this->has('same_day_cutoff_minute'); }
-    /** minLength: 1.
+    /** Uses an IANA time zone name. minLength: 1.
      * @return string
      * @throws SdkError When timezone is omitted; use hasTimezone() or valueOrDefault().
      */

@@ -9,8 +9,16 @@ Response model.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `api_version` | Optional | string | API version used to produce this response. |
-| `history` | Optional | [MoneyMovementHistoryMeta](../models/MoneyMovementHistoryMeta.md#moneymovementhistorymeta) | How complete Flint's history for this list is. history is omitted when Flint's history for this list is complete. How complete the history in a money movement list is and when it was last reconciled. |
+| `history` | Optional | [MoneyMovementHistoryMeta](../models/MoneyMovementHistoryMeta.md#moneymovementhistorymeta) | How complete Flint's history for this list is. history is omitted when Flint's history for this list is complete. How complete the history in a money movement list is and when it was last reconciled. `history`: [field definitions](../models/BalanceListResponse.md#balancelistresponsemetahistory). |
 | `idempotency_replayed` | Optional | boolean | Whether this response replays a stored result for the supplied Idempotency-Key. |
 | `trace_id` | Optional | string | Trace identifier to include when contacting Flint about this request. |
-| `warnings` | Optional | Array of [ResponseWarning](../models/ResponseWarning.md#responsewarning) | Conditions that need attention even though the request succeeded. |
+| `warnings` | Optional | Array of [ResponseWarning](../models/ResponseWarning.md#responsewarning) | Conditions that need attention even though the request succeeded. `warnings[]`: [field definitions](../models/DisputeResponse.md#disputeresponsemetawarnings). |
+
+### MoneyMovementListMeta.history
+
+Field definitions: [BalanceListResponse.meta.history](../models/BalanceListResponse.md#balancelistresponsemetahistory).
+
+### MoneyMovementListMeta.warnings[]
+
+Field definitions: [DisputeResponse.meta.warnings[]](../models/DisputeResponse.md#disputeresponsemetawarnings).
 

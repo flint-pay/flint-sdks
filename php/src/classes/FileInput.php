@@ -11,12 +11,13 @@ namespace Flint;
  * @property-read string $purpose
  * @property-read int $size_bytes
  * @property-read string $status
+ * @property-read list<string> $supported_actions
  * @property-read FileUploadInput|array<array-key, mixed>|\stdClass $upload
  * @property-read string $url
  * @property-read int $width
  * Presence-aware input; omitted fields throw when accessed. */
 final class FileInput extends Model {
-    /** @param array{'content_type': string, 'created_at': string|\DateTimeInterface, 'expires_at'?: string|\DateTimeInterface, 'failure_code'?: string, 'file_id': string, 'height'?: int, 'purpose': string, 'size_bytes': int, 'status': string, 'upload'?: FileUploadInput|array<array-key, mixed>|\stdClass, 'url'?: string, 'width'?: int, ...}|object $values */
+    /** @param array{'content_type': string, 'created_at': string|\DateTimeInterface, 'expires_at'?: string|\DateTimeInterface, 'failure_code'?: string, 'file_id': string, 'height'?: int, 'purpose': string, 'size_bytes': int, 'status': string, 'supported_actions': list<string>, 'upload'?: FileUploadInput|array<array-key, mixed>|\stdClass, 'url'?: string, 'width'?: int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('FileInput')); }
     /** The stored image media type when ready; the declared upload media type otherwise. Value enum: "image/jpeg", "image/png", "image/webp".
      * @return string
@@ -24,13 +25,13 @@ final class FileInput extends Model {
      */
     public function getContentType(): string { return $this->get('content_type'); }
     public function hasContentType(): bool { return $this->has('content_type'); }
-    /** When the upload was created. Format: date-time.
+    /** When the upload was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** When this file expires if it stays in its current status. While awaiting_upload, equals upload.expires_at. While ready and unattached, 24 hours after processing or 7 days after its last detachment. Omitted while attached and in every other status. Format: date-time.
+    /** When this file expires if it stays in its current status. While awaiting_upload, equals upload.expires_at. While ready and unattached, 24 hours after processing or 7 days after its last detachment. Omitted while attached and in every other status. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When expires_at is omitted; use hasExpiresAt() or valueOrDefault().
      */
@@ -42,7 +43,7 @@ final class FileInput extends Model {
      */
     public function getFailureCode(): string { return $this->get('failure_code'); }
     public function hasFailureCode(): bool { return $this->has('failure_code'); }
-    /** The file's stable Flint ID. pattern: ^file_[0-9A-HJKMNP-TV-Z]{26}$.
+    /** The file's stable Flint ID. pattern: ^file_[0-9A-HJKMNP-TV-Z]{26}$. Example: "file_01KEZF7C00BZ179303GY9R0P03".
      * @return string
      * @throws SdkError When file_id is omitted; use hasFileId() or valueOrDefault().
      */
@@ -54,7 +55,7 @@ final class FileInput extends Model {
      */
     public function getHeight(): int { return $this->get('height'); }
     public function hasHeight(): bool { return $this->has('height'); }
-    /** Value enum: "product", "product_variant", "bundle", "payment_link", "subscription_plan", "merchant_logo", "merchant_icon".
+    /** What the image is used for. Set when the file is created. Value enum: "product", "product_variant", "bundle", "payment_link", "subscription_plan", "merchant_logo", "merchant_icon".
      * @return string
      * @throws SdkError When purpose is omitted; use hasPurpose() or valueOrDefault().
      */
@@ -66,19 +67,25 @@ final class FileInput extends Model {
      */
     public function getSizeBytes(): int { return $this->get('size_bytes'); }
     public function hasSizeBytes(): bool { return $this->has('size_bytes'); }
-    /** Value enum: "awaiting_upload", "processing", "ready", "failed", "expired".
+    /** Where the file is in its lifecycle. Only a `ready` file can be attached. Value enum: "awaiting_upload", "processing", "ready", "failed", "expired".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
+    /** Lifecycle actions Flint accepts now. complete is offered while awaiting_upload or processing and remains accepted for completed files, returning the completed file. It can remain available after an attachment deadline expires until Flint removes the stored file. An in-progress completion can still return a transient refusal. [] enum: "complete". [] (Value): string.  Value enum: "complete".
+     * @return list<string>
+     * @throws SdkError When supported_actions is omitted; use hasSupportedActions() or valueOrDefault().
+     */
+    public function getSupportedActions(): array { return $this->get('supported_actions'); }
+    public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
     /** Present only in the create response while awaiting_upload. GET never returns upload credentials. PUT bytes before upload.expires_at, then complete the file. The signed upload target for a file: the URL, HTTP method, headers to send, and when the URL expires.
      * @return FileUploadInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When upload is omitted; use hasUpload() or valueOrDefault().
      */
     public function getUpload(): mixed { return $this->get('upload'); }
     public function hasUpload(): bool { return $this->has('upload'); }
-    /** The canonical image URL, present when ready. Attach the file with images[].file_id, or copy this URL into source_url on another resource. Format: uri.
+    /** The canonical image URL, present when ready. Attach the file with images[].file_id, or copy this URL into source_url on another resource. Format: uri. Example: "https://example.com/receipt".
      * @return string
      * @throws SdkError When url is omitted; use hasUrl() or valueOrDefault().
      */

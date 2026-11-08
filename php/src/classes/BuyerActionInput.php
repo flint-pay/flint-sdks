@@ -20,7 +20,7 @@ final class BuyerActionInput extends Model {
      */
     public function getCancel(): mixed { return $this->get('cancel'); }
     public function hasCancel(): bool { return $this->has('cancel'); }
-    /** When the buyer needs to act by. Omitted when the action has no deadline, or when the resource's state or the store's policy doesn't allow it. Format: date-time.
+    /** When the buyer needs to act by. Omitted when the action has no deadline, or when the resource's state or the store's policy doesn't allow it. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When due_at is omitted; use hasDueAt() or valueOrDefault().
      */
@@ -38,7 +38,7 @@ final class BuyerActionInput extends Model {
      */
     public function getIsRequired(): bool { return $this->get('is_required'); }
     public function hasIsRequired(): bool { return $this->has('is_required'); }
-    /** What the action is. Each resource lists its own kinds in a fixed order. New kinds may be added; ignore kinds you don't recognize. Value enum: "start_return", "resend_receipt", "cancel", "pause", "resume", "reactivate", "update_payment_method", "pay", "withdraw", "ship_items", "pay_balance", "retry_payment", "update_delivery", "skip", "update_billing_interval", "update_quantity", "swap_items", "renew".
+    /** What the action is. Each resource lists its own kinds in a fixed order. New kinds may be added; ignore kinds you don't recognize. Value enum: "start_return", "resend_receipt", "cancel", "pause", "resume", "reactivate", "update_payment_method", "pay", "withdraw", "ship_items", "pay_balance", "retry_payment", "update_delivery", "skip", "update_billing_interval", "update_quantity", "swap_items", "renew", "change_plan", "cancel_plan_change".
      * @return string
      * @throws SdkError When kind is omitted; use hasKind() or valueOrDefault().
      */

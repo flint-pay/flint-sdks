@@ -1,9 +1,9 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { APIKeyWithSecret } from '../declarations/types-0.js';
-import type { ClientOptions } from '../declarations/types-5.js';
-import type { CreateAPIKeyResponse } from '../declarations/types-6.js';
-import type { CreateDeveloperSandboxResult } from '../declarations/types-7.js';
-import type { RequestOptions } from '../declarations/types-48.js';
+import type { ClientOptions } from '../declarations/types-6.js';
+import type { CreateAPIKeyResponse } from '../declarations/types-7.js';
+import type { CreateDeveloperSandboxResult } from '../declarations/types-8.js';
+import type { RequestOptions } from '../declarations/types-51.js';
 import type {
     Sandbox,
     SandboxListResponse,
@@ -15,8 +15,8 @@ import type {
     SandboxesGetParams,
     SandboxesListParams,
     SandboxesResetParams
-} from '../declarations/types-53.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-56.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -42,32 +42,32 @@ export type {
     SandboxesListParams,
     SandboxListResponse,
     SandboxesResetParams
-} from '../declarations/types-53.js';
-export type { RequestOptions, ResourceReference, ResourceType, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
-export type { CreateDeveloperSandboxResult } from '../declarations/types-7.js';
+} from '../declarations/types-56.js';
+export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-51.js';
+export type { CreateDeveloperSandboxResult } from '../declarations/types-8.js';
 export type { APIKeyWithSecret, AuthMode, APIKey } from '../declarations/types-0.js';
-export type { CreateAPIKeyResponse } from '../declarations/types-6.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { ClientOptions } from '../declarations/types-5.js';
-export type { CreateSandboxRequestInput } from '../declarations/types-11.js';
-export type { Credentials } from '../declarations/types-12.js';
-export type { NextAction, MoneyValue } from '../declarations/types-35.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
+export type { CreateAPIKeyResponse } from '../declarations/types-7.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+export type { ClientOptions } from '../declarations/types-6.js';
+export type { CreateSandboxRequestInput } from '../declarations/types-12.js';
+export type { Credentials } from '../declarations/types-13.js';
+export type { NextAction, MoneyValue } from '../declarations/types-37.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
 export type {
     IssueSandboxAPIKeyRequestInput,
     IssueSandboxAPIKeyRequestFullInput,
     IssueSandboxAPIKeyRequestReadOnlyInput,
     IssueSandboxAPIKeyRequestRestrictedInput
-} from '../declarations/types-32.js';
-export type { PartnerAppsListParams } from '../declarations/types-40.js';
-export { makeCreateSandboxRequest } from '../declarations/types-65.js';
+} from '../declarations/types-34.js';
+export type { PartnerAppsListParams } from '../declarations/types-42.js';
+export { makeCreateSandboxRequest } from '../declarations/types-70.js';
 export {
     makeIssueSandboxAPIKeyRequest,
     makeIssueSandboxAPIKeyRequestFull,
     makeIssueSandboxAPIKeyRequestReadOnly,
     makeIssueSandboxAPIKeyRequestRestricted
-} from '../declarations/types-69.js';
-export { makeMoneyValue } from '../declarations/types-70.js';
+} from '../declarations/types-74.js';
+export { makeMoneyValue } from '../declarations/types-75.js';
 export interface SandboxesResource {
     /**
  * Creates a new empty test sandbox for the current merchant. Send `issue_test_key: true` to also
@@ -94,13 +94,13 @@ export interface SandboxesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.sandboxes.createAPIKey("test_01ARZ3NDEKTSV4RRFFQ69G5FAV", {access: "restricted", name:
+ * client.sandboxes.createAPIKey("test_01KEZF7C00JC77HTMTB2XHNPE0", {access: "restricted", name:
  * "Partner demo key", scopes: ["commerce.orders.read", "customers.read"]}, { idempotencyKey:
  * idempotencyKey })
  */
     createAPIKey(sandbox_id: InputValue<string>, params: SandboxesCreateAPIKeyParams, options?: RequestOptions<"merchant" | "onboarding">): Promise<WithResponseInfo<APIKeyWithSecret, CreateAPIKeyResponse>>;
     /**
- * Retires a non-default sandbox and frees its original name for reuse.
+ * Archives a non-default sandbox and frees its original name for reuse.
  *
  * `DELETE /v1/sandboxes/{sandbox_id}`
  * @param sandbox_id Flint sandbox ID.
@@ -109,7 +109,7 @@ export interface SandboxesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.sandboxes.delete("test_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey
+ * client.sandboxes.delete("test_01KEZF7C00JC77HTMTB2XHNPE0", {}, { idempotencyKey: idempotencyKey
  * })
  */
     delete(sandbox_id: InputValue<string>, params?: SandboxesDeleteParams, options?: RequestOptions<"merchant" | "onboarding">): Promise<WithResponseInfo<Sandbox, SandboxResponse>>;
@@ -121,7 +121,7 @@ export interface SandboxesResource {
  * @see https://developers.withflintpay.com/docs/api/sandboxes#getSandbox
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.sandboxes.get("test_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.sandboxes.get("test_01KEZF7C00JC77HTMTB2XHNPE0")
  */
     get(sandbox_id: InputValue<string>, params?: SandboxesGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "onboarding">>): Promise<WithResponseInfo<Sandbox, SandboxResponse>>;
     /**
@@ -156,7 +156,7 @@ export interface SandboxesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.sandboxes.reset("test_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey })
+ * client.sandboxes.reset("test_01KEZF7C00JC77HTMTB2XHNPE0", {}, { idempotencyKey: idempotencyKey })
  */
     reset(sandbox_id: InputValue<string>, params?: SandboxesResetParams, options?: RequestOptions<"merchant" | "onboarding">): Promise<WithResponseInfo<Sandbox, SandboxResponse>>;
 }

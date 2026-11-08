@@ -15,19 +15,20 @@ namespace Flint;
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $refunded_money
  * @property-read array{'legal_name': string|null, 'registered_address': array{'city'?: string, 'country': string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object|null, 'tax_ids': list<DocumentTaxIDInput|array<array-key, mixed>|\stdClass>, ...}|object|null $seller_tax_identity
  * @property-read string $status
+ * @property-read list<TaxCurrencyConversionInput|array<array-key, mixed>|\stdClass> $tax_currency_conversions
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $total_money
  * @property-read string|\DateTimeInterface $voided_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class BuyerCreditNoteInput extends Model {
-    /** @param array{'buyer_tax_identity': array{'legal_name': string|null, 'registered_address': array{'city'?: string, 'country': string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object|null, 'tax_ids': list<DocumentTaxIDInput|array<array-key, mixed>|\stdClass>, ...}|object|null, 'credit_note_id': string, 'credit_note_number': string, 'invoice_id': string, 'issued_at': string|\DateTimeInterface, 'latest_refund_status'?: string, 'line_items': list<CreditNoteLineItemInput|array<array-key, mixed>|\stdClass>, 'memo': string|null, 'pending_refund_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'reason': string, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'seller_tax_identity': array{'legal_name': string|null, 'registered_address': array{'city'?: string, 'country': string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object|null, 'tax_ids': list<DocumentTaxIDInput|array<array-key, mixed>|\stdClass>, ...}|object|null, 'status': string, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'voided_at'?: string|\DateTimeInterface, ...}|object $values */
+    /** @param array{'buyer_tax_identity': array{'legal_name': string|null, 'registered_address': array{'city'?: string, 'country': string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object|null, 'tax_ids': list<DocumentTaxIDInput|array<array-key, mixed>|\stdClass>, ...}|object|null, 'credit_note_id': string, 'credit_note_number': string, 'invoice_id': string, 'issued_at': string|\DateTimeInterface, 'latest_refund_status'?: string, 'line_items': list<CreditNoteLineItemInput|array<array-key, mixed>|\stdClass>, 'memo': string|null, 'pending_refund_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'reason': string, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'seller_tax_identity': array{'legal_name': string|null, 'registered_address': array{'city'?: string, 'country': string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object|null, 'tax_ids': list<DocumentTaxIDInput|array<array-key, mixed>|\stdClass>, ...}|object|null, 'status': string, 'tax_currency_conversions': list<TaxCurrencyConversionInput|array<array-key, mixed>|\stdClass>, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'voided_at'?: string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerCreditNoteInput')); }
-    /** Identity frozen on the source invoice at issue. Later profile edits do not change this document. anyOf[1] (Value): {@see TaxIdentityInput}. Merchant-provided legal identity displayed on invoices and credit notes. Does not verify IDs or change tax treatment. Tax IDs are an owned collection in display order; replacing the array requires the parent's expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add one. anyOf[2] (Value): null.
+    /** Identity frozen on the source invoice at issue. Later profile edits do not change this document. `null` when no buyer tax identity was captured on the source invoice. Customer deletion preserves identities captured on issued invoices and credit notes. anyOf[1] (Value): {@see TaxIdentityInput}. Merchant-provided legal identity displayed on invoices and credit notes. Does not verify IDs or change tax treatment. Tax IDs are an owned collection in display order; replacing the array requires the parent's expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add one. anyOf[2] (Value): null.
      * @return array{'legal_name': string|null, 'registered_address': array{'city'?: string, 'country': string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object|null, 'tax_ids': list<DocumentTaxIDInput|array<array-key, mixed>|\stdClass>, ...}|object|null
      * @throws SdkError When buyer_tax_identity is omitted; use hasBuyerTaxIdentity() or valueOrDefault().
      */
     public function getBuyerTaxIdentity(): mixed { return $this->get('buyer_tax_identity'); }
     public function hasBuyerTaxIdentity(): bool { return $this->has('buyer_tax_identity'); }
-    /** Unique identifier of the credit note.
+    /** Unique identifier of the credit note. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
      * @return string
      * @throws SdkError When credit_note_id is omitted; use hasCreditNoteId() or valueOrDefault().
      */
@@ -39,13 +40,13 @@ final class BuyerCreditNoteInput extends Model {
      */
     public function getCreditNoteNumber(): string { return $this->get('credit_note_number'); }
     public function hasCreditNoteNumber(): bool { return $this->has('credit_note_number'); }
-    /** The invoice this credit note corrects.
+    /** The invoice this credit note corrects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
      * @return string
      * @throws SdkError When invoice_id is omitted; use hasInvoiceId() or valueOrDefault().
      */
     public function getInvoiceId(): string { return $this->get('invoice_id'); }
     public function hasInvoiceId(): bool { return $this->has('invoice_id'); }
-    /** When the credit note was issued. Format: date-time.
+    /** When the credit note was issued. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When issued_at is omitted; use hasIssuedAt() or valueOrDefault().
      */
@@ -57,7 +58,7 @@ final class BuyerCreditNoteInput extends Model {
      */
     public function getLatestRefundStatus(): string { return $this->get('latest_refund_status'); }
     public function hasLatestRefundStatus(): bool { return $this->has('latest_refund_status'); }
-    /** Itemized corrections against frozen invoice lines. Amount and quantity corrections share each source line's remaining value, discount, and tax across issued, non-void credit notes. Drafts reserve no credit. [] (Value): {@see CreditNoteLineItemInput}. One correction calculated from the frozen invoice line's remaining billed value, discount, and tax. The source line's inclusive or additive tax mode is preserved. Current catalog prices and tax settings do not affect the correction. Stored issued values are never recalculated by a read.
+    /** Itemized corrections against frozen invoice lines. Amount and quantity corrections share each source line's remaining value, discount, and tax across issued credit notes that have not been voided. Drafts reserve no credit. [] (Value): {@see CreditNoteLineItemInput}. One correction calculated from the frozen invoice line's remaining billed value, discount, and tax. The source line's inclusive or additive tax mode is preserved. Current catalog prices and tax settings do not affect the correction. Stored issued values are never recalculated by a read.
      * @return list<CreditNoteLineItemInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When line_items is omitted; use hasLineItems() or valueOrDefault().
      */
@@ -87,25 +88,31 @@ final class BuyerCreditNoteInput extends Model {
      */
     public function getRefundedMoney(): mixed { return $this->get('refunded_money'); }
     public function hasRefundedMoney(): bool { return $this->has('refunded_money'); }
-    /** Identity frozen on the source invoice at issue. Later profile edits do not change this document. anyOf[1] (Value): {@see TaxIdentityInput}. Merchant-provided legal identity displayed on invoices and credit notes. Does not verify IDs or change tax treatment. Tax IDs are an owned collection in display order; replacing the array requires the parent's expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add one. anyOf[2] (Value): null.
+    /** Identity frozen on the source invoice at issue. Later profile edits do not change this document. `null` when no seller tax identity was captured. anyOf[1] (Value): {@see TaxIdentityInput}. Merchant-provided legal identity displayed on invoices and credit notes. Does not verify IDs or change tax treatment. Tax IDs are an owned collection in display order; replacing the array requires the parent's expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add one. anyOf[2] (Value): null.
      * @return array{'legal_name': string|null, 'registered_address': array{'city'?: string, 'country': string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object|null, 'tax_ids': list<DocumentTaxIDInput|array<array-key, mixed>|\stdClass>, ...}|object|null
      * @throws SdkError When seller_tax_identity is omitted; use hasSellerTaxIdentity() or valueOrDefault().
      */
     public function getSellerTaxIdentity(): mixed { return $this->get('seller_tax_identity'); }
     public function hasSellerTaxIdentity(): bool { return $this->has('seller_tax_identity'); }
-    /** issued once it is numbered and frozen, void once retired. Value enum: "issued", "void".
+    /** issued once it is numbered and frozen, voided once withdrawn. Value enum: "issued", "voided".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
+    /** The credit note's VAT stated in the currency of the country that charges it, frozen at issue. Each entry reuses the invoice's currency, exchange_rate, rate_date, and rate_source from snapshot.tax_currency_conversions, with this note's credited VAT and taxable amount converted the same way. Always [] on drafts and when the invoice froze no conversion. The credit note PDF prints the same figures. [] (Value): {@see TaxCurrencyConversionInput}. VAT on an issued document converted into the currency of the country whose VAT is charged.
+     * @return list<TaxCurrencyConversionInput|array<array-key, mixed>|\stdClass>
+     * @throws SdkError When tax_currency_conversions is omitted; use hasTaxCurrencyConversions() or valueOrDefault().
+     */
+    public function getTaxCurrencyConversions(): array { return $this->get('tax_currency_conversions'); }
+    public function hasTaxCurrencyConversions(): bool { return $this->has('tax_currency_conversions'); }
     /** The face value of the credit note, the sum of its lines. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When total_money is omitted; use hasTotalMoney() or valueOrDefault().
      */
     public function getTotalMoney(): mixed { return $this->get('total_money'); }
     public function hasTotalMoney(): bool { return $this->has('total_money'); }
-    /** When the credit note was voided. Absent unless it is void. Format: date-time.
+    /** When the credit note was voided. Absent unless its status is voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When voided_at is omitted; use hasVoidedAt() or valueOrDefault().
      */

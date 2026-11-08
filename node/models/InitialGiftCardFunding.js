@@ -1,14 +1,12 @@
-import { d671 as c0 } from '../descriptors/data/34.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d4312 as c1 } from '../descriptors/data/181.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d5403 as c2, d5404 as c3, d5405 as c4, d5408 as c24, d5409 as c25, d5410 as c26 } from '../descriptors/data/242.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d5336 as c5, d5337 as c6, d5338 as c7, d5339 as c8, d5340 as c9, d5341 as c10, d5342 as c11, d5343 as c12, d5344 as c13, d5345 as c14 } from '../descriptors/data/239.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d5346 as c15, d5347 as c16, d5348 as c17, d5349 as c18, d5350 as c19, d5351 as c20, d5352 as c21, d5353 as c22 } from '../descriptors/data/240.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d5381 as c23 } from '../descriptors/data/241.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d671 as d671 } from '../descriptors/data/34.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import { d710 as c0 } from '../descriptors/data/36.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d5556 as c1 } from '../descriptors/data/241.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d6592 as c2, d6593 as c3, d6594 as c4, d6595 as c5, d6581 as c23 } from '../descriptors/data/299.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d6596 as c6, d6597 as c7, d6598 as c8, d6599 as c9, d6600 as c10, d6601 as c11, d6602 as c12, d6603 as c13, d6604 as c14, d6605 as c15, d6606 as c16, d6607 as c17, d6608 as c18, d6609 as c19, d6610 as c20, d6611 as c21, d6612 as c22, d6613 as c24, d6614 as c25, d6615 as c26 } from '../descriptors/data/300.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d710 as d710 } from '../descriptors/data/36.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d671;
+const read = d710;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["InitialGiftCardFunding"]:c0(),["MoneyValue"]:c1(),["SharedCodec200"]:c2(),["SharedCodec201"]:c3(),["SharedCodec202"]:c4(),["SharedCodec203"]:c5(),["SharedCodec204"]:c6(),["SharedCodec205"]:c7(),["SharedCodec206"]:c8(),["SharedCodec207"]:c9(),["SharedCodec208"]:c10(),["SharedCodec209"]:c11(),["SharedCodec210"]:c12(),["SharedCodec211"]:c13(),["SharedCodec212"]:c14(),["SharedCodec213"]:c15(),["SharedCodec214"]:c16(),["SharedCodec215"]:c17(),["SharedCodec216"]:c18(),["SharedCodec217"]:c19(),["SharedCodec218"]:c20(),["SharedCodec219"]:c21(),["SharedCodec220"]:c22(),["SharedCodec221"]:c23(),["SharedCodec222"]:c24(),["SharedCodec223"]:c25(),["SharedCodec224"]:c26()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["InitialGiftCardFunding"]:c0(),["MoneyValue"]:c1(),["SharedCodec237"]:c2(),["SharedCodec238"]:c3(),["SharedCodec239"]:c4(),["SharedCodec240"]:c5(),["SharedCodec241"]:c6(),["SharedCodec242"]:c7(),["SharedCodec243"]:c8(),["SharedCodec244"]:c9(),["SharedCodec245"]:c10(),["SharedCodec246"]:c11(),["SharedCodec247"]:c12(),["SharedCodec248"]:c13(),["SharedCodec249"]:c14(),["SharedCodec250"]:c15(),["SharedCodec251"]:c16(),["SharedCodec252"]:c17(),["SharedCodec253"]:c18(),["SharedCodec254"]:c19(),["SharedCodec255"]:c20(),["SharedCodec256"]:c21(),["SharedCodec257"]:c22(),["SharedCodec258"]:c23(),["SharedCodec259"]:c24(),["SharedCodec260"]:c25(),["SharedCodec261"]:c26()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeInitialGiftCardFunding(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

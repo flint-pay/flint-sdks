@@ -10,7 +10,7 @@ namespace Flint;
 final class ShipmentFulfillmentDetailsInput extends Model {
     /** @param array{'shipped_at'?: string|\DateTimeInterface, 'timezone'?: string, 'window_end_at'?: string|\DateTimeInterface, 'window_start_at'?: string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ShipmentFulfillmentDetailsInput')); }
-    /** When the shipment was handed to the carrier. Format: date-time.
+    /** When the shipment was handed to the carrier. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When shipped_at is omitted; use hasShippedAt() or valueOrDefault().
      */
@@ -22,13 +22,13 @@ final class ShipmentFulfillmentDetailsInput extends Model {
      */
     public function getTimezone(): string { return $this->get('timezone'); }
     public function hasTimezone(): bool { return $this->has('timezone'); }
-    /** End of the scheduled shipping window. Format: date-time.
+    /** End of the scheduled shipping window. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When window_end_at is omitted; use hasWindowEndAt() or valueOrDefault().
      */
     public function getWindowEndAt(): string|\DateTimeInterface { return $this->get('window_end_at'); }
     public function hasWindowEndAt(): bool { return $this->has('window_end_at'); }
-    /** Start of the scheduled shipping window. Format: date-time.
+    /** Start of the scheduled shipping window. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When window_start_at is omitted; use hasWindowStartAt() or valueOrDefault().
      */

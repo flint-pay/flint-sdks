@@ -52,7 +52,7 @@ final class Balance extends Model {
      */
     public function getObservedAt(): string { return $this->get('observed_at'); }
     public function hasObservedAt(): bool { return $this->has('observed_at'); }
-    /** Whether your account can receive payouts. While it is false, payments can still succeed, and their funds wait in your balance.
+    /** Whether payouts are ready for this balance currency, including an active default payout destination and account readiness. While it is false, payments can still succeed, and their funds wait in your balance.
      * @return bool
      */
     public function getPayoutsEnabled(): bool { return $this->get('payouts_enabled'); }

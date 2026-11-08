@@ -24,7 +24,7 @@ final class OAuthRevokeRequestInput extends Model {
      */
     public function getClientAssertionType(): string { return $this->get('client_assertion_type'); }
     public function hasClientAssertionType(): bool { return $this->has('client_assertion_type'); }
-    /** Partner client ID for client_secret_post, or flint-cli for the public CLI client.
+    /** Partner client ID for client_secret_post, or flint-cli for the public CLI client. Example: "fpc_00112233445566778899aabbccddeeff".
      * @return string
      * @throws SdkError When client_id is omitted; use hasClientId() or valueOrDefault().
      */
@@ -36,7 +36,7 @@ final class OAuthRevokeRequestInput extends Model {
      */
     public function getClientSecret(): string { return $this->get('client_secret'); }
     public function hasClientSecret(): bool { return $this->has('client_secret'); }
-    /** Partner or flint-cli access token or refresh token to revoke.
+    /** Partner app token, or flint-cli access or refresh token, to revoke.
      * @return string
      * @throws SdkError When token is omitted; use hasToken() or valueOrDefault().
      */

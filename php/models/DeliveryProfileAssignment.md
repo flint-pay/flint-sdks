@@ -6,5 +6,9 @@ Result of assigning a delivery profile to catalog items that had none, with coun
 
 Response model.
 
-Fields, types, descriptions and enum values: [DeliveryProfileAssignmentInput](../models/DeliveryProfileAssignmentInput.md#deliveryprofileassignmentinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `bundle_components_updated` | Required | integer | Number of previously unconfigured catalog records updated. Format: `int64`. minimum: `0`. |
+| `delivery_profile_id` | Required | string | Delivery profile assigned to each updated catalog item. |
+| `product_variants_updated` | Required | integer | Number of previously unconfigured catalog records updated. Format: `int64`. minimum: `0`. |
 

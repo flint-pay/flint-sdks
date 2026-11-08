@@ -1,0 +1,23 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/**
+ * @property-read string $location_id
+ * @property-read string $origin_policy_type
+ * Presence-aware input; omitted fields throw when accessed. */
+final class LineItemFulfillmentOriginRequestModelInput extends Model {
+    /** @param array{'location_id'?: string, 'origin_policy_type': string}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('LineItemFulfillmentOriginRequestModelInput')); }
+    /** ID of the location the item ships from. Required for `fixed_location`; not accepted for other policies. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * @return string
+     * @throws SdkError When location_id is omitted; use hasLocationId() or valueOrDefault().
+     */
+    public function getLocationId(): string { return $this->get('location_id'); }
+    public function hasLocationId(): bool { return $this->has('location_id'); }
+    /** How Flint picks the location the item ships from. Value enum: "fixed_location", "inventory_routing", "method_origin".
+     * @return string
+     * @throws SdkError When origin_policy_type is omitted; use hasOriginPolicyType() or valueOrDefault().
+     */
+    public function getOriginPolicyType(): string { return $this->get('origin_policy_type'); }
+    public function hasOriginPolicyType(): bool { return $this->has('origin_policy_type'); }
+}

@@ -10,25 +10,25 @@ namespace Flint;
 final class GiftCardPurchaseRecipientInput extends Model {
     /** @param array{'email': string, 'message'?: string, 'name'?: string, 'send_at'?: string|\DateTimeInterface}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardPurchaseRecipientInput')); }
-    /** Format: email. minLength: 1. maxLength: 254.
+    /** Email address the gift card is delivered to. Format: email. minLength: 1. maxLength: 254. Example: "buyer@example.com".
      * @return string
      * @throws SdkError When email is omitted; use hasEmail() or valueOrDefault().
      */
     public function getEmail(): string { return $this->get('email'); }
     public function hasEmail(): bool { return $this->has('email'); }
-    /** maxLength: 200.
+    /** Personal message included with the gift card. maxLength: 200.
      * @return string
      * @throws SdkError When message is omitted; use hasMessage() or valueOrDefault().
      */
     public function getMessage(): string { return $this->get('message'); }
     public function hasMessage(): bool { return $this->has('message'); }
-    /** maxLength: 255.
+    /** Name of the person receiving the gift card. maxLength: 255.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Optional send time between now and 90 days from now. Omission requests immediate recipient notification after funding. Format: date-time.
+    /** Optional send time between now and 90 days from now. Omission requests immediate recipient notification after funding. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When send_at is omitted; use hasSendAt() or valueOrDefault().
      */

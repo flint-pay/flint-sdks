@@ -13,43 +13,43 @@ namespace Flint;
 final class ExpandedCustomerSummaryInput extends Model {
     /** @param array{'created_at'?: string|\DateTimeInterface, 'customer_id': string, 'email': string|null, 'name': string|null, 'phone': string|null, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ExpandedCustomerSummaryInput')); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** customer_id
+    /** Unique identifier for this customer, prefixed `cus_`. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** Customer email, or null when the customer has none. Unique among the environment's customers.
+    /** Customer email. `null` when the customer has none. Unique among the environment's customers.
      * @return string|null
      * @throws SdkError When email is omitted; use hasEmail() or valueOrDefault().
      */
     public function getEmail(): string|null { return $this->get('email'); }
     public function hasEmail(): bool { return $this->has('email'); }
-    /** Customer name, or null when none.
+    /** Customer name. `null` when none is set.
      * @return string|null
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
     public function getName(): string|null { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Customer phone number, or null when none.
+    /** Customer phone number. `null` when none is set.
      * @return string|null
      * @throws SdkError When phone is omitted; use hasPhone() or valueOrDefault().
      */
     public function getPhone(): string|null { return $this->get('phone'); }
     public function hasPhone(): bool { return $this->has('phone'); }
-    /** Value enum: "active", "deletion_processing", "deleted".
+    /** Where the customer is in the deletion lifecycle. Value enum: "active", "deletion_processing", "deleted".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */

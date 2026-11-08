@@ -8,7 +8,7 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.deliveryZones.delete(
-  "dzone_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "dzone_01KEZF7C005RY7KGCN4M2CH5WP",
   {},
   { idempotencyKey: idempotencyKey },
 );

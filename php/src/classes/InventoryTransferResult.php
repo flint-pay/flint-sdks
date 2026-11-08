@@ -13,7 +13,7 @@ final class InventoryTransferResult extends Model {
      */
     public function getInventoryLevels(): array { return $this->get('inventory_levels'); }
     public function hasInventoryLevels(): bool { return $this->has('inventory_levels'); }
-    /** Stock moving between locations.
+    /** The inventory transfer. Stock moving between locations.
      * @return InventoryTransfer
      */
     public function getInventoryTransfer(): InventoryTransfer { return $this->get('inventory_transfer'); }

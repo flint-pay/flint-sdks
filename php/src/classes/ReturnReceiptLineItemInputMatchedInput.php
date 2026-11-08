@@ -16,7 +16,7 @@ final class ReturnReceiptLineItemInputMatchedInput extends Model {
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
-    /** The expected Return line. Required for matched and excess merchandise. minLength: 1.
+    /** The expected Return line. Required for matched and excess merchandise. minLength: 1. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
      * @return string
      * @throws SdkError When return_line_item_id is omitted; use hasReturnLineItemId() or valueOrDefault().
      */

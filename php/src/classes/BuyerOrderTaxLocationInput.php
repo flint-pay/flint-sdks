@@ -17,25 +17,25 @@ final class BuyerOrderTaxLocationInput extends Model {
      */
     public function getAddress(): mixed { return $this->get('address'); }
     public function hasAddress(): bool { return $this->has('address'); }
-    /** Value enum: "provided", "fulfillment", "customer", "device", "location", "merchant".
+    /** Where the tax address came from. Value enum: "provided", "fulfillment", "customer", "location", "merchant".
      * @return string
      * @throws SdkError When address_source is omitted; use hasAddressSource() or valueOrDefault().
      */
     public function getAddressSource(): string { return $this->get('address_source'); }
     public function hasAddressSource(): bool { return $this->has('address_source'); }
-    /** Value enum: "postal_code", "tax_address", "billing_address", "shipping_address", "business_address".
+    /** The kind of address Flint used to calculate tax. Value enum: "postal_code", "tax_address", "billing_address", "shipping_address", "business_address".
      * @return string
      * @throws SdkError When address_type is omitted; use hasAddressType() or valueOrDefault().
      */
     public function getAddressType(): string { return $this->get('address_type'); }
     public function hasAddressType(): bool { return $this->has('address_type'); }
-    /** customer_id
+    /** ID of the customer whose saved address Flint used, when `address_source` is `customer`. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** fulfillment_id
+    /** ID of the fulfillment whose shipping address Flint used. Absent when the address is the order's `delivery_destination`. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
      * @return string
      * @throws SdkError When fulfillment_id is omitted; use hasFulfillmentId() or valueOrDefault().
      */

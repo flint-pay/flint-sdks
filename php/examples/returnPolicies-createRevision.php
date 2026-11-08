@@ -16,7 +16,7 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->returnPolicies->createRevision('rpol_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
+$result = $client->returnPolicies->createRevision('rpol_01KEZF7C00H8C042BEK6HBRANX', [
   'expected_version' => 1,
   'revision' => (object) [
     'approval_mode' => 'automatic',
@@ -26,6 +26,7 @@ $result = $client->returnPolicies->createRevision('rpol_01ARZ3NDEKTSV4RRFFQ69G5F
     'scope' => (object) [
       'match_type' => 'all',
     ],
+    'ineligibility_reason' => 'final_sale',
   ],
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->current_return_policy_revision_id . PHP_EOL;

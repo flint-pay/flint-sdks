@@ -17,7 +17,7 @@ namespace Flint;
 final class PublicResolvedModifierOption extends Model {
     /** @param array{'available': bool, 'default_quantity'?: int, 'line_item_tax_category'?: string, 'modifier_id': string, 'name': string, 'position'?: int, 'selected_by_default'?: bool, 'show_on_fulfillment'?: bool, 'show_on_receipt'?: bool, 'taxable'?: bool, 'unit_price_delta_money': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PublicResolvedModifierOption')); }
-    /** available
+    /** Whether the choice can be selected now.
      * @return bool
      */
     public function getAvailable(): bool { return $this->get('available'); }
@@ -32,42 +32,42 @@ final class PublicResolvedModifierOption extends Model {
      */
     public function getLineItemTaxCategory(): ?string { return $this->get('line_item_tax_category'); }
     public function hasLineItemTaxCategory(): bool { return $this->has('line_item_tax_category'); }
-    /** modifier_id
+    /** ID of the modifier this choice selects.
      * @return string
      */
     public function getModifierId(): string { return $this->get('modifier_id'); }
     public function hasModifierId(): bool { return $this->has('modifier_id'); }
-    /** name
+    /** Name of the choice.
      * @return string
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Format: int32.
+    /** Position of the choice within its group. Format: int32.
      * @return ?int
      */
     public function getPosition(): ?int { return $this->get('position'); }
     public function hasPosition(): bool { return $this->has('position'); }
-    /** selected_by_default
+    /** Whether the choice is selected when the buyer adds the item without choosing modifiers.
      * @return ?bool
      */
     public function getSelectedByDefault(): ?bool { return $this->get('selected_by_default'); }
     public function hasSelectedByDefault(): bool { return $this->has('selected_by_default'); }
-    /** show_on_fulfillment
+    /** Whether the choice appears on fulfillment documents.
      * @return ?bool
      */
     public function getShowOnFulfillment(): ?bool { return $this->get('show_on_fulfillment'); }
     public function hasShowOnFulfillment(): bool { return $this->has('show_on_fulfillment'); }
-    /** show_on_receipt
+    /** Whether the choice appears on receipts.
      * @return ?bool
      */
     public function getShowOnReceipt(): ?bool { return $this->get('show_on_receipt'); }
     public function hasShowOnReceipt(): bool { return $this->has('show_on_receipt'); }
-    /** taxable
+    /** Whether the choice's price is subject to tax.
      * @return ?bool
      */
     public function getTaxable(): ?bool { return $this->get('taxable'); }
     public function hasTaxable(): bool { return $this->has('taxable'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** The amount the choice adds to the item's unit price. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getUnitPriceDeltaMoney(): MoneyValue { return $this->get('unit_price_delta_money'); }

@@ -8,64 +8,47 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `data` | Required | [WebhookEvent](../models/WebhookEvent.md#webhookevent) | An event prepared for delivery to webhook endpoints. `data`: [field definitions](../models/WebhookEventResponse.md#webhookeventresponsedata). |
-| `meta` | Optional | [ResponseMeta](../models/ResponseMeta.md#responsemeta) | Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings. |
-| `request_id` | Required | string | maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `data` | Required | [WebhookEvent](../models/WebhookEvent.md#webhookevent) | Resource, collection, or operation result returned by this request. An event prepared for delivery to webhook endpoints. `data`: [field definitions](../models/WebhookEventResponse.md#webhookeventresponsedata). |
+| `meta` | Optional | [ResponseMeta](../models/ResponseMeta.md#responsemeta) | Additional information about this response. Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings. `meta`: [field definitions](../models/DisputeResponse.md#disputeresponsemeta). |
+| `request_id` | Required | string | Identifier of this API request, used to correlate logs and support requests. maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 ### WebhookEventResponse.data
 
-An event prepared for delivery to webhook endpoints.
+Resource, collection, or operation result returned by this request. An event prepared for delivery to webhook endpoints.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `api_request_log_id` | Optional | string |  |
-| `api_version` | Required | string | API version of the event data. Stored data follows the same versioning rules as webhook deliveries. Format: `date`. |
-| `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
+| `api_request_log_id` | Optional | string | ID of the API request log associated with the event. Omitted when none is associated. Example: `"rlog_01KEZF7C008XJCH6BHA224X46F"`. |
+| `api_version` | Required | string | API version of the event data. Stored data follows the same versioning rules as webhook deliveries. Format: `date`. Example: `"2026-08-02"`. |
+| `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `data` | Optional | object | The delivered envelope's data, including its payload-version-specific shape. Omitted from list responses and from detail responses when the caller lacks read access to the attributed resource or the payload has expired after 14 days. |
-| `event_source` | Optional | string | Values: `"merchant"`, `"partner_app"`, `"installed_merchants"`. |
-| `event_type` | Required | string | Values: [251 declared values](CreateWebhookTestEventRequestInput.md#createwebhooktesteventrequestinput-event_type-values). |
-| `merchant_id` | Optional | string |  |
-| `mode` | Optional | string | Values: `"test"`, `"live"`. |
-| `partner_app_id` | Optional | string |  |
+| `event_source` | Optional | string | Envelope discriminator identifying merchant events, partner app lifecycle events, or events forwarded from installed merchants. Values: `"merchant"`, `"partner_app"`, `"installed_merchants"`. |
+| `event_type` | Required | string | Type of event Flint recorded, using the current event type name. Values: [275 declared values](CreateWebhookTestEventRequestInput.md#createwebhooktesteventrequestinput-event_type-values). |
+| `merchant_id` | Optional | string | ID of the merchant this resource belongs to. Example: `"mer_01KEZF7C00KPYH1DDFPCCX3B6E"`. |
+| `mode` | Optional | string | Environment used for this resource or request. Values: `"test"`, `"live"`. |
+| `partner_app_id` | Optional | string | ID of the partner app that owns this partner event. Omitted for merchant events. Example: `"papp_01KEZF7C00Y8VMXYZ1GNPP3WHV"`. |
 | `payload_version` | Optional | integer | Envelope payload version. Present only while the stored payload is retained. Values: `1`, `2`. |
-| `request` | Optional | object or null | Originating merchant request, or null for a background event. The idempotency key is included only on an authorized detail read while the payload is retained. Omitted for partner events. `request`: [field definitions](../models/WebhookEventResponse.md#webhookeventresponsedatarequest). |
-| `resource_id` | Optional | string |  |
-| `resource_type` | Optional | string | Public resource type: the resource's ID field name without `_id`. Clients must accept values added in future releases. Values: [141 declared values](APIRequestLogInput.md#apirequestloginput-resource_type-values). `resource_type`: [field definitions](../models/APIRequestLogDetailResponse.md#apirequestlogdetailresponsedataresource_type). |
-| `source` | Optional | [WebhookEventSourcePartnerApp](../models/WebhookEventSourcePartnerApp.md#webhookeventsourcepartnerapp) or [WebhookEventSourceInstalledMerchants](../models/WebhookEventSourceInstalledMerchants.md#webhookeventsourceinstalledmerchants) | Partner envelope source. Present only for partner events while the stored payload is retained. The source of a partner webhook event, selected by type. `source`: [declared alternatives](../models/WebhookEventResponse.md#webhookeventresponsedatasource). |
-| `test` | Required | boolean |  |
-| `webhook_event_id` | Required | string |  |
+| `request` | Optional | object or null | Originating request. `null` when the event is synthetic or no originating request ID is recorded. The idempotency key is included only on an authorized detail read while the payload is retained. Omitted for partner events. `request`: [field definitions](../models/WebhookEventResponse.md#webhookeventresponsedatarequest). |
+| `resource_id` | Optional | string | ID of the resource affected by the event. Omitted when no resource ID is attributed. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
+| `resource_type` | Optional | string | Public resource type affected by the event. Omitted when no public resource type is attributed. Example: `"order"`. Values: [146 declared values](APIRequestLogInput.md#apirequestloginput-resource_type-values). |
+| `sandbox_id` | Optional | string | Public sandbox ID for this event. Present exactly when mode is test; omitted in live mode. Example: `"test_01KEZF7C00JC77HTMTB2XHNPE0"`. |
+| `source` | Optional | [WebhookEventSource](../models/WebhookEventSource.md#webhookeventsource) | Partner envelope source. Present only for partner events while the stored payload is retained. The merchant and partner app install the event concerns. Environment fields are present for installed-merchant events. `source`: [field definitions](../models/WebhookEventResponse.md#webhookeventresponsedatasource). |
+| `test` | Required | boolean | Whether this is a synthetic event created to test an endpoint; independent of live or test mode. |
+| `webhook_event_id` | Required | string | Unique identifier for this webhook event, prefixed `whev_`. Example: `"whev_01KEZF7C00362MS3HV970TRZGS"`. |
 
 ### WebhookEventResponse.data.request
 
-Originating merchant request, or null for a background event. The idempotency key is included only on an authorized detail read while the payload is retained. Omitted for partner events.
+Originating request. `null` when the event is synthetic or no originating request ID is recorded. The idempotency key is included only on an authorized detail read while the payload is retained. Omitted for partner events.
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `id` | Required | string |  |
-| `idempotency_key` | Optional | string | The Idempotency-Key the originating request sent. Absent when it sent none. |
-
-### WebhookEventResponse.data.resource_type
-
-Field definitions: [APIRequestLogDetailResponse.data.resource_type](../models/APIRequestLogDetailResponse.md#apirequestlogdetailresponsedataresource_type).
+Field definitions: [shared fields](WebhookEventRequest.md#webhookeventrequest).
 
 ### WebhookEventResponse.data.source
 
-Partner envelope source. Present only for partner events while the stored payload is retained. The source of a partner webhook event, selected by type.
+Partner envelope source. Present only for partner events while the stored payload is retained. The merchant and partner app install the event concerns. Environment fields are present for installed-merchant events.
 
 Field definitions: [shared fields](PartnerWebhookEnvelopeSourceInput.md#partnerwebhookenvelopesourceinput).
 
-### WebhookEventResponse.data.source variant 1: `type` = `"partner_app"`
+### WebhookEventResponse.meta
 
-oneOf with type: "partner_app": The partner_app source of a partner webhook event..
-
-- Undeclared: `environment_grant_id`, `mode`, `sandbox_id`.
-- Constraints for `type`: Values: `"partner_app"`.
-
-### WebhookEventResponse.data.source variant 2: `type` = `"installed_merchants"`
-
-oneOf with type: "installed_merchants": The installed_merchants source of a partner webhook event..
-
-- Required: `environment_grant_id`, `mode`.
-- Optional: `sandbox_id`.
-- Constraints for `type`: Values: `"installed_merchants"`.
+Field definitions: [DisputeResponse.meta](../models/DisputeResponse.md#disputeresponsemeta).
 

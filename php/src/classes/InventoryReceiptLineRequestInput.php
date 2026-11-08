@@ -18,19 +18,19 @@ final class InventoryReceiptLineRequestInput extends Model {
      */
     public function getDisposition(): string { return $this->get('disposition'); }
     public function hasDisposition(): bool { return $this->has('disposition'); }
-    /** minLength: 1.
+    /** ID of the inventory item the stock is for. minLength: 1. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
      * @return string
      * @throws SdkError When inventory_item_id is omitted; use hasInventoryItemId() or valueOrDefault().
      */
     public function getInventoryItemId(): string { return $this->get('inventory_item_id'); }
     public function hasInventoryItemId(): bool { return $this->has('inventory_item_id'); }
-    /** The reservation whose consumed stock is being returned. minLength: 1.
+    /** The reservation whose consumed stock is being returned. minLength: 1. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
      * @return string
      * @throws SdkError When inventory_reservation_id is omitted; use hasInventoryReservationId() or valueOrDefault().
      */
     public function getInventoryReservationId(): string { return $this->get('inventory_reservation_id'); }
     public function hasInventoryReservationId(): bool { return $this->has('inventory_reservation_id'); }
-    /** The consumed reservation line. Received quantity cannot exceed consumed quantity less prior receipts. minLength: 1.
+    /** The consumed reservation line. Received quantity cannot exceed consumed quantity less prior receipts. minLength: 1. Example: "invrln_01KEZF7C002JCDA729XDSNWGY5".
      * @return string
      * @throws SdkError When inventory_reservation_line_id is omitted; use hasInventoryReservationLineId() or valueOrDefault().
      */
@@ -42,7 +42,7 @@ final class InventoryReceiptLineRequestInput extends Model {
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
-    /** minLength: 1.
+    /** ID of the Location that receives the units. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When receiving_location_id is omitted; use hasReceivingLocationId() or valueOrDefault().
      */

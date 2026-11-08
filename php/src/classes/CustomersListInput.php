@@ -10,6 +10,7 @@ namespace Flint;
  * @property-read string $query
  * @property-read string $external_reference_id
  * @property-read string $email
+ * @property-read string $price_list_id
  * @property-read string $segment
  * @property-read bool $is_merchant_verified
  * @property-read string $phone
@@ -23,9 +24,9 @@ namespace Flint;
  * @property-read list<string>|string $expand
  * Presence-aware input; omitted fields throw when accessed. */
 final class CustomersListInput extends Model {
-    /** @param array{'status'?: list<string>|string, 'page_size'?: int, 'page_token'?: string, 'query'?: string, 'external_reference_id'?: string, 'email'?: string, 'segment'?: string, 'is_merchant_verified'?: bool, 'phone'?: string, 'test_clock_id'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'expand'?: list<string>|string}|object $values */
+    /** @param array{'status'?: list<string>|string, 'page_size'?: int, 'page_token'?: string, 'query'?: string, 'external_reference_id'?: string, 'email'?: string, 'price_list_id'?: string, 'segment'?: string, 'is_merchant_verified'?: bool, 'phone'?: string, 'test_clock_id'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'expand'?: list<string>|string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomersListInput')); }
-    /** Filter by status. Repeat the parameter or send comma-separated values to match any of several. Omitted, the list leaves out deleted rows; name deleted to include them. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "active", "deletion_processing", "deleted". Value enum: "active", "deletion_processing", "deleted". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "active", "deletion_processing", "deleted". anyOf[1][] (Value): string.  Value enum: "active", "deletion_processing", "deleted". anyOf[2] (Value): string.  Value enum: "active", "deletion_processing", "deleted".
+    /** Filter by status. Omitted, the list leaves out deleted rows; name deleted to include them. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "active", "deletion_processing", "deleted". Value enum: "active", "deletion_processing", "deleted". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "active", "deletion_processing", "deleted". anyOf[1][] (Value): string.  Value enum: "active", "deletion_processing", "deleted". anyOf[2] (Value): string.  Value enum: "active", "deletion_processing", "deleted".
      * @return list<string>|string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
@@ -37,7 +38,7 @@ final class CustomersListInput extends Model {
      */
     public function getPageSize(): int { return $this->get('page_size'); }
     public function hasPageSize(): bool { return $this->has('page_size'); }
-    /** Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error.
+    /** Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error.
      * @return string
      * @throws SdkError When page_token is omitted; use hasPageToken() or valueOrDefault().
      */
@@ -49,18 +50,24 @@ final class CustomersListInput extends Model {
      */
     public function getQuery(): string { return $this->get('query'); }
     public function hasQuery(): bool { return $this->has('query'); }
-    /** Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
+    /** Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Exact whole-address match after trimming surrounding whitespace, ignoring case and accents.
+    /** Exact whole-address match after trimming surrounding whitespace. Case is ignored and accents are kept: `Ana@example.com` matches `ana@example.com`, but `josé@example.com` doesn't match `jose@example.com`.
      * @return string
      * @throws SdkError When email is omitted; use hasEmail() or valueOrDefault().
      */
     public function getEmail(): string { return $this->get('email'); }
     public function hasEmail(): bool { return $this->has('email'); }
+    /** Only return customers assigned directly to this price list. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
+     * @return string
+     * @throws SdkError When price_list_id is omitted; use hasPriceListId() or valueOrDefault().
+     */
+    public function getPriceListId(): string { return $this->get('price_list_id'); }
+    public function hasPriceListId(): bool { return $this->has('price_list_id'); }
     /** Byte-sensitive whole-value match on the opaque customer segment. Whitespace, casing, Unicode, and commas are literal. minLength: 1. maxLength: 255.
      * @return string
      * @throws SdkError When segment is omitted; use hasSegment() or valueOrDefault().
@@ -73,13 +80,13 @@ final class CustomersListInput extends Model {
      */
     public function getIsMerchantVerified(): bool { return $this->get('is_merchant_verified'); }
     public function hasIsMerchantVerified(): bool { return $this->has('is_merchant_verified'); }
-    /** Exact match on a full E.164 phone number. Encode the leading plus as %2B. minLength: 1. pattern: ^\+[1-9][0-9]{1,14}$.
+    /** Exact match on a full E.164 phone number, such as `+14155551234`. The leading plus is required. minLength: 1. pattern: ^\+[1-9][0-9]{1,14}$.
      * @return string
      * @throws SdkError When phone is omitted; use hasPhone() or valueOrDefault().
      */
     public function getPhone(): string { return $this->get('phone'); }
     public function hasPhone(): bool { return $this->has('phone'); }
-    /** Sandbox only. Exact-match filter on `test_clock_id`. A live credential gets `403 FORBIDDEN` with reason `test_mode_required`. minLength: 1. pattern: ^tclk_[0-9A-HJKMNP-TV-Z]{26}$. Example: "tclk_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Sandbox only. Exact-match filter on `test_clock_id`. A live credential gets `403 FORBIDDEN` with reason `test_mode_required`. minLength: 1. pattern: ^tclk_[0-9A-HJKMNP-TV-Z]{26}$. Example: "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
      * @return string
      * @throws SdkError When test_clock_id is omitted; use hasTestClockId() or valueOrDefault().
      */
@@ -121,10 +128,28 @@ final class CustomersListInput extends Model {
      */
     public function getUpdatedBefore(): string|\DateTimeInterface { return $this->get('updated_before'); }
     public function hasUpdatedBefore(): bool { return $this->has('updated_before'); }
-    /** Supported expansions: default_payment_method, receivables. Include the requested related resources using scoped batch reads for this page. Each relationship requires its existing target read scopes. Expansion changes the representation without changing pagination tokens. Limits: at most 10 unique expand paths per request. Repeat expand, for example expand=default_payment_method&expand=receivables, or pass one comma-separated value. [] enum: "default_payment_method", "receivables". Value enum: "default_payment_method", "receivables". anyOf[1] (Value): Array of string.  [] enum: "default_payment_method", "receivables". anyOf[1][] (Value): string.  Value enum: "default_payment_method", "receivables". anyOf[2] (Value): string.  Value enum: "default_payment_method", "receivables".
+    /** Include related objects in the response. Supported expansions: default_payment_method, receivables. Include the requested related resources using scoped batch reads for this page. Each relationship requires its existing target read scopes. Expansion changes the representation without changing pagination tokens. Limits: at most 10 unique expand paths per request. [] enum: "default_payment_method", "receivables". Value enum: "default_payment_method", "receivables". anyOf[1] (Value): Array of string.  [] enum: "default_payment_method", "receivables". anyOf[1][] (Value): string.  Value enum: "default_payment_method", "receivables". anyOf[2] (Value): string.  Value enum: "default_payment_method", "receivables".
      * @return list<string>|string
      * @throws SdkError When expand is omitted; use hasExpand() or valueOrDefault().
      */
     public function getExpand(): mixed { return $this->get('expand'); }
     public function hasExpand(): bool { return $this->has('expand'); }
+    /** Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Merchant-Id is omitted; use hasFlintMerchantId() or valueOrDefault().
+     */
+    public function getFlintMerchantId(): string { return $this->get('Flint-Merchant-Id'); }
+    public function hasFlintMerchantId(): bool { return $this->has('Flint-Merchant-Id'); }
+    /** Mode of the request context, live or test. Optional; it must match the credential's mode. Value enum: "test", "live".
+     * @return string
+     * @throws SdkError When Flint-Mode is omitted; use hasFlintMode() or valueOrDefault().
+     */
+    public function getFlintMode(): string { return $this->get('Flint-Mode'); }
+    public function hasFlintMode(): bool { return $this->has('Flint-Mode'); }
+    /** Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Sandbox-Id is omitted; use hasFlintSandboxId() or valueOrDefault().
+     */
+    public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
+    public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
 }

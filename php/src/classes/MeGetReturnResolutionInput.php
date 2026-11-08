@@ -9,7 +9,7 @@ namespace Flint;
 final class MeGetReturnResolutionInput extends Model {
     /** @param array{'return_resolution_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MeGetReturnResolutionInput')); }
-    /** Flint return resolution id. Example: "retres_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Flint return resolution id. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
      * @return string
      * @throws SdkError When return_resolution_id is omitted; use hasReturnResolutionId() or valueOrDefault().
      */

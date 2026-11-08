@@ -1,2142 +1,3015 @@
 import type { InputValue } from '../runtime.js';
-import type { CLIDeviceRequestInput, CLIContextsRequestInput, CLIReauthorizeRequestInput } from './types-3.js';
+import type { PauseSubscriptionRequestInput, PartnerWebhookEnvelope } from './types-42.js';
+import type { RenewSubscriptionRequestInput, ResourceVersionRequestInput, ResponseMeta } from './types-51.js';
+import type { SaveMeGiftCardRequestInput } from './types-56.js';
+import type { SkipMeSubscriptionCycleRequestInput } from './types-57.js';
 import type {
-    OAuthRevokeRequestInput,
-    MetadataMap,
-    MoneyValue,
-    MetadataRequestInput,
-    MoneyValueInput,
-    MerchantWebhookEnvelope
-} from './types-35.js';
-import type { DeveloperInitialAPIKeyRequestInput } from './types-20.js';
-import type { ResponseMeta } from './types-48.js';
-import type { ReadinessAction } from './types-46.js';
-import type { Merchant } from './types-34.js';
-import type { User } from './types-61.js';
-import type { BuyerAction } from './types-1.js';
-import type { CheckoutBuyerContact } from './types-4.js';
-import type {
-    ExpandedCustomerSummary,
-    ExpandedPaymentIntentSummary,
-    ExpandedSubscriptionPlanSummary,
-    ExpandedSubscriptionSummary
-} from './types-21.js';
-import type { Fulfillment } from './types-22.js';
-import type { InventoryRoutingSource } from './types-28.js';
-import type {
-    OrderDiscount,
-    OrderGiftCardEstimate,
-    OrderGiftCardSelection,
-    OrderGiftCardSettlement,
-    OrderLineItem,
-    OrderPaymentAttempt
-} from './types-37.js';
-import type { OrderReturnCreditSettlement, OrderTax } from './types-38.js';
-import type { PaymentCollection } from './types-41.js';
-import type { PricingAmounts } from './types-44.js';
-import type { SettlementAmounts } from './types-53.js';
-import type { TicketedEvent, Tip } from './types-58.js';
-import type { TaxCalculationRequestInput, TaxCalculationRequest, TaxCalculationRequestModelInput } from './types-57.js';
-import type { PartnerWebhookEnvelope } from './types-40.js';
+    UpdateCustomerAddressRequestInput,
+    UpdateCustomerEmailPreferencesRequestInput,
+    UpdateMeRequestInput,
+    UpdateMeSubscriptionLineItemRequestInput,
+    UpdateMeSubscriptionRequestInput
+} from './types-63.js';
 import type { Address } from './types-0.js';
-/** The `authorization_code` variant of `OAuthTokenRequest`. */
-export type OAuthTokenRequestAuthorizationCodeInput = ({
-    /**
-     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
-     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
-     */
-    "client_assertion"?: string;
-    /**
-     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
-     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
-     */
-    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer";
-    /**
-     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
-     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
-     */
-    "client_id"?: string;
-    /**
-     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
-     * a secret. Forbidden for workload identity token exchange.
-     */
-    "client_secret"?: string;
-    /** Partner authorization code, required for authorization_code. */
-    "code": string;
-    /**
-     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
-     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
-     */
-    "code_verifier": string;
-    /** flint-cli only. */
-    "context_id"?: string;
-    /** flint-cli device code, required for the device_code grant. */
-    "device_code"?: string;
-    /**
-     * OAuth grant to exchange. Partner apps use authorization_code or refresh_token; flint-cli
-     * uses device_code or refresh_token; workload identities use token-exchange. Value enum:
-     * "authorization_code".
-     */
-    "grant_type": "authorization_code";
-    /** Partner redirect URI used in authorization, required for authorization_code. */
-    "redirect_uri": string;
-    /** Partner or flint-cli refresh token, required for refresh_token. */
-    "refresh_token"?: string;
-    /**
-     * Optional requested credential type for token exchange. Only access tokens are supported.
-     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
-     */
-    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token";
-    /**
-     * flint-cli and workload identities: optional subset of API scope names for this access token.
-     * Partner apps: omit, or send exactly the granted permission IDs.
-     */
-    "scope"?: string;
-    /**
-     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
-     * maxLength: 8192.
-     */
-    "subject_token"?: string;
-    /**
-     * Format of subject_token. Required for token exchange. Value enum:
-     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
-     */
-    "subject_token_type"?: "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token";
-    /**
-     * Configured workload identity to match against the verified subject token. Required for token
-     * exchange.
-     */
-    "workload_identity_id"?: string;
-})
-    & ({
-    /** Value enum: "authorization_code". */
-    "grant_type"?: ("authorization_code") & ("authorization_code");
-    /** Partner authorization code, required for authorization_code. */
-    "code": string;
-    /** Partner redirect URI used in authorization, required for authorization_code. */
-    "redirect_uri": string;
-    /**
-     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
-     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
-     */
-    "code_verifier": string;
-});
-/** The `urn:ietf:params:oauth:grant-type:device_code` variant of `OAuthTokenRequest`. */
-export type OAuthTokenRequestDeviceCode = ({
-    /**
-     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
-     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
-     */
-    "client_assertion"?: string;
-    /**
-     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
-     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
-     */
-    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer" | (string & {});
-    /**
-     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
-     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
-     */
-    "client_id"?: string;
-    /**
-     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
-     * a secret. Forbidden for workload identity token exchange.
-     */
-    "client_secret"?: string;
-    /** Partner authorization code, required for authorization_code. */
-    "code"?: string;
-    /**
-     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
-     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
-     */
-    "code_verifier"?: string;
-    /** flint-cli only. */
-    "context_id"?: string;
-    /** flint-cli device code, required for the device_code grant. */
-    "device_code": string;
-    /**
-     * OAuth grant to exchange. Partner apps use authorization_code or refresh_token; flint-cli
-     * uses device_code or refresh_token; workload identities use token-exchange. Value enum:
-     * "urn:ietf:params:oauth:grant-type:device_code".
-     */
-    "grant_type": "urn:ietf:params:oauth:grant-type:device_code" | (string & {});
-    /** Partner redirect URI used in authorization, required for authorization_code. */
-    "redirect_uri"?: string;
-    /** Partner or flint-cli refresh token, required for refresh_token. */
-    "refresh_token"?: string;
-    /**
-     * Optional requested credential type for token exchange. Only access tokens are supported.
-     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
-     */
-    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token" | (string & {});
-    /**
-     * flint-cli and workload identities: optional subset of API scope names for this access token.
-     * Partner apps: omit, or send exactly the granted permission IDs.
-     */
-    "scope"?: string;
-    /**
-     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
-     * maxLength: 8192.
-     */
-    "subject_token"?: string;
-    /**
-     * Format of subject_token. Required for token exchange. Value enum:
-     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
-     */
-    "subject_token_type"?: "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token" | (string & {});
-    /**
-     * Configured workload identity to match against the verified subject token. Required for token
-     * exchange.
-     */
-    "workload_identity_id"?: string;
-})
-    & ({
-    /** Value enum: "urn:ietf:params:oauth:grant-type:device_code". */
-    "grant_type"?: unknown;
-    /** flint-cli device code, required for the device_code grant. */
-    "device_code": string;
-});
-/** The `urn:ietf:params:oauth:grant-type:device_code` variant of `OAuthTokenRequest`. */
-export type OAuthTokenRequestDeviceCodeInput = ({
-    /**
-     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
-     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
-     */
-    "client_assertion"?: string;
-    /**
-     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
-     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
-     */
-    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer";
-    /**
-     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
-     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
-     */
-    "client_id"?: string;
-    /**
-     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
-     * a secret. Forbidden for workload identity token exchange.
-     */
-    "client_secret"?: string;
-    /** Partner authorization code, required for authorization_code. */
-    "code"?: string;
-    /**
-     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
-     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
-     */
-    "code_verifier"?: string;
-    /** flint-cli only. */
-    "context_id"?: string;
-    /** flint-cli device code, required for the device_code grant. */
-    "device_code": string;
-    /**
-     * OAuth grant to exchange. Partner apps use authorization_code or refresh_token; flint-cli
-     * uses device_code or refresh_token; workload identities use token-exchange. Value enum:
-     * "urn:ietf:params:oauth:grant-type:device_code".
-     */
-    "grant_type": "urn:ietf:params:oauth:grant-type:device_code";
-    /** Partner redirect URI used in authorization, required for authorization_code. */
-    "redirect_uri"?: string;
-    /** Partner or flint-cli refresh token, required for refresh_token. */
-    "refresh_token"?: string;
-    /**
-     * Optional requested credential type for token exchange. Only access tokens are supported.
-     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
-     */
-    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token";
-    /**
-     * flint-cli and workload identities: optional subset of API scope names for this access token.
-     * Partner apps: omit, or send exactly the granted permission IDs.
-     */
-    "scope"?: string;
-    /**
-     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
-     * maxLength: 8192.
-     */
-    "subject_token"?: string;
-    /**
-     * Format of subject_token. Required for token exchange. Value enum:
-     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
-     */
-    "subject_token_type"?: "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token";
-    /**
-     * Configured workload identity to match against the verified subject token. Required for token
-     * exchange.
-     */
-    "workload_identity_id"?: string;
-})
-    & ({
-    /** Value enum: "urn:ietf:params:oauth:grant-type:device_code". */
-    "grant_type"?: ("urn:ietf:params:oauth:grant-type:device_code") & ("urn:ietf:params:oauth:grant-type:device_code");
-    /** flint-cli device code, required for the device_code grant. */
-    "device_code": string;
-});
-/** The request body for: Exchange an OAuth token. */
-export type OAuthTokenRequestInput = ({
-    /**
-     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
-     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
-     */
-    "client_assertion"?: string;
-    /**
-     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
-     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
-     */
-    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer";
-    /**
-     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
-     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
-     */
-    "client_id"?: string;
-    /**
-     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
-     * a secret. Forbidden for workload identity token exchange.
-     */
-    "client_secret"?: string;
-    /** Partner authorization code, required for authorization_code. */
-    "code"?: string;
-    /**
-     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
-     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
-     */
-    "code_verifier"?: string;
-    /** flint-cli only. */
-    "context_id"?: string;
-    /** flint-cli device code, required for the device_code grant. */
-    "device_code"?: string;
-    /**
-     * OAuth grant to exchange. Partner apps use authorization_code or refresh_token; flint-cli
-     * uses device_code or refresh_token; workload identities use token-exchange. Value enum:
-     * "authorization_code", "refresh_token", "urn:ietf:params:oauth:grant-type:device_code",
-     * "urn:ietf:params:oauth:grant-type:token-exchange".
-     */
-    "grant_type": "authorization_code"
-        | "refresh_token"
-        | "urn:ietf:params:oauth:grant-type:device_code"
-        | "urn:ietf:params:oauth:grant-type:token-exchange";
-    /** Partner redirect URI used in authorization, required for authorization_code. */
-    "redirect_uri"?: string;
-    /** Partner or flint-cli refresh token, required for refresh_token. */
-    "refresh_token"?: string;
-    /**
-     * Optional requested credential type for token exchange. Only access tokens are supported.
-     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
-     */
-    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token";
-    /**
-     * flint-cli and workload identities: optional subset of API scope names for this access token.
-     * Partner apps: omit, or send exactly the granted permission IDs.
-     */
-    "scope"?: string;
-    /**
-     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
-     * maxLength: 8192.
-     */
-    "subject_token"?: string;
-    /**
-     * Format of subject_token. Required for token exchange. Value enum:
-     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
-     */
-    "subject_token_type"?: "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token";
-    /**
-     * Configured workload identity to match against the verified subject token. Required for token
-     * exchange.
-     */
-    "workload_identity_id"?: string;
-})
-    & ((Exclude<OAuthTokenRequestAuthorizationCodeInput & object, readonly unknown[]>)
-    | (Exclude<OAuthTokenRequestRefreshTokenInput & object, readonly unknown[]>)
-    | (Exclude<OAuthTokenRequestDeviceCodeInput & object, readonly unknown[]>)
-    | (Exclude<OAuthTokenRequestTokenExchangeInput & object, readonly unknown[]>));
-/** The `refresh_token` variant of `OAuthTokenRequest`. */
-export type OAuthTokenRequestRefreshToken = ({
-    /**
-     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
-     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
-     */
-    "client_assertion"?: string;
-    /**
-     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
-     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
-     */
-    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer" | (string & {});
-    /**
-     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
-     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
-     */
-    "client_id"?: string;
-    /**
-     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
-     * a secret. Forbidden for workload identity token exchange.
-     */
-    "client_secret"?: string;
-    /** Partner authorization code, required for authorization_code. */
-    "code"?: string;
-    /**
-     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
-     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
-     */
-    "code_verifier"?: string;
-    /** flint-cli only. */
-    "context_id"?: string;
-    /** flint-cli device code, required for the device_code grant. */
-    "device_code"?: string;
-    /**
-     * OAuth grant to exchange. Partner apps use authorization_code or refresh_token; flint-cli
-     * uses device_code or refresh_token; workload identities use token-exchange. Value enum:
-     * "refresh_token".
-     */
-    "grant_type": "refresh_token" | (string & {});
-    /** Partner redirect URI used in authorization, required for authorization_code. */
-    "redirect_uri"?: string;
-    /** Partner or flint-cli refresh token, required for refresh_token. */
-    "refresh_token": string;
-    /**
-     * Optional requested credential type for token exchange. Only access tokens are supported.
-     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
-     */
-    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token" | (string & {});
-    /**
-     * flint-cli and workload identities: optional subset of API scope names for this access token.
-     * Partner apps: omit, or send exactly the granted permission IDs.
-     */
-    "scope"?: string;
-    /**
-     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
-     * maxLength: 8192.
-     */
-    "subject_token"?: string;
-    /**
-     * Format of subject_token. Required for token exchange. Value enum:
-     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
-     */
-    "subject_token_type"?: "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token" | (string & {});
-    /**
-     * Configured workload identity to match against the verified subject token. Required for token
-     * exchange.
-     */
-    "workload_identity_id"?: string;
-})
-    & ({
-    /** Value enum: "refresh_token". */
-    "grant_type"?: unknown;
-    /** Partner or flint-cli refresh token, required for refresh_token. */
-    "refresh_token": string;
-});
-/** The `refresh_token` variant of `OAuthTokenRequest`. */
-export type OAuthTokenRequestRefreshTokenInput = ({
-    /**
-     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
-     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
-     */
-    "client_assertion"?: string;
-    /**
-     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
-     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
-     */
-    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer";
-    /**
-     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
-     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
-     */
-    "client_id"?: string;
-    /**
-     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
-     * a secret. Forbidden for workload identity token exchange.
-     */
-    "client_secret"?: string;
-    /** Partner authorization code, required for authorization_code. */
-    "code"?: string;
-    /**
-     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
-     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
-     */
-    "code_verifier"?: string;
-    /** flint-cli only. */
-    "context_id"?: string;
-    /** flint-cli device code, required for the device_code grant. */
-    "device_code"?: string;
-    /**
-     * OAuth grant to exchange. Partner apps use authorization_code or refresh_token; flint-cli
-     * uses device_code or refresh_token; workload identities use token-exchange. Value enum:
-     * "refresh_token".
-     */
-    "grant_type": "refresh_token";
-    /** Partner redirect URI used in authorization, required for authorization_code. */
-    "redirect_uri"?: string;
-    /** Partner or flint-cli refresh token, required for refresh_token. */
-    "refresh_token": string;
-    /**
-     * Optional requested credential type for token exchange. Only access tokens are supported.
-     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
-     */
-    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token";
-    /**
-     * flint-cli and workload identities: optional subset of API scope names for this access token.
-     * Partner apps: omit, or send exactly the granted permission IDs.
-     */
-    "scope"?: string;
-    /**
-     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
-     * maxLength: 8192.
-     */
-    "subject_token"?: string;
-    /**
-     * Format of subject_token. Required for token exchange. Value enum:
-     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
-     */
-    "subject_token_type"?: "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token";
-    /**
-     * Configured workload identity to match against the verified subject token. Required for token
-     * exchange.
-     */
-    "workload_identity_id"?: string;
-})
-    & ({
-    /** Value enum: "refresh_token". */
-    "grant_type"?: ("refresh_token") & ("refresh_token");
-    /** Partner or flint-cli refresh token, required for refresh_token. */
-    "refresh_token": string;
-});
-/** The `urn:ietf:params:oauth:grant-type:token-exchange` variant of `OAuthTokenRequest`. */
-export type OAuthTokenRequestTokenExchange = ({
-    /**
-     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
-     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
-     */
-    "client_assertion"?: string;
-    /**
-     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
-     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
-     */
-    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer" | (string & {});
-    /**
-     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
-     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
-     */
-    "client_id"?: string;
-    /**
-     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
-     * a secret. Forbidden for workload identity token exchange.
-     */
-    "client_secret"?: string;
-    /** Partner authorization code, required for authorization_code. */
-    "code"?: string;
-    /**
-     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
-     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
-     */
-    "code_verifier"?: string;
-    /** flint-cli only. */
-    "context_id"?: string;
-    /** flint-cli device code, required for the device_code grant. */
-    "device_code"?: string;
-    /**
-     * OAuth grant to exchange. Partner apps use authorization_code or refresh_token; flint-cli
-     * uses device_code or refresh_token; workload identities use token-exchange. Value enum:
-     * "urn:ietf:params:oauth:grant-type:token-exchange".
-     */
-    "grant_type": "urn:ietf:params:oauth:grant-type:token-exchange" | (string & {});
-    /** Partner redirect URI used in authorization, required for authorization_code. */
-    "redirect_uri"?: string;
-    /** Partner or flint-cli refresh token, required for refresh_token. */
-    "refresh_token"?: string;
-    /**
-     * Optional requested credential type for token exchange. Only access tokens are supported.
-     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
-     */
-    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token" | (string & {});
-    /**
-     * flint-cli and workload identities: optional subset of API scope names for this access token.
-     * Partner apps: omit, or send exactly the granted permission IDs.
-     */
-    "scope"?: string;
-    /**
-     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
-     * maxLength: 8192.
-     */
-    "subject_token": string;
-    /**
-     * Format of subject_token. Required for token exchange. Value enum:
-     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
-     */
-    "subject_token_type": "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token" | (string & {});
-    /**
-     * Configured workload identity to match against the verified subject token. Required for token
-     * exchange.
-     */
-    "workload_identity_id": string;
-})
-    & ({
-    /** Value enum: "urn:ietf:params:oauth:grant-type:token-exchange". */
-    "grant_type"?: unknown;
-    "requested_token_type"?: unknown;
-    "scope"?: unknown;
-    "subject_token": unknown;
-    "subject_token_type": unknown;
-    "workload_identity_id": unknown;
-});
-/** The `urn:ietf:params:oauth:grant-type:token-exchange` variant of `OAuthTokenRequest`. */
-export type OAuthTokenRequestTokenExchangeInput = ({
-    /**
-     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
-     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
-     */
-    "client_assertion"?: string;
-    /**
-     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
-     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
-     */
-    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer";
-    /**
-     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
-     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
-     */
-    "client_id"?: string;
-    /**
-     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
-     * a secret. Forbidden for workload identity token exchange.
-     */
-    "client_secret"?: string;
-    /** Partner authorization code, required for authorization_code. */
-    "code"?: string;
-    /**
-     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
-     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
-     */
-    "code_verifier"?: string;
-    /** flint-cli only. */
-    "context_id"?: string;
-    /** flint-cli device code, required for the device_code grant. */
-    "device_code"?: string;
-    /**
-     * OAuth grant to exchange. Partner apps use authorization_code or refresh_token; flint-cli
-     * uses device_code or refresh_token; workload identities use token-exchange. Value enum:
-     * "urn:ietf:params:oauth:grant-type:token-exchange".
-     */
-    "grant_type": "urn:ietf:params:oauth:grant-type:token-exchange";
-    /** Partner redirect URI used in authorization, required for authorization_code. */
-    "redirect_uri"?: string;
-    /** Partner or flint-cli refresh token, required for refresh_token. */
-    "refresh_token"?: string;
-    /**
-     * Optional requested credential type for token exchange. Only access tokens are supported.
-     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
-     */
-    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token";
-    /**
-     * flint-cli and workload identities: optional subset of API scope names for this access token.
-     * Partner apps: omit, or send exactly the granted permission IDs.
-     */
-    "scope"?: string;
-    /**
-     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
-     * maxLength: 8192.
-     */
-    "subject_token": string;
-    /**
-     * Format of subject_token. Required for token exchange. Value enum:
-     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
-     */
-    "subject_token_type": "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token";
-    /**
-     * Configured workload identity to match against the verified subject token. Required for token
-     * exchange.
-     */
-    "workload_identity_id": string;
-})
-    & ({
-    /** Value enum: "urn:ietf:params:oauth:grant-type:token-exchange". */
-    "grant_type"?: ("urn:ietf:params:oauth:grant-type:token-exchange")
-        & ("urn:ietf:params:oauth:grant-type:token-exchange");
-    "requested_token_type"?: unknown;
-    "scope"?: unknown;
-    "subject_token": unknown;
-    "subject_token_type": unknown;
-    "workload_identity_id": unknown;
-});
-/** The response for: Exchange an OAuth token. */
-export type OAuthTokenResponse = ({
-    /** minLength: 1. */
-    "access_token": string;
-    /** minLength: 1. */
-    "context_id"?: string;
-    "environment_grant_id"?: string;
-    /** minimum: 1. maximum: 86400. */
-    "expires_in": number;
-    /**
-     * Present for workload identity token exchange. Identifies the issued credential as an access
-     * token. Value enum: "urn:ietf:params:oauth:token-type:access_token".
-     */
-    "issued_token_type"?: "urn:ietf:params:oauth:token-type:access_token" | (string & {});
-    "merchant_id"?: string;
-    /** Value enum: "test", "live". */
-    "mode"?: "test" | "live" | (string & {});
-    /** minLength: 1. */
-    "oauth_session_id"?: string;
-    "partner_app_id"?: string;
-    "partner_app_install_id"?: string;
-    /**
-     * Rotating refresh token for partner apps and flint-cli. Absent for workload access tokens.
-     * minLength: 1.
-     */
-    "refresh_token"?: string;
-    /** Present exactly when mode is test. */
-    "sandbox_id"?: string;
-    /**
-     * Space-separated granted scope, in the vocabulary the client requested: permission IDs for
-     * partner apps, API scope names for flint-cli and workload identities. Empty when a workload
-     * identity has no scopes.
-     */
-    "scope": string;
-    /** Value enum: "Bearer". */
-    "token_type": "Bearer" | (string & {});
-    /**
-     * Workload identity that authorized the token exchange. Present only for workload access
-     * tokens.
-     */
-    "workload_identity_id"?: string;
-});
-export type OauthAuthorizeCLIDeviceParams = (InputValue<CLIDeviceRequestInput>);
-export type OauthExchangeTokenParams = (OAuthTokenRequestInput);
-export type OauthListCLIContextsParams = (InputValue<CLIContextsRequestInput>);
-export type OauthPreviewPartnerInstallAuthorizationParams = {
-    /** OAuth response type. Must be code. Value enum: "code". */
-    "response_type"?: InputValue<"code">;
-    /** Partner app client ID. */
-    "client_id": InputValue<string>;
-    /** Registered redirect URI for the partner app. */
-    "redirect_uri": InputValue<string>;
-    /** Install mode. Value enum: "test", "live". */
-    "mode": InputValue<"test" | "live">;
-    /** Base64url-encoded SHA-256 hash of your code_verifier, without padding (RFC 7636). */
-    "code_challenge"?: InputValue<string>;
-    /** PKCE challenge method. Value enum: "S256". */
-    "code_challenge_method"?: InputValue<"S256">;
-    /**
-     * Space-separated permission IDs from your app's permission manifest. Omit to request
-     * default_requested_permissions. Required permissions are always granted.
-     */
-    "scope"?: InputValue<string>;
-    /**
-     * Optional active merchant sandbox ID, accepted only with mode=test. When omitted in test
-     * mode, Flint uses the merchant's default sandbox. Example: "test_01ARZ3NDEKTSV4RRFFQ69G5FAV".
-     */
-    "sandbox_id"?: InputValue<string>;
-    /** Opaque state value returned to the partner callback. */
-    "state"?: InputValue<string>;
+import type { ImageAttachment } from './types-27.js';
+import type { DisputeResponseSessionStripeAccountSession, DisputesAcceptParams } from './types-22.js';
+import type { MoneyValue } from './types-37.js';
+import type { CapabilityReadiness } from './types-4.js';
+import type { ReadinessAxis, ReadinessRequirements } from './types-49.js';
+import type { UpdateMerchantRequestInput } from './types-64.js';
+export type MeListShipmentsParams = {
+    /** Optional order ID filter. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+    "order_id"?: InputValue<string>;
+    /** Optional fulfillment ID filter. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". */
+    "fulfillment_id"?: InputValue<string>;
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /** Filter by linked Return ID. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". */
+    "return_id"?: InputValue<string>;
+    /**
+     * Inclusive lower bound on handed_off_at. Format: date-time. Example: "2026-03-17T14:30:00Z".
+     */
+    "handed_off_after"?: InputValue<string | globalThis.Date>;
+    /**
+     * Exclusive upper bound on handed_off_at. Format: date-time. Example: "2026-03-17T14:30:00Z".
+     */
+    "handed_off_before"?: InputValue<string | globalThis.Date>;
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Filter by package-derived shipment status. Values within this filter are combined with OR.
+     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
+     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum:
+     * "created", "packed", "shipped", "in_transit", "out_for_delivery", "delivered",
+     * "delivery_attempted", "exception", "returned", "voided". Value enum: "created", "packed",
+     * "shipped", "in_transit", "out_for_delivery", "delivered", "delivery_attempted", "exception",
+     * "returned", "voided". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "created",
+     * "packed", "shipped", "in_transit", "out_for_delivery", "delivered", "delivery_attempted",
+     * "exception", "returned", "voided". anyOf[1][] (Value): string. Value enum: "created",
+     * "packed", "shipped", "in_transit", "out_for_delivery", "delivered", "delivery_attempted",
+     * "exception", "returned", "voided". anyOf[2] (Value): string. Value enum: "created",
+     * "packed", "shipped", "in_transit", "out_for_delivery", "delivered", "delivery_attempted",
+     * "exception", "returned", "voided".
+     */
+    "status"?: InputValue<("created"
+        | "packed"
+        | "shipped"
+        | "in_transit"
+        | "out_for_delivery"
+        | "delivered"
+        | "delivery_attempted"
+        | "exception"
+        | "returned"
+        | "voided")
+        | readonly ("created"
+        | "packed"
+        | "shipped"
+        | "in_transit"
+        | "out_for_delivery"
+        | "delivered"
+        | "delivery_attempted"
+        | "exception"
+        | "returned"
+        | "voided")[]>;
 };
-export type OauthReauthorizeCLIDeviceParams = (InputValue<CLIReauthorizeRequestInput>);
-export type OauthRevokeTokenParams = (InputValue<OAuthRevokeRequestInput>);
-export type OauthRevokeTokenResponse = undefined;
-export type OnboardingAdvanceParams = (InputValue<OnboardingAdvanceRequestInput>);
-/** The request body for: Advance onboarding flow. */
-export type OnboardingAdvanceRequest = {
+export type MeListSubscriptionPaymentRetriesParams = {
     /**
-     * ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example:
-     * "US". Value enum: "US".
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
      */
-    "country"?: "US" | (string & {});
+    "page_size"?: InputValue<number>;
     /**
-     * Contact and website details you submit for a merchant during onboarding. Send null to clear
-     * a field.
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
      */
-    "profile"?: OnboardingProfileRequest;
+    "page_token"?: InputValue<string>;
     /**
-     * Exact initial Flint capability set. Include accept_card_payments and receive_payouts
-     * together. Optionally include accept_ach_debit_payments, or omit the field to use the card
-     * and payout default set. minItems: 2. maxItems: 3. uniqueItems: true. [] enum:
-     * "accept_card_payments", "receive_payouts", "accept_ach_debit_payments". [] (Value): string.
-     * Value enum: "accept_card_payments", "receive_payouts", "accept_ach_debit_payments".
+     * Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is
+     * exact and case-sensitive. Returns current authorized resources, not the recorded response. A
+     * pending resource does not prove that the operation succeeded, and an empty list does not
+     * prove that it had no effect. minLength: 1. maxLength: 255.
      */
-    "requested_capabilities"?: (Array<"accept_card_payments" | "receive_payouts" | "accept_ach_debit_payments" | (string & {})>);
+    "idempotency_key"?: InputValue<string>;
 };
-/** The request body for: Advance onboarding flow. */
-export type OnboardingAdvanceRequestInput = {
+export type MeListSubscriptionsParams = {
     /**
-     * ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example:
-     * "US". Value enum: "US".
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
      */
-    "country"?: "US";
+    "page_size"?: InputValue<number>;
     /**
-     * Contact and website details you submit for a merchant during onboarding. Send null to clear
-     * a field.
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
      */
-    "profile"?: OnboardingProfileRequestInput;
+    "page_token"?: InputValue<string>;
     /**
-     * Exact initial Flint capability set. Include accept_card_payments and receive_payouts
-     * together. Optionally include accept_ach_debit_payments, or omit the field to use the card
-     * and payout default set. minItems: 2. maxItems: 3. uniqueItems: true. [] enum:
-     * "accept_card_payments", "receive_payouts", "accept_ach_debit_payments". [] (Value): string.
-     * Value enum: "accept_card_payments", "receive_payouts", "accept_ach_debit_payments".
+     * Filter by subscription status. Values are trimmed and deduplicated in first-seen order;
+     * empty or unknown entries are rejected. Values within this filter are ORed; separate filters
+     * are ANDed. [] enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete",
+     * "scheduled". Value enum: "trialing", "active", "paused", "past_due", "canceled",
+     * "incomplete", "scheduled". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
+     * "trialing", "active", "paused", "past_due", "canceled", "incomplete", "scheduled".
+     * anyOf[1][] (Value): string. Value enum: "trialing", "active", "paused", "past_due",
+     * "canceled", "incomplete", "scheduled". anyOf[2] (Value): string. Value enum: "trialing",
+     * "active", "paused", "past_due", "canceled", "incomplete", "scheduled".
      */
-    "requested_capabilities"?: (Array<"accept_card_payments" | "receive_payouts" | "accept_ach_debit_payments">);
+    "status"?: InputValue<("trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete" | "scheduled")
+        | readonly ("trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete" | "scheduled")[]>;
+    /**
+     * Separate subscriptions scheduled by Flint (flint) from those whose billing dates the store
+     * supplies (external). Values are trimmed and deduplicated in first-seen order; empty or
+     * unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "flint", "external". Value enum: "flint", "external". anyOf[1] (Value):
+     * Array of string. minItems: 1. [] enum: "flint", "external". anyOf[1][] (Value): string.
+     * Value enum: "flint", "external". anyOf[2] (Value): string. Value enum: "flint", "external".
+     */
+    "billing_schedule_owner"?: InputValue<("flint" | "external") | readonly ("flint" | "external")[]>;
+    /**
+     * When true, returns subscriptions scheduled to cancel at the end of the current period that
+     * are not yet canceled. When false, returns every other subscription.
+     */
+    "cancel_at_period_end"?: InputValue<boolean>;
+    /**
+     * Filter by the subscription's selected delivery method. Example:
+     * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     */
+    "delivery_method_id"?: InputValue<string>;
+    /**
+     * Find subscriptions needing a new delivery method, address, or rate by the current
+     * delivery_hold reason. Does not match upcoming delivery issues. Values are trimmed and
+     * deduplicated in first-seen order; empty or unknown entries are rejected. Values within this
+     * filter are ORed; separate filters are ANDed. [] enum: "method_unavailable",
+     * "destination_not_served", "rate_unavailable". Value enum: "method_unavailable",
+     * "destination_not_served", "rate_unavailable". anyOf[1] (Value): Array of string. minItems:
+     * 1. [] enum: "method_unavailable", "destination_not_served", "rate_unavailable". anyOf[1][]
+     * (Value): string. Value enum: "method_unavailable", "destination_not_served",
+     * "rate_unavailable". anyOf[2] (Value): string. Value enum: "method_unavailable",
+     * "destination_not_served", "rate_unavailable".
+     */
+    "hold_reason"?: InputValue<("method_unavailable" | "destination_not_served" | "rate_unavailable")
+        | readonly ("method_unavailable" | "destination_not_served" | "rate_unavailable")[]>;
+    /** Filter by Flint subscription plan ID. Example: "plan_01KEZF7C004CY5ZR33XST2AASV". */
+    "subscription_plan_id"?: InputValue<string>;
+    /**
+     * Field to sort by. Defaults to created_at; ties are broken by subscription_id. Default:
+     * "created_at". Value enum: "created_at", "updated_at", "next_billing_at".
+     */
+    "sort_by"?: InputValue<"created_at" | "updated_at" | "next_billing_at">;
+    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
+    "sort_direction"?: InputValue<"asc" | "desc">;
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /** Inclusive lower bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Inclusive lower bound on next_billing_at. Format: date-time. Example:
+     * "2026-03-17T14:30:00Z".
+     */
+    "next_billing_after"?: InputValue<string | globalThis.Date>;
+    /**
+     * Exclusive upper bound on next_billing_at. Format: date-time. Example:
+     * "2026-03-17T14:30:00Z".
+     */
+    "next_billing_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Load subscriptions needing your attention. True matches subscriptions with a delivery hold,
+     * an upcoming delivery hold, or a delivery-action-required pause, plus past_due subscriptions
+     * and active or incomplete subscriptions whose billing date passed more than 24 hours ago
+     * without payment. False is the exact complement. Other filters still apply.
+     */
+    "needs_attention"?: InputValue<boolean>;
 };
-export type OnboardingCreateAPIKeyParams = (InputValue<DeveloperInitialAPIKeyRequestInput>);
-export type OnboardingGetStateParams = {};
-/** Contact and website details recorded for a merchant during onboarding. */
-export type OnboardingProfile = {
+export type MeListTicketsParams = {
+    /**
+     * Only tickets belonging to this order. Another buyer's order returns no tickets. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id"?: InputValue<string>;
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+};
+export type MePauseSubscriptionParams = (InputValue<PauseSubscriptionRequestInput>);
+export type MeRemoveGiftCardParams = {};
+export type MeRenewSubscriptionParams = (InputValue<RenewSubscriptionRequestInput>);
+export type MeResumeSubscriptionParams = (InputValue<ResourceVersionRequestInput>);
+export type MeRevokeSessionParams = {};
+export type MeSaveGiftCardParams = (SaveMeGiftCardRequestInput);
+export type MeSendOrderReceiptParams = {};
+export type MeSkipSubscriptionCycleParams = (InputValue<SkipMeSubscriptionCycleRequestInput>);
+export type MeUpdateAddressParams = (InputValue<UpdateCustomerAddressRequestInput>);
+export type MeUpdateEmailPreferencesParams = (InputValue<UpdateCustomerEmailPreferencesRequestInput>);
+export type MeUpdateParams = (InputValue<UpdateMeRequestInput>);
+export type MeUpdateSubscriptionLineItemParams = (InputValue<UpdateMeSubscriptionLineItemRequestInput>);
+export type MeUpdateSubscriptionParams = (InputValue<UpdateMeSubscriptionRequestInput>);
+/** The business accepting payments. */
+export type Merchant = {
+    /**
+     * The merchant's business address. A postal address. Every address has country. Addresses
+     * Flint checked as complete (customer and saved addresses, merchant, location, invoice, order
+     * delivery destination, tax identity, fulfillment recipient and pickup addresses) always have
+     * line1 and city, and US ones always have state and postal_code. Delivery quote destinations,
+     * buyer locations and postal-code tax locations hold only what was provided, such as
+     * postal_code and country.
+     */
+    "address"?: Address;
+    /**
+     * Default API version for requests without a Flint-Version header. Shared across live and test
+     * environments.
+     */
+    "api_version"?: string;
+    /**
+     * When the merchant's default API version last changed. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "api_version_changed_at"?: string;
+    /**
+     * When the merchant's default API version was first set. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "api_version_pinned_at"?: string;
+    /** Previous API version, present while a supported rollback is available. */
+    "api_version_previous"?: string;
+    /**
+     * When the 72-hour rollback offer expires. Explicit changes to any supported version remain
+     * available afterward. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "api_version_rollback_expires_at"?: string;
+    /**
+     * Business name buyers see on checkout, payment links, and receipts. Once the merchant starts
+     * verification, it stays in sync with the business name on the live Stripe account: a change
+     * on either side applies, and the latest change wins.
+     */
+    "business_name"?: string;
+    /**
+     * Merchant's business type. - `other`: A business type Flint does not map yet. Value enum:
+     * "individual", "company", "non_profit", "government_entity", "other".
+     */
+    "business_type"?: "individual" | "company" | "non_profit" | "government_entity" | "other" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * The account's contact email address. A new account starts with the sign-up email. `null`
+     * when none is set.
+     */
     "email": string | null;
+    /**
+     * A square image, at least 128 by 128 pixels, shown where the store needs a small mark:
+     * browser tabs and compact headers. An image attached to a resource, with its display
+     * properties and attachment metadata.
+     */
+    "icon"?: ImageAttachment;
+    /**
+     * The merchant's public brand mark. An image attached to a resource, with its display
+     * properties and attachment metadata.
+     */
+    "logo"?: ImageAttachment;
+    /** Stable identifier of the merchant. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+    "merchant_id": string;
+    /**
+     * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
+     * Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them.
+     */
+    "metadata"?: MetadataMap;
+    /** The account's contact phone number, in international format such as +12125551234. */
+    "phone"?: string;
+    /**
+     * Whether the merchant can accept payments and receive payouts, and what is still needed. A
+     * merchant's readiness to accept payments and receive payouts, with per-capability status and
+     * outstanding requirements.
+     */
+    "readiness": MerchantReadiness;
+    /**
+     * Whether Flint lets the account operate. `readiness` says whether payments and payouts are
+     * available. Value enum: "active", "suspended", "restricted", "closed".
+     */
+    "status": "active" | "suspended" | "restricted" | "closed" | (string & {});
+    /** Support email address shown to buyers, for example on receipts and checkout. */
     "support_email"?: string;
+    /** Support phone number shown to buyers, in international format such as +12125551234. */
     "support_phone"?: string;
+    /** Support page shown to buyers. */
     "support_url"?: string;
+    /**
+     * Business IANA time zone, such as America/New_York. Used for invoice deadlines, new
+     * locations, notifications, and reporting when a request omits its time zone. Omitted when
+     * unset; UTC then applies. Existing resources keep their saved time zone.
+     */
+    "timezone"?: string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /**
+     * Merchant version. Profile, status, and API version changes advance this version, including
+     * business name and business type changes synced from the payment provider. Readiness updates
+     * alone do not. Format: int64. minimum: 1.
+     */
+    "version": number;
+    /** The business's website. */
     "website_url"?: string;
 };
 /**
- * Contact and website details you submit for a merchant during onboarding. Send null to clear a
- * field.
+ * A merchant account session: the browser initialization data, allowed components, effective
+ * policy, and launch token for embedded account management.
  */
-export type OnboardingProfileRequest = {
-    /** Send null to clear it. minLength: 1. */
-    "email"?: string | null;
-    /** Send null to clear it. minLength: 1. */
-    "support_email"?: string | null;
-    /** Send null to clear it. minLength: 1. */
-    "support_phone"?: string | null;
-    /** Send null to clear it. minLength: 1. */
-    "support_url"?: string | null;
-    /** Send null to clear it. minLength: 1. */
-    "website_url"?: string | null;
-};
-/**
- * Contact and website details you submit for a merchant during onboarding. Send null to clear a
- * field.
- */
-export type OnboardingProfileRequestInput = OnboardingProfileRequest;
-export type OnboardingStartParams = (InputValue<OnboardingStartRequestInput>);
-/** The request body for: Start onboarding flow. */
-export type OnboardingStartRequest = {
-    /** minLength: 1. */
-    "email": string;
-    /** minLength: 1. */
-    "first_name": string;
-    /** minLength: 1. */
-    "last_name": string;
-};
-/** The request body for: Start onboarding flow. */
-export type OnboardingStartRequestInput = OnboardingStartRequest;
-/** A response containing `OnboardingStartResult` data. */
-export type OnboardingStartResponse = {
+export type MerchantAccountSession = {
     /**
-     * The result of starting onboarding: whether email verification began, plus the verification
-     * token and its expiry.
+     * Browser initialization data required to mount embedded account-management components. These
+     * instructions are not merchant account resource state. Short-lived browser initialization
+     * data for an embedded merchant account session.
      */
-    "data": OnboardingStartResult;
+    "client_session": MerchantAccountSessionClientSession;
     /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
+     * The components the session authorizes, in catalog order. minItems: 1. [] enum:
+     * "account_onboarding", "account_management", "payouts", "balances", "tax_documents",
+     * "notification_banner", "payments". [] (Value): string. Value enum: "account_onboarding",
+     * "account_management", "payouts", "balances", "tax_documents", "notification_banner",
+     * "payments".
      */
-    "meta"?: ResponseMeta;
+    "components": Array<"account_onboarding"
+        | "account_management"
+        | "payouts"
+        | "balances"
+        | "tax_documents"
+        | "notification_banner"
+        | "payments"
+        | (string & {})>;
     /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     * The collection policy Flint applied to the session. The collection policy applied to a
+     * merchant account session: which requirements it targets, how they are collected, and whether
+     * future requirements are included.
      */
-    "request_id": string;
+    "effective_policy": MerchantAccountSessionEffectivePolicy;
+    /**
+     * Signed Flint token to exchange at POST /v1/merchant-account-session-refreshes. Each new
+     * refresh operation rotates this token; a same-key retry replays the original token. The
+     * caller must still authenticate and authorize the human using the session.
+     */
+    "launch_token": string;
+    /**
+     * Expiry of launch_token in UTC. After expiry, create a new merchant account session. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "launch_token_expires_at": string;
 };
-/**
- * The result of starting onboarding: whether email verification began, plus the verification token
- * and its expiry.
- */
-export type OnboardingStartResult = {
-    /** RFC3339 timestamp. Format: date-time. */
+/** Short-lived browser initialization data for an embedded merchant account session. */
+export type MerchantAccountSessionClientSession = {
+    /**
+     * Expiry of the embedded account session client secret in UTC. Connect.js calls
+     * fetchClientSecret to obtain a new secret when needed. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
     "expires_at": string;
-    "verification_started": boolean;
-    "verification_token": string;
+    /**
+     * Stripe Connect initialization credentials and authorized component collection options.
+     * Connect initializes from the account session client secret and does not take a connected
+     * account ID. Stripe Connect initialization data for a merchant account session: the account
+     * session, publishable key, and authorized components.
+     */
+    "stripe": MerchantAccountSessionStripe;
 };
 /**
- * A merchant's onboarding status, profile, next step, requested capabilities, and whether an API
- * key can be issued.
+ * Creates an embedded account session for a non-empty unique set of Flint components. At most one
+ * component may use onboarding policy fields.
  */
-export type OnboardingState = {
-    "can_issue_api_key": boolean;
+export type MerchantAccountSessionCreateRequest = {
     /**
-     * Immutable business country for the selected stable provider-account target. Omitted until
-     * the target has selected an effective country. minLength: 2. maxLength: 2. pattern:
-     * ^[A-Z]{2}$. Example: "US". Value enum: "US".
+     * Which requirements the session collects. If omitted, `incremental` for an account that
+     * hasn't finished onboarding, otherwise `upfront`. Only `account_onboarding` and
+     * `account_management` take it. Value enum: "upfront", "incremental".
      */
-    "country"?: "US" | (string & {});
-    "default_sandbox_id"?: string;
-    "merchant_id": string;
+    "collection_strategy"?: "upfront" | "incremental" | (string & {});
     /**
-     * A step that moves a merchant capability or readiness axis forward, with the party that must
-     * do it (`owner`) and any required fields.
+     * The embedded components the session opens, such as `account_onboarding`. Send each component
+     * once. A partner app install token can open only `account_onboarding` and
+     * `notification_banner`; another component returns `400 INVALID_REQUEST` with detail
+     * `NOT_ALLOWED`. With an API key or CLI login, `payments` also requires
+     * `payments.payment_intents.read` and `payments.disputes.write`; without them the request
+     * returns `403 INSUFFICIENT_SCOPE`. minItems: 1. maxItems: 7. uniqueItems: true. [] enum:
+     * "account_onboarding", "account_management", "payouts", "balances", "tax_documents",
+     * "notification_banner", "payments". [] (Value): string. Value enum: "account_onboarding",
+     * "account_management", "payouts", "balances", "tax_documents", "notification_banner",
+     * "payments".
      */
-    "next_step"?: ReadinessAction;
-    /** Contact and website details recorded for a merchant during onboarding. */
-    "profile": OnboardingProfile;
+    "components": Array<"account_onboarding"
+        | "account_management"
+        | "payouts"
+        | "balances"
+        | "tax_documents"
+        | "notification_banner"
+        | "payments"
+        | (string & {})>;
     /**
-     * Canonical Flint capability intent persisted on the selected stable provider-account target.
-     * The initial merchant-account configuration always includes accept_card_payments and
-     * receive_payouts and may also include accept_ach_debit_payments. minItems: 2. maxItems: 3.
-     * uniqueItems: true. [] enum: "accept_card_payments", "receive_payouts",
-     * "accept_ach_debit_payments". [] (Value): string. Value enum: "accept_card_payments",
-     * "receive_payouts", "accept_ach_debit_payments".
+     * Whether the session also collects requirements that will apply later. If omitted, `omit`
+     * while onboarding isn't finished or while something is due, otherwise `include`. Only
+     * `account_onboarding` and `account_management` take it. Value enum: "omit", "include".
      */
-    "requested_capabilities"?: (Array<"accept_card_payments" | "receive_payouts" | "accept_ach_debit_payments" | (string & {})>);
+    "future_requirements"?: "omit" | "include" | (string & {});
     /**
-     * Onboarding workflow status for activation and remediation, not a durable account-readiness
-     * boolean. Value enum: "complete", "waiting_for_review", "needs_external_action",
-     * "needs_input".
+     * Flint requirement codes. New codes can appear; treat an unknown code as
+     * additional_account_information. At most 100 codes, each up to 255 UTF-8 bytes after trimming
+     * surrounding whitespace. Only `account_onboarding` takes them. maxItems: 100. [] enum:
+     * "additional_account_information", "business_address", "business_description",
+     * "business_directors", "business_executives", "business_name", "business_owners",
+     * "business_phone", "business_support_phone", "business_support_url", "business_tax_id",
+     * "business_verification_document", "business_website", "merchant_category_code",
+     * "owner_address", "owner_additional_identity_document", "owner_date_of_birth",
+     * "owner_first_name", "owner_identity_document", "owner_last_name", "owner_tax_id_last_four",
+     * "payout_destination", "representative_address",
+     * "representative_additional_identity_document", "representative_date_of_birth",
+     * "representative_email", "representative_first_name", "representative_identity_document",
+     * "representative_last_name", "representative_phone", "representative_tax_id",
+     * "representative_tax_id_last_four". [] (Value): string. Value enum:
+     * "additional_account_information", "business_address", "business_description",
+     * "business_directors", "business_executives", "business_name", "business_owners",
+     * "business_phone", "business_support_phone", "business_support_url", "business_tax_id",
+     * "business_verification_document", "business_website", "merchant_category_code",
+     * "owner_address", "owner_additional_identity_document", "owner_date_of_birth",
+     * "owner_first_name", "owner_identity_document", "owner_last_name", "owner_tax_id_last_four",
+     * "payout_destination", "representative_address",
+     * "representative_additional_identity_document", "representative_date_of_birth",
+     * "representative_email", "representative_first_name", "representative_identity_document",
+     * "representative_last_name", "representative_phone", "representative_tax_id",
+     * "representative_tax_id_last_four".
      */
-    "status": "complete" | "waiting_for_review" | "needs_external_action" | "needs_input" | (string & {});
+    "targeted_requirements"?: Array<"additional_account_information"
+        | "business_address"
+        | "business_description"
+        | "business_directors"
+        | "business_executives"
+        | "business_name"
+        | "business_owners"
+        | "business_phone"
+        | "business_support_phone"
+        | "business_support_url"
+        | "business_tax_id"
+        | "business_verification_document"
+        | "business_website"
+        | "merchant_category_code"
+        | "owner_address"
+        | "owner_additional_identity_document"
+        | "owner_date_of_birth"
+        | "owner_first_name"
+        | "owner_identity_document"
+        | "owner_last_name"
+        | "owner_tax_id_last_four"
+        | "payout_destination"
+        | "representative_address"
+        | "representative_additional_identity_document"
+        | "representative_date_of_birth"
+        | "representative_email"
+        | "representative_first_name"
+        | "representative_identity_document"
+        | "representative_last_name"
+        | "representative_phone"
+        | "representative_tax_id"
+        | "representative_tax_id_last_four"
+        | (string & {})>;
 };
-/** A response containing `OnboardingState` data. */
-export type OnboardingStateResponse = {
+/**
+ * Creates an embedded account session for a non-empty unique set of Flint components. At most one
+ * component may use onboarding policy fields.
+ */
+export type MerchantAccountSessionCreateRequestInput = {
     /**
-     * A merchant's onboarding status, profile, next step, requested capabilities, and whether an
-     * API key can be issued.
+     * Which requirements the session collects. If omitted, `incremental` for an account that
+     * hasn't finished onboarding, otherwise `upfront`. Only `account_onboarding` and
+     * `account_management` take it. Value enum: "upfront", "incremental".
      */
-    "data": OnboardingState;
+    "collection_strategy"?: "upfront" | "incremental";
     /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
+     * The embedded components the session opens, such as `account_onboarding`. Send each component
+     * once. A partner app install token can open only `account_onboarding` and
+     * `notification_banner`; another component returns `400 INVALID_REQUEST` with detail
+     * `NOT_ALLOWED`. With an API key or CLI login, `payments` also requires
+     * `payments.payment_intents.read` and `payments.disputes.write`; without them the request
+     * returns `403 INSUFFICIENT_SCOPE`. minItems: 1. maxItems: 7. uniqueItems: true. [] enum:
+     * "account_onboarding", "account_management", "payouts", "balances", "tax_documents",
+     * "notification_banner", "payments". [] (Value): string. Value enum: "account_onboarding",
+     * "account_management", "payouts", "balances", "tax_documents", "notification_banner",
+     * "payments".
+     */
+    "components": Array<"account_onboarding"
+        | "account_management"
+        | "payouts"
+        | "balances"
+        | "tax_documents"
+        | "notification_banner"
+        | "payments">;
+    /**
+     * Whether the session also collects requirements that will apply later. If omitted, `omit`
+     * while onboarding isn't finished or while something is due, otherwise `include`. Only
+     * `account_onboarding` and `account_management` take it. Value enum: "omit", "include".
+     */
+    "future_requirements"?: "omit" | "include";
+    /**
+     * Flint requirement codes. New codes can appear; treat an unknown code as
+     * additional_account_information. At most 100 codes, each up to 255 UTF-8 bytes after trimming
+     * surrounding whitespace. Only `account_onboarding` takes them. maxItems: 100. [] enum:
+     * "additional_account_information", "business_address", "business_description",
+     * "business_directors", "business_executives", "business_name", "business_owners",
+     * "business_phone", "business_support_phone", "business_support_url", "business_tax_id",
+     * "business_verification_document", "business_website", "merchant_category_code",
+     * "owner_address", "owner_additional_identity_document", "owner_date_of_birth",
+     * "owner_first_name", "owner_identity_document", "owner_last_name", "owner_tax_id_last_four",
+     * "payout_destination", "representative_address",
+     * "representative_additional_identity_document", "representative_date_of_birth",
+     * "representative_email", "representative_first_name", "representative_identity_document",
+     * "representative_last_name", "representative_phone", "representative_tax_id",
+     * "representative_tax_id_last_four". [] (Value): string. Value enum:
+     * "additional_account_information", "business_address", "business_description",
+     * "business_directors", "business_executives", "business_name", "business_owners",
+     * "business_phone", "business_support_phone", "business_support_url", "business_tax_id",
+     * "business_verification_document", "business_website", "merchant_category_code",
+     * "owner_address", "owner_additional_identity_document", "owner_date_of_birth",
+     * "owner_first_name", "owner_identity_document", "owner_last_name", "owner_tax_id_last_four",
+     * "payout_destination", "representative_address",
+     * "representative_additional_identity_document", "representative_date_of_birth",
+     * "representative_email", "representative_first_name", "representative_identity_document",
+     * "representative_last_name", "representative_phone", "representative_tax_id",
+     * "representative_tax_id_last_four".
+     */
+    "targeted_requirements"?: Array<"additional_account_information"
+        | "business_address"
+        | "business_description"
+        | "business_directors"
+        | "business_executives"
+        | "business_name"
+        | "business_owners"
+        | "business_phone"
+        | "business_support_phone"
+        | "business_support_url"
+        | "business_tax_id"
+        | "business_verification_document"
+        | "business_website"
+        | "merchant_category_code"
+        | "owner_address"
+        | "owner_additional_identity_document"
+        | "owner_date_of_birth"
+        | "owner_first_name"
+        | "owner_identity_document"
+        | "owner_last_name"
+        | "owner_tax_id_last_four"
+        | "payout_destination"
+        | "representative_address"
+        | "representative_additional_identity_document"
+        | "representative_date_of_birth"
+        | "representative_email"
+        | "representative_first_name"
+        | "representative_identity_document"
+        | "representative_last_name"
+        | "representative_phone"
+        | "representative_tax_id"
+        | "representative_tax_id_last_four">;
+};
+/**
+ * The collection policy applied to a merchant account session: which requirements it targets, how
+ * they are collected, and whether future requirements are included.
+ */
+export type MerchantAccountSessionEffectivePolicy = {
+    /**
+     * How the session collects requirements. Omitted when `targeting` is `none`. Value enum:
+     * "upfront", "incremental".
+     */
+    "collection_strategy"?: "upfront" | "incremental" | (string & {});
+    /**
+     * Whether the session also collects requirements that will apply later. Omitted when
+     * `targeting` is `none`. Value enum: "omit", "include".
+     */
+    "future_requirements"?: "omit" | "include" | (string & {});
+    /**
+     * Which requirements the session's policy-aware components collect. Value enum: "none", "all",
+     * "all_due", "targeted".
+     */
+    "targeting": "none" | "all" | "all_due" | "targeted" | (string & {});
+};
+/**
+ * Refreshes a merchant account session from its signed launch token. No create fields are
+ * accepted.
+ */
+export type MerchantAccountSessionRefreshRequest = {
+    /**
+     * The `launch_token` of the session to refresh. The response carries a new token to use for
+     * the next refresh. minLength: 1.
+     */
+    "launch_token": string;
+};
+/**
+ * Refreshes a merchant account session from its signed launch token. No create fields are
+ * accepted.
+ */
+export type MerchantAccountSessionRefreshRequestInput = MerchantAccountSessionRefreshRequest;
+/** A response containing `MerchantAccountSession` data. */
+export type MerchantAccountSessionResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A merchant account
+     * session: the browser initialization data, allowed components, effective policy, and launch
+     * token for embedded account management.
+     */
+    "data": MerchantAccountSession;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
      */
     "meta"?: ResponseMeta;
     /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type OnboardingVerifyEmailParams = (InputValue<OnboardingVerifyEmailRequestInput>);
-/** The request body for: Verify onboarding email. */
-export type OnboardingVerifyEmailRequest = {
-    /** minLength: 1. */
-    "merchant_id"?: string;
-    /** minLength: 1. */
-    "verification_code": string;
-    /** minLength: 1. */
-    "verification_token": string;
-};
-/** The request body for: Verify onboarding email. */
-export type OnboardingVerifyEmailRequestInput = OnboardingVerifyEmailRequest;
-/** A response containing `OnboardingVerifyEmailResult` data. */
-export type OnboardingVerifyEmailResponse = {
-    /**
-     * The result of verifying an onboarding email: the merchant and user, an onboarding session
-     * token, and the next step.
-     */
-    "data": OnboardingVerifyEmailResult;
-    /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
     "request_id": string;
 };
 /**
- * The result of verifying an onboarding email: the merchant and user, an onboarding session token,
- * and the next step.
+ * Stripe Connect initialization data for a merchant account session: the account session,
+ * publishable key, and authorized components.
  */
-export type OnboardingVerifyEmailResult = {
-    /** Whether the merchant has no external API key and a default sandbox exists. */
-    "can_issue_api_key": boolean;
-    "default_sandbox_id"?: string;
-    /** The business accepting payments. */
-    "merchant": Merchant;
-    "merchant_created": boolean;
+export type MerchantAccountSessionStripe = {
     /**
-     * Expiry of onboarding_session_token. The token cannot be refreshed; verify the email again to
-     * get a new one. Format: date-time.
+     * Account session authority for initializing Stripe Connect in the browser. The account
+     * session authority for initializing Stripe Connect in the browser, including the client
+     * secret.
      */
-    "onboarding_session_expires_at": string;
-    "onboarding_session_token": string;
-    /** A user with access to merchant accounts. */
-    "user": User;
-};
-export type OpenapiGetSpecParams = {
+    "account_session": DisputeResponseSessionStripeAccountSession;
     /**
-     * Supported API version in YYYY-MM-DD format, for tools and direct links that can't send
-     * Flint-Version. When both are valid, this selects the returned specification. An invalid
-     * Flint-Version header still returns an error.
+     * Authorized Stripe component names and collection options to apply when mounting each
+     * component. [] (Value): {@link MerchantAccountSessionStripeComponent}. One embedded component
+     * a merchant account session authorizes, with the collection options to apply to it.
      */
-    "version"?: InputValue<string>;
-};
-export type OpenapiGetSpecResponse = {
-    [key: string]: unknown;
-};
-/** A customer's purchase and its payment and fulfillment progress. */
-export type Order = {
-    /** An attempt to pay an order. */
-    "active_payment_attempt"?: OrderPaymentAttempt;
-    /**
-     * The amounts authorized and still capturable on an order's payments, with the authorization
-     * expiry.
-     */
-    "authorization_amounts"?: OrderAuthorizationAmounts;
-    /**
-     * What the buyer can do with the order, in this order: start_return, then resend_receipt. A
-     * buyer's read through a customer session on /v1/me, or in Flint's buyer account, lists both
-     * every time; a merchant read gets an empty list. A list of orders leaves start_return out,
-     * since only a read of one order checks return eligibility. start_return is due when the last
-     * open return window ends. Example: []. [] (Value): {@link BuyerAction}. One thing a buyer can
-     * do with an order, subscription, invoice or return they read through /v1/me. Show the actions
-     * with is_required as what needs the buyer's attention, and the first available action as the
-     * primary action on the resource's page in your account.
-     */
-    "buyer_actions": Array<BuyerAction>;
-    /**
-     * Email and phone saved when payment started, from the pay request's buyer_contact or the
-     * paying checkout session's saved contact. It does not change the linked customer. Buyer
-     * contact supplied with payment or saved during checkout.
-     */
-    "buyer_contact"?: CheckoutBuyerContact;
-    "buyer_note"?: string;
-    /**  [] (Value): {@link OrderCharge}. An additional charge applied to an order. */
-    "charges": Array<OrderCharge>;
-    /**  [] (Value): string. */
-    "checkout_session_ids": Array<string>;
-    /**
-     * When the order closed. Present exactly when status is closed. Set once at the transition and
-     * never changed. Format: date-time.
-     */
-    "closed_at"?: string;
-    /**
-     * Why the order closed. Present exactly when status is closed. Set once at closure.
-     * Unrecognized reasons are returned as other; new values may be added. Value enum: "paid",
-     * "closed_by_merchant", "checkout_expired", "written_off", "superseded",
-     * "return_resolution_canceled", "other".
-     */
-    "closed_reason"?: "paid"
-        | "closed_by_merchant"
-        | "checkout_expired"
-        | "written_off"
-        | "superseded"
-        | "return_resolution_canceled"
-        | "other"
-        | (string & {});
-    /**
-     * The caller note supplied when closing the order. System closures leave it absent. It is not
-     * shown to the buyer.
-     */
-    "closed_reason_message"?: string;
-    /** RFC3339 timestamp. Format: date-time. */
-    "created_at"?: string;
-    /**
-     * Present only when `expand` includes `customer`; `null` when expanded and there is no related
-     * customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's summary fields,
-     * returned in place of a customer ID when the customer is expanded. anyOf[2] (Value): null.
-     */
-    "customer"?: ((ExpandedCustomerSummary) | (null));
-    "customer_id"?: string;
-    /**
-     * The shipment or local-delivery destination committed for this order. Payment freezes this
-     * value; fulfillment recipient changes do not replace it. Omitted for a checkout session
-     * credential that doesn't act for the customer the buyer verified. Where an order is
-     * delivered: the address, the recipient, and where the destination came from.
-     */
-    "delivery_destination"?: OrderDeliveryDestination;
-    /**
-     *  [] (Value): {@link OrderDiscount}. A discount applied to an order, with its amount, status,
-     * and the line items and charges it covers. It comes from a manual discount or a promotion.
-     */
-    "discounts": Array<OrderDiscount>;
-    /** Caller-owned identifier for this resource in an external system. maxLength: 255. */
-    "external_reference_id"?: string;
-    /**
-     * Aggregate progress across the order's fulfillment quantities. Value enum: "not_fulfilled",
-     * "partially_fulfilled", "fulfilled", "canceled", "not_applicable", "closed".
-     */
-    "fulfillment_status"?: "not_fulfilled"
-        | "partially_fulfilled"
-        | "fulfilled"
-        | "canceled"
-        | "not_applicable"
-        | "closed"
-        | (string & {});
-    /**  [] (Value): {@link Fulfillment}. Work required to deliver an order's items. */
-    "fulfillments": Array<Fulfillment>;
-    /**
-     * An estimate of how an order total splits between gift cards and the payment processor, and
-     * whether gift cards can pay it.
-     */
-    "gift_card_estimate"?: OrderGiftCardEstimate;
-    /**
-     *  [] (Value): {@link OrderGiftCardSettlement}. A gift card redemption applied to an order
-     * payment, with the amount, tip, and gift card.
-     */
-    "gift_card_settlements": Array<OrderGiftCardSettlement>;
-    "gift_card_tender_enabled": boolean;
-    /**
-     *  [] (Value): {@link OrderGiftCardSelection}. A gift card available to pay an order, with its
-     * available balance and the last four characters of its code.
-     */
-    "gift_cards": Array<OrderGiftCardSelection>;
-    /**
-     * ID of the delivery selection that governs this order, including pickup choices without a
-     * delivery destination. Null when no selection governs the order. While set, change the
-     * destination through the delivery selection.
-     */
-    "governing_delivery_selection_id": string | null;
-    "internal_note"?: string;
-    /**
-     * Why inventory could not be committed after payment. The cause remains after resolution.
-     * Omitted when no reason was recorded. Unrecognized reasons are returned as other; new values
-     * may be added. Value enum: "inventory_deduction_failed", "inventory_handoff_failed",
-     * "auto_refund_required", "auto_refund_failed", "policy_resolution_failed", "other".
-     */
-    "inventory_exception_reason"?: "inventory_deduction_failed"
-        | "inventory_handoff_failed"
-        | "auto_refund_required"
-        | "auto_refund_failed"
-        | "policy_resolution_failed"
-        | "other"
-        | (string & {});
-    /**
-     * The merchant note supplied when resolving the inventory exception. It is not shown to the
-     * buyer.
-     */
-    "inventory_exception_resolution_message"?: string;
-    /**
-     * Whether an inventory problem after payment needs attention. Value enum:
-     * "paid_inventory_failed", "resolved".
-     */
-    "inventory_exception_status"?: "paid_inventory_failed" | "resolved" | (string & {});
-    /** The reservation holding stock for this order, when one exists. */
-    "inventory_reservation_id"?: string;
-    /**
-     * Where this order's tracked demand is routed. Required before an order containing tracked
-     * variants can hold stock. Where an order, payment link, or reservation routes inventory from:
-     * a fixed Location, an inventory allocation policy, or one policy revision.
-     */
-    "inventory_routing_source"?: InventoryRoutingSource;
-    /**  [] (Value): {@link OrderLineItem}. An item purchased in an order. */
-    "line_items": Array<OrderLineItem>;
-    "merchant_id"?: string;
-    /**
-     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
-     * Flint and are not returned. Writes follow the limits on MetadataInput and
-     * MetadataPatchInput; maps written before those limits may not satisfy them.
-     */
-    "metadata"?: MetadataMap;
-    "order_id": string;
-    "order_number"?: string;
-    /** Value enum: "virtual_terminal", "payment_link", "checkout", "api", "subscription". */
-    "origin"?: "virtual_terminal" | "payment_link" | "checkout" | "api" | "subscription" | (string & {});
-    /**
-     * Client-side details for collecting payment from the buyer, such as the Stripe settings to
-     * initialize Stripe.js.
-     */
-    "payment_collection"?: PaymentCollection;
-    /**  [] (Value): string. */
-    "payment_intent_ids": Array<string>;
-    /**
-     *  [] (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's summary fields,
-     * including amount, status, and capture method, returned when the payment intent is expanded.
-     */
-    "payment_intents"?: Array<ExpandedPaymentIntentSummary>;
-    /**
-     * Payment link whose checkout created this order. Absent for orders that did not come from a
-     * payment link. Filter GET /v1/orders by payment_link_id to list a link's orders.
-     */
-    "payment_link_id"?: string;
-    /**
-     * Collection progress. An invoice write-off also completes collection without receiving the
-     * written-off amount. Value enum: "unpaid", "partially_paid", "paid".
-     */
-    "payment_status": "unpaid" | "partially_paid" | "paid" | (string & {});
-    /**
-     * The money totals for an order or invoice: subtotal, discounts, charges, tax, requested tip,
-     * and total.
-     */
-    "pricing_amounts": PricingAmounts;
-    /**  [] (Value): string. */
-    "refund_ids": Array<string>;
-    /**
-     * Refund progress for collected money. Value enum: "none", "partially_refunded", "refunded".
-     */
-    "refund_status": "none" | "partially_refunded" | "refunded" | (string & {});
-    /**
-     * Value applied to this order from items the buyer returned, such as an exchange's replacement
-     * order. Included in settlement_amounts.paid_money. [] (Value): {@link
-     * OrderReturnCreditSettlement}. A return credit applied to an order payment, with the amount
-     * and the return and resolution it came from.
-     */
-    "return_credit_settlements": Array<OrderReturnCreditSettlement>;
-    /**
-     * ID of the return resolution that created this order as a replacement. Omitted for orders a
-     * return did not create.
-     */
-    "return_resolution_id"?: string;
-    /**
-     * How much of an order has been paid, refunded, credited, written off, and settled as tips,
-     * and what balance and outstanding amount remain.
-     */
-    "settlement_amounts": SettlementAmounts;
-    /**
-     * Client-side details for collecting payment from the buyer, such as the Stripe settings to
-     * initialize Stripe.js.
-     */
-    "setup_collection"?: PaymentCollection;
-    /**
-     * Whether the order still accepts changes and new payments. Refunds, fulfillment, disputes,
-     * returns, and metadata or note edits continue on a closed order. Value enum: "open",
-     * "closed".
-     */
-    "status": "open" | "closed" | (string & {});
-    /**
-     * Present only when `expand` includes `subscription`; `null` when expanded and there is no
-     * related subscription. anyOf[1] (Value): {@link ExpandedSubscriptionSummary}. A
-     * subscription's summary fields, including status, billing period, and next billing time,
-     * returned when the subscription is expanded. anyOf[2] (Value): null.
-     */
-    "subscription"?: ((ExpandedSubscriptionSummary) | (null));
-    /**
-     * Charged subscription cycle associated with this order. Signup is cycle 1; unpaid retries and
-     * skipped renewals do not advance the cycle. Format: uint64. minimum: 0.
-     */
-    "subscription_cycle"?: number;
-    /**
-     * Time the subscriber changed delivery after this paid renewal was prepared. The order keeps
-     * its committed destination until you correct it or refund and replace it. Format: date-time.
-     */
-    "subscription_delivery_changed_at"?: string;
-    "subscription_id"?: string;
-    /**
-     * Present only when `expand` includes `subscription_plan`; `null` when expanded and there is
-     * no related subscription plan. anyOf[1] (Value): {@link ExpandedSubscriptionPlanSummary}. A
-     * subscription plan's summary fields, including name, billing interval, currency, and status,
-     * returned when the plan is expanded. anyOf[2] (Value): null.
-     */
-    "subscription_plan"?: ((ExpandedSubscriptionPlanSummary) | (null));
-    "subscription_plan_id"?: string;
-    /**
-     * An order's tax state, including its mode, price mode, status, location, exemption, and tax
-     * breakdowns.
-     */
-    "tax": OrderTax;
-    /**
-     * Event and tickets this order sold through an event payment link. Absent on other orders.
-     * Event details for a ticketed order: name, location, start time, time zone, and the tickets
-     * issued.
-     */
-    "ticketed_event"?: TicketedEvent;
-    /**
-     *  [] (Value): {@link Tip}. A tip on an order, with its requested, settled, and refunded
-     * amounts, status, and how it was paid.
-     */
-    "tips": Array<Tip>;
-    /** RFC3339 timestamp. Format: date-time. */
-    "updated_at"?: string;
-    /**
-     * Order version for optimistic concurrency. Send this value as the expected version when
-     * changing the order. Increases with every change to the order. Ignore an order webhook
-     * snapshot whose version is lower than one you have already applied. Format: int64.
-     */
-    "version": number;
+    "components": Array<MerchantAccountSessionStripeComponent>;
+    /** Stripe publishable key to pass as publishableKey to loadConnectAndInitialize. */
+    "publishable_key": string;
 };
 /**
- * Read-only order history row for merchant timeline rendering and debugging. The owning resource
- * remains authoritative for state and money movement.
+ * Requirement collection options to apply when mounting one embedded component: field breadth,
+ * future requirements, and any targeted requirements.
  */
-export type OrderActivity = {
+export type MerchantAccountSessionStripeCollectionOptions = {
     /**
-     * The action recorded on the order. Omitted when the activity type cannot be identified.
-     * Clients must accept values added in future releases. Value enum: "created",
-     * "line_item_added", "line_item_updated", "line_item_removed", "discount_applied",
-     * "discount_removed", "tax_updated", "requested_tip_added", "requested_tip_updated",
-     * "requested_tip_removed", "charge_added", "charge_updated", "charge_removed",
-     * "charge_fulfillment_updated", "order_updated", "adjustment", "closed", "payment",
-     * "payment_failed", "refund", "refund_failed", "checkout_session_created",
-     * "checkout_session_expired", "checkout_session_invalidated", "fulfillment_created",
-     * "fulfillment_updated", "fulfillment_state_changed".
+     * Requirement collection breadth to pass as fields to setCollectionOptions. Value enum:
+     * "currently_due", "eventually_due".
      */
-    "activity_type"?: "created"
-        | "line_item_added"
-        | "line_item_updated"
-        | "line_item_removed"
-        | "discount_applied"
-        | "discount_removed"
-        | "tax_updated"
-        | "requested_tip_added"
-        | "requested_tip_updated"
-        | "requested_tip_removed"
-        | "charge_added"
-        | "charge_updated"
-        | "charge_removed"
-        | "charge_fulfillment_updated"
-        | "order_updated"
-        | "adjustment"
-        | "closed"
-        | "payment"
-        | "payment_failed"
-        | "refund"
-        | "refund_failed"
-        | "checkout_session_created"
-        | "checkout_session_expired"
-        | "checkout_session_invalidated"
-        | "fulfillment_created"
-        | "fulfillment_updated"
-        | "fulfillment_state_changed"
-        | (string & {});
+    "fields": "currently_due" | "eventually_due" | (string & {});
     /**
-     * Change to the order balance narrated by this row. Informational rows have amount 0. Do not
-     * sum activity deltas to compute the order balance. Signed monetary amount represented as
+     * Whether to collect future requirements. Pass this value as futureRequirements to
+     * setCollectionOptions. Value enum: "omit", "include".
+     */
+    "future_requirements": "omit" | "include" | (string & {});
+    /**
+     * Targeted requirement collection restriction to pass as requirements to setCollectionOptions.
+     * Omitted when collection is not targeted. The Stripe requirement paths to collect exclusively
+     * when a session's targeting is `targeted`.
+     */
+    "requirements"?: MerchantAccountSessionStripeRequirements;
+};
+/**
+ * One embedded component a merchant account session authorizes, with the collection options to
+ * apply to it.
+ */
+export type MerchantAccountSessionStripeComponent = {
+    /**
+     * Collection instructions for a policy-aware component. Omitted for other components. Map
+     * future_requirements to futureRequirements when calling setCollectionOptions. Requirement
+     * collection options to apply when mounting one embedded component: field breadth, future
+     * requirements, and any targeted requirements.
+     */
+    "collection_options"?: MerchantAccountSessionStripeCollectionOptions;
+    /**
+     * Stripe component name authorized by this session. tax_documents uses the Stripe name
+     * documents. Convert underscores to hyphens when calling Connect.create. Value enum:
+     * "account_onboarding", "account_management", "payouts", "balances", "documents",
+     * "notification_banner", "payments".
+     */
+    "component": "account_onboarding"
+        | "account_management"
+        | "payouts"
+        | "balances"
+        | "documents"
+        | "notification_banner"
+        | "payments"
+        | (string & {});
+};
+/** The Stripe requirement paths to collect exclusively when a session's targeting is `targeted`. */
+export type MerchantAccountSessionStripeRequirements = {
+    /**
+     * Stripe requirement paths to collect exclusively when effective_policy.targeting is targeted.
+     * They come from the targeted_requirements you sent or from Flint's remediation
+     * recommendation. [] (Value): string.
+     */
+    "only": Array<string>;
+};
+export type MerchantAccountSessionsCreateParams = (InputValue<MerchantAccountSessionCreateRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type MerchantAccountSessionsRefreshParams = (InputValue<MerchantAccountSessionRefreshRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+/** Current Flint merchant billing balance for one billing account and currency. */
+export type MerchantBillingBalance = {
+    /**
+     * Account credit Flint holds for you that hasn't been applied yet, unsigned. Each application
+     * lowers both amounts and records a credit_applied entry. Monetary amount represented as
      * integer minor units plus an ISO 4217 currency code.
      */
-    "balance_delta_money": MoneyValue;
-    /** Related checkout session when activity_type points at checkout session lifecycle. */
-    "checkout_session_id"?: string;
-    /** RFC3339 timestamp. Format: date-time. */
-    "created_at"?: string;
+    "available_credit_money": MoneyValue;
+    /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */
+    "currency": string;
     /**
-     * Human-readable Flint description. Provider-specific raw statuses and failure values are not
-     * exposed here.
+     * Stable identifier for this billing account and currency balance projection. Example:
+     * "mbbal_01KEZF7C002TWWZA70R4DRVJC9".
      */
-    "description": string;
+    "merchant_billing_balance_id": string;
     /**
-     * Related fulfillment for a fulfillment_created, fulfillment_updated, or
-     * fulfillment_state_changed activity. Omitted when the row does not identify one fulfillment.
+     * RFC3339 timestamp for the balance snapshot. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
      */
-    "fulfillment_id"?: string;
-    /** Unique identifier for this activity, prefixed oact_. */
-    "order_activity_id": string;
+    "observed_at": string;
     /**
-     * Related charge for a charge_added, charge_updated, charge_removed, or
-     * charge_fulfillment_updated activity. Omitted when the row does not identify one charge.
+     * What you owe Flint now, unsigned. Available credit isn't subtracted: credit lowers this
+     * amount only when Flint applies it, which records a credit_applied entry. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
      */
-    "order_charge_id"?: string;
-    /**
-     * Related discount for a discount_applied or discount_removed activity. Omitted when the row
-     * does not identify one discount.
-     */
-    "order_discount_id"?: string;
-    /**
-     * Related line item for a line_item_added, line_item_updated, or line_item_removed activity.
-     * Omitted when the row does not identify one line item.
-     */
-    "order_line_item_id"?: string;
-    /**
-     * Related requested tip for a requested_tip_added, requested_tip_updated, or
-     * requested_tip_removed activity. Omitted when the row does not identify one tip.
-     */
-    "order_tip_id"?: string;
-    /** Related payment intent when activity_type points at a payment attempt or payment outcome. */
-    "payment_intent_id"?: string;
-    /**
-     * Related refund when activity_type points at a refund outcome. Read the refund for the
-     * authoritative outcome.
-     */
-    "refund_id"?: string;
-    /**
-     * Order balance after this activity in chronological time. This is context for reading the
-     * log, not a reconciliation ledger. Signed monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "running_balance_money": MoneyValue;
+    "outstanding_money": MoneyValue;
 };
-/** A page of `OrderActivity` objects. */
-export type OrderActivityListResponse = {
+/** A list of `MerchantBillingBalance` objects. */
+export type MerchantBillingBalanceListResponse = {
     /**
-     *  [] (Value): {@link OrderActivity}. Read-only order history row for merchant timeline
-     * rendering and debugging. The owning resource remains authoritative for state and money
-     * movement.
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * MerchantBillingBalance}. Current Flint merchant billing balance for one billing account and
+     * currency.
      */
-    "data": Array<OrderActivity>;
+    "data": Array<MerchantBillingBalance>;
     /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
      */
     "meta"?: ResponseMeta;
-    "next_page_token"?: string;
     /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
     "request_id": string;
 };
-/**
- * The amounts authorized and still capturable on an order's payments, with the authorization
- * expiry.
- */
-export type OrderAuthorizationAmounts = {
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "authorized_money": MoneyValue;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "capturable_money": MoneyValue;
-    /** RFC3339 timestamp. Format: date-time. */
-    "expires_at"?: string;
+/** A response containing `MerchantBillingBalance` data. */
+export type MerchantBillingBalanceResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. Current Flint merchant
+     * billing balance for one billing account and currency.
+     */
+    "data": MerchantBillingBalance;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
 };
-/**
- * Tax settings for an order charge calculated by Flint or supplied by you, including the charge's
- * tax category and whether it is taxable.
- */
-export type OrderCalculatedChargeTax = {
+export type MerchantBillingBalanceUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "available_credit_money": MoneyValue;
+            "currency": string;
+            "merchant_billing_balance_id": string;
+            "observed_at": string;
+            "outstanding_money": MoneyValue;
+        };
+        "previous_attributes"?: Partial<MerchantBillingBalance>;
+    };
+    "event_source"?: "merchant" | (string & {});
+    "event_type"?: "merchant_billing_balance.updated";
+})
+    & {
+    "event_type": "merchant_billing_balance.updated";
+});
+export type MerchantBillingBalancesGetParams = {};
+export type MerchantBillingBalancesListParams = {};
+export type MerchantBillingEntriesListParams = {
     /**
-     * Tax category of the charge, which decides its automatic tax: shipping and delivery are taxed
-     * at the general rate, and a taxable charge in another category fails with
-     * AUTOMATIC_TAX_CHARGE_UNSUPPORTED. Omitted, the charge takes delivery from delivery_fee,
-     * shipping from shipping_fee, service_fee from service_fee, and handling from handling_fee;
-     * other types take none. The default follows type and is not returned. Value enum:
-     * "service_fee", "shipping", "delivery", "handling", "surcharge".
+     * Filter by one or more merchant billing entry types. Repeat or comma-separate values. Values
+     * are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected.
+     * Values within this filter are ORed; separate filters are ANDed. [] enum: "event_fee",
+     * "invoice", "custom_domain", "custom_domain_collection", "correction", "credit_issued",
+     * "credit_applied", "credit_refunded", "collection", "collection_reversal", "write_off". Value
+     * enum: "event_fee", "invoice", "custom_domain", "custom_domain_collection", "correction",
+     * "credit_issued", "credit_applied", "credit_refunded", "collection", "collection_reversal",
+     * "write_off". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "event_fee",
+     * "invoice", "custom_domain", "custom_domain_collection", "correction", "credit_issued",
+     * "credit_applied", "credit_refunded", "collection", "collection_reversal", "write_off".
+     * anyOf[1][] (Value): string. Value enum: "event_fee", "invoice", "custom_domain",
+     * "custom_domain_collection", "correction", "credit_issued", "credit_applied",
+     * "credit_refunded", "collection", "collection_reversal", "write_off". anyOf[2] (Value):
+     * string. Value enum: "event_fee", "invoice", "custom_domain", "custom_domain_collection",
+     * "correction", "credit_issued", "credit_applied", "credit_refunded", "collection",
+     * "collection_reversal", "write_off".
      */
-    "charge_tax_category"?: "service_fee" | "shipping" | "delivery" | "handling" | "surcharge" | (string & {});
-    "taxable"?: boolean;
+    "type"?: InputValue<("event_fee"
+        | "invoice"
+        | "custom_domain"
+        | "custom_domain_collection"
+        | "correction"
+        | "credit_issued"
+        | "credit_applied"
+        | "credit_refunded"
+        | "collection"
+        | "collection_reversal"
+        | "write_off")
+        | readonly ("event_fee"
+        | "invoice"
+        | "custom_domain"
+        | "custom_domain_collection"
+        | "correction"
+        | "credit_issued"
+        | "credit_applied"
+        | "credit_refunded"
+        | "collection"
+        | "collection_reversal"
+        | "write_off")[]>;
+    /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */
+    "currency"?: InputValue<string>;
+    /** Inclusive lower bound on occurred_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "occurred_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on occurred_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "occurred_before"?: InputValue<string | globalThis.Date>;
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /** Filter by Flint payment intent ID. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". */
+    "payment_intent_id"?: InputValue<string>;
+    /** Filter by Flint dispute ID. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD". */
+    "dispute_id"?: InputValue<string>;
+    /** Filter by Flint merchant billing invoice ID. Example: "msinv_01KEZF7C00MB754KPEPACGRMNP". */
+    "merchant_billing_invoice_id"?: InputValue<string>;
+    /** Filter by Flint balance transaction ID. Example: "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ". */
+    "balance_transaction_id"?: InputValue<string>;
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
 };
-/**
- * Tax settings for an order charge calculated by Flint or supplied by you, including the charge's
- * tax category and whether it is taxable.
- */
-export type OrderCalculatedChargeTaxInput = {
+/** An immutable merchant billing charge, credit, collection, correction, or write-off. */
+export type MerchantBillingEntry = {
     /**
-     * Tax you calculated yourself for a line or charge: whether prices include tax, and the tax
-     * components.
-     */
-    "calculation"?: TaxCalculationRequestInput;
-    /**
-     * Tax category of the charge, which decides its automatic tax: shipping and delivery are taxed
-     * at the general rate, and a taxable charge in another category fails with
-     * AUTOMATIC_TAX_CHARGE_UNSUPPORTED. Omitted, the charge takes delivery from delivery_fee,
-     * shipping from shipping_fee, service_fee from service_fee, and handling from handling_fee;
-     * other types take none. The default follows type and is not returned. Value enum:
-     * "service_fee", "shipping", "delivery", "handling", "surcharge".
-     */
-    "charge_tax_category"?: "service_fee" | "shipping" | "delivery" | "handling" | "surcharge";
-    "taxable"?: boolean;
-};
-/**
- * Tax settings for an order line item calculated by Flint or supplied by you, including the line
- * item tax category and whether it is taxable.
- */
-export type OrderCalculatedLineItemTax = {
-    /**
-     * Tax you calculated yourself for a line or charge: whether prices include tax, and the tax
-     * components.
-     */
-    "calculation"?: TaxCalculationRequest;
-    /**
-     * Flint line-item tax category. Value enum: "general", "physical_goods", "digital_goods",
-     * "software", "saas", "services", "professional_services", "food", "prepared_food",
-     * "clothing", "medical_goods", "admission".
-     */
-    "line_item_tax_category"?: "general"
-        | "physical_goods"
-        | "digital_goods"
-        | "software"
-        | "saas"
-        | "services"
-        | "professional_services"
-        | "food"
-        | "prepared_food"
-        | "clothing"
-        | "medical_goods"
-        | "admission"
-        | (string & {});
-    "taxable"?: boolean;
-};
-/**
- * Tax settings for an order line item calculated by Flint or supplied by you, including the line
- * item tax category and whether it is taxable.
- */
-export type OrderCalculatedLineItemTaxInput = {
-    /**
-     * Tax you calculated yourself for a line or charge: whether prices include tax, and the tax
-     * components.
-     */
-    "calculation"?: TaxCalculationRequestInput;
-    /**
-     * Flint line-item tax category. Value enum: "general", "physical_goods", "digital_goods",
-     * "software", "saas", "services", "professional_services", "food", "prepared_food",
-     * "clothing", "medical_goods", "admission".
-     */
-    "line_item_tax_category"?: "general"
-        | "physical_goods"
-        | "digital_goods"
-        | "software"
-        | "saas"
-        | "services"
-        | "professional_services"
-        | "food"
-        | "prepared_food"
-        | "clothing"
-        | "medical_goods"
-        | "admission";
-    "taxable"?: boolean;
-};
-/** An additional charge applied to an order. */
-export type OrderCharge = {
-    /**
-     * Fixed charge amount before charge discounts and tax. Percentage charges use percent instead.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money"?: MoneyValue;
-    /**
-     * Resolved charge amount after charge discounts and before additive tax. Monetary amount
+     * Signed change in available billing credit. credit_issued increases it; credit_applied and
+     * credit_refunded decrease it. Other entry types do not change it. Signed monetary amount
      * represented as integer minor units plus an ISO 4217 currency code.
      */
-    "applied_money": MoneyValue;
-    /** Value enum: "subtotal_pre_discount", "subtotal_post_discount". */
-    "calculation_basis"?: "subtotal_pre_discount" | "subtotal_post_discount" | (string & {});
-    /** RFC3339 timestamp. Format: date-time. */
-    "created_at"?: string;
-    "description"?: string;
-    "fulfillment_id"?: string;
+    "available_credit_effect_money": MoneyValue;
     /**
-     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
-     * Flint and are not returned. Writes follow the limits on MetadataInput and
-     * MetadataPatchInput; maps written before those limits may not satisfy them.
+     * Balance transaction for this collection or collection reversal, when present. Example:
+     * "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ".
      */
-    "metadata"?: MetadataMap;
+    "balance_transaction_id"?: string;
+    /**
+     * When Flint inserted the entry. Never changes and is never backdated from occurred_at.
+     * Overlap created_after passes by a few minutes and deduplicate by merchant_billing_entry_id
+     * to pick up late commits. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "created_at": string;
+    /** Human-readable description of the billing event. */
+    "description": string;
+    /**
+     * Related dispute, when the entry is associated with a dispute. Example:
+     * "du_01KEZF7C00DEJSF1KTXRT4BBQD".
+     */
+    "dispute_id"?: string;
+    /**
+     * Event fee category. Present only for event_fee entries. card_dispute applies only when Flint
+     * paid the processor's dispute fee; a fee already deducted from your balance is recorded on
+     * the dispute balance transaction instead. Value enum: "bank_verification",
+     * "failed_ach_payment", "ach_dispute", "card_dispute", "external_paid_order_overage".
+     */
+    "event_fee_type"?: "bank_verification"
+        | "failed_ach_payment"
+        | "ach_dispute"
+        | "card_dispute"
+        | "external_paid_order_overage"
+        | (string & {});
+    /**
+     * Stable entry ID. Re-reading an entry returns the same values. Example:
+     * "mbe_01KEZF7C00S06A5G1B4867TF78".
+     */
+    "merchant_billing_entry_id": string;
+    /**
+     * Related invoice issued by Flint, when applicable. Example:
+     * "msinv_01KEZF7C00MB754KPEPACGRMNP".
+     */
+    "merchant_billing_invoice_id"?: string;
+    /**
+     * Signed outstanding effect minus the available credit effect. Charges and collection_reversal
+     * are positive; credit_issued, collection, custom_domain_collection, and write_off are
+     * negative; credit_refunded is positive; credit_applied is zero; correction may be positive or
+     * negative. Signed monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "net_billing_effect_money": MoneyValue;
+    /**
+     * When the billing event happened. An entry can be recorded after entries that occurred later.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "occurred_at": string;
+    /**
+     * Signed change in the amount owed Flint. Charges (event_fee, invoice, custom_domain) and
+     * collection_reversal increase it; credit_applied, collection, custom_domain_collection, and
+     * write_off decrease it; correction may increase or decrease it. Credit issuance and refund do
+     * not change it. Signed monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "outstanding_effect_money": MoneyValue;
+    /**
+     * Related payment intent, when the entry is associated with a payment. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id"?: string;
+    /**
+     * Entry corrected, credited, collected, reversed, or written off by this entry, when
+     * applicable. Example: "mbe_01KEZF7C00S06A5G1B4867TF78".
+     */
+    "related_merchant_billing_entry_id"?: string;
+    /**
+     * The billing event represented by this entry. Value enum: "event_fee", "invoice",
+     * "custom_domain", "custom_domain_collection", "correction", "credit_issued",
+     * "credit_applied", "credit_refunded", "collection", "collection_reversal", "write_off".
+     */
+    "type": "event_fee"
+        | "invoice"
+        | "custom_domain"
+        | "custom_domain_collection"
+        | "correction"
+        | "credit_issued"
+        | "credit_applied"
+        | "credit_refunded"
+        | "collection"
+        | "collection_reversal"
+        | "write_off"
+        | (string & {});
+};
+/** A page of `MerchantBillingEntry` objects. */
+export type MerchantBillingEntryListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * MerchantBillingEntry}. An immutable merchant billing charge, credit, collection, correction,
+     * or write-off.
+     */
+    "data": Array<MerchantBillingEntry>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A Flint invoice for the merchant's Flint subscription. */
+export type MerchantBillingInvoice = {
+    /**
+     * Credit applied to the invoice: the sum of its credit line items. Never more than
+     * subtotal_money. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "applied_credit_money": MoneyValue;
+    /** When Flint created the invoice. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /** When payment of the invoice is due. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "due_at": string;
+    /**
+     * Unique invoice number; don't parse it. New numbers use FLINT-{account code}-{0001},
+     * sequential per billing account; existing numbers are retained.
+     */
+    "invoice_number": string;
+    /** When Flint issued the invoice. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "issued_at": string;
+    /**
+     * Invoice-owned line items. Subscription totals sum to subtotal_money; credit totals sum to
+     * applied_credit_money. [] (Value): {@link MerchantBillingInvoiceLineItem}. One line on a
+     * merchant billing invoice, either a subscription charge or a credit, with quantity, unit
+     * price, and total.
+     */
+    "line_items": Array<MerchantBillingInvoiceLineItem>;
+    /** Stable identifier of the invoice. Example: "msinv_01KEZF7C00MB754KPEPACGRMNP". */
+    "merchant_billing_invoice_id": string;
+    /**
+     * Part of total_money Flint still has to collect. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code.
+     */
+    "outstanding_money": MoneyValue;
+    /**
+     * When the invoice was paid. Removed if a reversed collection reopens it. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z".
+     */
+    "paid_at"?: string;
+    /**
+     * Exclusive invoice billing period end as an RFC 3339 UTC instant. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "period_end_at": string;
+    /**
+     * Inclusive invoice billing period start as an RFC 3339 UTC instant. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z".
+     */
+    "period_start_at": string;
+    /**
+     * Collection state of the invoice: open, paid, or written_off. Flint issues an invoice as open
+     * and marks it paid once collected; a reversed collection returns it to open, and written_off
+     * means Flint stopped collecting it. Value enum: "open", "paid", "written_off".
+     */
+    "status": "open" | "paid" | "written_off" | (string & {});
+    /**
+     * Sum of the subscription line items, before credit. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "subtotal_money": MoneyValue;
+    /**
+     * What the invoice charges: subtotal_money minus applied_credit_money. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "total_money": MoneyValue;
+    /** When the invoice last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+};
+export type MerchantBillingInvoiceIssuedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "applied_credit_money": MoneyValue;
+            "created_at": string;
+            "due_at": string;
+            "invoice_number": string;
+            "issued_at": string;
+            "line_items": Array<MerchantBillingInvoiceLineItem>;
+            "merchant_billing_invoice_id": string;
+            "outstanding_money": MoneyValue;
+            "paid_at"?: string;
+            "period_end_at": string;
+            "period_start_at": string;
+            "status": "open" | "paid" | "written_off" | (string & {});
+            "subtotal_money": MoneyValue;
+            "total_money": MoneyValue;
+            "updated_at": string;
+        };
+        "previous_attributes"?: Partial<MerchantBillingInvoice>;
+    };
+    "event_source"?: "merchant" | (string & {});
+    "event_type"?: "merchant_billing_invoice.issued";
+})
+    & {
+    "event_type": "merchant_billing_invoice.issued";
+});
+/**
+ * One line on a merchant billing invoice, either a subscription charge or a credit, with quantity,
+ * unit price, and total.
+ */
+export type MerchantBillingInvoiceLineItem = {
+    /**
+     * When Flint added this line to the invoice. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "created_at": string;
+    /** Stable identifier of this line item. Example: "msinvl_01KEZF7C00YB825JWZ87C5HDF0". */
+    "merchant_billing_invoice_line_item_id": string;
+    /** Name of the subscription charge or credit. */
     "name": string;
-    "order_charge_id": string;
-    /** multipleOf: 0.0001. */
-    "percent"?: number;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity": number;
     /**
-     * Charge amount already refunded. Monetary amount represented as integer minor units plus an
-     * ISO 4217 currency code.
-     */
-    "refunded_money": MoneyValue;
-    /**
-     * Tax settings for an order charge calculated by Flint or supplied by you, including the
-     * charge's tax category and whether it is taxable.
-     */
-    "tax"?: OrderCalculatedChargeTax;
-    /**
-     * Tax calculated for the charge, including any tax already included in its price. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "tax_money": MoneyValue;
-    /**
-     * Applied charge amount plus tax that is not already included in the price. Monetary amount
+     * Unsigned line total, calculated as quantity multiplied by unit_price_money. Monetary amount
      * represented as integer minor units plus an ISO 4217 currency code.
      */
     "total_money": MoneyValue;
     /**
-     * Value enum: "service_fee", "delivery_fee", "shipping_fee", "handling_fee", "packaging_fee",
-     * "small_order_fee", "service_area_fee", "setup_fee", "installation_fee", "cleaning_fee",
-     * "booking_fee", "reservation_fee", "ticket_fee", "fulfillment_fee", "restocking_fee",
-     * "rush_fee", "other".
+     * Whether the line adds a subscription charge or applies credit. Value enum: "subscription",
+     * "credit".
      */
-    "type": "service_fee"
-        | "delivery_fee"
-        | "shipping_fee"
-        | "handling_fee"
-        | "packaging_fee"
-        | "small_order_fee"
-        | "service_area_fee"
-        | "setup_fee"
-        | "installation_fee"
-        | "cleaning_fee"
-        | "booking_fee"
-        | "reservation_fee"
-        | "ticket_fee"
-        | "fulfillment_fee"
-        | "restocking_fee"
-        | "rush_fee"
-        | "other"
-        | (string & {});
-    /** RFC3339 timestamp. Format: date-time. */
-    "updated_at"?: string;
+    "type": "subscription" | "credit" | (string & {});
+    /**
+     * Unsigned price of one unit. total_money is quantity times this amount. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money": MoneyValue;
 };
-/** The `amount` variant of `OrderChargeInput`. */
-export type OrderChargeInputAmount = ({
+/** A page of `MerchantBillingInvoice` objects. */
+export type MerchantBillingInvoiceListResponse = {
     /**
-     * Fixed charge amount in the order currency. The amount and every computed order amount must
-     * not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation
-     * above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input
-     * field. Lower payment option limits can apply. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code.
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * MerchantBillingInvoice}. A Flint invoice for the merchant's Flint subscription.
      */
-    "amount_money": MoneyValue;
-    /** Value enum: "subtotal_pre_discount", "subtotal_post_discount". */
-    "calculation_basis"?: "subtotal_pre_discount" | "subtotal_post_discount" | (string & {});
-    /** Selects a fixed amount or percentage calculation. Value enum: "amount". */
-    "calculation_type": "amount" | (string & {});
-    /** minLength: 1. maxLength: 2048. */
-    "description"?: string;
-    /** minLength: 1. */
-    "fulfillment_id"?: string;
+    "data": Array<MerchantBillingInvoice>;
     /**
-     * Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50
-     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
-     * points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings,
-     * and keys starting with flint_ are reserved for Flint. maxProperties: 50.
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
      */
-    "metadata"?: MetadataMap;
-    /** minLength: 1. maxLength: 255. */
-    "name": string;
-    /** multipleOf: 0.0001. */
-    "percent"?: number;
+    "meta"?: ResponseMeta;
     /**
-     * Tax settings for an order charge calculated by Flint or supplied by you, including the
-     * charge's tax category and whether it is taxable.
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
      */
-    "tax"?: OrderCalculatedChargeTax;
+    "next_page_token"?: string;
     /**
-     * Value enum: "service_fee", "delivery_fee", "shipping_fee", "handling_fee", "packaging_fee",
-     * "small_order_fee", "service_area_fee", "setup_fee", "installation_fee", "cleaning_fee",
-     * "booking_fee", "reservation_fee", "ticket_fee", "fulfillment_fee", "restocking_fee",
-     * "rush_fee", "other".
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "type": "service_fee"
-        | "delivery_fee"
-        | "shipping_fee"
-        | "handling_fee"
-        | "packaging_fee"
-        | "small_order_fee"
-        | "service_area_fee"
-        | "setup_fee"
-        | "installation_fee"
-        | "cleaning_fee"
-        | "booking_fee"
-        | "reservation_fee"
-        | "ticket_fee"
-        | "fulfillment_fee"
-        | "restocking_fee"
-        | "rush_fee"
-        | "other"
-        | (string & {});
-})
-    & (({
-    /** Value enum: "amount". */
-    "calculation_type": "amount" | (string & {});
-    /**
-     * Fixed charge amount in the order currency. The amount and every computed order amount must
-     * not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation
-     * above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input
-     * field. Lower payment option limits can apply. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValue;
-}));
-/** The `amount` variant of `OrderChargeInput`. */
-export type OrderChargeInputAmountInput = ({
-    /**
-     * Fixed charge amount in the order currency. The amount and every computed order amount must
-     * not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation
-     * above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input
-     * field. Lower payment option limits can apply. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValueInput;
-    /** Value enum: "subtotal_pre_discount", "subtotal_post_discount". */
-    "calculation_basis"?: "subtotal_pre_discount" | "subtotal_post_discount";
-    /** Selects a fixed amount or percentage calculation. Value enum: "amount". */
-    "calculation_type": "amount";
-    /** minLength: 1. maxLength: 2048. */
-    "description"?: string;
-    /** minLength: 1. */
-    "fulfillment_id"?: string;
-    /**
-     * Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50
-     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
-     * points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings,
-     * and keys starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /** minLength: 1. maxLength: 255. */
-    "name": string;
-    /** multipleOf: 0.0001. */
-    "percent"?: number;
-    /**
-     * Tax settings for an order charge calculated by Flint or supplied by you, including the
-     * charge's tax category and whether it is taxable.
-     */
-    "tax"?: OrderCalculatedChargeTaxInput;
-    /**
-     * Value enum: "service_fee", "delivery_fee", "shipping_fee", "handling_fee", "packaging_fee",
-     * "small_order_fee", "service_area_fee", "setup_fee", "installation_fee", "cleaning_fee",
-     * "booking_fee", "reservation_fee", "ticket_fee", "fulfillment_fee", "restocking_fee",
-     * "rush_fee", "other".
-     */
-    "type": "service_fee"
-        | "delivery_fee"
-        | "shipping_fee"
-        | "handling_fee"
-        | "packaging_fee"
-        | "small_order_fee"
-        | "service_area_fee"
-        | "setup_fee"
-        | "installation_fee"
-        | "cleaning_fee"
-        | "booking_fee"
-        | "reservation_fee"
-        | "ticket_fee"
-        | "fulfillment_fee"
-        | "restocking_fee"
-        | "rush_fee"
-        | "other";
-})
-    & (({
-    /** Value enum: "amount". */
-    "calculation_type": ("amount") & ("amount");
-    /**
-     * Fixed charge amount in the order currency. The amount and every computed order amount must
-     * not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation
-     * above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input
-     * field. Lower payment option limits can apply. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValueInput;
-})
-    & (({
-    "percent"?: never;
-})));
-/** The `percent` variant of `OrderChargeInput`. */
-export type OrderChargeInputPercent = ({
-    /**
-     * Fixed charge amount in the order currency. The amount and every computed order amount must
-     * not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation
-     * above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input
-     * field. Lower payment option limits can apply. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code.
-     */
-    "amount_money"?: MoneyValue;
-    /** Value enum: "subtotal_pre_discount", "subtotal_post_discount". */
-    "calculation_basis"?: "subtotal_pre_discount" | "subtotal_post_discount" | (string & {});
-    /** Selects a fixed amount or percentage calculation. Value enum: "percent". */
-    "calculation_type": "percent" | (string & {});
-    /** minLength: 1. maxLength: 2048. */
-    "description"?: string;
-    /** minLength: 1. */
-    "fulfillment_id"?: string;
-    /**
-     * Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50
-     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
-     * points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings,
-     * and keys starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /** minLength: 1. maxLength: 255. */
-    "name": string;
-    /** multipleOf: 0.0001. */
-    "percent": number;
-    /**
-     * Tax settings for an order charge calculated by Flint or supplied by you, including the
-     * charge's tax category and whether it is taxable.
-     */
-    "tax"?: OrderCalculatedChargeTax;
-    /**
-     * Value enum: "service_fee", "delivery_fee", "shipping_fee", "handling_fee", "packaging_fee",
-     * "small_order_fee", "service_area_fee", "setup_fee", "installation_fee", "cleaning_fee",
-     * "booking_fee", "reservation_fee", "ticket_fee", "fulfillment_fee", "restocking_fee",
-     * "rush_fee", "other".
-     */
-    "type": "service_fee"
-        | "delivery_fee"
-        | "shipping_fee"
-        | "handling_fee"
-        | "packaging_fee"
-        | "small_order_fee"
-        | "service_area_fee"
-        | "setup_fee"
-        | "installation_fee"
-        | "cleaning_fee"
-        | "booking_fee"
-        | "reservation_fee"
-        | "ticket_fee"
-        | "fulfillment_fee"
-        | "restocking_fee"
-        | "rush_fee"
-        | "other"
-        | (string & {});
-})
-    & (({
-    /** Value enum: "percent". */
-    "calculation_type": "percent" | (string & {});
-    /** multipleOf: 0.0001. */
-    "percent": number;
-}));
-/** The `percent` variant of `OrderChargeInput`. */
-export type OrderChargeInputPercentInput = ({
-    /**
-     * Fixed charge amount in the order currency. The amount and every computed order amount must
-     * not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation
-     * above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input
-     * field. Lower payment option limits can apply. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code.
-     */
-    "amount_money"?: MoneyValueInput;
-    /** Value enum: "subtotal_pre_discount", "subtotal_post_discount". */
-    "calculation_basis"?: "subtotal_pre_discount" | "subtotal_post_discount";
-    /** Selects a fixed amount or percentage calculation. Value enum: "percent". */
-    "calculation_type": "percent";
-    /** minLength: 1. maxLength: 2048. */
-    "description"?: string;
-    /** minLength: 1. */
-    "fulfillment_id"?: string;
-    /**
-     * Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50
-     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
-     * points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings,
-     * and keys starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /** minLength: 1. maxLength: 255. */
-    "name": string;
-    /** multipleOf: 0.0001. */
-    "percent": number;
-    /**
-     * Tax settings for an order charge calculated by Flint or supplied by you, including the
-     * charge's tax category and whether it is taxable.
-     */
-    "tax"?: OrderCalculatedChargeTaxInput;
-    /**
-     * Value enum: "service_fee", "delivery_fee", "shipping_fee", "handling_fee", "packaging_fee",
-     * "small_order_fee", "service_area_fee", "setup_fee", "installation_fee", "cleaning_fee",
-     * "booking_fee", "reservation_fee", "ticket_fee", "fulfillment_fee", "restocking_fee",
-     * "rush_fee", "other".
-     */
-    "type": "service_fee"
-        | "delivery_fee"
-        | "shipping_fee"
-        | "handling_fee"
-        | "packaging_fee"
-        | "small_order_fee"
-        | "service_area_fee"
-        | "setup_fee"
-        | "installation_fee"
-        | "cleaning_fee"
-        | "booking_fee"
-        | "reservation_fee"
-        | "ticket_fee"
-        | "fulfillment_fee"
-        | "restocking_fee"
-        | "rush_fee"
-        | "other";
-})
-    & (({
-    /** Value enum: "percent". */
-    "calculation_type": ("percent") & ("percent");
-    /** multipleOf: 0.0001. */
-    "percent": number;
-})
-    & (({
-    "amount_money"?: never;
-})));
-/**
- * A charge you add to an order, such as a delivery or service fee, set as a fixed amount or a
- * percentage with its tax settings.
- */
-export type OrderChargeRequest = ({
-    /**
-     * Fixed charge amount in the order currency. The amount and every computed order amount must
-     * not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation
-     * above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input
-     * field. Lower payment option limits can apply. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code.
-     */
-    "amount_money"?: MoneyValue;
-    /** Value enum: "subtotal_pre_discount", "subtotal_post_discount". */
-    "calculation_basis"?: "subtotal_pre_discount" | "subtotal_post_discount" | (string & {});
-    /** Selects a fixed amount or percentage calculation. Value enum: "amount", "percent". */
-    "calculation_type": "amount" | "percent" | (string & {});
-    /** minLength: 1. maxLength: 2048. */
-    "description"?: string;
-    /** minLength: 1. */
-    "fulfillment_id"?: string;
-    /**
-     * Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50
-     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
-     * points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings,
-     * and keys starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /** minLength: 1. maxLength: 255. */
-    "name": string;
-    /** multipleOf: 0.0001. */
-    "percent"?: number;
-    /**
-     * Tax settings for an order charge calculated by Flint or supplied by you, including the
-     * charge's tax category and whether it is taxable.
-     */
-    "tax"?: OrderCalculatedChargeTax;
-    /**
-     * Value enum: "service_fee", "delivery_fee", "shipping_fee", "handling_fee", "packaging_fee",
-     * "small_order_fee", "service_area_fee", "setup_fee", "installation_fee", "cleaning_fee",
-     * "booking_fee", "reservation_fee", "ticket_fee", "fulfillment_fee", "restocking_fee",
-     * "rush_fee", "other".
-     */
-    "type": "service_fee"
-        | "delivery_fee"
-        | "shipping_fee"
-        | "handling_fee"
-        | "packaging_fee"
-        | "small_order_fee"
-        | "service_area_fee"
-        | "setup_fee"
-        | "installation_fee"
-        | "cleaning_fee"
-        | "booking_fee"
-        | "reservation_fee"
-        | "ticket_fee"
-        | "fulfillment_fee"
-        | "restocking_fee"
-        | "rush_fee"
-        | "other"
-        | (string & {});
-})
-    & ((Exclude<OrderChargeInputAmount & object, readonly unknown[]>)
-    | (Exclude<OrderChargeInputPercent & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/**
- * A charge you add to an order, such as a delivery or service fee, set as a fixed amount or a
- * percentage with its tax settings.
- */
-export type OrderChargeRequestInput = ({
-    /**
-     * Fixed charge amount in the order currency. The amount and every computed order amount must
-     * not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation
-     * above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input
-     * field. Lower payment option limits can apply. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code.
-     */
-    "amount_money"?: MoneyValueInput;
-    /** Value enum: "subtotal_pre_discount", "subtotal_post_discount". */
-    "calculation_basis"?: "subtotal_pre_discount" | "subtotal_post_discount";
-    /** Selects a fixed amount or percentage calculation. Value enum: "amount", "percent". */
-    "calculation_type": "amount" | "percent";
-    /** minLength: 1. maxLength: 2048. */
-    "description"?: string;
-    /** minLength: 1. */
-    "fulfillment_id"?: string;
-    /**
-     * Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50
-     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
-     * points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings,
-     * and keys starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /** minLength: 1. maxLength: 255. */
-    "name": string;
-    /** multipleOf: 0.0001. */
-    "percent"?: number;
-    /**
-     * Tax settings for an order charge calculated by Flint or supplied by you, including the
-     * charge's tax category and whether it is taxable.
-     */
-    "tax"?: OrderCalculatedChargeTaxInput;
-    /**
-     * Value enum: "service_fee", "delivery_fee", "shipping_fee", "handling_fee", "packaging_fee",
-     * "small_order_fee", "service_area_fee", "setup_fee", "installation_fee", "cleaning_fee",
-     * "booking_fee", "reservation_fee", "ticket_fee", "fulfillment_fee", "restocking_fee",
-     * "rush_fee", "other".
-     */
-    "type": "service_fee"
-        | "delivery_fee"
-        | "shipping_fee"
-        | "handling_fee"
-        | "packaging_fee"
-        | "small_order_fee"
-        | "service_area_fee"
-        | "setup_fee"
-        | "installation_fee"
-        | "cleaning_fee"
-        | "booking_fee"
-        | "reservation_fee"
-        | "ticket_fee"
-        | "fulfillment_fee"
-        | "restocking_fee"
-        | "rush_fee"
-        | "other";
-})
-    & ((Exclude<OrderChargeInputAmountInput & object, readonly unknown[]>)
-    | (Exclude<OrderChargeInputPercentInput & object, readonly unknown[]>));
-/** An externally calculated tax you assign to one order charge. */
-export type OrderChargeTaxAssignment = {
-    /**
-     * Tax you calculated yourself for a line or charge: whether prices include tax, and the tax
-     * components.
-     */
-    "calculation": TaxCalculationRequest;
-    /** minLength: 1. */
-    "order_charge_id": string;
+    "request_id": string;
 };
-/** An externally calculated tax you assign to one order charge. */
-export type OrderChargeTaxAssignmentInput = {
+/** A response containing `MerchantBillingInvoice` data. */
+export type MerchantBillingInvoiceResponse = {
     /**
-     * Tax you calculated yourself for a line or charge: whether prices include tax, and the tax
-     * components.
+     * Resource, collection, or operation result returned by this request. A Flint invoice for the
+     * merchant's Flint subscription.
      */
-    "calculation": TaxCalculationRequestModelInput;
-    /** minLength: 1. */
-    "order_charge_id": string;
+    "data": MerchantBillingInvoice;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
 };
-export type OrderClosedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type MerchantBillingInvoiceUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
-        "object": Order;
+        "object": {
+            "applied_credit_money": MoneyValue;
+            "created_at": string;
+            "due_at": string;
+            "invoice_number": string;
+            "issued_at": string;
+            "line_items": Array<MerchantBillingInvoiceLineItem>;
+            "merchant_billing_invoice_id": string;
+            "outstanding_money": MoneyValue;
+            "paid_at"?: string;
+            "period_end_at": string;
+            "period_start_at": string;
+            "status": "open" | "paid" | "written_off" | (string & {});
+            "subtotal_money": MoneyValue;
+            "total_money": MoneyValue;
+            "updated_at": string;
+        };
+        "previous_attributes"?: Partial<MerchantBillingInvoice>;
     };
-    "event_type"?: "order.closed";
+    "event_source"?: "merchant" | (string & {});
+    "event_type"?: "merchant_billing_invoice.updated";
+})
+    & {
+    "event_type": "merchant_billing_invoice.updated";
+});
+export type MerchantBillingInvoicesGetParams = {};
+export type MerchantBillingInvoicesListParams = {
+    /**
+     * Filter by one or more merchant billing invoice statuses. Values are trimmed and deduplicated
+     * in first-seen order; empty or unknown entries are rejected. Values within this filter are
+     * ORed; separate filters are ANDed. [] enum: "open", "paid", "written_off". Value enum:
+     * "open", "paid", "written_off". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
+     * "open", "paid", "written_off". anyOf[1][] (Value): string. Value enum: "open", "paid",
+     * "written_off". anyOf[2] (Value): string. Value enum: "open", "paid", "written_off".
+     */
+    "status"?: InputValue<("open" | "paid" | "written_off") | readonly ("open" | "paid" | "written_off")[]>;
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+};
+export type MerchantGetParams = DisputesAcceptParams;
+/**
+ * A merchant's readiness to accept payments and receive payouts, with per-capability status and
+ * outstanding requirements.
+ */
+export type MerchantReadiness = {
+    /**
+     * Readiness of each payment and money movement capability, with its own status, requirements,
+     * and next actions. [] (Value): {@link CapabilityReadiness}. Merchant capability readiness for
+     * a payment or money movement capability.
+     */
+    "capabilities": Array<CapabilityReadiness>;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "observed_at": string;
+    /**
+     * Readiness to accept payments. Readiness for one area of a merchant account, with its
+     * `status`, the reason for it, and the actions that would advance it.
+     */
+    "payments": ReadinessAxis;
+    /**
+     * Readiness to receive payouts. Readiness for one area of a merchant account, with its
+     * `status`, the reason for it, and the actions that would advance it.
+     */
+    "payouts": ReadinessAxis;
+    /**
+     * Account information still needed, grouped by when it is due. Each capability also lists the
+     * requirements that affect it. Account information requirements for a merchant, grouped as
+     * currently due, eventually due, past due, and pending verification.
+     */
+    "requirements": ReadinessRequirements;
+};
+export type MerchantReadinessUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "address"?: Address;
+            "api_version"?: string;
+            "api_version_changed_at"?: string;
+            "api_version_pinned_at"?: string;
+            "api_version_previous"?: string;
+            "api_version_rollback_expires_at"?: string;
+            "business_name"?: string;
+            "business_type"?: "individual" | "company" | "non_profit" | "government_entity" | "other" | (string & {});
+            "created_at": string;
+            "email": string | null;
+            "icon"?: ImageAttachment;
+            "logo"?: ImageAttachment;
+            "merchant_id": string;
+            "metadata"?: MetadataMap;
+            "phone"?: string;
+            "readiness": MerchantReadiness;
+            "status": "active" | "suspended" | "restricted" | "closed" | (string & {});
+            "support_email"?: string;
+            "support_phone"?: string;
+            "support_url"?: string;
+            "timezone"?: string;
+            "updated_at": string;
+            "version": number;
+            "website_url"?: string;
+        };
+        "previous_attributes"?: Partial<Merchant>;
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "merchant.readiness_updated";
 }))
     | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
-        "object": Order;
+        "object": {
+            "address"?: Address;
+            "api_version"?: string;
+            "api_version_changed_at"?: string;
+            "api_version_pinned_at"?: string;
+            "api_version_previous"?: string;
+            "api_version_rollback_expires_at"?: string;
+            "business_name"?: string;
+            "business_type"?: "individual" | "company" | "non_profit" | "government_entity" | "other" | (string & {});
+            "created_at": string;
+            "email": string | null;
+            "icon"?: ImageAttachment;
+            "logo"?: ImageAttachment;
+            "merchant_id": string;
+            "metadata"?: MetadataMap;
+            "phone"?: string;
+            "readiness": MerchantReadiness;
+            "status": "active" | "suspended" | "restricted" | "closed" | (string & {});
+            "support_email"?: string;
+            "support_phone"?: string;
+            "support_url"?: string;
+            "timezone"?: string;
+            "updated_at": string;
+            "version": number;
+            "website_url"?: string;
+        };
+        "previous_attributes"?: Partial<Merchant>;
     };
-    "event_type"?: "order.closed";
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "merchant.readiness_updated";
     "source"?: ({
         "environment_grant_id": string;
         "merchant_id": string;
         "mode": "test" | "live" | (string & {});
         "partner_app_install_id": string;
         "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
     });
 })))
     & {
-    "event_type": "order.closed";
+    "event_type": "merchant.readiness_updated";
 });
 /**
- * The `order.closed` webhook payload for the `installed_merchants` event source. Fields shared by
- * partner webhook payloads.
+ * The `merchant.readiness_updated` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
  */
-export type OrderClosedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+export type MerchantReadinessUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     *  object (Required): {@link Order}. A customer's purchase and its payment and fulfillment
-     * progress.
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
+     * fields: `banners`. object.address (Optional): {@link Address}. The merchant's business
+     * address. A postal address. Every address has country. Addresses Flint checked as complete
+     * (customer and saved addresses, merchant, location, invoice, order delivery destination, tax
+     * identity, fulfillment recipient and pickup addresses) always have line1 and city, and US
+     * ones always have state and postal_code. Delivery quote destinations, buyer locations and
+     * postal-code tax locations hold only what was provided, such as postal_code and country.
+     * object.api_version (Optional): string. Default API version for requests without a
+     * Flint-Version header. Shared across live and test environments.
+     * object.api_version_changed_at (Optional): string. When the merchant's default API version
+     * last changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.api_version_pinned_at (Optional): string. When the merchant's default API version was
+     * first set. Format: date-time. Example: "2026-08-02T16:00:00Z". object.api_version_previous
+     * (Optional): string. Previous API version, present while a supported rollback is available.
+     * object.api_version_rollback_expires_at (Optional): string. When the 72-hour rollback offer
+     * expires. Explicit changes to any supported version remain available afterward. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.business_name (Optional): string.
+     * Business name buyers see on checkout, payment links, and receipts. Once the merchant starts
+     * verification, it stays in sync with the business name on the live Stripe account: a change
+     * on either side applies, and the latest change wins. object.business_type (Optional): string.
+     * Merchant's business type. - `other`: A business type Flint does not map yet. Value enum:
+     * "individual", "company", "non_profit", "government_entity", "other". object.created_at
+     * (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.email (Required): string or null. The account's contact email address. A new account
+     * starts with the sign-up email. `null` when none is set. object.icon (Optional): {@link
+     * ImageAttachment}. A square image, at least 128 by 128 pixels, shown where the store needs a
+     * small mark: browser tabs and compact headers. An image attached to a resource, with its
+     * display properties and attachment metadata. object.logo (Optional): {@link ImageAttachment}.
+     * The merchant's public brand mark. An image attached to a resource, with its display
+     * properties and attachment metadata. object.merchant_id (Required): string. Stable identifier
+     * of the merchant. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional):
+     * {@link MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value,
+     * and size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
+     * are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them. object.phone
+     * (Optional): string. The account's contact phone number, in international format such as
+     * +12125551234. object.readiness (Required): {@link MerchantReadiness}. Whether the merchant
+     * can accept payments and receive payouts, and what is still needed. A merchant's readiness to
+     * accept payments and receive payouts, with per-capability status and outstanding
+     * requirements. object.status (Required): string. Whether Flint lets the account operate.
+     * `readiness` says whether payments and payouts are available. Value enum: "active",
+     * "suspended", "restricted", "closed". object.support_email (Optional): string. Support email
+     * address shown to buyers, for example on receipts and checkout. object.support_phone
+     * (Optional): string. Support phone number shown to buyers, in international format such as
+     * +12125551234. object.support_url (Optional): string. Support page shown to buyers.
+     * object.timezone (Optional): string. Business IANA time zone, such as America/New_York. Used
+     * for invoice deadlines, new locations, notifications, and reporting when a request omits its
+     * time zone. Omitted when unset; UTC then applies. Existing resources keep their saved time
+     * zone. object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.version (Required): integer. Merchant version. Profile,
+     * status, and API version changes advance this version, including business name and business
+     * type changes synced from the payment provider. Readiness updates alone do not. Format:
+     * int64. minimum: 1. object.website_url (Optional): string. The business's website.
+     * previous_attributes (Optional): object. Previous values of changed top-level fields in
+     * data.object, at this delivery's API version. Nested changes include the whole previous
+     * top-level value. A value is null when the field was absent before the change. Omitted when
+     * Flint did not record the previous state, including synthetic test events.
      */
     "data"?: {
-        /** A customer's purchase and its payment and fulfillment progress. */
-        "object": Order;
+        /**
+         * The resource snapshot, without expansions. Webhooks omit these fields: `banners`.
+         * address (Optional): {@link Address}. The merchant's business address. A postal address.
+         * Every address has country. Addresses Flint checked as complete (customer and saved
+         * addresses, merchant, location, invoice, order delivery destination, tax identity,
+         * fulfillment recipient and pickup addresses) always have line1 and city, and US ones
+         * always have state and postal_code. Delivery quote destinations, buyer locations and
+         * postal-code tax locations hold only what was provided, such as postal_code and country.
+         * api_version (Optional): string. Default API version for requests without a Flint-Version
+         * header. Shared across live and test environments. api_version_changed_at (Optional):
+         * string. When the merchant's default API version last changed. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". api_version_pinned_at (Optional): string. When the
+         * merchant's default API version was first set. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". api_version_previous (Optional): string. Previous API version,
+         * present while a supported rollback is available. api_version_rollback_expires_at
+         * (Optional): string. When the 72-hour rollback offer expires. Explicit changes to any
+         * supported version remain available afterward. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". business_name (Optional): string. Business name buyers see on
+         * checkout, payment links, and receipts. Once the merchant starts verification, it stays
+         * in sync with the business name on the live Stripe account: a change on either side
+         * applies, and the latest change wins. business_type (Optional): string. Merchant's
+         * business type. - `other`: A business type Flint does not map yet. Value enum:
+         * "individual", "company", "non_profit", "government_entity", "other". created_at
+         * (Required): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". email (Required): string or null. The account's contact email
+         * address. A new account starts with the sign-up email. `null` when none is set. icon
+         * (Optional): {@link ImageAttachment}. A square image, at least 128 by 128 pixels, shown
+         * where the store needs a small mark: browser tabs and compact headers. An image attached
+         * to a resource, with its display properties and attachment metadata. logo (Optional):
+         * {@link ImageAttachment}. The merchant's public brand mark. An image attached to a
+         * resource, with its display properties and attachment metadata. merchant_id (Required):
+         * string. Stable identifier of the merchant. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * metadata (Optional): {@link MetadataMap}. Stored caller-owned key-value data. See
+         * `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a
+         * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+         * follow the limits on MetadataInput and MetadataPatchInput; maps written before those
+         * limits may not satisfy them. phone (Optional): string. The account's contact phone
+         * number, in international format such as +12125551234. readiness (Required): {@link
+         * MerchantReadiness}. Whether the merchant can accept payments and receive payouts, and
+         * what is still needed. A merchant's readiness to accept payments and receive payouts,
+         * with per-capability status and outstanding requirements. status (Required): string.
+         * Whether Flint lets the account operate. `readiness` says whether payments and payouts
+         * are available. Value enum: "active", "suspended", "restricted", "closed". support_email
+         * (Optional): string. Support email address shown to buyers, for example on receipts and
+         * checkout. support_phone (Optional): string. Support phone number shown to buyers, in
+         * international format such as +12125551234. support_url (Optional): string. Support page
+         * shown to buyers. timezone (Optional): string. Business IANA time zone, such as
+         * America/New_York. Used for invoice deadlines, new locations, notifications, and
+         * reporting when a request omits its time zone. Omitted when unset; UTC then applies.
+         * Existing resources keep their saved time zone. updated_at (Required): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required):
+         * integer. Merchant version. Profile, status, and API version changes advance this
+         * version, including business name and business type changes synced from the payment
+         * provider. Readiness updates alone do not. Format: int64. minimum: 1. website_url
+         * (Optional): string. The business's website.
+         */
+        "object": {
+            /**
+             * The merchant's business address. A postal address. Every address has country.
+             * Addresses Flint checked as complete (customer and saved addresses, merchant,
+             * location, invoice, order delivery destination, tax identity, fulfillment recipient
+             * and pickup addresses) always have line1 and city, and US ones always have state and
+             * postal_code. Delivery quote destinations, buyer locations and postal-code tax
+             * locations hold only what was provided, such as postal_code and country.
+             */
+            "address"?: Address;
+            /**
+             * Default API version for requests without a Flint-Version header. Shared across live
+             * and test environments.
+             */
+            "api_version"?: string;
+            /**
+             * When the merchant's default API version last changed. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "api_version_changed_at"?: string;
+            /**
+             * When the merchant's default API version was first set. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "api_version_pinned_at"?: string;
+            /** Previous API version, present while a supported rollback is available. */
+            "api_version_previous"?: string;
+            /**
+             * When the 72-hour rollback offer expires. Explicit changes to any supported version
+             * remain available afterward. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "api_version_rollback_expires_at"?: string;
+            /**
+             * Business name buyers see on checkout, payment links, and receipts. Once the merchant
+             * starts verification, it stays in sync with the business name on the live Stripe
+             * account: a change on either side applies, and the latest change wins.
+             */
+            "business_name"?: string;
+            /**
+             * Merchant's business type. - `other`: A business type Flint does not map yet. Value
+             * enum: "individual", "company", "non_profit", "government_entity", "other".
+             */
+            "business_type"?: "individual" | "company" | "non_profit" | "government_entity" | "other" | (string & {});
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * The account's contact email address. A new account starts with the sign-up email.
+             * `null` when none is set.
+             */
+            "email": string | null;
+            /**
+             * A square image, at least 128 by 128 pixels, shown where the store needs a small
+             * mark: browser tabs and compact headers. An image attached to a resource, with its
+             * display properties and attachment metadata.
+             */
+            "icon"?: ImageAttachment;
+            /**
+             * The merchant's public brand mark. An image attached to a resource, with its display
+             * properties and attachment metadata.
+             */
+            "logo"?: ImageAttachment;
+            /** Stable identifier of the merchant. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+            "merchant_id": string;
+            /**
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
+             * are reserved for Flint and are not returned. Writes follow the limits on
+             * MetadataInput and MetadataPatchInput; maps written before those limits may not
+             * satisfy them.
+             */
+            "metadata"?: MetadataMap;
+            /** The account's contact phone number, in international format such as +12125551234. */
+            "phone"?: string;
+            /**
+             * Whether the merchant can accept payments and receive payouts, and what is still
+             * needed. A merchant's readiness to accept payments and receive payouts, with
+             * per-capability status and outstanding requirements.
+             */
+            "readiness": MerchantReadiness;
+            /**
+             * Whether Flint lets the account operate. `readiness` says whether payments and
+             * payouts are available. Value enum: "active", "suspended", "restricted", "closed".
+             */
+            "status": "active" | "suspended" | "restricted" | "closed" | (string & {});
+            /** Support email address shown to buyers, for example on receipts and checkout. */
+            "support_email"?: string;
+            /**
+             * Support phone number shown to buyers, in international format such as +12125551234.
+             */
+            "support_phone"?: string;
+            /** Support page shown to buyers. */
+            "support_url"?: string;
+            /**
+             * Business IANA time zone, such as America/New_York. Used for invoice deadlines, new
+             * locations, notifications, and reporting when a request omits its time zone. Omitted
+             * when unset; UTC then applies. Existing resources keep their saved time zone.
+             */
+            "timezone"?: string;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * Merchant version. Profile, status, and API version changes advance this version,
+             * including business name and business type changes synced from the payment provider.
+             * Readiness updates alone do not. Format: int64. minimum: 1.
+             */
+            "version": number;
+            /** The business's website. */
+            "website_url"?: string;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<Merchant>;
     };
-    /** Value enum: "order.closed". */
-    "event_type"?: "order.closed";
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "merchant.readiness_updated". */
+    "event_type"?: "merchant.readiness_updated";
     /**
-     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
-     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
-     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
      */
     "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
         "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
         "merchant_id": string;
-        /** Value enum: "test", "live". */
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
         "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
         "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
         "sandbox_id"?: string;
-        /** Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
     });
 });
 /**
- * The `order.closed` webhook payload for the `merchant` event source. Fields shared by merchant
- * webhook payloads.
+ * The `merchant.readiness_updated` webhook payload for the `merchant` event source. Fields shared
+ * by merchant webhook payloads.
  */
-export type OrderClosedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type MerchantReadinessUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     *  object (Required): {@link Order}. A customer's purchase and its payment and fulfillment
-     * progress.
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
+     * fields: `banners`. object.address (Optional): {@link Address}. The merchant's business
+     * address. A postal address. Every address has country. Addresses Flint checked as complete
+     * (customer and saved addresses, merchant, location, invoice, order delivery destination, tax
+     * identity, fulfillment recipient and pickup addresses) always have line1 and city, and US
+     * ones always have state and postal_code. Delivery quote destinations, buyer locations and
+     * postal-code tax locations hold only what was provided, such as postal_code and country.
+     * object.api_version (Optional): string. Default API version for requests without a
+     * Flint-Version header. Shared across live and test environments.
+     * object.api_version_changed_at (Optional): string. When the merchant's default API version
+     * last changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.api_version_pinned_at (Optional): string. When the merchant's default API version was
+     * first set. Format: date-time. Example: "2026-08-02T16:00:00Z". object.api_version_previous
+     * (Optional): string. Previous API version, present while a supported rollback is available.
+     * object.api_version_rollback_expires_at (Optional): string. When the 72-hour rollback offer
+     * expires. Explicit changes to any supported version remain available afterward. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.business_name (Optional): string.
+     * Business name buyers see on checkout, payment links, and receipts. Once the merchant starts
+     * verification, it stays in sync with the business name on the live Stripe account: a change
+     * on either side applies, and the latest change wins. object.business_type (Optional): string.
+     * Merchant's business type. - `other`: A business type Flint does not map yet. Value enum:
+     * "individual", "company", "non_profit", "government_entity", "other". object.created_at
+     * (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.email (Required): string or null. The account's contact email address. A new account
+     * starts with the sign-up email. `null` when none is set. object.icon (Optional): {@link
+     * ImageAttachment}. A square image, at least 128 by 128 pixels, shown where the store needs a
+     * small mark: browser tabs and compact headers. An image attached to a resource, with its
+     * display properties and attachment metadata. object.logo (Optional): {@link ImageAttachment}.
+     * The merchant's public brand mark. An image attached to a resource, with its display
+     * properties and attachment metadata. object.merchant_id (Required): string. Stable identifier
+     * of the merchant. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional):
+     * {@link MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value,
+     * and size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
+     * are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them. object.phone
+     * (Optional): string. The account's contact phone number, in international format such as
+     * +12125551234. object.readiness (Required): {@link MerchantReadiness}. Whether the merchant
+     * can accept payments and receive payouts, and what is still needed. A merchant's readiness to
+     * accept payments and receive payouts, with per-capability status and outstanding
+     * requirements. object.status (Required): string. Whether Flint lets the account operate.
+     * `readiness` says whether payments and payouts are available. Value enum: "active",
+     * "suspended", "restricted", "closed". object.support_email (Optional): string. Support email
+     * address shown to buyers, for example on receipts and checkout. object.support_phone
+     * (Optional): string. Support phone number shown to buyers, in international format such as
+     * +12125551234. object.support_url (Optional): string. Support page shown to buyers.
+     * object.timezone (Optional): string. Business IANA time zone, such as America/New_York. Used
+     * for invoice deadlines, new locations, notifications, and reporting when a request omits its
+     * time zone. Omitted when unset; UTC then applies. Existing resources keep their saved time
+     * zone. object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.version (Required): integer. Merchant version. Profile,
+     * status, and API version changes advance this version, including business name and business
+     * type changes synced from the payment provider. Readiness updates alone do not. Format:
+     * int64. minimum: 1. object.website_url (Optional): string. The business's website.
+     * previous_attributes (Optional): object. Previous values of changed top-level fields in
+     * data.object, at this delivery's API version. Nested changes include the whole previous
+     * top-level value. A value is null when the field was absent before the change. Omitted when
+     * Flint did not record the previous state, including synthetic test events.
      */
     "data"?: {
-        /** A customer's purchase and its payment and fulfillment progress. */
-        "object": Order;
+        /**
+         * The resource snapshot, without expansions. Webhooks omit these fields: `banners`.
+         * address (Optional): {@link Address}. The merchant's business address. A postal address.
+         * Every address has country. Addresses Flint checked as complete (customer and saved
+         * addresses, merchant, location, invoice, order delivery destination, tax identity,
+         * fulfillment recipient and pickup addresses) always have line1 and city, and US ones
+         * always have state and postal_code. Delivery quote destinations, buyer locations and
+         * postal-code tax locations hold only what was provided, such as postal_code and country.
+         * api_version (Optional): string. Default API version for requests without a Flint-Version
+         * header. Shared across live and test environments. api_version_changed_at (Optional):
+         * string. When the merchant's default API version last changed. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". api_version_pinned_at (Optional): string. When the
+         * merchant's default API version was first set. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". api_version_previous (Optional): string. Previous API version,
+         * present while a supported rollback is available. api_version_rollback_expires_at
+         * (Optional): string. When the 72-hour rollback offer expires. Explicit changes to any
+         * supported version remain available afterward. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". business_name (Optional): string. Business name buyers see on
+         * checkout, payment links, and receipts. Once the merchant starts verification, it stays
+         * in sync with the business name on the live Stripe account: a change on either side
+         * applies, and the latest change wins. business_type (Optional): string. Merchant's
+         * business type. - `other`: A business type Flint does not map yet. Value enum:
+         * "individual", "company", "non_profit", "government_entity", "other". created_at
+         * (Required): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". email (Required): string or null. The account's contact email
+         * address. A new account starts with the sign-up email. `null` when none is set. icon
+         * (Optional): {@link ImageAttachment}. A square image, at least 128 by 128 pixels, shown
+         * where the store needs a small mark: browser tabs and compact headers. An image attached
+         * to a resource, with its display properties and attachment metadata. logo (Optional):
+         * {@link ImageAttachment}. The merchant's public brand mark. An image attached to a
+         * resource, with its display properties and attachment metadata. merchant_id (Required):
+         * string. Stable identifier of the merchant. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * metadata (Optional): {@link MetadataMap}. Stored caller-owned key-value data. See
+         * `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a
+         * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+         * follow the limits on MetadataInput and MetadataPatchInput; maps written before those
+         * limits may not satisfy them. phone (Optional): string. The account's contact phone
+         * number, in international format such as +12125551234. readiness (Required): {@link
+         * MerchantReadiness}. Whether the merchant can accept payments and receive payouts, and
+         * what is still needed. A merchant's readiness to accept payments and receive payouts,
+         * with per-capability status and outstanding requirements. status (Required): string.
+         * Whether Flint lets the account operate. `readiness` says whether payments and payouts
+         * are available. Value enum: "active", "suspended", "restricted", "closed". support_email
+         * (Optional): string. Support email address shown to buyers, for example on receipts and
+         * checkout. support_phone (Optional): string. Support phone number shown to buyers, in
+         * international format such as +12125551234. support_url (Optional): string. Support page
+         * shown to buyers. timezone (Optional): string. Business IANA time zone, such as
+         * America/New_York. Used for invoice deadlines, new locations, notifications, and
+         * reporting when a request omits its time zone. Omitted when unset; UTC then applies.
+         * Existing resources keep their saved time zone. updated_at (Required): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required):
+         * integer. Merchant version. Profile, status, and API version changes advance this
+         * version, including business name and business type changes synced from the payment
+         * provider. Readiness updates alone do not. Format: int64. minimum: 1. website_url
+         * (Optional): string. The business's website.
+         */
+        "object": {
+            /**
+             * The merchant's business address. A postal address. Every address has country.
+             * Addresses Flint checked as complete (customer and saved addresses, merchant,
+             * location, invoice, order delivery destination, tax identity, fulfillment recipient
+             * and pickup addresses) always have line1 and city, and US ones always have state and
+             * postal_code. Delivery quote destinations, buyer locations and postal-code tax
+             * locations hold only what was provided, such as postal_code and country.
+             */
+            "address"?: Address;
+            /**
+             * Default API version for requests without a Flint-Version header. Shared across live
+             * and test environments.
+             */
+            "api_version"?: string;
+            /**
+             * When the merchant's default API version last changed. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "api_version_changed_at"?: string;
+            /**
+             * When the merchant's default API version was first set. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "api_version_pinned_at"?: string;
+            /** Previous API version, present while a supported rollback is available. */
+            "api_version_previous"?: string;
+            /**
+             * When the 72-hour rollback offer expires. Explicit changes to any supported version
+             * remain available afterward. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "api_version_rollback_expires_at"?: string;
+            /**
+             * Business name buyers see on checkout, payment links, and receipts. Once the merchant
+             * starts verification, it stays in sync with the business name on the live Stripe
+             * account: a change on either side applies, and the latest change wins.
+             */
+            "business_name"?: string;
+            /**
+             * Merchant's business type. - `other`: A business type Flint does not map yet. Value
+             * enum: "individual", "company", "non_profit", "government_entity", "other".
+             */
+            "business_type"?: "individual" | "company" | "non_profit" | "government_entity" | "other" | (string & {});
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * The account's contact email address. A new account starts with the sign-up email.
+             * `null` when none is set.
+             */
+            "email": string | null;
+            /**
+             * A square image, at least 128 by 128 pixels, shown where the store needs a small
+             * mark: browser tabs and compact headers. An image attached to a resource, with its
+             * display properties and attachment metadata.
+             */
+            "icon"?: ImageAttachment;
+            /**
+             * The merchant's public brand mark. An image attached to a resource, with its display
+             * properties and attachment metadata.
+             */
+            "logo"?: ImageAttachment;
+            /** Stable identifier of the merchant. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+            "merchant_id": string;
+            /**
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
+             * are reserved for Flint and are not returned. Writes follow the limits on
+             * MetadataInput and MetadataPatchInput; maps written before those limits may not
+             * satisfy them.
+             */
+            "metadata"?: MetadataMap;
+            /** The account's contact phone number, in international format such as +12125551234. */
+            "phone"?: string;
+            /**
+             * Whether the merchant can accept payments and receive payouts, and what is still
+             * needed. A merchant's readiness to accept payments and receive payouts, with
+             * per-capability status and outstanding requirements.
+             */
+            "readiness": MerchantReadiness;
+            /**
+             * Whether Flint lets the account operate. `readiness` says whether payments and
+             * payouts are available. Value enum: "active", "suspended", "restricted", "closed".
+             */
+            "status": "active" | "suspended" | "restricted" | "closed" | (string & {});
+            /** Support email address shown to buyers, for example on receipts and checkout. */
+            "support_email"?: string;
+            /**
+             * Support phone number shown to buyers, in international format such as +12125551234.
+             */
+            "support_phone"?: string;
+            /** Support page shown to buyers. */
+            "support_url"?: string;
+            /**
+             * Business IANA time zone, such as America/New_York. Used for invoice deadlines, new
+             * locations, notifications, and reporting when a request omits its time zone. Omitted
+             * when unset; UTC then applies. Existing resources keep their saved time zone.
+             */
+            "timezone"?: string;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * Merchant version. Profile, status, and API version changes advance this version,
+             * including business name and business type changes synced from the payment provider.
+             * Readiness updates alone do not. Format: int64. minimum: 1.
+             */
+            "version": number;
+            /** The business's website. */
+            "website_url"?: string;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<Merchant>;
     };
-    /** Value enum: "order.closed". */
-    "event_type"?: "order.closed";
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "merchant.readiness_updated". */
+    "event_type"?: "merchant.readiness_updated";
 });
-export type OrderCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+/** A response containing `Merchant` data. */
+export type MerchantResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. The business accepting
+     * payments.
+     */
+    "data": Merchant;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type MerchantUpdateParams = (InputValue<UpdateMerchantRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type MerchantUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
-        "object": Order;
+        "object": {
+            "address"?: Address;
+            "api_version"?: string;
+            "api_version_changed_at"?: string;
+            "api_version_pinned_at"?: string;
+            "api_version_previous"?: string;
+            "api_version_rollback_expires_at"?: string;
+            "business_name"?: string;
+            "business_type"?: "individual" | "company" | "non_profit" | "government_entity" | "other" | (string & {});
+            "created_at": string;
+            "email": string | null;
+            "icon"?: ImageAttachment;
+            "logo"?: ImageAttachment;
+            "merchant_id": string;
+            "metadata"?: MetadataMap;
+            "phone"?: string;
+            "readiness": MerchantReadiness;
+            "status": "active" | "suspended" | "restricted" | "closed" | (string & {});
+            "support_email"?: string;
+            "support_phone"?: string;
+            "support_url"?: string;
+            "timezone"?: string;
+            "updated_at": string;
+            "version": number;
+            "website_url"?: string;
+        };
+        "previous_attributes"?: Partial<Merchant>;
     };
-    "event_type"?: "order.created";
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "merchant.updated";
 }))
     | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
-        "object": Order;
+        "object": {
+            "address"?: Address;
+            "api_version"?: string;
+            "api_version_changed_at"?: string;
+            "api_version_pinned_at"?: string;
+            "api_version_previous"?: string;
+            "api_version_rollback_expires_at"?: string;
+            "business_name"?: string;
+            "business_type"?: "individual" | "company" | "non_profit" | "government_entity" | "other" | (string & {});
+            "created_at": string;
+            "email": string | null;
+            "icon"?: ImageAttachment;
+            "logo"?: ImageAttachment;
+            "merchant_id": string;
+            "metadata"?: MetadataMap;
+            "phone"?: string;
+            "readiness": MerchantReadiness;
+            "status": "active" | "suspended" | "restricted" | "closed" | (string & {});
+            "support_email"?: string;
+            "support_phone"?: string;
+            "support_url"?: string;
+            "timezone"?: string;
+            "updated_at": string;
+            "version": number;
+            "website_url"?: string;
+        };
+        "previous_attributes"?: Partial<Merchant>;
     };
-    "event_type"?: "order.created";
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "merchant.updated";
     "source"?: ({
         "environment_grant_id": string;
         "merchant_id": string;
         "mode": "test" | "live" | (string & {});
         "partner_app_install_id": string;
         "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
     });
 })))
     & {
-    "event_type": "order.created";
+    "event_type": "merchant.updated";
 });
 /**
- * The `order.created` webhook payload for the `installed_merchants` event source. Fields shared by
- * partner webhook payloads.
+ * The `merchant.updated` webhook payload for the `installed_merchants` event source. Fields shared
+ * by partner webhook payloads.
  */
-export type OrderCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+export type MerchantUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     *  object (Required): {@link Order}. A customer's purchase and its payment and fulfillment
-     * progress.
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
+     * fields: `banners`. object.address (Optional): {@link Address}. The merchant's business
+     * address. A postal address. Every address has country. Addresses Flint checked as complete
+     * (customer and saved addresses, merchant, location, invoice, order delivery destination, tax
+     * identity, fulfillment recipient and pickup addresses) always have line1 and city, and US
+     * ones always have state and postal_code. Delivery quote destinations, buyer locations and
+     * postal-code tax locations hold only what was provided, such as postal_code and country.
+     * object.api_version (Optional): string. Default API version for requests without a
+     * Flint-Version header. Shared across live and test environments.
+     * object.api_version_changed_at (Optional): string. When the merchant's default API version
+     * last changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.api_version_pinned_at (Optional): string. When the merchant's default API version was
+     * first set. Format: date-time. Example: "2026-08-02T16:00:00Z". object.api_version_previous
+     * (Optional): string. Previous API version, present while a supported rollback is available.
+     * object.api_version_rollback_expires_at (Optional): string. When the 72-hour rollback offer
+     * expires. Explicit changes to any supported version remain available afterward. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.business_name (Optional): string.
+     * Business name buyers see on checkout, payment links, and receipts. Once the merchant starts
+     * verification, it stays in sync with the business name on the live Stripe account: a change
+     * on either side applies, and the latest change wins. object.business_type (Optional): string.
+     * Merchant's business type. - `other`: A business type Flint does not map yet. Value enum:
+     * "individual", "company", "non_profit", "government_entity", "other". object.created_at
+     * (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.email (Required): string or null. The account's contact email address. A new account
+     * starts with the sign-up email. `null` when none is set. object.icon (Optional): {@link
+     * ImageAttachment}. A square image, at least 128 by 128 pixels, shown where the store needs a
+     * small mark: browser tabs and compact headers. An image attached to a resource, with its
+     * display properties and attachment metadata. object.logo (Optional): {@link ImageAttachment}.
+     * The merchant's public brand mark. An image attached to a resource, with its display
+     * properties and attachment metadata. object.merchant_id (Required): string. Stable identifier
+     * of the merchant. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional):
+     * {@link MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value,
+     * and size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
+     * are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them. object.phone
+     * (Optional): string. The account's contact phone number, in international format such as
+     * +12125551234. object.readiness (Required): {@link MerchantReadiness}. Whether the merchant
+     * can accept payments and receive payouts, and what is still needed. A merchant's readiness to
+     * accept payments and receive payouts, with per-capability status and outstanding
+     * requirements. object.status (Required): string. Whether Flint lets the account operate.
+     * `readiness` says whether payments and payouts are available. Value enum: "active",
+     * "suspended", "restricted", "closed". object.support_email (Optional): string. Support email
+     * address shown to buyers, for example on receipts and checkout. object.support_phone
+     * (Optional): string. Support phone number shown to buyers, in international format such as
+     * +12125551234. object.support_url (Optional): string. Support page shown to buyers.
+     * object.timezone (Optional): string. Business IANA time zone, such as America/New_York. Used
+     * for invoice deadlines, new locations, notifications, and reporting when a request omits its
+     * time zone. Omitted when unset; UTC then applies. Existing resources keep their saved time
+     * zone. object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.version (Required): integer. Merchant version. Profile,
+     * status, and API version changes advance this version, including business name and business
+     * type changes synced from the payment provider. Readiness updates alone do not. Format:
+     * int64. minimum: 1. object.website_url (Optional): string. The business's website.
+     * previous_attributes (Optional): object. Previous values of changed top-level fields in
+     * data.object, at this delivery's API version. Nested changes include the whole previous
+     * top-level value. A value is null when the field was absent before the change. Omitted when
+     * Flint did not record the previous state, including synthetic test events.
      */
     "data"?: {
-        /** A customer's purchase and its payment and fulfillment progress. */
-        "object": Order;
+        /**
+         * The resource snapshot, without expansions. Webhooks omit these fields: `banners`.
+         * address (Optional): {@link Address}. The merchant's business address. A postal address.
+         * Every address has country. Addresses Flint checked as complete (customer and saved
+         * addresses, merchant, location, invoice, order delivery destination, tax identity,
+         * fulfillment recipient and pickup addresses) always have line1 and city, and US ones
+         * always have state and postal_code. Delivery quote destinations, buyer locations and
+         * postal-code tax locations hold only what was provided, such as postal_code and country.
+         * api_version (Optional): string. Default API version for requests without a Flint-Version
+         * header. Shared across live and test environments. api_version_changed_at (Optional):
+         * string. When the merchant's default API version last changed. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". api_version_pinned_at (Optional): string. When the
+         * merchant's default API version was first set. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". api_version_previous (Optional): string. Previous API version,
+         * present while a supported rollback is available. api_version_rollback_expires_at
+         * (Optional): string. When the 72-hour rollback offer expires. Explicit changes to any
+         * supported version remain available afterward. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". business_name (Optional): string. Business name buyers see on
+         * checkout, payment links, and receipts. Once the merchant starts verification, it stays
+         * in sync with the business name on the live Stripe account: a change on either side
+         * applies, and the latest change wins. business_type (Optional): string. Merchant's
+         * business type. - `other`: A business type Flint does not map yet. Value enum:
+         * "individual", "company", "non_profit", "government_entity", "other". created_at
+         * (Required): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". email (Required): string or null. The account's contact email
+         * address. A new account starts with the sign-up email. `null` when none is set. icon
+         * (Optional): {@link ImageAttachment}. A square image, at least 128 by 128 pixels, shown
+         * where the store needs a small mark: browser tabs and compact headers. An image attached
+         * to a resource, with its display properties and attachment metadata. logo (Optional):
+         * {@link ImageAttachment}. The merchant's public brand mark. An image attached to a
+         * resource, with its display properties and attachment metadata. merchant_id (Required):
+         * string. Stable identifier of the merchant. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * metadata (Optional): {@link MetadataMap}. Stored caller-owned key-value data. See
+         * `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a
+         * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+         * follow the limits on MetadataInput and MetadataPatchInput; maps written before those
+         * limits may not satisfy them. phone (Optional): string. The account's contact phone
+         * number, in international format such as +12125551234. readiness (Required): {@link
+         * MerchantReadiness}. Whether the merchant can accept payments and receive payouts, and
+         * what is still needed. A merchant's readiness to accept payments and receive payouts,
+         * with per-capability status and outstanding requirements. status (Required): string.
+         * Whether Flint lets the account operate. `readiness` says whether payments and payouts
+         * are available. Value enum: "active", "suspended", "restricted", "closed". support_email
+         * (Optional): string. Support email address shown to buyers, for example on receipts and
+         * checkout. support_phone (Optional): string. Support phone number shown to buyers, in
+         * international format such as +12125551234. support_url (Optional): string. Support page
+         * shown to buyers. timezone (Optional): string. Business IANA time zone, such as
+         * America/New_York. Used for invoice deadlines, new locations, notifications, and
+         * reporting when a request omits its time zone. Omitted when unset; UTC then applies.
+         * Existing resources keep their saved time zone. updated_at (Required): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required):
+         * integer. Merchant version. Profile, status, and API version changes advance this
+         * version, including business name and business type changes synced from the payment
+         * provider. Readiness updates alone do not. Format: int64. minimum: 1. website_url
+         * (Optional): string. The business's website.
+         */
+        "object": {
+            /**
+             * The merchant's business address. A postal address. Every address has country.
+             * Addresses Flint checked as complete (customer and saved addresses, merchant,
+             * location, invoice, order delivery destination, tax identity, fulfillment recipient
+             * and pickup addresses) always have line1 and city, and US ones always have state and
+             * postal_code. Delivery quote destinations, buyer locations and postal-code tax
+             * locations hold only what was provided, such as postal_code and country.
+             */
+            "address"?: Address;
+            /**
+             * Default API version for requests without a Flint-Version header. Shared across live
+             * and test environments.
+             */
+            "api_version"?: string;
+            /**
+             * When the merchant's default API version last changed. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "api_version_changed_at"?: string;
+            /**
+             * When the merchant's default API version was first set. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "api_version_pinned_at"?: string;
+            /** Previous API version, present while a supported rollback is available. */
+            "api_version_previous"?: string;
+            /**
+             * When the 72-hour rollback offer expires. Explicit changes to any supported version
+             * remain available afterward. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "api_version_rollback_expires_at"?: string;
+            /**
+             * Business name buyers see on checkout, payment links, and receipts. Once the merchant
+             * starts verification, it stays in sync with the business name on the live Stripe
+             * account: a change on either side applies, and the latest change wins.
+             */
+            "business_name"?: string;
+            /**
+             * Merchant's business type. - `other`: A business type Flint does not map yet. Value
+             * enum: "individual", "company", "non_profit", "government_entity", "other".
+             */
+            "business_type"?: "individual" | "company" | "non_profit" | "government_entity" | "other" | (string & {});
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * The account's contact email address. A new account starts with the sign-up email.
+             * `null` when none is set.
+             */
+            "email": string | null;
+            /**
+             * A square image, at least 128 by 128 pixels, shown where the store needs a small
+             * mark: browser tabs and compact headers. An image attached to a resource, with its
+             * display properties and attachment metadata.
+             */
+            "icon"?: ImageAttachment;
+            /**
+             * The merchant's public brand mark. An image attached to a resource, with its display
+             * properties and attachment metadata.
+             */
+            "logo"?: ImageAttachment;
+            /** Stable identifier of the merchant. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+            "merchant_id": string;
+            /**
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
+             * are reserved for Flint and are not returned. Writes follow the limits on
+             * MetadataInput and MetadataPatchInput; maps written before those limits may not
+             * satisfy them.
+             */
+            "metadata"?: MetadataMap;
+            /** The account's contact phone number, in international format such as +12125551234. */
+            "phone"?: string;
+            /**
+             * Whether the merchant can accept payments and receive payouts, and what is still
+             * needed. A merchant's readiness to accept payments and receive payouts, with
+             * per-capability status and outstanding requirements.
+             */
+            "readiness": MerchantReadiness;
+            /**
+             * Whether Flint lets the account operate. `readiness` says whether payments and
+             * payouts are available. Value enum: "active", "suspended", "restricted", "closed".
+             */
+            "status": "active" | "suspended" | "restricted" | "closed" | (string & {});
+            /** Support email address shown to buyers, for example on receipts and checkout. */
+            "support_email"?: string;
+            /**
+             * Support phone number shown to buyers, in international format such as +12125551234.
+             */
+            "support_phone"?: string;
+            /** Support page shown to buyers. */
+            "support_url"?: string;
+            /**
+             * Business IANA time zone, such as America/New_York. Used for invoice deadlines, new
+             * locations, notifications, and reporting when a request omits its time zone. Omitted
+             * when unset; UTC then applies. Existing resources keep their saved time zone.
+             */
+            "timezone"?: string;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * Merchant version. Profile, status, and API version changes advance this version,
+             * including business name and business type changes synced from the payment provider.
+             * Readiness updates alone do not. Format: int64. minimum: 1.
+             */
+            "version": number;
+            /** The business's website. */
+            "website_url"?: string;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<Merchant>;
     };
-    /** Value enum: "order.created". */
-    "event_type"?: "order.created";
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "merchant.updated". */
+    "event_type"?: "merchant.updated";
     /**
-     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
-     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
-     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
      */
     "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
         "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
         "merchant_id": string;
-        /** Value enum: "test", "live". */
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
         "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
         "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
         "sandbox_id"?: string;
-        /** Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
     });
 });
 /**
- * The `order.created` webhook payload for the `merchant` event source. Fields shared by merchant
- * webhook payloads.
+ * The `merchant.updated` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
  */
-export type OrderCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type MerchantUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     *  object (Required): {@link Order}. A customer's purchase and its payment and fulfillment
-     * progress.
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
+     * fields: `banners`. object.address (Optional): {@link Address}. The merchant's business
+     * address. A postal address. Every address has country. Addresses Flint checked as complete
+     * (customer and saved addresses, merchant, location, invoice, order delivery destination, tax
+     * identity, fulfillment recipient and pickup addresses) always have line1 and city, and US
+     * ones always have state and postal_code. Delivery quote destinations, buyer locations and
+     * postal-code tax locations hold only what was provided, such as postal_code and country.
+     * object.api_version (Optional): string. Default API version for requests without a
+     * Flint-Version header. Shared across live and test environments.
+     * object.api_version_changed_at (Optional): string. When the merchant's default API version
+     * last changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.api_version_pinned_at (Optional): string. When the merchant's default API version was
+     * first set. Format: date-time. Example: "2026-08-02T16:00:00Z". object.api_version_previous
+     * (Optional): string. Previous API version, present while a supported rollback is available.
+     * object.api_version_rollback_expires_at (Optional): string. When the 72-hour rollback offer
+     * expires. Explicit changes to any supported version remain available afterward. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.business_name (Optional): string.
+     * Business name buyers see on checkout, payment links, and receipts. Once the merchant starts
+     * verification, it stays in sync with the business name on the live Stripe account: a change
+     * on either side applies, and the latest change wins. object.business_type (Optional): string.
+     * Merchant's business type. - `other`: A business type Flint does not map yet. Value enum:
+     * "individual", "company", "non_profit", "government_entity", "other". object.created_at
+     * (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.email (Required): string or null. The account's contact email address. A new account
+     * starts with the sign-up email. `null` when none is set. object.icon (Optional): {@link
+     * ImageAttachment}. A square image, at least 128 by 128 pixels, shown where the store needs a
+     * small mark: browser tabs and compact headers. An image attached to a resource, with its
+     * display properties and attachment metadata. object.logo (Optional): {@link ImageAttachment}.
+     * The merchant's public brand mark. An image attached to a resource, with its display
+     * properties and attachment metadata. object.merchant_id (Required): string. Stable identifier
+     * of the merchant. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional):
+     * {@link MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value,
+     * and size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
+     * are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them. object.phone
+     * (Optional): string. The account's contact phone number, in international format such as
+     * +12125551234. object.readiness (Required): {@link MerchantReadiness}. Whether the merchant
+     * can accept payments and receive payouts, and what is still needed. A merchant's readiness to
+     * accept payments and receive payouts, with per-capability status and outstanding
+     * requirements. object.status (Required): string. Whether Flint lets the account operate.
+     * `readiness` says whether payments and payouts are available. Value enum: "active",
+     * "suspended", "restricted", "closed". object.support_email (Optional): string. Support email
+     * address shown to buyers, for example on receipts and checkout. object.support_phone
+     * (Optional): string. Support phone number shown to buyers, in international format such as
+     * +12125551234. object.support_url (Optional): string. Support page shown to buyers.
+     * object.timezone (Optional): string. Business IANA time zone, such as America/New_York. Used
+     * for invoice deadlines, new locations, notifications, and reporting when a request omits its
+     * time zone. Omitted when unset; UTC then applies. Existing resources keep their saved time
+     * zone. object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.version (Required): integer. Merchant version. Profile,
+     * status, and API version changes advance this version, including business name and business
+     * type changes synced from the payment provider. Readiness updates alone do not. Format:
+     * int64. minimum: 1. object.website_url (Optional): string. The business's website.
+     * previous_attributes (Optional): object. Previous values of changed top-level fields in
+     * data.object, at this delivery's API version. Nested changes include the whole previous
+     * top-level value. A value is null when the field was absent before the change. Omitted when
+     * Flint did not record the previous state, including synthetic test events.
      */
     "data"?: {
-        /** A customer's purchase and its payment and fulfillment progress. */
-        "object": Order;
+        /**
+         * The resource snapshot, without expansions. Webhooks omit these fields: `banners`.
+         * address (Optional): {@link Address}. The merchant's business address. A postal address.
+         * Every address has country. Addresses Flint checked as complete (customer and saved
+         * addresses, merchant, location, invoice, order delivery destination, tax identity,
+         * fulfillment recipient and pickup addresses) always have line1 and city, and US ones
+         * always have state and postal_code. Delivery quote destinations, buyer locations and
+         * postal-code tax locations hold only what was provided, such as postal_code and country.
+         * api_version (Optional): string. Default API version for requests without a Flint-Version
+         * header. Shared across live and test environments. api_version_changed_at (Optional):
+         * string. When the merchant's default API version last changed. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". api_version_pinned_at (Optional): string. When the
+         * merchant's default API version was first set. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". api_version_previous (Optional): string. Previous API version,
+         * present while a supported rollback is available. api_version_rollback_expires_at
+         * (Optional): string. When the 72-hour rollback offer expires. Explicit changes to any
+         * supported version remain available afterward. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". business_name (Optional): string. Business name buyers see on
+         * checkout, payment links, and receipts. Once the merchant starts verification, it stays
+         * in sync with the business name on the live Stripe account: a change on either side
+         * applies, and the latest change wins. business_type (Optional): string. Merchant's
+         * business type. - `other`: A business type Flint does not map yet. Value enum:
+         * "individual", "company", "non_profit", "government_entity", "other". created_at
+         * (Required): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". email (Required): string or null. The account's contact email
+         * address. A new account starts with the sign-up email. `null` when none is set. icon
+         * (Optional): {@link ImageAttachment}. A square image, at least 128 by 128 pixels, shown
+         * where the store needs a small mark: browser tabs and compact headers. An image attached
+         * to a resource, with its display properties and attachment metadata. logo (Optional):
+         * {@link ImageAttachment}. The merchant's public brand mark. An image attached to a
+         * resource, with its display properties and attachment metadata. merchant_id (Required):
+         * string. Stable identifier of the merchant. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * metadata (Optional): {@link MetadataMap}. Stored caller-owned key-value data. See
+         * `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a
+         * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+         * follow the limits on MetadataInput and MetadataPatchInput; maps written before those
+         * limits may not satisfy them. phone (Optional): string. The account's contact phone
+         * number, in international format such as +12125551234. readiness (Required): {@link
+         * MerchantReadiness}. Whether the merchant can accept payments and receive payouts, and
+         * what is still needed. A merchant's readiness to accept payments and receive payouts,
+         * with per-capability status and outstanding requirements. status (Required): string.
+         * Whether Flint lets the account operate. `readiness` says whether payments and payouts
+         * are available. Value enum: "active", "suspended", "restricted", "closed". support_email
+         * (Optional): string. Support email address shown to buyers, for example on receipts and
+         * checkout. support_phone (Optional): string. Support phone number shown to buyers, in
+         * international format such as +12125551234. support_url (Optional): string. Support page
+         * shown to buyers. timezone (Optional): string. Business IANA time zone, such as
+         * America/New_York. Used for invoice deadlines, new locations, notifications, and
+         * reporting when a request omits its time zone. Omitted when unset; UTC then applies.
+         * Existing resources keep their saved time zone. updated_at (Required): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required):
+         * integer. Merchant version. Profile, status, and API version changes advance this
+         * version, including business name and business type changes synced from the payment
+         * provider. Readiness updates alone do not. Format: int64. minimum: 1. website_url
+         * (Optional): string. The business's website.
+         */
+        "object": {
+            /**
+             * The merchant's business address. A postal address. Every address has country.
+             * Addresses Flint checked as complete (customer and saved addresses, merchant,
+             * location, invoice, order delivery destination, tax identity, fulfillment recipient
+             * and pickup addresses) always have line1 and city, and US ones always have state and
+             * postal_code. Delivery quote destinations, buyer locations and postal-code tax
+             * locations hold only what was provided, such as postal_code and country.
+             */
+            "address"?: Address;
+            /**
+             * Default API version for requests without a Flint-Version header. Shared across live
+             * and test environments.
+             */
+            "api_version"?: string;
+            /**
+             * When the merchant's default API version last changed. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "api_version_changed_at"?: string;
+            /**
+             * When the merchant's default API version was first set. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "api_version_pinned_at"?: string;
+            /** Previous API version, present while a supported rollback is available. */
+            "api_version_previous"?: string;
+            /**
+             * When the 72-hour rollback offer expires. Explicit changes to any supported version
+             * remain available afterward. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "api_version_rollback_expires_at"?: string;
+            /**
+             * Business name buyers see on checkout, payment links, and receipts. Once the merchant
+             * starts verification, it stays in sync with the business name on the live Stripe
+             * account: a change on either side applies, and the latest change wins.
+             */
+            "business_name"?: string;
+            /**
+             * Merchant's business type. - `other`: A business type Flint does not map yet. Value
+             * enum: "individual", "company", "non_profit", "government_entity", "other".
+             */
+            "business_type"?: "individual" | "company" | "non_profit" | "government_entity" | "other" | (string & {});
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * The account's contact email address. A new account starts with the sign-up email.
+             * `null` when none is set.
+             */
+            "email": string | null;
+            /**
+             * A square image, at least 128 by 128 pixels, shown where the store needs a small
+             * mark: browser tabs and compact headers. An image attached to a resource, with its
+             * display properties and attachment metadata.
+             */
+            "icon"?: ImageAttachment;
+            /**
+             * The merchant's public brand mark. An image attached to a resource, with its display
+             * properties and attachment metadata.
+             */
+            "logo"?: ImageAttachment;
+            /** Stable identifier of the merchant. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+            "merchant_id": string;
+            /**
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
+             * are reserved for Flint and are not returned. Writes follow the limits on
+             * MetadataInput and MetadataPatchInput; maps written before those limits may not
+             * satisfy them.
+             */
+            "metadata"?: MetadataMap;
+            /** The account's contact phone number, in international format such as +12125551234. */
+            "phone"?: string;
+            /**
+             * Whether the merchant can accept payments and receive payouts, and what is still
+             * needed. A merchant's readiness to accept payments and receive payouts, with
+             * per-capability status and outstanding requirements.
+             */
+            "readiness": MerchantReadiness;
+            /**
+             * Whether Flint lets the account operate. `readiness` says whether payments and
+             * payouts are available. Value enum: "active", "suspended", "restricted", "closed".
+             */
+            "status": "active" | "suspended" | "restricted" | "closed" | (string & {});
+            /** Support email address shown to buyers, for example on receipts and checkout. */
+            "support_email"?: string;
+            /**
+             * Support phone number shown to buyers, in international format such as +12125551234.
+             */
+            "support_phone"?: string;
+            /** Support page shown to buyers. */
+            "support_url"?: string;
+            /**
+             * Business IANA time zone, such as America/New_York. Used for invoice deadlines, new
+             * locations, notifications, and reporting when a request omits its time zone. Omitted
+             * when unset; UTC then applies. Existing resources keep their saved time zone.
+             */
+            "timezone"?: string;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * Merchant version. Profile, status, and API version changes advance this version,
+             * including business name and business type changes synced from the payment provider.
+             * Readiness updates alone do not. Format: int64. minimum: 1.
+             */
+            "version": number;
+            /** The business's website. */
+            "website_url"?: string;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<Merchant>;
     };
-    /** Value enum: "order.created". */
-    "event_type"?: "order.created";
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "merchant.updated". */
+    "event_type"?: "merchant.updated";
 });
-/** Where an order is delivered: the address, the recipient, and where the destination came from. */
-export type OrderDeliveryDestination = {
+/** Fields shared by merchant webhook payloads. */
+export type MerchantWebhookEnvelope = ({
     /**
-     * A postal address. Every address has country. Addresses Flint checked as complete (customer
-     * and saved addresses, merchant, location, invoice, order delivery destination, tax identity,
-     * fulfillment recipient and pickup addresses) always have line1 and city, and US ones always
-     * have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax
-     * locations hold only what was provided, such as postal_code and country.
+     * API version used to render this delivery attempt. The older of the event version and the
+     * endpoint version when the attempt runs, with default resolved to the merchant pin. Format:
+     * date. Example: "2026-08-02".
      */
-    "address": Address;
-    /** Delivery selection that controls this destination, when checkout collected it. */
-    "delivery_selection_id"?: string;
-    /** Time payment froze this destination. Format: date-time. */
-    "frozen_at"?: string;
-    /** The name and phone number of the person receiving an order delivery. */
-    "recipient"?: OrderDeliveryDestinationRecipient;
-    /** Value enum: "delivery_selection", "api", "dashboard". */
-    "source": "delivery_selection" | "api" | "dashboard" | (string & {});
-};
-/** The name and phone number of the person receiving an order delivery. */
-export type OrderDeliveryDestinationRecipient = {
-    /** maxLength: 255. */
-    "name"?: string;
-    /** maxLength: 30. */
-    "phone"?: string;
-};
+    "api_version": string;
+    /** When Flint recorded the event. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * The resource snapshot recorded for this event and rendered at the delivery API version.
+     * object (Required): object. The affected public resource without expansions, client authority
+     * fields, or fields computed for an individual caller. previous_attributes (Optional): object.
+     * Previous values of changed top-level fields in data.object, at this delivery's API version.
+     * Nested changes include the whole previous top-level value. A value is null when the field
+     * was absent before the change. Omitted when Flint did not record the previous state,
+     * including synthetic test events.
+     */
+    "data": {
+        /**
+         * The affected public resource without expansions, client authority fields, or fields
+         * computed for an individual caller.
+         */
+        "object": {
+            [key: string]: unknown;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: {
+            [key: string]: unknown;
+        };
+    };
+    /**
+     * The origin of the event. Selects the webhook envelope and the fields in source. Value enum:
+     * "merchant".
+     */
+    "event_source": "merchant" | (string & {});
+    /**
+     * The resource change or condition this event announces. Value enum: "test_clock.created",
+     * "test_clock.advancing", "test_clock.ready", "test_clock.failed", "test_clock.archived",
+     * "tax_connection.updated", "customer_deletion_request.processing",
+     * "customer_deletion_request.failed", "invoice_delivery_attempt.sent",
+     * "invoice_delivery_attempt.failed", "invoice_delivery_attempt.suppressed",
+     * "fulfillment.canceled", "fulfillment.failed", "merchant.updated", "product.created",
+     * "product.updated", "product.archived", "product_variant.created", "product_variant.updated",
+     * "product_variant.archived", "bundle.created", "bundle.updated", "bundle.archived",
+     * "price_list.created", "price_list.updated", "price_list.archived", "category.created",
+     * "category.updated", "category.deleted", "modifier_group.created", "modifier_group.updated",
+     * "modifier_group.archived", "modifier_set.created", "modifier_set.updated",
+     * "modifier_set.archived", "promotion.created", "promotion.updated", "promotion.archived",
+     * "promotion_code.created", "promotion_code.updated", "promotion_code.archived",
+     * "balance.updated", "balance_transaction.created", "balance_transaction.updated",
+     * "checkout_session.partially_paid", "checkout_session.created", "checkout_session.updated",
+     * "checkout_session.paid", "checkout_session.closed", "checkout_session.expired",
+     * "checkout_session.invalidated", "credit_note_allocation.created",
+     * "credit_note_allocation.reversed", "credit_note.created", "credit_note.issued",
+     * "credit_note.updated", "credit_note.voided", "customer_email_preferences.updated",
+     * "customer.created", "customer_deletion_request.completed",
+     * "customer_deletion_request.rejected", "customer_deletion_request.created",
+     * "customer.updated", "customer.deleted", "custom_domain.updated", "custom_domain.archived",
+     * "dispute.created", "dispute.lost", "dispute.needs_response", "dispute.prevented",
+     * "dispute.updated", "dispute.inquiry_closed", "dispute.won", "fraud_warning.created",
+     * "fraud_warning.updated", "ticket.created", "ticket.voided", "ticket.checked_in",
+     * "ticket.updated", "gift_card.created", "gift_card.updated", "gift_card_load.created",
+     * "gift_card_load.updated", "gift_card_notification.created",
+     * "gift_card_notification.updated", "gift_card_redemption.created",
+     * "gift_card_redemption.updated", "gift_card_transaction.created",
+     * "delivery_rate_callback.archived", "tax_calculation_callback.archived",
+     * "delivery_rate_callback.created", "tax_calculation_callback.created",
+     * "delivery_rate_callback.deactivated", "tax_calculation_callback.deactivated",
+     * "delivery_rate_callback.activated", "tax_calculation_callback.activated",
+     * "delivery_rate_callback.updated", "tax_calculation_callback.updated",
+     * "delivery_method.archived", "delivery_method.created", "delivery_method.deactivated",
+     * "delivery_method.activated", "delivery_method.updated", "delivery_location_set.archived",
+     * "delivery_location_set.created", "delivery_location_set.deactivated",
+     * "delivery_location_set.activated", "delivery_location_set.updated",
+     * "delivery_profile.archived", "delivery_profile.created", "delivery_profile.deactivated",
+     * "delivery_profile.activated", "delivery_profile.updated", "delivery_revocation.created",
+     * "delivery_selection.committed", "delivery_zone.archived", "delivery_zone.created",
+     * "delivery_zone.deactivated", "delivery_zone.activated", "delivery_zone.updated",
+     * "invoice.collection_block_resolved", "invoice.collection_blocked", "invoice.credited",
+     * "invoice.created", "invoice.issued", "invoice.issue_failed", "invoice.late_fee_due",
+     * "invoice.late_fee_assessed", "invoice.late_fee_waived", "invoice.marked_uncollectible",
+     * "invoice_manual_payment.created", "invoice_manual_payment.reversed", "invoice.overdue",
+     * "invoice.paid", "invoice_payment_attempt.processing", "invoice_payment_attempt.canceled",
+     * "invoice_payment_attempt.expired", "invoice_payment_attempt.failed",
+     * "invoice_payment_attempt.settled", "invoice.partially_paid", "invoice.partially_refunded",
+     * "invoice.refunded", "invoice.reminder_due", "invoice.reopened", "invoice.sent",
+     * "invoice.updated", "invoice.voided", "inventory_reservation.action_required",
+     * "inventory_count.applied", "inventory_level.updated", "inventory_receipt.created",
+     * "inventory_reservation.at_risk", "inventory_reservation.closed",
+     * "inventory_reservation.committed", "inventory_reservation.consumed",
+     * "inventory_reservation.created", "inventory_reservation.hold_expired",
+     * "inventory_reservation.released", "inventory_level.shortage_detected",
+     * "inventory_transfer.closed", "inventory_transfer.departed", "inventory_transfer.lost",
+     * "inventory_transfer.received", "inventory_transfer.returned",
+     * "merchant_billing_balance.updated", "merchant.readiness_updated",
+     * "merchant_billing_invoice.issued", "merchant_billing_invoice.updated",
+     * "order.partially_refunded", "order.closed", "order_edit.created", "order.created",
+     * "fulfillment.completed", "fulfillment.created", "fulfillment_event.created",
+     * "package.created", "package.updated", "shipment.created", "shipment.updated",
+     * "fulfillment.updated", "order.inventory_exception_created",
+     * "order.inventory_exception_resolved", "order.partially_paid", "order.paid",
+     * "order.refunded", "order.updated", "payment_intent.authorization_expiring",
+     * "payment_intent.expired", "payment_intent.updated", "payment_intent.created",
+     * "payment_intent.canceled", "payment_intent.fulfillment_hold_updated",
+     * "payment_intent.payment_failed", "payment_intent.processing",
+     * "payment_intent.requires_action", "payment_intent.requires_capture",
+     * "payment_intent.succeeded", "payment_link.created", "payment_link.updated",
+     * "payment_method.archived", "payment_method.failed", "payment_method.activated",
+     * "payment_method.updated", "payout.canceled", "payout.created", "payout.failed",
+     * "payout.succeeded", "payout.reversed", "payout.updated", "payout_destination.created",
+     * "payout_destination.archived", "payout_destination.disabled", "payout_destination.updated",
+     * "payout_settings.updated", "refund.partially_succeeded", "refund.succeeded",
+     * "refund.created", "refund.failed", "refund.updated", "report.failed", "report.succeeded",
+     * "return.canceled", "return.completed", "return.created", "return.decision_recorded",
+     * "return.reopened", "return.updated", "return_disposition.created",
+     * "return_disposition.updated", "return_inspection.acceptance_decided",
+     * "return_inspection.created", "return_inspection.superseded", "return_receipt.created",
+     * "return_receipt.superseded", "return_receipt.verified", "return_resolution.created",
+     * "return_resolution.updated", "payment_review.closed", "payment_review.reopened",
+     * "payment_review.opened", "subscription.activated", "subscription.canceled",
+     * "subscription.cancellation_scheduled", "subscription.created",
+     * "subscription.dunning_exhausted", "subscription.past_due", "subscription.paused",
+     * "subscription.payment_succeeded", "subscription_payment_retry.created",
+     * "subscription_payment_retry.succeeded", "subscription_payment_retry.failed",
+     * "subscription.reactivated", "subscription.resumed", "subscription.end_upcoming",
+     * "subscription.renewal_upcoming", "subscription.trial_ending",
+     * "subscription.plan_change_scheduled", "subscription.plan_change_canceled",
+     * "subscription.plan_changed", "subscription.updated",
+     * "subscription.delivery_action_required", "subscription.delivery_pause_upcoming",
+     * "subscription.delivery_updated", "subscription.cycle_skipped",
+     * "subscription_delivery_migration.completed", "partner_app.updated",
+     * "partner_app.platform_approved", "partner_app.platform_limited",
+     * "partner_app.platform_rejected".
+     */
+    "event_type": "test_clock.created"
+        | "test_clock.advancing"
+        | "test_clock.ready"
+        | "test_clock.failed"
+        | "test_clock.archived"
+        | "tax_connection.updated"
+        | "customer_deletion_request.processing"
+        | "customer_deletion_request.failed"
+        | "invoice_delivery_attempt.sent"
+        | "invoice_delivery_attempt.failed"
+        | "invoice_delivery_attempt.suppressed"
+        | "fulfillment.canceled"
+        | "fulfillment.failed"
+        | "merchant.updated"
+        | "product.created"
+        | "product.updated"
+        | "product.archived"
+        | "product_variant.created"
+        | "product_variant.updated"
+        | "product_variant.archived"
+        | "bundle.created"
+        | "bundle.updated"
+        | "bundle.archived"
+        | "price_list.created"
+        | "price_list.updated"
+        | "price_list.archived"
+        | "category.created"
+        | "category.updated"
+        | "category.deleted"
+        | "modifier_group.created"
+        | "modifier_group.updated"
+        | "modifier_group.archived"
+        | "modifier_set.created"
+        | "modifier_set.updated"
+        | "modifier_set.archived"
+        | "promotion.created"
+        | "promotion.updated"
+        | "promotion.archived"
+        | "promotion_code.created"
+        | "promotion_code.updated"
+        | "promotion_code.archived"
+        | "balance.updated"
+        | "balance_transaction.created"
+        | "balance_transaction.updated"
+        | "checkout_session.partially_paid"
+        | "checkout_session.created"
+        | "checkout_session.updated"
+        | "checkout_session.paid"
+        | "checkout_session.closed"
+        | "checkout_session.expired"
+        | "checkout_session.invalidated"
+        | "credit_note_allocation.created"
+        | "credit_note_allocation.reversed"
+        | "credit_note.created"
+        | "credit_note.issued"
+        | "credit_note.updated"
+        | "credit_note.voided"
+        | "customer_email_preferences.updated"
+        | "customer.created"
+        | "customer_deletion_request.completed"
+        | "customer_deletion_request.rejected"
+        | "customer_deletion_request.created"
+        | "customer.updated"
+        | "customer.deleted"
+        | "custom_domain.updated"
+        | "custom_domain.archived"
+        | "dispute.created"
+        | "dispute.lost"
+        | "dispute.needs_response"
+        | "dispute.prevented"
+        | "dispute.updated"
+        | "dispute.inquiry_closed"
+        | "dispute.won"
+        | "fraud_warning.created"
+        | "fraud_warning.updated"
+        | "ticket.created"
+        | "ticket.voided"
+        | "ticket.checked_in"
+        | "ticket.updated"
+        | "gift_card.created"
+        | "gift_card.updated"
+        | "gift_card_load.created"
+        | "gift_card_load.updated"
+        | "gift_card_notification.created"
+        | "gift_card_notification.updated"
+        | "gift_card_redemption.created"
+        | "gift_card_redemption.updated"
+        | "gift_card_transaction.created"
+        | "delivery_rate_callback.archived"
+        | "tax_calculation_callback.archived"
+        | "delivery_rate_callback.created"
+        | "tax_calculation_callback.created"
+        | "delivery_rate_callback.deactivated"
+        | "tax_calculation_callback.deactivated"
+        | "delivery_rate_callback.activated"
+        | "tax_calculation_callback.activated"
+        | "delivery_rate_callback.updated"
+        | "tax_calculation_callback.updated"
+        | "delivery_method.archived"
+        | "delivery_method.created"
+        | "delivery_method.deactivated"
+        | "delivery_method.activated"
+        | "delivery_method.updated"
+        | "delivery_location_set.archived"
+        | "delivery_location_set.created"
+        | "delivery_location_set.deactivated"
+        | "delivery_location_set.activated"
+        | "delivery_location_set.updated"
+        | "delivery_profile.archived"
+        | "delivery_profile.created"
+        | "delivery_profile.deactivated"
+        | "delivery_profile.activated"
+        | "delivery_profile.updated"
+        | "delivery_revocation.created"
+        | "delivery_selection.committed"
+        | "delivery_zone.archived"
+        | "delivery_zone.created"
+        | "delivery_zone.deactivated"
+        | "delivery_zone.activated"
+        | "delivery_zone.updated"
+        | "invoice.collection_block_resolved"
+        | "invoice.collection_blocked"
+        | "invoice.credited"
+        | "invoice.created"
+        | "invoice.issued"
+        | "invoice.issue_failed"
+        | "invoice.late_fee_due"
+        | "invoice.late_fee_assessed"
+        | "invoice.late_fee_waived"
+        | "invoice.marked_uncollectible"
+        | "invoice_manual_payment.created"
+        | "invoice_manual_payment.reversed"
+        | "invoice.overdue"
+        | "invoice.paid"
+        | "invoice_payment_attempt.processing"
+        | "invoice_payment_attempt.canceled"
+        | "invoice_payment_attempt.expired"
+        | "invoice_payment_attempt.failed"
+        | "invoice_payment_attempt.settled"
+        | "invoice.partially_paid"
+        | "invoice.partially_refunded"
+        | "invoice.refunded"
+        | "invoice.reminder_due"
+        | "invoice.reopened"
+        | "invoice.sent"
+        | "invoice.updated"
+        | "invoice.voided"
+        | "inventory_reservation.action_required"
+        | "inventory_count.applied"
+        | "inventory_level.updated"
+        | "inventory_receipt.created"
+        | "inventory_reservation.at_risk"
+        | "inventory_reservation.closed"
+        | "inventory_reservation.committed"
+        | "inventory_reservation.consumed"
+        | "inventory_reservation.created"
+        | "inventory_reservation.hold_expired"
+        | "inventory_reservation.released"
+        | "inventory_level.shortage_detected"
+        | "inventory_transfer.closed"
+        | "inventory_transfer.departed"
+        | "inventory_transfer.lost"
+        | "inventory_transfer.received"
+        | "inventory_transfer.returned"
+        | "merchant_billing_balance.updated"
+        | "merchant.readiness_updated"
+        | "merchant_billing_invoice.issued"
+        | "merchant_billing_invoice.updated"
+        | "order.partially_refunded"
+        | "order.closed"
+        | "order_edit.created"
+        | "order.created"
+        | "fulfillment.completed"
+        | "fulfillment.created"
+        | "fulfillment_event.created"
+        | "package.created"
+        | "package.updated"
+        | "shipment.created"
+        | "shipment.updated"
+        | "fulfillment.updated"
+        | "order.inventory_exception_created"
+        | "order.inventory_exception_resolved"
+        | "order.partially_paid"
+        | "order.paid"
+        | "order.refunded"
+        | "order.updated"
+        | "payment_intent.authorization_expiring"
+        | "payment_intent.expired"
+        | "payment_intent.updated"
+        | "payment_intent.created"
+        | "payment_intent.canceled"
+        | "payment_intent.fulfillment_hold_updated"
+        | "payment_intent.payment_failed"
+        | "payment_intent.processing"
+        | "payment_intent.requires_action"
+        | "payment_intent.requires_capture"
+        | "payment_intent.succeeded"
+        | "payment_link.created"
+        | "payment_link.updated"
+        | "payment_method.archived"
+        | "payment_method.failed"
+        | "payment_method.activated"
+        | "payment_method.updated"
+        | "payout.canceled"
+        | "payout.created"
+        | "payout.failed"
+        | "payout.succeeded"
+        | "payout.reversed"
+        | "payout.updated"
+        | "payout_destination.created"
+        | "payout_destination.archived"
+        | "payout_destination.disabled"
+        | "payout_destination.updated"
+        | "payout_settings.updated"
+        | "refund.partially_succeeded"
+        | "refund.succeeded"
+        | "refund.created"
+        | "refund.failed"
+        | "refund.updated"
+        | "report.failed"
+        | "report.succeeded"
+        | "return.canceled"
+        | "return.completed"
+        | "return.created"
+        | "return.decision_recorded"
+        | "return.reopened"
+        | "return.updated"
+        | "return_disposition.created"
+        | "return_disposition.updated"
+        | "return_inspection.acceptance_decided"
+        | "return_inspection.created"
+        | "return_inspection.superseded"
+        | "return_receipt.created"
+        | "return_receipt.superseded"
+        | "return_receipt.verified"
+        | "return_resolution.created"
+        | "return_resolution.updated"
+        | "payment_review.closed"
+        | "payment_review.reopened"
+        | "payment_review.opened"
+        | "subscription.activated"
+        | "subscription.canceled"
+        | "subscription.cancellation_scheduled"
+        | "subscription.created"
+        | "subscription.dunning_exhausted"
+        | "subscription.past_due"
+        | "subscription.paused"
+        | "subscription.payment_succeeded"
+        | "subscription_payment_retry.created"
+        | "subscription_payment_retry.succeeded"
+        | "subscription_payment_retry.failed"
+        | "subscription.reactivated"
+        | "subscription.resumed"
+        | "subscription.end_upcoming"
+        | "subscription.renewal_upcoming"
+        | "subscription.trial_ending"
+        | "subscription.plan_change_scheduled"
+        | "subscription.plan_change_canceled"
+        | "subscription.plan_changed"
+        | "subscription.updated"
+        | "subscription.delivery_action_required"
+        | "subscription.delivery_pause_upcoming"
+        | "subscription.delivery_updated"
+        | "subscription.cycle_skipped"
+        | "subscription_delivery_migration.completed"
+        | "partner_app.updated"
+        | "partner_app.platform_approved"
+        | "partner_app.platform_limited"
+        | "partner_app.platform_rejected"
+        | (string & {});
+    /** ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+    "merchant_id": string;
+    /** Environment used for this resource or request. Value enum: "test", "live". */
+    "mode": "test" | "live" | (string & {});
+    /**
+     * 2 for every current event. 1 only for an event queued before 2026-10-16 and delivered
+     * afterwards, which keeps its previous data shape. Value enum: 1, 2.
+     */
+    "payload_version": number;
+    /**
+     * The originating request. `null` when the event has no originating request ID. id (Required):
+     * string. Request ID of the request that caused the event. idempotency_key (Optional): string.
+     * The Idempotency-Key the originating request sent. Absent when it sent none.
+     */
+    "request": {
+        /** Request ID of the request that caused the event. */
+        "id": string;
+        /** The Idempotency-Key the originating request sent. Absent when it sent none. */
+        "idempotency_key"?: string;
+    }
+        | null;
+    /**
+     * Public sandbox ID for this event. Present exactly when mode is test; omitted in live mode.
+     * Example: "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "sandbox_id"?: string;
+    /** true for a synthetic event sent from the test-events endpoint, false otherwise. */
+    "test": boolean;
+    /**
+     * Stable ID of the recorded webhook event, shared by its delivery attempts. Example:
+     * "whev_01KEZF7C00362MS3HV970TRZGS".
+     */
+    "webhook_event_id": string;
+});
 /**
- * The recipient name and phone you supply for an order delivery. Send null to clear a field.
- * minProperties: 1.
+ * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
+ * Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput;
+ * maps written before those limits may not satisfy them.
  */
-export type OrderDeliveryDestinationRecipientRequest = {
-    /** Send null to clear it. minLength: 1. maxLength: 255. */
-    "name"?: string | null;
-    /** Send null to clear it. minLength: 1. maxLength: 30. */
-    "phone"?: string | null;
-};
+export type MetadataMap = Record<string, string>;
+/**
+ * Changes to a caller-owned metadata map. Omit the field to leave metadata unchanged. Each key
+ * sets a value, a null value deletes the key, and an empty object makes no change; send null for
+ * the whole field to clear all caller-owned metadata. The resulting map is limited the same way as
+ * MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to
+ * 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key
+ * that does not exist is allowed, so the number of operations is not itself the stored-map limit.
+ * Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
+ */
+export type MetadataPatchRequest = Record<string, string | null>;
+/**
+ * Changes to a caller-owned metadata map. Omit the field to leave metadata unchanged. Each key
+ * sets a value, a null value deletes the key, and an empty object makes no change; send null for
+ * the whole field to clear all caller-owned metadata. The resulting map is limited the same way as
+ * MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to
+ * 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key
+ * that does not exist is allowed, so the number of operations is not itself the stored-map limit.
+ * Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
+ */
+export type MetadataPatchRequestInput = MetadataPatchRequest;
+/**
+ * Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50
+ * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+ * points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and
+ * keys starting with flint_ are reserved for Flint. maxProperties: 50.
+ */
+export type MetadataRequestInput = MetadataMap;

@@ -15,13 +15,13 @@ final class WebhookDeliveriesCreateParams extends Model {
      */
     public function getReasonMessage(): string { return $this->get('reason_message'); }
     public function hasReasonMessage(): bool { return $this->has('reason_message'); }
-    /** Active endpoint that currently subscribes to the event. minLength: 1. Example: "whep_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Active endpoint that currently subscribes to the event. minLength: 1. Example: "whep_01KEZF7C006FXYTAJRZCGCBJTN".
      * @return string
      * @throws SdkError When webhook_endpoint_id is omitted; use hasWebhookEndpointId() or valueOrDefault().
      */
     public function getWebhookEndpointId(): string { return $this->get('webhook_endpoint_id'); }
     public function hasWebhookEndpointId(): bool { return $this->has('webhook_endpoint_id'); }
-    /** Retained webhook event to deliver. minLength: 1. Example: "whev_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Retained webhook event to deliver. minLength: 1. Example: "whev_01KEZF7C00362MS3HV970TRZGS".
      * @return string
      * @throws SdkError When webhook_event_id is omitted; use hasWebhookEventId() or valueOrDefault().
      */

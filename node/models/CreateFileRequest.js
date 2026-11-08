@@ -1,7 +1,7 @@
-import { d211 as c0 } from '../descriptors/data/10.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d211 as d211 } from '../descriptors/data/10.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import { d238 as c0 } from '../descriptors/data/11.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d238 as d238 } from '../descriptors/data/11.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d211;
+const read = d238;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["CreateFileRequest"]:c0()}); }
 export { codec as _validate };

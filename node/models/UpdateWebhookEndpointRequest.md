@@ -17,8 +17,8 @@ The request body for: Update webhook endpoint.
 | `expected_api_version` | Optional | string | Apply api_version only if this matches the resource's current api_version. A mismatch returns HTTP 409. Requires api_version; null is not accepted. minLength: `1`. |
 | `expected_version` | Optional | integer | Resource version last read by the caller. Required when enabled_events, event_sources, installed_merchant_modes, or signing_methods is present, including an empty array. Optional for scalar updates. Format: `uint64`. minimum: `1`. |
 | `installed_merchant_modes` | Optional | Array of string | Modes of installed-merchant events this endpoint receives. Required when event_sources includes installed_merchants and omitted otherwise. Partner app lifecycle events are delivered regardless of these modes. minItems: `1`. maxItems: `2`. uniqueItems: `true`. Items values: `"test"`, `"live"`. |
-| `partner_app_id` | Optional | string | Partner app that owns partner_app or installed_merchants event sources. minLength: `1`. |
-| `signing_methods` | Optional | Array of [WebhookSigningMethod](../models/WebhookSigningMethod.md#webhooksigningmethod) | Replaces the signing methods. Removing hmac deletes all shared secrets. Use rotate-secret to add hmac when no secret has been issued. Omit to leave unchanged. minItems: `1`. uniqueItems: `true`. Items values: `"jwt"`, `"hmac"`. |
-| `status` | Optional | string | Values: `"active"`, `"inactive"`. |
-| `url` | Optional | string | minLength: `1`. |
+| `partner_app_id` | Optional | string | Partner app that owns partner_app or installed_merchants event sources. minLength: `1`. Example: `"papp_01KEZF7C00Y8VMXYZ1GNPP3WHV"`. |
+| `signing_methods` | Optional | Array of [WebhookSigningMethod](../models/WebhookSigningMethod.md#webhooksigningmethod) | Replaces the signing methods. Removing hmac deletes all shared secrets. Adding hmac when no secret exists issues the first secret and returns it once in this response. Omit to leave unchanged. minItems: `1`. uniqueItems: `true`. Items values: `"jwt"`, `"hmac"`. |
+| `status` | Optional | string | Whether this endpoint receives events. Setting inactive suppresses pending deliveries. Omit to leave unchanged. Values: `"active"`, `"inactive"`. |
+| `url` | Optional | string | Public HTTPS URL to receive webhook deliveries. Omit to leave unchanged. minLength: `1`. |
 

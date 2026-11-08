@@ -10,10 +10,12 @@ An order charge to refund when creating a refund, with an optional amount to ref
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. `amount_money`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options). |
-| `order_charge_id` | Required | string | minLength: `1`. |
+| `amount_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Amount to refund from this charge. Omit it to refund the charge's full remaining amount. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `amount_money`: [field definitions](../models/RefundCharge.md#refundchargeamount_money). |
+| `order_charge_id` | Required | string | ID of the order charge to refund. minLength: `1`. Example: `"och_01KEZF7C00XX8AKACP0GHKFWWT"`. |
 
 ### RefundCharge.amount_money
 
-Field definitions: [BuyerCheckoutSession.tip.smart_tip_money_options[]](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options).
+Amount to refund from this charge. Omit it to refund the charge's full remaining amount. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+
+Field definitions: [shared fields](MoneyValueInput.md#moneyvalueinput).
 

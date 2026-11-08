@@ -12,19 +12,19 @@ namespace Flint;
 final class MeCreateAddressParams extends Model {
     /** @param array{'address': AddressRequestInput|array<array-key, mixed>|\stdClass, 'is_default_billing'?: bool, 'is_default_shipping'?: bool, 'label'?: string, 'phone'?: string, 'recipient_name': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MeCreateAddressParams')); }
-    /** A complete postal address. State and postal_code are required for US addresses and optional for other countries. Send null or omit line2, state, and postal_code when the address has none.
+    /** The postal address to save. A complete postal address. State and postal_code are required for US addresses and optional for other countries. Send null or omit line2, state, and postal_code when the address has none.
      * @return AddressRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When address is omitted; use hasAddress() or valueOrDefault().
      */
     public function getAddress(): mixed { return $this->get('address'); }
     public function hasAddress(): bool { return $this->has('address'); }
-    /** is_default_billing
+    /** Set true to make this the default billing address and remove that default from any other saved address. Defaults to false.
      * @return bool
      * @throws SdkError When is_default_billing is omitted; use hasIsDefaultBilling() or valueOrDefault().
      */
     public function getIsDefaultBilling(): bool { return $this->get('is_default_billing'); }
     public function hasIsDefaultBilling(): bool { return $this->has('is_default_billing'); }
-    /** is_default_shipping
+    /** Set true to make this the default shipping address and remove that default from any other saved address. Defaults to false.
      * @return bool
      * @throws SdkError When is_default_shipping is omitted; use hasIsDefaultShipping() or valueOrDefault().
      */

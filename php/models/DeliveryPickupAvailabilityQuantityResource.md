@@ -6,5 +6,9 @@ The quantity of an order line item, or of one of its bundle components, that a p
 
 Response model.
 
-Fields, types, descriptions and enum values: [DeliveryPickupAvailabilityQuantityResourceInput](../models/DeliveryPickupAvailabilityQuantityResourceInput.md#deliverypickupavailabilityquantityresourceinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `bundle_component_id` | Optional | string |  |
+| `order_line_item_id` | Required | string |  |
+| `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 

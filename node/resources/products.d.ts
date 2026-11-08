@@ -1,5 +1,5 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-5.js';
+import type { ClientOptions } from '../declarations/types-6.js';
 import type {
     Product,
     ProductListResponse,
@@ -8,10 +8,10 @@ import type {
     ProductOptionResponse,
     ProductResponse,
     ProductVariant,
-    ProductVariantListResponse,
-    ProductVariantResponse
-} from '../declarations/types-44.js';
+    ProductVariantListResponse
+} from '../declarations/types-47.js';
 import type {
+    ProductVariantResponse,
     ProductsCreateParams,
     ProductsCreateVariantParams,
     ProductsDeleteParams,
@@ -24,9 +24,9 @@ import type {
     ProductsListVariantsParams,
     ProductsUpdateParams,
     ProductsUpdateVariantParams
-} from '../declarations/types-45.js';
-import type { RequestOptions } from '../declarations/types-48.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-48.js';
+import type { RequestOptions } from '../declarations/types-51.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -44,6 +44,7 @@ export type {
 export type {
     ProductsCreateParams,
     ProductsCreateVariantParams,
+    ProductVariantResponse,
     ProductsDeleteParams,
     ProductsDeleteVariantParams,
     ProductsGetParams,
@@ -53,68 +54,64 @@ export type {
     ProductsListParams,
     ProductsListVariantsParams,
     ProductsUpdateParams,
-    ProductsUpdateVariantParams
-} from '../declarations/types-45.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
+    ProductsUpdateVariantParams,
+    ProductVariantRequestInput,
+    ProductVariantSelectedOptionRequestInput,
+    ProductVariantSelectedOptionRequest
+} from '../declarations/types-48.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
 export type {
     Product,
     ProductResponse,
     ProductVariant,
-    ProductVariantResponse,
     ProductOption,
     ProductOptionResponse,
     ProductOptionListResponse,
     ProductListResponse,
     ProductVariantListResponse,
-    ProductVariantRequestInput,
-    ProductVariantSelectedOptionRequestInput,
     ProductVariantMatch,
     ProductPriceRange,
-    ProductOptionValue,
-    ProductVariantSelectedOptionRequest
-} from '../declarations/types-44.js';
-export type { _SdkWithoutIdempotency, WeightInput, Weight } from '../declarations/types-62.js';
-export type { ClientOptions } from '../declarations/types-5.js';
+    ProductVariantInventoryAvailability,
+    ProductOptionValue
+} from '../declarations/types-47.js';
+export type { _SdkWithoutIdempotency, WeightRequestInput, Weight } from '../declarations/types-66.js';
+export type { ClientOptions } from '../declarations/types-6.js';
 export type {
     CreateProductRequestInput,
     CreateProductOptionRequestInput,
     CreateProductOptionValueRequestInput,
     CreateProductRequestSimpleInput,
     CreateProductRequestOptionedInput
-} from '../declarations/types-10.js';
-export type { GiftCardProductConfigurationRequestInput, GiftCardProductConfiguration } from '../declarations/types-24.js';
-export type { GiftCardCustomAmountBoundsRequestInput, GiftCardCustomAmountBounds } from '../declarations/types-23.js';
-export type { ImageRequestInput, ImageInputSourceURLInput, ImageInputFileInput, ImageAttachment } from '../declarations/types-25.js';
-export type { InventoryItemCreateRequestInput } from '../declarations/types-26.js';
+} from '../declarations/types-11.js';
+export type { GiftCardProductConfigurationRequestInput, GiftCardProductConfiguration } from '../declarations/types-26.js';
+export type { GiftCardCustomAmountBoundsRequestInput, GiftCardCustomAmountBounds } from '../declarations/types-25.js';
 export type {
-    MetadataRequestInput,
     MoneyValueInput,
-    MetadataMap,
     ModifierSet,
     ModifierSetGroup,
     ModifierGroup,
     Modifier,
     MoneyValue,
     ModifierOverride,
-    ModifierSetGroupExisting,
-    ModifierSetGroupInline,
-    NextAction,
-    MetadataPatchRequestInput,
-    MetadataPatchRequest
-} from '../declarations/types-35.js';
-export type { DimensionsInput, Dimensions } from '../declarations/types-20.js';
+    NextAction
+} from '../declarations/types-37.js';
+export type { ImageRequestInput, ImageInputSourceURLInput, ImageInputFileInput, ImageAttachment } from '../declarations/types-27.js';
+export type { InventoryItemCreateRequestInput } from '../declarations/types-28.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-36.js';
+export type { QuantityPriceBreakRequestInput, ReadinessMerchantAccountSession, QuantityPriceBreak } from '../declarations/types-49.js';
+export type { DimensionsRequestInput, Dimensions, DisputesAcceptParams } from '../declarations/types-22.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-12.js';
-export type { CategoryReference } from '../declarations/types-4.js';
-export type { TextModifierConfig } from '../declarations/types-58.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
-export type { SelectedProductOption } from '../declarations/types-53.js';
+export type { Credentials } from '../declarations/types-13.js';
+export type { CategoryReference } from '../declarations/types-5.js';
+export type { TextModifierConfig } from '../declarations/types-62.js';
+export type { InventoryRoutingSource } from '../declarations/types-29.js';
+export type { SelectedProductOption } from '../declarations/types-56.js';
 export type {
     UpdateProductRequestInput,
     UpdateProductOptionRequestInput,
     UpdateProductOptionValueRequestInput,
     UpdateProductVariantRequestInput
-} from '../declarations/types-60.js';
+} from '../declarations/types-64.js';
 export type { BundlesGetParams } from '../declarations/types-1.js';
 export {
     makeCreateProductOptionRequest,
@@ -122,8 +119,8 @@ export {
     makeCreateProductRequest,
     makeCreateProductRequestOptioned,
     makeCreateProductRequestSimple
-} from '../declarations/types-65.js';
-export { makeDimensions } from '../declarations/types-67.js';
+} from '../declarations/types-70.js';
+export { makeDimensionsRequest } from '../declarations/types-72.js';
 export {
     makeGiftCardCustomAmountBoundsRequest,
     makeGiftCardProductConfigurationRequest,
@@ -131,20 +128,26 @@ export {
     makeImageInputSourceURL,
     makeImageRequest,
     makeInventoryItemCreateRequest
-} from '../declarations/types-68.js';
-export { makeMetadataPatchRequest, makeMetadataRequest, makeModifierOverride } from '../declarations/types-69.js';
-export { makeMoneyValue } from '../declarations/types-70.js';
-export { makeProductVariantRequest, makeProductVariantSelectedOptionRequest } from '../declarations/types-71.js';
+} from '../declarations/types-73.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-74.js';
+export { makeMoneyValue } from '../declarations/types-75.js';
+export { makeProductVariantRequest, makeProductVariantSelectedOptionRequest } from '../declarations/types-76.js';
+export { makeQuantityPriceBreakRequest } from '../declarations/types-77.js';
 export {
     makeUpdateProductOptionRequest,
     makeUpdateProductOptionValueRequest,
     makeUpdateProductRequest,
     makeUpdateProductVariantRequest,
-    makeWeight
-} from '../declarations/types-75.js';
+    makeWeightRequest
+} from '../declarations/types-80.js';
 export interface ProductsResource {
     /**
- * Creates a product for the authenticated merchant.
+ * Creates a product, the catalog item buyers purchase through orders, checkout, payment links, and
+ * subscriptions. Send `name`, `product_type`, and `variant_mode`. A `simple` product takes one
+ * `default_variant`; an `optioned` product takes `options` and `variants`, each variant selecting
+ * one value for every option. Price, SKU, and inventory settings live on variants. A SKU or
+ * barcode that another variant or bundle already uses fails with `ALREADY_EXISTS`, and a category
+ * handle that doesn't exist fails with `RESOURCE_NOT_FOUND`.
  *
  * `POST /v1/products`
  * @see https://developers.withflintpay.com/docs/api/products#createProduct
@@ -158,9 +161,13 @@ export interface ProductsResource {
  */
     create(params: ProductsCreateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Product, ProductResponse>>;
     /**
- * Create product variant. An archived resource returns 409 ACTION_NOT_ALLOWED with reason archived
- * and current_status archived. The error identifies the archived resource; a create under an
- * archived parent identifies that parent.
+ * Adds a variant to a product that has options. The variant selects one value for every option.
+ * Two variants can't select the same combination, and a SKU or barcode that another variant or
+ * bundle already uses is refused; both fail with `ALREADY_EXISTS`. A product without active
+ * options fails with `ACTION_NOT_ALLOWED` and reason `configuration_required`: change a simple
+ * product through its default variant instead. Fails with `ACTION_NOT_ALLOWED` and reason
+ * `archived` when the resource, or the parent it belongs to, is archived. The error names the
+ * archived resource and its `current_status`.
  *
  * `POST /v1/products/{product_id}/variants`
  * @param product_id Flint product ID.
@@ -174,10 +181,10 @@ export interface ProductsResource {
  */
     createVariant(product_id: InputValue<string>, params: ProductsCreateVariantParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<ProductVariant, ProductVariantResponse>>;
     /**
- * Archives a product and returns its final state. Returns the archived resource exactly as GET
- * returns it. Repeating DELETE returns 200 without changing version or updated_at, sending a
- * webhook, or checking references. When expected_version is present, it is compared before the
- * archived replay; a stale version returns 409 VERSION_CONFLICT with current_version.
+ * Archives a product and returns its final state. Returns the archived resource as a read does.
+ * Deleting an already archived resource returns it again without changing its version or
+ * `updated_at`, sending a webhook, or checking references. A stale `expected_version` fails with
+ * `VERSION_CONFLICT` and the `current_version`, even when the resource is already archived.
  *
  * `DELETE /v1/products/{product_id}`
  * @param product_id Flint product ID.
@@ -186,14 +193,14 @@ export interface ProductsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.products.delete("prod_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey })
+ * client.products.delete("prod_01KEZF7C00BVSHCNWVH528HB66", {}, { idempotencyKey: idempotencyKey })
  */
     delete(product_id: InputValue<string>, params?: ProductsDeleteParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Product, ProductResponse>>;
     /**
- * Retire product variant. Returns the archived resource exactly as GET returns it. Repeating
- * DELETE returns 200 without changing version or updated_at, sending a webhook, or checking
- * references. When expected_version is present, it is compared before the archived replay; a stale
- * version returns 409 VERSION_CONFLICT with current_version.
+ * Archives a variant and returns its final state. Returns the archived resource as a read does.
+ * Deleting an already archived resource returns it again without changing its version or
+ * `updated_at`, sending a webhook, or checking references. A stale `expected_version` fails with
+ * `VERSION_CONFLICT` and the `current_version`, even when the resource is already archived.
  *
  * `DELETE /v1/products/{product_id}/variants/{variant_id}`
  * @param product_id Flint product ID.
@@ -203,8 +210,8 @@ export interface ProductsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.products.deleteVariant("prod_01ARZ3NDEKTSV4RRFFQ69G5FAV",
- * "var_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey })
+ * client.products.deleteVariant("prod_01KEZF7C00BVSHCNWVH528HB66",
+ * "var_01KEZF7C004GSH2KT8CNYVMHGX", {}, { idempotencyKey: idempotencyKey })
  */
     deleteVariant(product_id: InputValue<string>, variant_id: InputValue<string>, params?: ProductsDeleteVariantParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<ProductVariant, ProductVariantResponse>>;
     /**
@@ -215,11 +222,11 @@ export interface ProductsResource {
  * @see https://developers.withflintpay.com/docs/api/products#getProduct
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.products.get("prod_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.products.get("prod_01KEZF7C00BVSHCNWVH528HB66")
  */
     get(product_id: InputValue<string>, params?: ProductsGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<Product, ProductResponse>>;
     /**
- * Get product option.
+ * Returns one option of a product, such as size or color, with its values and position.
  *
  * `GET /v1/products/{product_id}/options/{option_id}`
  * @param product_id Flint product ID.
@@ -227,11 +234,12 @@ export interface ProductsResource {
  * @see https://developers.withflintpay.com/docs/api/products#getProductOption
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.products.getOption("prod_01ARZ3NDEKTSV4RRFFQ69G5FAV", "opt_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.products.getOption("prod_01KEZF7C00BVSHCNWVH528HB66", "opt_01KEZF7C008R5Q9BG9B4B4KQH8")
  */
     getOption(product_id: InputValue<string>, option_id: InputValue<string>, params?: ProductsGetOptionParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<ProductOption, ProductOptionResponse>>;
     /**
- * Get product variant.
+ * Returns one variant of a product, including its price, SKU, selected options, inventory
+ * settings, and delivery configuration status.
  *
  * `GET /v1/products/{product_id}/variants/{variant_id}`
  * @param product_id Flint product ID.
@@ -239,7 +247,7 @@ export interface ProductsResource {
  * @see https://developers.withflintpay.com/docs/api/products#getProductVariant
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.products.getVariant("prod_01ARZ3NDEKTSV4RRFFQ69G5FAV", "var_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.products.getVariant("prod_01KEZF7C00BVSHCNWVH528HB66", "var_01KEZF7C004GSH2KT8CNYVMHGX")
  */
     getVariant(product_id: InputValue<string>, variant_id: InputValue<string>, params?: ProductsGetVariantParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<ProductVariant, ProductVariantResponse>>;
     /**
@@ -250,7 +258,7 @@ export interface ProductsResource {
  * @see https://developers.withflintpay.com/docs/api/products#listProductOptions
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.products.listOptions("prod_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.products.listOptions("prod_01KEZF7C00BVSHCNWVH528HB66")
  */
     listOptions(product_id: InputValue<string>, params?: ProductsListOptionsParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<ProductOptionListResponse, ProductOptionListResponse>>;
     /** Iterate pages lazily.
@@ -288,7 +296,7 @@ export interface ProductsResource {
  * @see https://developers.withflintpay.com/docs/api/products#listProductVariants
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.products.listVariants("prod_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.products.listVariants("prod_01KEZF7C00BVSHCNWVH528HB66")
  */
     listVariants(product_id: InputValue<string>, params?: ProductsListVariantsParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<ProductVariantListResponse, ProductVariantListResponse>>;
     /** Iterate pages lazily.
@@ -302,9 +310,8 @@ export interface ProductsResource {
     /**
  * Applies a sparse update to product-parent fields. When category_handles is present, it replaces
  * the full category list; send [] to clear it. Sellable price, SKU, and inventory live on
- * variants. An archived resource returns 409 ACTION_NOT_ALLOWED with reason archived and
- * current_status archived. The error identifies the archived resource; a create under an archived
- * parent identifies that parent.
+ * variants. Fails with `ACTION_NOT_ALLOWED` and reason `archived` when the resource, or the parent
+ * it belongs to, is archived. The error names the archived resource and its `current_status`.
  *
  * `PATCH /v1/products/{product_id}`
  * @param product_id Flint product ID.
@@ -318,9 +325,15 @@ export interface ProductsResource {
  */
     update(product_id: InputValue<string>, params: ProductsUpdateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Product, ProductResponse>>;
     /**
- * Update product variant. An archived resource returns 409 ACTION_NOT_ALLOWED with reason archived
- * and current_status archived. The error identifies the archived resource; a create under an
- * archived parent identifies that parent.
+ * Applies a sparse update to a variant: only the fields you send change. A SKU or barcode that
+ * another variant or bundle already uses, or an option combination that another variant selects,
+ * fails with `ALREADY_EXISTS`. Changes to name, price, SKU, and similar fields apply to new
+ * checkouts, links, and plans; existing orders keep what they were charged. Setting the variant
+ * inactive, or changing its price currency, fails with `RESOURCE_IN_USE` while an open order,
+ * checkout session, active payment link, subscription, subscription plan, or active bundle uses
+ * it. Send `expected_version` to reject the update when the variant changed since you read it.
+ * Fails with `ACTION_NOT_ALLOWED` and reason `archived` when the resource, or the parent it
+ * belongs to, is archived. The error names the archived resource and its `current_status`.
  *
  * `PATCH /v1/products/{product_id}/variants/{variant_id}`
  * @param product_id Flint product ID.

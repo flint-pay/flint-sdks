@@ -28,7 +28,6 @@ Returned payload: [EmailPreferenceLink](../models/EmailPreferenceLink.md#emailpr
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -48,7 +47,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```typescript
-const result = await client.emailPreferenceLinks.lookup({token: "example"}, {  });
+const result = await client.emailPreferenceLinks.lookup({token: "b3BlbmFwaS1maXh0dXJl.eyJ2IjoxLCJwIjoic2FuZGJveCIsImQiOiJlZGVsXzAxS0VaRjdDMDA4OU1SRThFRjc4SFIxRzI2In0.6c_I5nt_K3eTi7XxJJ95dXgQZjGlaY_lVlp64YJPxuo"}, {  });
 ```
 
 [Complete runnable example](../examples/emailPreferenceLinks-lookup.mjs)
@@ -78,7 +77,6 @@ Returned payload: [EmailPreferenceLink](../models/EmailPreferenceLink.md#emailpr
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -103,7 +101,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.emailPreferenceLinks.unsubscribe({token: "example"}, { idempotencyKey: idempotencyKey });
+const result = await client.emailPreferenceLinks.unsubscribe({token: "b3BlbmFwaS1maXh0dXJl.eyJ2IjoxLCJwIjoic2FuZGJveCIsImQiOiJlZGVsXzAxS0VaRjdDMDA4OU1SRThFRjc4SFIxRzI2In0.6c_I5nt_K3eTi7XxJJ95dXgQZjGlaY_lVlp64YJPxuo"}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/emailPreferenceLinks-unsubscribe.mjs)

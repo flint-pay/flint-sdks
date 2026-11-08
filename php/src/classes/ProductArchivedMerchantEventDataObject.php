@@ -3,7 +3,6 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read ?int $active_variant_count
- * @property-read ?bool $available_for_sale
  * @property-read list<CategoryReference> $categories
  * @property-read ?string $created_at
  * @property-read ?ProductVariant $default_variant
@@ -12,6 +11,7 @@ namespace Flint;
  * @property-read ?string $description
  * @property-read ?string $external_reference_id
  * @property-read list<ImageAttachment> $images
+ * @property-read ?bool $is_available_for_sale
  * @property-read ?ProductVariantMatch $matched_variant
  * @property-read ?string $merchant_id
  * @property-read ?array<array-key, string> $metadata
@@ -30,18 +30,13 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class ProductArchivedMerchantEventDataObject extends Model {
-    /** @param array{'active_variant_count'?: int, 'available_for_sale'?: bool, 'categories': list<mixed>, 'created_at'?: string, 'default_variant'?: mixed, 'default_variant_id'?: string, 'delivery_configuration_status': string, 'description'?: string, 'external_reference_id'?: string, 'images': list<mixed>, 'matched_variant'?: mixed, 'merchant_id'?: string, 'metadata'?: mixed, 'modifier_set'?: mixed, 'modifier_set_id': string|null, 'name': string, 'option_count'?: int, 'options': list<mixed>, 'price_range'?: mixed, 'product_id': string, 'product_type': string, 'status': string, 'updated_at'?: string, 'variant_count'?: int, 'variants'?: list<mixed>, 'version': int, ...}|object $values */
+    /** @param array{'active_variant_count'?: int, 'categories': list<mixed>, 'created_at'?: string, 'default_variant'?: mixed, 'default_variant_id'?: string, 'delivery_configuration_status': string, 'description'?: string, 'external_reference_id'?: string, 'images': list<mixed>, 'is_available_for_sale'?: bool, 'matched_variant'?: mixed, 'merchant_id'?: string, 'metadata'?: mixed, 'modifier_set'?: mixed, 'modifier_set_id': string|null, 'name': string, 'option_count'?: int, 'options': list<mixed>, 'price_range'?: mixed, 'product_id': string, 'product_type': string, 'status': string, 'updated_at'?: string, 'variant_count'?: int, 'variants'?: list<mixed>, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ProductArchivedMerchantEventDataObject')); }
     /** Number of active variants belonging to the product. Format: int32.
      * @return ?int
      */
     public function getActiveVariantCount(): ?int { return $this->get('active_variant_count'); }
     public function hasActiveVariantCount(): bool { return $this->has('active_variant_count'); }
-    /** Whether the product is active and has at least one active variant.
-     * @return ?bool
-     */
-    public function getAvailableForSale(): ?bool { return $this->get('available_for_sale'); }
-    public function hasAvailableForSale(): bool { return $this->has('available_for_sale'); }
     /** Always present. Empty collections are returned as []. [] (Value): {@see CategoryReference}. A reference to a product category by ID, handle, and name.
      * @return list<CategoryReference>
      */
@@ -82,6 +77,11 @@ final class ProductArchivedMerchantEventDataObject extends Model {
      */
     public function getImages(): array { return $this->get('images'); }
     public function hasImages(): bool { return $this->has('images'); }
+    /** Whether the product is active and has at least one active variant.
+     * @return ?bool
+     */
+    public function getIsAvailableForSale(): ?bool { return $this->get('is_available_for_sale'); }
+    public function hasIsAvailableForSale(): bool { return $this->has('is_available_for_sale'); }
     /** On product list rows, the first non-archived variant by position, then variant_id, that matches all exact variant filters. Without exact variant filters, identifies the first variant whose SKU matches query. Omitted when no variant matches; a product name or description match alone does not set it. Page the product's variants to find all matches. A single variant witness on product list rows only. With exact variant filters, the first variant by position, then variant_id, satisfying every exact predicate. Otherwise, the first variant in that order whose SKU matches query. Use the paginated nested variant list to enumerate every match.
      * @return ?ProductVariantMatch
      */
@@ -122,7 +122,7 @@ final class ProductArchivedMerchantEventDataObject extends Model {
      */
     public function getOptions(): array { return $this->get('options'); }
     public function hasOptions(): bool { return $this->has('options'); }
-    /** Lowest and highest unit prices among active variants. Omitted when there are no active variants or their currencies differ. The lowest and highest unit prices across a product's variants.
+    /** Lowest and highest base unit prices among active variants, before any quantity price breaks. Omitted when there are no active variants or their currencies differ. The lowest and highest unit prices across a product's variants.
      * @return ?ProductPriceRange
      */
     public function getPriceRange(): ?ProductPriceRange { return $this->get('price_range'); }
@@ -152,7 +152,7 @@ final class ProductArchivedMerchantEventDataObject extends Model {
      */
     public function getVariantCount(): ?int { return $this->get('variant_count'); }
     public function hasVariantCount(): bool { return $this->has('variant_count'); }
-    /** The variants this request created, ordered by `position` and then `variant_id`. Present only on the `POST /v1/products` response. Read variants later with `GET /v1/products/{product_id}/variants`. [] (Value): {@see ProductVariant}. A specific purchasable version of a product.
+    /** The product's complete non-archived variants, ordered by `position` and then `variant_id`. Present when `expand=variants` is requested, and on the `POST /v1/products` response. An archived product returns an empty array. [] (Value): {@see ProductVariant}. A specific purchasable version of a product.
      * @return ?list<ProductVariant>
      */
     public function getVariants(): ?array { return $this->get('variants'); }

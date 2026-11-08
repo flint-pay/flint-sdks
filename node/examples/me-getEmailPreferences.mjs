@@ -8,4 +8,4 @@ const client = new Client({
   customerToken,
 });
 const result = await client.me.getEmailPreferences();
-console.log(result.customer_id);
+console.log(result);

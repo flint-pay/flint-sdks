@@ -2,11 +2,12 @@
 
 ## PromotionArchivedInstalledMerchantsEventData
 
-
+The resource snapshot recorded for this event and rendered at the delivery API version.
 
 Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `object` | Required | [PromotionArchivedInstalledMerchantsEventDataObject](../models/PromotionArchivedInstalledMerchantsEventDataObject.md#promotionarchivedinstalledmerchantseventdataobject) | Promotion evaluation order: manual discounts stay, do not count toward the cap, and are ignored by combines_with. Frozen subscription-term promotions are admitted first and are exempt from exclusivity, combines_with, and the cap. Candidates include codes being applied, existing promotion discounts, and qualifying automatic promotions. Each exclusivity group keeps its highest-priority member, then the larger standalone discount, earlier created_at, and lower promotion_id. Remaining candidates rank by standalone discount, then earlier created_at and lower promotion_id; each is admitted unless max_promotions_per_order is reached or both promotions do not allow each other's discount class. Admitted promotions price line item first, then order, then service charge. A zero-value promotion is dropped and selection runs again. |
+| `object` | Required | [PromotionArchivedInstalledMerchantsEventDataObject](../models/PromotionArchivedInstalledMerchantsEventDataObject.md#promotionarchivedinstalledmerchantseventdataobject) | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `codes`. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `codes`. |
+| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
 

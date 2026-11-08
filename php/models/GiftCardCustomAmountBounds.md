@@ -8,6 +8,6 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `maximum_money` | Required | [GiftCardCustomAmountBoundsMaximumMoney](../models/GiftCardCustomAmountBoundsMaximumMoney.md#giftcardcustomamountboundsmaximummoney) | Largest gift card value buyers can choose, in the face value currency. |
-| `minimum_money` | Required | [GiftCardCustomAmountBoundsMinimumMoney](../models/GiftCardCustomAmountBoundsMinimumMoney.md#giftcardcustomamountboundsminimummoney) | Smallest gift card value buyers can choose, in the face value currency. |
+| `maximum_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Largest gift card value buyers can choose, in the face value currency. Currency must be USD. Amount must be between 1 and 200000 minor units, inclusive. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `minimum_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Smallest gift card value buyers can choose, in the face value currency. Currency must be USD. Amount must be between 1 and 200000 minor units, inclusive. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 

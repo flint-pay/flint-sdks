@@ -8,10 +8,15 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `available_for_sale` | Required | boolean | Whether the component's variant and its product are both active. |
+| `is_available_for_sale` | Required | boolean | Whether the component's variant and its product are both active. |
 | `name` | Optional | string | Name of the component's variant, when set. |
+| `product_id` | Required | string | Identifier of the product this component variant belongs to. |
 | `product_name` | Optional | string | Name of the product the variant belongs to. |
-| `selected_options` | Optional | Array of [SelectedProductOption](../models/SelectedProductOption.md#selectedproductoption) | Option names and values selected by the component's variant. |
+| `selected_options` | Optional | Array of [SelectedProductOption](../models/SelectedProductOption.md#selectedproductoption) | Option names and values selected by the component's variant. `selected_options[]`: [field definitions](../models/OrderResponse.md#orderresponsedataline_itemsbundle_componentsvariantselected_options). |
 | `sku` | Optional | string | Stock keeping unit assigned to the component's variant, when set. |
 | `variant_id` | Required | string | Identifier of the product variant included in the component. |
+
+### BundleComponentVariantSummary.selected_options[]
+
+Field definitions: [OrderResponse.data.line_items[].bundle_components[].variant.selected_options[]](../models/OrderResponse.md#orderresponsedataline_itemsbundle_componentsvariantselected_options).
 

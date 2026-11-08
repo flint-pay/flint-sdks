@@ -10,22 +10,22 @@ namespace Flint;
 final class CustomerDeletionRequestListResponse extends Model {
     /** @param array{'data': list<mixed>, 'meta'?: mixed, 'next_page_token'?: string, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerDeletionRequestListResponse')); }
-    /**  [] (Value): {@see CustomerDeletionRequest}. A request to delete a customer's personal information.
+    /** Deletion requests matching the supplied filters, in the published list order. [] (Value): {@see CustomerDeletionRequest}. A request to delete a customer's personal information.
      * @return list<CustomerDeletionRequest>
      */
     public function getData(): array { return $this->get('data'); }
     public function hasData(): bool { return $this->has('data'); }
-    /** Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+    /** Metadata about this response, including warnings when present. Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
      * @return ?ResponseMeta
      */
     public function getMeta(): ?ResponseMeta { return $this->get('meta'); }
     public function hasMeta(): bool { return $this->has('meta'); }
-    /** next_page_token
+    /** Opaque cursor to pass as page_token to fetch the next page. Omitted when no more results remain.
      * @return ?string
      */
     public function getNextPageToken(): ?string { return $this->get('next_page_token'); }
     public function hasNextPageToken(): bool { return $this->has('next_page_token'); }
-    /** maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$.
+    /** ID of this API request. Include it when asking Flint to investigate the response. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$.
      * @return string
      */
     public function getRequestId(): string { return $this->get('request_id'); }

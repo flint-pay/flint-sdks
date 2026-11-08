@@ -10,16 +10,16 @@ The invoice due-date policy resolved at write time. The object can be sent back 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `due_at` | Conditional | string | The due date set with type date. Present only with date. The top-level due_at is the effective due date for every type. Format: `date-time`. |
-| `invoice_payment_term_id` | Conditional | string | The payment term applied, captured in payment_terms_snapshot. Present only with payment_terms. |
+| `due_date` | Conditional | string | Calendar due date in YYYY-MM-DD format, interpreted in the invoice timezone (UTC when absent). Present only with date. The top-level due_date is the effective due date for every type. Format: `date`. Example: `"2026-08-02"`. |
+| `invoice_payment_term_id` | Conditional | string | The payment term applied, captured in payment_terms_snapshot. Present only with payment_terms. Example: `"ipt_01KEZF7C0064N1V301BBMQ37R4"`. |
 | `type` | Required | string | How the due date was set. Values: `"none"`, `"date"`, `"payment_terms"`. |
 
 ### InvoicePaymentDue variant 1: `type` = `"none"`
 
 oneOf with type: "none": The `none` variant of `InvoicePaymentDue`..
 
-- Condition: not (at least one(present(`due_at`); present(`invoice_payment_term_id`))).
-- Optional: `due_at`, `invoice_payment_term_id`.
+- Condition: not (at least one(present(`due_date`); present(`invoice_payment_term_id`))).
+- Optional: `due_date`, `invoice_payment_term_id`.
 - Constraints for `type`: Values: `"none"`.
 
 ### InvoicePaymentDue variant 2: `type` = `"date"`
@@ -27,7 +27,7 @@ oneOf with type: "none": The `none` variant of `InvoicePaymentDue`..
 oneOf with type: "date": The `date` variant of `InvoicePaymentDue`..
 
 - Condition: not (present(`invoice_payment_term_id`)).
-- Required: `due_at`.
+- Required: `due_date`.
 - Optional: `invoice_payment_term_id`.
 - Constraints for `type`: Values: `"date"`.
 
@@ -35,8 +35,8 @@ oneOf with type: "date": The `date` variant of `InvoicePaymentDue`..
 
 oneOf with type: "payment_terms": The `payment_terms` variant of `InvoicePaymentDue`..
 
-- Condition: not (present(`due_at`)).
+- Condition: not (present(`due_date`)).
 - Required: `invoice_payment_term_id`.
-- Optional: `due_at`.
+- Optional: `due_date`.
 - Constraints for `type`: Values: `"payment_terms"`.
 

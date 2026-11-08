@@ -11,9 +11,9 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.me.deletePaymentMethod(
-  "pm_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "pm_01KEZF7C0034B248TXXE4NXYFZ",
   {},
   { idempotencyKey: idempotencyKey },
 );
 console.log(result.customer_id);
-console.log(result.payment_method_id);
+console.log(result.merchant_id);

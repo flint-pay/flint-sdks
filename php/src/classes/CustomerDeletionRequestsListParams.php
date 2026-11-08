@@ -10,13 +10,13 @@ namespace Flint;
 final class CustomerDeletionRequestsListParams extends Model {
     /** @param array{'status'?: list<string>|string, 'customer_id'?: string, 'page_size'?: int, 'page_token'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerDeletionRequestsListParams')); }
-    /** Only return requests in this lifecycle state. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "pending_review", "processing", "completed", "rejected", "failed". Value enum: "pending_review", "processing", "completed", "rejected", "failed". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "pending_review", "processing", "completed", "rejected", "failed". anyOf[1][] (Value): string.  Value enum: "pending_review", "processing", "completed", "rejected", "failed". anyOf[2] (Value): string.  Value enum: "pending_review", "processing", "completed", "rejected", "failed".
+    /** Only return requests in this lifecycle state. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "pending_review", "processing", "completed", "rejected", "failed". Value enum: "pending_review", "processing", "completed", "rejected", "failed". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "pending_review", "processing", "completed", "rejected", "failed". anyOf[1][] (Value): string.  Value enum: "pending_review", "processing", "completed", "rejected", "failed". anyOf[2] (Value): string.  Value enum: "pending_review", "processing", "completed", "rejected", "failed".
      * @return list<string>|string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
     public function getStatus(): mixed { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Only return requests for this Flint customer ID. Example: "cus_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Only return requests for this Flint customer ID. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */
@@ -28,7 +28,7 @@ final class CustomerDeletionRequestsListParams extends Model {
      */
     public function getPageSize(): int { return $this->get('page_size'); }
     public function hasPageSize(): bool { return $this->has('page_size'); }
-    /** Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error.
+    /** Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error.
      * @return string
      * @throws SdkError When page_token is omitted; use hasPageToken() or valueOrDefault().
      */

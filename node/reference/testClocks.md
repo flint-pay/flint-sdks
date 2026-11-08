@@ -4,7 +4,7 @@
 
 ### testClocks.advance
 
-Sandbox only. Moves the test clock forward to `frozen_at`. Flint returns `202` with the clock in status `advancing`, then moves the clock's customers and their subscriptions to `frozen_at`, running the billing that falls due along the way, in order. Flint sends `test_clock.ready` when the advance finishes, or `test_clock.failed` if it can't finish. You can also read the clock with `GET /v1/test-clocks/{test_clock_id}` until its status is `ready` or `failed`. One advance reaches at most two years, or two billing intervals of any subscription on the clock that isn't canceled, whichever is earlier.
+Sandbox only. Moves the test clock forward to `frozen_at`. Flint accepts the request and returns the clock in status `advancing`, then moves the clock's customers and their subscriptions to `frozen_at`, running the billing that falls due along the way, in order. Flint sends `test_clock.ready` when the advance finishes, or `test_clock.failed` if it can't finish. You can also read the clock with `GET /v1/test-clocks/{test_clock_id}` until its status is `ready` or `failed`. One advance reaches at most two years, or two billing intervals of any subscription on the clock that isn't canceled, whichever is earlier.
 
 `POST /v1/test-clocks/{test_clock_id}/advance`
 
@@ -21,7 +21,10 @@ Body model: [AdvanceTestClockRequestInput](../models/AdvanceTestClockRequest.md#
 
 #### testClocks.advance body fields
 
-Field definitions: [shared fields](../models/AdvanceTestClockRequest.md#advancetestclockrequest).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `expected_version` | Optional | integer | Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with the current version. Retrieve the resource and rebuild the request before retrying. Format: `uint64`. minimum: `1`. |
+| `frozen_at` | Required | string | The time to move the clock to. It must be later than the clock's current `frozen_at`, and no later than two years after it or two billing intervals of any subscription on the clock that isn't canceled, whichever is earlier. Fractional seconds are truncated. Format: `date-time`. minLength: `1`. |
 
 #### Response
 
@@ -36,7 +39,6 @@ Returned payload: [TestClock](../models/TestClock.md#testclock).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -61,7 +63,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.testClocks.advance("tclk_01ARZ3NDEKTSV4RRFFQ69G5FAV", {expected_version: 1, frozen_at: "2026-12-01T00:00:00Z"}, { idempotencyKey: idempotencyKey });
+const result = await client.testClocks.advance("tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ", {expected_version: 1, frozen_at: "2026-12-01T00:00:00Z"}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/testClocks-advance.mjs)
@@ -84,7 +86,10 @@ Body model: [CreateTestClockRequestInput](../models/CreateTestClockRequest.md#cr
 
 #### testClocks.create body fields
 
-Field definitions: [shared fields](../models/CreateTestClockRequest.md#createtestclockrequest).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `frozen_at` | Optional | string | The time the clock starts at. Defaults to now. It can be up to 5 years ahead, and no more than an hour behind now, to allow for clock skew on your side. Fractional seconds are truncated. Format: `date-time`. minLength: `1`. |
+| `name` | Optional | string | Your label for the test clock. minLength: `1`. maxLength: `255`. |
 
 #### Response
 
@@ -98,7 +103,6 @@ Returned payload: [TestClock](../models/TestClock.md#testclock).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -141,7 +145,7 @@ Signature: `delete(test_clock_id: InputValue<string>, params?: TestClocksDeleteP
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `test_clock_id` | Required | string | ID of the test clock. |
-| `expected_version` | Optional | integer | Optional version most recently read. A stale value returns 409 VERSION_CONFLICT with the current version. Format: `int64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Optional version most recently read. A stale value fails with `VERSION_CONFLICT` and the current version. Format: `int64`. minimum: `1`. |
 
 #### Response
 
@@ -156,7 +160,6 @@ Returned payload: [TestClock](../models/TestClock.md#testclock).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -179,7 +182,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.testClocks.delete("tclk_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey });
+const result = await client.testClocks.delete("tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ", {}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/testClocks-delete.mjs)
@@ -210,7 +213,6 @@ Returned payload: [TestClock](../models/TestClock.md#testclock).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -228,7 +230,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```typescript
-const result = await client.testClocks.get("tclk_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
+const result = await client.testClocks.get("tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ", {}, {  });
 ```
 
 [Complete runnable example](../examples/testClocks-get.mjs)
@@ -245,9 +247,9 @@ Signature: `list(params?: TestClocksListParams, options?: _SdkWithoutIdempotency
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `status` | Optional | Array of string or string | Filter by status. Repeat the parameter or send comma-separated values to match any of several. Omitted, the list leaves out archived rows; name archived to include them. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"ready"`, `"advancing"`, `"failed"`, `"archived"`. Values: `"ready"`, `"advancing"`, `"failed"`, `"archived"`. |
+| `status` | Optional | Array of string or string | Filter by status. Omitted, the list leaves out archived rows; name archived to include them. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"ready"`, `"advancing"`, `"failed"`, `"archived"`. Values: `"ready"`, `"advancing"`, `"failed"`, `"archived"`. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 
 #### Response
 
@@ -260,7 +262,6 @@ Returned payload: [TestClockListResponse](../models/TestClockListResponse.md#tes
 | 400 | InvalidRequestError |
 | 401 | AuthenticationError |
 | 403 | PermissionError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |

@@ -17,8 +17,9 @@ $client = new Client(new ClientOptions(
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->returnReasons->create([
-  'handle' => 'example',
-  'name' => 'example',
+  'handle' => 'too_small',
+  'is_note_required' => false,
+  'name' => 'Too small',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->return_reason_id . PHP_EOL;
 echo $result->status . PHP_EOL;

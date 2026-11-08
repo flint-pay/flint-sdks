@@ -1,24 +1,26 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { AccessLink, AccessLinkResponse } from '../declarations/types-0.js';
-import type { ClientOptions } from '../declarations/types-5.js';
-import type { RequestOptions } from '../declarations/types-48.js';
-import type { Subscription } from '../declarations/types-54.js';
+import type { ClientOptions } from '../declarations/types-6.js';
+import type { RequestOptions } from '../declarations/types-51.js';
+import type { Subscription } from '../declarations/types-57.js';
+import type { SubscriptionListResponse } from '../declarations/types-58.js';
 import type {
-    SubscriptionListResponse,
     SubscriptionPaymentRetry,
     SubscriptionPaymentRetryListResponse,
-    SubscriptionPaymentRetryResponse
-} from '../declarations/types-55.js';
-import type {
+    SubscriptionPaymentRetryResponse,
     SubscriptionPlanChangeResult,
-    SubscriptionPlanChangeResultResponse,
+    SubscriptionPlanChangeResultResponse
+} from '../declarations/types-59.js';
+import type {
+    SubscriptionQuantityChangeResult,
+    SubscriptionQuantityChangeResultResponse,
     SubscriptionRenewalResult,
     SubscriptionRenewalResultResponse,
-    SubscriptionResponse
-} from '../declarations/types-56.js';
-import type {
+    SubscriptionResponse,
+    SubscriptionsApplyPromotionParams,
     SubscriptionsCancelParams,
     SubscriptionsChangePlanParams,
+    SubscriptionsChangeQuantityParams,
     SubscriptionsCreateAccessLinkParams,
     SubscriptionsCreateLineItemParams,
     SubscriptionsCreateParams,
@@ -29,13 +31,16 @@ import type {
     SubscriptionsListParams,
     SubscriptionsListPaymentRetriesParams,
     SubscriptionsPauseParams,
+    SubscriptionsRemovePromotionsParams
+} from '../declarations/types-60.js';
+import type {
     SubscriptionsRenewParams,
     SubscriptionsResumeParams,
     SubscriptionsSkipCycleParams,
     SubscriptionsUpdateLineItemParams,
     SubscriptionsUpdateParams
-} from '../declarations/types-57.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-61.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-66.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -51,8 +56,13 @@ export type {
     WorkloadIdentitySource
 } from '../runtime.js';
 export type {
+    SubscriptionsApplyPromotionParams,
+    SubscriptionResponse,
     SubscriptionsCancelParams,
     SubscriptionsChangePlanParams,
+    SubscriptionsChangeQuantityParams,
+    SubscriptionQuantityChangeResult,
+    SubscriptionQuantityChangeResultResponse,
     SubscriptionsCreateParams,
     SubscriptionsCreateAccessLinkParams,
     SubscriptionsCreateLineItemParams,
@@ -63,28 +73,35 @@ export type {
     SubscriptionsListPaymentRetriesParams,
     SubscriptionsListParams,
     SubscriptionsPauseParams,
-    SubscriptionsRenewParams,
-    SubscriptionsResumeParams,
-    SubscriptionsSkipCycleParams,
-    SubscriptionsUpdateParams,
-    SubscriptionsUpdateLineItemParams,
+    SubscriptionsRemovePromotionsParams,
+    SubscriptionRenewalResult,
+    SubscriptionRenewalResultResponse,
+    SubscriptionPromotion,
+    SubscriptionScheduledPlanChange,
+    SubscriptionServiceLocation,
     SubscriptionUpcomingDeliveryHold,
-    TaxCalculationRequest,
-    TaxComponentRequest,
-    TaxJurisdiction,
-    TaxBreakdown,
-    TaxBreakdownPercentage,
-    TaxBreakdownFlatAmount,
-    SubscriptionTermsRequestInput
-} from '../declarations/types-57.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceVersionRequestInput } from '../declarations/types-48.js';
+    SubscriptionQuantityChangeLineItemRequestInput,
+    SubscriptionPromotionRequestInput,
+    SubscriptionServiceLocationRequestInput,
+    SubscriptionServiceLocationInputCustomerAddressInput,
+    SubscriptionServiceLocationInputAddressInput,
+    SubscriptionTermsRequestInput,
+    SubscriptionQuantityChangeLineItemRequest
+} from '../declarations/types-60.js';
+export type {
+    RequestOptions,
+    ResourceReference,
+    ResponseMeta,
+    ResponseWarning,
+    RemoveSubscriptionPromotionsRequestInput,
+    RenewSubscriptionRequestInput,
+    ResourceVersionRequestInput,
+    RemoveSubscriptionPromotionsRequest
+} from '../declarations/types-51.js';
 export type {
     Subscription,
     SubscriptionCancellationDetails,
-    SubscriptionDelivery,
     SubscriptionAddressVerification,
-    SubscriptionDeliveryDestination,
-    SubscriptionDeliveryHold,
     StripePaymentClientAction,
     StripeSetupIntentClientAction,
     SubscribedLine,
@@ -95,59 +112,85 @@ export type {
     SubscriptionBillingStartInputImmediateInput,
     SubscriptionBillingStartInputScheduledInput,
     SubscriptionBillingStartInputImportedInput,
-    SubscriptionDeliveryDestinationRequestInput,
-    SubscriptionDeliveryDestinationInputCustomerAddressInput,
-    SubscriptionDeliveryDestinationInputAddressInput,
     SkipSubscriptionCycleRequestInput,
     SubscriptionBillingScheduleUpdateRequestInput,
     SubscriptionBillingScheduleUpdateInputFlintInput,
     SubscriptionBillingScheduleUpdateInputExternalInput
-} from '../declarations/types-54.js';
+} from '../declarations/types-57.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency, Weight } from '../declarations/types-66.js';
 export type {
-    SubscriptionResponse,
     SubscriptionPlanChangeResult,
     SubscriptionPlanChangeResultResponse,
-    SubscriptionRenewalResult,
-    SubscriptionRenewalResultResponse,
-    SubscriptionPromotion,
-    SubscriptionServiceLocation,
+    SubscriptionPaymentRetry,
+    SubscriptionPaymentRetryResponse,
+    SubscriptionPaymentRetryListResponse,
     SubscriptionPlanLineItem,
     SubscriptionPlanSwapVariant,
     SubscriptionPlanLineItemVariant,
     SubscriptionPlanLineItemBundle,
     SubscriptionPlanLineItemCustom,
     SubscriptionPlanChangeLineItemRequestInput,
-    SubscriptionServiceLocationRequestInput,
-    SubscriptionServiceLocationInputCustomerAddressInput,
-    SubscriptionServiceLocationInputAddressInput,
     SubscriptionPlanTermsRequestInput,
     SubscriptionPlanChangeLineItemRequest
-} from '../declarations/types-56.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency, Weight } from '../declarations/types-62.js';
-export type { AccessLink, AccessLinkResponse, AuthMode, Address, AddressRequestInput, AddressRequest } from '../declarations/types-0.js';
+} from '../declarations/types-59.js';
 export type {
-    SubscriptionPaymentRetry,
-    SubscriptionPaymentRetryResponse,
-    SubscriptionPaymentRetryListResponse,
+    AccessLink,
+    AccessLinkResponse,
+    ApplySubscriptionPromotionRequestInput,
+    AuthMode,
+    Address,
+    AddressRequestInput,
+    AddressRequest
+} from '../declarations/types-0.js';
+export type {
     SubscriptionListResponse,
     SubscriptionIntervalOption,
+    SubscriptionDelivery,
     SubscriptionDeliveryMethodSummary,
+    SubscriptionDeliveryDestination,
+    SubscriptionDeliveryHold,
+    SubscriptionEndAfter,
+    SubscriptionEndAfterCycles,
+    SubscriptionEndAfterDate,
     SubscriptionInventoryWait,
     SubscriptionLineItem,
     SubscriptionDeliveryRequestInput,
+    SubscriptionDeliveryDestinationRequestInput,
+    SubscriptionDeliveryDestinationInputCustomerAddressInput,
+    SubscriptionDeliveryDestinationInputAddressInput,
+    SubscriptionEndAfterRequestInput,
+    SubscriptionEndAfterCyclesRequestInput,
+    SubscriptionEndAfterDateRequestInput,
     SubscriptionOfferTermsRequestInput,
     SubscriptionOfferLineItemRequestInput,
     SubscriptionOfferLineItemRequest
-} from '../declarations/types-55.js';
-export type { ClientOptions } from '../declarations/types-5.js';
+} from '../declarations/types-58.js';
 export type {
-    CancelSubscriptionRequestInput,
-    CategoryReference,
-    CardDetails,
-    ChangeSubscriptionPlanRequestInput,
-    CheckoutBuyerContact
-} from '../declarations/types-4.js';
-export type { Credentials, CreditNotesListAllocationsParams } from '../declarations/types-12.js';
+    SubscriptionsRenewParams,
+    SubscriptionsResumeParams,
+    SubscriptionsSkipCycleParams,
+    SubscriptionsUpdateParams,
+    SubscriptionsUpdateLineItemParams,
+    TaxCalculationRequest,
+    TaxComponentRequest,
+    TaxJurisdiction,
+    TaxBreakdown,
+    TaxBreakdownPercentage,
+    TaxBreakdownFlatAmount
+} from '../declarations/types-61.js';
+export type { ClientOptions, ConfigurationVersionRequestInput } from '../declarations/types-6.js';
+export type {
+    PromotionRefRequestInput,
+    PromotionRefInputPromotionIDInput,
+    PromotionRefInputPromotionCodeInput,
+    ReadinessMerchantAccountSession,
+    PromotionRecurrence,
+    PromotionRecurrenceOnce,
+    PromotionRecurrenceRepeating,
+    PromotionRecurrenceForever,
+    PurchasedGiftCard
+} from '../declarations/types-49.js';
+export type { Credentials, CreateSubscriptionRequestInput } from '../declarations/types-13.js';
 export type {
     BuyerAction,
     BuyerCancelActionOptions,
@@ -165,48 +208,39 @@ export type {
     ExpandedPackageSummary,
     ExpandedShipmentSummary,
     ExpandedPaymentIntentSummary,
-    ExpandedSubscriptionSummary
-} from '../declarations/types-21.js';
-export type {
-    DeliveryRecipientResource,
-    DeliverySelectionRecipientRequestInput,
-    DeliverySelectionRecipientRequest
-} from '../declarations/types-19.js';
-export type {
-    MoneyValue,
-    NextAction,
-    MetadataMap,
-    MetadataRequestInput,
-    MetadataPatchRequestInput,
-    MetadataPatchRequest
-} from '../declarations/types-35.js';
+    ExpandedSubscriptionSummary,
+    FilesCompleteParams
+} from '../declarations/types-23.js';
+export type { DeliveryRecipientResource } from '../declarations/types-20.js';
+export type { MoneyValue, NextAction } from '../declarations/types-37.js';
 export type {
     PaymentErrorSummary,
+    PaymentAttemptGiftCardRedemption,
+    PaymentAttemptPaymentIntent,
     PaymentClientAction,
     PaymentCollection,
     PaymentCollectionStripe,
     PaymentCollectionStripeElements
-} from '../declarations/types-41.js';
-export type {
-    ReadinessMerchantAccountSession,
-    PromotionRecurrenceOnce,
-    PromotionRecurrenceRepeating,
-    PurchasedGiftCard
-} from '../declarations/types-46.js';
+} from '../declarations/types-43.js';
 export type {
     SelectedProductOption,
     SettlementAmounts,
     ServiceFulfillmentDetails,
     ShipmentFulfillmentDetails,
     SelectableOrderPaymentIntent
-} from '../declarations/types-53.js';
-export type { Image } from '../declarations/types-25.js';
+} from '../declarations/types-56.js';
+export type {
+    CategoryReference,
+    ChangeSubscriptionPlanRequestInput,
+    CheckoutBuyerContact,
+    ChangeSubscriptionQuantityRequestInput
+} from '../declarations/types-5.js';
+export type { Image } from '../declarations/types-27.js';
 export type {
     OrderLineItemModifier,
     OrderLineItemTax,
     OrderPaymentAttempt,
     OrderPaymentAttemptPaymentMethodSave,
-    OrderDiscount,
     OrderGiftCardEstimate,
     OrderGiftCardAllocation,
     OrderGiftCardSettlement,
@@ -218,15 +252,16 @@ export type {
     OrderLineItemFulfillmentProfile,
     OrderLineSubscriptionOfferSummary,
     OrderLineSubscriptionOfferDiscount
-} from '../declarations/types-37.js';
+} from '../declarations/types-39.js';
+export type { MetadataMap, MetadataRequestInput, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-36.js';
 export type {
     TextModifierRequest,
     TicketedEvent,
     Tip,
     TipPaymentIntentAllocation,
     TipValueSettlementAllocation
-} from '../declarations/types-58.js';
-export type { PromotionRecurrence, PromotionRecurrenceForever } from '../declarations/types-45.js';
+} from '../declarations/types-62.js';
+export type { CardDetails, CancelSubscriptionRequestInput, CatalogPricing } from '../declarations/types-4.js';
 export type {
     Order,
     OrderAuthorizationAmounts,
@@ -234,22 +269,25 @@ export type {
     OrderCalculatedChargeTax,
     OrderDeliveryDestination,
     OrderDeliveryDestinationRecipient,
+    OrderDiscount,
     OrderCalculatedLineItemTax
-} from '../declarations/types-36.js';
-export type {
-    PaymentAttemptGiftCardRedemption,
-    PaymentAttemptPaymentIntent,
-    PauseSubscriptionRequestInput,
-    PauseSubscriptionRequest
-} from '../declarations/types-40.js';
+} from '../declarations/types-38.js';
 export type {
     PendingPaymentAction,
-    PendingPaymentActionSubject,
     PendingPaymentActionPaymentIntentSubject,
     PendingPaymentActionSetupPaymentSourceSubject,
-    PricingAmounts,
-    PickupFulfillmentDetails
-} from '../declarations/types-44.js';
+    PaymentSourceSummary
+} from '../declarations/types-46.js';
+export type { PendingPaymentActionSubject, PricingAmounts, PickupFulfillmentDetails } from '../declarations/types-47.js';
+export type {
+    CustomFieldAnswer,
+    CustomFieldAnswerText,
+    CustomFieldAnswerTextarea,
+    CustomFieldAnswerDropdown,
+    CustomFieldAnswerCheckbox,
+    CreditNotesListAllocationsParams
+} from '../declarations/types-14.js';
+export type { DeferredPromotion, DeliveryFulfillmentDetails, DeliveryChargeTaxCalculationRequest } from '../declarations/types-16.js';
 export type {
     Fulfillment,
     FulfillmentHold,
@@ -257,56 +295,59 @@ export type {
     FulfillmentLineItem,
     FulfillmentOutcome,
     FulfillmentRecipient
-} from '../declarations/types-22.js';
-export type { DigitalFulfillmentDetails, Dimensions } from '../declarations/types-20.js';
-export type { DeliveryFulfillmentDetails } from '../declarations/types-15.js';
-export type { InventoryRoutingSource } from '../declarations/types-28.js';
-export type { GiftCardPurchaseSnapshot, GiftCardProductConfiguration, GiftCardPurchaseRecipient } from '../declarations/types-24.js';
-export type { GiftCardCustomAmountBounds } from '../declarations/types-23.js';
-export type { LineItemInventorySnapshot, LineItemInventoryDemand, InvoicesMarkUncollectibleParams } from '../declarations/types-32.js';
-export type { PaymentSourceSummary, PaymentSourceAchDebitSummary, PaymentSourceCardSummary } from '../declarations/types-43.js';
-export type { OrderReturnCreditSettlement, OrderTax, OrderTaxExemption, OrderTaxLocation } from '../declarations/types-38.js';
+} from '../declarations/types-24.js';
+export type { DigitalFulfillmentDetails, Dimensions, DisputesAcceptParams } from '../declarations/types-22.js';
 export type {
-    CreateSubscriptionRequestInput,
+    OrderSettlementAmounts,
+    OrderReturnCreditSettlement,
+    OrderTax,
+    OrderTaxExemption,
+    OrderTaxLocation
+} from '../declarations/types-40.js';
+export type { InventoryRoutingSource } from '../declarations/types-29.js';
+export type { GiftCardPurchaseSnapshot, GiftCardProductConfiguration, GiftCardPurchaseRecipient } from '../declarations/types-26.js';
+export type { GiftCardCustomAmountBounds } from '../declarations/types-25.js';
+export type { LineItemInventorySnapshot, LineItemInventoryDemand } from '../declarations/types-34.js';
+export type { PaymentSourceAchDebitSummary, PaymentSourceCardSummary } from '../declarations/types-45.js';
+export type { DeliverySelectionRecipientRequestInput, DeliverySelectionRecipientRequest } from '../declarations/types-21.js';
+export type {
     CreateSubscriptionAccessLinkRequestInput,
     CreateSubscriptionLineItemRequestInput,
     CreateSubscriptionLineItemRequestVariantInput,
     CreateSubscriptionLineItemRequestBundleInput
-} from '../declarations/types-11.js';
-export type { RenewSubscriptionRequestInput } from '../declarations/types-47.js';
-export type { UpdateSubscriptionRequestInput } from '../declarations/types-61.js';
-export type { UpdateSubscriptionLineItemRequestInput, UpdateSubscriptionLineItemRequest } from '../declarations/types-60.js';
-export type { MeCancelSubscriptionParams } from '../declarations/types-33.js';
-export type { MePauseSubscriptionParams, MeRenewSubscriptionParams } from '../declarations/types-34.js';
-export type { ConfigurationVersionRequestInput, ConfirmReturnResolutionRequestInput } from '../declarations/types-6.js';
-export { makeAddressRequest, makeCancelSubscriptionRequest } from '../declarations/types-62.js';
-export {
-    makeChangeSubscriptionPlanRequest,
-    makeConfigurationVersionRequest,
-    makeConfirmReturnResolutionRequest
-} from '../declarations/types-63.js';
-export {
-    makeCreateSubscriptionAccessLinkRequest,
-    makeCreateSubscriptionLineItemRequest,
-    makeCreateSubscriptionLineItemRequestBundle
+} from '../declarations/types-12.js';
+export type { PauseSubscriptionRequestInput, PauseSubscriptionRequest } from '../declarations/types-42.js';
+export type {
+    UpdateSubscriptionRequestInput,
+    UpdateSubscriptionLineItemRequestInput,
+    UpdateSubscriptionLineItemRequest
 } from '../declarations/types-65.js';
-export { makeCreateSubscriptionLineItemRequestVariant, makeCreateSubscriptionRequest } from '../declarations/types-66.js';
-export { makeDeliverySelectionRecipientRequest, makeDimensions } from '../declarations/types-67.js';
-export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-69.js';
+export type { InvoicesMarkUncollectibleParams } from '../declarations/types-33.js';
+export type { ConfirmReturnResolutionRequestInput } from '../declarations/types-7.js';
+export { makeAddressRequest } from '../declarations/types-66.js';
 export {
-    makeMoneyValue,
-    makeOrderCalculatedChargeTax,
-    makeOrderCalculatedLineItemTax,
-    makeOrderLineItemTax
-} from '../declarations/types-70.js';
+    makeApplySubscriptionPromotionRequest,
+    makeCancelSubscriptionRequest,
+    makeChangeSubscriptionPlanRequest,
+    makeChangeSubscriptionQuantityRequest
+} from '../declarations/types-67.js';
+export { makeConfigurationVersionRequest, makeConfirmReturnResolutionRequest } from '../declarations/types-68.js';
+export { makeCreateSubscriptionAccessLinkRequest } from '../declarations/types-70.js';
 export {
-    makePauseSubscriptionRequest,
-    makePromotionRecurrence,
-    makePromotionRecurrenceForever,
-    makePromotionRecurrenceOnce,
-    makePromotionRecurrenceRepeating
+    makeCreateSubscriptionLineItemRequest,
+    makeCreateSubscriptionLineItemRequestBundle,
+    makeCreateSubscriptionLineItemRequestVariant,
+    makeCreateSubscriptionRequest
 } from '../declarations/types-71.js';
-export { makeRenewSubscriptionRequest, makeResourceVersionRequest } from '../declarations/types-72.js';
+export { makeDeliverySelectionRecipientRequest } from '../declarations/types-72.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-74.js';
+export { makeMoneyValue, makePauseSubscriptionRequest } from '../declarations/types-75.js';
+export { makePromotionRefInputPromotionCode, makePromotionRefInputPromotionID, makePromotionRefRequest } from '../declarations/types-76.js';
+export {
+    makeRemoveSubscriptionPromotionsRequest,
+    makeRenewSubscriptionRequest,
+    makeResourceVersionRequest
+} from '../declarations/types-77.js';
 export {
     makeSkipSubscriptionCycleRequest,
     makeSubscriptionBillingScheduleInputExternal,
@@ -323,26 +364,52 @@ export {
     makeSubscriptionDeliveryDestinationInputCustomerAddress,
     makeSubscriptionDeliveryDestinationRequest,
     makeSubscriptionDeliveryRequest,
-    makeSubscriptionIntervalOption,
+    makeSubscriptionEndAfterCyclesRequest,
+    makeSubscriptionEndAfterDateRequest,
+    makeSubscriptionEndAfterRequest,
     makeSubscriptionOfferLineItemRequest,
     makeSubscriptionOfferTermsRequest,
     makeSubscriptionPlanChangeLineItemRequest,
-    makeSubscriptionPlanTermsRequest,
+    makeSubscriptionPlanTermsRequest
+} from '../declarations/types-78.js';
+export {
+    makeSubscriptionPromotionRequest,
+    makeSubscriptionQuantityChangeLineItemRequest,
     makeSubscriptionServiceLocationInputAddress,
     makeSubscriptionServiceLocationInputCustomerAddress,
     makeSubscriptionServiceLocationRequest,
-    makeSubscriptionTermsRequest
-} from '../declarations/types-73.js';
-export { makeTaxCalculationRequest, makeTaxComponentRequest, makeTaxJurisdiction, makeTextModifierRequest } from '../declarations/types-74.js';
-export { makeUpdateSubscriptionLineItemRequest, makeUpdateSubscriptionRequest, makeWeight } from '../declarations/types-75.js';
+    makeSubscriptionTermsRequest,
+    makeTextModifierRequest
+} from '../declarations/types-79.js';
+export { makeUpdateSubscriptionLineItemRequest, makeUpdateSubscriptionRequest } from '../declarations/types-80.js';
 export interface SubscriptionsResource {
+    /**
+ * Attaches a promotion to a subscription for future charged cycles. Send exactly one of
+ * promotion.promotion_id or promotion.promotion_code. first_cycle defaults to completed_cycles +
+ * 1, or completed_cycles + 2 while past_due, and cannot exceed completed_cycles + 120. Use
+ * replace_promotion_id to replace an active or scheduled promotion from first_cycle forward. The
+ * unpaid past_due order keeps its price. Promotion terms are frozen when attached; reattachment
+ * keeps consumed cycles. Offer promotions cannot be replaced. Requires
+ * commerce.subscriptions.write.
+ *
+ * `POST /v1/subscriptions/{subscription_id}/promotions`
+ * @param subscription_id Flint subscription ID.
+ * @see https://developers.withflintpay.com/docs/api/subscriptions#applySubscriptionPromotion
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
+ * @example
+ * // Persist this key with the action before sending; reuse it for every resubmission.
+ * const idempotencyKey = crypto.randomUUID();
+ * client.subscriptions.applyPromotion("sub_01KEZF7C00BVRE8YDBXQB74BBM", {promotion:
+ * {promotion_code: "RETENTION20"}}, { idempotencyKey: idempotencyKey })
+ */
+    applyPromotion(subscription_id: InputValue<string>, params: SubscriptionsApplyPromotionParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Subscription, SubscriptionResponse>>;
     /**
  * Cancels a subscription and records who asked, why, and when in cancellation_details. With
  * cancel_immediately: true it ends now. Otherwise, trialing ends at trial_end_at, active at
  * current_period_end_at (or now when a renewal delivery hold has expired), and past_due at
  * next_retry_at instead of that retry. Scheduled, incomplete, paused, and past_due without
- * next_retry_at require cancel_immediately: true or return 409 ACTION_NOT_ALLOWED with reason
- * period_end_unavailable. Read scheduled_cancel_at for the scheduled end time. A buyer's
+ * next_retry_at require cancel_immediately: true or fail with `ACTION_NOT_ALLOWED` and reason
+ * `period_end_unavailable`. Read scheduled_cancel_at for the scheduled end time. A buyer's
  * cancellation follows the store's customer_account.buyer_capabilities. Send expected_version to
  * reject a concurrent change.
  *
@@ -353,10 +420,10 @@ export interface SubscriptionsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.subscriptions.cancel("sub_01ARZ3NDEKTSV4RRFFQ69G5FAV", {cancel_immediately: false,
- * cancellation_reason_code: "too_expensive"}, { idempotencyKey: idempotencyKey })
+ * client.subscriptions.cancel("sub_01KEZF7C00BVRE8YDBXQB74BBM", undefined, { idempotencyKey:
+ * idempotencyKey })
  */
-    cancel(subscription_id: InputValue<string>, params: SubscriptionsCancelParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Subscription, SubscriptionResponse>>;
+    cancel(subscription_id: InputValue<string>, params?: SubscriptionsCancelParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Subscription, SubscriptionResponse>>;
     /**
  * Replaces the subscription's lines and recurring options with the active target plan's current
  * terms. Paired lines keep their quantities unless line_items overrides them. Pair by the same
@@ -364,17 +431,19 @@ export interface SubscriptionsResource {
  * target lines use their plan quantity. If an adjusted current line cannot be paired, send
  * quantities for every target line; otherwise the request fails with quantity_not_carried before
  * any change. With billing_starts next_renewal, changes terms now without charging and keeps the
- * current period and next billing date. With billing_starts now, charges a new period and credits
- * unused paid item time after promotions; the plan changes only when payment succeeds. If the
- * credit exceeds the new item charge, choose next_renewal. Omit interval and quantity to keep
- * their current values; the target plan must offer them. Contract terms and existing recurring
- * promotions are preserved. Requires Idempotency-Key; retry with the same key to recover the same
- * result. Returns status 200 for a decline, with a closed unpaid order, failed
+ * current period and next billing date. With billing_starts prorated_now, charges the new terms
+ * for the rest of the current period, less unused paid item credit, while keeping the billing
+ * period and anchor; the resulting interval must stay unchanged. With billing_starts now, charges
+ * a new period and credits unused paid item time after promotions; the plan changes only when
+ * payment succeeds. If the credit exceeds the new item charge, choose next_renewal. Omit interval
+ * and quantity to keep their current values; the target plan must offer them. Contract terms and
+ * existing recurring promotions are preserved. Requires Idempotency-Key; retry with the same key
+ * to recover the same result. Returns status 200 for a decline, with a closed unpaid order, failed
  * order_payment_attempt, and unchanged subscription. Inspect
  * order_payment_attempt.last_payment_error and update the subscription payment method before
  * trying again. Send expected_version to reject a concurrent change. After a confirmed
  * CONCURRENT_MODIFICATION with billing_starts now, refresh the subscription and send a new
- * Idempotency-Key. The buyer account cannot change plans.
+ * Idempotency-Key.
  *
  * `POST /v1/subscriptions/{subscription_id}/change-plan`
  * @param subscription_id Subscription ID.
@@ -388,7 +457,56 @@ export interface SubscriptionsResource {
  */
     changePlan(subscription_id: InputValue<string>, params: SubscriptionsChangePlanParams, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<SubscriptionPlanChangeResult, SubscriptionPlanChangeResultResponse>>;
     /**
- * Creates a subscription for the authenticated merchant.
+ * Changes the subscription quantity multiplier, existing line quantities, or both, with the chosen
+ * billing timing. billing_starts is required: prorated_now charges now, next_renewal changes
+ * quantities immediately without charging, and period_end schedules them for the next billing
+ * boundary in scheduled_plan_change. Cancel pending quantities with PATCH scheduled_plan_change:
+ * null. A pending change locks quantity edits with plan_change_scheduled. Keeps the current
+ * billing period, next billing date, anchor and completed cycles. Omitted quantities stay
+ * unchanged. Send quantity or 1 to 50 distinct line_items. With prorated_now, a shipping line
+ * cannot be changed, and quantity cannot be supplied when any subscription line ships. Physical
+ * quantities can use next_renewal or period_end. Digital line quantities can be changed on a
+ * subscription with other lines that ship; its shipping lines stay unchanged and this charge
+ * creates no shipment or shipping charge. Quantities that do not charge can still be updated with
+ * subscription PATCH or the line-item routes. Requires Idempotency-Key; retry with the same key to
+ * recover the original outcome. Returns 200 on decline with a closed unpaid order, failed
+ * order_payment_attempt, and unchanged subscription. Inspect
+ * order_payment_attempt.last_payment_error before trying again. The order and
+ * order_payment_attempt are null when the net charge is zero. Send expected_version to reject a
+ * concurrent change. If the outcome remains uncertain, retrieve the subscription and its orders;
+ * contact Flint support with the original key and request ID when those reads cannot establish the
+ * result.
+ *
+ * `POST /v1/subscriptions/{subscription_id}/change-quantity`
+ * @param subscription_id Subscription ID.
+ * @see https://developers.withflintpay.com/docs/api/subscriptions#changeSubscriptionQuantity
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
+ * @example
+ * // Persist this key with the action before sending; reuse it for every resubmission.
+ * const idempotencyKey = crypto.randomUUID();
+ * client.subscriptions.changeQuantity("sub_01KEZF7C00BVRE8YDBXQB74BBM", {billing_starts:
+ * "prorated_now", expected_version: 1, quantity: 2}, { idempotencyKey: idempotencyKey })
+ */
+    changeQuantity(subscription_id: InputValue<string>, params: SubscriptionsChangeQuantityParams, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<SubscriptionQuantityChangeResult, SubscriptionQuantityChangeResultResponse>>;
+    /**
+ * Creates a subscription for a customer outside checkout. Send `customer_id`, the `terms` (a
+ * subscription plan or subscription offers), and `billing_start`, which says whether billing
+ * begins now, on a later date, or continues a period the buyer already paid elsewhere. Renewals
+ * charge `payment_method_id`, or the customer's default payment method when you omit it. Free
+ * trials without an upfront charge and `imported` starts can begin without a card when the
+ * customer has no default payment method; other starts fail with `INVALID_REQUEST` naming
+ * `payment_method_id`. A setup fee or other creation-time charge requires a card; scheduled starts
+ * also require one. Bind a card before `payment_method_due_at`: a trial without one cancels at
+ * that boundary without an attempted charge, while an imported subscription follows its normal
+ * dunning schedule. Flint requests the card three days before the boundary, or when a shorter
+ * trial begins. A default payment method that can't be used fails the request on every start. The
+ * payment method must belong to the customer, be active, and allow charges without the buyer
+ * present. A plan that is not active fails with `ACTION_NOT_ALLOWED`. Subscriptions require a
+ * customer with an email address in both customer account modes; otherwise creation returns 409
+ * CUSTOMER_EMAIL_REQUIRED. Optional promotions (up to five) freeze current terms and qualify
+ * against the projected order for first_cycle. Imports alone accept consumed_cycles to carry over
+ * the buyer's used allowance. Attaching counts one promotion use and, when sent by code, one code
+ * use.
  *
  * `POST /v1/subscriptions`
  * @see https://developers.withflintpay.com/docs/api/subscriptions#createSubscription
@@ -412,15 +530,15 @@ export interface SubscriptionsResource {
  * commerce.subscriptions.read. Neither purpose permits other subscription changes or access to
  * another subscription. Both work for 14 days or 5 opens, whichever comes first; after that the
  * buyer signs in. The url is a bearer credential. Flint returns it only in this response and in a
- * retry with the same Idempotency-Key, so send it only to the buyer and keep it out of logs. A
+ * retry with the same idempotency key, so send it only to the buyer and keep it out of logs. A
  * call with a new key creates another link; earlier links keep working until they expire. When
- * customer_account.mode is merchant_hosted it returns 409 ACTION_NOT_ALLOWED with reason
- * merchant_hosted_customer_accounts. Send no request body, an empty object ({}), or an optional
- * purpose. Idempotency is scoped to the merchant, credential, environment, and this resource's
- * route. A replay returns the original link without extending its lifetime or replenishing its
- * opens. Without an Idempotency-Key, each call creates a new link and has no replay result. If
- * Flint cannot retain a result after minting, contact support with X-Request-Id before sending a
- * new request.
+ * customer_account.mode is merchant_hosted it fails with `ACTION_NOT_ALLOWED` and reason
+ * `merchant_hosted_customer_accounts`. Send no request body, an empty object ({}), or an optional
+ * purpose and return_url. Idempotency is scoped to the merchant, credential, environment, and this
+ * resource's route. A replay returns the original link without extending its lifetime or
+ * replenishing its opens. Without an idempotency key, each call creates a new link and has no
+ * replay result. If Flint cannot retain a result after minting, contact support with the request
+ * ID before sending a new request.
  *
  * `POST /v1/subscriptions/{subscription_id}/access-links`
  * @param subscription_id Flint subscription ID.
@@ -429,7 +547,7 @@ export interface SubscriptionsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.subscriptions.createAccessLink("sub_01ARZ3NDEKTSV4RRFFQ69G5FAV", undefined, {
+ * client.subscriptions.createAccessLink("sub_01KEZF7C00BVRE8YDBXQB74BBM", undefined, {
  * idempotencyKey: idempotencyKey })
  */
     createAccessLink(subscription_id: InputValue<string>, params?: SubscriptionsCreateAccessLinkParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<AccessLink, AccessLinkResponse>>;
@@ -459,7 +577,7 @@ export interface SubscriptionsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.subscriptions.createPaymentRetry("sub_01ARZ3NDEKTSV4RRFFQ69G5FAV", undefined, {
+ * client.subscriptions.createPaymentRetry("sub_01KEZF7C00BVRE8YDBXQB74BBM", undefined, {
  * idempotencyKey: idempotencyKey })
  */
     createPaymentRetry(subscription_id: InputValue<string>, params: SubscriptionsCreatePaymentRetryParams | undefined, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<SubscriptionPaymentRetry, SubscriptionPaymentRetryResponse>>;
@@ -475,8 +593,8 @@ export interface SubscriptionsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.subscriptions.deleteLineItem("sub_01ARZ3NDEKTSV4RRFFQ69G5FAV",
- * "sli_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey })
+ * client.subscriptions.deleteLineItem("sub_01KEZF7C00BVRE8YDBXQB74BBM",
+ * "sli_01KEZF7C00PPWVJ2N321V84ASA", {}, { idempotencyKey: idempotencyKey })
  */
     deleteLineItem(subscription_id: InputValue<string>, subscription_line_item_id: InputValue<string>, params?: SubscriptionsDeleteLineItemParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Subscription, SubscriptionResponse>>;
     /**
@@ -488,7 +606,7 @@ export interface SubscriptionsResource {
  * @see https://developers.withflintpay.com/docs/api/subscriptions#getSubscription
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.subscriptions.get("sub_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.subscriptions.get("sub_01KEZF7C00BVRE8YDBXQB74BBM")
  */
     get(subscription_id: InputValue<string>, params?: SubscriptionsGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant">>): Promise<WithResponseInfo<Subscription, SubscriptionResponse>>;
     /**
@@ -500,8 +618,8 @@ export interface SubscriptionsResource {
  * @see https://developers.withflintpay.com/docs/api/subscriptions#getSubscriptionPaymentRetry
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.subscriptions.getPaymentRetry("sub_01ARZ3NDEKTSV4RRFFQ69G5FAV",
- * "spr_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.subscriptions.getPaymentRetry("sub_01KEZF7C00BVRE8YDBXQB74BBM",
+ * "spr_01KEZF7C00YXMSBXGYEMYDD0AA")
  */
     getPaymentRetry(subscription_id: InputValue<string>, subscription_payment_retry_id: InputValue<string>, params?: SubscriptionsGetPaymentRetryParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<SubscriptionPaymentRetry, SubscriptionPaymentRetryResponse>>;
     /**
@@ -513,7 +631,7 @@ export interface SubscriptionsResource {
  * @see https://developers.withflintpay.com/docs/api/subscriptions#listSubscriptionPaymentRetries
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.subscriptions.listPaymentRetries("sub_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.subscriptions.listPaymentRetries("sub_01KEZF7C00BVRE8YDBXQB74BBM")
  */
     listPaymentRetries(subscription_id: InputValue<string>, params?: SubscriptionsListPaymentRetriesParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<SubscriptionPaymentRetryListResponse, SubscriptionPaymentRetryListResponse>>;
     /** Iterate pages lazily.
@@ -561,19 +679,36 @@ export interface SubscriptionsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.subscriptions.pause("sub_01ARZ3NDEKTSV4RRFFQ69G5FAV", {pause_duration_cycles: 2}, {
- * idempotencyKey: idempotencyKey })
+ * client.subscriptions.pause("sub_01KEZF7C00BVRE8YDBXQB74BBM", undefined, { idempotencyKey:
+ * idempotencyKey })
  */
-    pause(subscription_id: InputValue<string>, params: SubscriptionsPauseParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Subscription, SubscriptionResponse>>;
+    pause(subscription_id: InputValue<string>, params?: SubscriptionsPauseParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Subscription, SubscriptionResponse>>;
+    /**
+ * Removes 1 to 5 unique active or scheduled promotions from a subscription. Future renewal orders
+ * omit them; paid orders and the unpaid past_due order keep their discounts. Removal keeps
+ * consumed cycles for reattachment and does not return a promotion use. Offer promotions cannot be
+ * removed. Requires commerce.subscriptions.write.
+ *
+ * `POST /v1/subscriptions/{subscription_id}/promotions/remove`
+ * @param subscription_id Flint subscription ID.
+ * @see https://developers.withflintpay.com/docs/api/subscriptions#removeSubscriptionPromotions
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
+ * @example
+ * // Persist this key with the action before sending; reuse it for every resubmission.
+ * const idempotencyKey = crypto.randomUUID();
+ * client.subscriptions.removePromotions("sub_01KEZF7C00BVRE8YDBXQB74BBM", {promotion_ids:
+ * ["promo_01ARZ3NDEKTSV4RRFFQ69G5FAV"]}, { idempotencyKey: idempotencyKey })
+ */
+    removePromotions(subscription_id: InputValue<string>, params: SubscriptionsRemovePromotionsParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Subscription, SubscriptionResponse>>;
     /**
  * Charges the next renewal now, ships it when the subscription has delivery, and moves the next
  * billing date forward by one interval. Available while the subscription is active on a
  * Flint-owned billing schedule (billing_schedule_owner is flint), is not set to cancel at the end
  * of its period, is not in a trial, and has no delivery hold or renewal in progress. The
- * subscription's payment method must be active and allow off-session charges. Requires
- * Idempotency-Key; retry with the same key to recover the same attempt. Returns the subscription,
- * renewal order, and payment attempt with status 200, including when the payment is declined.
- * Inspect order_payment_attempt.last_payment_error for a failed payment.
+ * subscription's payment method must be active and allow off-session charges. Requires an
+ * idempotency key; retry with the same key to recover the same attempt. Returns the subscription,
+ * renewal order, and payment attempt, including when the payment is declined. Inspect
+ * order_payment_attempt.last_payment_error for a failed payment.
  *
  * `POST /v1/subscriptions/{subscription_id}/renew`
  * @param subscription_id Subscription ID.
@@ -582,16 +717,16 @@ export interface SubscriptionsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.subscriptions.renew("sub_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey:
+ * client.subscriptions.renew("sub_01KEZF7C00BVRE8YDBXQB74BBM", undefined, { idempotencyKey:
  * idempotencyKey })
  */
-    renew(subscription_id: InputValue<string>, params: SubscriptionsRenewParams, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<SubscriptionRenewalResult, SubscriptionRenewalResultResponse>>;
+    renew(subscription_id: InputValue<string>, params: SubscriptionsRenewParams | undefined, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<SubscriptionRenewalResult, SubscriptionRenewalResultResponse>>;
     /**
- * Asks Flint to resume a paused subscription. Returns 202 while the subscription is still paused,
- * with resume_requested_at set. Flint then makes it active, or past_due while an overdue period is
- * collected, and sends subscription.resumed. If Flint can't resume it, it stays paused,
- * resume_requested_at clears, and Flint sends subscription.updated. Any other status fails with
- * 409 ACTION_NOT_ALLOWED. To undo a scheduled cancellation, PATCH the subscription with
+ * Asks Flint to resume a paused subscription. The request is accepted while the subscription is
+ * still paused, with `resume_requested_at` set. Flint then makes it active, or past_due while an
+ * overdue period is collected, and sends subscription.resumed. If Flint can't resume it, it stays
+ * paused, resume_requested_at clears, and Flint sends subscription.updated. Any other status fails
+ * with `ACTION_NOT_ALLOWED`. To undo a scheduled cancellation, PATCH the subscription with
  * cancel_at_period_end set to false.
  *
  * `POST /v1/subscriptions/{subscription_id}/resume`
@@ -601,7 +736,7 @@ export interface SubscriptionsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.subscriptions.resume("sub_01ARZ3NDEKTSV4RRFFQ69G5FAV", undefined, { idempotencyKey:
+ * client.subscriptions.resume("sub_01KEZF7C00BVRE8YDBXQB74BBM", undefined, { idempotencyKey:
  * idempotencyKey })
  */
     resume(subscription_id: InputValue<string>, params?: SubscriptionsResumeParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Subscription, SubscriptionResponse>>;
@@ -619,19 +754,20 @@ export interface SubscriptionsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.subscriptions.skipCycle("sub_01ARZ3NDEKTSV4RRFFQ69G5FAV", {initiated_by: "merchant"}, {
- * idempotencyKey: idempotencyKey })
+ * client.subscriptions.skipCycle("sub_01KEZF7C00BVRE8YDBXQB74BBM", undefined, { idempotencyKey:
+ * idempotencyKey })
  */
-    skipCycle(subscription_id: InputValue<string>, params: SubscriptionsSkipCycleParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Subscription, SubscriptionResponse>>;
+    skipCycle(subscription_id: InputValue<string>, params?: SubscriptionsSkipCycleParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Subscription, SubscriptionResponse>>;
     /**
  * Updates metadata, external_reference_id, payment_method_id, delivery, billing interval,
- * quantity, or cancel_at_period_end: false to undo a scheduled cancellation. Send billing_interval
- * and billing_interval_count together. A billing_schedule update must be the only mutable field.
+ * quantity, cancel_at_period_end: false to undo a scheduled cancellation, or
+ * scheduled_plan_change: null to keep the current plan. Send billing_interval and
+ * billing_interval_count together. A billing_schedule update must be the only mutable field.
  * Delivery, cadence and quantity changes apply to future unpaid renewals. Send expected_version to
  * reject concurrent changes. Schedule a cancellation with `client.subscriptions.cancel`, change
  * the plan with /change-plan, and manage lines through the line-items collection. A card whose
- * setup hasn't finished returns 409 ACTION_NOT_ALLOWED with reason status_not_reached. Once setup
- * finishes, send a new request with a new Idempotency-Key.
+ * setup hasn't finished fails with `ACTION_NOT_ALLOWED` and reason `status_not_reached`. Once
+ * setup finishes, send a new request with a new idempotency key.
  *
  * `PATCH /v1/subscriptions/{subscription_id}`
  * @param subscription_id Flint subscription ID.

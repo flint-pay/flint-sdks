@@ -12,37 +12,37 @@ namespace Flint;
 final class BuyerReturnEligibilityPreviewInput extends Model {
     /** @param array{'evaluated_at': string|\DateTimeInterface, 'line_items': list<BuyerReturnEligibilityPreviewLineItemInput|array<array-key, mixed>|\stdClass>, 'order_id': string, 'policy_evaluation': BuyerReturnPolicyEvaluationInput|array<array-key, mixed>|\stdClass, 'selection': ReturnEligibilitySelectionInput|array<array-key, mixed>|\stdClass, 'status': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerReturnEligibilityPreviewInput')); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When evaluated_at is omitted; use hasEvaluatedAt() or valueOrDefault().
      */
     public function getEvaluatedAt(): string|\DateTimeInterface { return $this->get('evaluated_at'); }
     public function hasEvaluatedAt(): bool { return $this->has('evaluated_at'); }
-    /**  [] (Value): {@see BuyerReturnEligibilityPreviewLineItemInput}. An order line item's Return eligibility, catalog details, and suggested return reasons shown to the buyer.
+    /** Eligibility of each line asked about. [] (Value): {@see BuyerReturnEligibilityPreviewLineItemInput}. An order line item's Return eligibility, catalog details, and suggested return reasons shown to the buyer.
      * @return list<BuyerReturnEligibilityPreviewLineItemInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When line_items is omitted; use hasLineItems() or valueOrDefault().
      */
     public function getLineItems(): array { return $this->get('line_items'); }
     public function hasLineItems(): bool { return $this->has('line_items'); }
-    /** order_id
+    /** ID of the Order the units come from. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** Return policy evaluation results shown to the buyer, including eligibility and results for individual order lines.
+    /** How the active return policies judged the lines. Return policy evaluation results shown to the buyer, including eligibility and results for individual order lines.
      * @return BuyerReturnPolicyEvaluationInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When policy_evaluation is omitted; use hasPolicyEvaluation() or valueOrDefault().
      */
     public function getPolicyEvaluation(): mixed { return $this->get('policy_evaluation'); }
     public function hasPolicyEvaluation(): bool { return $this->has('policy_evaluation'); }
-    /** Which order lines to check for return eligibility: all remaining fulfilled lines, or a specific list of lines.
+    /** The selection the preview was run for. Which order lines to check for return eligibility: all remaining fulfilled lines, or a specific list of lines.
      * @return ReturnEligibilitySelectionInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When selection is omitted; use hasSelection() or valueOrDefault().
      */
     public function getSelection(): mixed { return $this->get('selection'); }
     public function hasSelection(): bool { return $this->has('selection'); }
-    /** Value enum: "eligible", "ineligible", "review_required".
+    /** Overall result for the selection. `review_required` when the lines differ. Value enum: "eligible", "ineligible", "review_required".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */

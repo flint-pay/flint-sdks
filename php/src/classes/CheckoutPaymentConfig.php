@@ -13,7 +13,7 @@ final class CheckoutPaymentConfig extends Model {
      */
     public function getEnabledPaymentOptions(): ?array { return $this->get('enabled_payment_options'); }
     public function hasEnabledPaymentOptions(): bool { return $this->has('enabled_payment_options'); }
-    /** payment_note
+    /** A note shown to the buyer with the payment options.
      * @return ?string
      */
     public function getPaymentNote(): ?string { return $this->get('payment_note'); }

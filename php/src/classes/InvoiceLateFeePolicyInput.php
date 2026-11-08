@@ -11,7 +11,7 @@ namespace Flint;
 final class InvoiceLateFeePolicyInput extends Model {
     /** @param array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'application_mode'?: string, 'grace_period_days': int, 'percent'?: int|float, 'type': string}|object|array{'amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'application_mode'?: string, 'grace_period_days': int, 'percent': int|float, 'type': string}|object $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceLateFeePolicyInput')); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Fixed fee in the invoice currency. Required for fixed and omitted for percentage. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
      */
@@ -23,7 +23,7 @@ final class InvoiceLateFeePolicyInput extends Model {
      */
     public function getApplicationMode(): string { return $this->get('application_mode'); }
     public function hasApplicationMode(): bool { return $this->has('application_mode'); }
-    /** Format: int32. minimum: 0. maximum: 365.
+    /** Calendar days from the start of due_date in the invoice timezone (UTC when absent) before a late fee is eligible. Never eligible before the due date ends. An on_receipt term requires at least 1 day. Format: int32. minimum: 0. maximum: 365.
      * @return int
      * @throws SdkError When grace_period_days is omitted; use hasGracePeriodDays() or valueOrDefault().
      */
@@ -35,7 +35,7 @@ final class InvoiceLateFeePolicyInput extends Model {
      */
     public function getPercent(): int|float { return $this->get('percent'); }
     public function hasPercent(): bool { return $this->has('percent'); }
-    /** Value enum: "fixed", "percentage".
+    /** How the one-time late fee is calculated. Value enum: "fixed", "percentage".
      * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */

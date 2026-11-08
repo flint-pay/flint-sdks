@@ -16,14 +16,14 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->orders->createLineItems('ord_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
+$result = $client->orders->createLineItems('ord_01KEZF7C0054GQKJ142A8X367A', [
   'line_items' => [
     (object) [
       'type' => 'variant',
-      'variant_id' => 'var_01ARZ3NDEKTSV4RRFFQ69G5FAV',
+      'variant_id' => 'var_01KEZF7C004GSH2KT8CNYVMHGX',
     ],
   ],
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
+echo $result->merchant_id . PHP_EOL;
 echo $result->order_id . PHP_EOL;
-echo $result->status . PHP_EOL;
 $client->close();

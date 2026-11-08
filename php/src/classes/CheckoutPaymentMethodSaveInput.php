@@ -17,7 +17,7 @@ final class CheckoutPaymentMethodSaveInput extends Model {
      */
     public function getEmailConfirmationRequired(): bool { return $this->get('email_confirmation_required'); }
     public function hasEmailConfirmationRequired(): bool { return $this->has('email_confirmation_required'); }
-    /** When a pending save stops waiting: 24 hours after the payment succeeded or was approved. Format: date-time.
+    /** When a pending save stops waiting: 24 hours after the payment succeeded or was approved. `null` when the save is no longer pending. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface|null
      * @throws SdkError When expires_at is omitted; use hasExpiresAt() or valueOrDefault().
      */
@@ -29,13 +29,13 @@ final class CheckoutPaymentMethodSaveInput extends Model {
      */
     public function getPhoneLastDigits(): string { return $this->get('phone_last_digits'); }
     public function hasPhoneLastDigits(): bool { return $this->has('phone_last_digits'); }
-    /** Value enum: "sms", "email".
+    /** How the buyer confirmed the card: with a code texted to their phone or emailed to them. Value enum: "sms", "email".
      * @return string
      * @throws SdkError When saved_with is omitted; use hasSavedWith() or valueOrDefault().
      */
     public function getSavedWith(): string { return $this->get('saved_with'); }
     public function hasSavedWith(): bool { return $this->has('saved_with'); }
-    /** Value enum: "pending", "saved", "expired".
+    /** Whether the card is saved. Until `saved`, the card can't be used. Value enum: "pending", "saved", "expired".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */

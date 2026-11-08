@@ -7,9 +7,9 @@ namespace Flint;
  * @property-read ?string $country
  * @property-read string $created_at
  * @property-read string $currency
- * @property-read bool $default_for_currency
  * @property-read ?string $disabled_at
  * @property-read ?string $disabled_reason
+ * @property-read bool $is_default_for_currency
  * @property-read ?string $last4
  * @property-read string $merchant_id
  * @property-read ?array<array-key, string> $metadata
@@ -21,7 +21,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class PayoutDestination extends Model {
-    /** @param array{'available_payout_methods': list<string>, 'bank_name'?: string, 'country'?: string, 'created_at': string, 'currency': string, 'default_for_currency': bool, 'disabled_at'?: string, 'disabled_reason'?: string, 'last4'?: string, 'merchant_id': string, 'metadata'?: mixed, 'payout_destination_id': string, 'status': string, 'status_updated_at'?: string, 'type': string, 'updated_at': string, 'version': int, ...}|object $values */
+    /** @param array{'available_payout_methods': list<string>, 'bank_name'?: string, 'country'?: string, 'created_at': string, 'currency': string, 'disabled_at'?: string, 'disabled_reason'?: string, 'is_default_for_currency': bool, 'last4'?: string, 'merchant_id': string, 'metadata'?: mixed, 'payout_destination_id': string, 'status': string, 'status_updated_at'?: string, 'type': string, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PayoutDestination')); }
     /** Payout methods available through Flint for this destination. Only standard is currently available. [] enum: "standard". [] (Value): string.  Value enum: "standard".
      * @return list<string>
@@ -48,21 +48,21 @@ final class PayoutDestination extends Model {
      */
     public function getCurrency(): string { return $this->get('currency'); }
     public function hasCurrency(): bool { return $this->has('currency'); }
-    /** Whether this is the default destination for its currency. Scheduled payouts, and payouts created without payout_destination_id, go to the default, and only an active destination can be it.
-     * @return bool
-     */
-    public function getDefaultForCurrency(): bool { return $this->get('default_for_currency'); }
-    public function hasDefaultForCurrency(): bool { return $this->has('default_for_currency'); }
     /** When the destination was last disabled or archived. Absent if it never was. Format: date-time.
      * @return ?string
      */
     public function getDisabledAt(): ?string { return $this->get('disabled_at'); }
     public function hasDisabledAt(): bool { return $this->has('disabled_at'); }
-    /** Flint-normalized reason the payout destination cannot currently be used. Unknown provider/backend values are returned as destination_unavailable. Value enum: "destination_disabled", "destination_removed", "destination_unavailable", "destination_rejected", "destination_under_review", "disabled_by_merchant_request", "requirements_past_due", "requirements_pending_verification", "superseded_destination_session_completed".
+    /** Flint-normalized reason the payout destination cannot currently be used. Unknown provider/backend values are returned as destination_unavailable. Value enum: "destination_disabled", "destination_removed", "destination_unavailable", "destination_rejected", "destination_under_review", "requirements_past_due", "requirements_pending_verification".
      * @return ?string
      */
     public function getDisabledReason(): ?string { return $this->get('disabled_reason'); }
     public function hasDisabledReason(): bool { return $this->has('disabled_reason'); }
+    /** Whether this is the default destination for its currency. Scheduled payouts, and payouts created without payout_destination_id, go to the default, and only an active destination can be it.
+     * @return bool
+     */
+    public function getIsDefaultForCurrency(): bool { return $this->get('is_default_for_currency'); }
+    public function hasIsDefaultForCurrency(): bool { return $this->has('is_default_for_currency'); }
     /** Last four digits of the account or card number.
      * @return ?string
      */

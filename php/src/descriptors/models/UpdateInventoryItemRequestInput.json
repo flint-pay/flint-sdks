@@ -1,1 +1,1 @@
-{"shared":"UpdateInventoryItemRequest","dependencies":["SharedCodec1368","SharedCodec1371","UpdateInventoryItemRequest"]}
+{"shared":"UpdateInventoryItemRequest","dependencies":["InventoryBackorderPolicyRequest","SharedCodec1563","SharedCodec1566","UpdateInventoryItemRequest"]}

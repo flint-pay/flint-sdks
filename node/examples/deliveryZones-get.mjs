@@ -5,7 +5,7 @@ const client = new Client({
   allowInsecureHttp: !!baseUrl && ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
 });
 const result = await client.deliveryZones.get(
-  "dzone_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "dzone_01KEZF7C005RY7KGCN4M2CH5WP"
 );
 console.log(result.current_delivery_zone_revision_id);
 console.log(result.delivery_zone_id);

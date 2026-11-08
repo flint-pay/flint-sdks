@@ -14,7 +14,7 @@ final class SubscriptionDeliveryDestinationInput extends Model {
      */
     public function getAddress(): mixed { return $this->get('address'); }
     public function hasAddress(): bool { return $this->has('address'); }
-    /** Display reference to the saved customer address used when this destination was written. Editing that saved address does not change the subscription destination.
+    /** Display reference to the saved customer address used when this destination was written. Editing that saved address does not change the subscription destination. Example: "caddr_01KEZF7C00K2Q127FBJAXWB0FP".
      * @return string
      * @throws SdkError When customer_address_id is omitted; use hasCustomerAddressId() or valueOrDefault().
      */

@@ -11,5 +11,5 @@ Request input.
 | `billing_interval_options` | Required | Array of [SubscriptionIntervalOptionInput](../models/SubscriptionIntervalOptionInput.md#subscriptionintervaloptioninput) |  |
 | `discount` | Optional | [OrderLineSubscriptionOfferDiscountInput](../models/OrderLineSubscriptionOfferDiscountInput.md#orderlinesubscriptionofferdiscountinput) | The discount a subscription offer gives, as a fixed amount or a percentage. |
 | `name` | Required | string |  |
-| `subscription_offer_id` | Required | string |  |
+| `subscription_offer_id` | Required | string | Example: `"soffer_01KEZF7C00KAA9Y1X1KM70YFAA"`. |
 

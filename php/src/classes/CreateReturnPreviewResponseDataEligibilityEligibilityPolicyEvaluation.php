@@ -24,32 +24,32 @@ final class CreateReturnPreviewResponseDataEligibilityEligibilityPolicyEvaluatio
      */
     public function getExpiresAt(): ?string { return $this->get('expires_at'); }
     public function hasExpiresAt(): bool { return $this->has('expires_at'); }
-    /**  [] (Value): {@see CreateReturnPreviewResponseDataEligibilityEligibilityPolicyEvaluationLineItemsItem}. The policy result for one return line: status, eligible quantity, allowed resolution types, and handling requirements such as inspection.
+    /** Eligibility of each line asked about. [] (Value): {@see CreateReturnPreviewResponseDataEligibilityEligibilityPolicyEvaluationLineItemsItem}. The policy result for one return line: status, eligible quantity, allowed resolution types, and handling requirements such as inspection.
      * @return list<CreateReturnPreviewResponseDataEligibilityEligibilityPolicyEvaluationLineItemsItem>
      */
     public function getLineItems(): array { return $this->get('line_items'); }
     public function hasLineItems(): bool { return $this->has('line_items'); }
-    /** Value enum: "eligible_under_policy", "manual_review_required", "return_window_expired", "quantity_unavailable", "policy_ineligible", "resolution_not_allowed", "reason_not_allowed", "policy_conflict", "no_matching_policy".
+    /** Why the selection got this result. Value enum: "eligible_under_policy", "manual_review_required", "return_window_expired", "quantity_unavailable", "policy_ineligible", "resolution_not_allowed", "reason_not_allowed", "policy_conflict", "no_matching_policy".
      * @return string
      */
     public function getReason(): string { return $this->get('reason'); }
     public function hasReason(): bool { return $this->has('reason'); }
-    /** reason_message
+    /** Explanation of `reason`.
      * @return string
      */
     public function getReasonMessage(): string { return $this->get('reason_message'); }
     public function hasReasonMessage(): bool { return $this->has('reason_message'); }
-    /** return_policy_id
+    /** ID of the policy that judged the lines. Absent when none matched.
      * @return ?string
      */
     public function getReturnPolicyId(): ?string { return $this->get('return_policy_id'); }
     public function hasReturnPolicyId(): bool { return $this->has('return_policy_id'); }
-    /** return_policy_revision_id
+    /** ID of the policy revision that judged the lines. Absent when none matched.
      * @return ?string
      */
     public function getReturnPolicyRevisionId(): ?string { return $this->get('return_policy_revision_id'); }
     public function hasReturnPolicyRevisionId(): bool { return $this->has('return_policy_revision_id'); }
-    /** Value enum: "eligible", "ineligible", "review_required".
+    /** Overall result for the selection. `review_required` when the lines differ. Value enum: "eligible", "ineligible", "review_required".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }

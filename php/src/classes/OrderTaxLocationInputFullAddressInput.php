@@ -9,7 +9,7 @@ namespace Flint;
 final class OrderTaxLocationInputFullAddressInput extends Model {
     /** @param array{'address': OrderTaxLocationFullAddressRequestInput|array<array-key, mixed>|\stdClass, 'address_source'?: string, 'address_type': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderTaxLocationInputFullAddressInput')); }
-    /** A full street address you supply as an order's tax location.
+    /** The address to calculate tax from. A full street address you supply as an order's tax location.
      * @return OrderTaxLocationFullAddressRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When address is omitted; use hasAddress() or valueOrDefault().
      */
@@ -21,7 +21,7 @@ final class OrderTaxLocationInputFullAddressInput extends Model {
      */
     public function getAddressSource(): string { return $this->get('address_source'); }
     public function hasAddressSource(): bool { return $this->has('address_source'); }
-    /** Value enum: "tax_address", "billing_address", "shipping_address".
+    /** The kind of address you are sending. Value enum: "tax_address", "billing_address", "shipping_address".
      * @return string
      * @throws SdkError When address_type is omitted; use hasAddressType() or valueOrDefault().
      */

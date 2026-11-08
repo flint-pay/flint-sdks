@@ -19,6 +19,6 @@ $idempotencyKey = bin2hex(random_bytes(16));
 $result = $client->orders->updateCharge('ord_01ARZ3NDEKTSV4RRFFQ69G5FAV', 'och_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
   'name' => 'Priority delivery',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
+echo $result->merchant_id . PHP_EOL;
 echo $result->order_id . PHP_EOL;
-echo $result->status . PHP_EOL;
 $client->close();

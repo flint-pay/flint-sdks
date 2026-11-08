@@ -11,9 +11,10 @@ namespace Flint;
  * @property-read string $reversal_note
  * @property-read string|\DateTimeInterface $reversed_at
  * @property-read string $status
+ * @property-read list<string> $supported_actions
  * Presence-aware input; omitted fields throw when accessed. */
 final class InvoiceManualPaymentInput extends Model {
-    /** @param array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'invoice_id': string, 'invoice_manual_payment_id': string, 'note'?: string, 'payment_reference'?: string, 'received_at': string|\DateTimeInterface, 'reversal_note'?: string, 'reversed_at'?: string|\DateTimeInterface, 'status': string, ...}|object $values */
+    /** @param array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'invoice_id': string, 'invoice_manual_payment_id': string, 'note'?: string, 'payment_reference'?: string, 'received_at': string|\DateTimeInterface, 'reversal_note'?: string, 'reversed_at'?: string|\DateTimeInterface, 'status': string, 'supported_actions': list<string>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceManualPaymentInput')); }
     /** Full amount received, including any principal and late fees covered. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
@@ -21,19 +22,19 @@ final class InvoiceManualPaymentInput extends Model {
      */
     public function getAmountMoney(): mixed { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** The invoice this payment was recorded against.
+    /** The invoice this payment was recorded against. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
      * @return string
      * @throws SdkError When invoice_id is omitted; use hasInvoiceId() or valueOrDefault().
      */
     public function getInvoiceId(): string { return $this->get('invoice_id'); }
     public function hasInvoiceId(): bool { return $this->has('invoice_id'); }
-    /** Stable payment ID. IDs begin with omp_. Gift card loads funded by this payment expose this value as source.order_manual_payment_id.
+    /** Stable payment ID. IDs begin with omp_. Gift card loads funded by this payment expose this value as source.order_manual_payment_id. Example: "omp_01KEZF7C007J18203RBJKB9TYE".
      * @return string
      * @throws SdkError When invoice_manual_payment_id is omitted; use hasInvoiceManualPaymentId() or valueOrDefault().
      */
     public function getInvoiceManualPaymentId(): string { return $this->get('invoice_manual_payment_id'); }
     public function hasInvoiceManualPaymentId(): bool { return $this->has('invoice_manual_payment_id'); }
-    /** minLength: 1. maxLength: 4096.
+    /** Note about the offline payment, up to 4096 characters. minLength: 1. maxLength: 4096.
      * @return string
      * @throws SdkError When note is omitted; use hasNote() or valueOrDefault().
      */
@@ -45,7 +46,7 @@ final class InvoiceManualPaymentInput extends Model {
      */
     public function getPaymentReference(): string { return $this->get('payment_reference'); }
     public function hasPaymentReference(): bool { return $this->has('payment_reference'); }
-    /** When the payment was received. Format: date-time.
+    /** When the payment was received. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When received_at is omitted; use hasReceivedAt() or valueOrDefault().
      */
@@ -57,7 +58,7 @@ final class InvoiceManualPaymentInput extends Model {
      */
     public function getReversalNote(): string { return $this->get('reversal_note'); }
     public function hasReversalNote(): bool { return $this->has('reversal_note'); }
-    /** When the payment was reversed. Present only when reversed. Format: date-time.
+    /** When the payment was reversed. Present only when reversed. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When reversed_at is omitted; use hasReversedAt() or valueOrDefault().
      */
@@ -69,4 +70,10 @@ final class InvoiceManualPaymentInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
+    /** Lifecycle actions Flint accepts for this resource now, based on stored state. Independent of the caller's permissions; each action still requires its route's scope. Always [] when no action is available. [] enum: "reverse". [] (Value): string.  Value enum: "reverse".
+     * @return list<string>
+     * @throws SdkError When supported_actions is omitted; use hasSupportedActions() or valueOrDefault().
+     */
+    public function getSupportedActions(): array { return $this->get('supported_actions'); }
+    public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
 }

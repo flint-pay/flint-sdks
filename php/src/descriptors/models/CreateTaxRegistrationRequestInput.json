@@ -1,1 +1,1 @@
-{"shared":"CreateTaxRegistrationRequest","dependencies":["CreateTaxRegistrationRequest"]}
+{"shared":"CreateTaxRegistrationRequest","dependencies":["CreateTaxRegistrationRequest","SharedCodec395"]}

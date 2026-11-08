@@ -1,25 +1,21 @@
-import { d4697 as c0, d4698 as c1, d4699 as c3, d4700 as c4 } from '../descriptors/data/204.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d4615 as c2 } from '../descriptors/data/198.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d270 as c5 } from '../descriptors/data/15.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d4439 as c6, d4440 as c7 } from '../descriptors/data/188.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d6423 as c8 } from '../descriptors/data/300.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d6949 as c9 } from '../descriptors/data/330.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d4312 as c10 } from '../descriptors/data/181.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d4634 as c11 } from '../descriptors/data/199.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d6291 as c12, d6292 as c13, d6296 as c14, d6297 as c15 } from '../descriptors/data/291.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d1071 as c16 } from '../descriptors/data/51.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d6300 as c17, d6307 as c18 } from '../descriptors/data/292.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d6320 as c19 } from '../descriptors/data/293.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d6328 as c20, d6329 as c21, d6331 as c22, d6332 as c23, d6333 as c24, d6334 as c25, d6335 as c26 } from '../descriptors/data/294.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d6340 as c27, d6341 as c28, d6342 as c29 } from '../descriptors/data/295.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d6343 as c30 } from '../descriptors/data/296.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d6361 as c31, d6362 as c32 } from '../descriptors/data/297.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d5539 as c33, d5540 as c34, d5541 as c35 } from '../descriptors/data/248.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d270 as d270 } from '../descriptors/data/15.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import { d5960 as c0, d5961 as c1, d5962 as c3, d5963 as c4, d5964 as c11 } from '../descriptors/data/264.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d5866 as c2 } from '../descriptors/data/258.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d300 as c5 } from '../descriptors/data/16.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d5695 as c6, d5696 as c7, d5702 as c8 } from '../descriptors/data/249.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d6782 as c9, d6779 as c33, d6780 as c34, d6781 as c35 } from '../descriptors/data/308.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d5556 as c10 } from '../descriptors/data/241.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d7581 as c12, d7582 as c13 } from '../descriptors/data/356.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d7586 as c14, d7587 as c15, d7591 as c16, d7592 as c17 } from '../descriptors/data/357.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d7600 as c18 } from '../descriptors/data/358.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d7613 as c19 } from '../descriptors/data/359.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d7621 as c20, d7622 as c21, d7624 as c22, d7625 as c23, d7626 as c24, d7627 as c25, d7628 as c26 } from '../descriptors/data/360.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d7633 as c27, d7634 as c28, d7635 as c29, d7636 as c30 } from '../descriptors/data/361.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d7648 as c31, d7649 as c32 } from '../descriptors/data/362.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d300 as d300 } from '../descriptors/data/16.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d270;
+const read = d300;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["CheckoutBuyerFieldsRequest"]:c0(),["CheckoutPromotionConfigRequest"]:c1(),["CheckoutRedirectsRequest"]:c2(),["CheckoutTaxConfigRequest"]:c3(),["CheckoutTipConfigRequest"]:c4(),["CreatePaymentLinkRequest"]:c5(),["ImageInputFile"]:c6(),["ImageInputSourceURL"]:c7(),["ImageRequest"]:c8(),["InventoryRoutingSourceRequest"]:c9(),["MoneyValue"]:c10(),["OrderLineItemTax"]:c11(),["PaymentLinkCustomFieldRequest"]:c12(),["PaymentLinkCustomTextConfig"]:c13(),["PaymentLinkEventConfigRequest"]:c14(),["PaymentLinkLegalConfig"]:c15(),["PaymentLinkLineItemRequest"]:c16(),["PaymentLinkPaymentConfig"]:c17(),["PaymentLinkThemeConfig"]:c18(),["SharedCodec1001"]:c19(),["SharedCodec1009"]:c20(),["SharedCodec1010"]:c21(),["SharedCodec1012"]:c22(),["SharedCodec1013"]:c23(),["SharedCodec1014"]:c24(),["SharedCodec1015"]:c25(),["SharedCodec1016"]:c26(),["SharedCodec1021"]:c27(),["SharedCodec1022"]:c28(),["SharedCodec1023"]:c29(),["SharedCodec1024"]:c30(),["SharedCodec287"]:c31(),["SharedCodec288"]:c32(),["SharedCodec674"]:c33(),["SharedCodec675"]:c34(),["SharedCodec676"]:c35()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["CheckoutBuyerFieldsRequest"]:c0(),["CheckoutPromotionConfigRequest"]:c1(),["CheckoutRedirectsRequest"]:c2(),["CheckoutTaxConfigRequest"]:c3(),["CheckoutTipConfigRequest"]:c4(),["CreatePaymentLinkRequest"]:c5(),["ImageInputFile"]:c6(),["ImageInputSourceURL"]:c7(),["ImageRequest"]:c8(),["InventoryRoutingSourceRequest"]:c9(),["MoneyValue"]:c10(),["OrderLineItemTaxRequest"]:c11(),["PaymentLinkCustomFieldRequest"]:c12(),["PaymentLinkCustomTextConfig"]:c13(),["PaymentLinkEventConfigRequest"]:c14(),["PaymentLinkLegalConfig"]:c15(),["PaymentLinkLineItemRequest"]:c16(),["PaymentLinkPaymentConfig"]:c17(),["PaymentLinkThemeConfig"]:c18(),["SharedCodec1114"]:c19(),["SharedCodec1122"]:c20(),["SharedCodec1123"]:c21(),["SharedCodec1125"]:c22(),["SharedCodec1126"]:c23(),["SharedCodec1127"]:c24(),["SharedCodec1128"]:c25(),["SharedCodec1129"]:c26(),["SharedCodec1134"]:c27(),["SharedCodec1135"]:c28(),["SharedCodec1136"]:c29(),["SharedCodec1137"]:c30(),["SharedCodec329"]:c31(),["SharedCodec330"]:c32(),["SharedCodec772"]:c33(),["SharedCodec773"]:c34(),["SharedCodec774"]:c35()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeCreatePaymentLinkRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

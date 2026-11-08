@@ -5,19 +5,37 @@ namespace Flint;
  * @internal
  *
  * @property-read string $return_id
- * @property-read array{'completion_mode'?: string, 'expected_version'?: int, 'line_items': list<array{'decision'?: mixed, 'disposition'?: mixed, 'inspection'?: mixed, 'received_quantity'?: int, 'resolution'?: array{'external_reference_id'?: string, 'gift_card_refund_destination'?: string, 'metadata'?: mixed, 'pricing_basis'?: string, 'quantity': int, 'replacement_line_items'?: list<array{'bundle_id'?: string, 'description'?: string, 'name'?: string, 'quantity': int, 'sku'?: string, 'type': string, 'unit_price_money'?: mixed, 'variant_id': string}|object|array{'bundle_id': string, 'description'?: string, 'name'?: string, 'quantity': int, 'sku'?: string, 'type': string, 'unit_price_money'?: mixed, 'variant_id'?: string}|object|array{'bundle_id'?: string, 'description'?: string, 'name': string, 'quantity': int, 'sku'?: string, 'type': string, 'unit_price_money'?: mixed, 'variant_id'?: string}|object>, 'resolution_type': string}|object, 'return_line_item_id': string}|object>, 'receipt'?: array{'external_actor_id'?: string, 'external_reference_id'?: string, 'received_at': string|\DateTimeInterface, 'receiving_location_id': string, 'source_system'?: mixed}|object}|object $body
+ * @property-read array{'completion_mode'?: string, 'expected_version'?: int, 'line_items': list<mixed>, 'receipt'?: mixed}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class ReturnsProcessInput extends Model {
-    /** @param array{'return_id': string, 'body': array{'completion_mode'?: string, 'expected_version'?: int, 'line_items': list<array{'decision'?: mixed, 'disposition'?: mixed, 'inspection'?: mixed, 'received_quantity'?: int, 'resolution'?: array{'external_reference_id'?: string, 'gift_card_refund_destination'?: string, 'metadata'?: mixed, 'pricing_basis'?: string, 'quantity': int, 'replacement_line_items'?: list<array{'bundle_id'?: string, 'description'?: string, 'name'?: string, 'quantity': int, 'sku'?: string, 'type': string, 'unit_price_money'?: mixed, 'variant_id': string}|object|array{'bundle_id': string, 'description'?: string, 'name'?: string, 'quantity': int, 'sku'?: string, 'type': string, 'unit_price_money'?: mixed, 'variant_id'?: string}|object|array{'bundle_id'?: string, 'description'?: string, 'name': string, 'quantity': int, 'sku'?: string, 'type': string, 'unit_price_money'?: mixed, 'variant_id'?: string}|object>, 'resolution_type': string}|object, 'return_line_item_id': string}|object>, 'receipt'?: array{'external_actor_id'?: string, 'external_reference_id'?: string, 'received_at': string|\DateTimeInterface, 'receiving_location_id': string, 'source_system'?: mixed}|object}|object}|object $values */
+    /** @param array{'return_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': array{'completion_mode'?: string, 'expected_version'?: int, 'line_items': list<mixed>, 'receipt'?: mixed}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnsProcessInput')); }
-    /** Flint return id. Example: "ret_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Flint return id. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
      * @return string
      * @throws SdkError When return_id is omitted; use hasReturnId() or valueOrDefault().
      */
     public function getReturnId(): string { return $this->get('return_id'); }
     public function hasReturnId(): bool { return $this->has('return_id'); }
+    /** Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Merchant-Id is omitted; use hasFlintMerchantId() or valueOrDefault().
+     */
+    public function getFlintMerchantId(): string { return $this->get('Flint-Merchant-Id'); }
+    public function hasFlintMerchantId(): bool { return $this->has('Flint-Merchant-Id'); }
+    /** Mode of the request context, live or test. Optional; it must match the credential's mode. Value enum: "test", "live".
+     * @return string
+     * @throws SdkError When Flint-Mode is omitted; use hasFlintMode() or valueOrDefault().
+     */
+    public function getFlintMode(): string { return $this->get('Flint-Mode'); }
+    public function hasFlintMode(): bool { return $this->has('Flint-Mode'); }
+    /** Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Sandbox-Id is omitted; use hasFlintSandboxId() or valueOrDefault().
+     */
+    public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
+    public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
     /** The request body for: Process existing return.
-     * @return array{'completion_mode'?: string, 'expected_version'?: int, 'line_items': list<array{'decision'?: mixed, 'disposition'?: mixed, 'inspection'?: mixed, 'received_quantity'?: int, 'resolution'?: array{'external_reference_id'?: string, 'gift_card_refund_destination'?: string, 'metadata'?: mixed, 'pricing_basis'?: string, 'quantity': int, 'replacement_line_items'?: list<array{'bundle_id'?: string, 'description'?: string, 'name'?: string, 'quantity': int, 'sku'?: string, 'type': string, 'unit_price_money'?: mixed, 'variant_id': string}|object|array{'bundle_id': string, 'description'?: string, 'name'?: string, 'quantity': int, 'sku'?: string, 'type': string, 'unit_price_money'?: mixed, 'variant_id'?: string}|object|array{'bundle_id'?: string, 'description'?: string, 'name': string, 'quantity': int, 'sku'?: string, 'type': string, 'unit_price_money'?: mixed, 'variant_id'?: string}|object>, 'resolution_type': string}|object, 'return_line_item_id': string}|object>, 'receipt'?: array{'external_actor_id'?: string, 'external_reference_id'?: string, 'received_at': string|\DateTimeInterface, 'receiving_location_id': string, 'source_system'?: mixed}|object}|object
+     * @return array{'completion_mode'?: string, 'expected_version'?: int, 'line_items': list<mixed>, 'receipt'?: mixed}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
     public function getBody(): array|object { return $this->get('body'); }

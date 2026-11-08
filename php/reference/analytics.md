@@ -17,6 +17,9 @@ Signature: `getOverview(array|Model $params, ?RequestOptions $options = null)`
 | `period_start_at` | Required | string | Inclusive period start. Format: `date-time`. |
 | `period_end_at` | Optional | string | Exclusive period end. Format: `date-time`. |
 | `currency` | Optional | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -29,7 +32,6 @@ Returned payload: [AnalyticsOverview](../models/AnalyticsOverview.md#analyticsov
 | 400 | InvalidRequestError |
 | 401 | AuthenticationError |
 | 403 | PermissionError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -48,7 +50,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 
 ```php
 $result = $client->analytics->getOverview([
-  'period_start_at' => '2026-01-01T00:00:00Z',
+  'period_start_at' => '2026-08-02T16:00:00Z',
 ], new RequestOptions());
 ```
 
@@ -70,7 +72,10 @@ Signature: `getPaymentVolumeTimeseries(array|Model $params, ?RequestOptions $opt
 | `period_end_at` | Optional | string | Exclusive period end. Format: `date-time`. |
 | `currency` | Optional | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. |
 | `granularity` | Optional | string | Bucket size: hour, day (default), week starting Monday, or month. Buckets follow local boundaries, clipped to the period. Repeated hours have two buckets; skipped hours and days have none. Empty buckets are included. Values: `"hour"`, `"day"`, `"week"`, `"month"`. |
-| `timezone` | Optional | string | IANA timezone for bucket boundaries. Defaults to UTC. maxLength: `100`. |
+| `timezone` | Optional | string | IANA timezone for bucket boundaries. Defaults to the merchant's timezone, then UTC. maxLength: `100`. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -83,7 +88,6 @@ Returned payload: [PaymentVolumeTimeseries](../models/PaymentVolumeTimeseries.md
 | 400 | InvalidRequestError |
 | 401 | AuthenticationError |
 | 403 | PermissionError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -102,7 +106,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 
 ```php
 $result = $client->analytics->getPaymentVolumeTimeseries([
-  'period_start_at' => '2026-01-01T00:00:00Z',
+  'period_start_at' => '2026-08-02T16:00:00Z',
 ], new RequestOptions());
 ```
 
@@ -131,7 +135,6 @@ Returned payload: [SubscriptionAnalytics](../models/SubscriptionAnalytics.md#sub
 | 400 | InvalidRequestError |
 | 401 | AuthenticationError |
 | 403 | PermissionError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -150,7 +153,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 
 ```php
 $result = $client->analytics->getSubscription([
-  'period_start_at' => '2026-01-01T00:00:00Z',
+  'period_start_at' => '2026-08-02T16:00:00Z',
 ], new RequestOptions());
 ```
 

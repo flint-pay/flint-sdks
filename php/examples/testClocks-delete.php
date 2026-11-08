@@ -16,7 +16,7 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->testClocks->delete('tclk_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->testClocks->delete('tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ', [], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->status . PHP_EOL;
 echo $result->test_clock_id . PHP_EOL;
 $client->close();

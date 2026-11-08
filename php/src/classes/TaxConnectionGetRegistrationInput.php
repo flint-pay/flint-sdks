@@ -9,7 +9,7 @@ namespace Flint;
 final class TaxConnectionGetRegistrationInput extends Model {
     /** @param array{'tax_registration_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('TaxConnectionGetRegistrationInput')); }
-    /** Flint tax registration ID. Example: "trg_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Flint tax registration ID. Example: "trg_01KEZF7C008JBM8XMQB3J1FK7J".
      * @return string
      * @throws SdkError When tax_registration_id is omitted; use hasTaxRegistrationId() or valueOrDefault().
      */

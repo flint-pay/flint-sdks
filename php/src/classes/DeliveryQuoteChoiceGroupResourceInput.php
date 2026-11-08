@@ -43,7 +43,7 @@ final class DeliveryQuoteChoiceGroupResourceInput extends Model {
      */
     public function getCandidateOutcomes(): array|object { return $this->get('candidate_outcomes'); }
     public function hasCandidateOutcomes(): bool { return $this->has('candidate_outcomes'); }
-    /** delivery_choice_group_id
+    /** Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
      * @return string
      * @throws SdkError When delivery_choice_group_id is omitted; use hasDeliveryChoiceGroupId() or valueOrDefault().
      */
@@ -85,7 +85,7 @@ final class DeliveryQuoteChoiceGroupResourceInput extends Model {
      */
     public function getOptions(): array { return $this->get('options'); }
     public function hasOptions(): bool { return $this->has('options'); }
-    /** previously_selected_delivery_method_id
+    /** Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
      * @return string
      * @throws SdkError When previously_selected_delivery_method_id is omitted; use hasPreviouslySelectedDeliveryMethodId() or valueOrDefault().
      */

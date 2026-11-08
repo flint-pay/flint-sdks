@@ -1,11 +1,11 @@
-import { d4312 as c0 } from '../descriptors/data/181.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d6485 as c1, d6486 as c2, d6487 as c3, d6490 as c4, d6491 as c5, d6492 as c6, d6493 as c7, d6494 as c8 } from '../descriptors/data/304.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d6502 as c9, d6503 as c10, d6504 as c11, d6505 as c12 } from '../descriptors/data/305.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d6485 as d6485 } from '../descriptors/data/304.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import { d5556 as c0 } from '../descriptors/data/241.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d7795 as c1, d7796 as c2, d7797 as c3 } from '../descriptors/data/370.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d7800 as c4, d7801 as c5, d7802 as c6, d7803 as c7, d7804 as c8, d7812 as c9, d7813 as c10, d7814 as c11, d7815 as c12 } from '../descriptors/data/371.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d7795 as d7795 } from '../descriptors/data/370.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d6485;
+const read = d7795;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["PromotionRuleGroupRequest"]:c1(),["PromotionRuleRequest"]:c2(),["PromotionRuleValueRequest"]:c3(),["SharedCodec1085"]:c4(),["SharedCodec1086"]:c5(),["SharedCodec1087"]:c6(),["SharedCodec1088"]:c7(),["SharedCodec1089"]:c8(),["SharedCodec1122"]:c9(),["SharedCodec1123"]:c10(),["SharedCodec1124"]:c11(),["SharedCodec1125"]:c12()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["PromotionRuleGroupRequest"]:c1(),["PromotionRuleRequest"]:c2(),["PromotionRuleValueRequest"]:c3(),["SharedCodec1231"]:c4(),["SharedCodec1232"]:c5(),["SharedCodec1233"]:c6(),["SharedCodec1234"]:c7(),["SharedCodec1235"]:c8(),["SharedCodec1273"]:c9(),["SharedCodec1274"]:c10(),["SharedCodec1275"]:c11(),["SharedCodec1276"]:c12()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makePromotionRuleGroupRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

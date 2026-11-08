@@ -12,26 +12,27 @@ namespace Flint;
  * @property-read array<array-key, string|null>|\stdClass|null $metadata
  * @property-read string|null $name
  * @property-read string|null $phone
+ * @property-read string|null $price_list_id
  * @property-read string|null $segment
  * @property-read bool $tax_exempt
  * @property-read array{'legal_name'?: string|null, 'registered_address'?: array{'city': string, 'country': string, 'line1': string, 'line2'?: string|null, 'postal_code'?: string|null, 'state'?: string|null}|object|null, 'tax_ids'?: list<DocumentTaxIDRequestInput|array<array-key, mixed>|\stdClass>}|object|null $tax_identity
  * Presence-aware input; omitted fields throw when accessed. */
 final class CustomersUpdateParams extends Model {
-    /** @param array{'default_invoice_payment_term_id'?: string|null, 'default_payment_method_id'?: string|null, 'email'?: string|null, 'expected_version'?: int, 'external_reference_id'?: string|null, 'internal_note'?: string|null, 'is_merchant_verified'?: bool, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'name'?: string|null, 'phone'?: string|null, 'segment'?: string|null, 'tax_exempt'?: bool, 'tax_identity'?: array{'legal_name'?: string|null, 'registered_address'?: array{'city': string, 'country': string, 'line1': string, 'line2'?: string|null, 'postal_code'?: string|null, 'state'?: string|null}|object|null, 'tax_ids'?: list<DocumentTaxIDRequestInput|array<array-key, mixed>|\stdClass>}|object|null}|object $values */
+    /** @param array{'default_invoice_payment_term_id'?: string|null, 'default_payment_method_id'?: string|null, 'email'?: string|null, 'expected_version'?: int, 'external_reference_id'?: string|null, 'internal_note'?: string|null, 'is_merchant_verified'?: bool, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'name'?: string|null, 'phone'?: string|null, 'price_list_id'?: string|null, 'segment'?: string|null, 'tax_exempt'?: bool, 'tax_identity'?: array{'legal_name'?: string|null, 'registered_address'?: array{'city': string, 'country': string, 'line1': string, 'line2'?: string|null, 'postal_code'?: string|null, 'state'?: string|null}|object|null, 'tax_ids'?: list<DocumentTaxIDRequestInput|array<array-key, mixed>|\stdClass>}|object|null, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomersUpdateParams')); }
-    /** Default payment term for this customer's invoices. Send null to clear it. minLength: 1.
+    /** Default payment term for this customer's invoices. Send null to clear it. minLength: 1. Example: "ipt_01KEZF7C0064N1V301BBMQ37R4".
      * @return string|null
      * @throws SdkError When default_invoice_payment_term_id is omitted; use hasDefaultInvoicePaymentTermId() or valueOrDefault().
      */
     public function getDefaultInvoicePaymentTermId(): string|null { return $this->get('default_invoice_payment_term_id'); }
     public function hasDefaultInvoicePaymentTermId(): bool { return $this->has('default_invoice_payment_term_id'); }
-    /** The active off_session payment method to use by default. Omit to leave unchanged; null clears it. A change sends customer.updated. minLength: 1. Example: "pm_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** The active off_session payment method to use by default. Omit to leave unchanged; null clears it. A change sends customer.updated. minLength: 1. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
      * @return string|null
      * @throws SdkError When default_payment_method_id is omitted; use hasDefaultPaymentMethodId() or valueOrDefault().
      */
     public function getDefaultPaymentMethodId(): string|null { return $this->get('default_payment_method_id'); }
     public function hasDefaultPaymentMethodId(): bool { return $this->has('default_payment_method_id'); }
-    /** The customer's email. Omit to leave unchanged; null clears it. Changing it is allowed only when your store hosts its own customer accounts (`customer_account.mode` is `merchant_hosted`). Format: email. minLength: 1. maxLength: 320.
+    /** The customer's email. Omit to leave unchanged. You can set an email when the customer has none in either customer account mode. Changing or clearing an existing email requires `customer_account.mode` to be `merchant_hosted`; null clears it. In `flint_hosted` mode, the buyer must confirm a change to an existing email. Format: email. minLength: 1. maxLength: 320. Example: "buyer@example.com".
      * @return string|null
      * @throws SdkError When email is omitted; use hasEmail() or valueOrDefault().
      */
@@ -43,7 +44,7 @@ final class CustomersUpdateParams extends Model {
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** Caller-owned identifier for this resource in an external system. Omit to leave unchanged; null clears it. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. Omit to leave unchanged; null clears it. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string|null
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -67,7 +68,7 @@ final class CustomersUpdateParams extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Customer name. Omit to leave unchanged; null clears it. minLength: 1.
+    /** Customer name, up to 255 characters (Unicode code points) after trimming surrounding whitespace. Omit to leave unchanged; null clears it. minLength: 1.
      * @return string|null
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
@@ -79,22 +80,46 @@ final class CustomersUpdateParams extends Model {
      */
     public function getPhone(): string|null { return $this->get('phone'); }
     public function hasPhone(): bool { return $this->has('phone'); }
+    /** ID of a wholesale price list in this merchant environment. Omit to leave unchanged; null clears it. An inactive list can be assigned but does not apply. An archived list returns 409 ACTION_NOT_ALLOWED; a missing list returns 404 RESOURCE_NOT_FOUND. minLength: 1. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
+     * @return string|null
+     * @throws SdkError When price_list_id is omitted; use hasPriceListId() or valueOrDefault().
+     */
+    public function getPriceListId(): string|null { return $this->get('price_list_id'); }
+    public function hasPriceListId(): bool { return $this->has('price_list_id'); }
     /** Free-form label you assign, such as wholesale, so promotion and delivery rules can match groups of customers. It is not an ID; Flint does not check it against any resource. Omit to leave unchanged; null clears it. minLength: 1.
      * @return string|null
      * @throws SdkError When segment is omitted; use hasSegment() or valueOrDefault().
      */
     public function getSegment(): string|null { return $this->get('segment'); }
     public function hasSegment(): bool { return $this->has('segment'); }
-    /** tax_exempt
+    /** Whether Flint treats this customer as exempt from tax on their orders, so it skips tax calculation for them. Omit to leave unchanged; `null` is not accepted.
      * @return bool
      * @throws SdkError When tax_exempt is omitted; use hasTaxExempt() or valueOrDefault().
      */
     public function getTaxExempt(): bool { return $this->get('tax_exempt'); }
     public function hasTaxExempt(): bool { return $this->has('tax_exempt'); }
-    /**  anyOf[1] (Value): {@see TaxIdentityPatchInput}. Merchant-provided legal identity displayed on invoices and credit notes. Does not verify IDs or change tax treatment. Tax IDs are an owned collection in display order; replacing the array requires the parent's expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add one. anyOf[2] (Value): null.
+    /** Legal name, registered address and tax IDs printed on this customer's invoices and credit notes. Omit to leave unchanged; null clears it. anyOf[1] (Value): {@see TaxIdentityPatchInput}. Merchant-provided legal identity displayed on invoices and credit notes. Does not verify IDs or change tax treatment. Tax IDs are an owned collection in display order; replacing the array requires the parent's expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add one. anyOf[2] (Value): null.
      * @return array{'legal_name'?: string|null, 'registered_address'?: array{'city': string, 'country': string, 'line1': string, 'line2'?: string|null, 'postal_code'?: string|null, 'state'?: string|null}|object|null, 'tax_ids'?: list<DocumentTaxIDRequestInput|array<array-key, mixed>|\stdClass>}|object|null
      * @throws SdkError When tax_identity is omitted; use hasTaxIdentity() or valueOrDefault().
      */
     public function getTaxIdentity(): mixed { return $this->get('tax_identity'); }
     public function hasTaxIdentity(): bool { return $this->has('tax_identity'); }
+    /** Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Merchant-Id is omitted; use hasFlintMerchantId() or valueOrDefault().
+     */
+    public function getFlintMerchantId(): string { return $this->get('Flint-Merchant-Id'); }
+    public function hasFlintMerchantId(): bool { return $this->has('Flint-Merchant-Id'); }
+    /** Mode of the request context, live or test. Optional; it must match the credential's mode. Value enum: "test", "live".
+     * @return string
+     * @throws SdkError When Flint-Mode is omitted; use hasFlintMode() or valueOrDefault().
+     */
+    public function getFlintMode(): string { return $this->get('Flint-Mode'); }
+    public function hasFlintMode(): bool { return $this->has('Flint-Mode'); }
+    /** Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Sandbox-Id is omitted; use hasFlintSandboxId() or valueOrDefault().
+     */
+    public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
+    public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
 }

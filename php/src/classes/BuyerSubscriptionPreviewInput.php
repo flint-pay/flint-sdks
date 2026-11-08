@@ -10,7 +10,7 @@ namespace Flint;
  * @property-read string $subscription_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class BuyerSubscriptionPreviewInput extends Model {
-    /** @param array{'address_verification'?: SubscriptionAddressVerificationInput|array<array-key, mixed>|\stdClass, 'currency'?: string, 'delivery_methods'?: list<SubscriptionDeliveryOptionInput|array<array-key, mixed>|\stdClass>, 'destination_address'?: AddressInput|array<array-key, mixed>|\stdClass, 'mode': string, 'subscription_id'?: string, ...}|object $values */
+    /** @param array{'address_verification'?: SubscriptionAddressVerificationInput|array<array-key, mixed>|\stdClass, 'currency'?: string, 'delivery_methods': list<SubscriptionDeliveryOptionInput|array<array-key, mixed>|\stdClass>, 'destination_address'?: AddressInput|array<array-key, mixed>|\stdClass, 'mode': string, 'subscription_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerSubscriptionPreviewInput')); }
     /** The verification state of a subscription's delivery address: `verified`, `unverified`, `needs_review`, or `unverifiable`.
      * @return SubscriptionAddressVerificationInput|array<array-key, mixed>|\stdClass
@@ -24,7 +24,7 @@ final class BuyerSubscriptionPreviewInput extends Model {
      */
     public function getCurrency(): string { return $this->get('currency'); }
     public function hasCurrency(): bool { return $this->has('currency'); }
-    /** Present in delivery_options mode ([] when no method applies); absent in create mode. [] (Value): {@see SubscriptionDeliveryOptionInput}. A delivery method offered for a subscription, with its availability, price, and the reason it is unavailable if it is.
+    /** Delivery methods available for the proposed destination. [] (Value): {@see SubscriptionDeliveryOptionInput}. A delivery method offered for a subscription, with its availability, price, and the reason it is unavailable if it is.
      * @return list<SubscriptionDeliveryOptionInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When delivery_methods is omitted; use hasDeliveryMethods() or valueOrDefault().
      */
@@ -42,7 +42,7 @@ final class BuyerSubscriptionPreviewInput extends Model {
      */
     public function getMode(): string { return $this->get('mode'); }
     public function hasMode(): bool { return $this->has('mode'); }
-    /** subscription_id
+    /** Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
      * @return string
      * @throws SdkError When subscription_id is omitted; use hasSubscriptionId() or valueOrDefault().
      */

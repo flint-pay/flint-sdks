@@ -6,6 +6,7 @@ namespace Flint;
  * @property-read CheckoutCustomTextWriteConfigInput|array<array-key, mixed>|\stdClass $custom_text
  * @property-read string $customer_id
  * @property-read list<string> $delivery_method_ids
+ * @property-read list<CreateCheckoutSessionDiscountInput|array<array-key, mixed>|\stdClass> $discounts
  * @property-read int $expires_in_seconds
  * @property-read string $external_reference_id
  * @property-read CheckoutLegalConfigRequestInput|array<array-key, mixed>|\stdClass $legal
@@ -28,7 +29,7 @@ namespace Flint;
  * @property-read string $type
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateCheckoutSessionRequestInput extends Model {
-    /** @param array{'buyer_fields'?: CheckoutBuyerFieldsRequestInput|array<array-key, mixed>|\stdClass, 'custom_text'?: CheckoutCustomTextWriteConfigInput|array<array-key, mixed>|\stdClass, 'delivery_method_ids'?: list<string>, 'expires_in_seconds'?: int, 'external_reference_id'?: string, 'legal'?: CheckoutLegalConfigRequestInput|array<array-key, mixed>|\stdClass, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'order_id': string, 'page_origin'?: string, 'payment_return_url'?: string, 'payments'?: CheckoutPaymentConfigRequestInput|array<array-key, mixed>|\stdClass, 'prefill'?: CheckoutPrefillRequestInput|array<array-key, mixed>|\stdClass, 'promotion_config'?: CheckoutPromotionConfigRequestInput|array<array-key, mixed>|\stdClass, 'redirects'?: CheckoutRedirectsRequestInput|array<array-key, mixed>|\stdClass, 'replace_checkout_session_id'?: string, 'surface'?: string, 'theme'?: ThemeConfigRequestInput|array<array-key, mixed>|\stdClass, 'tip'?: CheckoutTipConfigRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object|array{'buyer_fields'?: CheckoutBuyerFieldsRequestInput|array<array-key, mixed>|\stdClass, 'custom_text'?: CheckoutCustomTextWriteConfigInput|array<array-key, mixed>|\stdClass, 'customer_id'?: string, 'delivery_method_ids'?: list<string>, 'expires_in_seconds'?: int, 'external_reference_id'?: string, 'legal'?: CheckoutLegalConfigRequestInput|array<array-key, mixed>|\stdClass, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'page_origin'?: string, 'payment_return_url'?: string, 'payments'?: CheckoutPaymentConfigRequestInput|array<array-key, mixed>|\stdClass, 'prefill'?: CheckoutPrefillRequestInput|array<array-key, mixed>|\stdClass, 'promotion_config'?: CheckoutPromotionConfigRequestInput|array<array-key, mixed>|\stdClass, 'quick_pay_item': CheckoutQuickPayItemRequestInput|array<array-key, mixed>|\stdClass, 'redirects'?: CheckoutRedirectsRequestInput|array<array-key, mixed>|\stdClass, 'surface'?: string, 'tax'?: CheckoutTaxConfigRequestInput|array<array-key, mixed>|\stdClass, 'theme'?: ThemeConfigRequestInput|array<array-key, mixed>|\stdClass, 'tip'?: CheckoutTipConfigRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object|array{'buyer_fields'?: array{'address_autocomplete_enabled'?: bool, 'require_billing_address'?: bool, 'require_email'?: bool, 'require_phone'?: bool}|object, 'custom_text'?: CheckoutCustomTextWriteConfigInput|array<array-key, mixed>|\stdClass, 'customer_id'?: string, 'delivery_method_ids'?: list<string>, 'expires_in_seconds'?: int, 'external_reference_id'?: string, 'legal'?: CheckoutLegalConfigRequestInput|array<array-key, mixed>|\stdClass, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'page_origin'?: string, 'payment_return_url'?: string, 'payments'?: CheckoutPaymentConfigRequestInput|array<array-key, mixed>|\stdClass, 'prefill'?: CheckoutPrefillRequestInput|array<array-key, mixed>|\stdClass, 'promotion_config'?: CheckoutPromotionConfigRequestInput|array<array-key, mixed>|\stdClass, 'redirects'?: CheckoutRedirectsRequestInput|array<array-key, mixed>|\stdClass, 'subscription_plan_id': string, 'subscription_terms'?: CheckoutSubscriptionTermsRequestInput|array<array-key, mixed>|\stdClass, 'surface'?: string, 'tax'?: CheckoutTaxConfigRequestInput|array<array-key, mixed>|\stdClass, 'theme'?: ThemeConfigRequestInput|array<array-key, mixed>|\stdClass, 'tip'?: CheckoutTipConfigRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object $values */
+    /** @param array{'buyer_fields'?: CheckoutBuyerFieldsRequestInput|array<array-key, mixed>|\stdClass, 'custom_text'?: CheckoutCustomTextWriteConfigInput|array<array-key, mixed>|\stdClass, 'delivery_method_ids'?: list<string>, 'expires_in_seconds'?: int, 'external_reference_id'?: string, 'legal'?: CheckoutLegalConfigRequestInput|array<array-key, mixed>|\stdClass, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'order_id': string, 'page_origin'?: string, 'payment_return_url'?: string, 'payments'?: CheckoutPaymentConfigRequestInput|array<array-key, mixed>|\stdClass, 'prefill'?: CheckoutPrefillRequestInput|array<array-key, mixed>|\stdClass, 'promotion_config'?: CheckoutPromotionConfigRequestInput|array<array-key, mixed>|\stdClass, 'redirects'?: CheckoutRedirectsRequestInput|array<array-key, mixed>|\stdClass, 'replace_checkout_session_id'?: string, 'surface'?: string, 'theme'?: ThemeConfigRequestInput|array<array-key, mixed>|\stdClass, 'tip'?: CheckoutTipConfigRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object|array{'buyer_fields'?: CheckoutBuyerFieldsRequestInput|array<array-key, mixed>|\stdClass, 'custom_text'?: CheckoutCustomTextWriteConfigInput|array<array-key, mixed>|\stdClass, 'customer_id'?: string, 'delivery_method_ids'?: list<string>, 'discounts'?: list<CreateCheckoutSessionDiscountInput|array<array-key, mixed>|\stdClass>, 'expires_in_seconds'?: int, 'external_reference_id'?: string, 'legal'?: CheckoutLegalConfigRequestInput|array<array-key, mixed>|\stdClass, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'page_origin'?: string, 'payment_return_url'?: string, 'payments'?: CheckoutPaymentConfigRequestInput|array<array-key, mixed>|\stdClass, 'prefill'?: CheckoutPrefillRequestInput|array<array-key, mixed>|\stdClass, 'promotion_config'?: CheckoutPromotionConfigRequestInput|array<array-key, mixed>|\stdClass, 'quick_pay_item': CheckoutQuickPayItemRequestInput|array<array-key, mixed>|\stdClass, 'redirects'?: CheckoutRedirectsRequestInput|array<array-key, mixed>|\stdClass, 'surface'?: string, 'tax'?: CheckoutTaxConfigRequestInput|array<array-key, mixed>|\stdClass, 'theme'?: ThemeConfigRequestInput|array<array-key, mixed>|\stdClass, 'tip'?: CheckoutTipConfigRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object|array{'buyer_fields'?: array{'address_autocomplete_enabled'?: bool, 'require_billing_address'?: bool, 'require_email'?: bool, 'require_phone'?: bool}|object, 'custom_text'?: CheckoutCustomTextWriteConfigInput|array<array-key, mixed>|\stdClass, 'customer_id'?: string, 'delivery_method_ids'?: list<string>, 'discounts'?: list<CreateCheckoutSessionDiscountInput|array<array-key, mixed>|\stdClass>, 'expires_in_seconds'?: int, 'external_reference_id'?: string, 'legal'?: CheckoutLegalConfigRequestInput|array<array-key, mixed>|\stdClass, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'page_origin'?: string, 'payment_return_url'?: string, 'payments'?: CheckoutPaymentConfigRequestInput|array<array-key, mixed>|\stdClass, 'prefill'?: CheckoutPrefillRequestInput|array<array-key, mixed>|\stdClass, 'promotion_config'?: CheckoutPromotionConfigRequestInput|array<array-key, mixed>|\stdClass, 'redirects'?: CheckoutRedirectsRequestInput|array<array-key, mixed>|\stdClass, 'subscription_plan_id': string, 'subscription_terms'?: CheckoutSubscriptionTermsRequestInput|array<array-key, mixed>|\stdClass, 'surface'?: string, 'tax'?: CheckoutTaxConfigRequestInput|array<array-key, mixed>|\stdClass, 'theme'?: ThemeConfigRequestInput|array<array-key, mixed>|\stdClass, 'tip'?: CheckoutTipConfigRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateCheckoutSessionRequestInput')); }
     /** What checkout asks the buyer for. Each field you leave out uses your checkout settings.
      * @return CheckoutBuyerFieldsRequestInput|array<array-key, mixed>|\stdClass
@@ -36,37 +37,43 @@ final class CreateCheckoutSessionRequestInput extends Model {
      */
     public function getBuyerFields(): mixed { return $this->get('buyer_fields'); }
     public function hasBuyerFields(): bool { return $this->has('buyer_fields'); }
-    /** Custom checkout text you supply when creating a checkout session: an order summary message and a shipping address label.
+    /** Custom text for this session's checkout: an order summary message and a shipping address label. Custom checkout text you supply when creating a checkout session: an order summary message and a shipping address label.
      * @return CheckoutCustomTextWriteConfigInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When custom_text is omitted; use hasCustomText() or valueOrDefault().
      */
     public function getCustomText(): mixed { return $this->get('custom_text'); }
     public function hasCustomText(): bool { return $this->has('custom_text'); }
-    /** Existing customer to link to the order Flint creates. Not allowed with type: order: the session uses the order's customer, so set customer_id on the order first. minLength: 1.
+    /** Existing customer to link to the order Flint creates. Not allowed with type: order: the session uses the order's customer, so set customer_id on the order first. minLength: 1. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** Immutable delivery method assignment for this checkout, 1 to 25 unique IDs. Omit it to use settings.checkout.default_delivery_method_ids when the order has items to deliver; otherwise no methods are assigned. Empty arrays and null are rejected. minItems: 1. maxItems: 25. uniqueItems: true. [] (Value): string. minLength: 1.
+    /** Immutable delivery method assignment for this checkout, 1 to 25 unique IDs. Omit it to use settings.checkout.default_delivery_method_ids when the order has items to deliver; otherwise no methods are assigned. Empty arrays and null are rejected. minItems: 1. maxItems: 25. uniqueItems: true. [] (Value): string. minLength: 1. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
      * @return list<string>
      * @throws SdkError When delivery_method_ids is omitted; use hasDeliveryMethodIds() or valueOrDefault().
      */
     public function getDeliveryMethodIds(): array { return $this->get('delivery_method_ids'); }
     public function hasDeliveryMethodIds(): bool { return $this->has('delivery_method_ids'); }
+    /** Promotions to apply to the order Flint creates, using your account promotion settings. Only for quick_pay and subscription_plan. A ranking loss returns a promotion_declined warning; an unredeemable promotion fails the request. Read the result on order.discounts, or order.deferred_promotions for a trial. minItems: 1. maxItems: 10. [] (Value): {@see CreateCheckoutSessionDiscountInput}. A promotion to apply to the order Flint creates for a checkout session.
+     * @return list<CreateCheckoutSessionDiscountInput|array<array-key, mixed>|\stdClass>
+     * @throws SdkError When discounts is omitted; use hasDiscounts() or valueOrDefault().
+     */
+    public function getDiscounts(): array { return $this->get('discounts'); }
+    public function hasDiscounts(): bool { return $this->has('discounts'); }
     /** Seconds the session stays open, from 60 to 86,400. Omit it to use settings.checkout.default_expires_in_seconds, or 24 hours. Format: int64. minimum: 60. maximum: 86400.
      * @return int
      * @throws SdkError When expires_in_seconds is omitted; use hasExpiresInSeconds() or valueOrDefault().
      */
     public function getExpiresInSeconds(): int { return $this->get('expires_in_seconds'); }
     public function hasExpiresInSeconds(): bool { return $this->has('expires_in_seconds'); }
-    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Legal settings you supply when creating a checkout session: whether buyers must accept terms, and links to the terms, refund policy, shipping policy, and contract.
+    /** The terms and policy links this session shows the buyer, and whether the buyer must accept the terms. Legal settings you supply when creating a checkout session: whether buyers must accept terms, and links to the terms, refund policy, shipping policy, and contract.
      * @return CheckoutLegalConfigRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When legal is omitted; use hasLegal() or valueOrDefault().
      */
@@ -78,7 +85,7 @@ final class CreateCheckoutSessionRequestInput extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** The order to collect. It must be open and not collected by an invoice or a return resolution. minLength: 1.
+    /** The order to collect. It must be open and not collected by an invoice or a return resolution. minLength: 1. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */
@@ -90,7 +97,7 @@ final class CreateCheckoutSessionRequestInput extends Model {
      */
     public function getPageOrigin(): string { return $this->get('page_origin'); }
     public function hasPageOrigin(): bool { return $this->has('page_origin'); }
-    /** Embedded sessions only. Absolute HTTPS URL on your site where Flint sends the buyer after a redirect payment such as Affirm, whatever the outcome; read the session there to show the result. Required when the session offers affirm. It can't contain credentials, a query string, or a fragment. Test mode also accepts http loopback URLs. Up to 2,048 characters. Format: uri. minLength: 1. maxLength: 2048.
+    /** Embedded sessions only. Absolute HTTPS URL on your site where Flint sends the buyer after a redirect payment such as Affirm, whatever the outcome; read the session there to show the result. Required when the session offers affirm. It can't contain credentials, a query string, or a fragment. Test mode also accepts http loopback URLs. Up to 2,048 characters. Format: uri. minLength: 1. maxLength: 2048. Example: "https://example.com/receipt".
      * @return string
      * @throws SdkError When payment_return_url is omitted; use hasPaymentReturnUrl() or valueOrDefault().
      */
@@ -108,13 +115,13 @@ final class CreateCheckoutSessionRequestInput extends Model {
      */
     public function getPrefill(): mixed { return $this->get('prefill'); }
     public function hasPrefill(): bool { return $this->has('prefill'); }
-    /** Promotion settings for a checkout: whether automatic promotions apply and whether the buyer can apply promotion codes.
+    /** Whether automatic promotions apply to this session and whether the buyer can enter promotion codes. Promotion settings for a checkout: whether automatic promotions apply and whether the buyer can apply promotion codes.
      * @return CheckoutPromotionConfigRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When promotion_config is omitted; use hasPromotionConfig() or valueOrDefault().
      */
     public function getPromotionConfig(): mixed { return $this->get('promotion_config'); }
     public function hasPromotionConfig(): bool { return $this->has('promotion_config'); }
-    /** A single custom item to charge on a checkout session, supplied as `quick_pay_item`: a name, an amount, and optional tax settings.
+    /** The one named amount to collect. Flint creates the order from it. Required when `type` is `quick_pay`. A single custom item to charge on a checkout session, supplied as `quick_pay_item`: a name, an amount, and optional tax settings.
      * @return CheckoutQuickPayItemRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When quick_pay_item is omitted; use hasQuickPayItem() or valueOrDefault().
      */
@@ -126,13 +133,13 @@ final class CreateCheckoutSessionRequestInput extends Model {
      */
     public function getRedirects(): mixed { return $this->get('redirects'); }
     public function hasRedirects(): bool { return $this->has('redirects'); }
-    /** Expected checkout session for an atomic replacement. Allowed only with type: order. The named session must belong to the same merchant, environment, and order. Active payment work returns PAYMENT_IN_PROGRESS. minLength: 1.
+    /** Expected checkout session for an atomic replacement. Allowed only with type: order. The named session must belong to the same merchant, environment, and order. Active payment work fails with `OPERATION_IN_PROGRESS`. minLength: 1. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
      * @return string
      * @throws SdkError When replace_checkout_session_id is omitted; use hasReplaceCheckoutSessionId() or valueOrDefault().
      */
     public function getReplaceCheckoutSessionId(): string { return $this->get('replace_checkout_session_id'); }
     public function hasReplaceCheckoutSessionId(): bool { return $this->has('replace_checkout_session_id'); }
-    /** An active plan. minLength: 1.
+    /** An active plan. minLength: 1. Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
      * @return string
      * @throws SdkError When subscription_plan_id is omitted; use hasSubscriptionPlanId() or valueOrDefault().
      */
@@ -156,13 +163,13 @@ final class CreateCheckoutSessionRequestInput extends Model {
      */
     public function getTax(): mixed { return $this->get('tax'); }
     public function hasTax(): bool { return $this->has('tax'); }
-    /** Colors and title to apply to a checkout session's page.
+    /** The title and colors for this session's checkout. Fields you omit come from your branding settings. Colors and title to apply to a checkout session's page.
      * @return ThemeConfigRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When theme is omitted; use hasTheme() or valueOrDefault().
      */
     public function getTheme(): mixed { return $this->get('theme'); }
     public function hasTheme(): bool { return $this->has('theme'); }
-    /** Tip settings for a checkout: whether tips are enabled, the percent or fixed amount options, the default tip, and custom tips.
+    /** Tip options for this session. Fields you omit follow your tipping settings. Tip settings for a checkout: whether tips are enabled, the percent or fixed amount options, the default tip, and custom tips.
      * @return CheckoutTipConfigRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When tip is omitted; use hasTip() or valueOrDefault().
      */

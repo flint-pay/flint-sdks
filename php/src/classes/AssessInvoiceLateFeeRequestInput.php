@@ -7,7 +7,7 @@ namespace Flint;
 final class AssessInvoiceLateFeeRequestInput extends Model {
     /** @param array{'invoice_schedule_entry_id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('AssessInvoiceLateFeeRequestInput')); }
-    /** Required on an invoice with a payment schedule, where it names the entry whose outstanding balance and due date the fee is based on. Omit it on an invoice without a schedule. minLength: 1.
+    /** Required on an invoice with a payment schedule, where it names the entry whose outstanding balance and due date the fee is based on. Omit it on an invoice without a schedule. minLength: 1. Example: "invse_01KEZF7C006JCPQBD8VZ0RNT6R".
      * @return string
      * @throws SdkError When invoice_schedule_entry_id is omitted; use hasInvoiceScheduleEntryId() or valueOrDefault().
      */

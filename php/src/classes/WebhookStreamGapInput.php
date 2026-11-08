@@ -9,19 +9,19 @@ namespace Flint;
 final class WebhookStreamGapInput extends Model {
     /** @param array{'reason': string, 'requested_cursor'?: string, 'resume_cursor'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WebhookStreamGapInput')); }
-    /** Value enum: "cursor_unavailable", "payload_expired".
+    /** Why events could not be replayed from the requested position. Value enum: "cursor_unavailable", "payload_expired".
      * @return string
      * @throws SdkError When reason is omitted; use hasReason() or valueOrDefault().
      */
     public function getReason(): string { return $this->get('reason'); }
     public function hasReason(): bool { return $this->has('reason'); }
-    /** requested_cursor
+    /** Event ID from which replay was requested. Omitted when the requested position has no event ID.
      * @return string
      * @throws SdkError When requested_cursor is omitted; use hasRequestedCursor() or valueOrDefault().
      */
     public function getRequestedCursor(): string { return $this->get('requested_cursor'); }
     public function hasRequestedCursor(): bool { return $this->has('requested_cursor'); }
-    /** resume_cursor
+    /** Event ID after which streaming continues following this gap. Omitted when the resume position has no event ID.
      * @return string
      * @throws SdkError When resume_cursor is omitted; use hasResumeCursor() or valueOrDefault().
      */

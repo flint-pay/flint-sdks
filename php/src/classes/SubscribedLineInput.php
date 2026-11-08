@@ -28,7 +28,7 @@ final class SubscribedLineInput extends Model {
      */
     public function getRecurringAmountMoney(): mixed { return $this->get('recurring_amount_money'); }
     public function hasRecurringAmountMoney(): bool { return $this->has('recurring_amount_money'); }
-    /** subscription_offer_id
+    /** Example: "soffer_01KEZF7C00KAA9Y1X1KM70YFAA".
      * @return string
      * @throws SdkError When subscription_offer_id is omitted; use hasSubscriptionOfferId() or valueOrDefault().
      */

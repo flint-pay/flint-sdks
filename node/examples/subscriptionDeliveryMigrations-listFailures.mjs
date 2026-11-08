@@ -5,6 +5,6 @@ const client = new Client({
   allowInsecureHttp: !!baseUrl && ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
 });
 const result = await client.subscriptionDeliveryMigrations.listFailures(
-  "sdmig_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "sdmig_01KEZF7C00H8KGVKXANJWJVDH7"
 );
 console.log(result.request_id);

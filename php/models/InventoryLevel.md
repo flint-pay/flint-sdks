@@ -9,16 +9,17 @@ Response model.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `available_quantity` | Required | integer | Derived and never written: on_hand minus unavailable, held, committed, and safety stock, never below 0. See shortage_quantity for the excess. Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
+| `backordered_quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. minimum: `0`. |
 | `claim_version` | Required | integer | Advances only when held or committed quantities change. Format: `int64`. minimum: `0`. |
 | `committed_quantity` | Required | integer | Units promised to accepted orders. Still physically present until fulfillment consumes them. Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `damaged_quantity` | Required | integer | On-hand units known to be damaged. Not sellable. Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `held_quantity` | Required | integer | Units claimed by an open reservation that has not been committed. Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `incoming_quantity` | Required | integer | Units recorded as inbound but not yet on hand. Does not count toward availability. Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
-| `inventory_item` | Optional | [InventoryItem](../models/InventoryItem.md#inventoryitem) | The inventory item this level belongs to. Present only when the list request asked for expand=inventory_item. A stock-keeping unit that inventory quantities are tracked against. Catalog variants reference an inventory item rather than carrying their own counter. |
-| `inventory_item_id` | Required | string |  |
-| `inventory_level_id` | Required | string |  |
-| `location_id` | Required | string |  |
+| `inventory_item` | Optional | [InventoryItem](../models/InventoryItem.md#inventoryitem) | The inventory item this level belongs to. Present only when the list request asked for expand=inventory_item. A stock-keeping unit that inventory quantities are tracked against. Catalog variants reference an inventory item rather than carrying their own counter. `inventory_item`: [field definitions](../models/InventoryLevelResponse.md#inventorylevelresponsedatainventory_item). |
+| `inventory_item_id` | Required | string | ID of the inventory item the stock is for. |
+| `inventory_level_id` | Required | string | Unique identifier for this inventory level, prefixed `invl_`. |
+| `location_id` | Required | string | ID of the Location that holds the stock. |
 | `on_hand_quantity` | Required | integer | Units physically present at the Location, in any condition. Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `physical_version` | Required | integer | Advances only when on-hand or condition quantities change. Format: `int64`. minimum: `0`. |
 | `quality_control_quantity` | Required | integer | On-hand units awaiting inspection. Not sellable. Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
@@ -28,4 +29,8 @@ Response model.
 | `unavailable_on_hand_quantity` | Required | integer | Derived: quality_control + damaged + quarantined. Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `version` | Required | integer | Changes on every quantity or claim change at this level, including holds and commits. Read it immediately before a PATCH. A level that a counted adjustment creates without a quantity change starts at version 0. Format: `int64`. minimum: `0`. |
+
+### InventoryLevel.inventory_item
+
+Field definitions: [InventoryLevelResponse.data.inventory_item](../models/InventoryLevelResponse.md#inventorylevelresponsedatainventory_item).
 

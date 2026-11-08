@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 final class ReportsResource {
     public function __construct(private readonly Runtime $runtime) {}
-    /** Creates an idempotent asynchronous CSV report. interval_end_at may be at most the same local time 366 calendar days after interval_start_at in timezone, and must not be in the future. Poll the returned report until it succeeds or fails.
+    /** Creates an idempotent asynchronous CSV report. receivables_aging_v1 takes as_of_date instead of interval timestamps, with a cutoff at the earlier of the end of that local day and report creation. For interval reports, interval_end_at may be at most the same local time 366 calendar days after interval_start_at in timezone, and must not be in the future. Poll the returned report until it succeeds or fails.
      * @param ReportsCreateParams|array<array-key, mixed>|Model $params Flat body fields and query/header parameters; path arguments follow URL order.
      * @return ReportResponseDataPending|ReportResponseDataSucceeded|ReportResponseDataFailed|Model
      */

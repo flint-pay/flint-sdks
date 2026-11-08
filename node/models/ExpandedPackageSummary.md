@@ -2,7 +2,7 @@
 
 ## ExpandedPackageSummary
 
-
+A package's summary fields, including carrier, tracking, status, and supported actions, returned when the package is expanded.
 
 
 
@@ -11,19 +11,19 @@
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `carrier` | Optional | string | Carrier transporting the package. |
-| `created_at` | Optional | string | When the package was created, in RFC3339 format. Format: `date-time`. |
-| `delivered_at` | Optional | string | When the package was delivered, in RFC3339 format. Format: `date-time`. |
-| `expected_delivery_at` | Optional | string or null | When the carrier or merchant expects this package to arrive. Null when no estimate is set. Retained after delivery as history. This estimate is separate from the fulfillment's promised shipment window. Format: `date-time`. |
-| `fulfillment_id` | Required | string | Fulfillment whose items are in the package. |
-| `package_id` | Required | string | Stable identifier of the expanded package. |
+| `created_at` | Optional | string | When the package was created, in RFC3339 format. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
+| `delivered_at` | Optional | string | When the package was delivered, in RFC3339 format. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
+| `expected_delivery_at` | Optional | string or null | When the carrier or merchant expects this package to arrive. Null when no estimate is set. Retained after delivery as history. This estimate is separate from the fulfillment's promised shipment window. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
+| `fulfillment_id` | Required | string | Fulfillment whose items are in the package. Example: `"ful_01KEZF7C00F24WVSTTWR1FQX5T"`. |
+| `package_id` | Required | string | Stable identifier of the expanded package. Example: `"pkg_01KEZF7C00ZZA16BJCEJBWKJ5R"`. |
 | `service_code` | Optional | string | Carrier service used for the package. |
-| `shipment_id` | Required | string | Shipment carrying this package. |
-| `shipped_at` | Optional | string | When the package was shipped, in RFC3339 format. Format: `date-time`. |
+| `shipment_id` | Required | string | Shipment carrying this package. Example: `"shp_01KEZF7C00Q2AFXWXHMCDR3F68"`. |
+| `shipped_at` | Optional | string | When the package was shipped, in RFC3339 format. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `status` | Required | string | Current package lifecycle state. - `created`: The package record exists but has not been packed or handed off. - `packed`: The package is packed and awaiting carrier handoff. - `shipped`: The package was handed to the carrier. - `in_transit`: The carrier is moving the package through its network. - `out_for_delivery`: The package is on its final delivery route. - `delivered`: The carrier reported successful delivery. - `delivery_attempted`: The carrier attempted delivery but did not complete it. Follow the carrier instructions before retrying delivery. - `exception`: A carrier exception is blocking normal progress. Resolve the carrier-reported issue. - `returned`: The package was returned toward or to its origin. - `voided`: The package was voided and will not continue through delivery. Values: `"created"`, `"packed"`, `"shipped"`, `"in_transit"`, `"out_for_delivery"`, `"delivered"`, `"delivery_attempted"`, `"exception"`, `"returned"`, `"voided"`. |
-| `supported_actions` | Required | Array of string | Items values: [8 declared values](#expandedpackagesummary-supported_actions--values). |
+| `supported_actions` | Required | Array of string | Lifecycle actions Flint accepts now. mark_in_transit can repeat while in transit to refresh expected_delivery_at. Items values: [9 declared values](#expandedpackagesummary-supported_actions--values). |
 | `tracking_number` | Optional | string | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `tracking_url` | Optional | string | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
-| `updated_at` | Optional | string | When the package was last updated, in RFC3339 format. Format: `date-time`. |
+| `updated_at` | Optional | string | When the package was last updated, in RFC3339 format. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `version` | Required | integer | Monotonic package version for expected_version checks. Format: `uint64`. minimum: `1`. |
 
 #### ExpandedPackageSummary supported_actions [] values
@@ -36,16 +36,5 @@
 - `"mark_packed"`
 - `"mark_returned"`
 - `"mark_shipped"`
-
-### ExpandedPackageSummary variant 1
-
-anyOf variant 1: Declared schema BuyerExpandedPackageSummary. A package on a buyer's fulfillment, with its carrier, status, tracking details, and timestamps. Buyer credentials get no supported actions..
-
-- Constraints for `supported_actions`: Always empty for buyer credentials. maxItems: `0`. Items values: `"mark_delivered"`, `"mark_delivery_attempted"`, `"mark_exception"`, `"mark_in_transit"`, `"mark_out_for_delivery"`, `"mark_packed"`, `"mark_returned"`, `"mark_shipped"`.
-
-### ExpandedPackageSummary variant 2
-
-anyOf variant 2: Declared schema ExpandedPackageSummary. A package's summary fields, including carrier, tracking, status, and supported actions, returned when the package is expanded..
-
-- Constraints for `supported_actions`: Read-only actions currently supported for this package. Items values: `"mark_delivered"`, `"mark_delivery_attempted"`, `"mark_exception"`, `"mark_in_transit"`, `"mark_out_for_delivery"`, `"mark_packed"`, `"mark_returned"`, `"mark_shipped"`.
+- `"void"`
 

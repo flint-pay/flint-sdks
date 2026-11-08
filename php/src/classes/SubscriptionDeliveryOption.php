@@ -67,7 +67,7 @@ final class SubscriptionDeliveryOption extends Model {
      */
     public function getType(): string { return $this->get('type'); }
     public function hasType(): bool { return $this->has('type'); }
-    /** Reason the method cannot serve this subscription destination. Values can expand as delivery capabilities change. Value enum: "destination_not_served", "pickup_unavailable", "no_window_available", "eligibility_no_match", "method_type_not_allowed", "pricing_unavailable", "inventory_unavailable".
+    /** Reason the method cannot serve this subscription destination. Values can expand as delivery capabilities change. Value enum: "dependency_revoked", "destination_not_served", "pickup_unavailable", "no_window_available", "eligibility_no_match", "method_type_not_allowed", "pricing_unavailable", "inventory_unavailable".
      * @return ?string
      */
     public function getUnavailableReason(): ?string { return $this->get('unavailable_reason'); }

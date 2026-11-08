@@ -10,5 +10,5 @@ Response model.
 | --- | --- | --- | --- |
 | `earliest_date` | Required | string | Calendar date in the option timezone. Do not parse it as a UTC timestamp. Format: `date`. |
 | `latest_date` | Required | string | Calendar date in the option timezone. Do not parse it as a UTC timestamp. Format: `date`. |
-| `timezone` | Required | string |  |
+| `timezone` | Required | string | Uses an IANA time zone name. |
 

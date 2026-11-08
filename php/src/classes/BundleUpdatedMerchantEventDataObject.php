@@ -2,7 +2,6 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read bool $available_for_sale
  * @property-read ?string $barcode
  * @property-read string $bundle_id
  * @property-read list<CategoryReference> $categories
@@ -13,6 +12,7 @@ namespace Flint;
  * @property-read ?string $description
  * @property-read ?string $external_reference_id
  * @property-read list<ImageAttachment> $images
+ * @property-read bool $is_available_for_sale
  * @property-read ?string $merchant_id
  * @property-read ?array<array-key, string> $metadata
  * @property-read ModifierSet|null $modifier_set
@@ -25,13 +25,8 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class BundleUpdatedMerchantEventDataObject extends Model {
-    /** @param array{'available_for_sale': bool, 'barcode'?: string, 'bundle_id': string, 'categories': list<mixed>, 'component_count': int, 'components': list<mixed>, 'created_at'?: string, 'delivery_configuration_status': string, 'description'?: string, 'external_reference_id'?: string, 'images': list<mixed>, 'merchant_id'?: string, 'metadata'?: mixed, 'modifier_set'?: mixed, 'modifier_set_id': string|null, 'name': string, 'sku'?: string, 'status': string, 'unit_price_money': mixed, 'updated_at'?: string, 'version': int, ...}|object $values */
+    /** @param array{'barcode'?: string, 'bundle_id': string, 'categories': list<mixed>, 'component_count': int, 'components': list<mixed>, 'created_at'?: string, 'delivery_configuration_status': string, 'description'?: string, 'external_reference_id'?: string, 'images': list<mixed>, 'is_available_for_sale': bool, 'merchant_id'?: string, 'metadata'?: mixed, 'modifier_set'?: mixed, 'modifier_set_id': string|null, 'name': string, 'sku'?: string, 'status': string, 'unit_price_money': mixed, 'updated_at'?: string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BundleUpdatedMerchantEventDataObject')); }
-    /** Whether the bundle can be sold now: it is `active`, has at least one component, every component's variant and product are `active`, and `delivery_configuration_status` isn't `action_required`. Stock isn't considered.
-     * @return bool
-     */
-    public function getAvailableForSale(): bool { return $this->get('available_for_sale'); }
-    public function hasAvailableForSale(): bool { return $this->has('available_for_sale'); }
     /** Barcode assigned to this sellable item.
      * @return ?string
      */
@@ -82,6 +77,11 @@ final class BundleUpdatedMerchantEventDataObject extends Model {
      */
     public function getImages(): array { return $this->get('images'); }
     public function hasImages(): bool { return $this->has('images'); }
+    /** Whether the bundle can be sold now: it is `active`, has at least one component, every component's variant and product are `active`, and `delivery_configuration_status` isn't `action_required`. Stock isn't considered.
+     * @return bool
+     */
+    public function getIsAvailableForSale(): bool { return $this->get('is_available_for_sale'); }
+    public function hasIsAvailableForSale(): bool { return $this->has('is_available_for_sale'); }
     /** Identifier of the merchant that owns this resource.
      * @return ?string
      */

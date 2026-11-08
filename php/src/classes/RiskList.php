@@ -23,7 +23,7 @@ final class RiskList extends Model {
      */
     public function getAlias(): string { return $this->get('alias'); }
     public function hasAlias(): bool { return $this->has('alias'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. `null` when the resource isn't archived. Format: date-time.
      * @return string|null
      */
     public function getArchivedAt(): string|null { return $this->get('archived_at'); }
@@ -48,7 +48,7 @@ final class RiskList extends Model {
      */
     public function getItemType(): string { return $this->get('item_type'); }
     public function hasItemType(): bool { return $this->has('item_type'); }
-    /** name
+    /** Display name of the list.
      * @return string
      */
     public function getName(): string { return $this->get('name'); }
@@ -58,12 +58,12 @@ final class RiskList extends Model {
      */
     public function getOrigin(): string { return $this->get('origin'); }
     public function hasOrigin(): bool { return $this->has('origin'); }
-    /** risk_list_id
+    /** Unique identifier for this risk list, prefixed `rl_`.
      * @return string
      */
     public function getRiskListId(): string { return $this->get('risk_list_id'); }
     public function hasRiskListId(): bool { return $this->has('risk_list_id'); }
-    /** Value enum: "active", "archived".
+    /** Whether the list can still be used. Value enum: "active", "archived".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }

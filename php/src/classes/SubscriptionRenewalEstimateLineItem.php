@@ -26,7 +26,7 @@ final class SubscriptionRenewalEstimateLineItem extends Model {
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
-    /** The saved subscription line ID; null when previewing replacement plan lines.
+    /** The saved subscription line ID; null when previewing new or replacement lines.
      * @return string|null
      */
     public function getSubscriptionLineItemId(): string|null { return $this->get('subscription_line_item_id'); }

@@ -8,13 +8,13 @@ namespace Flint;
 final class PaymentMethodDomainPaymentOptionStatusInput extends Model {
     /** @param array{'payment_option': string, 'status': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentMethodDomainPaymentOptionStatusInput')); }
-    /** Value enum: "apple_pay", "google_pay".
+    /** The wallet this status is for. Value enum: "apple_pay", "google_pay".
      * @return string
      * @throws SdkError When payment_option is omitted; use hasPaymentOption() or valueOrDefault().
      */
     public function getPaymentOption(): string { return $this->get('payment_option'); }
     public function hasPaymentOption(): bool { return $this->has('payment_option'); }
-    /** Value enum: "active", "inactive", "unavailable".
+    /** Whether this wallet's button can show on the hostname. Value enum: "active", "inactive", "unavailable".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */

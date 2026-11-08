@@ -2,33 +2,12 @@
 
 ## CustomerUpdatedInstalledMerchantsEventData
 
-
+The resource snapshot recorded for this event and rendered at the delivery API version.
 
 Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `object` | Required | [CustomerUpdatedInstalledMerchantsEventDataObject](../models/CustomerUpdatedInstalledMerchantsEventDataObject.md#customerupdatedinstalledmerchantseventdataobject) | A merchant's customer profile. `object`: [field definitions](../models/CustomerUpdatedInstalledMerchantsEventData.md#customerupdatedinstalledmerchantseventdataobject-fields-1). |
-
-### CustomerUpdatedInstalledMerchantsEventData.object fields 1
-
-A merchant's customer profile.
-
-Field definitions: [shared fields](CustomerResponse.md#customerresponsedata).
-
-### CustomerUpdatedInstalledMerchantsEventData.object fields 1.billing_address
-
-Declared alternatives: [CustomerResponse.data.billing_address](../models/CustomerResponse.md#customerresponsedatabilling_address).
-
-### CustomerUpdatedInstalledMerchantsEventData.object fields 1.metadata
-
-Field definitions: [CancelReturnResponse.data.metadata](../models/CancelReturnResponse.md#cancelreturnresponsedatametadata).
-
-### CustomerUpdatedInstalledMerchantsEventData.object fields 1.shipping_address
-
-Declared alternatives: [CustomerResponse.data.shipping_address](../models/CustomerResponse.md#customerresponsedatashipping_address).
-
-### CustomerUpdatedInstalledMerchantsEventData.object fields 1.tax_identity
-
-Declared alternatives: [CustomerResponse.data.tax_identity](../models/CustomerResponse.md#customerresponsedatatax_identity).
+| `object` | Required | [CustomerUpdatedInstalledMerchantsEventDataObject](../models/CustomerUpdatedInstalledMerchantsEventDataObject.md#customerupdatedinstalledmerchantseventdataobject) | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. |
+| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
 

@@ -13,7 +13,7 @@ final class InventoryReservationResult extends Model {
      */
     public function getInventoryLevels(): array { return $this->get('inventory_levels'); }
     public function hasInventoryLevels(): bool { return $this->has('inventory_levels'); }
-    /** A claim on stock. Quantity moves from held to committed to consumed, and can be released or reallocated.
+    /** The inventory reservation. A claim on stock. Quantity moves from held to committed to consumed, and can be released or reallocated.
      * @return InventoryReservation
      */
     public function getInventoryReservation(): InventoryReservation { return $this->get('inventory_reservation'); }

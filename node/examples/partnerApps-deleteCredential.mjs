@@ -8,8 +8,8 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.partnerApps.deleteCredential(
-  "papp_01ARZ3NDEKTSV4RRFFQ69G5FAV",
-  "pacr_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV",
+  "pacr_01KEZF7C005RDK44XFG5WF94BB",
   {},
   { idempotencyKey: idempotencyKey },
 );

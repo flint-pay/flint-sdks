@@ -12,6 +12,6 @@ Metadata returned with a response: the `api_version`, `trace_id`, whether an ide
 | --- | --- | --- | --- |
 | `api_version` | Optional | string | API version used to produce this response. |
 | `idempotency_replayed` | Optional | boolean | Whether this response replays a stored result for the supplied Idempotency-Key. |
-| `trace_id` | Optional | string | Trace identifier to include when contacting Flint about this request. |
+| `trace_id` | Optional | string | Trace identifier to include when contacting Flint about this request. Example: `"0123456789abcdef0123456789abcdef"`. |
 | `warnings` | Optional | Array of [ResponseWarning](../models/ResponseWarning.md#responsewarning) | Conditions that need attention even though the request succeeded. |
 

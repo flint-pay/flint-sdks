@@ -9,16 +9,16 @@ Request input.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `type` | Required | string |  |
-| `starts_at` | Conditional | string | Future instant when the first billing period starts. Format: `date-time`. minLength: `1`. |
-| `completed_cycles` | Conditional | integer | Number of billing cycles already charged on the previous billing system, including the current imported period. The subscription's completed_cycles starts here, and the next renewal's subscription_cycle is this number plus one. minimum: `0`. Default: `0`. |
-| `period_started_at` | Conditional | string | Start of the already-running billing period being imported. Format: `date-time`. minLength: `1`. |
+| `starts_at` | Conditional | string | Future instant when the first billing period starts. Format: `date-time`. minLength: `1`. Example: `"2026-08-02T16:00:00Z"`. |
+| `completed_cycles` | Conditional | integer | Billing cycles already charged on the previous billing system, including the current imported period. Defaults to 1 and must be at least 1. The subscription starts with this completed_cycles count; its next renewal has subscription_cycle one higher. minimum: `1`. Default: `1`. |
+| `period_started_at` | Conditional | string | Start of the already-running billing period being imported. Format: `date-time`. minLength: `1`. Example: `"2026-08-02T16:00:00Z"`. |
 
 ### SubscriptionBillingStartRequestInput variant 1: `type` = `"immediate"`
 
 oneOf with type: "immediate": The `immediate` variant of `SubscriptionBillingStartInput`..
 
 - Undeclared: `starts_at`, `completed_cycles`, `period_started_at`.
-- Constraints for `type`: Values: `"immediate"`.
+- Constraints for `type`: Starts billing now, with the plan trial when configured. Values: `"immediate"`.
 
 ### SubscriptionBillingStartRequestInput variant 2: `type` = `"scheduled"`
 
@@ -26,7 +26,7 @@ oneOf with type: "scheduled": The `scheduled` variant of `SubscriptionBillingSta
 
 - Required: `starts_at`.
 - Undeclared: `completed_cycles`, `period_started_at`.
-- Constraints for `type`: Values: `"scheduled"`.
+- Constraints for `type`: Starts the first billing period at starts_at. Values: `"scheduled"`.
 
 ### SubscriptionBillingStartRequestInput variant 3: `type` = `"imported"`
 
@@ -35,5 +35,5 @@ oneOf with type: "imported": The `imported` variant of `SubscriptionBillingStart
 - Required: `period_started_at`.
 - Optional: `completed_cycles`.
 - Undeclared: `starts_at`.
-- Constraints for `type`: Values: `"imported"`.
+- Constraints for `type`: Continues a billing period already paid for on another system. Values: `"imported"`.
 

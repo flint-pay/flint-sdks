@@ -19,6 +19,5 @@ $idempotencyKey = bin2hex(random_bytes(16));
 $result = $client->webhookEndpoints->update('whep_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
   'description' => 'Example endpoint',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
-echo $result->status . PHP_EOL;
-echo $result->webhook_endpoint_id . PHP_EOL;
+echo json_encode($result, JSON_THROW_ON_ERROR) . PHP_EOL;
 $client->close();

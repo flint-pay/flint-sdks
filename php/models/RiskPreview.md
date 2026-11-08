@@ -11,5 +11,9 @@ Response model.
 | `analysis` | Required | [RiskRuleAnalysis](../models/RiskRuleAnalysis.md#riskruleanalysis) or null | Rule analysis. Null when the proposed rule is invalid. |
 | `is_valid` | Required | boolean | Whether the proposed rule is valid. |
 | `issues` | Required | Array of [RiskRuleIssue](../models/RiskRuleIssue.md#riskruleissue) | Every rule validation issue in validation order. Empty when the rule is valid. |
-| `warnings` | Required | Array of [ResponseWarning](../models/ResponseWarning.md#responsewarning) | Advisory warnings. Empty when the proposed rule is invalid. |
+| `warnings` | Required | Array of [ResponseWarning](../models/ResponseWarning.md#responsewarning) | Advisory warnings. Empty when the proposed rule is invalid. `warnings[]`: [field definitions](../models/DisputeResponse.md#disputeresponsemetawarnings). |
+
+### RiskPreview.warnings[]
+
+Field definitions: [DisputeResponse.meta.warnings[]](../models/DisputeResponse.md#disputeresponsemetawarnings).
 

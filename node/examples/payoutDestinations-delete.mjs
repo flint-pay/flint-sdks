@@ -8,7 +8,7 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.payoutDestinations.delete(
-  "pdest_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "pdest_01KEZF7C00M55HZDZXZP6YVE6B",
   {},
   { idempotencyKey: idempotencyKey },
 );

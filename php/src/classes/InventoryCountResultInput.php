@@ -8,7 +8,7 @@ namespace Flint;
 final class InventoryCountResultInput extends Model {
     /** @param array{'inventory_count': InventoryCountInput|array<array-key, mixed>|\stdClass, 'inventory_levels': list<InventoryLevelInput|array<array-key, mixed>|\stdClass>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryCountResultInput')); }
-    /** A physical count used to reconcile stock.
+    /** The inventory count. A physical count used to reconcile stock.
      * @return InventoryCountInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When inventory_count is omitted; use hasInventoryCount() or valueOrDefault().
      */

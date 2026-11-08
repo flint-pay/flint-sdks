@@ -5,9 +5,9 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/products.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import r0 from '../descriptors/resources/products.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import settings from '../descriptors/settings.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createProduct"]:r0,["createProductVariant"]:r0,["deleteProduct"]:r0,["deleteProductVariant"]:r0,["getProduct"]:r0,["getProductOption"]:r0,["getProductVariant"]:r0,["listProductOptions"]:r0,["listProducts"]:r0,["listProductVariants"]:r0,["updateProduct"]:r0,["updateProductVariant"]:r0});
 export class Client {
@@ -15,14 +15,22 @@ export class Client {
 constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.products = Object.freeze({
-      create: async (params, options) => this.#runtime.request("createProduct", _sdkRequestInput([], [], [], true, true, params, [
+      create: async (params, options) => this.#runtime.request("createProduct", _sdkRequestInput([], [], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createProduct", result, path))),
       createVariant: async (product_id, params, options) => this.#runtime.request("createProductVariant", _sdkRequestInput([
   "product_id"
-], [product_id], [], true, true, params, [
+], [product_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
@@ -30,7 +38,10 @@ this.products = Object.freeze({
       delete: async (product_id, params, options) => this.#runtime.request("deleteProduct", _sdkRequestInput([
   "product_id"
 ], [product_id], [
-  "expected_version"
+  "expected_version",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Idempotency-Key",
   "Flint-Version",
@@ -40,7 +51,10 @@ this.products = Object.freeze({
   "product_id",
   "variant_id"
 ], [product_id, variant_id], [
-  "expected_version"
+  "expected_version",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Idempotency-Key",
   "Flint-Version",
@@ -49,7 +63,10 @@ this.products = Object.freeze({
       get: async (product_id, params, options) => this.#runtime.request("getProduct", _sdkRequestInput([
   "product_id"
 ], [product_id], [
-  "expand"
+  "expand",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -57,7 +74,11 @@ this.products = Object.freeze({
       getOption: async (product_id, option_id, params, options) => this.#runtime.request("getProductOption", _sdkRequestInput([
   "product_id",
   "option_id"
-], [product_id, option_id], [], false, false, params, [
+], [product_id, option_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getProductOption", result, path))),
@@ -65,7 +86,10 @@ this.products = Object.freeze({
   "product_id",
   "variant_id"
 ], [product_id, variant_id], [
-  "expand"
+  "expand",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -75,7 +99,10 @@ this.products = Object.freeze({
 ], [product_id], [
   "page_size",
   "page_token",
-  "status"
+  "status",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -85,7 +112,10 @@ this.products = Object.freeze({
 ], [product_id], [
   "page_size",
   "page_token",
-  "status"
+  "status",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -95,7 +125,10 @@ this.products = Object.freeze({
 ], [product_id], [
   "page_size",
   "page_token",
-  "status"
+  "status",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -119,7 +152,10 @@ this.products = Object.freeze({
   "created_before",
   "updated_after",
   "updated_before",
-  "expand"
+  "expand",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -143,7 +179,10 @@ this.products = Object.freeze({
   "created_before",
   "updated_after",
   "updated_before",
-  "expand"
+  "expand",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -167,7 +206,10 @@ this.products = Object.freeze({
   "created_before",
   "updated_after",
   "updated_before",
-  "expand"
+  "expand",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -190,7 +232,10 @@ this.products = Object.freeze({
   "created_before",
   "updated_after",
   "updated_before",
-  "expand"
+  "expand",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -213,7 +258,10 @@ this.products = Object.freeze({
   "created_before",
   "updated_after",
   "updated_before",
-  "expand"
+  "expand",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -236,14 +284,21 @@ this.products = Object.freeze({
   "created_before",
   "updated_after",
   "updated_before",
-  "expand"
+  "expand",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
 ]), options),
       update: async (product_id, params, options) => this.#runtime.request("updateProduct", _sdkRequestInput([
   "product_id"
-], [product_id], [], true, true, params, [
+], [product_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
@@ -251,7 +306,11 @@ this.products = Object.freeze({
       updateVariant: async (product_id, variant_id, params, options) => this.#runtime.request("updateProductVariant", _sdkRequestInput([
   "product_id",
   "variant_id"
-], [product_id, variant_id], [], true, true, params, [
+], [product_id, variant_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
@@ -266,7 +325,7 @@ export { makeCreateProductOptionValueRequest } from '../models/CreateProductOpti
 export { makeCreateProductRequest } from '../models/CreateProductRequest.js';
 export { makeCreateProductRequestOptioned } from '../models/CreateProductRequestOptioned.js';
 export { makeCreateProductRequestSimple } from '../models/CreateProductRequestSimple.js';
-export { makeDimensions } from '../models/Dimensions.js';
+export { makeDimensionsRequest } from '../models/DimensionsRequest.js';
 export { makeGiftCardCustomAmountBoundsRequest } from '../models/GiftCardCustomAmountBoundsRequest.js';
 export { makeGiftCardProductConfigurationRequest } from '../models/GiftCardProductConfigurationRequest.js';
 export { makeImageInputFile } from '../models/ImageInputFile.js';
@@ -275,12 +334,12 @@ export { makeImageRequest } from '../models/ImageRequest.js';
 export { makeInventoryItemCreateRequest } from '../models/InventoryItemCreateRequest.js';
 export { makeMetadataPatchRequest } from '../models/MetadataPatchRequest.js';
 export { makeMetadataRequest } from '../models/MetadataRequest.js';
-export { makeModifierOverride } from '../models/ModifierOverride.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
 export { makeProductVariantRequest } from '../models/ProductVariantRequest.js';
 export { makeProductVariantSelectedOptionRequest } from '../models/ProductVariantSelectedOptionRequest.js';
+export { makeQuantityPriceBreakRequest } from '../models/QuantityPriceBreakRequest.js';
 export { makeUpdateProductOptionRequest } from '../models/UpdateProductOptionRequest.js';
 export { makeUpdateProductOptionValueRequest } from '../models/UpdateProductOptionValueRequest.js';
 export { makeUpdateProductRequest } from '../models/UpdateProductRequest.js';
 export { makeUpdateProductVariantRequest } from '../models/UpdateProductVariantRequest.js';
-export { makeWeight } from '../models/Weight.js';
+export { makeWeightRequest } from '../models/WeightRequest.js';

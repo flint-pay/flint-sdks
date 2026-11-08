@@ -13,7 +13,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   allowInsecureHttp: $baseUrl !== null && in_array(parse_url($baseUrl, PHP_URL_HOST), ['localhost', '127.0.0.1'], true) && parse_url($baseUrl, PHP_URL_SCHEME) === 'http',
 ));
-$result = $client->deliveryProfiles->get('dprof_01ARZ3NDEKTSV4RRFFQ69G5FAV');
+$result = $client->deliveryProfiles->get('dprof_01KEZF7C0020J13FQYNY9854R0');
 echo $result->current_delivery_profile_revision_id . PHP_EOL;
 echo $result->delivery_profile_id . PHP_EOL;
 $client->close();

@@ -9,7 +9,7 @@ namespace Flint;
 final class CheckoutMerchantSupportInput extends Model {
     /** @param array{'email'?: string, 'phone'?: string, 'url'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutMerchantSupportInput')); }
-    /** Support email address. Format: email.
+    /** Support email address. Format: email. Example: "buyer@example.com".
      * @return string
      * @throws SdkError When email is omitted; use hasEmail() or valueOrDefault().
      */
@@ -21,7 +21,7 @@ final class CheckoutMerchantSupportInput extends Model {
      */
     public function getPhone(): string { return $this->get('phone'); }
     public function hasPhone(): bool { return $this->has('phone'); }
-    /** Support page, as an absolute http or https URL. Format: uri.
+    /** Support page, as an absolute http or https URL. Format: uri. Example: "https://example.com/receipt".
      * @return string
      * @throws SdkError When url is omitted; use hasUrl() or valueOrDefault().
      */

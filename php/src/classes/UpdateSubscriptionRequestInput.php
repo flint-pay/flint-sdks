@@ -7,14 +7,16 @@ namespace Flint;
  * @property-read SubscriptionBillingScheduleUpdateRequestInput|array<array-key, mixed>|\stdClass $billing_schedule
  * @property-read bool $cancel_at_period_end
  * @property-read SubscriptionDeliveryRequestInput|array<array-key, mixed>|\stdClass $delivery
+ * @property-read array{'cycle_count': int, 'type': string}|object|array{'end_date': string, 'timezone'?: string, 'type': string}|object|null $end_after
  * @property-read int $expected_version
  * @property-read string|null $external_reference_id
  * @property-read array<array-key, string|null>|\stdClass|null $metadata
  * @property-read string $payment_method_id
  * @property-read int $quantity
+ * @property-read null $scheduled_plan_change
  * Presence-aware input; omitted fields throw when accessed. */
 final class UpdateSubscriptionRequestInput extends Model {
-    /** @param array{'billing_interval'?: string, 'billing_interval_count'?: int, 'billing_schedule'?: SubscriptionBillingScheduleUpdateRequestInput|array<array-key, mixed>|\stdClass, 'cancel_at_period_end'?: bool, 'delivery'?: SubscriptionDeliveryRequestInput|array<array-key, mixed>|\stdClass, 'expected_version'?: int, 'external_reference_id'?: string|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'payment_method_id'?: string, 'quantity'?: int}|object $values */
+    /** @param array{'billing_interval'?: string, 'billing_interval_count'?: int, 'billing_schedule'?: SubscriptionBillingScheduleUpdateRequestInput|array<array-key, mixed>|\stdClass, 'cancel_at_period_end'?: bool, 'delivery'?: SubscriptionDeliveryRequestInput|array<array-key, mixed>|\stdClass, 'end_after'?: array{'cycle_count': int, 'type': string}|object|array{'end_date': string, 'timezone'?: string, 'type': string}|object|null, 'expected_version'?: int, 'external_reference_id'?: string|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'payment_method_id'?: string, 'quantity'?: int, 'scheduled_plan_change'?: null}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdateSubscriptionRequestInput')); }
     /** Value enum: "daily", "weekly", "monthly", "yearly".
      * @return string
@@ -46,13 +48,19 @@ final class UpdateSubscriptionRequestInput extends Model {
      */
     public function getDelivery(): mixed { return $this->get('delivery'); }
     public function hasDelivery(): bool { return $this->has('delivery'); }
-    /** Format: uint64. minimum: 1.
+    /** Replace the complete automatic end condition, or send null to clear it. Requires expected_version. Buyers cannot change this field. anyOf[1] (Value): {@see SubscriptionEndAfterRequestInput}. An automatic end condition to assign to a subscription, measured by charged billing cycles or a local calendar date. anyOf[2] (Value): null.
+     * @return array{'cycle_count': int, 'type': string}|object|array{'end_date': string, 'timezone'?: string, 'type': string}|object|null
+     * @throws SdkError When end_after is omitted; use hasEndAfter() or valueOrDefault().
+     */
+    public function getEndAfter(): mixed { return $this->get('end_after'); }
+    public function hasEndAfter(): bool { return $this->has('end_after'); }
+    /** The current subscription version. Required when end_after is present. Format: uint64. minimum: 1.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string|null
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -64,7 +72,7 @@ final class UpdateSubscriptionRequestInput extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** minLength: 1.
+    /** minLength: 1. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
      * @return string
      * @throws SdkError When payment_method_id is omitted; use hasPaymentMethodId() or valueOrDefault().
      */
@@ -76,4 +84,10 @@ final class UpdateSubscriptionRequestInput extends Model {
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
+    /** Send null to cancel a scheduled plan change and keep the current plan. Omit to leave it unchanged. Schedule or replace through change-plan.
+     * @return null
+     * @throws SdkError When scheduled_plan_change is omitted; use hasScheduledPlanChange() or valueOrDefault().
+     */
+    public function getScheduledPlanChange(): null { return $this->get('scheduled_plan_change'); }
+    public function hasScheduledPlanChange(): bool { return $this->has('scheduled_plan_change'); }
 }

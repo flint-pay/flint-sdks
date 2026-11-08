@@ -15,13 +15,13 @@ final class ReverseInvoiceManualPaymentRequestInput extends Model {
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** minLength: 1. maxLength: 4096.
+    /** Why the offline payment is being reversed, up to 4096 characters. minLength: 1. maxLength: 4096.
      * @return string
      * @throws SdkError When reversal_note is omitted; use hasReversalNote() or valueOrDefault().
      */
     public function getReversalNote(): string { return $this->get('reversal_note'); }
     public function hasReversalNote(): bool { return $this->has('reversal_note'); }
-    /** When the payment was reversed. Defaults to now and must not precede received_at. Format: date-time. minLength: 1.
+    /** When the payment was reversed. Defaults to now and must not precede received_at. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When reversed_at is omitted; use hasReversedAt() or valueOrDefault().
      */

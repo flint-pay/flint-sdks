@@ -8,5 +8,5 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `cursor` | Optional | string |  |
+| `cursor` | Optional | string | Event ID after which this connection begins streaming. Omitted when the starting position has no event ID. |
 

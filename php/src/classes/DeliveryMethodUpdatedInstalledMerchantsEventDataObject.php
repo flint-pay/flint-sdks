@@ -6,6 +6,7 @@ namespace Flint;
  * @property-read string $created_at
  * @property-read string $current_delivery_method_revision_id
  * @property-read string $delivery_method_id
+ * @property-read string|null $delivery_revocation_id
  * @property-read ?string $description
  * @property-read int $display_position
  * @property-read ?string $external_reference_id
@@ -19,7 +20,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class DeliveryMethodUpdatedInstalledMerchantsEventDataObject extends Model {
-    /** @param array{'configuration': mixed, 'created_at': string, 'current_delivery_method_revision_id': string, 'delivery_method_id': string, 'description'?: string, 'display_position': int, 'external_reference_id'?: string, 'metadata'?: mixed, 'name': string, 'recommendation_priority'?: int, 'status': string, 'subscription_counts': mixed, 'type': string, 'updated_at': string, 'version': int, ...}|object $values */
+    /** @param array{'configuration': mixed, 'created_at': string, 'current_delivery_method_revision_id': string, 'delivery_method_id': string, 'delivery_revocation_id': string|null, 'description'?: string, 'display_position': int, 'external_reference_id'?: string, 'metadata'?: mixed, 'name': string, 'recommendation_priority'?: int, 'status': string, 'subscription_counts': mixed, 'type': string, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryMethodUpdatedInstalledMerchantsEventDataObject')); }
     /** Current eligibility, pricing, origin, estimate, and tax configuration. How a delivery method works: its origin, pricing, eligibility, timing estimate, tax settings, recipient requirements, and option lifetimes.
      * @return DeliveryMethodConfiguration
@@ -41,6 +42,11 @@ final class DeliveryMethodUpdatedInstalledMerchantsEventDataObject extends Model
      */
     public function getDeliveryMethodId(): string { return $this->get('delivery_method_id'); }
     public function hasDeliveryMethodId(): bool { return $this->has('delivery_method_id'); }
+    /** The revocation fencing this resource's own current revision. `null` when the current revision isn't revoked. It doesn't cover dependencies: a method can be unusable while this is `null` because its rate callback revision, signing key, or a Location's address is revoked. A revocation doesn't change `status`; publish a new revision to clear it.
+     * @return string|null
+     */
+    public function getDeliveryRevocationId(): string|null { return $this->get('delivery_revocation_id'); }
+    public function hasDeliveryRevocationId(): bool { return $this->has('delivery_revocation_id'); }
     /** Optional buyer-facing description.
      * @return ?string
      */
