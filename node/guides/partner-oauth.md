@@ -38,7 +38,7 @@ Omit `scope` to request the app's default permissions. `sandboxId` (test mode on
 
 ## Sign client assertions
 
-`privateKeyJwt` signs a new RFC 7523 JWT for every request: `iss` and `sub` are your client ID, `aud` is `https://api.withflintpay.com`, `jti` is unique, and the assertion expires after 120 seconds. Use the key registered as a `public_key` credential or published at your `jwks_url`, and pass its `kid` as `keyId`. Node signs ES256, ES384, PS256, RS256 and EdDSA. PHP signs ES256, ES384 and RS256, and EdDSA with ext-sodium.
+`privateKeyJwt` signs a new RFC 7523 JWT for every request: `iss` and `sub` are your client ID, `aud` is `https://api.withflintpay.com`, `jti` is unique, and the assertion expires after 120 seconds. It omits the optional `iat`, which Flint rejects when it's ahead of Flint's clock. Use the key registered as a `public_key` credential or published at your `jwks_url`, and pass its `kid` as `keyId`. Node signs ES256, ES384, PS256, RS256 and EdDSA. PHP signs ES256, ES384 and RS256 with ext-openssl, and EdDSA with ext-sodium.
 
 Node:
 
