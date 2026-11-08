@@ -43,7 +43,7 @@ final class InventoryCountObservationRequestInput extends Model {
      */
     public function getExpectedPhysicalVersion(): int { return $this->get('expected_physical_version'); }
     public function hasExpectedPhysicalVersion(): bool { return $this->has('expected_physical_version'); }
-    /** minLength: 1.
+    /** ID of the inventory item counted. minLength: 1. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
      * @return string
      * @throws SdkError When inventory_item_id is omitted; use hasInventoryItemId() or valueOrDefault().
      */

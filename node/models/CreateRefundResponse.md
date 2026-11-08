@@ -2,7 +2,7 @@
 
 ## CreateRefundResponse
 
-A response containing `CreateRefundResult` data.
+A response containing `RefundWithGiftCardCodes` data.
 
 
 
@@ -10,7 +10,7 @@ A response containing `CreateRefundResult` data.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `data` | Required | [CreateRefundResult](../models/CreateRefundResult.md#createrefundresult) | The refund created by a create refund call, with all the fields of a refund. Money returned against a collected payment. Money returned against a collected payment. |
-| `meta` | Optional | [ResponseMeta](../models/ResponseMeta.md#responsemeta) | Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings. |
-| `request_id` | Required | string | maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. Example: `"req_01KWM6WAHG3N9Q8T2V5XRZ7C4D"`. |
+| `data` | Required | [RefundWithGiftCardCodes](../models/RefundWithGiftCardCodes.md#refundwithgiftcardcodes) | Resource, collection, or operation result returned by this request. A refund with newly issued gift card codes available during the command recovery window. Money returned against a collected payment. Money returned against a collected payment. |
+| `meta` | Optional | [ResponseMeta](../models/ResponseMeta.md#responsemeta) | Additional information about this response. Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings. |
+| `request_id` | Required | string | Identifier of this API request, used to correlate logs and support requests. maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. Example: `"req_01KWM6WAHG3N9Q8T2V5XRZ7C4D"`. |
 

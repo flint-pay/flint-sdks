@@ -15,4 +15,4 @@ const result = await client.categories.create(
   { idempotencyKey: idempotencyKey },
 );
 console.log(result.category_id);
-console.log(result.status);
+console.log(result.merchant_id);

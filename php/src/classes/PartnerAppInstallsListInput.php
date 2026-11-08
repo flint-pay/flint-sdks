@@ -18,19 +18,19 @@ final class PartnerAppInstallsListInput extends Model {
      */
     public function getPageSize(): int { return $this->get('page_size'); }
     public function hasPageSize(): bool { return $this->has('page_size'); }
-    /** Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error.
+    /** Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error.
      * @return string
      * @throws SdkError When page_token is omitted; use hasPageToken() or valueOrDefault().
      */
     public function getPageToken(): string { return $this->get('page_token'); }
     public function hasPageToken(): bool { return $this->has('page_token'); }
-    /** Filter by app ID. Example: "papp_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Filter by app ID. Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
      * @return string
      * @throws SdkError When partner_app_id is omitted; use hasPartnerAppId() or valueOrDefault().
      */
     public function getPartnerAppId(): string { return $this->get('partner_app_id'); }
     public function hasPartnerAppId(): bool { return $this->has('partner_app_id'); }
-    /** Filter by install status. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "pending_exchange", "active", "revoked". Value enum: "pending_exchange", "active", "revoked". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "pending_exchange", "active", "revoked". anyOf[1][] (Value): string.  Value enum: "pending_exchange", "active", "revoked". anyOf[2] (Value): string.  Value enum: "pending_exchange", "active", "revoked".
+    /** Filter by install status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "pending_exchange", "active", "revoked". Value enum: "pending_exchange", "active", "revoked". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "pending_exchange", "active", "revoked". anyOf[1][] (Value): string.  Value enum: "pending_exchange", "active", "revoked". anyOf[2] (Value): string.  Value enum: "pending_exchange", "active", "revoked".
      * @return list<string>|string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */

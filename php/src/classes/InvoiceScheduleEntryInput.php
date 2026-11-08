@@ -34,7 +34,7 @@ final class InvoiceScheduleEntryInput extends Model {
      */
     public function getDue(): mixed { return $this->get('due'); }
     public function hasDue(): bool { return $this->has('due'); }
-    /** Flint invoice schedule entry ID. Kept across draft edits that send it back with the entry.
+    /** Flint invoice schedule entry ID. Kept across draft edits that send it back with the entry. Example: "invse_01KEZF7C006JCPQBD8VZ0RNT6R".
      * @return string
      * @throws SdkError When invoice_schedule_entry_id is omitted; use hasInvoiceScheduleEntryId() or valueOrDefault().
      */

@@ -8,7 +8,7 @@ const client = new Client({
   customerToken,
 });
 const result = await client.me.getPaymentIntent(
-  "pi_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "pi_01KEZF7C00G8H9D509YEV22P7R"
 );
 console.log(result.payment_intent_id);
 console.log(result.status);

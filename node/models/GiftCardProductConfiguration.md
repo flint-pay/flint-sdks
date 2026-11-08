@@ -11,7 +11,7 @@
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `custom_amount_bounds` | Optional | [GiftCardCustomAmountBounds](../models/GiftCardCustomAmountBounds.md#giftcardcustomamountbounds) | Minimum and maximum gift card values buyers can choose. Omit for a fixed denomination. `custom_amount_bounds`: [field definitions](../models/GiftCardProductConfiguration.md#giftcardproductconfiguration-variant-1custom_amount_bounds), [field definitions](../models/GiftCardProductConfiguration.md#giftcardproductconfiguration-variant-2custom_amount_bounds). |
-| `face_value_money` | Required | object | Gift card value issued for one unit of this variant, in the same currency as its unit price. `face_value_money`: [field definitions](../models/GiftCardProductConfiguration.md#giftcardproductconfigurationface_value_money). |
+| `face_value_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Gift card value issued for one unit of this variant, in the same currency as its unit price. Currency must be USD. Amount must be between 1 and 200000 minor units, inclusive. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `face_value_money`: [field definitions](../models/GiftCardProductConfiguration.md#giftcardproductconfigurationface_value_money). |
 | `price_mode` | Required | string | Whether the gift card is sold at its face value or at a discounted price. Values: `"face_value"`, `"discounted"`. |
 
 ### GiftCardProductConfiguration variant 1
@@ -42,9 +42,9 @@ Field definitions: [GiftCardCustomAmountBounds.minimum_money](../models/GiftCard
 
 ### GiftCardProductConfiguration.face_value_money
 
-Gift card value issued for one unit of this variant, in the same currency as its unit price.
+Gift card value issued for one unit of this variant, in the same currency as its unit price. Currency must be USD. Amount must be between 1 and 200000 minor units, inclusive. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
 
-Field definitions: [shared fields](AddLineItemsRequest.md#addlineitemsrequestline_itemsgift_card_purchaseface_value_money).
+Field definitions: [shared fields](MoneyValueInput.md#moneyvalueinput).
 
 ### GiftCardProductConfiguration variant 2.custom_amount_bounds
 

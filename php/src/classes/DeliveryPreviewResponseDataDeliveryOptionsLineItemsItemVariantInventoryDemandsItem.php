@@ -8,7 +8,7 @@ namespace Flint;
 final class DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantInventoryDemandsItem extends Model {
     /** @param array{'inventory_item_id': string, 'quantity_per_line_item_unit': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantInventoryDemandsItem')); }
-    /** minLength: 1.
+    /** ID of the inventory item each unit of the line item uses. minLength: 1.
      * @return string
      */
     public function getInventoryItemId(): string { return $this->get('inventory_item_id'); }

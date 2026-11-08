@@ -12,33 +12,33 @@ namespace Flint;
  * @property-read string $user_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class UserInput extends Model {
-    /** @param array{'created_at'?: string|\DateTimeInterface, 'default_merchant_id'?: string, 'email': string, 'first_name': string, 'last_name': string, 'status': string, 'updated_at'?: string|\DateTimeInterface, 'user_id': string, ...}|object $values */
+    /** @param array{'created_at': string|\DateTimeInterface, 'default_merchant_id'?: string, 'email': string, 'first_name': string, 'last_name': string, 'status': string, 'updated_at': string|\DateTimeInterface, 'user_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UserInput')); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** default_merchant_id
+    /** Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
      * @return string
      * @throws SdkError When default_merchant_id is omitted; use hasDefaultMerchantId() or valueOrDefault().
      */
     public function getDefaultMerchantId(): string { return $this->get('default_merchant_id'); }
     public function hasDefaultMerchantId(): bool { return $this->has('default_merchant_id'); }
-    /** email
+    /** Email address the user signs in with.
      * @return string
      * @throws SdkError When email is omitted; use hasEmail() or valueOrDefault().
      */
     public function getEmail(): string { return $this->get('email'); }
     public function hasEmail(): bool { return $this->has('email'); }
-    /** first_name
+    /** The user's first name.
      * @return string
      * @throws SdkError When first_name is omitted; use hasFirstName() or valueOrDefault().
      */
     public function getFirstName(): string { return $this->get('first_name'); }
     public function hasFirstName(): bool { return $this->has('first_name'); }
-    /** last_name
+    /** The user's last name.
      * @return string
      * @throws SdkError When last_name is omitted; use hasLastName() or valueOrDefault().
      */
@@ -50,13 +50,13 @@ final class UserInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */
     public function getUpdatedAt(): string|\DateTimeInterface { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** user_id
+    /** Unique identifier for this user, prefixed `usr_`. Example: "usr_01KEZF7C00YC8757ZYP9727JM0".
      * @return string
      * @throws SdkError When user_id is omitted; use hasUserId() or valueOrDefault().
      */

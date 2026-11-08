@@ -2,9 +2,11 @@
 
 ## InvoiceMarkedUncollectibleMerchantEventDataObject
 
-A bill issued to a customer.
+The affected public resource without expansions, client authority fields, or fields computed for an individual caller.
+
+The resource snapshot, without expansions. Webhooks omit these fields: `public_url`.
 
 Response model.
 
-Fields, types, descriptions and enum values: [Invoice](../models/Invoice.md#invoice).
+Fields, types, descriptions and enum values: [InvoiceCollectionBlockResolvedMerchantEventDataObject](../models/InvoiceCollectionBlockResolvedMerchantEventDataObject.md#invoicecollectionblockresolvedmerchanteventdataobject).
 

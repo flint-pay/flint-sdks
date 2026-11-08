@@ -10,9 +10,9 @@ A Return eligibility or resolution preview shown to the buyer, selected by mode.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `eligibility` | Conditional | [BuyerReturnEligibilityPreview](../models/BuyerReturnEligibilityPreview.md#buyerreturneligibilitypreview) | The buyer's Return eligibility preview for an order, including eligible items and policy evaluation results. |
-| `mode` | Required | string | Values: `"eligibility"`, `"resolution"`. |
-| `resolution` | Conditional | [BuyerReturnResolutionPreview](../models/BuyerReturnResolutionPreview.md#buyerreturnresolutionpreview) | The buyer's preview of a Return resolution, including returned items, replacements, adjustments, and the amounts to refund or collect. |
+| `eligibility` | Conditional | [BuyerReturnEligibilityPreview](../models/BuyerReturnEligibilityPreview.md#buyerreturneligibilitypreview) | The eligibility check. Present when `mode` is `eligibility`. The buyer's Return eligibility preview for an order, including eligible items and policy evaluation results. |
+| `mode` | Required | string | Which preview to run. Values: `"eligibility"`, `"resolution"`. |
+| `resolution` | Conditional | [BuyerReturnResolutionPreview](../models/BuyerReturnResolutionPreview.md#buyerreturnresolutionpreview) | The priced resolution. Present when `mode` is `resolution`. The buyer's preview of a Return resolution, including returned items, replacements, adjustments, and the amounts to refund or collect. |
 
 ### BuyerReturnPreview variant 1: `mode` = `"eligibility"`
 

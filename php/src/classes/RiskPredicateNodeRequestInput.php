@@ -1,0 +1,8 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/** Presence-aware input; omitted fields throw when accessed. */
+final class RiskPredicateNodeRequestInput extends Model {
+    /** @param array{'all': list<RiskPredicateNodeRequestInput|array<array-key, mixed>|\stdClass>}|object|array{'any': list<RiskPredicateNodeRequestInput|array<array-key, mixed>|\stdClass>}|object|array{'not': RiskPredicateNodeRequestInput|array<array-key, mixed>|\stdClass}|object|array{'attribute': string, 'operator': string, 'value': string|int|bool}|object|array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'attribute': string, 'operator': string}|object|array{'attribute': string, 'operator': string, 'values': list<string|int|bool>}|object|array{'attribute': string, 'list_alias': string, 'operator': string}|object|array{'attribute': string, 'operator': string}|object $values */
+    public function __construct(mixed $values, array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RiskPredicateNodeRequestInput')); }
+}

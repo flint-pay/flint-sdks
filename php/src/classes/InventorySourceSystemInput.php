@@ -8,7 +8,7 @@ namespace Flint;
 final class InventorySourceSystemInput extends Model {
     /** @param array{'external_source_id'?: string, 'type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventorySourceSystemInput')); }
-    /** Your source system's identifier. Required when type is pos, wms, erp, or other; not allowed when type is manual. Don't put secrets in this field. maxLength: 255.
+    /** Your source system's identifier. Required when type is pos, wms, erp, or other; not allowed when type is manual. Don't put secrets in this field. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_source_id is omitted; use hasExternalSourceId() or valueOrDefault().
      */

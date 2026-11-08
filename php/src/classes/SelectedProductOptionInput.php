@@ -10,7 +10,7 @@ namespace Flint;
 final class SelectedProductOptionInput extends Model {
     /** @param array{'option_id': string, 'option_name': string, 'option_value_id': string, 'value': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SelectedProductOptionInput')); }
-    /** Identifier of the selected product option.
+    /** Identifier of the selected product option. Example: "opt_01KEZF7C008R5Q9BG9B4B4KQH8".
      * @return string
      * @throws SdkError When option_id is omitted; use hasOptionId() or valueOrDefault().
      */
@@ -22,7 +22,7 @@ final class SelectedProductOptionInput extends Model {
      */
     public function getOptionName(): string { return $this->get('option_name'); }
     public function hasOptionName(): bool { return $this->has('option_name'); }
-    /** Identifier of the selected option value.
+    /** Identifier of the selected option value. Example: "optv_01KEZF7C0078SVZ1T7PVRXQK7F".
      * @return string
      * @throws SdkError When option_value_id is omitted; use hasOptionValueId() or valueOrDefault().
      */

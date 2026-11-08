@@ -16,7 +16,7 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->deliveryMethods->delete('dmet_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->deliveryMethods->delete('dmet_01KEZF7C00YSG3X2D1TZJ36TM0', [], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->current_delivery_method_revision_id . PHP_EOL;
 echo $result->delivery_method_id . PHP_EOL;
 $client->close();

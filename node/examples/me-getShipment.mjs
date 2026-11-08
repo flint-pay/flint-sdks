@@ -8,7 +8,7 @@ const client = new Client({
   customerToken,
 });
 const result = await client.me.getShipment(
-  "shp_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "shp_01KEZF7C00Q2AFXWXHMCDR3F68"
 );
 console.log(result.fulfillment_id);
 console.log(result.order_id);

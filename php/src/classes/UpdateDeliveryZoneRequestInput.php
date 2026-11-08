@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read DeliveryZoneConfigurationInput|array<array-key, mixed>|\stdClass $configuration
+ * @property-read DeliveryZoneConfigurationRequestInput|array<array-key, mixed>|\stdClass $configuration
  * @property-read int $expected_version
  * @property-read string|null $external_reference_id
  * @property-read array<array-key, string|null>|\stdClass|null $metadata
@@ -12,7 +12,7 @@ final class UpdateDeliveryZoneRequestInput extends Model {
     /** @param mixed $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdateDeliveryZoneRequestInput')); }
     /** Send the whole geography. It replaces the zone's current geography; leave configuration out to keep it. Null and an empty object are invalid. Requires expected_version. A reusable geographic predicate containing only country, state, postal_code, and radius conditions.
-     * @return DeliveryZoneConfigurationInput|array<array-key, mixed>|\stdClass
+     * @return DeliveryZoneConfigurationRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When configuration is omitted; use hasConfiguration() or valueOrDefault().
      */
     public function getConfiguration(): mixed { return $this->get('configuration'); }
@@ -23,7 +23,7 @@ final class UpdateDeliveryZoneRequestInput extends Model {
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string|null
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */

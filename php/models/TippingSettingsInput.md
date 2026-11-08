@@ -9,16 +9,16 @@ Request input.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `custom_tip_enabled` | Optional | boolean | Whether buyers can enter a custom tip amount. |
-| `default_enabled` | Optional | boolean |  |
-| `default_smart_tip_money` | Required | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) or null | Replaced as a whole: send every field you want to keep. The preselected fixed tip. Its amount and currency must match one of the effective smart_tip_money_options. Null means no preselection is set; effective settings use Flint's default. `default_smart_tip_money`: [declared alternatives](../models/TippingSettingsInput.md#tippingsettingsinputdefault_smart_tip_money). |
-| `default_tip_percent` | Required | number or null | The preselected tip percent, from 1 through 100 with at most four decimal places. It must match one of the effective tip_percent_options. Null means no preselection is set; effective settings use Flint's default. minimum: `1`. maximum: `100`. multipleOf: `0.0001`. |
-| `smart_tip_money_options` | Optional | Array of [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | minItems: `3`. maxItems: `3`. Items: Monetary amount represented as integer minor units plus an ISO 4217 currency code. `smart_tip_money_options[]`: [field definitions](../models/CreateGiftCardLoadRequestInput.md#creategiftcardloadrequestinputvalue_money). |
+| `default_enabled` | Optional | boolean | Whether hosted checkout offers tips when a checkout session or payment link doesn't set its own `tip`. Defaults to false. |
+| `default_smart_tip_money` | Required | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) or null | Replaced as a whole: send every field you want to keep. The preselected fixed tip. Its amount and currency must match one of the effective smart_tip_money_options. `null` when no preselection is set; effective settings use Flint's default. `default_smart_tip_money`: [declared alternatives](../models/TippingSettingsInput.md#tippingsettingsinputdefault_smart_tip_money). |
+| `default_tip_percent` | Required | number or null | The preselected tip percent, from 1 through 100 with at most four decimal places. It must match one of the effective tip_percent_options. `null` when no preselection is set; effective settings use Flint's default. minimum: `1`. maximum: `100`. multipleOf: `0.0001`. |
+| `smart_tip_money_options` | Optional | Array of [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Three fixed tip amounts to offer. minItems: `3`. maxItems: `3`. Items: Monetary amount represented as integer minor units plus an ISO 4217 currency code. `smart_tip_money_options[]`: [field definitions](../models/TippingSettingsInput.md#tippingsettingsinputsmart_tip_money_options). |
 | `smart_tips_enabled` | Optional | boolean | Whether checkout offers fixed tip amounts instead of tip percentages. |
 | `tip_percent_options` | Optional | Array of number | Three tip percents to offer, each from 1 through 100 with at most four decimal places. minItems: `3`. maxItems: `3`. Items: minimum: `1`. maximum: `100`. multipleOf: `0.0001`. |
 
 ### TippingSettingsInput.default_smart_tip_money
 
-Replaced as a whole: send every field you want to keep. The preselected fixed tip. Its amount and currency must match one of the effective smart_tip_money_options. Null means no preselection is set; effective settings use Flint's default.
+Replaced as a whole: send every field you want to keep. The preselected fixed tip. Its amount and currency must match one of the effective smart_tip_money_options. `null` when no preselection is set; effective settings use Flint's default.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
@@ -36,9 +36,11 @@ anyOf variant 1.
 anyOf variant 2.
 
 - Undeclared: `amount`, `currency`.
-- Value shape: null. Replaced as a whole: send every field you want to keep. The preselected fixed tip. Its amount and currency must match one of the effective smart_tip_money_options. Null means no preselection is set; effective settings use Flint's default. 
+- Value shape: null. Replaced as a whole: send every field you want to keep. The preselected fixed tip. Its amount and currency must match one of the effective smart_tip_money_options. `null` when no preselection is set; effective settings use Flint's default. 
 
 ### TippingSettingsInput.smart_tip_money_options[]
 
-Field definitions: [CreateGiftCardLoadRequestInput.value_money](../models/CreateGiftCardLoadRequestInput.md#creategiftcardloadrequestinputvalue_money).
+Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+
+Field definitions: [shared fields](TippingSettingsSmartTipMoneyOptionsItem.md#tippingsettingssmarttipmoneyoptionsitem).
 

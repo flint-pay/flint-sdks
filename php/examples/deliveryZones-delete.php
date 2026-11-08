@@ -16,7 +16,7 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->deliveryZones->delete('dzone_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->deliveryZones->delete('dzone_01KEZF7C005RY7KGCN4M2CH5WP', [], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->current_delivery_zone_revision_id . PHP_EOL;
 echo $result->delivery_zone_id . PHP_EOL;
 $client->close();

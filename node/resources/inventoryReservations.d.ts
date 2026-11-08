@@ -1,19 +1,21 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-5.js';
+import type { ClientOptions } from '../declarations/types-6.js';
+import type { InventoryReservation } from '../declarations/types-28.js';
 import type {
-    InventoryReservation,
     InventoryReservationListResponse,
     InventoryReservationResponse,
     InventoryReservationResult,
     InventoryReservationResultResponse,
+    InventoryReservationsCommitParams,
+    InventoryReservationsConsumeParams,
     InventoryReservationsCreateParams,
     InventoryReservationsGetParams,
     InventoryReservationsListParams,
-    InventoryReservationsTransitionParams,
+    InventoryReservationsReleaseParams,
     InventoryReservationsUpdateParams
-} from '../declarations/types-27.js';
-import type { RequestOptions } from '../declarations/types-48.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-29.js';
+import type { RequestOptions } from '../declarations/types-51.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-66.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -29,65 +31,107 @@ export type {
     WorkloadIdentitySource
 } from '../runtime.js';
 export type {
-    InventoryReservationsCreateParams,
+    InventoryReservationsCommitParams,
     InventoryReservationResult,
     InventoryReservationResultResponse,
+    InventoryReservationsConsumeParams,
+    InventoryReservationsCreateParams,
     InventoryReservationsGetParams,
-    InventoryReservation,
     InventoryReservationResponse,
     InventoryReservationsListParams,
     InventoryReservationListResponse,
-    InventoryReservationsTransitionParams,
+    InventoryReservationsReleaseParams,
     InventoryReservationsUpdateParams,
+    InventorySourceSystemRequestInput,
     InventoryRoutingDemandInput,
-    InventoryReservationOwnerRequestInput,
-    InventoryReservationLine,
-    InventoryReservationOwner,
-    InventoryReservationOwnerMerchant,
-    InventoryReservationOwnerOrder,
-    InventoryReservationTransitionRequestInput,
-    InventoryReservationTransitionRequestCommitInput,
-    InventoryReservationTransitionRequestConsumeInput,
-    InventoryReservationTransitionRequestReleaseInput,
-    InventoryReservationOwnerRequest
-} from '../declarations/types-27.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
-export type { ClientOptions } from '../declarations/types-5.js';
-export type { CreateInventoryReservationRequestInput } from '../declarations/types-8.js';
-export type {
     InventoryRoutingSourceRequestInput,
     InventoryRoutingSourceInputFixedLocationInput,
     InventoryRoutingSourceInputPolicyInput,
     InventoryRoutingSourceInputPolicyRevisionInput,
+    InventoryReservationOwnerRequestInput,
     InventoryRoutingSource,
-    InventorySourceSystemRequestInput
-} from '../declarations/types-28.js';
+    InventoryReservationLine,
+    InventoryReservationOwner,
+    InventoryReservationOwnerMerchant,
+    InventoryReservationOwnerOrder,
+    InventoryReservationOwnerRequest
+} from '../declarations/types-29.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-66.js';
+export type { InventoryReservation, InventoryLevel, InventoryItem, InventoryProvenanceRequestInput } from '../declarations/types-28.js';
+export type { ClientOptions, CommitInventoryReservationRequestInput, CommitInventoryReservationRequest } from '../declarations/types-6.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-12.js';
-export type { InventoryLevel, InventoryItem, InventoryProvenanceRequestInput } from '../declarations/types-26.js';
-export type { MetadataMap, NextAction, MoneyValue } from '../declarations/types-35.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
-export type { InventoryActionRequired } from '../declarations/types-25.js';
-export type { UpdateInventoryReservationRequestInput } from '../declarations/types-59.js';
-export { makeCreateInventoryReservationRequest } from '../declarations/types-64.js';
+export type { Credentials } from '../declarations/types-13.js';
+export type { BackorderPolicy } from '../declarations/types-1.js';
+export type { MetadataMap } from '../declarations/types-36.js';
+export type { NextAction, MoneyValue } from '../declarations/types-37.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
+export type { ConsumeInventoryReservationRequestInput } from '../declarations/types-7.js';
+export type { CreateInventoryReservationRequestInput } from '../declarations/types-9.js';
+export type { InventoryActionRequired } from '../declarations/types-27.js';
+export type { ReleaseInventoryReservationRequestInput } from '../declarations/types-50.js';
+export type { UpdateInventoryReservationRequestInput } from '../declarations/types-63.js';
+export type { DisputesAcceptParams } from '../declarations/types-22.js';
+export { makeCommitInventoryReservationRequest, makeConsumeInventoryReservationRequest } from '../declarations/types-68.js';
+export { makeCreateInventoryReservationRequest } from '../declarations/types-69.js';
 export {
     makeInventoryProvenanceRequest,
     makeInventoryReservationOwnerRequest,
-    makeInventoryReservationTransitionRequest,
-    makeInventoryReservationTransitionRequestCommit,
-    makeInventoryReservationTransitionRequestConsume,
-    makeInventoryReservationTransitionRequestRelease,
     makeInventoryRoutingDemand,
     makeInventoryRoutingSourceInputFixedLocation,
     makeInventoryRoutingSourceInputPolicy,
     makeInventoryRoutingSourceInputPolicyRevision,
     makeInventoryRoutingSourceRequest,
     makeInventorySourceSystemRequest
-} from '../declarations/types-68.js';
-export { makeMoneyValue } from '../declarations/types-70.js';
-export { makeUpdateInventoryReservationRequest } from '../declarations/types-74.js';
+} from '../declarations/types-73.js';
+export { makeMoneyValue } from '../declarations/types-75.js';
+export { makeReleaseInventoryReservationRequest } from '../declarations/types-77.js';
+export { makeUpdateInventoryReservationRequest } from '../declarations/types-79.js';
 export interface InventoryReservationsResource {
+    /**
+ * Commits held quantity, usually once the buyer pays. Commit before expires_at: after the
+ * deadline, commit returns 409 ACTION_NOT_ALLOWED with reason terminal_status. Call it only when
+ * commit is in supported_actions. Lines carry cumulative targets: resending targets already
+ * applied succeeds even after the reservation closes. Returns a result with inventory_reservation
+ * as its primary resource and inventory_levels for the levels changed. Idempotency is scoped to
+ * the authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical
+ * request body. To recover the command's effects after a lost response, read the inventory
+ * reservation by ID.
+ *
+ * `POST /v1/inventory-reservations/{inventory_reservation_id}/commit`
+ * @param inventory_reservation_id Flint inventory reservation ID.
+ * @see https://developers.withflintpay.com/docs/api/inventory#commitInventoryReservation
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
+ * @example
+ * // Persist this key with the action before sending; reuse it for every resubmission.
+ * const idempotencyKey = crypto.randomUUID();
+ * client.inventoryReservations.commit("invr_01KEZF7C0041ENRR0C2NF3AP12", {expected_version: 3,
+ * lines: [{inventory_reservation_line_id: "invrln_01K0P7W6A4N9F3J2T8Q5R1C6XM",
+ * target_committed_quantity: 2}]}, { idempotencyKey: idempotencyKey })
+ */
+    commit(inventory_reservation_id: InputValue<string>, params: InventoryReservationsCommitParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<InventoryReservationResult, InventoryReservationResultResponse>>;
+    /**
+ * Consumes committed quantity when you hand the goods off, removing it from on-hand stock. Accepts
+ * provenance describing the handoff. Call it only when consume is in supported_actions. Lines
+ * carry cumulative targets: resending targets already applied succeeds even after the reservation
+ * closes. Returns a result with inventory_reservation as its primary resource and inventory_levels
+ * for the levels changed. Idempotency is scoped to the authenticated merchant, environment, and
+ * endpoint. Its fingerprint includes the canonical request body. To recover the command's effects
+ * after a lost response, read the inventory reservation by ID.
+ *
+ * `POST /v1/inventory-reservations/{inventory_reservation_id}/consume`
+ * @param inventory_reservation_id Flint inventory reservation ID.
+ * @see https://developers.withflintpay.com/docs/api/inventory#consumeInventoryReservation
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
+ * @example
+ * // Persist this key with the action before sending; reuse it for every resubmission.
+ * const idempotencyKey = crypto.randomUUID();
+ * client.inventoryReservations.consume("invr_01KEZF7C0041ENRR0C2NF3AP12", {expected_version: 4,
+ * lines: [{inventory_reservation_line_id: "invrln_01K0P7W6A4N9F3J2T8Q5R1C6XM",
+ * target_consumed_quantity: 2}], provenance: {source_system: {type: "manual"}}}, { idempotencyKey:
+ * idempotencyKey })
+ */
+    consume(inventory_reservation_id: InputValue<string>, params: InventoryReservationsConsumeParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<InventoryReservationResult, InventoryReservationResultResponse>>;
     /**
  * Route standalone merchant demand and hold stock in one atomic command. A hold defaults to 15
  * minutes and can last up to 24 hours. Set expires_at when creating it or PATCH the reservation to
@@ -115,7 +159,7 @@ export interface InventoryReservationsResource {
  * @see https://developers.withflintpay.com/docs/api/inventory#getInventoryReservation
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.inventoryReservations.get("invr_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.inventoryReservations.get("invr_01KEZF7C0041ENRR0C2NF3AP12")
  */
     get(inventory_reservation_id: InputValue<string>, params?: InventoryReservationsGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<InventoryReservation, InventoryReservationResponse>>;
     /**
@@ -139,27 +183,26 @@ export interface InventoryReservationsResource {
      */
     listItems(params?: InventoryReservationsListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<InventoryReservation>;
     /**
- * Set action to commit held quantity, consume committed quantity, or release held or committed
- * quantity. Lines carry cumulative targets: resending targets already applied succeeds even after
- * the reservation closes. supported_actions lists actions available for new changes. Stock-moving
- * transitions return a result with inventory_reservation as its primary resource and
- * inventory_levels for the levels changed. Idempotency is scoped to the authenticated merchant,
- * environment, and endpoint. Its fingerprint includes the canonical request body. To recover the
- * command's effects after a lost response, read the inventory reservation by ID.
+ * Releases held or committed quantity back to available stock, for example when the buyer leaves
+ * or you cancel after payment. Call it only when release is in supported_actions. Lines carry
+ * cumulative targets: resending targets already applied succeeds even after the reservation
+ * closes. Returns a result with inventory_reservation as its primary resource and inventory_levels
+ * for the levels changed. Idempotency is scoped to the authenticated merchant, environment, and
+ * endpoint. Its fingerprint includes the canonical request body. To recover the command's effects
+ * after a lost response, read the inventory reservation by ID.
  *
- * `POST /v1/inventory-reservations/{inventory_reservation_id}/transitions`
+ * `POST /v1/inventory-reservations/{inventory_reservation_id}/release`
  * @param inventory_reservation_id Flint inventory reservation ID.
- * @see https://developers.withflintpay.com/docs/api/inventory#transitionInventoryReservation
+ * @see https://developers.withflintpay.com/docs/api/inventory#releaseInventoryReservation
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.inventoryReservations.transition("invr_01ARZ3NDEKTSV4RRFFQ69G5FAV", {action: "commit",
- * expected_version: 3, lines: [{inventory_reservation_line_id:
- * "invrln_01K0P7W6A4N9F3J2T8Q5R1C6XM", target_committed_quantity: 2}]}, { idempotencyKey:
- * idempotencyKey })
+ * client.inventoryReservations.release("invr_01KEZF7C0041ENRR0C2NF3AP12", {lines:
+ * [{inventory_reservation_line_id: "invrln_01K0P7W6A4N9F3J2T8Q5R1C6XM",
+ * target_released_from_held_quantity: 2}]}, { idempotencyKey: idempotencyKey })
  */
-    transition(inventory_reservation_id: InputValue<string>, params: InventoryReservationsTransitionParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<InventoryReservationResult, InventoryReservationResultResponse>>;
+    release(inventory_reservation_id: InputValue<string>, params: InventoryReservationsReleaseParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<InventoryReservationResult, InventoryReservationResultResponse>>;
     /**
  * Change the hold deadline of a reservation you created. The new expires_at must be after now and
  * at most 24 hours from now, and can be earlier or later than the current one. A lapsed hold

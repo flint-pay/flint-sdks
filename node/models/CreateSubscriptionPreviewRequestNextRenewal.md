@@ -11,7 +11,7 @@
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `mode` | Required | string | Values: `"next_renewal"`. |
-| `subscription_id` | Required | string | minLength: `1`. pattern: `^sub_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `subscription_id` | Required | string | minLength: `1`. pattern: `^sub_[0-9A-HJKMNP-TV-Z]{26}$`. Example: `"sub_01KEZF7C00BVRE8YDBXQB74BBM"`. |
 
 ### CreateSubscriptionPreviewRequestNextRenewal variant 1: `mode` = `"next_renewal"`
 

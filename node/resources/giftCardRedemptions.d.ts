@@ -1,5 +1,5 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-5.js';
+import type { ClientOptions } from '../declarations/types-6.js';
 import type {
     GiftCardRedemption,
     GiftCardRedemptionListResponse,
@@ -11,9 +11,9 @@ import type {
     GiftCardRedemptionsCreateParams,
     GiftCardRedemptionsGetParams,
     GiftCardRedemptionsListParams
-} from '../declarations/types-24.js';
-import type { RequestOptions } from '../declarations/types-48.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-26.js';
+import type { RequestOptions } from '../declarations/types-51.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-66.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -38,29 +38,32 @@ export type {
     GiftCardRedemption,
     GiftCardRedemptionResponse,
     GiftCardRedemptionsListParams,
-    GiftCardRedemptionListResponse
-} from '../declarations/types-24.js';
-export type { RequestOptions, ResourceReference, ResourceType, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { ClientOptions } from '../declarations/types-5.js';
-export type { GiftCardVersionRequestInput, GiftCardRestriction, GiftCardTransaction, GiftCardVersionRequest } from '../declarations/types-25.js';
+    GiftCardRedemptionListResponse,
+    GiftCardVersionRequestInput,
+    GiftCardRestriction,
+    GiftCardTransaction
+} from '../declarations/types-26.js';
+export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-51.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-66.js';
+export type { ClientOptions } from '../declarations/types-6.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-12.js';
-export type { GiftCard } from '../declarations/types-23.js';
-export type { MoneyValue, NextAction, MoneyValueInput } from '../declarations/types-35.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
+export type { Credentials } from '../declarations/types-13.js';
+export type { GiftCard } from '../declarations/types-25.js';
+export type { MoneyValue, NextAction, MoneyValueInput } from '../declarations/types-37.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
 export type {
     CreateGiftCardRedemptionRequestInput,
     CreateGiftCardRedemptionRequestAutomaticInput,
     CreateGiftCardRedemptionRequestManualInput
-} from '../declarations/types-8.js';
+} from '../declarations/types-9.js';
+export type { DisputesAcceptParams } from '../declarations/types-22.js';
 export {
     makeCreateGiftCardRedemptionRequest,
     makeCreateGiftCardRedemptionRequestAutomatic,
     makeCreateGiftCardRedemptionRequestManual
-} from '../declarations/types-64.js';
-export { makeGiftCardVersionRequest } from '../declarations/types-68.js';
-export { makeMoneyValue } from '../declarations/types-70.js';
+} from '../declarations/types-69.js';
+export { makeGiftCardVersionRequest } from '../declarations/types-73.js';
+export { makeMoneyValue } from '../declarations/types-75.js';
 export interface GiftCardRedemptionsResource {
     /**
  * Releases an uncaptured standalone reservation without posting a debit or refund. Flint order
@@ -74,7 +77,7 @@ export interface GiftCardRedemptionsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.giftCardRedemptions.cancel("gcr_01ARZ3NDEKTSV4RRFFQ69G5FAV", undefined, { idempotencyKey:
+ * client.giftCardRedemptions.cancel("gcr_01KEZF7C002YD2G2J734RRZTWT", undefined, { idempotencyKey:
  * idempotencyKey })
  */
     cancel(gift_card_redemption_id: InputValue<string>, params?: GiftCardRedemptionsCancelParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<GiftCardRedemptionResult, GiftCardRedemptionResultResponse>>;
@@ -91,7 +94,7 @@ export interface GiftCardRedemptionsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.giftCardRedemptions.capture("gcr_01ARZ3NDEKTSV4RRFFQ69G5FAV", undefined, {
+ * client.giftCardRedemptions.capture("gcr_01KEZF7C002YD2G2J734RRZTWT", undefined, {
  * idempotencyKey: idempotencyKey })
  */
     capture(gift_card_redemption_id: InputValue<string>, params?: GiftCardRedemptionsCaptureParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<GiftCardRedemptionResult, GiftCardRedemptionResultResponse>>;
@@ -99,7 +102,7 @@ export interface GiftCardRedemptionsResource {
  * Posts an exact amount automatically or reserves it for one full manual capture. Insufficient
  * funds are rejected without a partial debit. Manual reservations default to 15 minutes and may be
  * bounded up to 24 hours. External integrations coordinate and compensate their other tenders
- * themselves. expected_version fences the version of the card in gift_card_id.
+ * themselves. expected_gift_card_version fences the version of the card in gift_card_id.
  *
  * `POST /v1/gift-card-redemptions`
  * @see https://developers.withflintpay.com/docs/api/gift-cards#createGiftCardRedemption
@@ -121,7 +124,7 @@ export interface GiftCardRedemptionsResource {
  * @see https://developers.withflintpay.com/docs/api/gift-cards#getGiftCardRedemption
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.giftCardRedemptions.get("gcr_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.giftCardRedemptions.get("gcr_01KEZF7C002YD2G2J734RRZTWT")
  */
     get(gift_card_redemption_id: InputValue<string>, params?: GiftCardRedemptionsGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<GiftCardRedemption, GiftCardRedemptionResponse>>;
     /**

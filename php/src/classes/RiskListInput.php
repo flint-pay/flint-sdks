@@ -5,7 +5,7 @@ namespace Flint;
  * @property-read string $alias
  * @property-read string|\DateTimeInterface|null $archived_at
  * @property-read string|\DateTimeInterface $created_at
- * @property-read array{'resource_id': string, 'resource_type': ResourceTypeInput|array<array-key, mixed>|\stdClass}|object|null $created_by
+ * @property-read array{'resource_id': string, 'resource_type': string}|object|null $created_by
  * @property-read int $item_count
  * @property-read string $item_type
  * @property-read string $name
@@ -16,7 +16,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class RiskListInput extends Model {
-    /** @param array{'alias': string, 'archived_at': string|\DateTimeInterface|null, 'created_at': string|\DateTimeInterface, 'created_by': array{'resource_id': string, 'resource_type': ResourceTypeInput|array<array-key, mixed>|\stdClass}|object|null, 'item_count': int, 'item_type': string, 'name': string, 'origin': string, 'risk_list_id': string, 'status': string, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
+    /** @param array{'alias': string, 'archived_at': string|\DateTimeInterface|null, 'created_at': string|\DateTimeInterface, 'created_by': array{'resource_id': string, 'resource_type': string}|object|null, 'item_count': int, 'item_type': string, 'name': string, 'origin': string, 'risk_list_id': string, 'status': string, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RiskListInput')); }
     /** Name rules use to refer to this list, such as flagged_emails: a lowercase letter, then up to 127 lowercase letters, digits, or underscores. Set at creation and never changed.
      * @return string
@@ -24,20 +24,20 @@ final class RiskListInput extends Model {
      */
     public function getAlias(): string { return $this->get('alias'); }
     public function hasAlias(): bool { return $this->has('alias'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. `null` when the resource isn't archived. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface|null
      * @throws SdkError When archived_at is omitted; use hasArchivedAt() or valueOrDefault().
      */
     public function getArchivedAt(): string|\DateTimeInterface|null { return $this->get('archived_at'); }
     public function hasArchivedAt(): bool { return $this->has('archived_at'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
     /** The credential that created this list. Null when Flint created it, as for Flint's default lists. The reference may name an API key in the other mode. anyOf[1] (Value): {@see ResourceReferenceInput}. A reference to another resource by `resource_type` and `resource_id`. anyOf[2] (Value): null.
-     * @return array{'resource_id': string, 'resource_type': ResourceTypeInput|array<array-key, mixed>|\stdClass}|object|null
+     * @return array{'resource_id': string, 'resource_type': string}|object|null
      * @throws SdkError When created_by is omitted; use hasCreatedBy() or valueOrDefault().
      */
     public function getCreatedBy(): mixed { return $this->get('created_by'); }
@@ -54,7 +54,7 @@ final class RiskListInput extends Model {
      */
     public function getItemType(): string { return $this->get('item_type'); }
     public function hasItemType(): bool { return $this->has('item_type'); }
-    /** name
+    /** Display name of the list.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
@@ -66,19 +66,19 @@ final class RiskListInput extends Model {
      */
     public function getOrigin(): string { return $this->get('origin'); }
     public function hasOrigin(): bool { return $this->has('origin'); }
-    /** risk_list_id
+    /** Unique identifier for this risk list, prefixed `rl_`. Example: "rl_01KEZF7C00VYSERA4QCTJP147A".
      * @return string
      * @throws SdkError When risk_list_id is omitted; use hasRiskListId() or valueOrDefault().
      */
     public function getRiskListId(): string { return $this->get('risk_list_id'); }
     public function hasRiskListId(): bool { return $this->has('risk_list_id'); }
-    /** Value enum: "active", "archived".
+    /** Whether the list can still be used. Value enum: "active", "archived".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */

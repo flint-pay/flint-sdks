@@ -5,6 +5,6 @@ const client = new Client({
   allowInsecureHttp: !!baseUrl && ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
 });
 const result = await client.checkoutSessions.listDeliverySelections(
-  "cs_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "cs_01KEZF7C004JRWFW43H037MQRN"
 );
 console.log(result.request_id);

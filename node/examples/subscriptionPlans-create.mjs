@@ -15,12 +15,12 @@ const result = await client.subscriptionPlans.create(
     line_items: [
       {
         type: "variant",
-        variant_id: "var_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+        variant_id: "var_01KEZF7C004GSH2KT8CNYVMHGX",
       },
     ],
     name: "example",
   },
   { idempotencyKey: idempotencyKey },
 );
+console.log(result.merchant_id);
 console.log(result.status);
-console.log(result.subscription_plan_id);

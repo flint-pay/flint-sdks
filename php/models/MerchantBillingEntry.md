@@ -10,10 +10,10 @@ Response model.
 | --- | --- | --- | --- |
 | `available_credit_effect_money` | Required | [SignedMoney](../models/SignedMoney.md#signedmoney) | Signed change in available billing credit. credit_issued increases it; credit_applied and credit_refunded decrease it. Other entry types do not change it. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `balance_transaction_id` | Optional | string | Balance transaction for this collection or collection reversal, when present. |
-| `created_at` | Required | string | When Flint recorded the entry. Use created_after to pick up new entries, including late arrivals. Format: `date-time`. |
+| `created_at` | Required | string | When Flint inserted the entry. Never changes and is never backdated from occurred_at. Overlap created_after passes by a few minutes and deduplicate by merchant_billing_entry_id to pick up late commits. Format: `date-time`. |
 | `description` | Required | string | Human-readable description of the billing event. |
 | `dispute_id` | Optional | string | Related dispute, when the entry is associated with a dispute. |
-| `event_fee_type` | Optional | string | Event fee category. Present only for event_fee entries. card_dispute applies only when Flint paid the processor's dispute fee; a fee already deducted from your balance is recorded on the dispute balance transaction instead. Values: `"bank_verification"`, `"failed_ach_payment"`, `"ach_dispute"`, `"card_dispute"`. |
+| `event_fee_type` | Optional | string | Event fee category. Present only for event_fee entries. card_dispute applies only when Flint paid the processor's dispute fee; a fee already deducted from your balance is recorded on the dispute balance transaction instead. Values: `"bank_verification"`, `"failed_ach_payment"`, `"ach_dispute"`, `"card_dispute"`, `"external_paid_order_overage"`. |
 | `merchant_billing_entry_id` | Required | string | Stable entry ID. Re-reading an entry returns the same values. |
 | `merchant_billing_invoice_id` | Optional | string | Related invoice issued by Flint, when applicable. |
 | `net_billing_effect_money` | Required | [SignedMoney](../models/SignedMoney.md#signedmoney) | Signed outstanding effect minus the available credit effect. Charges and collection_reversal are positive; credit_issued, collection, custom_domain_collection, and write_off are negative; credit_refunded is positive; credit_applied is zero; correction may be positive or negative. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code. |

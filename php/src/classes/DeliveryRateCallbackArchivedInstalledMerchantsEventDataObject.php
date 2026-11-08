@@ -8,6 +8,7 @@ namespace Flint;
  * @property-read string $created_at
  * @property-read string $current_delivery_rate_callback_revision_id
  * @property-read string $delivery_rate_callback_id
+ * @property-read string|null $delivery_revocation_id
  * @property-read ?string $external_reference_id
  * @property-read ?string $key_id
  * @property-read string $name
@@ -18,7 +19,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class DeliveryRateCallbackArchivedInstalledMerchantsEventDataObject extends Model {
-    /** @param array{'circuit_failure_count': int, 'circuit_state': string, 'configuration': mixed, 'created_at': string, 'current_delivery_rate_callback_revision_id': string, 'delivery_rate_callback_id': string, 'external_reference_id'?: string, 'key_id'?: string, 'name': string, 'secret'?: string, 'signing_methods': list<string>, 'status': string, 'updated_at': string, 'version': int, ...}|object $values */
+    /** @param array{'circuit_failure_count': int, 'circuit_state': string, 'configuration': mixed, 'created_at': string, 'current_delivery_rate_callback_revision_id': string, 'delivery_rate_callback_id': string, 'delivery_revocation_id': string|null, 'external_reference_id'?: string, 'key_id'?: string, 'name': string, 'secret'?: string, 'signing_methods': list<string>, 'status': string, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryRateCallbackArchivedInstalledMerchantsEventDataObject')); }
     /** Consecutive callback failures since the last successful response. minimum: 0.
      * @return int
@@ -45,11 +46,16 @@ final class DeliveryRateCallbackArchivedInstalledMerchantsEventDataObject extend
      */
     public function getCurrentDeliveryRateCallbackRevisionId(): string { return $this->get('current_delivery_rate_callback_revision_id'); }
     public function hasCurrentDeliveryRateCallbackRevisionId(): bool { return $this->has('current_delivery_rate_callback_revision_id'); }
-    /** delivery_rate_callback_id
+    /** Unique identifier for this delivery rate callback, prefixed `dcb_`.
      * @return string
      */
     public function getDeliveryRateCallbackId(): string { return $this->get('delivery_rate_callback_id'); }
     public function hasDeliveryRateCallbackId(): bool { return $this->has('delivery_rate_callback_id'); }
+    /** The revocation fencing this resource's own current revision. `null` when the current revision isn't revoked. It doesn't cover dependencies: a method can be unusable while this is `null` because its rate callback revision, signing key, or a Location's address is revoked. A revocation doesn't change `status`; publish a new revision to clear it.
+     * @return string|null
+     */
+    public function getDeliveryRevocationId(): string|null { return $this->get('delivery_revocation_id'); }
+    public function hasDeliveryRevocationId(): bool { return $this->has('delivery_revocation_id'); }
     /** Caller-owned identifier for this resource in an external system. maxLength: 255.
      * @return ?string
      */
@@ -70,7 +76,7 @@ final class DeliveryRateCallbackArchivedInstalledMerchantsEventDataObject extend
      */
     public function getSecret(): ?string { return $this->get('secret'); }
     public function hasSecret(): bool { return $this->has('secret'); }
-    /** Signing methods enabled for callback HTTP requests. jwt sends Authorization: Bearer with a Flint-signed token whose aud is this delivery_rate_callback_id; hmac sends webhook-signature and signing key IDs. minItems: 1. uniqueItems: true. [] enum: "jwt", "hmac". [] (Value): string. jwt uses Flint's public JWKS. hmac uses a shared secret and Standard Webhooks v1. Value enum: "jwt", "hmac".
+    /** Signing methods enabled for callback HTTP requests. jwt sends Authorization: Bearer with a Flint-signed token whose aud is this delivery_rate_callback_id; hmac sends webhook-signature and signing key IDs. minItems: 1. uniqueItems: true. [] enum: "jwt", "hmac". [] (Value): string. How Flint signs requests to this endpoint. Value enum: "jwt", "hmac".
      * @return list<string>
      */
     public function getSigningMethods(): array { return $this->get('signing_methods'); }
@@ -85,7 +91,7 @@ final class DeliveryRateCallbackArchivedInstalledMerchantsEventDataObject extend
      */
     public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** Format: uint64. minimum: 1.
+    /** Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. Format: uint64. minimum: 1.
      * @return int
      */
     public function getVersion(): int { return $this->get('version'); }

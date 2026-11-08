@@ -10,25 +10,25 @@ namespace Flint;
 final class MeSaveGiftCardParams extends Model {
     /** @param array{'code': string, 'credential_type': string, 'grant_id'?: string, 'recipient_access_token'?: string}|object|array{'code'?: string, 'credential_type': string, 'grant_id': string, 'recipient_access_token': string}|object $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MeSaveGiftCardParams')); }
-    /** minLength: 1.
+    /** The gift card's code. Spaces and hyphens are ignored. minLength: 1.
      * @return string
      * @throws SdkError When code is omitted; use hasCode() or valueOrDefault().
      */
     public function getCode(): string { return $this->get('code'); }
     public function hasCode(): bool { return $this->has('code'); }
-    /** Value enum: "code", "recipient_access".
+    /** The proof that the buyer can use the card: its code, or the private recipient link they received. Value enum: "code", "recipient_access".
      * @return string
      * @throws SdkError When credential_type is omitted; use hasCredentialType() or valueOrDefault().
      */
     public function getCredentialType(): string { return $this->get('credential_type'); }
     public function hasCredentialType(): bool { return $this->has('credential_type'); }
-    /** minLength: 1.
+    /** ID of the recipient access grant, from the path of the private recipient link. minLength: 1. Example: "gcg_01KEZF7C00BTDW4CJQTB38Q828".
      * @return string
      * @throws SdkError When grant_id is omitted; use hasGrantId() or valueOrDefault().
      */
     public function getGrantId(): string { return $this->get('grant_id'); }
     public function hasGrantId(): bool { return $this->has('grant_id'); }
-    /** minLength: 1.
+    /** Token from the fragment of the private recipient link. minLength: 1.
      * @return string
      * @throws SdkError When recipient_access_token is omitted; use hasRecipientAccessToken() or valueOrDefault().
      */

@@ -8,10 +8,10 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `evaluated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
-| `line_items` | Required | Array of [BuyerReturnEligibilityPreviewLineItemInput](../models/BuyerReturnEligibilityPreviewLineItemInput.md#buyerreturneligibilitypreviewlineiteminput) |  |
-| `order_id` | Required | string |  |
-| `policy_evaluation` | Required | [BuyerReturnPolicyEvaluationInput](../models/BuyerReturnPolicyEvaluationInput.md#buyerreturnpolicyevaluationinput) | Return policy evaluation results shown to the buyer, including eligibility and results for individual order lines. |
-| `selection` | Required | [ReturnEligibilitySelectionInput](../models/ReturnEligibilitySelectionInput.md#returneligibilityselectioninput) | Which order lines to check for return eligibility: all remaining fulfilled lines, or a specific list of lines. |
-| `status` | Required | string | Values: `"eligible"`, `"ineligible"`, `"review_required"`. |
+| `evaluated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
+| `line_items` | Required | Array of [BuyerReturnEligibilityPreviewLineItemInput](../models/BuyerReturnEligibilityPreviewLineItemInput.md#buyerreturneligibilitypreviewlineiteminput) | Eligibility of each line asked about. |
+| `order_id` | Required | string | ID of the Order the units come from. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
+| `policy_evaluation` | Required | [BuyerReturnPolicyEvaluationInput](../models/BuyerReturnPolicyEvaluationInput.md#buyerreturnpolicyevaluationinput) | How the active return policies judged the lines. Return policy evaluation results shown to the buyer, including eligibility and results for individual order lines. |
+| `selection` | Required | [ReturnEligibilitySelectionInput](../models/ReturnEligibilitySelectionInput.md#returneligibilityselectioninput) | The selection the preview was run for. Which order lines to check for return eligibility: all remaining fulfilled lines, or a specific list of lines. |
+| `status` | Required | string | Overall result for the selection. `review_required` when the lines differ. Values: `"eligible"`, `"ineligible"`, `"review_required"`. |
 

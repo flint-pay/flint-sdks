@@ -11,6 +11,6 @@ Result of assigning a delivery profile to catalog items that had none, with coun
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `bundle_components_updated` | Required | integer | Number of previously unconfigured catalog records updated. Format: `int64`. minimum: `0`. |
-| `delivery_profile_id` | Required | string | Delivery profile assigned to each updated catalog item. |
+| `delivery_profile_id` | Required | string | Delivery profile assigned to each updated catalog item. Example: `"dprof_01KEZF7C0020J13FQYNY9854R0"`. |
 | `product_variants_updated` | Required | integer | Number of previously unconfigured catalog records updated. Format: `int64`. minimum: `0`. |
 

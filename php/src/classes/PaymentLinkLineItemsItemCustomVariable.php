@@ -30,17 +30,17 @@ namespace Flint;
 final class PaymentLinkLineItemsItemCustomVariable extends Model {
     /** @param array{'allow_quantity_adjustment'?: bool, 'allow_unit_price_adjustment': bool, 'bundle_id'?: string, 'default_variant_id'?: string, 'description'?: string, 'is_catalog_item_unavailable': bool, 'key'?: string, 'max_quantity'?: int, 'max_unit_price_money'?: mixed, 'min_quantity'?: int, 'min_unit_price_money'?: mixed, 'name': string, 'payment_link_line_item_id': string, 'product_id'?: string, 'quantity': int, 'resolved_name'?: string, 'resolved_price_range'?: mixed, 'resolved_unit_price_money'?: mixed, 'suggested_unit_price_money_options'?: list<mixed>, 'tax'?: mixed, 'type': string, 'unit_price_money'?: mixed, 'variant_id'?: string, 'variant_ids'?: list<string>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentLinkLineItemsItemCustomVariable')); }
-    /** allow_quantity_adjustment
+    /** Whether the buyer can change the quantity in checkout.
      * @return ?bool
      */
     public function getAllowQuantityAdjustment(): ?bool { return $this->get('allow_quantity_adjustment'); }
     public function hasAllowQuantityAdjustment(): bool { return $this->has('allow_quantity_adjustment'); }
-    /** Value enum: true.
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. Value enum: true.
      * @return bool
      */
     public function getAllowUnitPriceAdjustment(): bool { return $this->get('allow_unit_price_adjustment'); }
     public function hasAllowUnitPriceAdjustment(): bool { return $this->has('allow_unit_price_adjustment'); }
-    /** bundle_id
+    /** ID of the catalog bundle a `bundle` line sells.
      * @return ?string
      */
     public function getBundleId(): ?string { return $this->get('bundle_id'); }
@@ -50,7 +50,7 @@ final class PaymentLinkLineItemsItemCustomVariable extends Model {
      */
     public function getDefaultVariantId(): ?string { return $this->get('default_variant_id'); }
     public function hasDefaultVariantId(): bool { return $this->has('default_variant_id'); }
-    /** description
+    /** Description of an ad hoc line item.
      * @return ?string
      */
     public function getDescription(): ?string { return $this->get('description'); }
@@ -70,7 +70,7 @@ final class PaymentLinkLineItemsItemCustomVariable extends Model {
      */
     public function getMaxQuantity(): ?int { return $this->get('max_quantity'); }
     public function hasMaxQuantity(): bool { return $this->has('max_quantity'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return ?PaymentLinkLineItemsItemCustomVariableMaxUnitPriceMoney
      */
     public function getMaxUnitPriceMoney(): ?PaymentLinkLineItemsItemCustomVariableMaxUnitPriceMoney { return $this->get('max_unit_price_money'); }
@@ -80,17 +80,17 @@ final class PaymentLinkLineItemsItemCustomVariable extends Model {
      */
     public function getMinQuantity(): ?int { return $this->get('min_quantity'); }
     public function hasMinQuantity(): bool { return $this->has('min_quantity'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return ?PaymentLinkLineItemsItemCustomVariableMinUnitPriceMoney
      */
     public function getMinUnitPriceMoney(): ?PaymentLinkLineItemsItemCustomVariableMinUnitPriceMoney { return $this->get('min_unit_price_money'); }
     public function hasMinUnitPriceMoney(): bool { return $this->has('min_unit_price_money'); }
-    /** name
+    /** Name of an ad hoc line item. Catalog lines take the catalog name.
      * @return string
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** payment_link_line_item_id
+    /** Unique identifier for this payment link line item, prefixed `plli_`.
      * @return string
      */
     public function getPaymentLinkLineItemId(): string { return $this->get('payment_link_line_item_id'); }
@@ -115,32 +115,32 @@ final class PaymentLinkLineItemsItemCustomVariable extends Model {
      */
     public function getResolvedPriceRange(): ?PaymentLinkLineItemsItemCustomVariableResolvedPriceRange { return $this->get('resolved_price_range'); }
     public function hasResolvedPriceRange(): bool { return $this->has('resolved_price_range'); }
-    /** Current catalog unit price of the referenced variant or bundle. This is the catalog value at read time, not a stored snapshot: checkout resolves the price again when a buyer opens the link, so the amount a buyer pays can differ. Absent on ad-hoc line items, variant_ids lines, and when the catalog object no longer exists. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Current catalog unit price of the referenced variant or bundle. For a fixed variant this is the base price that applies below the first quantity price break. This is the catalog value at read time, not a stored snapshot: checkout resolves the price again when a buyer opens the link, so the amount a buyer pays can differ. Absent on ad-hoc line items, variant_ids lines, and when the catalog object no longer exists. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return ?PaymentLinkLineItemsItemCustomVariableResolvedUnitPriceMoney
      */
     public function getResolvedUnitPriceMoney(): ?PaymentLinkLineItemsItemCustomVariableResolvedUnitPriceMoney { return $this->get('resolved_unit_price_money'); }
     public function hasResolvedUnitPriceMoney(): bool { return $this->has('resolved_unit_price_money'); }
-    /**  [] (Value): {@see PaymentLinkLineItemsItemCustomVariableSuggestedUnitPriceMoneyOptionsItem}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@see PaymentLinkLineItemsItemCustomVariableSuggestedUnitPriceMoneyOptionsItem}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return ?list<PaymentLinkLineItemsItemCustomVariableSuggestedUnitPriceMoneyOptionsItem>
      */
     public function getSuggestedUnitPriceMoneyOptions(): ?array { return $this->get('suggested_unit_price_money_options'); }
     public function hasSuggestedUnitPriceMoneyOptions(): bool { return $this->has('suggested_unit_price_money_options'); }
-    /** A line item's tax category and whether it is taxable.
+    /** Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax category and whether it is taxable.
      * @return ?PaymentLinkLineItemsItemCustomVariableTax
      */
     public function getTax(): ?PaymentLinkLineItemsItemCustomVariableTax { return $this->get('tax'); }
     public function hasTax(): bool { return $this->has('tax'); }
-    /** Value enum: "custom_variable".
+    /** How the line item is defined. Value enum: "custom_variable".
      * @return string
      */
     public function getType(): string { return $this->get('type'); }
     public function hasType(): bool { return $this->has('type'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return ?PaymentLinkLineItemsItemCustomVariableUnitPriceMoney
      */
     public function getUnitPriceMoney(): ?PaymentLinkLineItemsItemCustomVariableUnitPriceMoney { return $this->get('unit_price_money'); }
     public function hasUnitPriceMoney(): bool { return $this->has('unit_price_money'); }
-    /** variant_id
+    /** ID of the catalog variant a `variant` line sells.
      * @return ?string
      */
     public function getVariantId(): ?string { return $this->get('variant_id'); }

@@ -14,16 +14,18 @@ namespace Flint;
  * @property-read string|null $modifier_set_id
  * @property-read string $name
  * @property-read int $position
+ * @property-read list<QuantityPriceBreakRequestInput|array<array-key, mixed>|\stdClass> $quantity_price_breaks
+ * @property-read string|null $release_date
  * @property-read list<ProductVariantSelectedOptionRequestInput|array<array-key, mixed>|\stdClass> $selected_options
  * @property-read string $sku
  * @property-read string $status
  * @property-read bool $taxable
- * @property-read DimensionsInput|array<array-key, mixed>|\stdClass $unit_dimensions
+ * @property-read DimensionsRequestInput|array<array-key, mixed>|\stdClass $unit_dimensions
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $unit_price_money
- * @property-read WeightInput|array<array-key, mixed>|\stdClass $unit_weight
+ * @property-read WeightRequestInput|array<array-key, mixed>|\stdClass $unit_weight
  * Presence-aware input; omitted fields throw when accessed. */
 final class ProductVariantRequestInput extends Model {
-    /** @param array{'barcode'?: string, 'delivery_profile_id'?: string, 'external_reference_id'?: string, 'gift_card_configuration'?: GiftCardProductConfigurationRequestInput|array<array-key, mixed>|\stdClass, 'images'?: list<ImageRequestInput|array<array-key, mixed>|\stdClass>, 'inventory_item'?: InventoryItemCreateRequestInput|array<array-key, mixed>|\stdClass, 'inventory_item_id'?: string, 'line_item_tax_category'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'modifier_set_id'?: string|null, 'name'?: string, 'position'?: int, 'selected_options'?: list<ProductVariantSelectedOptionRequestInput|array<array-key, mixed>|\stdClass>, 'sku'?: string, 'status'?: string, 'taxable'?: bool, 'unit_dimensions'?: DimensionsInput|array<array-key, mixed>|\stdClass, 'unit_price_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'unit_weight'?: WeightInput|array<array-key, mixed>|\stdClass}|object $values */
+    /** @param array{'barcode'?: string, 'delivery_profile_id'?: string, 'external_reference_id'?: string, 'gift_card_configuration'?: GiftCardProductConfigurationRequestInput|array<array-key, mixed>|\stdClass, 'images'?: list<ImageRequestInput|array<array-key, mixed>|\stdClass>, 'inventory_item'?: InventoryItemCreateRequestInput|array<array-key, mixed>|\stdClass, 'inventory_item_id'?: string, 'line_item_tax_category'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'modifier_set_id'?: string|null, 'name'?: string, 'position'?: int, 'quantity_price_breaks'?: list<QuantityPriceBreakRequestInput|array<array-key, mixed>|\stdClass>, 'release_date'?: string|null, 'selected_options'?: list<ProductVariantSelectedOptionRequestInput|array<array-key, mixed>|\stdClass>, 'sku'?: string, 'status'?: string, 'taxable'?: bool, 'unit_dimensions'?: DimensionsRequestInput|array<array-key, mixed>|\stdClass, 'unit_price_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'unit_weight'?: WeightRequestInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ProductVariantRequestInput')); }
     /** Barcode assigned to this sellable item. minLength: 1. maxLength: 100.
      * @return string
@@ -31,13 +33,13 @@ final class ProductVariantRequestInput extends Model {
      */
     public function getBarcode(): string { return $this->get('barcode'); }
     public function hasBarcode(): bool { return $this->has('barcode'); }
-    /** Identifier of the delivery profile to assign to this variant. minLength: 1.
+    /** Delivery profile to assign. Digital and service products require requirement required, resolution_mode manual, and allowed_types exactly [digital] or [service], matching the product type. Omit it to leave delivery not_applicable with no delivery requirement; digital and service products never use a default. Physical products retain their default profile behavior. Fees and gift cards reject profiles. minLength: 1. Example: "dprof_01KEZF7C0020J13FQYNY9854R0".
      * @return string
      * @throws SdkError When delivery_profile_id is omitted; use hasDeliveryProfileId() or valueOrDefault().
      */
     public function getDeliveryProfileId(): string { return $this->get('delivery_profile_id'); }
     public function hasDeliveryProfileId(): bool { return $this->has('delivery_profile_id'); }
-    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -61,7 +63,7 @@ final class ProductVariantRequestInput extends Model {
      */
     public function getInventoryItem(): mixed { return $this->get('inventory_item'); }
     public function hasInventoryItem(): bool { return $this->has('inventory_item'); }
-    /** Identifier of an existing inventory item to track for this variant. Send either inventory_item_id or inventory_item. minLength: 1.
+    /** Identifier of an existing inventory item to track for this variant. Send either inventory_item_id or inventory_item. minLength: 1. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
      * @return string
      * @throws SdkError When inventory_item_id is omitted; use hasInventoryItemId() or valueOrDefault().
      */
@@ -79,7 +81,7 @@ final class ProductVariantRequestInput extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Attached modifier set. Send null on update to remove it. minLength: 1.
+    /** Attached modifier set. Send null on update to remove it. minLength: 1. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR".
      * @return string|null
      * @throws SdkError When modifier_set_id is omitted; use hasModifierSetId() or valueOrDefault().
      */
@@ -97,6 +99,18 @@ final class ProductVariantRequestInput extends Model {
      */
     public function getPosition(): int { return $this->get('position'); }
     public function hasPosition(): bool { return $this->has('position'); }
+    /** Up to 10 quantity price breaks. Omit the field or send [] for none. Each minimum_quantity is at least 2 and strictly increases. Each unit price is positive, strictly decreases from the previous price starting with the base unit price, and uses the base price's currency. Gift card variants reject a nonempty array. null is invalid. maxItems: 10. [] (Value): {@see QuantityPriceBreakRequestInput}. A net unit price that applies when one catalog line reaches minimum_quantity.
+     * @return list<QuantityPriceBreakRequestInput|array<array-key, mixed>|\stdClass>
+     * @throws SdkError When quantity_price_breaks is omitted; use hasQuantityPriceBreaks() or valueOrDefault().
+     */
+    public function getQuantityPriceBreaks(): array { return $this->get('quantity_price_breaks'); }
+    public function hasQuantityPriceBreaks(): bool { return $this->has('quantity_price_breaks'); }
+    /** Calendar release date in YYYY-MM-DD format. Omit or send null for no release date. Lines created before this date in the merchant timezone are pre-orders. Format: date. minLength: 1. Example: "2026-08-02".
+     * @return string|null
+     * @throws SdkError When release_date is omitted; use hasReleaseDate() or valueOrDefault().
+     */
+    public function getReleaseDate(): string|null { return $this->get('release_date'); }
+    public function hasReleaseDate(): bool { return $this->has('release_date'); }
     /** Option name and value selections for this variant. When present on an update, replaces the entire selection. Omit to leave unchanged. Select one active value for every active option. null is invalid. [] (Value): {@see ProductVariantSelectedOptionRequestInput}. An option name and value you choose to identify a product variant, such as Size and Large.
      * @return list<ProductVariantSelectedOptionRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When selected_options is omitted; use hasSelectedOptions() or valueOrDefault().
@@ -122,19 +136,19 @@ final class ProductVariantRequestInput extends Model {
     public function getTaxable(): bool { return $this->get('taxable'); }
     public function hasTaxable(): bool { return $this->has('taxable'); }
     /** Per-unit measurement. Omitted when unknown. Package or item dimensions as `length`, `width`, and `height` in the given `unit`.
-     * @return DimensionsInput|array<array-key, mixed>|\stdClass
+     * @return DimensionsRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When unit_dimensions is omitted; use hasUnitDimensions() or valueOrDefault().
      */
     public function getUnitDimensions(): mixed { return $this->get('unit_dimensions'); }
     public function hasUnitDimensions(): bool { return $this->has('unit_dimensions'); }
-    /** Price charged for one unit, in the currency's smallest unit. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Base unit price in the currency's smallest unit. It applies below the first quantity price break. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When unit_price_money is omitted; use hasUnitPriceMoney() or valueOrDefault().
      */
     public function getUnitPriceMoney(): mixed { return $this->get('unit_price_money'); }
     public function hasUnitPriceMoney(): bool { return $this->has('unit_price_money'); }
     /** Per-unit measurement. Omitted when unknown. A weight value in grams, kilograms, ounces, or pounds, used in delivery profile configuration.
-     * @return WeightInput|array<array-key, mixed>|\stdClass
+     * @return WeightRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When unit_weight is omitted; use hasUnitWeight() or valueOrDefault().
      */
     public function getUnitWeight(): mixed { return $this->get('unit_weight'); }

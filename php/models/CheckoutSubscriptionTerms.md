@@ -14,6 +14,7 @@ Response model.
 | `contract_term_months` | Optional | integer | The term agreed with the buyer, in months, when configured. Flint records it on the subscription and does not stop the buyer from canceling earlier. Format: `int32`. |
 | `delivery_required` | Required | boolean | Whether any line in the subscription plan's frozen checkout terms requires delivery. Available before delivery selection. One-time order lines do not affect this value. |
 | `early_termination_fee_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The fee agreed for canceling before the recorded term ends, when configured. Flint records it on the subscription but never charges it. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `line_items` | Required | Array of [CheckoutSubscriptionTermsLineItemsItem](../models/CheckoutSubscriptionTermsLineItemsItem.md#checkoutsubscriptiontermslineitemsitem) | Identified frozen plan lines with buyer quantity permissions and bounds. |
 | `plan_name` | Required | string | Plan name shown to the buyer. |
 | `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
 | `quantity_options` | Required | Array of integer | minItems: `1`. Items: Format: `int32`. |

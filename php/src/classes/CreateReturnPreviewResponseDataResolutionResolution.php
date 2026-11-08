@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read CreateReturnPreviewResponseDataResolutionResolutionBuyerRefundAmountMoney $buyer_refund_amount_money
  * @property-read string $calculated_at
  * @property-read ?string $corrects_return_resolution_id
- * @property-read CreateReturnPreviewResponseDataResolutionResolutionCreditMoney $credit_money
+ * @property-read CreateReturnPreviewResponseDataResolutionResolutionCreditAdjustmentMoney $credit_adjustment_money
  * @property-read CreateReturnPreviewResponseDataResolutionResolutionDeductionMoney $deduction_money
  * @property-read list<CreateReturnPreviewResponseDataResolutionResolutionLineItemsItem> $line_items
  * @property-read list<CreateReturnPreviewResponseDataResolutionResolutionReplacementLineItemsItem> $replacement_line_items
@@ -18,14 +18,14 @@ namespace Flint;
  * @property-read CreateReturnPreviewResponseDataResolutionResolutionReturnedTotalMoney $returned_total_money
  * Presence-aware response; omitted optional fields return null. */
 final class CreateReturnPreviewResponseDataResolutionResolution extends Model {
-    /** @param array{'adjustments': list<mixed>, 'based_on_return_version': int, 'buyer_payment_amount_money': mixed, 'buyer_refund_amount_money': mixed, 'calculated_at': string, 'corrects_return_resolution_id'?: string, 'credit_money': mixed, 'deduction_money': mixed, 'line_items': list<mixed>, 'replacement_line_items': list<mixed>, 'replacement_total_money': mixed, 'resolution_type': string, 'return_id': string, 'returned_total_money': mixed, ...}|object $values */
+    /** @param array{'adjustments': list<mixed>, 'based_on_return_version': int, 'buyer_payment_amount_money': mixed, 'buyer_refund_amount_money': mixed, 'calculated_at': string, 'corrects_return_resolution_id'?: string, 'credit_adjustment_money': mixed, 'deduction_money': mixed, 'line_items': list<mixed>, 'replacement_line_items': list<mixed>, 'replacement_total_money': mixed, 'resolution_type': string, 'return_id': string, 'returned_total_money': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateReturnPreviewResponseDataResolutionResolution')); }
-    /**  [] (Value): {@see CreateReturnPreviewResponseDataResolutionResolutionAdjustmentsItem}. A fee or credit applied to a return resolution, such as a restocking fee, with the assessed and applied amounts and any waiver.
+    /** Fees and credits to apply to the resolution, at most 50. [] (Value): {@see CreateReturnPreviewResponseDataResolutionResolutionAdjustmentsItem}. A fee or credit applied to a return resolution, such as a restocking fee, with the assessed and applied amounts and any waiver.
      * @return list<CreateReturnPreviewResponseDataResolutionResolutionAdjustmentsItem>
      */
     public function getAdjustments(): array { return $this->get('adjustments'); }
     public function hasAdjustments(): bool { return $this->has('adjustments'); }
-    /** Format: int64. minimum: 0.
+    /** Version of the Return the preview was priced against. Format: int64. minimum: 0.
      * @return int
      */
     public function getBasedOnReturnVersion(): int { return $this->get('based_on_return_version'); }
@@ -45,27 +45,27 @@ final class CreateReturnPreviewResponseDataResolutionResolution extends Model {
      */
     public function getCalculatedAt(): string { return $this->get('calculated_at'); }
     public function hasCalculatedAt(): bool { return $this->has('calculated_at'); }
-    /** corrects_return_resolution_id
+    /** ID of the settled resolution to correct. Send only with `resolution_type: correction`.
      * @return ?string
      */
     public function getCorrectsReturnResolutionId(): ?string { return $this->get('corrects_return_resolution_id'); }
     public function hasCorrectsReturnResolutionId(): bool { return $this->has('corrects_return_resolution_id'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * @return CreateReturnPreviewResponseDataResolutionResolutionCreditMoney
+    /** Credits the proposed resolution's adjustments would add to the value returned to the buyer. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return CreateReturnPreviewResponseDataResolutionResolutionCreditAdjustmentMoney
      */
-    public function getCreditMoney(): CreateReturnPreviewResponseDataResolutionResolutionCreditMoney { return $this->get('credit_money'); }
-    public function hasCreditMoney(): bool { return $this->has('credit_money'); }
+    public function getCreditAdjustmentMoney(): CreateReturnPreviewResponseDataResolutionResolutionCreditAdjustmentMoney { return $this->get('credit_adjustment_money'); }
+    public function hasCreditAdjustmentMoney(): bool { return $this->has('credit_adjustment_money'); }
     /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return CreateReturnPreviewResponseDataResolutionResolutionDeductionMoney
      */
     public function getDeductionMoney(): CreateReturnPreviewResponseDataResolutionResolutionDeductionMoney { return $this->get('deduction_money'); }
     public function hasDeductionMoney(): bool { return $this->has('deduction_money'); }
-    /**  [] (Value): {@see CreateReturnPreviewResponseDataResolutionResolutionLineItemsItem}. A return line included in a resolution, with its quantity and returned total.
+    /** Return lines and quantities to cover, up to 100. Not allowed on a correction. [] (Value): {@see CreateReturnPreviewResponseDataResolutionResolutionLineItemsItem}. A return line included in a resolution, with its quantity and returned total.
      * @return list<CreateReturnPreviewResponseDataResolutionResolutionLineItemsItem>
      */
     public function getLineItems(): array { return $this->get('line_items'); }
     public function hasLineItems(): bool { return $this->has('line_items'); }
-    /**  [] (Value): {@see CreateReturnPreviewResponseDataResolutionResolutionReplacementLineItemsItem}. A replacement item added to a return resolution, with its quantity and price totals.
+    /** Merchandise the buyer receives instead, up to 100. Send with `exchange` or `replacement`. [] (Value): {@see CreateReturnPreviewResponseDataResolutionResolutionReplacementLineItemsItem}. A replacement item added to a return resolution, with its quantity and price totals.
      * @return list<CreateReturnPreviewResponseDataResolutionResolutionReplacementLineItemsItem>
      */
     public function getReplacementLineItems(): array { return $this->get('replacement_line_items'); }
@@ -75,12 +75,12 @@ final class CreateReturnPreviewResponseDataResolutionResolution extends Model {
      */
     public function getReplacementTotalMoney(): CreateReturnPreviewResponseDataResolutionResolutionReplacementTotalMoney { return $this->get('replacement_total_money'); }
     public function hasReplacementTotalMoney(): bool { return $this->has('replacement_total_money'); }
-    /** Value enum: "refund", "exchange", "replacement", "store_credit", "no_monetary_action", "correction".
+    /** What the buyer gets for the approved quantity. Value enum: "refund", "exchange", "replacement", "store_credit", "no_monetary_action", "correction".
      * @return string
      */
     public function getResolutionType(): string { return $this->get('resolution_type'); }
     public function hasResolutionType(): bool { return $this->has('resolution_type'); }
-    /** return_id
+    /** ID of the Return the resolution is for.
      * @return string
      */
     public function getReturnId(): string { return $this->get('return_id'); }

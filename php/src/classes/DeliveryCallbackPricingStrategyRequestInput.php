@@ -10,7 +10,7 @@ namespace Flint;
 final class DeliveryCallbackPricingStrategyRequestInput extends Model {
     /** @param array{'delivery_rate_callback_id': string, 'maximum_fee_currency_options'?: array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass, 'minimum_fee_currency_options'?: array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass, 'preview_enabled'?: bool}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryCallbackPricingStrategyRequestInput')); }
-    /** minLength: 1.
+    /** minLength: 1. Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
      * @return string
      * @throws SdkError When delivery_rate_callback_id is omitted; use hasDeliveryRateCallbackId() or valueOrDefault().
      */

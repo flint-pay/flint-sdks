@@ -11,15 +11,15 @@ namespace Flint;
  * @property-read string $timezone
  * Presence-aware input; omitted fields throw when accessed. */
 final class AnalyticsGetPaymentVolumeTimeseriesInput extends Model {
-    /** @param array{'period_start_at': string|\DateTimeInterface, 'period_end_at'?: string|\DateTimeInterface, 'currency'?: string, 'granularity'?: string, 'timezone'?: string}|object $values */
+    /** @param array{'period_start_at': string|\DateTimeInterface, 'period_end_at'?: string|\DateTimeInterface, 'currency'?: string, 'granularity'?: string, 'timezone'?: string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('AnalyticsGetPaymentVolumeTimeseriesInput')); }
-    /** Inclusive period start. Format: date-time.
+    /** Inclusive period start. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When period_start_at is omitted; use hasPeriodStartAt() or valueOrDefault().
      */
     public function getPeriodStartAt(): string|\DateTimeInterface { return $this->get('period_start_at'); }
     public function hasPeriodStartAt(): bool { return $this->has('period_start_at'); }
-    /** Exclusive period end. Format: date-time.
+    /** Exclusive period end. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When period_end_at is omitted; use hasPeriodEndAt() or valueOrDefault().
      */
@@ -37,10 +37,28 @@ final class AnalyticsGetPaymentVolumeTimeseriesInput extends Model {
      */
     public function getGranularity(): string { return $this->get('granularity'); }
     public function hasGranularity(): bool { return $this->has('granularity'); }
-    /** IANA timezone for bucket boundaries. Defaults to UTC. maxLength: 100.
+    /** IANA timezone for bucket boundaries. Defaults to the merchant's timezone, then UTC. maxLength: 100.
      * @return string
      * @throws SdkError When timezone is omitted; use hasTimezone() or valueOrDefault().
      */
     public function getTimezone(): string { return $this->get('timezone'); }
     public function hasTimezone(): bool { return $this->has('timezone'); }
+    /** Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Merchant-Id is omitted; use hasFlintMerchantId() or valueOrDefault().
+     */
+    public function getFlintMerchantId(): string { return $this->get('Flint-Merchant-Id'); }
+    public function hasFlintMerchantId(): bool { return $this->has('Flint-Merchant-Id'); }
+    /** Mode of the request context, live or test. Optional; it must match the credential's mode. Value enum: "test", "live".
+     * @return string
+     * @throws SdkError When Flint-Mode is omitted; use hasFlintMode() or valueOrDefault().
+     */
+    public function getFlintMode(): string { return $this->get('Flint-Mode'); }
+    public function hasFlintMode(): bool { return $this->has('Flint-Mode'); }
+    /** Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Sandbox-Id is omitted; use hasFlintSandboxId() or valueOrDefault().
+     */
+    public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
+    public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
 }

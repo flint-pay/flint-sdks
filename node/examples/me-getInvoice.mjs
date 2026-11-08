@@ -8,7 +8,7 @@ const client = new Client({
   customerToken,
 });
 const result = await client.me.getInvoice(
-  "inv_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "inv_01KEZF7C00A5GEBMWHEAJFSAR4"
 );
 console.log(result.invoice_id);
 console.log(result.merchant_id);

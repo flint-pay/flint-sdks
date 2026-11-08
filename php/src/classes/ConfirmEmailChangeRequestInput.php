@@ -8,13 +8,13 @@ namespace Flint;
 final class ConfirmEmailChangeRequestInput extends Model {
     /** @param array{'current_email_code'?: string, 'new_email_code': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ConfirmEmailChangeRequestInput')); }
-    /** minLength: 1. pattern: ^[0-9]{6}$.
+    /** The six-digit code emailed to the current address. Required when `current_email_confirmation_required` is `true`. minLength: 1. pattern: ^[0-9]{6}$.
      * @return string
      * @throws SdkError When current_email_code is omitted; use hasCurrentEmailCode() or valueOrDefault().
      */
     public function getCurrentEmailCode(): string { return $this->get('current_email_code'); }
     public function hasCurrentEmailCode(): bool { return $this->has('current_email_code'); }
-    /** minLength: 1. pattern: ^[0-9]{6}$.
+    /** The six-digit code emailed to the new address. minLength: 1. pattern: ^[0-9]{6}$.
      * @return string
      * @throws SdkError When new_email_code is omitted; use hasNewEmailCode() or valueOrDefault().
      */

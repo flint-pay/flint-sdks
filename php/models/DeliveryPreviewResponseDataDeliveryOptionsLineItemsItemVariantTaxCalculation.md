@@ -2,12 +2,14 @@
 
 ## DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantTaxCalculation
 
+The tax you supply for this line item. Used when the order's tax `mode` is `external`.
+
 A tax calculation you supply for a draft order line item, made of tax components and a price mode.
 
 Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `components` | Required | Array of ([DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantTaxCalculationComponentsItem](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantTaxCalculationComponentsItem.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvarianttaxcalculationcomponentsitem) and object) | minItems: `1`. |
-| `price_mode` | Required | string | Values: `"additive"`, `"inclusive"`. |
+| `components` | Required | Array of ([DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantTaxCalculationComponentsItem](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantTaxCalculationComponentsItem.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvarianttaxcalculationcomponentsitem) and object) | The tax for this line item or charge, one component per jurisdiction and tax type. Each is a `percentage` tax. minItems: `1`. |
+| `price_mode` | Required | string | Whether the price this tax applies to already includes the tax. Values: `"additive"`, `"inclusive"`. |
 

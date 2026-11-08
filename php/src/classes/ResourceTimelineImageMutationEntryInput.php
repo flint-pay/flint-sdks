@@ -12,7 +12,7 @@ namespace Flint;
 final class ResourceTimelineImageMutationEntryInput extends Model {
     /** @param array{'entry_type': string, 'image_version': int, 'mutation_kind': string, 'occurred_at': string|\DateTimeInterface, 'request_id'?: string, 'resource_timeline_entry_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ResourceTimelineImageMutationEntryInput')); }
-    /** Value enum: "image_mutation".
+    /** Always `image_mutation` for this kind of entry. Value enum: "image_mutation".
      * @return string
      * @throws SdkError When entry_type is omitted; use hasEntryType() or valueOrDefault().
      */
@@ -30,7 +30,7 @@ final class ResourceTimelineImageMutationEntryInput extends Model {
      */
     public function getMutationKind(): string { return $this->get('mutation_kind'); }
     public function hasMutationKind(): bool { return $this->has('mutation_kind'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When occurred_at is omitted; use hasOccurredAt() or valueOrDefault().
      */
@@ -42,7 +42,7 @@ final class ResourceTimelineImageMutationEntryInput extends Model {
      */
     public function getRequestId(): string { return $this->get('request_id'); }
     public function hasRequestId(): bool { return $this->has('request_id'); }
-    /** resource_timeline_entry_id
+    /** ID of this timeline entry. Example: "iomevt_01KEZF7C00D4JSSDP6AB68EFF2".
      * @return string
      * @throws SdkError When resource_timeline_entry_id is omitted; use hasResourceTimelineEntryId() or valueOrDefault().
      */

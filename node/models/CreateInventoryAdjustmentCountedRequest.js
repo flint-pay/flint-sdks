@@ -1,11 +1,11 @@
-import { d230 as c0 } from '../descriptors/data/11.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d677 as c1 } from '../descriptors/data/34.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d5451 as c2, d5452 as c3, d5453 as c4, d5454 as c5, d5450 as c6, d5435 as c7, d5436 as c8, d5437 as c9, d5447 as c10, d5448 as c11, d5449 as c12 } from '../descriptors/data/244.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d230 as d230 } from '../descriptors/data/11.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import { d258 as c0 } from '../descriptors/data/12.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d6672 as c1, d6677 as c7, d6678 as c8, d6679 as c9 } from '../descriptors/data/303.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d6698 as c2, d6699 as c3, d6700 as c4, d6701 as c5, d6697 as c6, d6694 as c10, d6695 as c11, d6696 as c12 } from '../descriptors/data/304.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d258 as d258 } from '../descriptors/data/12.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d230;
+const read = d258;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["CreateInventoryAdjustmentCountedRequest"]:c0(),["InventoryAdjustmentSetLineRequest"]:c1(),["InventorySourceSystemRequest"]:c2(),["SharedCodec230"]:c3(),["SharedCodec231"]:c4(),["SharedCodec232"]:c5(),["SharedCodec233"]:c6(),["SharedCodec234"]:c7(),["SharedCodec235"]:c8(),["SharedCodec236"]:c9(),["SharedCodec628"]:c10(),["SharedCodec629"]:c11(),["SharedCodec630"]:c12()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["CreateInventoryAdjustmentCountedRequest"]:c0(),["InventoryAdjustmentSetLineRequest"]:c1(),["InventorySourceSystemRequest"]:c2(),["SharedCodec267"]:c3(),["SharedCodec268"]:c4(),["SharedCodec269"]:c5(),["SharedCodec270"]:c6(),["SharedCodec271"]:c7(),["SharedCodec272"]:c8(),["SharedCodec273"]:c9(),["SharedCodec732"]:c10(),["SharedCodec733"]:c11(),["SharedCodec734"]:c12()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeCreateInventoryAdjustmentCountedRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

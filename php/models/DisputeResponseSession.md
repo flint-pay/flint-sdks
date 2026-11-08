@@ -8,6 +8,10 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `client_session` | Required | [DisputeResponseSessionClientSession](../models/DisputeResponseSessionClientSession.md#disputeresponsesessionclientsession) | Browser session for responding to a dispute, with its expiry and the Stripe details needed to load the embedded response component. |
-| `dispute_id` | Required | string |  |
+| `client_session` | Required | [DisputeResponseSessionClientSession](../models/DisputeResponseSessionClientSession.md#disputeresponsesessionclientsession) | The browser session for the response component. It appears only in this response, never on the dispute, in lists, or in webhooks. Browser session for responding to a dispute, with its expiry and the Stripe details needed to load the embedded response component. `client_session`: [field definitions](../models/DisputeResponseSessionResponse.md#disputeresponsesessionresponsedataclient_session). |
+| `dispute_id` | Required | string | ID of the dispute the session is for. |
+
+### DisputeResponseSession.client_session
+
+Field definitions: [DisputeResponseSessionResponse.data.client_session](../models/DisputeResponseSessionResponse.md#disputeresponsesessionresponsedataclient_session).
 

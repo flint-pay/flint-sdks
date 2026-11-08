@@ -8,13 +8,13 @@ namespace Flint;
 final class ResolvePaymentLinkTextModifierRequestInput extends Model {
     /** @param array{'modifier_group_id': string, 'value': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ResolvePaymentLinkTextModifierRequestInput')); }
-    /** minLength: 1.
+    /** ID of the text modifier group the buyer answered. minLength: 1. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
      * @return string
      * @throws SdkError When modifier_group_id is omitted; use hasModifierGroupId() or valueOrDefault().
      */
     public function getModifierGroupId(): string { return $this->get('modifier_group_id'); }
     public function hasModifierGroupId(): bool { return $this->has('modifier_group_id'); }
-    /** minLength: 1.
+    /** The text the buyer entered. minLength: 1.
      * @return string
      * @throws SdkError When value is omitted; use hasValue() or valueOrDefault().
      */

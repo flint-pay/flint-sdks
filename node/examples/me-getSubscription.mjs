@@ -8,7 +8,7 @@ const client = new Client({
   customerToken,
 });
 const result = await client.me.getSubscription(
-  "sub_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "sub_01KEZF7C00BVRE8YDBXQB74BBM"
 );
 console.log(result.customer_id);
-console.log(result.payment_method_id);
+console.log(result.merchant_id);

@@ -13,13 +13,13 @@ namespace Flint;
 final class MerchantBillingInvoiceLineItemInput extends Model {
     /** @param array{'created_at': string|\DateTimeInterface, 'merchant_billing_invoice_line_item_id': string, 'name': string, 'quantity': int, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'type': string, 'unit_price_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MerchantBillingInvoiceLineItemInput')); }
-    /** When Flint added this line to the invoice. Format: date-time.
+    /** When Flint added this line to the invoice. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Stable identifier of this line item.
+    /** Stable identifier of this line item. Example: "msinvl_01KEZF7C00YB825JWZ87C5HDF0".
      * @return string
      * @throws SdkError When merchant_billing_invoice_line_item_id is omitted; use hasMerchantBillingInvoiceLineItemId() or valueOrDefault().
      */

@@ -9,17 +9,17 @@ namespace Flint;
 final class ReturnUnverifiedItem extends Model {
     /** @param array{'description'?: string, 'name': string, 'sku'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnUnverifiedItem')); }
-    /** minLength: 1.
+    /** Description of the unidentified item. minLength: 1.
      * @return ?string
      */
     public function getDescription(): ?string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** minLength: 1.
+    /** Name of the unidentified item. minLength: 1.
      * @return string
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** minLength: 1.
+    /** SKU of the unidentified item. minLength: 1.
      * @return ?string
      */
     public function getSku(): ?string { return $this->get('sku'); }

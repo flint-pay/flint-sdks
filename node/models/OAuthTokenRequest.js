@@ -1,10 +1,11 @@
-import { d929 as c0 } from '../descriptors/data/43.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d6034 as c1, d6035 as c2, d6036 as c3, d6037 as c4, d6038 as c5, d6039 as c6, d6040 as c7, d6041 as c8, d6042 as c9 } from '../descriptors/data/278.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d929 as d929 } from '../descriptors/data/43.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import { d973 as c0 } from '../descriptors/data/45.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d7296 as c1, d7297 as c2, d7298 as c3, d7299 as c4, d7300 as c5 } from '../descriptors/data/340.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d7301 as c6, d7302 as c7, d7303 as c8, d7304 as c9, d7305 as c10 } from '../descriptors/data/341.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d973 as d973 } from '../descriptors/data/45.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d929;
+const read = d973;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["OAuthTokenRequest"]:c0(),["SharedCodec879"]:c1(),["SharedCodec880"]:c2(),["SharedCodec881"]:c3(),["SharedCodec882"]:c4(),["SharedCodec883"]:c5(),["SharedCodec884"]:c6(),["SharedCodec885"]:c7(),["SharedCodec886"]:c8(),["SharedCodec887"]:c9()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["OAuthTokenRequest"]:c0(),["SharedCodec973"]:c1(),["SharedCodec974"]:c2(),["SharedCodec975"]:c3(),["SharedCodec976"]:c4(),["SharedCodec977"]:c5(),["SharedCodec978"]:c6(),["SharedCodec979"]:c7(),["SharedCodec980"]:c8(),["SharedCodec981"]:c9(),["SharedCodec982"]:c10()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeOAuthTokenRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

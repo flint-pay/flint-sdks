@@ -11,31 +11,31 @@ namespace Flint;
 final class GiftCardPurchaseRestorationInput extends Model {
     /** @param array{'order_line_item_id': string, 'original_gift_card_id': string, 'original_gift_card_load_id': string, 'purchase_refund_allocation_id': string, 'unit_ordinal': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardPurchaseRestorationInput')); }
-    /** order_line_item_id
+    /** ID of the order line item that sold the gift card. Example: "li_01KEZF7C008YPRCK7VDKTGWR31".
      * @return string
      * @throws SdkError When order_line_item_id is omitted; use hasOrderLineItemId() or valueOrDefault().
      */
     public function getOrderLineItemId(): string { return $this->get('order_line_item_id'); }
     public function hasOrderLineItemId(): bool { return $this->has('order_line_item_id'); }
-    /** original_gift_card_id
+    /** ID of the gift card the purchase first issued, whose value a purchase refund or reversal removed. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
      * @return string
      * @throws SdkError When original_gift_card_id is omitted; use hasOriginalGiftCardId() or valueOrDefault().
      */
     public function getOriginalGiftCardId(): string { return $this->get('original_gift_card_id'); }
     public function hasOriginalGiftCardId(): bool { return $this->has('original_gift_card_id'); }
-    /** original_gift_card_load_id
+    /** ID of the load on the original card that the refund or reversal removed value from. Example: "gcl_01KEZF7C00YJED2857SE0J6KWC".
      * @return string
      * @throws SdkError When original_gift_card_load_id is omitted; use hasOriginalGiftCardLoadId() or valueOrDefault().
      */
     public function getOriginalGiftCardLoadId(): string { return $this->get('original_gift_card_load_id'); }
     public function hasOriginalGiftCardLoadId(): bool { return $this->has('original_gift_card_load_id'); }
-    /** purchase_refund_allocation_id
+    /** ID of the purchase refund entry on the original load whose removed value this load restores. Example: "gcpra_01KEZF7C00HJZ2YP6AENMZK5KA".
      * @return string
      * @throws SdkError When purchase_refund_allocation_id is omitted; use hasPurchaseRefundAllocationId() or valueOrDefault().
      */
     public function getPurchaseRefundAllocationId(): string { return $this->get('purchase_refund_allocation_id'); }
     public function hasPurchaseRefundAllocationId(): bool { return $this->has('purchase_refund_allocation_id'); }
-    /** Format: int64.
+    /** Which unit of the line item's quantity the card was issued for, starting at 1. Format: int64.
      * @return int
      * @throws SdkError When unit_ordinal is omitted; use hasUnitOrdinal() or valueOrDefault().
      */

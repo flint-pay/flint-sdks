@@ -8,5 +8,5 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `account_name` | Optional | string or null | Name shown at the top of the Flint-hosted customer account, up to 100 characters. Without one, the account shows your business name. Send null to clear it. minLength: `1`. |
+| `account_name` | Optional | string or null | Name shown at the top of the Flint-hosted customer account, up to 100 characters. `null` when none is set, so the account shows your business name. Send null to clear it. minLength: `1`. |
 

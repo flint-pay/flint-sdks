@@ -2,9 +2,11 @@
 
 ## ReturnCompletedInstalledMerchantsEventDataObject
 
-A request to send purchased items back.
+The affected public resource without expansions, client authority fields, or fields computed for an individual caller.
+
+The resource snapshot, without expansions. Webhooks omit no additional fields.
 
 Response model.
 
-Fields, types, descriptions and enum values: [ReturnResource](../models/ReturnResource.md#returnresource).
+Fields, types, descriptions and enum values: [ReturnCanceledMerchantEventDataObject](../models/ReturnCanceledMerchantEventDataObject.md#returncanceledmerchanteventdataobject).
 

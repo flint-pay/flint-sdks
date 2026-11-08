@@ -10,5 +10,8 @@ The text a buyer entered for a text modifier group on a payment link line item.
 
 
 
-Fields, types, descriptions and enum values: [TextModifierRequest](../models/TextModifierRequest.md#textmodifierrequest).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `modifier_group_id` | Required | string | ID of the text modifier group the buyer answered. minLength: `1`. Example: `"mg_01KEZF7C00XKJJATARG7KDBYM9"`. |
+| `value` | Required | string | The text the buyer entered. minLength: `1`. |
 

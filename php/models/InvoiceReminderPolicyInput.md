@@ -8,5 +8,5 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `rules` | Required | Array of [InvoiceReminderRuleInput](../models/InvoiceReminderRuleInput.md#invoicereminderruleinput) | maxItems: `20`. |
+| `rules` | Required | Array of [InvoiceReminderRuleInput](../models/InvoiceReminderRuleInput.md#invoicereminderruleinput) | Reminder dates relative to the invoice due date. At most 20 rules; [] disables scheduled reminders. maxItems: `20`. |
 

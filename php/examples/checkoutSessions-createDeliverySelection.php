@@ -16,7 +16,7 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->checkoutSessions->createDeliverySelection('cs_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
+$result = $client->checkoutSessions->createDeliverySelection('cs_01KEZF7C004JRWFW43H037MQRN', [
   'choices' => [
     (object) [
       'delivery_choice_group_id' => 'dcgrp_01K1P6G4M7H2N8Q9R3S5T6V7WX',
@@ -27,5 +27,5 @@ $result = $client->checkoutSessions->createDeliverySelection('cs_01ARZ3NDEKTSV4R
   'expected_delivery_selection_id' => null,
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->checkout_session->checkout_session_id . PHP_EOL;
-echo $result->checkout_session->status . PHP_EOL;
+echo $result->checkout_session->merchant_id . PHP_EOL;
 $client->close();

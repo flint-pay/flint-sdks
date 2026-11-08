@@ -8,13 +8,13 @@ namespace Flint;
 final class AddReturnLineItemRequestInput extends Model {
     /** @param array{'expected_version'?: int, 'line_item': ReturnLineItemRequestInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('AddReturnLineItemRequestInput')); }
-    /** Format: int64. minimum: 1.
+    /** Version last read from the resource returned in `data` (the primary resource for a result object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on the operation and fields being changed. Format: int64. minimum: 1.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** An order line item to return, with the quantity, return reason, and optionally a note and the resolution the buyer wants.
+    /** The line to add. An order line item to return, with the quantity, return reason, and optionally a note and the resolution the buyer wants.
      * @return ReturnLineItemRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When line_item is omitted; use hasLineItem() or valueOrDefault().
      */

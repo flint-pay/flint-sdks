@@ -14,45 +14,45 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeviceInput extends Model {
-    /** @param array{'created_at'?: string|\DateTimeInterface, 'device_id': string, 'hardware_fingerprint'?: string, 'location_id'?: string, 'merchant_id'?: string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'name': string, 'status': string, 'updated_at'?: string|\DateTimeInterface, 'version': int, ...}|object $values */
+    /** @param array{'created_at': string|\DateTimeInterface, 'device_id': string, 'hardware_fingerprint'?: string, 'location_id'?: string, 'merchant_id': string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'name': string, 'status': string, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeviceInput')); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** device_id
+    /** Stable identifier of the device. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6".
      * @return string
      * @throws SdkError When device_id is omitted; use hasDeviceId() or valueOrDefault().
      */
     public function getDeviceId(): string { return $this->get('device_id'); }
     public function hasDeviceId(): bool { return $this->has('device_id'); }
-    /** hardware_fingerprint
+    /** Identifier of the physical hardware, compared exactly. Only one active device can hold a fingerprint. Archiving the device releases it, so the field is omitted on archived devices and a new device can register the same hardware.
      * @return string
      * @throws SdkError When hardware_fingerprint is omitted; use hasHardwareFingerprint() or valueOrDefault().
      */
     public function getHardwareFingerprint(): string { return $this->get('hardware_fingerprint'); }
     public function hasHardwareFingerprint(): bool { return $this->has('hardware_fingerprint'); }
-    /** location_id
+    /** The Location the device is assigned to. Omitted when it has none. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When location_id is omitted; use hasLocationId() or valueOrDefault().
      */
     public function getLocationId(): string { return $this->get('location_id'); }
     public function hasLocationId(): bool { return $this->has('location_id'); }
-    /** merchant_id
+    /** The merchant that owns the device. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
      * @return string
      * @throws SdkError When merchant_id is omitted; use hasMerchantId() or valueOrDefault().
      */
     public function getMerchantId(): string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
+    /** Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      * @return MetadataMapInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** name
+    /** Name you gave the device.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
@@ -64,13 +64,13 @@ final class DeviceInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */
     public function getUpdatedAt(): string|\DateTimeInterface { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** Persisted device configuration version. Format: uint64. minimum: 1.
+    /** Starts at 1 and goes up with each update and on archive. Send it as `expected_version` to apply an update only if nothing changed. Format: uint64. minimum: 1.
      * @return int
      * @throws SdkError When version is omitted; use hasVersion() or valueOrDefault().
      */

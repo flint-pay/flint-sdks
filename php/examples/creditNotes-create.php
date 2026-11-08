@@ -17,7 +17,7 @@ $client = new Client(new ClientOptions(
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->creditNotes->create([
-  'invoice_id' => 'inv_01ARZ3NDEKTSV4RRFFQ69G5FAV',
+  'invoice_id' => 'inv_01KEZF7C00A5GEBMWHEAJFSAR4',
   'reason' => 'returned_goods',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->credit_note_id . PHP_EOL;

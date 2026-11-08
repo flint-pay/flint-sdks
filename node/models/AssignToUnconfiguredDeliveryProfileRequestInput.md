@@ -2,7 +2,7 @@
 
 ## AssignToUnconfiguredDeliveryProfileRequestInput
 
-Request input. Response: [GiftCardVersionRequest](../models/GiftCardVersionRequest.md#giftcardversionrequest).
+Request input. Response: [CloseGiftCardRequest](../models/CloseGiftCardRequest.md#closegiftcardrequest).
 
 The request body for: Assign unconfigured catalog entries.
 

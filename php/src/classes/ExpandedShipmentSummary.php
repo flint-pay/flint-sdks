@@ -12,10 +12,11 @@ namespace Flint;
  * @property-read string $shipment_id
  * @property-read ?string $shipped_at
  * @property-read string $status
+ * @property-read list<string> $supported_actions
  * @property-read ?string $updated_at
  * Presence-aware response; omitted optional fields return null. */
 final class ExpandedShipmentSummary extends Model {
-    /** @param array{'created_at'?: string, 'delivered_at'?: string, 'direction': string, 'fulfillment_id': string, 'handed_off_at'?: string, 'package_count': int, 'return_id'?: string, 'shipment_id': string, 'shipped_at'?: string, 'status': string, 'updated_at'?: string, ...}|object $values */
+    /** @param array{'created_at'?: string, 'delivered_at'?: string, 'direction': string, 'fulfillment_id': string, 'handed_off_at'?: string, 'package_count': int, 'return_id'?: string, 'shipment_id': string, 'shipped_at'?: string, 'status': string, 'supported_actions': list<string>, 'updated_at'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ExpandedShipmentSummary')); }
     /** When the shipment was created, in RFC3339 format. Format: date-time.
      * @return ?string
@@ -67,6 +68,11 @@ final class ExpandedShipmentSummary extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
+    /** Lifecycle actions Flint accepts now, independent of permissions. Contains void while the shipment and its fulfillment permit voiding. [] enum: "void". [] (Value): string.  Value enum: "void".
+     * @return list<string>
+     */
+    public function getSupportedActions(): array { return $this->get('supported_actions'); }
+    public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
     /** When the shipment was last updated, in RFC3339 format. Format: date-time.
      * @return ?string
      */

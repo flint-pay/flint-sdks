@@ -11,7 +11,7 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.me.createFlintWalletStoreSetup(
-  "fwc_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "fwc_EKAB7CMBXELKYMJUU2LYLJP5J25FESR6YR5WENVFIUZHTTG3BZWA",
   {},
   { idempotencyKey: idempotencyKey },
 );

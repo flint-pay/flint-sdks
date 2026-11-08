@@ -10,6 +10,6 @@ The `merchant` variant of `InventoryReservationOwner`.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `key` | Required | string |  |
-| `type` | Required | string | Values: `"merchant"`. |
+| `key` | Required | string | Your identifier for the claim that holds the stock. |
+| `type` | Required | string | Who holds the reservation. Values: `"merchant"`. |
 

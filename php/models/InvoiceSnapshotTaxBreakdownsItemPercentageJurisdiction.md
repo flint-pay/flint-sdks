@@ -2,6 +2,8 @@
 
 ## InvoiceSnapshotTaxBreakdownsItemPercentageJurisdiction
 
+The taxing authority this row's tax is owed to.
+
 A taxing jurisdiction with its level, such as state or city, name, state, and country.
 
 Response model.

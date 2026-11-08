@@ -2,7 +2,7 @@
 
 ## GiftCardVersionRequestInput
 
-Request input. Response: [GiftCardVersionRequest](../models/GiftCardVersionRequest.md#giftcardversionrequest).
+Request input. Response: [CloseGiftCardRequest](../models/CloseGiftCardRequest.md#closegiftcardrequest).
 
 Optional version fence for the redemption being captured or canceled.
 

@@ -11,7 +11,7 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.checkoutSessions.createCustomerVerification(
-  "cs_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "cs_01KEZF7C004JRWFW43H037MQRN",
   {
     email: "ada@example.com",
     purpose: "use_saved_payment_methods",

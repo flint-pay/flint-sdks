@@ -12,12 +12,13 @@ namespace Flint;
  * @property-read string $refund_allocation_id
  * @property-read MoneyValue $refunded_tip_money
  * @property-read string $status
+ * @property-read ?string $succeeded_at
  * @property-read string $tender_type
  * Presence-aware response; omitted optional fields return null. */
 final class RefundTenderAllocation extends Model {
-    /** @param array{'amount_money': mixed, 'destination'?: string, 'destination_cards'?: list<mixed>, 'failure_reason'?: string, 'gift_card_id'?: string, 'gift_card_redemption_id'?: string, 'payment_intent_id'?: string, 'refund_allocation_id': string, 'refunded_tip_money': mixed, 'status': string, 'tender_type': string, ...}|object $values */
+    /** @param array{'amount_money': mixed, 'destination'?: string, 'destination_cards'?: list<mixed>, 'failure_reason'?: string, 'gift_card_id'?: string, 'gift_card_redemption_id'?: string, 'payment_intent_id'?: string, 'refund_allocation_id': string, 'refunded_tip_money': mixed, 'status': string, 'succeeded_at'?: string, 'tender_type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RefundTenderAllocation')); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Amount of the refund that went to this tender, including `refunded_tip_money`. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getAmountMoney(): MoneyValue { return $this->get('amount_money'); }
@@ -27,7 +28,7 @@ final class RefundTenderAllocation extends Model {
      */
     public function getDestination(): ?string { return $this->get('destination'); }
     public function hasDestination(): bool { return $this->has('destination'); }
-    /**  [] (Value): {@see RefundGiftCardDestination}. A gift card that received part of a refund, with the amount credited.
+    /** The gift cards that received this allocation's value, with the amount each received. Absent when the value went back to a payment. [] (Value): {@see RefundGiftCardDestination}. A gift card that received part of a refund, with the amount credited.
      * @return ?list<RefundGiftCardDestination>
      */
     public function getDestinationCards(): ?array { return $this->get('destination_cards'); }
@@ -37,27 +38,27 @@ final class RefundTenderAllocation extends Model {
      */
     public function getFailureReason(): ?string { return $this->get('failure_reason'); }
     public function hasFailureReason(): bool { return $this->has('failure_reason'); }
-    /** gift_card_id
+    /** The gift card whose redemption this allocation refunded. Present when `tender_type` is `gift_card_redemption`.
      * @return ?string
      */
     public function getGiftCardId(): ?string { return $this->get('gift_card_id'); }
     public function hasGiftCardId(): bool { return $this->has('gift_card_id'); }
-    /** gift_card_redemption_id
+    /** The gift card redemption this allocation refunded. Present when `tender_type` is `gift_card_redemption`.
      * @return ?string
      */
     public function getGiftCardRedemptionId(): ?string { return $this->get('gift_card_redemption_id'); }
     public function hasGiftCardRedemptionId(): bool { return $this->has('gift_card_redemption_id'); }
-    /** payment_intent_id
+    /** The payment this allocation refunded. Present when `tender_type` is `payment_intent`.
      * @return ?string
      */
     public function getPaymentIntentId(): ?string { return $this->get('payment_intent_id'); }
     public function hasPaymentIntentId(): bool { return $this->has('payment_intent_id'); }
-    /** refund_allocation_id
+    /** Unique identifier for this tender allocation, prefixed `rta_`.
      * @return string
      */
     public function getRefundAllocationId(): string { return $this->get('refund_allocation_id'); }
     public function hasRefundAllocationId(): bool { return $this->has('refund_allocation_id'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Share of this allocation's `amount_money` that refunds tips. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getRefundedTipMoney(): MoneyValue { return $this->get('refunded_tip_money'); }
@@ -67,7 +68,12 @@ final class RefundTenderAllocation extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Value enum: "payment_intent", "gift_card_redemption".
+    /** When this tender's `status` first became `succeeded`. Gift card credit and store credit (`destination` `new_gift_card`) succeed when the refund is created. A `payment_intent` tender with `destination` `original` has the same value as its `payment_refunds` entry; store credit has no `payment_refunds` entry. Tax reports use it as `refund_succeeded_at` on the rows for this tender. Present only while `status` is `succeeded`. Format: date-time.
+     * @return ?string
+     */
+    public function getSucceededAt(): ?string { return $this->get('succeeded_at'); }
+    public function hasSucceededAt(): bool { return $this->has('succeeded_at'); }
+    /** Which kind of original tender this allocation refunded. Value enum: "payment_intent", "gift_card_redemption".
      * @return string
      */
     public function getTenderType(): string { return $this->get('tender_type'); }

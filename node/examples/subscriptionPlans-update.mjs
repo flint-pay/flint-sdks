@@ -14,5 +14,5 @@ const result = await client.subscriptionPlans.update(
   },
   { idempotencyKey: idempotencyKey },
 );
+console.log(result.merchant_id);
 console.log(result.status);
-console.log(result.subscription_plan_id);

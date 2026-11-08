@@ -7,9 +7,9 @@ namespace Flint;
  * @property-read string $country
  * @property-read string|\DateTimeInterface $created_at
  * @property-read string $currency
- * @property-read bool $default_for_currency
  * @property-read string|\DateTimeInterface $disabled_at
  * @property-read string $disabled_reason
+ * @property-read bool $is_default_for_currency
  * @property-read string $last4
  * @property-read string $merchant_id
  * @property-read MetadataMapInput|array<array-key, mixed>|\stdClass $metadata
@@ -21,7 +21,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class PayoutDestinationInput extends Model {
-    /** @param array{'available_payout_methods': list<string>, 'bank_name'?: string, 'country'?: string, 'created_at': string|\DateTimeInterface, 'currency': string, 'default_for_currency': bool, 'disabled_at'?: string|\DateTimeInterface, 'disabled_reason'?: string, 'last4'?: string, 'merchant_id': string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'payout_destination_id': string, 'status': string, 'status_updated_at'?: string|\DateTimeInterface, 'type': string, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
+    /** @param array{'available_payout_methods': list<string>, 'bank_name'?: string, 'country'?: string, 'created_at': string|\DateTimeInterface, 'currency': string, 'disabled_at'?: string|\DateTimeInterface, 'disabled_reason'?: string, 'is_default_for_currency': bool, 'last4'?: string, 'merchant_id': string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'payout_destination_id': string, 'status': string, 'status_updated_at'?: string|\DateTimeInterface, 'type': string, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PayoutDestinationInput')); }
     /** Payout methods available through Flint for this destination. Only standard is currently available. [] enum: "standard". [] (Value): string.  Value enum: "standard".
      * @return list<string>
@@ -41,7 +41,7 @@ final class PayoutDestinationInput extends Model {
      */
     public function getCountry(): string { return $this->get('country'); }
     public function hasCountry(): bool { return $this->has('country'); }
-    /** When the destination was added. Format: date-time.
+    /** When the destination was added. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
@@ -53,31 +53,31 @@ final class PayoutDestinationInput extends Model {
      */
     public function getCurrency(): string { return $this->get('currency'); }
     public function hasCurrency(): bool { return $this->has('currency'); }
-    /** Whether this is the default destination for its currency. Scheduled payouts, and payouts created without payout_destination_id, go to the default, and only an active destination can be it.
-     * @return bool
-     * @throws SdkError When default_for_currency is omitted; use hasDefaultForCurrency() or valueOrDefault().
-     */
-    public function getDefaultForCurrency(): bool { return $this->get('default_for_currency'); }
-    public function hasDefaultForCurrency(): bool { return $this->has('default_for_currency'); }
-    /** When the destination was last disabled or archived. Absent if it never was. Format: date-time.
+    /** When the destination was last disabled or archived. Absent if it never was. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When disabled_at is omitted; use hasDisabledAt() or valueOrDefault().
      */
     public function getDisabledAt(): string|\DateTimeInterface { return $this->get('disabled_at'); }
     public function hasDisabledAt(): bool { return $this->has('disabled_at'); }
-    /** Flint-normalized reason the payout destination cannot currently be used. Unknown provider/backend values are returned as destination_unavailable. Value enum: "destination_disabled", "destination_removed", "destination_unavailable", "destination_rejected", "destination_under_review", "disabled_by_merchant_request", "requirements_past_due", "requirements_pending_verification", "superseded_destination_session_completed".
+    /** Flint-normalized reason the payout destination cannot currently be used. Unknown provider/backend values are returned as destination_unavailable. Value enum: "destination_disabled", "destination_removed", "destination_unavailable", "destination_rejected", "destination_under_review", "requirements_past_due", "requirements_pending_verification".
      * @return string
      * @throws SdkError When disabled_reason is omitted; use hasDisabledReason() or valueOrDefault().
      */
     public function getDisabledReason(): string { return $this->get('disabled_reason'); }
     public function hasDisabledReason(): bool { return $this->has('disabled_reason'); }
+    /** Whether this is the default destination for its currency. Scheduled payouts, and payouts created without payout_destination_id, go to the default, and only an active destination can be it.
+     * @return bool
+     * @throws SdkError When is_default_for_currency is omitted; use hasIsDefaultForCurrency() or valueOrDefault().
+     */
+    public function getIsDefaultForCurrency(): bool { return $this->get('is_default_for_currency'); }
+    public function hasIsDefaultForCurrency(): bool { return $this->has('is_default_for_currency'); }
     /** Last four digits of the account or card number.
      * @return string
      * @throws SdkError When last4 is omitted; use hasLast4() or valueOrDefault().
      */
     public function getLast4(): string { return $this->get('last4'); }
     public function hasLast4(): bool { return $this->has('last4'); }
-    /** Merchant that owns the destination.
+    /** Merchant that owns the destination. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
      * @return string
      * @throws SdkError When merchant_id is omitted; use hasMerchantId() or valueOrDefault().
      */
@@ -89,7 +89,7 @@ final class PayoutDestinationInput extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Stable identifier of the payout destination.
+    /** Stable identifier of the payout destination. Example: "pdest_01KEZF7C00M55HZDZXZP6YVE6B".
      * @return string
      * @throws SdkError When payout_destination_id is omitted; use hasPayoutDestinationId() or valueOrDefault().
      */
@@ -101,7 +101,7 @@ final class PayoutDestinationInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** When Flint last recorded the destination's status. Format: date-time.
+    /** When Flint last recorded the destination's status. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When status_updated_at is omitted; use hasStatusUpdatedAt() or valueOrDefault().
      */
@@ -113,7 +113,7 @@ final class PayoutDestinationInput extends Model {
      */
     public function getType(): string { return $this->get('type'); }
     public function hasType(): bool { return $this->has('type'); }
-    /** When the destination last changed. Format: date-time.
+    /** When the destination last changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */

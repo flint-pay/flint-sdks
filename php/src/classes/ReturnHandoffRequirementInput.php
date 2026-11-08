@@ -12,25 +12,25 @@ namespace Flint;
 final class ReturnHandoffRequirementInput extends Model {
     /** @param array{'destination': ReturnHandoffDestinationInput|array<array-key, mixed>|\stdClass, 'expires_at'?: string|\DateTimeInterface, 'instructions'?: string, 'line_items': list<ReturnHandoffRequirementLineItemInput|array<array-key, mixed>|\stdClass>, 'shipment_count'?: int, 'status': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnHandoffRequirementInput')); }
-    /** Where the buyer sends returned merchandise: their own address, a merchant location, or an external location.
+    /** Where the buyer sends the merchandise. Where the buyer sends returned merchandise: their own address, a merchant location, or an external location.
      * @return ReturnHandoffDestinationInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When destination is omitted; use hasDestination() or valueOrDefault().
      */
     public function getDestination(): mixed { return $this->get('destination'); }
     public function hasDestination(): bool { return $this->has('destination'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When expires_at is omitted; use hasExpiresAt() or valueOrDefault().
      */
     public function getExpiresAt(): string|\DateTimeInterface { return $this->get('expires_at'); }
     public function hasExpiresAt(): bool { return $this->has('expires_at'); }
-    /** instructions
+    /** Instructions for the buyer on sending the merchandise.
      * @return string
      * @throws SdkError When instructions is omitted; use hasInstructions() or valueOrDefault().
      */
     public function getInstructions(): string { return $this->get('instructions'); }
     public function hasInstructions(): bool { return $this->has('instructions'); }
-    /**  [] (Value): {@see ReturnHandoffRequirementLineItemInput}. A return line and the quantity the buyer must hand back.
+    /** Return lines and the quantities still expected. [] (Value): {@see ReturnHandoffRequirementLineItemInput}. A return line and the quantity the buyer must hand back.
      * @return list<ReturnHandoffRequirementLineItemInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When line_items is omitted; use hasLineItems() or valueOrDefault().
      */

@@ -17,37 +17,37 @@ namespace Flint;
 final class CustomerAddressInput extends Model {
     /** @param array{'address': AddressInput|array<array-key, mixed>|\stdClass, 'created_at': string|\DateTimeInterface, 'customer_address_id': string, 'customer_id': string, 'is_default_billing': bool, 'is_default_shipping': bool, 'label'?: string, 'phone'?: string, 'recipient_name': string, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerAddressInput')); }
-    /** A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country.
+    /** The postal address. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country.
      * @return AddressInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When address is omitted; use hasAddress() or valueOrDefault().
      */
     public function getAddress(): mixed { return $this->get('address'); }
     public function hasAddress(): bool { return $this->has('address'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** customer_address_id
+    /** Unique identifier for this customer address, prefixed `caddr_`. Example: "caddr_01KEZF7C00K2Q127FBJAXWB0FP".
      * @return string
      * @throws SdkError When customer_address_id is omitted; use hasCustomerAddressId() or valueOrDefault().
      */
     public function getCustomerAddressId(): string { return $this->get('customer_address_id'); }
     public function hasCustomerAddressId(): bool { return $this->has('customer_address_id'); }
-    /** customer_id
+    /** ID of the customer this address belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** is_default_billing
+    /** Whether this is the customer's default billing address. At most one saved address holds each default.
      * @return bool
      * @throws SdkError When is_default_billing is omitted; use hasIsDefaultBilling() or valueOrDefault().
      */
     public function getIsDefaultBilling(): bool { return $this->get('is_default_billing'); }
     public function hasIsDefaultBilling(): bool { return $this->has('is_default_billing'); }
-    /** is_default_shipping
+    /** Whether this is the customer's default shipping address. At most one saved address holds each default.
      * @return bool
      * @throws SdkError When is_default_shipping is omitted; use hasIsDefaultShipping() or valueOrDefault().
      */
@@ -71,13 +71,13 @@ final class CustomerAddressInput extends Model {
      */
     public function getRecipientName(): string { return $this->get('recipient_name'); }
     public function hasRecipientName(): bool { return $this->has('recipient_name'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */
     public function getUpdatedAt(): string|\DateTimeInterface { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** Format: uint64. minimum: 1.
+    /** Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. Format: uint64. minimum: 1.
      * @return int
      * @throws SdkError When version is omitted; use hasVersion() or valueOrDefault().
      */

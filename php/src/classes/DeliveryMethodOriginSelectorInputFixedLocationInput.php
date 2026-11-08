@@ -10,19 +10,19 @@ namespace Flint;
 final class DeliveryMethodOriginSelectorInputFixedLocationInput extends Model {
     /** @param array{'delivery_location_set_id'?: string, 'location_id': string, 'location_ids'?: list<string>, 'type': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryMethodOriginSelectorInputFixedLocationInput')); }
-    /** Named delivery location set to reuse. Send either delivery_location_set_id or inline location_ids, never both. The set may contain at most 25 Locations for allocated_origin_group or 1,000 for pickup_location_collection. minLength: 1.
+    /** Named delivery location set to reuse. Send either delivery_location_set_id or inline location_ids, never both. The set may contain at most 25 Locations for allocated_origin_group or 1,000 for pickup_location_collection. minLength: 1. Example: "dls_01KEZF7C00C4WWN7RYTRF55C4H".
      * @return string
      * @throws SdkError When delivery_location_set_id is omitted; use hasDeliveryLocationSetId() or valueOrDefault().
      */
     public function getDeliveryLocationSetId(): string { return $this->get('delivery_location_set_id'); }
     public function hasDeliveryLocationSetId(): bool { return $this->has('delivery_location_set_id'); }
-    /** minLength: 1.
+    /** minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When location_id is omitted; use hasLocationId() or valueOrDefault().
      */
     public function getLocationId(): string { return $this->get('location_id'); }
     public function hasLocationId(): bool { return $this->has('location_id'); }
-    /** Inline Location IDs for a set managed by this delivery method. Send either location_ids or delivery_location_set_id, never both. Use 1 to 25 unique Locations for allocated_origin_group or 1 to 1,000 for pickup_location_collection. Reads return these Location IDs without exposing the managed set. [] (Value): string. minLength: 1.
+    /** Inline Location IDs for a set managed by this delivery method. Send either location_ids or delivery_location_set_id, never both. Use 1 to 25 unique Locations for allocated_origin_group or 1 to 1,000 for pickup_location_collection. Reads return these Location IDs without exposing the managed set. [] (Value): string. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return list<string>
      * @throws SdkError When location_ids is omitted; use hasLocationIds() or valueOrDefault().
      */

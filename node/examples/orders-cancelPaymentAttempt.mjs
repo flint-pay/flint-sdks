@@ -8,10 +8,10 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.orders.cancelPaymentAttempt(
-  "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV",
-  "opat_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "ord_01KEZF7C0054GQKJ142A8X367A",
+  "opat_01KEZF7C00B5PW9F2R8A4YSH5D",
   undefined,
   { idempotencyKey: idempotencyKey },
 );
+console.log(result.order.merchant_id);
 console.log(result.order.order_id);
-console.log(result.order.status);

@@ -2,7 +2,7 @@
 
 ## ReturnRestockingFeePolicy
 
-A restocking fee in a return policy, charged as a flat amount or a percent.
+
 
 
 
@@ -10,11 +10,23 @@ A restocking fee in a return policy, charged as a flat amount or a percent.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `calculation_type` | Required | string | Values: `"flat"`, `"percent"`. |
-| `flat_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. `flat_money`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options). |
-| `percent` | Optional | number | Format: `double`. multipleOf: `0.0001`. |
+| `calculation_type` | Required | string | How the fee is worked out. Values: `"flat"`, `"percent"`. |
+| `flat_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Fixed fee proposed for each line, whatever the quantity. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `flat_money`: [field definitions](../models/ReturnPolicyRevision.md#returnpolicyrevisionrestocking_feeflat_money). |
+| `percent` | Optional | number | Percentage points of the returned units' subtotal, from 1 to 100 with up to four decimal places. `10` means 10%. Format: `double`. multipleOf: `0.0001`. |
+
+### ReturnRestockingFeePolicy variant 1
+
+anyOf variant 1: Declared schema ReturnRestockingFeePolicy. A restocking fee in a return policy, charged as a flat amount or a percent..
+
+No additional constraints.
+
+### ReturnRestockingFeePolicy variant 2
+
+anyOf variant 2: Declared schema ReturnRestockingFeePolicyRequest. A restocking fee in a return policy, charged as a flat amount or a percent..
+
+No additional constraints.
 
 ### ReturnRestockingFeePolicy.flat_money
 
-Field definitions: [BuyerCheckoutSession.tip.smart_tip_money_options[]](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options).
+Field definitions: [ReturnPolicyRevision.restocking_fee.flat_money](../models/ReturnPolicyRevision.md#returnpolicyrevisionrestocking_feeflat_money).
 

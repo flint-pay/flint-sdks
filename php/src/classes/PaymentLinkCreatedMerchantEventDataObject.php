@@ -5,7 +5,7 @@ namespace Flint;
  * @property-read ?CheckoutBuyerFields $buyer_fields
  * @property-read ?int $checkout_session_expires_in_seconds
  * @property-read int $completed_count
- * @property-read ?string $created_at
+ * @property-read string $created_at
  * @property-read ?list<PaymentLinkCustomField> $custom_fields
  * @property-read ?CheckoutCustomTextConfig $custom_text
  * @property-read list<string> $delivery_method_ids
@@ -21,7 +21,7 @@ namespace Flint;
  * @property-read ?CheckoutLegalConfig $legal
  * @property-read list<\stdClass|PaymentLinkCreatedMerchantEventDataObjectLineItemsItemBundle|PaymentLinkCreatedMerchantEventDataObjectLineItemsItemCustomFixed|PaymentLinkCreatedMerchantEventDataObjectLineItemsItemCustomVariable>|null $line_items
  * @property-read ?int $max_completions
- * @property-read ?string $merchant_id
+ * @property-read string $merchant_id
  * @property-read ?array<array-key, string> $metadata
  * @property-read string $name
  * @property-read string $payment_link_id
@@ -38,12 +38,12 @@ namespace Flint;
  * @property-read ?ThemeConfig $theme
  * @property-read ?CheckoutTipConfig $tip
  * @property-read int $total_quantity_sold
- * @property-read ?string $updated_at
+ * @property-read string $updated_at
  * @property-read string $url
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class PaymentLinkCreatedMerchantEventDataObject extends Model {
-    /** @param array{'buyer_fields'?: mixed, 'checkout_session_expires_in_seconds'?: int, 'completed_count': int, 'created_at'?: string, 'custom_fields'?: list<mixed>, 'custom_text'?: mixed, 'delivery_method_ids': list<string>, 'description'?: string, 'donation_max_amount_money'?: mixed, 'donation_min_amount_money'?: mixed, 'donation_suggested_amount_money_options'?: list<mixed>, 'event_config'?: mixed, 'external_reference_id'?: string, 'image'?: mixed, 'inactive_message'?: string, 'inventory_routing_source'?: mixed, 'legal'?: mixed, 'line_items'?: list<mixed>, 'max_completions'?: int, 'merchant_id'?: string, 'metadata'?: mixed, 'name': string, 'payment_link_id': string, 'payment_link_type'?: string, 'payments'?: mixed, 'promotion_config'?: mixed, 'redirects'?: mixed, 'sales_end_at'?: string, 'sales_summary'?: mixed, 'status': string, 'subscription_plan'?: mixed, 'subscription_plan_id'?: string, 'tax'?: mixed, 'theme'?: mixed, 'tip'?: mixed, 'total_quantity_sold': int, 'updated_at'?: string, 'url': string, 'version': int, ...}|object $values */
+    /** @param array{'buyer_fields'?: mixed, 'checkout_session_expires_in_seconds'?: int, 'completed_count': int, 'created_at': string, 'custom_fields'?: list<mixed>, 'custom_text'?: mixed, 'delivery_method_ids': list<string>, 'description'?: string, 'donation_max_amount_money'?: mixed, 'donation_min_amount_money'?: mixed, 'donation_suggested_amount_money_options'?: list<mixed>, 'event_config'?: mixed, 'external_reference_id'?: string, 'image'?: mixed, 'inactive_message'?: string, 'inventory_routing_source'?: mixed, 'legal'?: mixed, 'line_items'?: list<mixed>, 'max_completions'?: int, 'merchant_id': string, 'metadata'?: mixed, 'name': string, 'payment_link_id': string, 'payment_link_type'?: string, 'payments'?: mixed, 'promotion_config'?: mixed, 'redirects'?: mixed, 'sales_end_at'?: string, 'sales_summary'?: mixed, 'status': string, 'subscription_plan'?: mixed, 'subscription_plan_id'?: string, 'tax'?: mixed, 'theme'?: mixed, 'tip'?: mixed, 'total_quantity_sold': int, 'updated_at': string, 'url': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentLinkCreatedMerchantEventDataObject')); }
     /** What checkout asks the buyer for. Each field you leave out uses your checkout settings.
      * @return ?CheckoutBuyerFields
@@ -55,22 +55,22 @@ final class PaymentLinkCreatedMerchantEventDataObject extends Model {
      */
     public function getCheckoutSessionExpiresInSeconds(): ?int { return $this->get('checkout_session_expires_in_seconds'); }
     public function hasCheckoutSessionExpiresInSeconds(): bool { return $this->has('checkout_session_expires_in_seconds'); }
-    /** Format: int32.
+    /** Number of paid checkout sessions started from this link. Format: int32.
      * @return int
      */
     public function getCompletedCount(): int { return $this->get('completed_count'); }
     public function hasCompletedCount(): bool { return $this->has('completed_count'); }
     /** RFC3339 timestamp. Format: date-time.
-     * @return ?string
+     * @return string
      */
-    public function getCreatedAt(): ?string { return $this->get('created_at'); }
+    public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /**  [] (Value): {@see PaymentLinkCustomField}. A custom field on a payment link that collects an answer from the buyer, such as text, a dropdown, or a checkbox.
+    /** Questions buyers answer before paying. Answers are recorded on the order and checkout session in `custom_field_answers`. [] (Value): {@see PaymentLinkCustomField}. A custom field on a payment link that collects an answer from the buyer.
      * @return ?list<PaymentLinkCustomField>
      */
     public function getCustomFields(): ?array { return $this->get('custom_fields'); }
     public function hasCustomFields(): bool { return $this->has('custom_fields'); }
-    /** Custom text shown in checkout: an order summary message and a shipping address label.
+    /** Custom text for checkouts started from this link. Custom text shown in checkout: an order summary message and a shipping address label.
      * @return ?CheckoutCustomTextConfig
      */
     public function getCustomText(): ?CheckoutCustomTextConfig { return $this->get('custom_text'); }
@@ -80,27 +80,27 @@ final class PaymentLinkCreatedMerchantEventDataObject extends Model {
      */
     public function getDeliveryMethodIds(): array { return $this->get('delivery_method_ids'); }
     public function hasDeliveryMethodIds(): bool { return $this->has('delivery_method_ids'); }
-    /** description
+    /** Text about what the link sells, returned to buyers when they open it.
      * @return ?string
      */
     public function getDescription(): ?string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Largest amount a buyer can give on a donation link. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return ?MoneyValue
      */
     public function getDonationMaxAmountMoney(): ?MoneyValue { return $this->get('donation_max_amount_money'); }
     public function hasDonationMaxAmountMoney(): bool { return $this->has('donation_max_amount_money'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Smallest amount a buyer can give on a donation link. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return ?MoneyValue
      */
     public function getDonationMinAmountMoney(): ?MoneyValue { return $this->get('donation_min_amount_money'); }
     public function hasDonationMinAmountMoney(): bool { return $this->has('donation_min_amount_money'); }
-    /**  [] (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Amounts a donation link offers as one-tap choices. [] (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return ?list<MoneyValue>
      */
     public function getDonationSuggestedAmountMoneyOptions(): ?array { return $this->get('donation_suggested_amount_money_options'); }
     public function hasDonationSuggestedAmountMoneyOptions(): bool { return $this->has('donation_suggested_amount_money_options'); }
-    /** Event settings on an event payment link, such as its date, venue, ticket limit, and ticket emails.
+    /** Event details for an `event` link: when and where it takes place and how many tickets it sells. Event settings on an event payment link, such as its date, venue, ticket limit, and ticket emails.
      * @return ?PaymentLinkEventConfig
      */
     public function getEventConfig(): ?PaymentLinkEventConfig { return $this->get('event_config'); }
@@ -110,67 +110,67 @@ final class PaymentLinkCreatedMerchantEventDataObject extends Model {
      */
     public function getExternalReferenceId(): ?string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** An image attached to a resource, with its display properties and attachment metadata.
+    /** Image shown to buyers with the link. An image attached to a resource, with its display properties and attachment metadata.
      * @return ?ImageAttachment
      */
     public function getImage(): ?ImageAttachment { return $this->get('image'); }
     public function hasImage(): bool { return $this->has('image'); }
-    /** inactive_message
+    /** Message to show the buyer when the link is inactive.
      * @return ?string
      */
     public function getInactiveMessage(): ?string { return $this->get('inactive_message'); }
     public function hasInactiveMessage(): bool { return $this->has('inactive_message'); }
-    /** Where an order, payment link, or reservation routes inventory from: a fixed Location, an inventory allocation policy, or one policy revision.
+    /** The inventory location or routing policy that supplies stock for the link's catalog lines. Where an order, payment link, or reservation routes inventory from: a fixed Location, an inventory allocation policy, or one policy revision.
      * @return ?InventoryRoutingSource
      */
     public function getInventoryRoutingSource(): ?InventoryRoutingSource { return $this->get('inventory_routing_source'); }
     public function hasInventoryRoutingSource(): bool { return $this->has('inventory_routing_source'); }
-    /** Legal settings for a checkout: whether buyers must accept terms, and links to the terms, refund policy, shipping policy, and contract.
+    /** The terms and policy links checkouts started from this link show the buyer. Legal settings for a checkout: whether buyers must accept terms, and links to the terms, refund policy, shipping policy, and contract.
      * @return ?CheckoutLegalConfig
      */
     public function getLegal(): ?CheckoutLegalConfig { return $this->get('legal'); }
     public function hasLegal(): bool { return $this->has('legal'); }
-    /**  [] (Value): {@see PaymentLinkLineItem}. A line item on a payment link, sold from a catalog variant, a bundle, or an ad hoc name and price, with quantity and price rules.
+    /** What the link sells. [] (Value): {@see PaymentLinkLineItem}. A line item on a payment link.
      * @return list<\stdClass|PaymentLinkCreatedMerchantEventDataObjectLineItemsItemBundle|PaymentLinkCreatedMerchantEventDataObjectLineItemsItemCustomFixed|PaymentLinkCreatedMerchantEventDataObjectLineItemsItemCustomVariable>|null
      */
     public function getLineItems(): ?array { return $this->get('line_items'); }
     public function hasLineItems(): bool { return $this->has('line_items'); }
-    /** Format: int32.
+    /** Most payments the link accepts, counted by `completed_count`. Absent means no limit. Once the limit is reached, resolving the link fails with a request error. It can't be set below `completed_count`. Format: int32.
      * @return ?int
      */
     public function getMaxCompletions(): ?int { return $this->get('max_completions'); }
     public function hasMaxCompletions(): bool { return $this->has('max_completions'); }
-    /** merchant_id
-     * @return ?string
+    /** ID of the merchant this resource belongs to.
+     * @return string
      */
-    public function getMerchantId(): ?string { return $this->get('merchant_id'); }
+    public function getMerchantId(): string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
+    /** Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      * @return ?array<array-key, string>
      */
     public function getMetadata(): ?array { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** name
+    /** Name of the payment link.
      * @return string
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** payment_link_id
+    /** Unique identifier for this payment link, prefixed `pl_`.
      * @return string
      */
     public function getPaymentLinkId(): string { return $this->get('payment_link_id'); }
     public function hasPaymentLinkId(): bool { return $this->has('payment_link_id'); }
-    /** Value enum: "standard", "donation", "event".
+    /** What kind of link this is. Value enum: "standard", "donation", "event".
      * @return ?string
      */
     public function getPaymentLinkType(): ?string { return $this->get('payment_link_type'); }
     public function hasPaymentLinkType(): bool { return $this->has('payment_link_type'); }
-    /** Payment settings for a checkout: the enabled payment options and a note shown with payment.
+    /** Payment options for checkouts started from this link. Payment settings for a checkout: the enabled payment options and a note shown with payment.
      * @return ?CheckoutPaymentConfig
      */
     public function getPayments(): ?CheckoutPaymentConfig { return $this->get('payments'); }
     public function hasPayments(): bool { return $this->has('payments'); }
-    /** Promotion settings for a checkout: whether automatic promotions apply and whether the buyer can apply promotion codes.
+    /** Whether automatic promotions apply to checkouts started from this link and whether buyers can enter promotion codes. Promotion settings for a checkout: whether automatic promotions apply and whether the buyer can apply promotion codes.
      * @return ?CheckoutPromotionConfig
      */
     public function getPromotionConfig(): ?CheckoutPromotionConfig { return $this->get('promotion_config'); }
@@ -180,7 +180,7 @@ final class PaymentLinkCreatedMerchantEventDataObject extends Model {
      */
     public function getRedirects(): ?CheckoutRedirects { return $this->get('redirects'); }
     public function hasRedirects(): bool { return $this->has('redirects'); }
-    /** RFC3339 timestamp after which the link stops starting checkouts and resolve returns PAYMENT_LINK_SALES_ENDED. Unset means sales do not end on their own, except that an event link without sales_end_at stops selling at event_config.event_at. A checkout opened before the end can still start payment for up to 15 minutes after it. Format: date-time.
+    /** RFC3339 timestamp after which the link stops starting checkouts and resolve fails with `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end on their own, except that an event link without sales_end_at stops selling at event_config.event_at. A checkout opened before the end can still start payment for up to 15 minutes after it. Format: date-time.
      * @return ?string
      */
     public function getSalesEndAt(): ?string { return $this->get('sales_end_at'); }
@@ -190,7 +190,7 @@ final class PaymentLinkCreatedMerchantEventDataObject extends Model {
      */
     public function getSalesSummary(): ?PaymentLinkSalesSummary { return $this->get('sales_summary'); }
     public function hasSalesSummary(): bool { return $this->has('sales_summary'); }
-    /** Value enum: "active", "inactive".
+    /** Whether the link can start new checkouts. Value enum: "active", "inactive".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
@@ -205,17 +205,17 @@ final class PaymentLinkCreatedMerchantEventDataObject extends Model {
      */
     public function getSubscriptionPlanId(): ?string { return $this->get('subscription_plan_id'); }
     public function hasSubscriptionPlanId(): bool { return $this->has('subscription_plan_id'); }
-    /** Whether tax is collected for a checkout session or payment link.
+    /** Tax settings for checkouts started from this link. Whether tax is collected for a checkout session or payment link.
      * @return ?CheckoutTaxConfig
      */
     public function getTax(): ?CheckoutTaxConfig { return $this->get('tax'); }
     public function hasTax(): bool { return $this->has('tax'); }
-    /** Colors and title applied to a payment link's checkout page.
+    /** The title and colors for checkouts started from this link, over your branding settings. Colors and title applied to a payment link's checkout page.
      * @return ?ThemeConfig
      */
     public function getTheme(): ?ThemeConfig { return $this->get('theme'); }
     public function hasTheme(): bool { return $this->has('theme'); }
-    /** Tip settings for a checkout: whether tips are enabled, the percent or fixed amount options, the default tip, and custom tips.
+    /** Tip options for checkouts started from this link. Tip settings for a checkout: whether tips are enabled, the percent or fixed amount options, the default tip, and custom tips.
      * @return ?CheckoutTipConfig
      */
     public function getTip(): ?CheckoutTipConfig { return $this->get('tip'); }
@@ -226,16 +226,16 @@ final class PaymentLinkCreatedMerchantEventDataObject extends Model {
     public function getTotalQuantitySold(): int { return $this->get('total_quantity_sold'); }
     public function hasTotalQuantitySold(): bool { return $this->has('total_quantity_sold'); }
     /** RFC3339 timestamp. Format: date-time.
-     * @return ?string
+     * @return string
      */
-    public function getUpdatedAt(): ?string { return $this->get('updated_at'); }
+    public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** url
+    /** URL buyers open to use the link.
      * @return string
      */
     public function getUrl(): string { return $this->get('url'); }
     public function hasUrl(): bool { return $this->has('url'); }
-    /** Format: int64.
+    /** Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. Format: int64.
      * @return int
      */
     public function getVersion(): int { return $this->get('version'); }

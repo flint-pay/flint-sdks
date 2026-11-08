@@ -8,16 +8,16 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `applied_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `customer_facing_name` | Optional | string |  |
-| `discount_class` | Optional | string | Values: `"order"`, `"line_item"`, `"service_charge"`. |
-| `order_charge_ids` | Required | Array of string |  |
+| `amount_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Discount amount before limits apply, such as 20% of $100 resolving to $20. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `applied_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Amount the discount took off. It is less than `amount_money` when a limit applies, such as a discount that would take the order below zero. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `customer_facing_name` | Optional | string | Name the buyer sees for the discount. |
+| `discount_class` | Optional | string | Which part of the order the discount reduces. Values: `"order"`, `"line_item"`, `"service_charge"`. |
+| `order_charge_ids` | Required | Array of string | IDs of the charges this discount reduces. |
 | `order_discount_id` | Required | string | Order discount ID. It starts with ad_. Pass it to POST /v1/orders/{order_id}/discounts/remove to remove the discount. |
-| `order_id` | Required | string |  |
-| `order_line_item_ids` | Required | Array of string |  |
+| `order_id` | Required | string | ID of the order the discount applies to. |
+| `order_line_item_ids` | Required | Array of string | IDs of the order line items this discount applies to. |
 | `promotion_code` | Optional | string | Promotion code used to create this discount. Present only when source is promotion and a code was used. |
 | `promotion_id` | Optional | string | Promotion that created this discount. Present only when source is promotion. |
-| `source` | Optional | string | Values: `"manual"`, `"promotion"`, `"plan_change_credit"`. |
-| `status` | Required | string | Values: `"pending"`, `"redeemed"`, `"canceled"`. |
+| `source` | Optional | string | Where the discount came from. Values: `"manual"`, `"promotion"`, `"plan_change_credit"`, `"proration"`. |
+| `status` | Required | string | Redemption state of the discount. Values: `"pending"`, `"redeemed"`, `"canceled"`. |
 

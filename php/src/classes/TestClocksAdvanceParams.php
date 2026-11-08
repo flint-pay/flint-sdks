@@ -14,7 +14,7 @@ final class TestClocksAdvanceParams extends Model {
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** The time to move the clock to. It must be later than the clock's current `frozen_at`, and no later than two years after it or two billing intervals of any subscription on the clock that isn't canceled, whichever is earlier. Fractional seconds are truncated. Format: date-time. minLength: 1.
+    /** The time to move the clock to. It must be later than the clock's current `frozen_at`, and no later than two years after it or two billing intervals of any subscription on the clock that isn't canceled, whichever is earlier. Fractional seconds are truncated. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When frozen_at is omitted; use hasFrozenAt() or valueOrDefault().
      */

@@ -8,12 +8,12 @@ namespace Flint;
 final class APIRequestLogQueryParam extends Model {
     /** @param array{'name': string, 'value': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('APIRequestLogQueryParam')); }
-    /** name
+    /** Query parameter name, decoded.
      * @return string
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** value
+    /** Query parameter value, decoded. Flint replaces the value of a sensitive parameter with a placeholder.
      * @return string
      */
     public function getValue(): string { return $this->get('value'); }

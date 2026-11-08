@@ -12,11 +12,11 @@ Response model.
 | `delivery_choice_group_id` | Required | string |  |
 | `delivery_method_id` | Required | string |  |
 | `delivery_option_id` | Required | string |  |
-| `delivery_plan` | Required | [DeliveryPlan](../models/DeliveryPlan.md#deliveryplan) | Whether a delivery option is fulfilled in one delivery or several, with the first arrival time, completion time, and delivery count. |
+| `delivery_plan` | Required | [DeliveryPlan](../models/DeliveryPlan.md#deliveryplan) | Whether a delivery option is fulfilled in one delivery or several, with the first arrival time, completion time, and delivery count. `delivery_plan`: [field definitions](../models/CheckoutSessionResponse.md#checkoutsessionresponsedatadeliverychoice_groupscandidate_outcomesoptiondelivery_plan). |
 | `delivery_window_id` | Optional | string |  |
 | `description` | Optional | string |  |
 | `discount_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Always present with an API key or dashboard credential. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `input` | Optional | [DeliverySelectionInstructionsRequest](../models/DeliverySelectionInstructionsRequest.md#deliveryselectioninstructionsrequest) | Buyer input for a selected delivery option: a `delivery_window_id` where the option uses delivery windows, and optional `instructions`. |
+| `input` | Optional | [DeliverySelectionInstructionsRequest](../models/DeliverySelectionInstructionsRequest.md#deliveryselectioninstructionsrequest) | Buyer input for a selected delivery option: a `delivery_window_id` where the option uses delivery windows, and optional `instructions`. `input`: [field definitions](../models/EffectiveDeliverySelectionResponse.md#effectivedeliveryselectionresponsedatadelivery_selection-variant-1choicesinput). |
 | `local_delivery` | Optional | [DeliveryLocalDeliveryDetails](../models/DeliveryLocalDeliveryDetails.md#deliverylocaldeliverydetails) | Details of a local delivery option: instructions and service level. |
 | `merchant_reference` | Optional | string |  |
 | `name` | Required | string |  |
@@ -30,4 +30,12 @@ Response model.
 | `type` | Required | string | Values: `"shipment"`, `"pickup"`, `"local_delivery"`. |
 | `window_end_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `window_start_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
+
+### DeliverySelectionChoiceResource.delivery_plan
+
+Field definitions: [CheckoutSessionResponse.data.delivery.choice_groups[].candidate_outcomes{}.option.delivery_plan](../models/CheckoutSessionResponse.md#checkoutsessionresponsedatadeliverychoice_groupscandidate_outcomesoptiondelivery_plan).
+
+### DeliverySelectionChoiceResource.input fields 1
+
+Field definitions: [EffectiveDeliverySelectionResponse.data.delivery_selection variant 1.choices[].input](../models/EffectiveDeliverySelectionResponse.md#effectivedeliveryselectionresponsedatadelivery_selection-variant-1choicesinput).
 

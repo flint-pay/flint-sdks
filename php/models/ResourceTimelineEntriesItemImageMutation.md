@@ -10,10 +10,10 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `entry_type` | Required | string | Values: `"image_mutation"`. |
+| `entry_type` | Required | string | Always `image_mutation` for this kind of entry. Values: `"image_mutation"`. |
 | `image_version` | Required | integer | Version of the resource's image attachments after this change. Format: `int64`. |
 | `mutation_kind` | Required | string | The change made to the resource's images. Values: `"replaced"`. |
 | `occurred_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `request_id` | Optional | string | Records created before server-minted request IDs keep their original ID. maxLength: `128`. |
-| `resource_timeline_entry_id` | Required | string |  |
+| `resource_timeline_entry_id` | Required | string | ID of this timeline entry. |
 

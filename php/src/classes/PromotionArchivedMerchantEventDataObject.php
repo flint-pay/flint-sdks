@@ -15,6 +15,7 @@ namespace Flint;
  * @property-read ?PromotionExclusivity $exclusivity
  * @property-read ?string $external_reference_id
  * @property-read ?int $max_uses
+ * @property-read int|null $max_uses_per_customer
  * @property-read ?string $merchant_id
  * @property-read ?array<array-key, string> $metadata
  * @property-read string $name
@@ -28,7 +29,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class PromotionArchivedMerchantEventDataObject extends Model {
-    /** @param array{'application_method': mixed, 'available': bool, 'codes'?: list<mixed>, 'codes_summary'?: mixed, 'combines_with': mixed, 'created_at'?: string, 'description'?: string, 'discount_class': string, 'display_name': string, 'eligibility_rules'?: mixed, 'exclusivity'?: mixed, 'external_reference_id'?: string, 'max_uses'?: int, 'merchant_id'?: string, 'metadata'?: mixed, 'name': string, 'promotion_id': string, 'redemption_type': string, 'schedule'?: mixed, 'status': string, 'unavailable_reason'?: string, 'updated_at'?: string, 'uses_count': int, 'version': int, ...}|object $values */
+    /** @param array{'application_method': mixed, 'available': bool, 'codes'?: list<mixed>, 'codes_summary'?: mixed, 'combines_with': mixed, 'created_at'?: string, 'description'?: string, 'discount_class': string, 'display_name': string, 'eligibility_rules'?: mixed, 'exclusivity'?: mixed, 'external_reference_id'?: string, 'max_uses'?: int, 'max_uses_per_customer': int|null, 'merchant_id'?: string, 'metadata'?: mixed, 'name': string, 'promotion_id': string, 'redemption_type': string, 'schedule'?: mixed, 'status': string, 'unavailable_reason'?: string, 'updated_at'?: string, 'uses_count': int, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PromotionArchivedMerchantEventDataObject')); }
     /** Discount effect and how it applies to eligible items or charges. A flat application method whose type selects its effect fields.
      * @return PromotionArchivedMerchantEventDataObjectApplicationMethodPercentOff|PromotionArchivedMerchantEventDataObjectApplicationMethodAmountOff|PromotionArchivedMerchantEventDataObjectApplicationMethodBuyXGetY|\stdClass
@@ -95,6 +96,11 @@ final class PromotionArchivedMerchantEventDataObject extends Model {
      */
     public function getMaxUses(): ?int { return $this->get('max_uses'); }
     public function hasMaxUses(): bool { return $this->has('max_uses'); }
+    /** Maximum reserved and redeemed uses per identified customer across every code and automatic or ID-based application. Checked atomically when payment starts. Failed, canceled, or expired attempts release their reservation; refunds do not restore uses. Counts only within the same merchant and environment; live and test mode are separate. Without an identified customer, returns 409 PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer limit. Format: int64. minimum: 1.
+     * @return int|null
+     */
+    public function getMaxUsesPerCustomer(): int|null { return $this->get('max_uses_per_customer'); }
+    public function hasMaxUsesPerCustomer(): bool { return $this->has('max_uses_per_customer'); }
     /** Identifier of the merchant that owns the promotion.
      * @return ?string
      */

@@ -16,7 +16,7 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->devices->delete('dev_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->devices->delete('dev_01KEZF7C0051ZP8MZSGHP989F6', [], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->device_id . PHP_EOL;
-echo $result->status . PHP_EOL;
+echo $result->merchant_id . PHP_EOL;
 $client->close();

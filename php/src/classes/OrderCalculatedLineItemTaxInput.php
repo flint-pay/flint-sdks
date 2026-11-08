@@ -9,7 +9,7 @@ namespace Flint;
 final class OrderCalculatedLineItemTaxInput extends Model {
     /** @param array{'calculation'?: TaxCalculationRequestInput|array<array-key, mixed>|\stdClass, 'line_item_tax_category'?: string, 'taxable'?: bool, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderCalculatedLineItemTaxInput')); }
-    /** Tax you calculated yourself for a line or charge: whether prices include tax, and the tax components.
+    /** The tax you supply for this line item. Used when the order's tax `mode` is `external`. Tax you calculated yourself for a line or charge: whether prices include tax, and the tax components.
      * @return TaxCalculationRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When calculation is omitted; use hasCalculation() or valueOrDefault().
      */
@@ -21,7 +21,7 @@ final class OrderCalculatedLineItemTaxInput extends Model {
      */
     public function getLineItemTaxCategory(): string { return $this->get('line_item_tax_category'); }
     public function hasLineItemTaxCategory(): bool { return $this->has('line_item_tax_category'); }
-    /** taxable
+    /** Whether the line item is subject to tax.
      * @return bool
      * @throws SdkError When taxable is omitted; use hasTaxable() or valueOrDefault().
      */

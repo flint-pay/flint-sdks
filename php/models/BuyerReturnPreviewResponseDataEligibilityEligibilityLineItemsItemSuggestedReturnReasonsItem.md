@@ -8,8 +8,8 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `handle` | Required | string |  |
-| `is_note_required` | Required | boolean |  |
-| `name` | Required | string |  |
-| `return_reason_id` | Required | string |  |
+| `handle` | Required | string | Handle of the reason. |
+| `is_note_required` | Required | boolean | Whether a line that uses this reason needs a `buyer_note`. |
+| `name` | Required | string | Name of the reason. |
+| `return_reason_id` | Required | string | ID of the reason. |
 

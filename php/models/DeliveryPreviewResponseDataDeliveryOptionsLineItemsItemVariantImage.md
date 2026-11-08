@@ -2,6 +2,8 @@
 
 ## DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantImage
 
+Image of the item as it appears on the order.
+
 A reference to an image by `url`, with optional `alt` text, used on an order line item.
 
 Response model.

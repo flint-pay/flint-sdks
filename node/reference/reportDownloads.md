@@ -29,7 +29,6 @@ Response body (inside Result.data): { location?: string }.
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -45,7 +44,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```typescript
-const result = await client.reportDownloads.get("rdl_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
+const result = await client.reportDownloads.get("rdl_01KEZF7C003GGGDW1N5QT46JDZ", {}, {  });
 ```
 
 [Complete runnable example](../examples/reportDownloads-get.mjs)

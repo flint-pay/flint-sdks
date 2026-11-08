@@ -15,17 +15,17 @@ final class BuyerFlintWalletStoreSetup extends Model {
      */
     public function getClientSetup(): StripeClientSetup|null { return $this->get('client_setup'); }
     public function hasClientSetup(): bool { return $this->has('client_setup'); }
-    /** payment_method_id
+    /** ID of the store's card copy this setup creates. The copy can be used for payments once `status` is `active`.
      * @return string
      */
     public function getPaymentMethodId(): string { return $this->get('payment_method_id'); }
     public function hasPaymentMethodId(): bool { return $this->has('payment_method_id'); }
-    /** Value enum: "pending", "active", "failed", "expired".
+    /** Whether the store's copy of the card is ready to use. Value enum: "pending", "active", "failed", "expired".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** store_setup_id
+    /** Unique identifier for this flint wallet store setup, prefixed `fwss_`.
      * @return string
      */
     public function getStoreSetupId(): string { return $this->get('store_setup_id'); }

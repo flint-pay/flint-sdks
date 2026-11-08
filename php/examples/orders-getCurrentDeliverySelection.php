@@ -13,7 +13,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   allowInsecureHttp: $baseUrl !== null && in_array(parse_url($baseUrl, PHP_URL_HOST), ['localhost', '127.0.0.1'], true) && parse_url($baseUrl, PHP_URL_SCHEME) === 'http',
 ));
-$result = $client->orders->getCurrentDeliverySelection('ord_01ARZ3NDEKTSV4RRFFQ69G5FAV');
+$result = $client->orders->getCurrentDeliverySelection('ord_01KEZF7C0054GQKJ142A8X367A');
 echo $result->delivery_quote_id . PHP_EOL;
 echo $result->delivery_selection_id . PHP_EOL;
 $client->close();

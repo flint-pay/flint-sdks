@@ -2,22 +2,22 @@
 
 ## ReturnActivityInput
 
-One entry in a Return's merchant activity history.
+One entry in a return's activity history.
 
 Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `activity_type` | Required | string | Values: [39 declared values](#returnactivityinput-activity_type-values). |
-| `actor` | Required | [ReturnActorInput](../models/ReturnActorInput.md#returnactorinput) | Who performed a return action: a buyer, merchant, integration, or the system, with an optional ID. |
-| `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
+| `activity_type` | Required | string | What happened, as `&lt;resource>.&lt;action>`. Values: [39 declared values](#returnactivityinput-activity_type-values). |
+| `actor` | Required | [ReturnActorInput](../models/ReturnActorInput.md#returnactorinput) | Who took the action. Who performed a return action: a buyer, merchant, integration, or the system, with an optional ID. |
+| `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `quantity` | Optional | integer | Canceled whole-number quantity; fractional quantities are not supported. Present only for return_line_item.quantity_canceled. Format: `int64`. |
-| `reason` | Optional | string | Values: [56 declared values](#returnactivityinput-reason-values). |
-| `reason_message` | Optional | string |  |
-| `resource_id` | Required | string |  |
-| `resource_type` | Required | [ResourceTypeInput](../models/ResourceTypeInput.md#resourcetypeinput) | Public resource type: the resource's ID field name without `_id`. Clients must accept values added in future releases. Values: [141 declared values](APIRequestLogInput.md#apirequestloginput-resource_type-values). |
-| `return_activity_id` | Required | string |  |
-| `return_id` | Required | string |  |
+| `reason` | Optional | string | The reason given for the action. When Flint records a failed effect, the failure code, such as `refund_creation_failed`. Values: [54 declared values](#returnactivityinput-reason-values). |
+| `reason_message` | Optional | string | Free text given with the reason, or the failure message for a failed effect. Can hold staff notes, so only merchant credentials can read it. |
+| `resource_id` | Required | string | The ID of the Return or child resource the activity touched, whose type is `resource_type`. Example: `"ret_01KEZF7C00PG93650ZKVQNGF7X"`. |
+| `resource_type` | Required | string | Type of the resource that changed: the part of `activity_type` before the dot. Example: `"return"`. Values: [146 declared values](APIRequestLogInput.md#apirequestloginput-resource_type-values). |
+| `return_activity_id` | Required | string | Stable identifier of the activity. Example: `"retact_01KEZF7C00J26XVS5GK98PQ39D"`. |
+| `return_id` | Required | string | The Return this activity belongs to. Example: `"ret_01KEZF7C00PG93650ZKVQNGF7X"`. |
 | `return_version` | Required | integer | Return version produced by this activity. Format: `int64`. minimum: `0`. |
 
 #### ReturnActivityInput activity_type values
@@ -68,7 +68,6 @@ Request input.
 - `"automatic_receipt"`
 - `"buyer_payment"`
 - `"buyer_request"`
-- `"buyer_selection"`
 - `"changed_disposition"`
 - `"correction_required"`
 - `"created_in_error"`
@@ -87,7 +86,6 @@ Request input.
 - `"inventory_effect_failed"`
 - `"inventory_item_unmapped"`
 - `"linked_effect_changed"`
-- `"linked_effect_retry"`
 - `"manual_completion"`
 - `"manual_correction"`
 - `"manual_release"`

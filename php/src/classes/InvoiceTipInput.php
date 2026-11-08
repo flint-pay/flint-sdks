@@ -10,25 +10,25 @@ namespace Flint;
 final class InvoiceTipInput extends Model {
     /** @param array{'amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'description'?: string, 'name'?: string, 'percent'?: int|float, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceTipInput')); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Fixed tip amount, when the tip is set as an amount. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
      */
     public function getAmountMoney(): mixed { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** description
+    /** Optional description that stays on the tip for your reporting.
      * @return string
      * @throws SdkError When description is omitted; use hasDescription() or valueOrDefault().
      */
     public function getDescription(): string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** name
+    /** Optional name that stays on the tip for your reporting.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** multipleOf: 0.0001.
+    /** Tip percentage in percentage points, such as `18` for 18%, when the tip is set as a percent. multipleOf: 0.0001.
      * @return int|float
      * @throws SdkError When percent is omitted; use hasPercent() or valueOrDefault().
      */

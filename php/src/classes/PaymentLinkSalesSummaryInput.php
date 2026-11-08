@@ -2,15 +2,22 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read int $checked_in_ticket_count
  * @property-read string|\DateTimeInterface $computed_at
  * @property-read int $paid_order_count
  * @property-read list<MoneyValueInput|array<array-key, mixed>|\stdClass> $paid_totals
  * @property-read list<MoneyValueInput|array<array-key, mixed>|\stdClass> $refunded_totals
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentLinkSalesSummaryInput extends Model {
-    /** @param array{'computed_at': string|\DateTimeInterface, 'paid_order_count': int, 'paid_totals': list<MoneyValueInput|array<array-key, mixed>|\stdClass>, 'refunded_totals': list<MoneyValueInput|array<array-key, mixed>|\stdClass>, ...}|object $values */
+    /** @param array{'checked_in_ticket_count': int, 'computed_at': string|\DateTimeInterface, 'paid_order_count': int, 'paid_totals': list<MoneyValueInput|array<array-key, mixed>|\stdClass>, 'refunded_totals': list<MoneyValueInput|array<array-key, mixed>|\stdClass>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentLinkSalesSummaryInput')); }
-    /** UTC time at which the summary was computed, at second precision. Format: date-time.
+    /** Tickets for this payment link that are checked in now, counted when the summary is read. Undoing a check-in or voiding a ticket lowers it. 0 for links that have issued no tickets. Format: int32. minimum: 0.
+     * @return int
+     * @throws SdkError When checked_in_ticket_count is omitted; use hasCheckedInTicketCount() or valueOrDefault().
+     */
+    public function getCheckedInTicketCount(): int { return $this->get('checked_in_ticket_count'); }
+    public function hasCheckedInTicketCount(): bool { return $this->has('checked_in_ticket_count'); }
+    /** UTC time at which the summary was computed, at second precision. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When computed_at is omitted; use hasComputedAt() or valueOrDefault().
      */

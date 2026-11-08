@@ -11,10 +11,10 @@ One thing a buyer can do with an order, subscription, invoice or return they rea
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `cancel` | Optional | [BuyerCancelActionOptions](../models/BuyerCancelActionOptions.md#buyercancelactionoptions) | Present only on an available cancel action. The cancellation choices this subscription accepts from its buyer. |
-| `due_at` | Optional | string | When the buyer needs to act by. Omitted when the action has no deadline, or when the resource's state or the store's policy doesn't allow it. Format: `date-time`. |
+| `due_at` | Optional | string | When the buyer needs to act by. Omitted when the action has no deadline, or when the resource's state or the store's policy doesn't allow it. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `is_available` | Required | boolean | Whether this session can take the action now. |
 | `is_required` | Required | boolean | Whether the store needs the buyer to take the action, such as paying a due invoice. It stays true when the only thing in the way is signing in. |
-| `kind` | Required | string | What the action is. Each resource lists its own kinds in a fixed order. New kinds may be added; ignore kinds you don't recognize. Values: [18 declared values](#buyeraction-kind-values). |
+| `kind` | Required | string | What the action is. Each resource lists its own kinds in a fixed order. New kinds may be added; ignore kinds you don't recognize. Values: [20 declared values](#buyeraction-kind-values). |
 | `pause` | Optional | [BuyerPauseActionOptions](../models/BuyerPauseActionOptions.md#buyerpauseactionoptions) | Present only on an available pause action. The pause lengths this subscription accepts from its buyer. |
 | `pay_balance` | Optional | [BuyerPayBalanceActionOptions](../models/BuyerPayBalanceActionOptions.md#buyerpaybalanceactionoptions) | Present only on an available pay_balance action. The return resolutions the buyer can pay now. |
 | `unavailable_reason` | Optional | string | Why the action can't be taken now. Present exactly when is_available is false. New reasons may be added; show a general message for a reason you don't recognize. Values: `"sign_in_required"`, `"store_policy"`, `"not_in_state"`, `"window_closed"`, `"nothing_to_return"`, `"collection_unavailable"`, `"limit_reached"`. |
@@ -39,4 +39,6 @@ One thing a buyer can do with an order, subscription, invoice or return they rea
 - `"update_quantity"`
 - `"swap_items"`
 - `"renew"`
+- `"change_plan"`
+- `"cancel_plan_change"`
 

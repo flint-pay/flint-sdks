@@ -1,1 +1,1 @@
-{"shared":"RiskPredicateNodeMoneyComparison","dependencies":["MoneyValue","RiskPredicateNodeMoneyComparison"]}
+{"shared":"RiskPredicateNodeMoneyComparisonRequest","dependencies":["MoneyValue","RiskPredicateNodeMoneyComparisonRequest"]}

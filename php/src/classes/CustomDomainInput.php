@@ -18,19 +18,19 @@ namespace Flint;
 final class CustomDomainInput extends Model {
     /** @param array{'active_payment_attempt_count': int|null, 'created_at': string|\DateTimeInterface, 'custom_domain_id': string, 'dns_records': list<CustomDomainDNSRecordInput|array<array-key, mixed>|\stdClass>, 'hostname': string, 'last_checked_at': string|\DateTimeInterface|null, 'payment_method_domain_id': string|null, 'redirect_expires_at': string|\DateTimeInterface|null, 'status': string, 'status_reason': string|null, 'type': string, 'updated_at': string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomDomainInput')); }
-    /** Payment attempts in progress on this checkout hostname; null for customer account domains. Format: int64.
+    /** Payment attempts in progress on this checkout hostname. `null` when `type` is `customer_account`. Format: int64.
      * @return int|null
      * @throws SdkError When active_payment_attempt_count is omitted; use hasActivePaymentAttemptCount() or valueOrDefault().
      */
     public function getActivePaymentAttemptCount(): int|null { return $this->get('active_payment_attempt_count'); }
     public function hasActivePaymentAttemptCount(): bool { return $this->has('active_payment_attempt_count'); }
-    /** When this domain resource was created, in RFC3339 format. Format: date-time.
+    /** When this domain resource was created, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Flint custom domain ID.
+    /** Flint custom domain ID. Example: "cdom_01KEZF7C00483JTTKHZVFQHKS8".
      * @return string
      * @throws SdkError When custom_domain_id is omitted; use hasCustomDomainId() or valueOrDefault().
      */
@@ -48,19 +48,19 @@ final class CustomDomainInput extends Model {
      */
     public function getHostname(): string { return $this->get('hostname'); }
     public function hasHostname(): bool { return $this->has('hostname'); }
-    /** When the domain was last checked, in RFC3339 format; null when no check time is available. Format: date-time.
+    /** When the domain was last checked, in RFC3339 format; `null` when no check time is available. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface|null
      * @throws SdkError When last_checked_at is omitted; use hasLastCheckedAt() or valueOrDefault().
      */
     public function getLastCheckedAt(): string|\DateTimeInterface|null { return $this->get('last_checked_at'); }
     public function hasLastCheckedAt(): bool { return $this->has('last_checked_at'); }
-    /** Payment method domain associated with this hostname, or null when none is reported.
+    /** Payment method domain associated with this hostname. `null` when none is reported. Example: "pmdom_01KEZF7C001WQCSRGH9GWR6628".
      * @return string|null
      * @throws SdkError When payment_method_domain_id is omitted; use hasPaymentMethodDomainId() or valueOrDefault().
      */
     public function getPaymentMethodDomainId(): string|null { return $this->get('payment_method_domain_id'); }
     public function hasPaymentMethodDomainId(): bool { return $this->has('payment_method_domain_id'); }
-    /** End of the redirect window for an archived hostname. After archive, dns_records lists records you can delete. Format: date-time.
+    /** End of the redirect window for an archived hostname. After archive, dns_records lists records you can delete. `null` when the hostname isn't archived. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface|null
      * @throws SdkError When redirect_expires_at is omitted; use hasRedirectExpiresAt() or valueOrDefault().
      */
@@ -72,7 +72,7 @@ final class CustomDomainInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Machine-readable detail for the current status, or null when no reason is reported. Value enum: "dns_record_missing", "dns_record_mismatch", "ownership_record_missing", "ownership_record_mismatch", "caa_record_blocks_certificate", "proxied_by_another_provider", "certificate_pending", "custom_domains_inactive", "other", null.
+    /** Machine-readable detail for the current status. `null` when no reason is reported, including for active and archived domains. Value enum: "dns_record_missing", "dns_record_mismatch", "ownership_record_missing", "ownership_record_mismatch", "caa_record_blocks_certificate", "proxied_by_another_provider", "certificate_pending", "custom_domains_inactive", "other", null.
      * @return string|null
      * @throws SdkError When status_reason is omitted; use hasStatusReason() or valueOrDefault().
      */
@@ -84,7 +84,7 @@ final class CustomDomainInput extends Model {
      */
     public function getType(): string { return $this->get('type'); }
     public function hasType(): bool { return $this->has('type'); }
-    /** When this domain resource was last updated, in RFC3339 format. Format: date-time.
+    /** When this domain resource was last updated, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */

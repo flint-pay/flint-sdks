@@ -8,5 +8,5 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `refresh_token` | Required | string | minLength: `1`. |
+| `refresh_token` | Required | string | The `refresh_token` returned when the session was created or last refreshed. It works once; the response carries the next one. minLength: `1`. |
 

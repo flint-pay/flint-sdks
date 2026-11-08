@@ -5,6 +5,6 @@ const client = new Client({
   allowInsecureHttp: !!baseUrl && ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
 });
 const result = await client.inventoryAdjustments.get(
-  "invadj_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "invadj_01KEZF7C00HFCAS32T4NVHX75M"
 );
 console.log(result.inventory_adjustment_id);

@@ -2,7 +2,7 @@
 
 ## CreditNoteCorrectionRequest
 
-How much of an invoice line item a credit note line credits, by whole `quantity` or by `amount`, chosen by `type`.
+
 
 
 
@@ -16,7 +16,7 @@ How much of an invoice line item a credit note line credits, by whole `quantity`
 
 ### CreditNoteCorrectionRequest variant 1: `type` = `"quantity"`
 
-oneOf with type: "quantity": The `quantity` variant of `CreditNoteCorrectionRequest`..
+anyOf variant 1: Declared schema CreditNoteCorrectionRequest. How much of an invoice line item a credit note line credits, by whole `quantity` or by `amount`, chosen by `type`.; oneOf with type: "quantity": The `quantity` variant of `CreditNoteCorrectionRequest`..
 
 - Condition: not (present(`amount_money`)).
 - Required: `quantity`.
@@ -25,7 +25,25 @@ oneOf with type: "quantity": The `quantity` variant of `CreditNoteCorrectionRequ
 
 ### CreditNoteCorrectionRequest variant 2: `type` = `"amount"`
 
-oneOf with type: "amount": The `amount` variant of `CreditNoteCorrectionRequest`..
+anyOf variant 1: Declared schema CreditNoteCorrectionRequest. How much of an invoice line item a credit note line credits, by whole `quantity` or by `amount`, chosen by `type`.; oneOf with type: "amount": The `amount` variant of `CreditNoteCorrectionRequest`..
+
+- Condition: not (present(`quantity`)).
+- Required: `amount_money`.
+- Optional: `quantity`.
+- Constraints for `type`: Values: `"amount"`.
+
+### CreditNoteCorrectionRequest variant 3: `type` = `"quantity"`
+
+anyOf variant 2: Declared schema CreditNoteCorrectionRequestModel. How much of an invoice line item a credit note line credits, by whole `quantity` or by `amount`, chosen by `type`.; oneOf with type: "quantity": The `quantity` variant of `CreditNoteCorrectionRequest`..
+
+- Condition: not (present(`amount_money`)).
+- Required: `quantity`.
+- Optional: `amount_money`.
+- Constraints for `type`: Values: `"quantity"`.
+
+### CreditNoteCorrectionRequest variant 4: `type` = `"amount"`
+
+anyOf variant 2: Declared schema CreditNoteCorrectionRequestModel. How much of an invoice line item a credit note line credits, by whole `quantity` or by `amount`, chosen by `type`.; oneOf with type: "amount": The `amount` variant of `CreditNoteCorrectionRequest`..
 
 - Condition: not (present(`quantity`)).
 - Required: `amount_money`.

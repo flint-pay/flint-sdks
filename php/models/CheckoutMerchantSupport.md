@@ -6,5 +6,9 @@ The merchant's support contact. Each field is omitted when the merchant has not 
 
 Response model.
 
-Fields, types, descriptions and enum values: [CheckoutMerchantSupportInput](../models/CheckoutMerchantSupportInput.md#checkoutmerchantsupportinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `email` | Optional | string | Support email address. Format: `email`. |
+| `phone` | Optional | string | Support phone number. |
+| `url` | Optional | string | Support page, as an absolute http or https URL. Format: `uri`. |
 

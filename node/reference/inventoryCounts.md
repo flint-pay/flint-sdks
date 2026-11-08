@@ -2,6 +2,142 @@
 
 # inventoryCounts
 
+### inventoryCounts.apply
+
+Sets inventory levels to the counted quantities of an open physical count. Every line needs an observation. VERSION_CONFLICT also covers a stale saved physical observation with no corresponding field in this request; these details omit param. Recount affected items and save the complete observations before applying again. Physical changes after observation require recounts, including at a trading location; holds and commitments alone do not invalidate observations. Call it only when apply is in supported_actions. Returns a result with inventory_count as its primary resource and inventory_levels for the levels changed. Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, read the inventory count by ID.
+
+`POST /v1/inventory-counts/{inventory_count_id}/apply`
+
+Signature: `apply(inventory_count_id: InputValue<string>, params?: InventoryCountsApplyParams, options?: RequestOptions<"merchant">)`
+
+#### Request fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `inventory_count_id` | Required | string | Flint inventory count ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `body` | Optional | [ApplyInventoryCountRequestInput](../models/ApplyInventoryCountRequestInput.md#applyinventorycountrequestinput) | Sets inventory levels to the counted quantities of an open physical count. Every line needs an observation. VERSION_CONFLICT also covers a stale saved physical observation with no corresponding field in this request; these details omit param. Recount affected items and save the complete observations before applying again. Physical changes after observation require recounts, including at a trading location; holds and commitments alone do not invalidate observations. |
+
+Body model: [ApplyInventoryCountRequestInput](../models/ApplyInventoryCountRequestInput.md#applyinventorycountrequestinput).
+
+#### inventoryCounts.apply body fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `expected_version` | Optional | integer | Optional resource version the caller last read. Enforced when sent. Format: `uint64`. minimum: `1`. |
+
+#### Response
+
+Returned payload: [InventoryCountResult](../models/InventoryCountResult.md#inventorycountresult).
+
+#### Errors
+
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
+
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
+
+#### Example
+
+```typescript
+// Persist this key with the action before sending; reuse it for every resubmission.
+const idempotencyKey = crypto.randomUUID();
+
+const result = await client.inventoryCounts.apply("invc_01KEZF7C00B47NXRE3ET37QQ59", undefined, { idempotencyKey: idempotencyKey });
+```
+
+[Complete runnable example](../examples/inventoryCounts-apply.mjs)
+
+### inventoryCounts.cancel
+
+Closes an open physical count without changing stock. Call it only when cancel is in supported_actions. Returns a result with inventory_count as its primary resource and inventory_levels for the levels changed. Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, read the inventory count by ID.
+
+`POST /v1/inventory-counts/{inventory_count_id}/cancel`
+
+Signature: `cancel(inventory_count_id: InputValue<string>, params?: InventoryCountsCancelParams, options?: RequestOptions<"merchant">)`
+
+#### Request fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `inventory_count_id` | Required | string | Flint inventory count ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `body` | Optional | [CancelInventoryCountRequestInput](../models/ApplyInventoryCountRequestInput.md#applyinventorycountrequestinput) | Closes an open physical count without changing stock. |
+
+Body model: [CancelInventoryCountRequestInput](../models/ApplyInventoryCountRequestInput.md#applyinventorycountrequestinput).
+
+#### inventoryCounts.cancel body fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `expected_version` | Optional | integer | Optional resource version the caller last read. Enforced when sent. Format: `uint64`. minimum: `1`. |
+
+#### Response
+
+Returned payload: [InventoryCountResult](../models/InventoryCountResult.md#inventorycountresult).
+
+#### Errors
+
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
+
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
+
+#### Example
+
+```typescript
+// Persist this key with the action before sending; reuse it for every resubmission.
+const idempotencyKey = crypto.randomUUID();
+
+const result = await client.inventoryCounts.cancel("invc_01KEZF7C00B47NXRE3ET37QQ59", undefined, { idempotencyKey: idempotencyKey });
+```
+
+[Complete runnable example](../examples/inventoryCounts-cancel.mjs)
+
 ### inventoryCounts.create
 
 Open a physical count for selected inventory items at one Location. Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, list inventory counts with the same idempotency_key.
@@ -14,6 +150,9 @@ Signature: `create(params: InventoryCountsCreateParams, options?: RequestOptions
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [CreateInventoryCountRequestInput](../models/CreateInventoryCountRequest.md#createinventorycountrequest) | The request body for: Create inventory count. |
 
 Body model: [CreateInventoryCountRequestInput](../models/CreateInventoryCountRequest.md#createinventorycountrequest).
@@ -22,8 +161,8 @@ Body model: [CreateInventoryCountRequestInput](../models/CreateInventoryCountReq
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `inventory_item_ids` | Required | Array of string | minItems: `1`. maxItems: `100`. Items: minLength: `1`. |
-| `location_id` | Required | string | minLength: `1`. |
+| `inventory_item_ids` | Required | Array of string | IDs of the inventory items to count at the Location, from 1 to 100. minItems: `1`. maxItems: `100`. Items: minLength: `1`. |
+| `location_id` | Required | string | ID of the Location whose stock is counted. minLength: `1`. |
 
 #### Response
 
@@ -38,7 +177,6 @@ Returned payload: [InventoryCount](../models/InventoryCount.md#inventorycount).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -81,6 +219,9 @@ Signature: `get(inventory_count_id: InputValue<string>, params?: InventoryCounts
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `inventory_count_id` | Required | string | Flint inventory count ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -94,7 +235,6 @@ Returned payload: [InventoryCount](../models/InventoryCount.md#inventorycount).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -112,7 +252,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```typescript
-const result = await client.inventoryCounts.get("invc_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
+const result = await client.inventoryCounts.get("invc_01KEZF7C00B47NXRE3ET37QQ59", {}, {  });
 ```
 
 [Complete runnable example](../examples/inventoryCounts-get.mjs)
@@ -130,15 +270,18 @@ Signature: `list(params?: InventoryCountsListParams, options?: _SdkWithoutIdempo
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `inventory_item_id` | Optional | string | Filter by a counted inventory item. |
 | `location_id` | Optional | string | Filter by Location. |
-| `status` | Optional | Array of string or string | Filter by count status. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"draft"`, `"applied"`, `"canceled"`. Values: `"draft"`, `"applied"`, `"canceled"`. |
+| `status` | Optional | Array of string or string | Filter by count status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"draft"`, `"applied"`, `"canceled"`. Values: `"draft"`, `"applied"`, `"canceled"`. |
 | `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. |
 | `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
 | `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
 | `applied_after` | Optional | string | Inclusive lower bound on applied_at. Format: `date-time`. |
 | `applied_before` | Optional | string | Exclusive upper bound on applied_at. Format: `date-time`. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -152,7 +295,6 @@ Returned payload: [InventoryCountListResponse](../models/InventoryCountListRespo
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -177,78 +319,6 @@ const result = await client.inventoryCounts.list({}, {  });
 
 [Complete runnable example](../examples/inventoryCounts-list.mjs)
 
-### inventoryCounts.transition
-
-Set action to apply or cancel an open physical count. The apply action sets inventory levels to the counted quantities and needs an observation on every line. The cancel action closes the count without changing stock. VERSION_CONFLICT on apply also covers a stale saved physical observation with no corresponding field in this request; these details omit param. Recount affected items and save the complete observations before applying again. Physical changes after observation require recounts, including at a trading location; holds and commitments alone do not invalidate observations. Stock-moving transitions return a result with inventory_count as its primary resource and inventory_levels for the levels changed. Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, read the inventory count by ID.
-
-`POST /v1/inventory-counts/{inventory_count_id}/transitions`
-
-Signature: `transition(inventory_count_id: InputValue<string>, params: InventoryCountsTransitionParams, options?: RequestOptions<"merchant">)`
-
-#### Request fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `inventory_count_id` | Required | string | Flint inventory count ID. |
-| `body` | Required | [InventoryCountTransitionRequestInput](../models/InventoryCountTransitionRequest.md#inventorycounttransitionrequest) | The request body for: Transition inventory count. |
-
-Body model: [InventoryCountTransitionRequestInput](../models/InventoryCountTransitionRequest.md#inventorycounttransitionrequest).
-
-#### inventoryCounts.transition with `action: "apply"`
-
-The `apply` variant of `InventoryCountTransitionRequest`.
-
-Body model: [InventoryCountTransitionRequestApplyInput](../models/InventoryCountTransitionRequestApply.md#inventorycounttransitionrequestapply).
-
-#### inventoryCounts.transition with `action: "cancel"`
-
-The `cancel` variant of `InventoryCountTransitionRequest`.
-
-Body model: [InventoryCountTransitionRequestCancelInput](../models/InventoryCountTransitionRequestCancel.md#inventorycounttransitionrequestcancel).
-
-#### Response
-
-Returned payload: [InventoryCountResult](../models/InventoryCountResult.md#inventorycountresult).
-
-#### Errors
-
-| Status | Error class |
-| --- | --- |
-| 400 | InvalidRequestError |
-| 401 | AuthenticationError |
-| 403 | PermissionError |
-| 404 | NotFoundError |
-| 409 | ConflictError |
-| 410 | ApiError |
-| 413 | ApiError |
-| 415 | ApiError |
-| 429 | RateLimitError |
-| 500 | ServerError |
-| 503 | ServerError |
-
-Other failures: [runtime error reference](../RUNTIME.md#error-reference).
-
-#### Request behavior
-
-Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
-
-Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
-
-Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
-
-Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
-
-#### Example
-
-```typescript
-// Persist this key with the action before sending; reuse it for every resubmission.
-const idempotencyKey = crypto.randomUUID();
-
-const result = await client.inventoryCounts.transition("invc_01ARZ3NDEKTSV4RRFFQ69G5FAV", {action: "apply", expected_version: 2}, { idempotencyKey: idempotencyKey });
-```
-
-[Complete runnable example](../examples/inventoryCounts-transition.mjs)
-
 ### inventoryCounts.update
 
 Replace a count's complete observation set atomically. expected_version is required when replacing observations. Send every item exactly once with the count's current expected_version and each observation's required expected_physical_version. Read the level before physically counting; zero is valid for a missing level. Every assertion must match locked current stock or the whole save is refused. Preserve saved quantities and fences for unchanged lines. Recount affected items before supplying fresh fences, even when quantities are unchanged. Omitted condition quantities retain the matching level snapshot's values. occurred_at records provenance and does not reconstruct historical stock. Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, read the inventory count by ID.
@@ -262,6 +332,9 @@ Signature: `update(inventory_count_id: InputValue<string>, params: InventoryCoun
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `inventory_count_id` | Required | string | Flint inventory count ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [UpdateInventoryCountRequestInput](../models/UpdateInventoryCountRequest.md#updateinventorycountrequest) | The request body for: Update inventory count. |
 
 Body model: [UpdateInventoryCountRequestInput](../models/UpdateInventoryCountRequest.md#updateinventorycountrequest).
@@ -270,11 +343,11 @@ Body model: [UpdateInventoryCountRequestInput](../models/UpdateInventoryCountReq
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `expected_version` | Required | integer | Format: `uint64`. minimum: `1`. |
+| `expected_version` | Required | integer | Version last read from the resource returned in `data` (the primary resource for a result object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on the operation and fields being changed. Format: `uint64`. minimum: `1`. |
 | `external_actor_id` | Optional | string | Your identifier for the actor who recorded the event. Don't put secrets in this field. minLength: `1`. maxLength: `255`. |
-| `observations` | Required | Array of [InventoryCountObservationRequestInput](../models/InventoryCountObservationRequest.md#inventorycountobservationrequest) | Complete replacement containing every count item exactly once. Every physical version must match current stock or the entire save is refused. Recount affected items before submitting fresh fences. minItems: `1`. maxItems: `100`. Items: A counted quantity for one item in an inventory count, with the physical version it was read at. |
+| `observations` | Required | Array of [InventoryCountObservationRequestInput](../models/InventoryCountObservationRequest.md#inventorycountobservationrequest) | Complete replacement containing every count item exactly once. Every physical version must match current stock or the entire save is refused. Recount affected items before submitting fresh fences. minItems: `1`. maxItems: `100`. |
 | `occurred_at` | Optional | string | When the event occurred, at most 5 minutes in the future. Required when source_system.type is pos, wms, erp, or other. Format: `date-time`. minLength: `1`. |
-| `source_system` | Optional | [InventorySourceSystemRequestInput](../models/InventorySourceSystemRequest.md#inventorysourcesystemrequest) | The source system you report for an inventory event, such as manual, pos, wms, erp, or other, with your identifier when it applies. |
+| `source_system` | Optional | [InventorySourceSystemRequestInput](../models/InventorySourceSystemRequest.md#inventorysourcesystemrequest) | System the change came from, such as a point-of-sale or warehouse system. The source system you report for an inventory event, such as manual, pos, wms, erp, or other, with your identifier when it applies. |
 
 #### Response
 
@@ -289,7 +362,6 @@ Returned payload: [InventoryCount](../models/InventoryCount.md#inventorycount).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |

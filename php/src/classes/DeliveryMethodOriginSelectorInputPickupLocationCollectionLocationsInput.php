@@ -10,19 +10,19 @@ namespace Flint;
 final class DeliveryMethodOriginSelectorInputPickupLocationCollectionLocationsInput extends Model {
     /** @param array{'delivery_location_set_id'?: string, 'location_id'?: string, 'location_ids': list<string>, 'type': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryMethodOriginSelectorInputPickupLocationCollectionLocationsInput')); }
-    /** minLength: 1.
+    /** minLength: 1. Example: "dls_01KEZF7C00C4WWN7RYTRF55C4H".
      * @return string
      * @throws SdkError When delivery_location_set_id is omitted; use hasDeliveryLocationSetId() or valueOrDefault().
      */
     public function getDeliveryLocationSetId(): string { return $this->get('delivery_location_set_id'); }
     public function hasDeliveryLocationSetId(): bool { return $this->has('delivery_location_set_id'); }
-    /** minLength: 1.
+    /** minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When location_id is omitted; use hasLocationId() or valueOrDefault().
      */
     public function getLocationId(): string { return $this->get('location_id'); }
     public function hasLocationId(): bool { return $this->has('location_id'); }
-    /** minItems: 1. maxItems: 1000. uniqueItems: true. [] (Value): string. minLength: 1.
+    /** minItems: 1. maxItems: 1000. uniqueItems: true. [] (Value): string. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return list<string>
      * @throws SdkError When location_ids is omitted; use hasLocationIds() or valueOrDefault().
      */

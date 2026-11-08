@@ -11,9 +11,9 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.me.renewSubscription(
-  "sub_01ARZ3NDEKTSV4RRFFQ69G5FAV",
-  {},
+  "sub_01KEZF7C00BVRE8YDBXQB74BBM",
+  undefined,
   { idempotencyKey: idempotencyKey },
 );
+console.log(result.order.merchant_id);
 console.log(result.order.order_id);
-console.log(result.order.status);

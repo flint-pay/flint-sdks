@@ -17,13 +17,13 @@ namespace Flint;
 final class CLIReauthorizeRequestInput extends Model {
     /** @param array{'client_id': string, 'context_id'?: string, 'device_name'?: string, 'merchant_id'?: string, 'mode'?: string, 'platform'?: string, 'refresh_token': string, 'sandbox_id'?: string, 'scope': string, 'scope_mode'?: string, 'session_mode': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CLIReauthorizeRequestInput')); }
-    /** Value enum: "flint-cli".
+    /** Example: "flint-cli". Value enum: "flint-cli".
      * @return string
      * @throws SdkError When client_id is omitted; use hasClientId() or valueOrDefault().
      */
     public function getClientId(): string { return $this->get('client_id'); }
     public function hasClientId(): bool { return $this->has('client_id'); }
-    /** minLength: 1.
+    /** minLength: 1. Example: "ctx_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb".
      * @return string
      * @throws SdkError When context_id is omitted; use hasContextId() or valueOrDefault().
      */
@@ -35,13 +35,13 @@ final class CLIReauthorizeRequestInput extends Model {
      */
     public function getDeviceName(): string { return $this->get('device_name'); }
     public function hasDeviceName(): bool { return $this->has('device_name'); }
-    /** merchant_id
+    /** ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
      * @return string
      * @throws SdkError When merchant_id is omitted; use hasMerchantId() or valueOrDefault().
      */
     public function getMerchantId(): string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** Value enum: "test", "live".
+    /** Environment used for this resource or request. Value enum: "test", "live".
      * @return string
      * @throws SdkError When mode is omitted; use hasMode() or valueOrDefault().
      */
@@ -59,7 +59,7 @@ final class CLIReauthorizeRequestInput extends Model {
      */
     public function getRefreshToken(): string { return $this->get('refresh_token'); }
     public function hasRefreshToken(): bool { return $this->has('refresh_token'); }
-    /** sandbox_id
+    /** ID of the sandbox this resource belongs to. Example: "test_01KEZF7C00JC77HTMTB2XHNPE0".
      * @return string
      * @throws SdkError When sandbox_id is omitted; use hasSandboxId() or valueOrDefault().
      */

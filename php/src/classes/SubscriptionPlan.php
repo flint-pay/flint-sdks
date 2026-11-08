@@ -6,30 +6,32 @@ namespace Flint;
  * @property-read int $billing_interval_count
  * @property-read list<SubscriptionIntervalOption> $billing_interval_options
  * @property-read ?int $contract_term_months
- * @property-read ?string $created_at
+ * @property-read string $created_at
  * @property-read string $currency
  * @property-read list<SubscriptionDeliveryMethodCounts> $delivery_method_subscription_counts
  * @property-read bool $delivery_required
  * @property-read ?string $description
  * @property-read ?MoneyValue $early_termination_fee_money
+ * @property-read SubscriptionEndAfterCycles|null $end_after
  * @property-read ?string $external_reference_id
  * @property-read list<ImageAttachment> $images
  * @property-read ?InventoryRoutingSource $inventory_routing_source
  * @property-read list<SubscriptionPlanLineItemsItemVariant|SubscriptionPlanLineItemsItemBundle|SubscriptionPlanLineItemsItemCustom|\stdClass>|null $line_items
- * @property-read ?string $merchant_id
+ * @property-read string $merchant_id
  * @property-read ?array<array-key, string> $metadata
  * @property-read string $name
+ * @property-read list<SubscriptionPlanChangeOption> $plan_change_options
  * @property-read list<int> $quantity_options
  * @property-read ?MoneyValue $setup_fee_money
  * @property-read string $status
  * @property-read list<string> $subscription_delivery_method_ids
  * @property-read string $subscription_plan_id
  * @property-read ?int $trial_period_days
- * @property-read ?string $updated_at
+ * @property-read string $updated_at
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class SubscriptionPlan extends Model {
-    /** @param array{'billing_interval': string, 'billing_interval_count': int, 'billing_interval_options': list<mixed>, 'contract_term_months'?: int, 'created_at'?: string, 'currency': string, 'delivery_method_subscription_counts': list<mixed>, 'delivery_required': bool, 'description'?: string, 'early_termination_fee_money'?: mixed, 'external_reference_id'?: string, 'images': list<mixed>, 'inventory_routing_source'?: mixed, 'line_items'?: list<mixed>, 'merchant_id'?: string, 'metadata'?: mixed, 'name': string, 'quantity_options': list<int>, 'setup_fee_money'?: mixed, 'status': string, 'subscription_delivery_method_ids': list<string>, 'subscription_plan_id': string, 'trial_period_days'?: int, 'updated_at'?: string, 'version': int, ...}|object $values */
+    /** @param array{'billing_interval': string, 'billing_interval_count': int, 'billing_interval_options': list<mixed>, 'contract_term_months'?: int, 'created_at': string, 'currency': string, 'delivery_method_subscription_counts': list<mixed>, 'delivery_required': bool, 'description'?: string, 'early_termination_fee_money'?: mixed, 'end_after': mixed, 'external_reference_id'?: string, 'images': list<mixed>, 'inventory_routing_source'?: mixed, 'line_items'?: list<mixed>, 'merchant_id': string, 'metadata'?: mixed, 'name': string, 'plan_change_options': list<mixed>, 'quantity_options': list<int>, 'setup_fee_money'?: mixed, 'status': string, 'subscription_delivery_method_ids': list<string>, 'subscription_plan_id': string, 'trial_period_days'?: int, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionPlan')); }
     /** Value enum: "daily", "weekly", "monthly", "yearly".
      * @return string
@@ -41,7 +43,7 @@ final class SubscriptionPlan extends Model {
      */
     public function getBillingIntervalCount(): int { return $this->get('billing_interval_count'); }
     public function hasBillingIntervalCount(): bool { return $this->has('billing_interval_count'); }
-    /** maxItems: 12. uniqueItems: true. [] (Value): {@see SubscriptionIntervalOption}. A billing interval, such as every 2 months, offered by a subscription plan.
+    /** Offered billing interval and count pairs, including the plan's default pair. Every option bills the same line prices once per period. Use separate plans for different prices per interval. maxItems: 12. uniqueItems: true. [] (Value): {@see SubscriptionIntervalOption}. A billing cadence offered by a subscription plan or offer. Every option bills the same line prices once per period; prices are not scaled by the interval. For a different price per interval, create separate plans.
      * @return list<SubscriptionIntervalOption>
      */
     public function getBillingIntervalOptions(): array { return $this->get('billing_interval_options'); }
@@ -52,9 +54,9 @@ final class SubscriptionPlan extends Model {
     public function getContractTermMonths(): ?int { return $this->get('contract_term_months'); }
     public function hasContractTermMonths(): bool { return $this->has('contract_term_months'); }
     /** RFC3339 timestamp. Format: date-time.
-     * @return ?string
+     * @return string
      */
-    public function getCreatedAt(): ?string { return $this->get('created_at'); }
+    public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
     /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
      * @return string
@@ -81,6 +83,11 @@ final class SubscriptionPlan extends Model {
      */
     public function getEarlyTerminationFeeMoney(): ?MoneyValue { return $this->get('early_termination_fee_money'); }
     public function hasEarlyTerminationFeeMoney(): bool { return $this->has('early_termination_fee_money'); }
+    /** Default automatic end for new subscriptions. Counts charged billing cycles, from 1 to 1200. Send null for no automatic end. Existing subscriptions keep their recorded condition. Null when no default automatic end is set. anyOf[1] (Value): {@see SubscriptionEndAfterCycles}. A subscription automatic end measured by the total number of charged billing cycles. anyOf[2] (Value): null.
+     * @return SubscriptionEndAfterCycles|null
+     */
+    public function getEndAfter(): SubscriptionEndAfterCycles|null { return $this->get('end_after'); }
+    public function hasEndAfter(): bool { return $this->has('end_after'); }
     /** Caller-owned identifier for this resource in an external system. maxLength: 255.
      * @return ?string
      */
@@ -96,17 +103,17 @@ final class SubscriptionPlan extends Model {
      */
     public function getInventoryRoutingSource(): ?InventoryRoutingSource { return $this->get('inventory_routing_source'); }
     public function hasInventoryRoutingSource(): bool { return $this->has('inventory_routing_source'); }
-    /**  [] (Value): {@see SubscriptionPlanLineItem}. A line item on a subscription plan, from a variant or bundle, with its quantity, price, and variants a subscriber can swap to.
+    /**  [] (Value): {@see SubscriptionPlanLineItem}. A line item on a subscription plan.
      * @return list<SubscriptionPlanLineItemsItemVariant|SubscriptionPlanLineItemsItemBundle|SubscriptionPlanLineItemsItemCustom|\stdClass>|null
      */
     public function getLineItems(): ?array { return $this->get('line_items'); }
     public function hasLineItems(): bool { return $this->has('line_items'); }
-    /** merchant_id
-     * @return ?string
+    /** ID of the merchant this resource belongs to.
+     * @return string
      */
-    public function getMerchantId(): ?string { return $this->get('merchant_id'); }
+    public function getMerchantId(): string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
+    /** Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      * @return ?array<array-key, string>
      */
     public function getMetadata(): ?array { return $this->get('metadata'); }
@@ -116,6 +123,11 @@ final class SubscriptionPlan extends Model {
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
+    /** Plans subscribers may switch to, in display order, with the billing timing for each target. Empty means plan changes are off. Omission on PATCH keeps the options; an array replaces them and requires expected_version. Send [] to clear. Null is invalid. maxItems: 25. [] (Value): {@see SubscriptionPlanChangeOption}. A target plan subscribers may switch to and the billing timing for that change.
+     * @return list<SubscriptionPlanChangeOption>
+     */
+    public function getPlanChangeOptions(): array { return $this->get('plan_change_options'); }
+    public function hasPlanChangeOptions(): bool { return $this->has('plan_change_options'); }
     /** maxItems: 10. uniqueItems: true. [] (Value): integer. minimum: 1. maximum: 100.
      * @return list<int>
      */
@@ -136,7 +148,7 @@ final class SubscriptionPlan extends Model {
      */
     public function getSubscriptionDeliveryMethodIds(): array { return $this->get('subscription_delivery_method_ids'); }
     public function hasSubscriptionDeliveryMethodIds(): bool { return $this->has('subscription_delivery_method_ids'); }
-    /** subscription_plan_id
+    /** Unique identifier for this subscription plan, prefixed `plan_`.
      * @return string
      */
     public function getSubscriptionPlanId(): string { return $this->get('subscription_plan_id'); }
@@ -147,11 +159,11 @@ final class SubscriptionPlan extends Model {
     public function getTrialPeriodDays(): ?int { return $this->get('trial_period_days'); }
     public function hasTrialPeriodDays(): bool { return $this->has('trial_period_days'); }
     /** RFC3339 timestamp. Format: date-time.
-     * @return ?string
+     * @return string
      */
-    public function getUpdatedAt(): ?string { return $this->get('updated_at'); }
+    public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** Format: uint64. minimum: 0.
+    /** Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. Format: uint64. minimum: 0.
      * @return int
      */
     public function getVersion(): int { return $this->get('version'); }

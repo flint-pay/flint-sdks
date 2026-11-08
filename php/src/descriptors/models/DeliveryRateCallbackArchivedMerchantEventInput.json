@@ -1,1 +1,1 @@
-{"shared":"DeliveryRateCallbackArchivedMerchantEvent","dependencies":["DeliveryRateCallback","DeliveryRateCallbackArchivedMerchantEvent","DeliveryRateCallbackConfiguration","SharedCodec14","SharedCodec15","SharedCodec16","SharedCodec484"]}
+{"shared":"DeliveryRateCallbackArchivedMerchantEvent","dependencies":["DeliveryRateCallback","DeliveryRateCallbackArchivedMerchantEvent","DeliveryRateCallbackConfiguration","SharedCodec18","SharedCodec23","SharedCodec24","SharedCodec25","SharedCodec26","SharedCodec568","SharedCodec571"]}

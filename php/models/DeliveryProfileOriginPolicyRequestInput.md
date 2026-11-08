@@ -8,7 +8,7 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `location_id` | Conditional | string | minLength: `1`. |
+| `location_id` | Conditional | string | minLength: `1`. Example: `"loc_01KEZF7C00CMHRRYA3MV996JB2"`. |
 | `type` | Required | string | Values: `"fixed_location"`, `"inventory_routing"`, `"method_origin"`. |
 
 ### DeliveryProfileOriginPolicyRequestInput variant 1: `type` = `"fixed_location"`

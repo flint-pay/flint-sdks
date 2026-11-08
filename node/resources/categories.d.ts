@@ -4,14 +4,12 @@ import type {
     CategoriesDeleteParams,
     CategoriesGetParams,
     CategoriesListParams,
-    CategoriesUpdateParams,
-    Category,
-    CategoryListResponse,
-    CategoryResponse
+    CategoriesUpdateParams
 } from '../declarations/types-4.js';
-import type { ClientOptions } from '../declarations/types-5.js';
-import type { RequestOptions } from '../declarations/types-48.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+import type { Category, CategoryListResponse, CategoryResponse } from '../declarations/types-5.js';
+import type { ClientOptions } from '../declarations/types-6.js';
+import type { RequestOptions } from '../declarations/types-51.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -28,34 +26,27 @@ export type {
 } from '../runtime.js';
 export type {
     CategoriesCreateParams,
-    Category,
-    CategoryResponse,
     CategoriesDeleteParams,
     CategoriesGetParams,
     CategoriesListParams,
-    CategoryListResponse,
     CategoriesUpdateParams
 } from '../declarations/types-4.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { ClientOptions } from '../declarations/types-5.js';
-export type { CreateCategoryRequestInput } from '../declarations/types-6.js';
-export type {
-    MetadataRequestInput,
-    MetadataMap,
-    NextAction,
-    MoneyValue,
-    MetadataPatchRequestInput,
-    MetadataPatchRequest
-} from '../declarations/types-35.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
+export type { Category, CategoryResponse, CategoryListResponse } from '../declarations/types-5.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+export type { ClientOptions } from '../declarations/types-6.js';
+export type { CreateCategoryRequestInput } from '../declarations/types-7.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-36.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-12.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
-export type { UpdateCategoryRequestInput } from '../declarations/types-58.js';
-export { makeCreateCategoryRequest } from '../declarations/types-63.js';
-export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-69.js';
-export { makeMoneyValue } from '../declarations/types-70.js';
-export { makeUpdateCategoryRequest } from '../declarations/types-74.js';
+export type { Credentials } from '../declarations/types-13.js';
+export type { NextAction, MoneyValue } from '../declarations/types-37.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
+export type { UpdateCategoryRequestInput } from '../declarations/types-63.js';
+export type { DisputesAcceptParams } from '../declarations/types-22.js';
+export { makeCreateCategoryRequest } from '../declarations/types-68.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-74.js';
+export { makeMoneyValue } from '../declarations/types-75.js';
+export { makeUpdateCategoryRequest } from '../declarations/types-79.js';
 export interface CategoriesResource {
     /**
  * Creates a reusable category. If handle is omitted, Flint derives it from the name and never
@@ -82,19 +73,20 @@ export interface CategoriesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.categories.delete("ctg_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey
+ * client.categories.delete("ctg_01KEZF7C001T4WWBPVGWRZD88Q", {}, { idempotencyKey: idempotencyKey
  * })
  */
     delete(category_id: InputValue<string>, params?: CategoriesDeleteParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Category, CategoryResponse>>;
     /**
- * Get category.
+ * Returns one category by ID, with its handle, name, and the counts of products and bundles
+ * assigned to it. A deleted category fails with `RESOURCE_NOT_FOUND`.
  *
  * `GET /v1/categories/{category_id}`
  * @param category_id Flint category ID.
  * @see https://developers.withflintpay.com/docs/api/categories#getCategory
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.categories.get("ctg_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.categories.get("ctg_01KEZF7C001T4WWBPVGWRZD88Q")
  */
     get(category_id: InputValue<string>, params?: CategoriesGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<Category, CategoryResponse>>;
     /**
@@ -116,7 +108,9 @@ export interface CategoriesResource {
      */
     listItems(params?: CategoriesListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<Category>;
     /**
- * Update category.
+ * Updates a category's name, description, `external_reference_id`, or metadata. Only the fields
+ * you send change; the handle stays the same. Send `expected_version` to reject the update with
+ * `VERSION_CONFLICT` when the category changed since you read it.
  *
  * `PATCH /v1/categories/{category_id}`
  * @param category_id Flint category ID.

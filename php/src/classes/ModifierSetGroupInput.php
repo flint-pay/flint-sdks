@@ -7,7 +7,6 @@ namespace Flint;
  * @property-read int $min_selected
  * @property-read ModifierGroupInput|array<array-key, mixed>|\stdClass $modifier_group
  * @property-read string $modifier_group_id
- * @property-read string $modifier_group_name
  * @property-read list<ModifierOverrideInput|array<array-key, mixed>|\stdClass> $modifier_overrides
  * @property-read string $modifier_set_group_id
  * @property-read int $position
@@ -17,8 +16,8 @@ namespace Flint;
  * @property-read string $source
  * Presence-aware input; omitted fields throw when accessed. */
 final class ModifierSetGroupInput extends Model {
-    /** @param array{'display_name'?: string, 'max_selected'?: int, 'min_selected'?: int, 'modifier_group'?: ModifierGroupInput|array<array-key, mixed>|\stdClass, 'modifier_group_id': string, 'modifier_group_name': string, 'modifier_overrides'?: list<ModifierOverrideInput|array<array-key, mixed>|\stdClass>, 'modifier_set_group_id': string, 'position': int, 'required'?: bool, 'show_on_fulfillment'?: bool, 'show_on_receipt'?: bool, 'source': string}|object|array{'display_name'?: string, 'max_selected'?: int, 'min_selected'?: int, 'modifier_group': ModifierGroupInput|array<array-key, mixed>|\stdClass, 'modifier_group_id'?: string, 'modifier_group_name'?: string, 'modifier_overrides'?: list<ModifierOverrideInput|array<array-key, mixed>|\stdClass>, 'modifier_set_group_id': string, 'position': int, 'required'?: bool, 'show_on_fulfillment'?: bool, 'show_on_receipt'?: bool, 'source': string}|object $values */
-    public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ModifierSetGroupInput')); }
+    /** @param array{'display_name'?: string, 'max_selected'?: int, 'min_selected'?: int, 'modifier_group': ModifierGroupInput|array<array-key, mixed>|\stdClass, 'modifier_group_id': string, 'modifier_overrides'?: list<ModifierOverrideInput|array<array-key, mixed>|\stdClass>, 'modifier_set_group_id': string, 'position': int, 'required'?: bool, 'show_on_fulfillment'?: bool, 'show_on_receipt'?: bool, 'source': string}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ModifierSetGroupInput')); }
     /** Overrides the group's name for this set. Omit it to use the group's name.
      * @return string
      * @throws SdkError When display_name is omitted; use hasDisplayName() or valueOrDefault().
@@ -37,31 +36,25 @@ final class ModifierSetGroupInput extends Model {
      */
     public function getMinSelected(): int { return $this->get('min_selected'); }
     public function hasMinSelected(): bool { return $this->has('min_selected'); }
-    /** Modifier group owned by this set when source is inline. Read this group through GET /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it. A group of choices that customize an item.
+    /** Full modifier group for this entry, with the same representation as GET /v1/modifier-groups/{modifier_group_id}. Archived modifiers are excluded for either source, including when the group is archived. A group of choices that customize an item.
      * @return ModifierGroupInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When modifier_group is omitted; use hasModifierGroup() or valueOrDefault().
      */
     public function getModifierGroup(): mixed { return $this->get('modifier_group'); }
     public function hasModifierGroup(): bool { return $this->has('modifier_group'); }
-    /** Identifier of the independent modifier group referenced when source is existing.
+    /** Stable identifier of the group contained in this entry, for either source. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
      * @return string
      * @throws SdkError When modifier_group_id is omitted; use hasModifierGroupId() or valueOrDefault().
      */
     public function getModifierGroupId(): string { return $this->get('modifier_group_id'); }
     public function hasModifierGroupId(): bool { return $this->has('modifier_group_id'); }
-    /** Current name of the referenced modifier group.
-     * @return string
-     * @throws SdkError When modifier_group_name is omitted; use hasModifierGroupName() or valueOrDefault().
-     */
-    public function getModifierGroupName(): string { return $this->get('modifier_group_name'); }
-    public function hasModifierGroupName(): bool { return $this->has('modifier_group_name'); }
     /** Overrides for individual list modifiers in this set. A choice is offered only when its status is active and its override's available is not false. [] (Value): {@see ModifierOverrideInput}. Settings for one modifier that apply only within a modifier set group, overriding the modifier group's own values.
      * @return list<ModifierOverrideInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When modifier_overrides is omitted; use hasModifierOverrides() or valueOrDefault().
      */
     public function getModifierOverrides(): array { return $this->get('modifier_overrides'); }
     public function hasModifierOverrides(): bool { return $this->has('modifier_overrides'); }
-    /** Stable identifier of this group entry within the set. In a replacement request, include it to retain an entry or omit it to create one.
+    /** Stable identifier of this group entry within the set. In a replacement request, include it to retain an entry or omit it to create one. Example: "msg_01KEZF7C008GXTVA2AQ1SRFGFC".
      * @return string
      * @throws SdkError When modifier_set_group_id is omitted; use hasModifierSetGroupId() or valueOrDefault().
      */

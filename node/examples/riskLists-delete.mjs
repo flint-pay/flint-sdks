@@ -8,7 +8,7 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.riskLists.delete(
-  "rl_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "rl_01KEZF7C00VYSERA4QCTJP147A",
   {},
   { idempotencyKey: idempotencyKey },
 );

@@ -3,13 +3,19 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read BundleUpdatedMerchantEventDataObject $object
+ * @property-read ?array<array-key, mixed> $previous_attributes
  * Presence-aware response; omitted optional fields return null. */
 final class BundleUpdatedMerchantEventData extends Model {
-    /** @param array{'object': \stdClass, ...}|object $values */
+    /** @param array{'object': object{'barcode'?: string, 'bundle_id': string, 'categories': list<mixed>, 'component_count': int, 'components': list<mixed>, 'created_at'?: string, 'delivery_configuration_status': string, 'description'?: string, 'external_reference_id'?: string, 'images': list<mixed>, 'is_available_for_sale': bool, 'merchant_id'?: string, 'metadata'?: mixed, 'modifier_set'?: mixed, 'modifier_set_id': string|null, 'name': string, 'sku'?: string, 'status': string, 'unit_price_money': mixed, 'updated_at'?: string, 'version': int}, 'previous_attributes'?: \stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BundleUpdatedMerchantEventData')); }
-    /** Several variants sold as one line at the bundle's price. A bundle line takes its components' shared taxability and tax category; all components must share both stored values. An unset category uses the merchant default and equals only another unset category.
+    /** The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `modifier_set`.
      * @return BundleUpdatedMerchantEventDataObject
      */
     public function getObject(): BundleUpdatedMerchantEventDataObject { return $this->get('object'); }
     public function hasObject(): bool { return $this->has('object'); }
+    /** Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
+     * @return ?array<array-key, mixed>
+     */
+    public function getPreviousAttributes(): ?array { return $this->get('previous_attributes'); }
+    public function hasPreviousAttributes(): bool { return $this->has('previous_attributes'); }
 }

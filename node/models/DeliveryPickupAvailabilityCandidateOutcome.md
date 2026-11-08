@@ -15,5 +15,5 @@ Whether pickup is available at one location, chosen by `type`, with the reason w
 | `input_requirements` | Optional | Array of [DeliveryInputRequirement](../models/DeliveryInputRequirement.md#deliveryinputrequirement) |  |
 | `retryable` | Optional | boolean |  |
 | `type` | Required | string | Values: `"available"`, `"unavailable"`, `"input_required"`, `"cannot_calculate"`. |
-| `unavailable_reason` | Optional | string | Why pickup is unavailable and the action that can make it eligible. - `eligibility_no_match`: Inspect eligibility_mismatches, then change the relevant buyer facts or method eligibility rule. - `inventory_insufficient`: Reduce the requested quantity, replenish inventory, or choose another pickup location. Values: `"eligibility_no_match"`, `"inventory_insufficient"`. |
+| `unavailable_reason` | Optional | string | Why pickup is unavailable and the action that can make it eligible. - `eligibility_no_match`: Inspect eligibility_mismatches, then change the relevant buyer facts or method eligibility rule. - `inventory_unavailable`: The origin or pickup location cannot supply the requested inventory. Reduce the quantity, replenish inventory, or choose another origin or method. Values: `"eligibility_no_match"`, `"inventory_unavailable"`. |
 

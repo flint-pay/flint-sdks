@@ -23,7 +23,7 @@ final class BuyerInvoiceLateFeeInput extends Model {
      */
     public function getAmountMoney(): mixed { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** When the fee was assessed. Format: date-time.
+    /** When the fee was assessed. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When assessed_at is omitted; use hasAssessedAt() or valueOrDefault().
      */
@@ -35,19 +35,19 @@ final class BuyerInvoiceLateFeeInput extends Model {
      */
     public function getBaseOutstandingMoney(): mixed { return $this->get('base_outstanding_money'); }
     public function hasBaseOutstandingMoney(): bool { return $this->has('base_outstanding_money'); }
-    /** Flint invoice late fee ID.
+    /** Flint invoice late fee ID. Example: "inlf_01KEZF7C00NVR97MBH5AHR4W1X".
      * @return string
      * @throws SdkError When invoice_late_fee_id is omitted; use hasInvoiceLateFeeId() or valueOrDefault().
      */
     public function getInvoiceLateFeeId(): string { return $this->get('invoice_late_fee_id'); }
     public function hasInvoiceLateFeeId(): bool { return $this->has('invoice_late_fee_id'); }
-    /** The schedule entry this fee applies to. Absent on an invoice without a schedule, where the fee applies to the whole invoice. Each invoice, or each entry, takes at most one fee, even after a waiver.
+    /** The schedule entry this fee applies to. Absent on an invoice without a schedule, where the fee applies to the whole invoice. Each invoice, or each entry, takes at most one fee, even after a waiver. Example: "invse_01KEZF7C006JCPQBD8VZ0RNT6R".
      * @return string
      * @throws SdkError When invoice_schedule_entry_id is omitted; use hasInvoiceScheduleEntryId() or valueOrDefault().
      */
     public function getInvoiceScheduleEntryId(): string { return $this->get('invoice_schedule_entry_id'); }
     public function hasInvoiceScheduleEntryId(): bool { return $this->has('invoice_schedule_entry_id'); }
-    /** The late fee policy from payment_terms_snapshot, copied when the fee was assessed. anyOf[1] (Value): {@see InvoiceLateFeePolicyInput}. A late fee for overdue invoices: a fixed amount or a percentage, a grace period in days, and whether Flint applies it automatically. anyOf[2] (Value): null.
+    /** The late fee policy from payment_terms_snapshot, copied when the fee was assessed. `null` when no policy was captured. anyOf[1] (Value): {@see InvoiceLateFeePolicyInput}. A late fee for overdue invoices: a fixed amount or a percentage, a grace period in days, and whether Flint applies it automatically. anyOf[2] (Value): null.
      * @return array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'application_mode'?: string, 'grace_period_days': int, 'percent'?: int|float, 'type': string}|object|array{'amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'application_mode'?: string, 'grace_period_days': int, 'percent': int|float, 'type': string}|object|null
      * @throws SdkError When late_fee_policy is omitted; use hasLateFeePolicy() or valueOrDefault().
      */
@@ -65,7 +65,7 @@ final class BuyerInvoiceLateFeeInput extends Model {
      */
     public function getPaidMoney(): mixed { return $this->get('paid_money'); }
     public function hasPaidMoney(): bool { return $this->has('paid_money'); }
-    /** When the fee was waived. Absent unless it was waived. Format: date-time.
+    /** When the fee was waived. Absent unless it was waived. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When waived_at is omitted; use hasWaivedAt() or valueOrDefault().
      */

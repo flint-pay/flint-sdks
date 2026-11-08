@@ -1,11 +1,10 @@
-import { d873 as c0 } from '../descriptors/data/41.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d4382 as c1 } from '../descriptors/data/185.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d4331 as c2 } from '../descriptors/data/182.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d873 as d873 } from '../descriptors/data/41.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import { d903 as c0 } from '../descriptors/data/42.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d8154 as c1, d8155 as c2 } from '../descriptors/data/392.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d903 as d903 } from '../descriptors/data/42.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d873;
+const read = d903;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["IssueSandboxAPIKeyRequestReadOnly"]:c0(),["SharedCodec130"]:c1(),["SharedCodec3"]:c2()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["IssueSandboxAPIKeyRequestReadOnly"]:c0(),["SharedCodec369"]:c1(),["SharedCodec370"]:c2()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeIssueSandboxAPIKeyRequestReadOnly(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

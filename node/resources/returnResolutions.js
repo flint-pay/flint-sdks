@@ -5,9 +5,9 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/returnResolutions.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import r0 from '../descriptors/resources/returnResolutions.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import settings from '../descriptors/settings.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["cancelReturnResolution"]:r0,["confirmReturnResolution"]:r0,["createReturnResolutionCheckoutSession"]:r0,["getReturnResolution"]:r0,["listReturnResolutions"]:r0,["releaseReturnResolution"]:r0,["retryReturnResolution"]:r0,["updateReturnResolution"]:r0});
 export class Client {
@@ -17,21 +17,33 @@ this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.returnResolutions = Object.freeze({
       cancel: async (return_resolution_id, params, options) => this.#runtime.request("cancelReturnResolution", _sdkRequestInput([
   "return_resolution_id"
-], [return_resolution_id], [], true, true, params, [
+], [return_resolution_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("cancelReturnResolution", result, path))),
       confirm: async (return_resolution_id, params, options) => this.#runtime.request("confirmReturnResolution", _sdkRequestInput([
   "return_resolution_id"
-], [return_resolution_id], [], true, true, params, [
+], [return_resolution_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, false, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("confirmReturnResolution", result, path))),
       createCheckoutSession: async (return_resolution_id, params, options) => this.#runtime.request("createReturnResolutionCheckoutSession", _sdkRequestInput([
   "return_resolution_id"
-], [return_resolution_id], [], true, false, params, [
+], [return_resolution_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, false, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
@@ -39,7 +51,10 @@ this.returnResolutions = Object.freeze({
       get: async (return_resolution_id, params, options) => this.#runtime.request("getReturnResolution", _sdkRequestInput([
   "return_resolution_id"
 ], [return_resolution_id], [
-  "expand"
+  "expand",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -60,7 +75,10 @@ this.returnResolutions = Object.freeze({
   "status",
   "updated_after",
   "updated_before",
-  "expand"
+  "expand",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -81,7 +99,10 @@ this.returnResolutions = Object.freeze({
   "status",
   "updated_after",
   "updated_before",
-  "expand"
+  "expand",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -102,28 +123,43 @@ this.returnResolutions = Object.freeze({
   "status",
   "updated_after",
   "updated_before",
-  "expand"
+  "expand",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
 ]), options),
       release: async (return_resolution_id, params, options) => this.#runtime.request("releaseReturnResolution", _sdkRequestInput([
   "return_resolution_id"
-], [return_resolution_id], [], true, true, params, [
+], [return_resolution_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("releaseReturnResolution", result, path))),
       retry: async (return_resolution_id, params, options) => this.#runtime.request("retryReturnResolution", _sdkRequestInput([
   "return_resolution_id"
-], [return_resolution_id], [], true, true, params, [
+], [return_resolution_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("retryReturnResolution", result, path))),
       update: async (return_resolution_id, params, options) => this.#runtime.request("updateReturnResolution", _sdkRequestInput([
   "return_resolution_id"
-], [return_resolution_id], [], true, true, params, [
+], [return_resolution_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
@@ -137,14 +173,14 @@ export { makeCancelReturnRequest } from '../models/CancelReturnRequest.js';
 export { makeCancelReturnResolutionRequest } from '../models/CancelReturnResolutionRequest.js';
 export { makeCheckoutRedirectsRequest } from '../models/CheckoutRedirectsRequest.js';
 export { makeConfirmReturnResolutionRequest } from '../models/ConfirmReturnResolutionRequest.js';
-export { makeDeliveryRecipientRequirement } from '../models/DeliveryRecipientRequirement.js';
 export { makeDeliveryWindowRequest } from '../models/DeliveryWindowRequest.js';
 export { makeGetOrCreateReturnResolutionCheckoutSessionRequest } from '../models/GetOrCreateReturnResolutionCheckoutSessionRequest.js';
+export { makeLineItemFulfillmentOriginRequestModel } from '../models/LineItemFulfillmentOriginRequestModel.js';
+export { makeLineItemFulfillmentRequestModel } from '../models/LineItemFulfillmentRequestModel.js';
 export { makeMetadataPatchRequest } from '../models/MetadataPatchRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
 export { makeReleaseReturnResolutionRequest } from '../models/ReleaseReturnResolutionRequest.js';
 export { makeRetryReturnResolutionRequest } from '../models/RetryReturnResolutionRequest.js';
-export { makeSubscriptionIntervalOption } from '../models/SubscriptionIntervalOption.js';
 export { makeUpdateReturnReplacementLineItemInputBundle } from '../models/UpdateReturnReplacementLineItemInputBundle.js';
 export { makeUpdateReturnReplacementLineItemInputCustom } from '../models/UpdateReturnReplacementLineItemInputCustom.js';
 export { makeUpdateReturnReplacementLineItemInputVariant } from '../models/UpdateReturnReplacementLineItemInputVariant.js';

@@ -2,9 +2,11 @@
 
 ## SubscriptionDeliveryMigrationCompletedInstalledMerchantsEventDataObject
 
-A move of subscribers from one delivery method to another.
+The affected public resource without expansions, client authority fields, or fields computed for an individual caller.
+
+The resource snapshot, without expansions. Webhooks omit no additional fields.
 
 Response model.
 
-Fields, types, descriptions and enum values: [SubscriptionDeliveryMigration](../models/SubscriptionDeliveryMigration.md#subscriptiondeliverymigration).
+Fields, types, descriptions and enum values: [SubscriptionDeliveryMigrationCompletedMerchantEventDataObject](../models/SubscriptionDeliveryMigrationCompletedMerchantEventDataObject.md#subscriptiondeliverymigrationcompletedmerchanteventdataobject).
 

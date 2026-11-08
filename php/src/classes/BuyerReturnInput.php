@@ -36,25 +36,25 @@ final class BuyerReturnInput extends Model {
      */
     public function getBuyerActions(): array { return $this->get('buyer_actions'); }
     public function hasBuyerActions(): bool { return $this->has('buyer_actions'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When canceled_at is omitted; use hasCanceledAt() or valueOrDefault().
      */
     public function getCanceledAt(): string|\DateTimeInterface { return $this->get('canceled_at'); }
     public function hasCanceledAt(): bool { return $this->has('canceled_at'); }
-    /** Value enum: "buyer_request", "merchant_request", "duplicate", "expired", "created_in_error", "other".
+    /** Why the Return was canceled. Value enum: "buyer_request", "merchant_request", "duplicate", "expired", "created_in_error", "other".
      * @return string
      * @throws SdkError When cancellation_reason is omitted; use hasCancellationReason() or valueOrDefault().
      */
     public function getCancellationReason(): string { return $this->get('cancellation_reason'); }
     public function hasCancellationReason(): bool { return $this->has('cancellation_reason'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When completed_at is omitted; use hasCompletedAt() or valueOrDefault().
      */
     public function getCompletedAt(): string|\DateTimeInterface { return $this->get('completed_at'); }
     public function hasCompletedAt(): bool { return $this->has('completed_at'); }
-    /**  [] (Value): {@see BuyerReturnCompletionBlockerInput}. A condition the buyer can resolve before the Return can complete.
+    /** What is still owed before the Return can complete. Empty when nothing is. [] (Value): {@see BuyerReturnCompletionBlockerInput}. A condition the buyer can resolve before the Return can complete.
      * @return list<BuyerReturnCompletionBlockerInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When completion_blockers is omitted; use hasCompletionBlockers() or valueOrDefault().
      */
@@ -66,31 +66,31 @@ final class BuyerReturnInput extends Model {
      */
     public function getCompletionMode(): string { return $this->get('completion_mode'); }
     public function hasCompletionMode(): bool { return $this->has('completion_mode'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When decision_at is omitted; use hasDecisionAt() or valueOrDefault().
      */
     public function getDecisionAt(): string|\DateTimeInterface { return $this->get('decision_at'); }
     public function hasDecisionAt(): bool { return $this->has('decision_at'); }
-    /** Value enum: "pending", "approved", "partially_approved", "declined".
+    /** Whether the requested units were approved. `pending` until one decision covers every line. Value enum: "pending", "approved", "partially_approved", "declined".
      * @return string
      * @throws SdkError When decision_status is omitted; use hasDecisionStatus() or valueOrDefault().
      */
     public function getDecisionStatus(): string { return $this->get('decision_status'); }
     public function hasDecisionStatus(): bool { return $this->has('decision_status'); }
-    /** The money for a return: returned value, deductions, credits, replacement total, and amounts due to or from the buyer.
+    /** The Return's money in one place: the value of the returned lines, deductions and credits, and what has been refunded or collected. The money for a return: returned value, deductions, credits, replacement total, and amounts due to or from the buyer.
      * @return ReturnFinancialSummaryInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When financial_summary is omitted; use hasFinancialSummary() or valueOrDefault().
      */
     public function getFinancialSummary(): mixed { return $this->get('financial_summary'); }
     public function hasFinancialSummary(): bool { return $this->has('financial_summary'); }
-    /**  [] (Value): {@see BuyerReturnHandoffRequirementInput}. The merchandise quantities the buyer must hand off, with their destination, instructions, and handoff status.
+    /** What the buyer still has to send back and where. Each entry leaves the list once it is satisfied, so an empty list means nothing is waiting on the buyer. [] (Value): {@see BuyerReturnHandoffRequirementInput}. The merchandise quantities the buyer must hand off, with their destination, instructions, and handoff status.
      * @return list<BuyerReturnHandoffRequirementInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When handoff_requirements is omitted; use hasHandoffRequirements() or valueOrDefault().
      */
@@ -102,7 +102,7 @@ final class BuyerReturnInput extends Model {
      */
     public function getInitiatedBy(): string { return $this->get('initiated_by'); }
     public function hasInitiatedBy(): bool { return $this->has('initiated_by'); }
-    /**  [] (Value): {@see BuyerReturnLineItemInput}. An item included in a return request.
+    /** The lines being returned. [] (Value): {@see BuyerReturnLineItemInput}. An item included in a return request.
      * @return list<BuyerReturnLineItemInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When line_items is omitted; use hasLineItems() or valueOrDefault().
      */
@@ -120,37 +120,37 @@ final class BuyerReturnInput extends Model {
      */
     public function getMetadata(): array|object { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** order_id
+    /** ID of the Order the Return is against. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** Value enum: "not_selected", "pending", "partially_fulfilled", "requires_action", "fulfilled", "failed".
+    /** Whether the buyer has received the value they are owed. Combines the Return's resolutions and its unsettled corrections. Value enum: "not_selected", "pending", "partially_fulfilled", "requires_action", "fulfilled", "failed".
      * @return string
      * @throws SdkError When resolution_status is omitted; use hasResolutionStatus() or valueOrDefault().
      */
     public function getResolutionStatus(): string { return $this->get('resolution_status'); }
     public function hasResolutionStatus(): bool { return $this->has('resolution_status'); }
-    /** return_id
+    /** Unique identifier for this return, prefixed `ret_`. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
      * @return string
      * @throws SdkError When return_id is omitted; use hasReturnId() or valueOrDefault().
      */
     public function getReturnId(): string { return $this->get('return_id'); }
     public function hasReturnId(): bool { return $this->has('return_id'); }
-    /** return_number
+    /** Human-readable number for the Return.
      * @return string
      * @throws SdkError When return_number is omitted; use hasReturnNumber() or valueOrDefault().
      */
     public function getReturnNumber(): string { return $this->get('return_number'); }
     public function hasReturnNumber(): bool { return $this->has('return_number'); }
-    /** IDs of every resolution created for this Return, oldest first, including failed and canceled resolutions. Expand `return_resolutions` on `GET /v1/returns/{return_id}` to read them inline. [] (Value): string.
+    /** IDs of every resolution created for this Return, oldest first, including failed and canceled resolutions. Expand `return_resolutions` on `GET /v1/returns/{return_id}` to read them inline. [] (Value): string. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
      * @return list<string>
      * @throws SdkError When return_resolution_ids is omitted; use hasReturnResolutionIds() or valueOrDefault().
      */
     public function getReturnResolutionIds(): array { return $this->get('return_resolution_ids'); }
     public function hasReturnResolutionIds(): bool { return $this->has('return_resolution_ids'); }
-    /** Value enum: "requested", "open", "completed", "declined", "canceled".
+    /** Where the whole Return stands. Read `decision_status`, `merchandise_status`, and `resolution_status` for the part you need. Value enum: "requested", "open", "completed", "declined", "canceled".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
@@ -162,13 +162,13 @@ final class BuyerReturnInput extends Model {
      */
     public function getSupportedActions(): array { return $this->get('supported_actions'); }
     public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */
     public function getUpdatedAt(): string|\DateTimeInterface { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** Format: int64. minimum: 0.
+    /** Goes up with every change to the Return. Each activity's `return_version` is the version that activity produced. A write that takes `expected_version` or `expected_return_version` for this Return compares it with this value. Format: int64. minimum: 0.
      * @return int
      * @throws SdkError When version is omitted; use hasVersion() or valueOrDefault().
      */

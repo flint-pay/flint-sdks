@@ -9,9 +9,9 @@ const idempotencyKey = crypto.randomUUID();
 
 const result = await client.riskLists.create(
   {
-    alias: "example",
-    name: "example",
-    item_type: "card_fingerprint",
+    alias: "flagged_emails",
+    item_type: "email",
+    name: "Flagged email addresses",
   },
   { idempotencyKey: idempotencyKey },
 );

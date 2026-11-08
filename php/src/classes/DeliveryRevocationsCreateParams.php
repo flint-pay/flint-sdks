@@ -2,36 +2,47 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read int $expected_version
  * @property-read string $merchant_note
  * @property-read string $reason
- * @property-read array{'delivery_method_id'?: string, 'delivery_method_revision_id'?: string, 'delivery_rate_callback_id'?: string, 'delivery_rate_callback_revision_id'?: string, 'delivery_rate_callback_signing_key_id'?: string, 'location_geography_version': int, 'location_id': string, 'target_type': string}|object|array{'delivery_method_id'?: string, 'delivery_method_revision_id'?: string, 'delivery_rate_callback_id'?: string, 'delivery_rate_callback_revision_id'?: string, 'delivery_rate_callback_signing_key_id': string, 'location_geography_version'?: int, 'location_id'?: string, 'target_type': string}|object|array{'delivery_method_id'?: string, 'delivery_method_revision_id'?: string, 'delivery_rate_callback_id': string, 'delivery_rate_callback_revision_id'?: string, 'delivery_rate_callback_signing_key_id'?: string, 'location_geography_version'?: int, 'location_id'?: string, 'target_type': string}|object|array{'delivery_method_id'?: string, 'delivery_method_revision_id'?: string, 'delivery_rate_callback_id': string, 'delivery_rate_callback_revision_id': string, 'delivery_rate_callback_signing_key_id'?: string, 'location_geography_version'?: int, 'location_id'?: string, 'target_type': string}|object|array{'delivery_method_id': string, 'delivery_method_revision_id'?: string, 'delivery_rate_callback_id'?: string, 'delivery_rate_callback_revision_id'?: string, 'delivery_rate_callback_signing_key_id'?: string, 'location_geography_version'?: int, 'location_id'?: string, 'target_type': string}|object|array{'delivery_method_id': string, 'delivery_method_revision_id': string, 'delivery_rate_callback_id'?: string, 'delivery_rate_callback_revision_id'?: string, 'delivery_rate_callback_signing_key_id'?: string, 'location_geography_version'?: int, 'location_id'?: string, 'target_type': string}|object $target
+ * @property-read CreateDeliveryRevocationTargetInput|array<array-key, mixed>|\stdClass $target
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryRevocationsCreateParams extends Model {
-    /** @param array{'expected_version'?: int, 'merchant_note'?: string, 'reason': string, 'target': array{'delivery_method_id'?: string, 'delivery_method_revision_id'?: string, 'delivery_rate_callback_id'?: string, 'delivery_rate_callback_revision_id'?: string, 'delivery_rate_callback_signing_key_id'?: string, 'location_geography_version': int, 'location_id': string, 'target_type': string}|object|array{'delivery_method_id'?: string, 'delivery_method_revision_id'?: string, 'delivery_rate_callback_id'?: string, 'delivery_rate_callback_revision_id'?: string, 'delivery_rate_callback_signing_key_id': string, 'location_geography_version'?: int, 'location_id'?: string, 'target_type': string}|object|array{'delivery_method_id'?: string, 'delivery_method_revision_id'?: string, 'delivery_rate_callback_id': string, 'delivery_rate_callback_revision_id'?: string, 'delivery_rate_callback_signing_key_id'?: string, 'location_geography_version'?: int, 'location_id'?: string, 'target_type': string}|object|array{'delivery_method_id'?: string, 'delivery_method_revision_id'?: string, 'delivery_rate_callback_id': string, 'delivery_rate_callback_revision_id': string, 'delivery_rate_callback_signing_key_id'?: string, 'location_geography_version'?: int, 'location_id'?: string, 'target_type': string}|object|array{'delivery_method_id': string, 'delivery_method_revision_id'?: string, 'delivery_rate_callback_id'?: string, 'delivery_rate_callback_revision_id'?: string, 'delivery_rate_callback_signing_key_id'?: string, 'location_geography_version'?: int, 'location_id'?: string, 'target_type': string}|object|array{'delivery_method_id': string, 'delivery_method_revision_id': string, 'delivery_rate_callback_id'?: string, 'delivery_rate_callback_revision_id'?: string, 'delivery_rate_callback_signing_key_id'?: string, 'location_geography_version'?: int, 'location_id'?: string, 'target_type': string}|object}|object $values */
+    /** @param array{'merchant_note'?: string, 'reason': string, 'target': CreateDeliveryRevocationTargetInput|array<array-key, mixed>|\stdClass, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryRevocationsCreateParams')); }
-    /** Required when target.target_type is delivery_method or delivery_rate_callback. The version of the stable resource whose current revision will be revoked. Omit it for exact revision, geography, and signing-key targets. Format: uint64. minimum: 1.
-     * @return int
-     * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
-     */
-    public function getExpectedVersion(): int { return $this->get('expected_version'); }
-    public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** minLength: 1. maxLength: 2048.
+    /** Optional incident context retained with this revocation. minLength: 1. maxLength: 2048.
      * @return string
      * @throws SdkError When merchant_note is omitted; use hasMerchantNote() or valueOrDefault().
      */
     public function getMerchantNote(): string { return $this->get('merchant_note'); }
     public function hasMerchantNote(): bool { return $this->has('merchant_note'); }
-    /** Value enum: "unsafe_configuration", "location_unavailable", "credential_compromise", "legal_requirement", "other".
+    /** Why this dependency must no longer be used. Value enum: "unsafe_configuration", "location_unavailable", "credential_compromise", "legal_requirement", "other".
      * @return string
      * @throws SdkError When reason is omitted; use hasReason() or valueOrDefault().
      */
     public function getReason(): string { return $this->get('reason'); }
     public function hasReason(): bool { return $this->has('reason'); }
-    /** A typed revocation target. Each target_type accepts only its resource-specific fields.
-     * @return array{'delivery_method_id'?: string, 'delivery_method_revision_id'?: string, 'delivery_rate_callback_id'?: string, 'delivery_rate_callback_revision_id'?: string, 'delivery_rate_callback_signing_key_id'?: string, 'location_geography_version': int, 'location_id': string, 'target_type': string}|object|array{'delivery_method_id'?: string, 'delivery_method_revision_id'?: string, 'delivery_rate_callback_id'?: string, 'delivery_rate_callback_revision_id'?: string, 'delivery_rate_callback_signing_key_id': string, 'location_geography_version'?: int, 'location_id'?: string, 'target_type': string}|object|array{'delivery_method_id'?: string, 'delivery_method_revision_id'?: string, 'delivery_rate_callback_id': string, 'delivery_rate_callback_revision_id'?: string, 'delivery_rate_callback_signing_key_id'?: string, 'location_geography_version'?: int, 'location_id'?: string, 'target_type': string}|object|array{'delivery_method_id'?: string, 'delivery_method_revision_id'?: string, 'delivery_rate_callback_id': string, 'delivery_rate_callback_revision_id': string, 'delivery_rate_callback_signing_key_id'?: string, 'location_geography_version'?: int, 'location_id'?: string, 'target_type': string}|object|array{'delivery_method_id': string, 'delivery_method_revision_id'?: string, 'delivery_rate_callback_id'?: string, 'delivery_rate_callback_revision_id'?: string, 'delivery_rate_callback_signing_key_id'?: string, 'location_geography_version'?: int, 'location_id'?: string, 'target_type': string}|object|array{'delivery_method_id': string, 'delivery_method_revision_id': string, 'delivery_rate_callback_id'?: string, 'delivery_rate_callback_revision_id'?: string, 'delivery_rate_callback_signing_key_id'?: string, 'location_geography_version'?: int, 'location_id'?: string, 'target_type': string}|object
+    /** The parent and exact child identity to fence. Each target_type accepts only its own IDs. The parent and exact child identity to fence. Targets never resolve an alias to a current revision.
+     * @return CreateDeliveryRevocationTargetInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When target is omitted; use hasTarget() or valueOrDefault().
      */
     public function getTarget(): mixed { return $this->get('target'); }
     public function hasTarget(): bool { return $this->has('target'); }
+    /** Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Merchant-Id is omitted; use hasFlintMerchantId() or valueOrDefault().
+     */
+    public function getFlintMerchantId(): string { return $this->get('Flint-Merchant-Id'); }
+    public function hasFlintMerchantId(): bool { return $this->has('Flint-Merchant-Id'); }
+    /** Mode of the request context, live or test. Optional; it must match the credential's mode. Value enum: "test", "live".
+     * @return string
+     * @throws SdkError When Flint-Mode is omitted; use hasFlintMode() or valueOrDefault().
+     */
+    public function getFlintMode(): string { return $this->get('Flint-Mode'); }
+    public function hasFlintMode(): bool { return $this->has('Flint-Mode'); }
+    /** Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Sandbox-Id is omitted; use hasFlintSandboxId() or valueOrDefault().
+     */
+    public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
+    public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
 }

@@ -10,9 +10,9 @@ The request body for: Preview Return eligibility or resolution amounts for the c
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `eligibility` | Conditional | [CreateReturnEligibilityPreviewRequest](../models/CreateReturnEligibilityPreviewRequest.md#createreturneligibilitypreviewrequest) | A request to preview which items of an order can be returned, given an order and a selection. |
-| `mode` | Required | string | Values: `"eligibility"`, `"resolution"`. |
-| `resolution` | Conditional | [BuyerCreateReturnResolutionPreviewRequest](../models/BuyerCreateReturnResolutionPreviewRequest.md#buyercreatereturnresolutionpreviewrequest) | The buyer's proposed resolution type, returned quantities, and replacement items to preview for a Return. |
+| `eligibility` | Conditional | [CreateReturnEligibilityPreviewRequest](../models/CreateReturnEligibilityPreviewRequest.md#createreturneligibilitypreviewrequest) | The eligibility check. Present when `mode` is `eligibility`. A request to preview which items of an order can be returned, given an order and a selection. |
+| `mode` | Required | string | Which preview to run. Values: `"eligibility"`, `"resolution"`. |
+| `resolution` | Conditional | [BuyerCreateReturnResolutionPreviewRequest](../models/BuyerCreateReturnResolutionPreviewRequest.md#buyercreatereturnresolutionpreviewrequest) | The priced resolution. Present when `mode` is `resolution`. The buyer's proposed resolution type, returned quantities, and replacement items to preview for a Return. |
 
 ### BuyerCreateReturnPreviewRequest variant 1: `mode` = `"eligibility"`
 

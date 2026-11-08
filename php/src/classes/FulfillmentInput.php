@@ -20,7 +20,7 @@ namespace Flint;
  * @property-read DeliveryFulfillmentDetailsInput|array<array-key, mixed>|\stdClass $local_delivery_details
  * @property-read string $location_id
  * @property-read MetadataMapInput|array<array-key, mixed>|\stdClass $metadata
- * @property-read array{'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': SettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null $order
+ * @property-read array{'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'deferred_promotions': list<DeferredPromotionInput|array<array-key, mixed>|\stdClass>, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'paid_at': string|\DateTimeInterface|null, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': OrderSettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'supported_actions': list<string>, 'updated_at'?: string|\DateTimeInterface, ...}|object|null $order
  * @property-read string $order_id
  * @property-read string $order_number
  * @property-read FulfillmentOutcomeInput|array<array-key, mixed>|\stdClass $outcome
@@ -41,7 +41,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class FulfillmentInput extends Model {
-    /** @param array{'active_hold'?: FulfillmentHoldInput|array<array-key, mixed>|\stdClass, 'charges'?: list<FulfillmentChargeLinkInput|array<array-key, mixed>|\stdClass>, 'completed_at'?: string|\DateTimeInterface, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'delivery_choice_group_id': string|null, 'delivery_execution_leg_id': string|null, 'delivery_method_id': string|null, 'delivery_selection_id': string|null, 'device_id'?: string, 'digital_details'?: DigitalFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'dispatched_at'?: string|\DateTimeInterface, 'external_reference_id'?: string, 'fulfillment_id': string, 'line_items': list<FulfillmentLineItemInput|array<array-key, mixed>|\stdClass>, 'local_delivery_details'?: DeliveryFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'location_id'?: string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'order'?: array{'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': SettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'order_id': string, 'order_number'?: string, 'outcome'?: FulfillmentOutcomeInput|array<array-key, mixed>|\stdClass, 'packages'?: list<ExpandedPackageSummaryInput|array<array-key, mixed>|\stdClass>, 'packed_at'?: string|\DateTimeInterface, 'picked_at'?: string|\DateTimeInterface, 'pickup_details'?: PickupFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'recipient'?: FulfillmentRecipientInput|array<array-key, mixed>|\stdClass, 'scheduled_start_at': string|\DateTimeInterface|null, 'service_details'?: ServiceFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'shipment_details'?: ShipmentFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'shipments'?: list<ExpandedShipmentSummaryInput|array<array-key, mixed>|\stdClass>, 'status': string, 'supported_actions': list<string>, 'terminal_at'?: string|\DateTimeInterface, 'type': string, 'updated_at'?: string|\DateTimeInterface, 'version': int, ...}|object $values */
+    /** @param array{'active_hold'?: FulfillmentHoldInput|array<array-key, mixed>|\stdClass, 'charges'?: list<FulfillmentChargeLinkInput|array<array-key, mixed>|\stdClass>, 'completed_at'?: string|\DateTimeInterface, 'created_at': string|\DateTimeInterface, 'customer_id'?: string, 'delivery_choice_group_id': string|null, 'delivery_execution_leg_id': string|null, 'delivery_method_id': string|null, 'delivery_selection_id': string|null, 'device_id'?: string, 'digital_details'?: DigitalFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'dispatched_at'?: string|\DateTimeInterface, 'external_reference_id'?: string, 'fulfillment_id': string, 'line_items': list<FulfillmentLineItemInput|array<array-key, mixed>|\stdClass>, 'local_delivery_details'?: DeliveryFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'location_id'?: string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'order'?: array{'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'deferred_promotions': list<DeferredPromotionInput|array<array-key, mixed>|\stdClass>, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'paid_at': string|\DateTimeInterface|null, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': OrderSettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'supported_actions': list<string>, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'order_id': string, 'order_number'?: string, 'outcome'?: FulfillmentOutcomeInput|array<array-key, mixed>|\stdClass, 'packages'?: list<ExpandedPackageSummaryInput|array<array-key, mixed>|\stdClass>, 'packed_at'?: string|\DateTimeInterface, 'picked_at'?: string|\DateTimeInterface, 'pickup_details'?: PickupFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'recipient'?: FulfillmentRecipientInput|array<array-key, mixed>|\stdClass, 'scheduled_start_at': string|\DateTimeInterface|null, 'service_details'?: ServiceFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'shipment_details'?: ShipmentFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'shipments'?: list<ExpandedShipmentSummaryInput|array<array-key, mixed>|\stdClass>, 'status': string, 'supported_actions': list<string>, 'terminal_at'?: string|\DateTimeInterface, 'type': string, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('FulfillmentInput')); }
     /** Current hold details. Present exactly when status is on_hold. A hold on a fulfillment, with its reason, who placed it, and when it became active.
      * @return FulfillmentHoldInput|array<array-key, mixed>|\stdClass
@@ -55,49 +55,49 @@ final class FulfillmentInput extends Model {
      */
     public function getCharges(): array { return $this->get('charges'); }
     public function hasCharges(): bool { return $this->has('charges'); }
-    /** When the fulfillment was completed. Mirrors the completion time for its type: delivered_at for shipment, local delivery, and digital fulfillments, picked_up_at for pickup, and service_details.completed_at for service fulfillments. Omitted until a completion time is recorded. Format: date-time.
+    /** When the fulfillment was completed. Mirrors the completion time for its type: delivered_at for shipment, local delivery, and digital fulfillments, picked_up_at for pickup, and service_details.completed_at for service fulfillments. Omitted until a completion time is recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When completed_at is omitted; use hasCompletedAt() or valueOrDefault().
      */
     public function getCompletedAt(): string|\DateTimeInterface { return $this->get('completed_at'); }
     public function hasCompletedAt(): bool { return $this->has('completed_at'); }
-    /** When the fulfillment was created, in RFC3339 format. Format: date-time.
+    /** When the fulfillment was created, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Customer receiving this fulfillment, when one is set.
+    /** Customer receiving this fulfillment, when one is set. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** Delivery choice group that created this fulfillment. Null for fulfillments created by the merchant or through checkout without a delivery quote.
+    /** Delivery choice group that created this fulfillment. `null` when the merchant created the fulfillment or checkout created it without a delivery quote. Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
      * @return string|null
      * @throws SdkError When delivery_choice_group_id is omitted; use hasDeliveryChoiceGroupId() or valueOrDefault().
      */
     public function getDeliveryChoiceGroupId(): string|null { return $this->get('delivery_choice_group_id'); }
     public function hasDeliveryChoiceGroupId(): bool { return $this->has('delivery_choice_group_id'); }
-    /** Execution leg of the selected delivery option that created this fulfillment. Null for fulfillments created by the merchant or through checkout without a delivery quote.
+    /** Execution leg of the selected delivery option that created this fulfillment. `null` when the merchant created the fulfillment or checkout created it without a delivery quote. Example: "dleg_01KEZF7C00VB59BKTRC8W4KR4M".
      * @return string|null
      * @throws SdkError When delivery_execution_leg_id is omitted; use hasDeliveryExecutionLegId() or valueOrDefault().
      */
     public function getDeliveryExecutionLegId(): string|null { return $this->get('delivery_execution_leg_id'); }
     public function hasDeliveryExecutionLegId(): bool { return $this->has('delivery_execution_leg_id'); }
-    /** Delivery method chosen for this fulfillment. Null for fulfillments created by the merchant or through checkout without a delivery quote. Also null for fulfillments created before this field was added.
+    /** Delivery method chosen for this fulfillment. `null` when the merchant created the fulfillment or checkout created it without a delivery quote. Also `null` when it was created before this field was added. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
      * @return string|null
      * @throws SdkError When delivery_method_id is omitted; use hasDeliveryMethodId() or valueOrDefault().
      */
     public function getDeliveryMethodId(): string|null { return $this->get('delivery_method_id'); }
     public function hasDeliveryMethodId(): bool { return $this->has('delivery_method_id'); }
-    /** Delivery selection that created this fulfillment. Null for fulfillments created by the merchant or through checkout without a delivery quote.
+    /** Delivery selection that created this fulfillment. `null` when the merchant created the fulfillment or checkout created it without a delivery quote. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
      * @return string|null
      * @throws SdkError When delivery_selection_id is omitted; use hasDeliverySelectionId() or valueOrDefault().
      */
     public function getDeliverySelectionId(): string|null { return $this->get('delivery_selection_id'); }
     public function hasDeliverySelectionId(): bool { return $this->has('delivery_selection_id'); }
-    /** Device associated with the fulfillment, when one is recorded.
+    /** Device associated with the fulfillment, when one is recorded. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6".
      * @return string
      * @throws SdkError When device_id is omitted; use hasDeviceId() or valueOrDefault().
      */
@@ -109,19 +109,19 @@ final class FulfillmentInput extends Model {
      */
     public function getDigitalDetails(): mixed { return $this->get('digital_details'); }
     public function hasDigitalDetails(): bool { return $this->has('digital_details'); }
-    /** First time this fulfillment reached dispatched. Format: date-time.
+    /** First time this fulfillment reached dispatched. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When dispatched_at is omitted; use hasDispatchedAt() or valueOrDefault().
      */
     public function getDispatchedAt(): string|\DateTimeInterface { return $this->get('dispatched_at'); }
     public function hasDispatchedAt(): bool { return $this->has('dispatched_at'); }
-    /** Caller-owned identifier for this resource in an external system. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Stable identifier of the fulfillment.
+    /** Stable identifier of the fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
      * @return string
      * @throws SdkError When fulfillment_id is omitted; use hasFulfillmentId() or valueOrDefault().
      */
@@ -139,7 +139,7 @@ final class FulfillmentInput extends Model {
      */
     public function getLocalDeliveryDetails(): mixed { return $this->get('local_delivery_details'); }
     public function hasLocalDeliveryDetails(): bool { return $this->has('local_delivery_details'); }
-    /** Merchant location responsible for this fulfillment.
+    /** Merchant location responsible for this fulfillment. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When location_id is omitted; use hasLocationId() or valueOrDefault().
      */
@@ -152,12 +152,12 @@ final class FulfillmentInput extends Model {
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** Order summary returned when the order relationship is expanded. Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1] (Value): {@see ExpandedOrderSummaryInput}. An order's summary fields, including status, payment and refund status, and pricing and settlement amounts, returned when the order is expanded. anyOf[2] (Value): null.
-     * @return array{'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': SettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null
+     * @return array{'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'deferred_promotions': list<DeferredPromotionInput|array<array-key, mixed>|\stdClass>, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'paid_at': string|\DateTimeInterface|null, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': OrderSettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'supported_actions': list<string>, 'updated_at'?: string|\DateTimeInterface, ...}|object|null
      * @throws SdkError When order is omitted; use hasOrder() or valueOrDefault().
      */
     public function getOrder(): mixed { return $this->get('order'); }
     public function hasOrder(): bool { return $this->has('order'); }
-    /** Order whose items this fulfillment delivers.
+    /** Order whose items this fulfillment delivers. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */
@@ -181,13 +181,13 @@ final class FulfillmentInput extends Model {
      */
     public function getPackages(): array { return $this->get('packages'); }
     public function hasPackages(): bool { return $this->has('packages'); }
-    /** First time this fulfillment reached packed. Format: date-time.
+    /** First time this fulfillment reached packed. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When packed_at is omitted; use hasPackedAt() or valueOrDefault().
      */
     public function getPackedAt(): string|\DateTimeInterface { return $this->get('packed_at'); }
     public function hasPackedAt(): bool { return $this->has('packed_at'); }
-    /** First time this fulfillment reached picked. Format: date-time.
+    /** First time this fulfillment reached picked. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When picked_at is omitted; use hasPickedAt() or valueOrDefault().
      */
@@ -205,7 +205,7 @@ final class FulfillmentInput extends Model {
      */
     public function getRecipient(): mixed { return $this->get('recipient'); }
     public function hasRecipient(): bool { return $this->has('recipient'); }
-    /** Derived start of the service schedule or pickup, local delivery, or shipment window. Null when no schedule is booked, including digital fulfillments. Details remain the authoritative schedule inputs. Nulls sort first ascending and last descending, then by fulfillment_id in the same direction. Format: date-time.
+    /** Derived start of the service schedule or pickup, local delivery, or shipment window. Null when no schedule is booked, including digital fulfillments. Details remain the authoritative schedule inputs. Nulls sort first ascending and last descending, then by fulfillment_id in the same direction. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface|null
      * @throws SdkError When scheduled_start_at is omitted; use hasScheduledStartAt() or valueOrDefault().
      */
@@ -235,13 +235,13 @@ final class FulfillmentInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Read-only actions currently supported for this fulfillment. [] enum: "complete", "cancel", "hold", "start", "mark_ready", "fail", "schedule", "accept", "mark_preparing", "mark_picked", "mark_packed", "dispatch", "mark_no_show", "release_hold". [] (Value): string.  Value enum: "complete", "cancel", "hold", "start", "mark_ready", "fail", "schedule", "accept", "mark_preparing", "mark_picked", "mark_packed", "dispatch", "mark_no_show", "release_hold".
+    /** Read-only lifecycle actions accepted now, based on the fulfillment, its order payment status, holds, and shipment progress. Empty when none are available. Values name the verb route with hyphens replaced by underscores. [] enum: "accept", "cancel", "complete", "dispatch", "fail", "hold", "mark_no_show", "mark_packed", "mark_picked", "mark_preparing", "mark_ready", "release_hold", "schedule", "start". [] (Value): string.  Value enum: "accept", "cancel", "complete", "dispatch", "fail", "hold", "mark_no_show", "mark_packed", "mark_picked", "mark_preparing", "mark_ready", "release_hold", "schedule", "start".
      * @return list<string>
      * @throws SdkError When supported_actions is omitted; use hasSupportedActions() or valueOrDefault().
      */
     public function getSupportedActions(): array { return $this->get('supported_actions'); }
     public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
-    /** When the fulfillment entered a terminal state: completed, canceled, failed, or no_show. This records the state transition; completed_at records completion evidence supplied for the fulfillment. Format: date-time.
+    /** When the fulfillment entered a terminal state: completed, canceled, failed, or no_show. This records the state transition; completed_at records completion evidence supplied for the fulfillment. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When terminal_at is omitted; use hasTerminalAt() or valueOrDefault().
      */
@@ -253,7 +253,7 @@ final class FulfillmentInput extends Model {
      */
     public function getType(): string { return $this->get('type'); }
     public function hasType(): bool { return $this->has('type'); }
-    /** When the fulfillment was last updated, in RFC3339 format. Format: date-time.
+    /** When the fulfillment was last updated, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */

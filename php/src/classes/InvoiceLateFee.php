@@ -10,13 +10,14 @@ namespace Flint;
  * @property-read mixed $late_fee_policy
  * @property-read MoneyValue $outstanding_money
  * @property-read MoneyValue $paid_money
+ * @property-read list<string> $supported_actions
  * @property-read ?string $waived_at
  * @property-read MoneyValue $waived_money
  * @property-read ?string $waiver_reason_message
  * @property-read MoneyValue $written_off_money
  * Presence-aware response; omitted optional fields return null. */
 final class InvoiceLateFee extends Model {
-    /** @param array{'amount_money': mixed, 'assessed_at': string, 'base_outstanding_money': mixed, 'invoice_late_fee_id': string, 'invoice_schedule_entry_id'?: string, 'late_fee_policy': mixed, 'outstanding_money': mixed, 'paid_money': mixed, 'waived_at'?: string, 'waived_money': mixed, 'waiver_reason_message'?: string, 'written_off_money': mixed, ...}|object $values */
+    /** @param array{'amount_money': mixed, 'assessed_at': string, 'base_outstanding_money': mixed, 'invoice_late_fee_id': string, 'invoice_schedule_entry_id'?: string, 'late_fee_policy': mixed, 'outstanding_money': mixed, 'paid_money': mixed, 'supported_actions': list<string>, 'waived_at'?: string, 'waived_money': mixed, 'waiver_reason_message'?: string, 'written_off_money': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceLateFee')); }
     /** The assessed fee: the policy's fixed amount, or its percent of base_outstanding_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
@@ -43,7 +44,7 @@ final class InvoiceLateFee extends Model {
      */
     public function getInvoiceScheduleEntryId(): ?string { return $this->get('invoice_schedule_entry_id'); }
     public function hasInvoiceScheduleEntryId(): bool { return $this->has('invoice_schedule_entry_id'); }
-    /** The late fee policy from payment_terms_snapshot, copied when the fee was assessed. anyOf[1] (Value): {@see InvoiceLateFeePolicy}. A late fee for overdue invoices: a fixed amount or a percentage, a grace period in days, and whether Flint applies it automatically. anyOf[2] (Value): null.
+    /** The late fee policy from payment_terms_snapshot, copied when the fee was assessed. `null` when no policy was captured. anyOf[1] (Value): {@see InvoiceLateFeePolicy}. A late fee for overdue invoices: a fixed amount or a percentage, a grace period in days, and whether Flint applies it automatically. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getLateFeePolicy(): mixed { return $this->get('late_fee_policy'); }
@@ -58,6 +59,11 @@ final class InvoiceLateFee extends Model {
      */
     public function getPaidMoney(): MoneyValue { return $this->get('paid_money'); }
     public function hasPaidMoney(): bool { return $this->has('paid_money'); }
+    /** Lifecycle actions Flint accepts for this resource now, based on stored state. Independent of the caller's permissions; each action still requires its route's scope. Always [] when no action is available. [] enum: "waive". [] (Value): string.  Value enum: "waive".
+     * @return list<string>
+     */
+    public function getSupportedActions(): array { return $this->get('supported_actions'); }
+    public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
     /** When the fee was waived. Absent unless it was waived. Format: date-time.
      * @return ?string
      */

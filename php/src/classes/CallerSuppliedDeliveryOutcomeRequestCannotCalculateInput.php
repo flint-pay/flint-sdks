@@ -24,7 +24,7 @@ final class CallerSuppliedDeliveryOutcomeRequestCannotCalculateInput extends Mod
      */
     public function getAmountMoney(): mixed { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** RFC3339 timestamp. Format: date-time. minLength: 1.
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When expires_at is omitted; use hasExpiresAt() or valueOrDefault().
      */
@@ -54,7 +54,7 @@ final class CallerSuppliedDeliveryOutcomeRequestCannotCalculateInput extends Mod
      */
     public function getRetryable(): bool { return $this->get('retryable'); }
     public function hasRetryable(): bool { return $this->has('retryable'); }
-    /** RFC3339 timestamp. Format: date-time. minLength: 1.
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When selection_guarantee_expires_at is omitted; use hasSelectionGuaranteeExpiresAt() or valueOrDefault().
      */
@@ -72,19 +72,19 @@ final class CallerSuppliedDeliveryOutcomeRequestCannotCalculateInput extends Mod
      */
     public function getType(): string { return $this->get('type'); }
     public function hasType(): bool { return $this->has('type'); }
-    /** Why the method is unavailable and the action that can make it eligible. - `destination_not_served`: Use a destination covered by this method or choose another method. - `pickup_unavailable`: Choose an available pickup method or location. - `no_window_available`: Choose another offered window or a method with availability for the requested time. - `eligibility_no_match`: Inspect eligibility_mismatches, then change the relevant buyer facts or method eligibility rule. - `pricing_unavailable`: Add or activate a matching rate, or provide the required caller-supplied price. - `inventory_unavailable`: Choose an origin or method backed by available inventory. Value enum: "destination_not_served", "pickup_unavailable", "no_window_available", "eligibility_no_match", "pricing_unavailable", "inventory_unavailable".
+    /** Why the method is unavailable and the action that can make it eligible. - `destination_not_served`: Use a destination covered by this method or choose another method. - `pickup_unavailable`: Choose an available pickup method or location. - `no_window_available`: Choose another offered window or a method with availability for the requested time. - `eligibility_no_match`: Inspect eligibility_mismatches, then change the relevant buyer facts or method eligibility rule. - `pricing_unavailable`: Add or activate a matching rate, or provide the required caller-supplied price. - `inventory_unavailable`: The origin or pickup location cannot supply the requested inventory. Reduce the quantity, replenish inventory, or choose another origin or method. Value enum: "destination_not_served", "pickup_unavailable", "no_window_available", "eligibility_no_match", "pricing_unavailable", "inventory_unavailable".
      * @return string
      * @throws SdkError When unavailable_reason is omitted; use hasUnavailableReason() or valueOrDefault().
      */
     public function getUnavailableReason(): string { return $this->get('unavailable_reason'); }
     public function hasUnavailableReason(): bool { return $this->has('unavailable_reason'); }
-    /** RFC3339 timestamp. Format: date-time. minLength: 1.
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When window_end_at is omitted; use hasWindowEndAt() or valueOrDefault().
      */
     public function getWindowEndAt(): string|\DateTimeInterface { return $this->get('window_end_at'); }
     public function hasWindowEndAt(): bool { return $this->has('window_end_at'); }
-    /** RFC3339 timestamp. Format: date-time. minLength: 1.
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When window_start_at is omitted; use hasWindowStartAt() or valueOrDefault().
      */

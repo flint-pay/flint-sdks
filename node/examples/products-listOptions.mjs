@@ -5,6 +5,6 @@ const client = new Client({
   allowInsecureHttp: !!baseUrl && ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
 });
 const result = await client.products.listOptions(
-  "prod_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "prod_01KEZF7C00BVSHCNWVH528HB66"
 );
 console.log(result.request_id);

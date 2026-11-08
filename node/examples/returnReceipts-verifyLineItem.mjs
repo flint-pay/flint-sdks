@@ -8,11 +8,12 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.returnReceipts.verifyLineItem(
-  "retrc_01ARZ3NDEKTSV4RRFFQ69G5FAV",
-  "retrcli_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "retrc_01KEZF7C0052GWDW41D9AJAVJZ",
+  "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE",
   {
-    return_line_item_id: "retli_01ARZ3NDEKTSV4RRFFQ69G5FAV",
-    verification_reason: "order_match_confirmed",
+    expected_version: 1,
+    return_line_item_id: "retli_01KEZF7C001NHF6JPD83VD0MRK",
+    verification_reason: "sku_match_confirmed",
   },
   { idempotencyKey: idempotencyKey },
 );

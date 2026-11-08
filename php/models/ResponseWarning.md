@@ -8,21 +8,22 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `capability` | Optional | string | Merchant capability for merchant_onboarding_deadline, merchant_capability_pending, or merchant_capability_inactive. Values: [8 declared values](#responsewarning-capability-values). |
-| `code` | Required | string | Warning code. Clients must accept values added in future releases. Values: [10 declared values](ResponseWarningInput.md#responsewarninginput-code-values). |
-| `current_deadline_at` | Optional | string | Onboarding requirements deadline for merchant_onboarding_deadline, or merchant_onboarding_past_due when a deadline is set. Format: `date-time`. |
+| `capability` | Optional | string | Merchant capability for merchant_onboarding_deadline, merchant_capability_pending, or merchant_capability_inactive. Allowed for `merchant_onboarding_deadline`, `merchant_capability_pending`, `merchant_capability_inactive` warnings. Values: [8 declared values](#responsewarning-capability-values). |
+| `code` | Required | string | Warning code. Clients must accept values added in future releases. Values: [13 declared values](ResponseWarningInput.md#responsewarninginput-code-values). |
+| `due_at` | Optional | string | Time by which the merchant must submit onboarding requirements, as an RFC 3339 UTC timestamp. Present only for merchant_onboarding_deadline or merchant_onboarding_past_due when a submission deadline is set. Allowed for `merchant_onboarding_past_due`, `merchant_onboarding_deadline` warnings. Format: `date-time`. |
 | `message` | Required | string | Description of the non-blocking condition. |
-| `next_actions` | Optional | Array of [NextAction](../models/NextAction.md#nextaction) | Suggested actions for addressing the warning. |
-| `observed_at` | Optional | string | Last synchronization time for merchant_onboarding_past_due, merchant_onboarding_deadline, merchant_capability_pending, or merchant_capability_inactive, when available. Format: `date-time`. |
-| `previous_stage` | Optional | string | Previous risk rule evaluation stage for rule_evaluation_stage_changed. Values: `"pre_authorization"`, `"post_authorization"`. |
-| `promotion_code` | Optional | string | Promotion code that was accepted but did not apply, on a promotion_declined warning, or the code of a removed promotion discount, on a promotion_removed warning. |
-| `reason` | Optional | string | Stable Flint reason code. On a promotion_declined or promotion_removed warning this is the promotion decline reason (for example superseded_by_better_offer); an unrecognized value falls back to not_eligible. See the Promotions reference for the full list. Values: [20 declared values](PromotionCandidateInput.md#promotioncandidateinput-promotion_decline_reason-values). |
-| `removed_scopes` | Optional | Array of string | Requested scopes excluded from the issued API key for api_key_scopes_reduced. Items values: [96 declared values](APIKeyInput.md#apikeyinput-scopes--values). |
-| `resource_id` | Optional | string | Resource ID, paired with resource_type when the warning identifies a resource. |
-| `resource_type` | Optional | string | Type of the resource identified by resource_id. Values: [141 declared values](APIRequestLogInput.md#apirequestloginput-resource_type-values). |
+| `next_actions` | Optional | Array of [NextAction](../models/NextAction.md#nextaction) | Suggested actions for addressing the warning. Allowed for `merchant_onboarding_past_due`, `merchant_onboarding_deadline`, `merchant_capability_pending`, `merchant_capability_inactive`, `payout_settings_reconciling` warnings. `next_actions[]`: [field definitions](../models/DisputeResponse.md#disputeresponsemetawarningsnext_actions). |
+| `observed_at` | Optional | string | Last synchronization time for merchant_onboarding_past_due, merchant_onboarding_deadline, merchant_capability_pending, or merchant_capability_inactive, when available. Allowed for `merchant_onboarding_past_due`, `merchant_onboarding_deadline`, `merchant_capability_pending`, `merchant_capability_inactive` warnings. Format: `date-time`. |
+| `previous_stage` | Optional | string | Previous risk rule evaluation stage for rule_evaluation_stage_changed. Allowed for `rule_evaluation_stage_changed` warnings. Values: `"pre_authorization"`, `"post_authorization"`. |
+| `promotion_code` | Optional | string | Promotion code that was accepted but did not apply, on a promotion_declined warning, or the code of a removed promotion discount, on a promotion_removed warning. Allowed for `promotion_declined`, `promotion_removed` warnings. |
+| `reason` | Optional | string | Stable Flint reason code. On a promotion_declined or promotion_removed warning this is the promotion decline reason (for example superseded_by_better_offer); an unrecognized value falls back to not_eligible. See the Promotions reference for the full list. Allowed for `promotion_declined`, `promotion_removed` warnings. Values: [24 declared values](PromotionCandidateInput.md#promotioncandidateinput-promotion_decline_reason-values). |
+| `removed_scopes` | Optional | Array of string | Requested scopes excluded from the issued API key for api_key_scopes_reduced. Allowed for `api_key_scopes_reduced` warnings. Items values: [96 declared values](APIKeyInput.md#apikeyinput-scopes--values). |
+| `resets_at` | Optional | string | End of the original order reservation's usage period, at the start of a New York calendar month, as an RFC 3339 UTC timestamp. Replays preserve this original reset time. Allowed for `external_paid_orders_over_allowance` warnings. Format: `date-time`. |
+| `resource_id` | Optional | string | Resource ID, paired with resource_type when the warning identifies a resource. Allowed for `billing_interval_options_same_price`, `merchant_onboarding_past_due`, `merchant_onboarding_deadline`, `merchant_capability_pending`, `merchant_capability_inactive`, `payout_settings_reconciling`, `promotion_declined`, `promotion_removed`, `risk_rule_limit_reached`, `rule_evaluation_stage_changed`, `external_paid_orders_over_allowance`, `replacement_codes_unavailable` warnings. |
+| `resource_type` | Optional | string | Type of the resource identified by resource_id. Allowed for `billing_interval_options_same_price`, `merchant_onboarding_past_due`, `merchant_onboarding_deadline`, `merchant_capability_pending`, `merchant_capability_inactive`, `payout_settings_reconciling`, `promotion_declined`, `promotion_removed`, `risk_rule_limit_reached`, `rule_evaluation_stage_changed`, `external_paid_orders_over_allowance`, `replacement_codes_unavailable` warnings. Values: [146 declared values](APIRequestLogInput.md#apirequestloginput-resource_type-values). |
 | `severity` | Required | string | Warning severity. Values: `"warning"`, `"critical"`. |
-| `stage` | Optional | string | New risk rule evaluation stage for rule_evaluation_stage_changed. Values: `"pre_authorization"`, `"post_authorization"`. |
-| `would_have_applied_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Discount amount this promotion would have applied had it won, on a promotion_declined warning, or the amount a removed promotion discount applied before removal, on a promotion_removed warning. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `stage` | Optional | string | New risk rule evaluation stage for rule_evaluation_stage_changed. Allowed for `rule_evaluation_stage_changed` warnings. Values: `"pre_authorization"`, `"post_authorization"`. |
+| `would_have_applied_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Discount amount this promotion would have applied had it won, on a promotion_declined warning, or the amount a removed promotion discount applied before removal, on a promotion_removed warning. Allowed for `promotion_declined`, `promotion_removed` warnings. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 
 #### ResponseWarning capability values
 
@@ -34,4 +35,8 @@ Response model.
 - `"create_standard_payouts"`
 - `"manage_payout_destinations"`
 - `"manage_payout_settings"`
+
+### ResponseWarning.next_actions[]
+
+Field definitions: [DisputeResponse.meta.warnings[].next_actions[]](../models/DisputeResponse.md#disputeresponsemetawarningsnext_actions).
 

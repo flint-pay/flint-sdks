@@ -19,11 +19,11 @@ Response model.
 
 A distance rate for calculated delivery pricing: a price by currency for each `unit_quantity` of `unit`.
 
-Field definitions: [shared fields](DeliveryMethodConfigurationPricingCalculatedCalculated.md#deliverymethodconfigurationpricingcalculatedcalculateddistance-fields-1).
+Field definitions: [shared fields](DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationpricingcalculateddistance).
 
 ### DeliveryMethodConfigurationPricingTieredCalculated.weight fields 1
 
 Price per unit of weight for calculated pricing: a price per currency for each `unit_quantity` of the chosen weight `unit`.
 
-Field definitions: [shared fields](DeliveryMethodConfigurationPricingCalculatedCalculated.md#deliverymethodconfigurationpricingcalculatedcalculatedweight-fields-1).
+Field definitions: [shared fields](DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationpricingcalculatedweight).
 

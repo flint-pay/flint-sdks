@@ -10,13 +10,15 @@ Gift card value held back by a purchase refund, with the refund, the root gift c
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `purchase_refund_allocation_id` | Required | string |  |
-| `refund_id` | Required | string |  |
-| `root_gift_card_id` | Required | string |  |
-| `root_gift_card_load_id` | Required | string |  |
-| `value_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. `value_money`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options). |
+| `purchase_refund_allocation_id` | Required | string | ID of the pending purchase refund entry that holds the value. Example: `"gcpra_01KEZF7C00HJZ2YP6AENMZK5KA"`. |
+| `refund_id` | Required | string | ID of the pending refund that holds the value. Example: `"ref_01KEZF7C003DTD59WKYHEXYQ1K"`. |
+| `root_gift_card_id` | Required | string | ID of the original card whose purchase is being refunded. Example: `"gc_01KEZF7C00RT1618WYBM1Y94CG"`. |
+| `root_gift_card_load_id` | Required | string | ID of the original funding load that is being refunded. Example: `"gcl_01KEZF7C00YJED2857SE0J6KWC"`. |
+| `value_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The unspent value held. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `value_money`: [field definitions](../models/GiftCardPurchaseRefundValueHold.md#giftcardpurchaserefundvalueholdvalue_money). |
 
 ### GiftCardPurchaseRefundValueHold.value_money
 
-Field definitions: [BuyerCheckoutSession.tip.smart_tip_money_options[]](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options).
+The unspent value held. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+
+Field definitions: [shared fields](MoneyValueInput.md#moneyvalueinput).
 

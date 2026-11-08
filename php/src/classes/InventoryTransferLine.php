@@ -24,7 +24,7 @@ final class InventoryTransferLine extends Model {
      */
     public function getCanceledQuantity(): int { return $this->get('canceled_quantity'); }
     public function hasCanceledQuantity(): bool { return $this->has('canceled_quantity'); }
-    /** Value enum: "sellable", "quality_control", "damaged", "quarantined".
+    /** Condition of the units being moved. Value enum: "sellable", "quality_control", "damaged", "quarantined".
      * @return string
      */
     public function getCondition(): string { return $this->get('condition'); }
@@ -34,12 +34,12 @@ final class InventoryTransferLine extends Model {
      */
     public function getDepartedQuantity(): int { return $this->get('departed_quantity'); }
     public function hasDepartedQuantity(): bool { return $this->has('departed_quantity'); }
-    /** inventory_item_id
+    /** ID of the inventory item to move.
      * @return string
      */
     public function getInventoryItemId(): string { return $this->get('inventory_item_id'); }
     public function hasInventoryItemId(): bool { return $this->has('inventory_item_id'); }
-    /** inventory_transfer_line_id
+    /** Unique identifier for this inventory transfer line, prefixed `invtrln_`.
      * @return string
      */
     public function getInventoryTransferLineId(): string { return $this->get('inventory_transfer_line_id'); }

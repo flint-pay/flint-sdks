@@ -1,16 +1,15 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-5.js';
+import type { ClientOptions } from '../declarations/types-6.js';
 import type {
     CustomerDeletionRequest,
     CustomerDeletionRequestListResponse,
     CustomerDeletionRequestResponse,
     CustomerDeletionRequestsCreateParams,
-    CustomerDeletionRequestsGetParams,
-    CustomerDeletionRequestsListParams,
-    CustomerDeletionRequestsResolveParams
-} from '../declarations/types-13.js';
-import type { RequestOptions } from '../declarations/types-48.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+    CustomerDeletionRequestsGetParams
+} from '../declarations/types-14.js';
+import type { CustomerDeletionRequestsListParams, CustomerDeletionRequestsResolveParams } from '../declarations/types-15.js';
+import type { RequestOptions } from '../declarations/types-51.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -30,21 +29,26 @@ export type {
     CustomerDeletionRequest,
     CustomerDeletionRequestResponse,
     CustomerDeletionRequestsGetParams,
-    CustomerDeletionRequestsListParams,
-    CustomerDeletionRequestListResponse,
-    CustomerDeletionRequestsResolveParams
-} from '../declarations/types-13.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResolveCustomerDeletionRequestInput } from '../declarations/types-48.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { ClientOptions } from '../declarations/types-5.js';
-export type { CreateCustomerDeletionRequestInput, CreateCustomerDeletionRequest } from '../declarations/types-7.js';
+    CustomerDeletionRequestListResponse
+} from '../declarations/types-14.js';
+export type {
+    RequestOptions,
+    ResponseMeta,
+    ResponseWarning,
+    ResourceReference,
+    ResolveCustomerDeletionRequestInput
+} from '../declarations/types-51.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+export type { CustomerDeletionRequestsListParams, CustomerDeletionRequestsResolveParams } from '../declarations/types-15.js';
+export type { ClientOptions } from '../declarations/types-6.js';
+export type { CreateCustomerDeletionRequestInput, CreateCustomerDeletionRequest } from '../declarations/types-8.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-12.js';
-export type { NextAction, MoneyValue } from '../declarations/types-35.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
-export { makeCreateCustomerDeletionRequest } from '../declarations/types-63.js';
-export { makeMoneyValue } from '../declarations/types-70.js';
-export { makeResolveCustomerDeletionRequest } from '../declarations/types-72.js';
+export type { Credentials } from '../declarations/types-13.js';
+export type { NextAction, MoneyValue } from '../declarations/types-37.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
+export { makeCreateCustomerDeletionRequest } from '../declarations/types-68.js';
+export { makeMoneyValue } from '../declarations/types-75.js';
+export { makeResolveCustomerDeletionRequest } from '../declarations/types-77.js';
 export interface CustomerDeletionRequestsResource {
     /**
  * Creates a deletion request for merchant review, or returns the customer's open request
@@ -56,7 +60,7 @@ export interface CustomerDeletionRequestsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.customerDeletionRequests.create({customer_id: "cus_01ARZ3NDEKTSV4RRFFQ69G5FAV"}, {
+ * client.customerDeletionRequests.create({customer_id: "cus_01KEZF7C003ACYXT6Q5EQZ78EE"}, {
  * idempotencyKey: idempotencyKey })
  */
     create(params: CustomerDeletionRequestsCreateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<CustomerDeletionRequest, CustomerDeletionRequestResponse>>;
@@ -68,7 +72,7 @@ export interface CustomerDeletionRequestsResource {
  * @see https://developers.withflintpay.com/docs/api/customers#getCustomerDeletionRequest
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.customerDeletionRequests.get("cdel_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.customerDeletionRequests.get("cdel_01KEZF7C009P94WEXW5RMRFXAY")
  */
     get(customer_deletion_request_id: InputValue<string>, params?: CustomerDeletionRequestsGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<CustomerDeletionRequest, CustomerDeletionRequestResponse>>;
     /**
@@ -104,7 +108,7 @@ export interface CustomerDeletionRequestsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.customerDeletionRequests.resolve("cdel_01ARZ3NDEKTSV4RRFFQ69G5FAV", {decision:
+ * client.customerDeletionRequests.resolve("cdel_01KEZF7C009P94WEXW5RMRFXAY", {decision:
  * "approve"}, { idempotencyKey: idempotencyKey })
  */
     resolve(customer_deletion_request_id: InputValue<string>, params: CustomerDeletionRequestsResolveParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<CustomerDeletionRequest, CustomerDeletionRequestResponse>>;

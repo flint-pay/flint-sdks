@@ -8,13 +8,13 @@ namespace Flint;
 final class InventoryRoutingSourceInputFixedLocationInput extends Model {
     /** @param array{'location_id': string, 'type': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryRoutingSourceInputFixedLocationInput')); }
-    /** minLength: 1.
+    /** ID of the fixed Location that serves all demand. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When location_id is omitted; use hasLocationId() or valueOrDefault().
      */
     public function getLocationId(): string { return $this->get('location_id'); }
     public function hasLocationId(): bool { return $this->has('location_id'); }
-    /** Value enum: "fixed_location".
+    /** How Flint routes demand to Locations. Value enum: "fixed_location".
      * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */

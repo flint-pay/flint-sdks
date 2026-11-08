@@ -14,7 +14,7 @@ namespace Flint;
  * @property-read list<string>|string $status
  * Presence-aware input; omitted fields throw when accessed. */
 final class GiftCardRedemptionsListParams extends Model {
-    /** @param array{'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'gift_card_id'?: string, 'idempotency_key'?: string, 'order_id'?: string, 'page_size'?: int, 'page_token'?: string, 'sale_reference'?: string, 'source_type'?: list<string>|string, 'status'?: list<string>|string}|object $values */
+    /** @param array{'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'gift_card_id'?: string, 'idempotency_key'?: string, 'order_id'?: string, 'page_size'?: int, 'page_token'?: string, 'sale_reference'?: string, 'source_type'?: list<string>|string, 'status'?: list<string>|string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardRedemptionsListParams')); }
     /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z".
      * @return string|\DateTimeInterface
@@ -28,7 +28,7 @@ final class GiftCardRedemptionsListParams extends Model {
      */
     public function getCreatedBefore(): string|\DateTimeInterface { return $this->get('created_before'); }
     public function hasCreatedBefore(): bool { return $this->has('created_before'); }
-    /** Exact, case-sensitive filter. maxLength: 255. Example: "gc_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Exact, case-sensitive filter. maxLength: 255. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
      * @return string
      * @throws SdkError When gift_card_id is omitted; use hasGiftCardId() or valueOrDefault().
      */
@@ -40,7 +40,7 @@ final class GiftCardRedemptionsListParams extends Model {
      */
     public function getIdempotencyKey(): string { return $this->get('idempotency_key'); }
     public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
-    /** Exact, case-sensitive filter. maxLength: 255. Example: "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Exact, case-sensitive filter. maxLength: 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */
@@ -52,7 +52,7 @@ final class GiftCardRedemptionsListParams extends Model {
      */
     public function getPageSize(): int { return $this->get('page_size'); }
     public function hasPageSize(): bool { return $this->has('page_size'); }
-    /** Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error.
+    /** Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error.
      * @return string
      * @throws SdkError When page_token is omitted; use hasPageToken() or valueOrDefault().
      */
@@ -64,16 +64,34 @@ final class GiftCardRedemptionsListParams extends Model {
      */
     public function getSaleReference(): string { return $this->get('sale_reference'); }
     public function hasSaleReference(): bool { return $this->has('sale_reference'); }
-    /** Exact, case-sensitive filter. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "external", "flint_order". Value enum: "external", "flint_order". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "external", "flint_order". anyOf[1][] (Value): string. maxLength: 255. Value enum: "external", "flint_order". anyOf[2] (Value): string. maxLength: 255. Value enum: "external", "flint_order".
+    /** Exact, case-sensitive filter. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "external", "flint_order". Value enum: "external", "flint_order". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "external", "flint_order". anyOf[1][] (Value): string. maxLength: 255. Value enum: "external", "flint_order". anyOf[2] (Value): string. maxLength: 255. Value enum: "external", "flint_order".
      * @return list<string>|string
      * @throws SdkError When source_type is omitted; use hasSourceType() or valueOrDefault().
      */
     public function getSourceType(): mixed { return $this->get('source_type'); }
     public function hasSourceType(): bool { return $this->has('source_type'); }
-    /** Exact, case-sensitive filter. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "canceled", "captured", "expired", "reserved". Value enum: "canceled", "captured", "expired", "reserved". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "canceled", "captured", "expired", "reserved". anyOf[1][] (Value): string. maxLength: 255. Value enum: "canceled", "captured", "expired", "reserved". anyOf[2] (Value): string. maxLength: 255. Value enum: "canceled", "captured", "expired", "reserved".
+    /** Exact, case-sensitive filter. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "canceled", "expired", "reserved", "succeeded". Value enum: "canceled", "expired", "reserved", "succeeded". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "canceled", "expired", "reserved", "succeeded". anyOf[1][] (Value): string. maxLength: 255. Value enum: "canceled", "expired", "reserved", "succeeded". anyOf[2] (Value): string. maxLength: 255. Value enum: "canceled", "expired", "reserved", "succeeded".
      * @return list<string>|string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
     public function getStatus(): mixed { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
+    /** Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Merchant-Id is omitted; use hasFlintMerchantId() or valueOrDefault().
+     */
+    public function getFlintMerchantId(): string { return $this->get('Flint-Merchant-Id'); }
+    public function hasFlintMerchantId(): bool { return $this->has('Flint-Merchant-Id'); }
+    /** Mode of the request context, live or test. Optional; it must match the credential's mode. Value enum: "test", "live".
+     * @return string
+     * @throws SdkError When Flint-Mode is omitted; use hasFlintMode() or valueOrDefault().
+     */
+    public function getFlintMode(): string { return $this->get('Flint-Mode'); }
+    public function hasFlintMode(): bool { return $this->has('Flint-Mode'); }
+    /** Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Sandbox-Id is omitted; use hasFlintSandboxId() or valueOrDefault().
+     */
+    public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
+    public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
 }

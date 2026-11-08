@@ -1,1 +1,1 @@
-{"shared":"InvoicePaymentTermCalculationNetDays","dependencies":["InvoicePaymentTermCalculationNetDays","SharedCodec794"]}
+{"shared":"InvoicePaymentTermCalculationNetDaysRequest","dependencies":["InvoicePaymentTermCalculationNetDaysRequest","SharedCodec884"]}

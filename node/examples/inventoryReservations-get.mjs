@@ -5,7 +5,7 @@ const client = new Client({
   allowInsecureHttp: !!baseUrl && ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
 });
 const result = await client.inventoryReservations.get(
-  "invr_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "invr_01KEZF7C0041ENRR0C2NF3AP12"
 );
 console.log(result.inventory_reservation_id);
 console.log(result.status);

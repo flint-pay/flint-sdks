@@ -82,7 +82,7 @@ final class BalanceTransaction extends Model {
      */
     public function getPayoutId(): ?string { return $this->get('payout_id'); }
     public function hasPayoutId(): bool { return $this->has('payout_id'); }
-    /** Earlier balance transactions this one is linked to, such as the payout transaction that a payout_failure, payout_cancellation, or payout_reversal returns, or the collection a merchant_billing_collection_reversal reverses. Empty when there are none. [] (Value): string.
+    /** Earlier balance transactions this one is linked to, including the exact payment principal a refund returns, the payout transaction that a payout_failure, payout_cancellation, or payout_reversal returns, or the collection a merchant_billing_collection_reversal reverses. Empty when there are none. [] (Value): string.
      * @return list<string>
      */
     public function getRelatedBalanceTransactionIds(): array { return $this->get('related_balance_transaction_ids'); }

@@ -4,10 +4,11 @@ namespace Flint;
 /**
  * @property-read bool $available
  * @property-read string $code
- * @property-read ?string $created_at
+ * @property-read string $created_at
+ * @property-read string|null $customer_id
  * @property-read ?string $expires_at
  * @property-read ?int $max_uses
- * @property-read ?string $merchant_id
+ * @property-read string $merchant_id
  * @property-read ?array<array-key, string> $metadata
  * @property-read ?Promotion $promotion
  * @property-read string $promotion_code_id
@@ -15,12 +16,12 @@ namespace Flint;
  * @property-read string $status
  * @property-read ?string $timezone
  * @property-read ?string $unavailable_reason
- * @property-read ?string $updated_at
+ * @property-read string $updated_at
  * @property-read int $uses_count
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class PromotionCodeUpdatedMerchantEventDataObject extends Model {
-    /** @param array{'available': bool, 'code': string, 'created_at'?: string, 'expires_at'?: string, 'max_uses'?: int, 'merchant_id'?: string, 'metadata'?: mixed, 'promotion'?: mixed, 'promotion_code_id': string, 'promotion_id': string, 'status': string, 'timezone'?: string, 'unavailable_reason'?: string, 'updated_at'?: string, 'uses_count': int, 'version': int, ...}|object $values */
+    /** @param array{'available': bool, 'code': string, 'created_at': string, 'customer_id': string|null, 'expires_at'?: string, 'max_uses'?: int, 'merchant_id': string, 'metadata'?: mixed, 'promotion'?: mixed, 'promotion_code_id': string, 'promotion_id': string, 'status': string, 'timezone'?: string, 'unavailable_reason'?: string, 'updated_at': string, 'uses_count': int, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PromotionCodeUpdatedMerchantEventDataObject')); }
     /** Whether a buyer can redeem the code right now: the code is active, not expired, and under its max_uses, and its promotion is available.
      * @return bool
@@ -33,10 +34,15 @@ final class PromotionCodeUpdatedMerchantEventDataObject extends Model {
     public function getCode(): string { return $this->get('code'); }
     public function hasCode(): bool { return $this->has('code'); }
     /** When the promotion code was created, as an RFC3339 timestamp. Format: date-time.
-     * @return ?string
+     * @return string
      */
-    public function getCreatedAt(): ?string { return $this->get('created_at'); }
+    public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
+    /** Only this identified customer can redeem the code. The customer must belong to the same merchant and environment. A checkout may use its merchant-named or email-verified customer; a typed email does not identify a customer. Null when the code is unbound.
+     * @return string|null
+     */
+    public function getCustomerId(): string|null { return $this->get('customer_id'); }
+    public function hasCustomerId(): bool { return $this->has('customer_id'); }
     /** When the code stops being redeemable, as an absolute RFC3339 timestamp. Omitted when the code does not expire. Format: date-time.
      * @return ?string
      */
@@ -48,9 +54,9 @@ final class PromotionCodeUpdatedMerchantEventDataObject extends Model {
     public function getMaxUses(): ?int { return $this->get('max_uses'); }
     public function hasMaxUses(): bool { return $this->has('max_uses'); }
     /** Identifier of the merchant that owns the promotion code.
-     * @return ?string
+     * @return string
      */
-    public function getMerchantId(): ?string { return $this->get('merchant_id'); }
+    public function getMerchantId(): string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
     /** Key-value data you attach to the promotion code. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      * @return ?array<array-key, string>
@@ -88,9 +94,9 @@ final class PromotionCodeUpdatedMerchantEventDataObject extends Model {
     public function getUnavailableReason(): ?string { return $this->get('unavailable_reason'); }
     public function hasUnavailableReason(): bool { return $this->has('unavailable_reason'); }
     /** When the promotion code was last updated, as an RFC3339 timestamp. Format: date-time.
-     * @return ?string
+     * @return string
      */
-    public function getUpdatedAt(): ?string { return $this->get('updated_at'); }
+    public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
     /** Number of times this code has been redeemed. Format: int64.
      * @return int

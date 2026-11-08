@@ -1,1 +1,1 @@
-{"shared":"PartnerAppInstall","dependencies":["PartnerAppInstall","PartnerAppPermissionManifestEntry","PartnerEnvironmentGrant","SharedCodec26"]}
+{"shared":"PartnerAppInstall","dependencies":["PartnerAppInstall","PartnerAppMerchantReadiness","PartnerAppMerchantReadinessAxis","PartnerAppPermissionManifestEntry","PartnerEnvironmentGrant","SharedCodec117","SharedCodec23"]}

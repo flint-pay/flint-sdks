@@ -8,7 +8,7 @@ namespace Flint;
 final class OrderDraftLineItemInventoryDemandRequestInput extends Model {
     /** @param array{'inventory_item_id': string, 'quantity_per_line_item_unit': int}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderDraftLineItemInventoryDemandRequestInput')); }
-    /** minLength: 1.
+    /** ID of the inventory item each unit of the line item uses. minLength: 1. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
      * @return string
      * @throws SdkError When inventory_item_id is omitted; use hasInventoryItemId() or valueOrDefault().
      */

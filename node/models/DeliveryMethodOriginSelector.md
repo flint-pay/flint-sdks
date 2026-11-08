@@ -10,10 +10,10 @@ Where a delivery method starts, chosen by `type`: a fixed location, an allocated
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `delivery_location_set_id` | Conditional | string |  |
-| `delivery_location_set_revision_id` | Optional | string |  |
-| `location_id` | Conditional | string |  |
-| `location_ids` | Conditional | Array of string |  |
+| `delivery_location_set_id` | Conditional | string | Example: `"dls_01KEZF7C00C4WWN7RYTRF55C4H"`. |
+| `delivery_location_set_revision_id` | Optional | string | Example: `"dlsr_01KEZF7C00HN2NT80H5VNQSVFJ"`. |
+| `location_id` | Conditional | string | Example: `"loc_01KEZF7C00CMHRRYA3MV996JB2"`. |
+| `location_ids` | Conditional | Array of string | Items: Example: `"loc_01KEZF7C00CMHRRYA3MV996JB2"`. |
 | `type` | Required | string | Values: `"fixed_location"`, `"allocated_origin_group"`, `"pickup_location_collection"`. |
 
 ### DeliveryMethodOriginSelector variant 1: `type` = `"fixed_location"`

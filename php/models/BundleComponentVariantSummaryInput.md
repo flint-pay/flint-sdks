@@ -8,10 +8,11 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `available_for_sale` | Required | boolean | Whether the component's variant and its product are both active. |
+| `is_available_for_sale` | Required | boolean | Whether the component's variant and its product are both active. |
 | `name` | Optional | string | Name of the component's variant, when set. |
+| `product_id` | Required | string | Identifier of the product this component variant belongs to. Example: `"prod_01KEZF7C00BVSHCNWVH528HB66"`. |
 | `product_name` | Optional | string | Name of the product the variant belongs to. |
 | `selected_options` | Optional | Array of [SelectedProductOptionInput](../models/SelectedProductOptionInput.md#selectedproductoptioninput) | Option names and values selected by the component's variant. |
 | `sku` | Optional | string | Stock keeping unit assigned to the component's variant, when set. |
-| `variant_id` | Required | string | Identifier of the product variant included in the component. |
+| `variant_id` | Required | string | Identifier of the product variant included in the component. Example: `"var_01KEZF7C004GSH2KT8CNYVMHGX"`. |
 

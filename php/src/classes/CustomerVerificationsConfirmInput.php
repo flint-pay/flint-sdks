@@ -10,13 +10,13 @@ namespace Flint;
 final class CustomerVerificationsConfirmInput extends Model {
     /** @param array{'customer_verification_id': string, 'body': array{'code': string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerVerificationsConfirmInput')); }
-    /** Flint customer verification ID. Example: "cver_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Flint customer verification ID. Example: "cver_01KEZF7C00E7S01991S7457CVK".
      * @return string
      * @throws SdkError When customer_verification_id is omitted; use hasCustomerVerificationId() or valueOrDefault().
      */
     public function getCustomerVerificationId(): string { return $this->get('customer_verification_id'); }
     public function hasCustomerVerificationId(): bool { return $this->has('customer_verification_id'); }
-    /** The request body for: Confirm a customer email verification.
+    /** The request body for: Confirm a customer email verification. Example: {"code":"123456"}.
      * @return array{'code': string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

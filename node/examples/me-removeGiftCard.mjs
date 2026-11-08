@@ -11,7 +11,7 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.me.removeGiftCard(
-  "gc_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "gc_01KEZF7C00RT1618WYBM1Y94CG",
   {},
   { idempotencyKey: idempotencyKey },
 );

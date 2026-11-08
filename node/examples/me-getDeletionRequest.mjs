@@ -8,7 +8,7 @@ const client = new Client({
   customerToken,
 });
 const result = await client.me.getDeletionRequest(
-  "cdel_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "cdel_01KEZF7C009P94WEXW5RMRFXAY"
 );
 console.log(result.customer_deletion_request_id);
 console.log(result.customer_id);

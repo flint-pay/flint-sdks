@@ -31,7 +31,7 @@ final class ServiceFulfillmentDetails extends Model {
      */
     public function getScheduledStartAt(): ?string { return $this->get('scheduled_start_at'); }
     public function hasScheduledStartAt(): bool { return $this->has('scheduled_start_at'); }
-    /** Timezone used to display the service appointment.
+    /** Timezone used to display the service appointment. Uses an IANA time zone name.
      * @return ?string
      */
     public function getTimezone(): ?string { return $this->get('timezone'); }

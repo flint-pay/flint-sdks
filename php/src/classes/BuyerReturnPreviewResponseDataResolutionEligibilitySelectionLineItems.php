@@ -8,12 +8,12 @@ namespace Flint;
 final class BuyerReturnPreviewResponseDataResolutionEligibilitySelectionLineItems extends Model {
     /** @param array{'line_items': list<mixed>, 'selection_type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerReturnPreviewResponseDataResolutionEligibilitySelectionLineItems')); }
-    /** minItems: 1. [] (Value): {@see BuyerReturnPreviewResponseDataResolutionEligibilitySelectionLineItemsLineItemsItem}. An order line and quantity to check. return_reason_id is optional here; when you send it, Flint checks that the reason is active and applies to the line.
+    /** The lines to check or return, each naming an order line item. The lines to check or return, each naming an order line item. minItems: 1. [] (Value): {@see BuyerReturnPreviewResponseDataResolutionEligibilitySelectionLineItemsLineItemsItem}. An order line and quantity to check. return_reason_id is optional here; when you send it, Flint checks that the reason is active and applies to the line.
      * @return list<BuyerReturnPreviewResponseDataResolutionEligibilitySelectionLineItemsLineItemsItem>
      */
     public function getLineItems(): array { return $this->get('line_items'); }
     public function hasLineItems(): bool { return $this->has('line_items'); }
-    /** Value enum: "line_items".
+    /** How the selection picks units. Value enum: "line_items".
      * @return string
      */
     public function getSelectionType(): string { return $this->get('selection_type'); }

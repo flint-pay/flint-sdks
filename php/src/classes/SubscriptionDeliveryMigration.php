@@ -54,12 +54,12 @@ final class SubscriptionDeliveryMigration extends Model {
      */
     public function getPendingCount(): int { return $this->get('pending_count'); }
     public function hasPendingCount(): bool { return $this->has('pending_count'); }
-    /** Value enum: "pending", "running", "completed".
+    /** Progress of the delivery method migration across its subscriptions. Value enum: "pending", "processing", "completed".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** subscription_delivery_migration_id
+    /** Unique identifier for this subscription delivery migration, prefixed `sdmig_`.
      * @return string
      */
     public function getSubscriptionDeliveryMigrationId(): string { return $this->get('subscription_delivery_migration_id'); }

@@ -8,7 +8,7 @@ const client = new Client({
   customerToken,
 });
 const result = await client.me.getAddress(
-  "caddr_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "caddr_01KEZF7C00K2Q127FBJAXWB0FP"
 );
 console.log(result.customer_address_id);
 console.log(result.customer_id);

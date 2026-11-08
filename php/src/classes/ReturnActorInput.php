@@ -8,13 +8,13 @@ namespace Flint;
 final class ReturnActorInput extends Model {
     /** @param array{'actor_id'?: string, 'actor_type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnActorInput')); }
-    /** actor_id
+    /** ID of the actor, when one exists. Merchant reads only. Example: "usr_01KEZF7C00YC8757ZYP9727JM0".
      * @return string
      * @throws SdkError When actor_id is omitted; use hasActorId() or valueOrDefault().
      */
     public function getActorId(): string { return $this->get('actor_id'); }
     public function hasActorId(): bool { return $this->has('actor_id'); }
-    /** Value enum: "buyer", "merchant", "integration", "system".
+    /** What kind of actor acted. Example: "merchant". Value enum: "buyer", "merchant", "integration", "system".
      * @return string
      * @throws SdkError When actor_type is omitted; use hasActorType() or valueOrDefault().
      */

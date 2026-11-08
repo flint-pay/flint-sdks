@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read ?string $created_at
+ * @property-read string $created_at
  * @property-read ?list<PartnerEnvironmentGrant> $environment_grants
  * @property-read ?string $installed_by_user_id
  * @property-read string $merchant_id
@@ -13,15 +13,16 @@ namespace Flint;
  * @property-read ?string $revoked_by
  * @property-read ?string $revoked_by_user_id
  * @property-read string $status
- * @property-read ?string $updated_at
+ * @property-read list<string> $supported_actions
+ * @property-read string $updated_at
  * Presence-aware response; omitted optional fields return null. */
 final class PartnerAppInstallUpdatedEventDataObject extends Model {
-    /** @param array{'created_at'?: string, 'environment_grants'?: list<mixed>, 'installed_by_user_id'?: string, 'merchant_id': string, 'partner_app_id': string, 'partner_app_install_id': string, 'partner_app_name': string, 'revoked_at'?: string, 'revoked_by'?: string, 'revoked_by_user_id'?: string, 'status': string, 'updated_at'?: string, ...}|object $values */
+    /** @param array{'created_at': string, 'environment_grants'?: list<mixed>, 'installed_by_user_id'?: string, 'merchant_id': string, 'partner_app_id': string, 'partner_app_install_id': string, 'partner_app_name': string, 'revoked_at'?: string, 'revoked_by'?: string, 'revoked_by_user_id'?: string, 'status': string, 'supported_actions': list<string>, 'updated_at': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PartnerAppInstallUpdatedEventDataObject')); }
     /** RFC3339 timestamp. Format: date-time.
-     * @return ?string
+     * @return string
      */
-    public function getCreatedAt(): ?string { return $this->get('created_at'); }
+    public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
     /**  [] (Value): {@see PartnerEnvironmentGrant}. A partner application's authorization to access an environment.
      * @return ?list<PartnerEnvironmentGrant>
@@ -33,7 +34,7 @@ final class PartnerAppInstallUpdatedEventDataObject extends Model {
      */
     public function getInstalledByUserId(): ?string { return $this->get('installed_by_user_id'); }
     public function hasInstalledByUserId(): bool { return $this->has('installed_by_user_id'); }
-    /** merchant_id
+    /** ID of the merchant this resource belongs to.
      * @return string
      */
     public function getMerchantId(): string { return $this->get('merchant_id'); }
@@ -43,7 +44,7 @@ final class PartnerAppInstallUpdatedEventDataObject extends Model {
      */
     public function getPartnerAppId(): string { return $this->get('partner_app_id'); }
     public function hasPartnerAppId(): bool { return $this->has('partner_app_id'); }
-    /** partner_app_install_id
+    /** Unique identifier for this partner app install, prefixed `pinst_`.
      * @return string
      */
     public function getPartnerAppInstallId(): string { return $this->get('partner_app_install_id'); }
@@ -73,9 +74,14 @@ final class PartnerAppInstallUpdatedEventDataObject extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** RFC3339 timestamp. Format: date-time.
-     * @return ?string
+    /** Lifecycle actions Flint accepts now. Revoke is accepted for pending and active installations and returns the current installation when it is already revoked. [] enum: "revoke". [] (Value): string.  Value enum: "revoke".
+     * @return list<string>
      */
-    public function getUpdatedAt(): ?string { return $this->get('updated_at'); }
+    public function getSupportedActions(): array { return $this->get('supported_actions'); }
+    public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
+    /** RFC3339 timestamp. Format: date-time.
+     * @return string
+     */
+    public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
 }

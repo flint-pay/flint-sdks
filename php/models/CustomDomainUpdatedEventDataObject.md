@@ -2,9 +2,11 @@
 
 ## CustomDomainUpdatedEventDataObject
 
-A merchant hostname for hosted checkout or customer account pages.
+The affected public resource without expansions, client authority fields, or fields computed for an individual caller.
+
+The resource snapshot, without expansions. Webhooks omit no additional fields.
 
 Response model.
 
-Fields, types, descriptions and enum values: [CustomDomain](../models/CustomDomain.md#customdomain).
+Fields, types, descriptions and enum values: [CustomDomainArchivedEventDataObject](../models/CustomDomainArchivedEventDataObject.md#customdomainarchivedeventdataobject).
 

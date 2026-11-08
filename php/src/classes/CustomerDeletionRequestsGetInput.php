@@ -9,7 +9,7 @@ namespace Flint;
 final class CustomerDeletionRequestsGetInput extends Model {
     /** @param array{'customer_deletion_request_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerDeletionRequestsGetInput')); }
-    /** Flint customer deletion request ID. Example: "cdel_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Flint customer deletion request ID. Example: "cdel_01KEZF7C009P94WEXW5RMRFXAY".
      * @return string
      * @throws SdkError When customer_deletion_request_id is omitted; use hasCustomerDeletionRequestId() or valueOrDefault().
      */

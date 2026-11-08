@@ -9,13 +9,13 @@ namespace Flint;
 final class PublicDownloadInput extends Model {
     /** @param array{'expires_at': string|\DateTimeInterface, 'report_download_id': string, 'url': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PublicDownloadInput')); }
-    /** When the download stops working: 24 hours after the report succeeded. The report keeps status succeeded and this download object afterward; create a new report to get the file again. Format: date-time.
+    /** When the download stops working: 24 hours after the report succeeded. The report keeps status succeeded and this download object afterward; create a new report to get the file again. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When expires_at is omitted; use hasExpiresAt() or valueOrDefault().
      */
     public function getExpiresAt(): string|\DateTimeInterface { return $this->get('expires_at'); }
     public function hasExpiresAt(): bool { return $this->has('expires_at'); }
-    /** Identifier of this download, the last segment of url. pattern: ^rdl_[0-9A-HJKMNP-TV-Z]{26}$.
+    /** Identifier of this download, the last segment of url. pattern: ^rdl_[0-9A-HJKMNP-TV-Z]{26}$. Example: "rdl_01KEZF7C003GGGDW1N5QT46JDZ".
      * @return string
      * @throws SdkError When report_download_id is omitted; use hasReportDownloadId() or valueOrDefault().
      */

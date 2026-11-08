@@ -13,7 +13,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   allowInsecureHttp: $baseUrl !== null && in_array(parse_url($baseUrl, PHP_URL_HOST), ['localhost', '127.0.0.1'], true) && parse_url($baseUrl, PHP_URL_SCHEME) === 'http',
 ));
-$result = $client->deliveryRateCallbacks->get('dcb_01ARZ3NDEKTSV4RRFFQ69G5FAV');
+$result = $client->deliveryRateCallbacks->get('dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1');
 echo $result->current_delivery_rate_callback_revision_id . PHP_EOL;
 echo $result->delivery_rate_callback_id . PHP_EOL;
 $client->close();

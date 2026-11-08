@@ -25,12 +25,12 @@ namespace Flint;
 final class ReturnInspectionAcceptanceDecidedInstalledMerchantsEventDataObject extends Model {
     /** @param array{'correction_reason'?: string, 'correction_reason_message'?: string, 'created_at': string, 'external_actor_id'?: string, 'external_reference_id'?: string, 'generated_dispositions': list<mixed>, 'inspected_at': string, 'inspection_location_id': string, 'line_items': list<mixed>, 'return_id': string, 'return_inspection_id': string, 'return_receipt_id': string, 'source_system': mixed, 'status': string, 'superseded_at'?: string, 'superseded_by_return_inspection_id'?: string, 'supersedes_return_inspection_id'?: string, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnInspectionAcceptanceDecidedInstalledMerchantsEventDataObject')); }
-    /** Value enum: "entry_error", "duplicate_observation", "source_correction", "reconciliation_correction", "other".
+    /** Why this observation replaces an earlier one. Send with `supersedes_return_receipt_id` or `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation", "source_correction", "reconciliation_correction", "other".
      * @return ?string
      */
     public function getCorrectionReason(): ?string { return $this->get('correction_reason'); }
     public function hasCorrectionReason(): bool { return $this->has('correction_reason'); }
-    /** correction_reason_message
+    /** Detail about `correction_reason`.
      * @return ?string
      */
     public function getCorrectionReasonMessage(): ?string { return $this->get('correction_reason_message'); }
@@ -50,7 +50,7 @@ final class ReturnInspectionAcceptanceDecidedInstalledMerchantsEventDataObject e
      */
     public function getExternalReferenceId(): ?string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /**  [] (Value): {@see ReturnDisposition}. A decision about how returned merchandise will be handled.
+    /** Dispositions Flint created when it recorded this observation. Empty unless the policy's `receipt_disposition_mode` is `automatic`. [] (Value): {@see ReturnDisposition}. A decision about how returned merchandise will be handled.
      * @return list<ReturnDisposition>
      */
     public function getGeneratedDispositions(): array { return $this->get('generated_dispositions'); }
@@ -65,32 +65,32 @@ final class ReturnInspectionAcceptanceDecidedInstalledMerchantsEventDataObject e
      */
     public function getInspectionLocationId(): string { return $this->get('inspection_location_id'); }
     public function hasInspectionLocationId(): bool { return $this->has('inspection_location_id'); }
-    /**  [] (Value): {@see ReturnInspectionLineItem}. The inspection result for a returned item.
+    /** The lines recorded. [] (Value): {@see ReturnInspectionLineItem}. The inspection result for a returned item.
      * @return list<ReturnInspectionLineItem>
      */
     public function getLineItems(): array { return $this->get('line_items'); }
     public function hasLineItems(): bool { return $this->has('line_items'); }
-    /** return_id
+    /** ID of the Return the goods belong to.
      * @return string
      */
     public function getReturnId(): string { return $this->get('return_id'); }
     public function hasReturnId(): bool { return $this->has('return_id'); }
-    /** return_inspection_id
+    /** Unique identifier for this return inspection, prefixed `retins_`.
      * @return string
      */
     public function getReturnInspectionId(): string { return $this->get('return_inspection_id'); }
     public function hasReturnInspectionId(): bool { return $this->has('return_inspection_id'); }
-    /** return_receipt_id
+    /** ID of the receipt being inspected.
      * @return string
      */
     public function getReturnReceiptId(): string { return $this->get('return_receipt_id'); }
     public function hasReturnReceiptId(): bool { return $this->has('return_receipt_id'); }
-    /**  anyOf[1] (Value): {@see ReturnSourceSystem}. The system a return event came from, such as a point of sale or warehouse system, with its own identifier. anyOf[2] (Value): null.
+    /** System that recorded the observation. `null` when no source system was recorded. anyOf[1] (Value): {@see ReturnSourceSystem}. The system a return event came from, such as a point of sale or warehouse system, with its own identifier. anyOf[2] (Value): null.
      * @return ReturnSourceSystem|null
      */
     public function getSourceSystem(): ReturnSourceSystem|null { return $this->get('source_system'); }
     public function hasSourceSystem(): bool { return $this->has('source_system'); }
-    /** Value enum: "current", "superseded".
+    /** Whether this is the current observation of these units or a correction replaced it. Value enum: "current", "superseded".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
@@ -100,12 +100,12 @@ final class ReturnInspectionAcceptanceDecidedInstalledMerchantsEventDataObject e
      */
     public function getSupersededAt(): ?string { return $this->get('superseded_at'); }
     public function hasSupersededAt(): bool { return $this->has('superseded_at'); }
-    /** superseded_by_return_inspection_id
+    /** ID of the inspection that corrected this one. Absent while it is current.
      * @return ?string
      */
     public function getSupersededByReturnInspectionId(): ?string { return $this->get('superseded_by_return_inspection_id'); }
     public function hasSupersededByReturnInspectionId(): bool { return $this->has('superseded_by_return_inspection_id'); }
-    /** supersedes_return_inspection_id
+    /** ID of the inspection this one corrects.
      * @return ?string
      */
     public function getSupersedesReturnInspectionId(): ?string { return $this->get('supersedes_return_inspection_id'); }
@@ -115,7 +115,7 @@ final class ReturnInspectionAcceptanceDecidedInstalledMerchantsEventDataObject e
      */
     public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** Format: int64. minimum: 1.
+    /** Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. Format: int64. minimum: 1.
      * @return int
      */
     public function getVersion(): int { return $this->get('version'); }

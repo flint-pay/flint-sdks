@@ -32,13 +32,13 @@ final class ModifierGroupInput extends Model {
      */
     public function getAllowQuantities(): bool { return $this->get('allow_quantities'); }
     public function hasAllowQuantities(): bool { return $this->has('allow_quantities'); }
-    /** When the modifier group was created, as an RFC3339 timestamp. Format: date-time.
+    /** When the modifier group was created, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Caller-owned identifier for this resource in an external system. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -62,7 +62,7 @@ final class ModifierGroupInput extends Model {
      */
     public function getMaxTotalQuantity(): int { return $this->get('max_total_quantity'); }
     public function hasMaxTotalQuantity(): bool { return $this->has('max_total_quantity'); }
-    /** Identifier of the merchant that owns this modifier group.
+    /** Identifier of the merchant that owns this modifier group. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
      * @return string
      * @throws SdkError When merchant_id is omitted; use hasMerchantId() or valueOrDefault().
      */
@@ -86,7 +86,7 @@ final class ModifierGroupInput extends Model {
      */
     public function getMinSelected(): int { return $this->get('min_selected'); }
     public function hasMinSelected(): bool { return $this->has('min_selected'); }
-    /** Stable identifier of the modifier group. For a group a modifier set owns (`source: inline`), read it through `GET /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups` doesn't return it.
+    /** Stable identifier of the modifier group. For a group a modifier set owns (`source: inline`), read it through `GET /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups` doesn't return it. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
      * @return string
      * @throws SdkError When modifier_group_id is omitted; use hasModifierGroupId() or valueOrDefault().
      */
@@ -134,7 +134,7 @@ final class ModifierGroupInput extends Model {
      */
     public function getText(): mixed { return $this->get('text'); }
     public function hasText(): bool { return $this->has('text'); }
-    /** When the modifier group or its modifiers last changed, as an RFC3339 timestamp. Format: date-time.
+    /** When the modifier group or its modifiers last changed, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */

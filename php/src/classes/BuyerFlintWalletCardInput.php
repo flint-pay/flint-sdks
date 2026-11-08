@@ -9,19 +9,19 @@ namespace Flint;
 final class BuyerFlintWalletCardInput extends Model {
     /** @param array{'card': CardDetailsInput|array<array-key, mixed>|\stdClass, 'flint_wallet_card_id': string, 'store_payment_method_id': string|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerFlintWalletCardInput')); }
-    /** Card details on a payment method: brand, expiration month and year, last four digits, and the wallet when one was used.
+    /** Brand, last four digits and expiry of the saved card. Card details on a payment method: brand, expiration month and year, last four digits, and the wallet when one was used.
      * @return CardDetailsInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When card is omitted; use hasCard() or valueOrDefault().
      */
     public function getCard(): mixed { return $this->get('card'); }
     public function hasCard(): bool { return $this->has('card'); }
-    /** Opaque handle for this card at this store. Handles differ across stores and cannot be used at another store.
+    /** Opaque handle for this card at this store. Handles differ across stores and cannot be used at another store. Example: "fwc_EKAB7CMBXELKYMJUU2LYLJP5J25FESR6YR5WENVFIUZHTTG3BZWA".
      * @return string
      * @throws SdkError When flint_wallet_card_id is omitted; use hasFlintWalletCardId() or valueOrDefault().
      */
     public function getFlintWalletCardId(): string { return $this->get('flint_wallet_card_id'); }
     public function hasFlintWalletCardId(): bool { return $this->has('flint_wallet_card_id'); }
-    /** The store's independent card copy, or null when this store does not hold a copy. A pending copy still needs confirmation before use.
+    /** The store's independent card copy. `null` when this store does not hold a copy. A pending copy still needs confirmation before use. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
      * @return string|null
      * @throws SdkError When store_payment_method_id is omitted; use hasStorePaymentMethodId() or valueOrDefault().
      */

@@ -1,0 +1,1 @@
+{"shared":"CatalogPricing","phpRepresentation":{"kind":"record","fields":{"minimum_quantity":{"kind":"nullable","value":{"kind":"value","type":"int"}},"price_list_id":{"kind":"nullable","value":{"kind":"value","type":"string"}},"source":{"kind":"value","type":"string"}}},"dependencies":["CatalogPricing"]}

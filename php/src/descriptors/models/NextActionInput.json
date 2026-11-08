@@ -1,1 +1,1 @@
-{"shared":"NextAction","dependencies":["NextAction","ReadinessMerchantAccountSession","SharedCodec3","SharedCodec854","SharedCodec855","SharedCodec878"]}
+{"shared":"NextAction","dependencies":["NextAction","ReadinessMerchantAccountSession","ResourceReference","ResourceType","SharedCodec1279","SharedCodec3","SharedCodec943","SharedCodec972"]}

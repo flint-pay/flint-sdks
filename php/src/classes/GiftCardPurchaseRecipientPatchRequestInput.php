@@ -10,7 +10,7 @@ namespace Flint;
 final class GiftCardPurchaseRecipientPatchRequestInput extends Model {
     /** @param array{'email': string, 'message'?: string|null, 'name'?: string|null, 'send_at'?: string|\DateTimeInterface}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardPurchaseRecipientPatchRequestInput')); }
-    /** Format: email. minLength: 1. maxLength: 254.
+    /** Email address the gift card is delivered to. Format: email. minLength: 1. maxLength: 254. Example: "buyer@example.com".
      * @return string
      * @throws SdkError When email is omitted; use hasEmail() or valueOrDefault().
      */
@@ -28,7 +28,7 @@ final class GiftCardPurchaseRecipientPatchRequestInput extends Model {
      */
     public function getName(): string|null { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Optional send time between now and 90 days from now. Omission requests immediate recipient notification after funding. Format: date-time. minLength: 1.
+    /** Optional send time between now and 90 days from now. Omission requests immediate recipient notification after funding. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When send_at is omitted; use hasSendAt() or valueOrDefault().
      */

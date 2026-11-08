@@ -24,13 +24,13 @@ final class PaymentIntentActivityInput extends Model {
      */
     public function getActivityType(): string { return $this->get('activity_type'); }
     public function hasActivityType(): bool { return $this->has('activity_type'); }
-    /** checkout_session_id
+    /** Example: "cs_01KEZF7C004JRWFW43H037MQRN".
      * @return string
      * @throws SdkError When checkout_session_id is omitted; use hasCheckoutSessionId() or valueOrDefault().
      */
     public function getCheckoutSessionId(): string { return $this->get('checkout_session_id'); }
     public function hasCheckoutSessionId(): bool { return $this->has('checkout_session_id'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
@@ -42,13 +42,13 @@ final class PaymentIntentActivityInput extends Model {
      */
     public function getDescription(): string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** dispute_id
+    /** ID of the dispute this entry is about. Present on dispute entries. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD".
      * @return string
      * @throws SdkError When dispute_id is omitted; use hasDisputeId() or valueOrDefault().
      */
     public function getDisputeId(): string { return $this->get('dispute_id'); }
     public function hasDisputeId(): bool { return $this->has('dispute_id'); }
-    /** Value enum: "none", "inquiry_needs_response", "inquiry_under_review", "inquiry_closed", "needs_response", "under_review", "won", "lost", "prevented", "other".
+    /** The payment's dispute status before the change. Present on `dispute_status_changed` entries. Value enum: "none", "inquiry_needs_response", "inquiry_under_review", "inquiry_closed", "needs_response", "under_review", "won", "lost", "prevented", "other".
      * @return string
      * @throws SdkError When from_dispute_status is omitted; use hasFromDisputeStatus() or valueOrDefault().
      */
@@ -60,25 +60,25 @@ final class PaymentIntentActivityInput extends Model {
      */
     public function getFromStatus(): string { return $this->get('from_status'); }
     public function hasFromStatus(): bool { return $this->has('from_status'); }
-    /** order_id
+    /** Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** payment_intent_activity_id
+    /** Example: "pact_01KEZF7C00D5EYVFWM20J9Z8EP".
      * @return string
      * @throws SdkError When payment_intent_activity_id is omitted; use hasPaymentIntentActivityId() or valueOrDefault().
      */
     public function getPaymentIntentActivityId(): string { return $this->get('payment_intent_activity_id'); }
     public function hasPaymentIntentActivityId(): bool { return $this->has('payment_intent_activity_id'); }
-    /** refund_id
+    /** ID of the refund this entry is about. Present on refund entries. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
      * @return string
      * @throws SdkError When refund_id is omitted; use hasRefundId() or valueOrDefault().
      */
     public function getRefundId(): string { return $this->get('refund_id'); }
     public function hasRefundId(): bool { return $this->has('refund_id'); }
-    /** Value enum: "none", "inquiry_needs_response", "inquiry_under_review", "inquiry_closed", "needs_response", "under_review", "won", "lost", "prevented", "other".
+    /** The payment's dispute status after the change. Present on `dispute_status_changed` entries. Value enum: "none", "inquiry_needs_response", "inquiry_under_review", "inquiry_closed", "needs_response", "under_review", "won", "lost", "prevented", "other".
      * @return string
      * @throws SdkError When to_dispute_status is omitted; use hasToDisputeStatus() or valueOrDefault().
      */

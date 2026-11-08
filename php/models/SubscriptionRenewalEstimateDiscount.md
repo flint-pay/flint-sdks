@@ -10,6 +10,6 @@ Response model.
 | --- | --- | --- | --- |
 | `discount_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `name` | Required | string |  |
-| `promotion_id` | Required | string or null | Promotion ID for a promotion discount; null for unused-time credit. |
-| `source` | Required | string | Values: `"promotion"`, `"plan_change_credit"`. |
+| `promotion_id` | Required | string or null | Promotion ID for a promotion discount; null for unused-time credit or proration. |
+| `source` | Required | string | Values: `"promotion"`, `"plan_change_credit"`, `"proration"`. |
 

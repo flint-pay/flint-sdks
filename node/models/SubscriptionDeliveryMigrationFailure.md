@@ -12,5 +12,5 @@ A subscription that could not be moved to a new delivery method, with the reason
 | --- | --- | --- | --- |
 | `message` | Required | string |  |
 | `reason` | Required | string | Values: `"method_not_offered"`, `"destination_not_served"`, `"rate_unavailable"`, `"method_unavailable"`, `"no_longer_applicable"`, `"not_movable"`. |
-| `subscription_id` | Required | string |  |
+| `subscription_id` | Required | string | Example: `"sub_01KEZF7C00BVRE8YDBXQB74BBM"`. |
 

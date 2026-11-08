@@ -9,19 +9,19 @@ namespace Flint;
 final class OrderTaxCalculationRequestInput extends Model {
     /** @param array{'mode': string, 'price_mode': string}|object|array{'components'?: list<OrderTaxComponentRequestInput|array<array-key, mixed>|\stdClass>, 'mode': string, 'price_mode': string}|object $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderTaxCalculationRequestInput')); }
-    /**  [] (Value): {@see OrderTaxComponentRequestInput}. One externally supplied order tax component, with its jurisdiction and either a flat amount or a percentage.
+    /** Flat order taxes, such as a retail delivery fee. Send them in `external` mode; `automatic` mode doesn't accept them. [] (Value): {@see OrderTaxComponentRequestInput}. One externally supplied order tax component, with its jurisdiction and either a flat amount or a percentage.
      * @return list<OrderTaxComponentRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When components is omitted; use hasComponents() or valueOrDefault().
      */
     public function getComponents(): array { return $this->get('components'); }
     public function hasComponents(): bool { return $this->has('components'); }
-    /** Value enum: "automatic", "external".
+    /** Who supplies the tax: Flint's tax connection (`automatic`) or you (`external`). Value enum: "automatic", "external".
      * @return string
      * @throws SdkError When mode is omitted; use hasMode() or valueOrDefault().
      */
     public function getMode(): string { return $this->get('mode'); }
     public function hasMode(): bool { return $this->has('mode'); }
-    /** Value enum: "additive", "inclusive".
+    /** Whether prices already include tax. `automatic` mode and flat order taxes require `additive`. Value enum: "additive", "inclusive".
      * @return string
      * @throws SdkError When price_mode is omitted; use hasPriceMode() or valueOrDefault().
      */

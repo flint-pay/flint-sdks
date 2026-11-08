@@ -18,6 +18,7 @@ const result = await client.returnPolicies.create(
       scope: {
         match_type: "all",
       },
+      ineligibility_reason: "final_sale",
     },
   },
   { idempotencyKey: idempotencyKey },

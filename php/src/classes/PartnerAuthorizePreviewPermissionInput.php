@@ -23,7 +23,7 @@ final class PartnerAuthorizePreviewPermissionInput extends Model {
      */
     public function getOptional(): bool { return $this->get('optional'); }
     public function hasOptional(): bool { return $this->has('optional'); }
-    /** ID of the permission in the app's permission manifest. Send it in the scope parameter to request this permission.
+    /** ID of the permission in the app's permission manifest. Send it in the scope parameter to request this permission. Example: "manage_orders".
      * @return string
      * @throws SdkError When permission_id is omitted; use hasPermissionId() or valueOrDefault().
      */

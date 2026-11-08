@@ -23,13 +23,13 @@ namespace Flint;
 final class GiftCardLoadInput extends Model {
     /** @param array{'consideration_money': array{'amount': string, 'currency': string}|object|null, 'created_at': string|\DateTimeInterface, 'funding_disputes': list<GiftCardFundingDisputeInput|array<array-key, mixed>|\stdClass>, 'gift_card_id': string, 'gift_card_load_id': string, 'idempotency_key': string|null, 'purchase_refund_value_holds'?: list<GiftCardPurchaseRefundValueHoldInput|array<array-key, mixed>|\stdClass>, 'purchase_refunds': list<GiftCardPurchaseRefundAllocationInput|array<array-key, mixed>|\stdClass>, 'purchase_restoration'?: GiftCardPurchaseRestorationInput|array<array-key, mixed>|\stdClass, 'refund_provenance'?: GiftCardRefundProvenanceInput|array<array-key, mixed>|\stdClass, 'refund_transferred_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'remaining_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'reversed_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'source': GiftCardFundingSourceInput|array<array-key, mixed>|\stdClass, 'source_created_at': string|\DateTimeInterface|null, 'value_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardLoadInput')); }
-    /**  anyOf[1] (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
+    /** What the buyer paid for the value, separate from `value_money`. `null` when no payment amount is recorded. anyOf[1] (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
      * @return array{'amount': string, 'currency': string}|object|null
      * @throws SdkError When consideration_money is omitted; use hasConsiderationMoney() or valueOrDefault().
      */
     public function getConsiderationMoney(): mixed { return $this->get('consideration_money'); }
     public function hasConsiderationMoney(): bool { return $this->has('consideration_money'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
@@ -41,19 +41,19 @@ final class GiftCardLoadInput extends Model {
      */
     public function getFundingDisputes(): array { return $this->get('funding_disputes'); }
     public function hasFundingDisputes(): bool { return $this->has('funding_disputes'); }
-    /** gift_card_id
+    /** ID of the gift card the load added value to. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
      * @return string
      * @throws SdkError When gift_card_id is omitted; use hasGiftCardId() or valueOrDefault().
      */
     public function getGiftCardId(): string { return $this->get('gift_card_id'); }
     public function hasGiftCardId(): bool { return $this->has('gift_card_id'); }
-    /** gift_card_load_id
+    /** Unique identifier for this gift card load, prefixed `gcl_`. Example: "gcl_01KEZF7C00YJED2857SE0J6KWC".
      * @return string
      * @throws SdkError When gift_card_load_id is omitted; use hasGiftCardLoadId() or valueOrDefault().
      */
     public function getGiftCardLoadId(): string { return $this->get('gift_card_load_id'); }
     public function hasGiftCardLoadId(): bool { return $this->has('gift_card_load_id'); }
-    /** Your Idempotency-Key for the command that created this record. null when Flint created it or no key was sent.
+    /** Your Idempotency-Key for the command that created this record. `null` when Flint created it or no key was sent.
      * @return string|null
      * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
      */
@@ -71,55 +71,55 @@ final class GiftCardLoadInput extends Model {
      */
     public function getPurchaseRefunds(): array { return $this->get('purchase_refunds'); }
     public function hasPurchaseRefunds(): bool { return $this->has('purchase_refunds'); }
-    /** Links a gift card load to the original card and load it restores value to after a purchase refund, for one unit of an order line item.
+    /** Set when the buyer paid again for value that reversing a gift card purchase had removed, and this load restored it. Names the original card and load, the purchase refund entry that removed the value, and the purchased unit. Omitted for other loads. Links a gift card load to the original card and load it restores value to after a purchase refund, for one unit of an order line item.
      * @return GiftCardPurchaseRestorationInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When purchase_restoration is omitted; use hasPurchaseRestoration() or valueOrDefault().
      */
     public function getPurchaseRestoration(): mixed { return $this->get('purchase_restoration'); }
     public function hasPurchaseRestoration(): bool { return $this->has('purchase_restoration'); }
-    /** Traces a gift card load made by a refund back to its original funding source, root gift card and load, and source refund.
+    /** Traces a load made by a refund back to its original funding. `null` when the load wasn't made by a refund. Traces a gift card load made by a refund back to its original funding source, root gift card and load, and source refund.
      * @return GiftCardRefundProvenanceInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When refund_provenance is omitted; use hasRefundProvenance() or valueOrDefault().
      */
     public function getRefundProvenance(): mixed { return $this->get('refund_provenance'); }
     public function hasRefundProvenance(): bool { return $this->has('refund_provenance'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** The part of this load's value that refunds of redemptions moved onto replacement gift cards. Omitted until a refund moves value. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When refund_transferred_money is omitted; use hasRefundTransferredMoney() or valueOrDefault().
      */
     public function getRefundTransferredMoney(): mixed { return $this->get('refund_transferred_money'); }
     public function hasRefundTransferredMoney(): bool { return $this->has('refund_transferred_money'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** The value from this load still on the card: not yet spent, reversed, or moved to a replacement card. It includes value held by a reserved redemption. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When remaining_money is omitted; use hasRemainingMoney() or valueOrDefault().
      */
     public function getRemainingMoney(): mixed { return $this->get('remaining_money'); }
     public function hasRemainingMoney(): bool { return $this->has('remaining_money'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** The value removed from this load by refunding or reversing the purchase that funded it. It goes down again when a purchase refund fails and the value is restored. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When reversed_money is omitted; use hasReversedMoney() or valueOrDefault().
      */
     public function getReversedMoney(): mixed { return $this->get('reversed_money'); }
     public function hasReversedMoney(): bool { return $this->has('reversed_money'); }
-    /** Where the value of a gift card load came from, such as an external payment, a Flint payment, an import, or an adjustment, with your reference for it.
+    /** Where the value came from, with your reference for it. Where the value of a gift card load came from, such as an external payment, a Flint payment, an import, or an adjustment, with your reference for it.
      * @return GiftCardFundingSourceInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When source is omitted; use hasSource() or valueOrDefault().
      */
     public function getSource(): mixed { return $this->get('source'); }
     public function hasSource(): bool { return $this->has('source'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. `null` when no source time was recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface|null
      * @throws SdkError When source_created_at is omitted; use hasSourceCreatedAt() or valueOrDefault().
      */
     public function getSourceCreatedAt(): string|\DateTimeInterface|null { return $this->get('source_created_at'); }
     public function hasSourceCreatedAt(): bool { return $this->has('source_created_at'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** The face value the load adds to the card. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When value_money is omitted; use hasValueMoney() or valueOrDefault().
      */
     public function getValueMoney(): mixed { return $this->get('value_money'); }
     public function hasValueMoney(): bool { return $this->has('value_money'); }
-    /** Format: int64.
+    /** Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. Format: int64.
      * @return int
      * @throws SdkError When version is omitted; use hasVersion() or valueOrDefault().
      */

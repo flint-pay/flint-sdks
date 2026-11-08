@@ -8,7 +8,7 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.paymentReviews.approve(
-  "rev_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "rev_01KEZF7C00BVBQ00XDFNKB1EF6",
   {},
   { idempotencyKey: idempotencyKey },
 );

@@ -12,12 +12,13 @@ namespace Flint;
  * @property-read string $refund_allocation_id
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $refunded_tip_money
  * @property-read string $status
+ * @property-read string|\DateTimeInterface $succeeded_at
  * @property-read string $tender_type
  * Presence-aware input; omitted fields throw when accessed. */
 final class RefundTenderAllocationInput extends Model {
-    /** @param array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'destination'?: string, 'destination_cards'?: list<RefundGiftCardDestinationInput|array<array-key, mixed>|\stdClass>, 'failure_reason'?: string, 'gift_card_id'?: string, 'gift_card_redemption_id'?: string, 'payment_intent_id'?: string, 'refund_allocation_id': string, 'refunded_tip_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'tender_type': string, ...}|object $values */
+    /** @param array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'destination'?: string, 'destination_cards'?: list<RefundGiftCardDestinationInput|array<array-key, mixed>|\stdClass>, 'failure_reason'?: string, 'gift_card_id'?: string, 'gift_card_redemption_id'?: string, 'payment_intent_id'?: string, 'refund_allocation_id': string, 'refunded_tip_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'succeeded_at'?: string|\DateTimeInterface, 'tender_type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RefundTenderAllocationInput')); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Amount of the refund that went to this tender, including `refunded_tip_money`. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
      */
@@ -29,7 +30,7 @@ final class RefundTenderAllocationInput extends Model {
      */
     public function getDestination(): string { return $this->get('destination'); }
     public function hasDestination(): bool { return $this->has('destination'); }
-    /**  [] (Value): {@see RefundGiftCardDestinationInput}. A gift card that received part of a refund, with the amount credited.
+    /** The gift cards that received this allocation's value, with the amount each received. Absent when the value went back to a payment. [] (Value): {@see RefundGiftCardDestinationInput}. A gift card that received part of a refund, with the amount credited.
      * @return list<RefundGiftCardDestinationInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When destination_cards is omitted; use hasDestinationCards() or valueOrDefault().
      */
@@ -41,31 +42,31 @@ final class RefundTenderAllocationInput extends Model {
      */
     public function getFailureReason(): string { return $this->get('failure_reason'); }
     public function hasFailureReason(): bool { return $this->has('failure_reason'); }
-    /** gift_card_id
+    /** The gift card whose redemption this allocation refunded. Present when `tender_type` is `gift_card_redemption`. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
      * @return string
      * @throws SdkError When gift_card_id is omitted; use hasGiftCardId() or valueOrDefault().
      */
     public function getGiftCardId(): string { return $this->get('gift_card_id'); }
     public function hasGiftCardId(): bool { return $this->has('gift_card_id'); }
-    /** gift_card_redemption_id
+    /** The gift card redemption this allocation refunded. Present when `tender_type` is `gift_card_redemption`. Example: "gcr_01KEZF7C002YD2G2J734RRZTWT".
      * @return string
      * @throws SdkError When gift_card_redemption_id is omitted; use hasGiftCardRedemptionId() or valueOrDefault().
      */
     public function getGiftCardRedemptionId(): string { return $this->get('gift_card_redemption_id'); }
     public function hasGiftCardRedemptionId(): bool { return $this->has('gift_card_redemption_id'); }
-    /** payment_intent_id
+    /** The payment this allocation refunded. Present when `tender_type` is `payment_intent`. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
      * @return string
      * @throws SdkError When payment_intent_id is omitted; use hasPaymentIntentId() or valueOrDefault().
      */
     public function getPaymentIntentId(): string { return $this->get('payment_intent_id'); }
     public function hasPaymentIntentId(): bool { return $this->has('payment_intent_id'); }
-    /** refund_allocation_id
+    /** Unique identifier for this tender allocation, prefixed `rta_`. Example: "rta_01KEZF7C00KQJTFKK6C47RSMB8".
      * @return string
      * @throws SdkError When refund_allocation_id is omitted; use hasRefundAllocationId() or valueOrDefault().
      */
     public function getRefundAllocationId(): string { return $this->get('refund_allocation_id'); }
     public function hasRefundAllocationId(): bool { return $this->has('refund_allocation_id'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Share of this allocation's `amount_money` that refunds tips. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When refunded_tip_money is omitted; use hasRefundedTipMoney() or valueOrDefault().
      */
@@ -77,7 +78,13 @@ final class RefundTenderAllocationInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Value enum: "payment_intent", "gift_card_redemption".
+    /** When this tender's `status` first became `succeeded`. Gift card credit and store credit (`destination` `new_gift_card`) succeed when the refund is created. A `payment_intent` tender with `destination` `original` has the same value as its `payment_refunds` entry; store credit has no `payment_refunds` entry. Tax reports use it as `refund_succeeded_at` on the rows for this tender. Present only while `status` is `succeeded`. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * @return string|\DateTimeInterface
+     * @throws SdkError When succeeded_at is omitted; use hasSucceededAt() or valueOrDefault().
+     */
+    public function getSucceededAt(): string|\DateTimeInterface { return $this->get('succeeded_at'); }
+    public function hasSucceededAt(): bool { return $this->has('succeeded_at'); }
+    /** Which kind of original tender this allocation refunded. Value enum: "payment_intent", "gift_card_redemption".
      * @return string
      * @throws SdkError When tender_type is omitted; use hasTenderType() or valueOrDefault().
      */

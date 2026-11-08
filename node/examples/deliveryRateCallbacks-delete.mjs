@@ -8,7 +8,7 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.deliveryRateCallbacks.delete(
-  "dcb_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1",
   {},
   { idempotencyKey: idempotencyKey },
 );

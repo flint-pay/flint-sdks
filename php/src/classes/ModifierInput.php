@@ -21,7 +21,7 @@ namespace Flint;
 final class ModifierInput extends Model {
     /** @param array{'created_at'?: string|\DateTimeInterface, 'default_quantity'?: int, 'line_item_tax_category'?: string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'modifier_group_id'?: string, 'modifier_id': string, 'name': string, 'position': int, 'selected_by_default': bool, 'show_on_fulfillment': bool, 'show_on_receipt': bool, 'status': string, 'taxable'?: bool, 'unit_price_delta_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'updated_at'?: string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ModifierInput')); }
-    /** When the modifier was created, as an RFC3339 timestamp. Format: date-time.
+    /** When the modifier was created, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
@@ -45,13 +45,13 @@ final class ModifierInput extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Identifier of the group that owns this modifier. For an inline group, read the group through its modifier set.
+    /** Identifier of the group that owns this modifier. For an inline group, read the group through its modifier set. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
      * @return string
      * @throws SdkError When modifier_group_id is omitted; use hasModifierGroupId() or valueOrDefault().
      */
     public function getModifierGroupId(): string { return $this->get('modifier_group_id'); }
     public function hasModifierGroupId(): bool { return $this->has('modifier_group_id'); }
-    /** Stable identifier of the modifier. In a replacement request, include it to retain a modifier or omit it to create one.
+    /** Stable identifier of the modifier. In a replacement request, include it to retain a modifier or omit it to create one. Example: "mod_01KEZF7C00SAWDZBQJX5H0XW1S".
      * @return string
      * @throws SdkError When modifier_id is omitted; use hasModifierId() or valueOrDefault().
      */
@@ -105,7 +105,7 @@ final class ModifierInput extends Model {
      */
     public function getUnitPriceDeltaMoney(): mixed { return $this->get('unit_price_delta_money'); }
     public function hasUnitPriceDeltaMoney(): bool { return $this->has('unit_price_delta_money'); }
-    /** When the modifier last changed, as an RFC3339 timestamp. Format: date-time.
+    /** When the modifier last changed, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */

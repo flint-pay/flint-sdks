@@ -1,6 +1,6 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-5.js';
-import type { RequestOptions } from '../declarations/types-48.js';
+import type { ClientOptions } from '../declarations/types-6.js';
+import type { RequestOptions } from '../declarations/types-51.js';
 import type {
     SubscriptionDeliveryMigration,
     SubscriptionDeliveryMigrationFailure,
@@ -11,8 +11,8 @@ import type {
     SubscriptionDeliveryMigrationsGetParams,
     SubscriptionDeliveryMigrationsListFailuresParams,
     SubscriptionDeliveryMigrationsListParams
-} from '../declarations/types-55.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-58.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -38,17 +38,18 @@ export type {
     SubscriptionDeliveryMigrationsListParams,
     SubscriptionDeliveryMigrationListResponse,
     SubscriptionDeliveryMigrationFailureReasonCount
-} from '../declarations/types-55.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { ClientOptions } from '../declarations/types-5.js';
-export type { CreateSubscriptionDeliveryMigrationRequestInput, CreateSubscriptionDeliveryMigrationRequest } from '../declarations/types-11.js';
+} from '../declarations/types-58.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+export type { ClientOptions } from '../declarations/types-6.js';
+export type { CreateSubscriptionDeliveryMigrationRequestInput, CreateSubscriptionDeliveryMigrationRequest } from '../declarations/types-12.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-12.js';
-export type { NextAction, MoneyValue } from '../declarations/types-35.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
-export { makeCreateSubscriptionDeliveryMigrationRequest } from '../declarations/types-65.js';
-export { makeMoneyValue } from '../declarations/types-70.js';
+export type { Credentials } from '../declarations/types-13.js';
+export type { NextAction, MoneyValue } from '../declarations/types-37.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
+export type { DisputesAcceptParams } from '../declarations/types-22.js';
+export { makeCreateSubscriptionDeliveryMigrationRequest } from '../declarations/types-71.js';
+export { makeMoneyValue } from '../declarations/types-75.js';
 export interface SubscriptionDeliveryMigrationsResource {
     /**
  * Each subscription is previewed before its delivery method changes. Progress and per-subscription
@@ -62,8 +63,8 @@ export interface SubscriptionDeliveryMigrationsResource {
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.subscriptionDeliveryMigrations.create({from_delivery_method_id:
- * "dmet_01ARZ3NDEKTSV4RRFFQ69G5FAV", to_delivery_method_id: "dmet_01ARZ3NDEKTSV4RRFFQ69G5FAV"}, {
- * idempotencyKey: idempotencyKey })
+ * "dmet_01K1P6G4M7H2N8Q9R3S5T6V7WX", subscription_plan_id: "plan_01KEZF7C00S177Q3KK6BKXGXV7",
+ * to_delivery_method_id: "dmet_01KEZF7C00F34Q6CJF6MF7HWGT"}, { idempotencyKey: idempotencyKey })
  */
     create(params: SubscriptionDeliveryMigrationsCreateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<SubscriptionDeliveryMigration, SubscriptionDeliveryMigrationResponse>>;
     /**
@@ -75,7 +76,7 @@ export interface SubscriptionDeliveryMigrationsResource {
  * @see https://developers.withflintpay.com/docs/api/subscriptions#getSubscriptionDeliveryMigration
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.subscriptionDeliveryMigrations.get("sdmig_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.subscriptionDeliveryMigrations.get("sdmig_01KEZF7C00H8KGVKXANJWJVDH7")
  */
     get(subscription_delivery_migration_id: InputValue<string>, params?: SubscriptionDeliveryMigrationsGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<SubscriptionDeliveryMigration, SubscriptionDeliveryMigrationResponse>>;
     /**
@@ -89,7 +90,7 @@ export interface SubscriptionDeliveryMigrationsResource {
  * https://developers.withflintpay.com/docs/api/subscriptions#listSubscriptionDeliveryMigrationFailures
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.subscriptionDeliveryMigrations.listFailures("sdmig_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.subscriptionDeliveryMigrations.listFailures("sdmig_01KEZF7C00H8KGVKXANJWJVDH7")
  */
     listFailures(subscription_delivery_migration_id: InputValue<string>, params?: SubscriptionDeliveryMigrationsListFailuresParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<SubscriptionDeliveryMigrationFailureListResponse, SubscriptionDeliveryMigrationFailureListResponse>>;
     /** Iterate pages lazily.

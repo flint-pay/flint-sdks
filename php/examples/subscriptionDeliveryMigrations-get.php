@@ -13,7 +13,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   allowInsecureHttp: $baseUrl !== null && in_array(parse_url($baseUrl, PHP_URL_HOST), ['localhost', '127.0.0.1'], true) && parse_url($baseUrl, PHP_URL_SCHEME) === 'http',
 ));
-$result = $client->subscriptionDeliveryMigrations->get('sdmig_01ARZ3NDEKTSV4RRFFQ69G5FAV');
+$result = $client->subscriptionDeliveryMigrations->get('sdmig_01KEZF7C00H8KGVKXANJWJVDH7');
 echo $result->from_delivery_method_id . PHP_EOL;
 echo $result->status . PHP_EOL;
 $client->close();

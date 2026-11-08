@@ -1,1 +1,1 @@
-{"shared":"OrderLineItemModifierInputCatalog","dependencies":["MetadataRequest","OrderLineItemModifierInputCatalog","SharedCodec256","TextModifierRequest"]}
+{"shared":"OrderLineItemModifierInputCatalogRequest","dependencies":["MetadataRequest","OrderLineItemModifierInputCatalogRequest","SharedCodec295","TextModifierRequest"]}

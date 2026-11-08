@@ -8,7 +8,36 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `data` | Required | [Category](../models/Category.md#category) | The requested category data. A catalog grouping used to organize items. |
-| `meta` | Optional | [ResponseMeta](../models/ResponseMeta.md#responsemeta) | Additional information about this response. Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings. |
+| `data` | Required | [Category](../models/Category.md#category) | The requested category data. A catalog grouping used to organize items. `data`: [field definitions](../models/CategoryResponse.md#categoryresponsedata). |
+| `meta` | Optional | [ResponseMeta](../models/ResponseMeta.md#responsemeta) | Additional information about this response. Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings. `meta`: [field definitions](../models/DisputeResponse.md#disputeresponsemeta). |
 | `request_id` | Required | string | Identifier of this API request, useful when contacting support. maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. |
+
+### CategoryResponse.data
+
+The requested category data. A catalog grouping used to organize items.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `assigned_bundle_count` | Required | integer | Number of bundles currently assigned to the category. Format: `int64`. |
+| `assigned_product_count` | Required | integer | Number of products currently assigned to the category. Format: `int64`. |
+| `category_id` | Required | string | Stable identifier of the category. Example: `"ctg_01KEZF7C001T4WWBPVGWRZD88Q"`. |
+| `created_at` | Required | string | When this resource was created, as an RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
+| `description` | Optional | string | Description of the category. |
+| `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. Example: `"warehouse-1842"`. |
+| `handle` | Required | string | Immutable handle used to assign this category to products and bundles. |
+| `merchant_id` | Required | string | Identifier of the merchant that owns this resource. Example: `"mer_01KEZF7C00KPYH1DDFPCCX3B6E"`. |
+| `metadata` | Optional | Map of string | Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/BundleResponse.md#bundleresponsedatametadata). |
+| `name` | Required | string | Category name shown to buyers. |
+| `status` | Required | string | Category lifecycle status. Active categories can be assigned; deleted is returned only by DELETE. Values: `"active"`, `"deleted"`. |
+| `targeting_reference_count` | Required | integer | Number of promotions, return reasons and return policy versions that reference this category. Deleting the category is refused with `409 RESOURCE_IN_USE` while this or `assigned_product_count` or `assigned_bundle_count` is above zero. Format: `int64`. |
+| `updated_at` | Required | string | When this resource last changed, as an RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
+| `version` | Required | integer | Persisted owned-state version. Clock-based availability and expanded resources do not advance this counter. Format: `uint64`. minimum: `1`. |
+
+### CategoryResponse.data.metadata
+
+Field definitions: [BundleResponse.data.metadata](../models/BundleResponse.md#bundleresponsedatametadata).
+
+### CategoryResponse.meta
+
+Field definitions: [DisputeResponse.meta](../models/DisputeResponse.md#disputeresponsemeta).
 

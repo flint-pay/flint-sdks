@@ -9,13 +9,13 @@ namespace Flint;
 final class InventoryTransferLineRequestInput extends Model {
     /** @param array{'condition'?: string, 'inventory_item_id': string, 'requested_quantity': int}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryTransferLineRequestInput')); }
-    /** Default: "sellable". Value enum: "sellable", "quality_control", "damaged", "quarantined".
+    /** Condition of the units being moved. Default: "sellable". Value enum: "sellable", "quality_control", "damaged", "quarantined".
      * @return string
      * @throws SdkError When condition is omitted; use hasCondition() or valueOrDefault().
      */
     public function getCondition(): string { return $this->get('condition'); }
     public function hasCondition(): bool { return $this->has('condition'); }
-    /** minLength: 1.
+    /** ID of the inventory item to move. minLength: 1. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
      * @return string
      * @throws SdkError When inventory_item_id is omitted; use hasInventoryItemId() or valueOrDefault().
      */

@@ -2,7 +2,7 @@
 
 # Partner app OAuth
 
-A partner app installs on a merchant's account through Flint's consent screen, then calls the API with the install's access token. The handwritten helpers in `custom/` build the consent URL, check the callback, and sign the client assertions that token and revoke requests need. See [partner app installs](https://developers.withflintpay.com/docs/guides/partner-app-installs) for credentials, lifetimes and errors.
+A partner app installs on a merchant's account through Flint's consent screen, then calls the API for that merchant with partner app tokens. The handwritten helpers in `custom/` build the consent URL, check the callback, sign the client assertions that token and revoke requests need, and mint and cache partner app tokens. See [partner app installs](https://developers.withflintpay.com/docs/guides/partner-app-installs) for credentials, lifetimes and errors.
 
 ## Send the merchant to install
 
@@ -93,7 +93,32 @@ $token = OAuth::exchangeCode($client, [
 ]);
 ```
 
-Store the token response as the partner guide describes. Call the API for that merchant with a client whose `token` is the access token and with `ambientCredentials: false`, so a missing token fails instead of using your own `FLINT_API_KEY`.
+The exchange activates the install and returns a partner app token bound to that merchant. It lasts up to 900 seconds and comes with no refresh token. Store the response's IDs as the partner guide describes, and mint new tokens with `partnerAppTokens` from then on.
+
+## Call the API for installed merchants
+
+`partnerAppTokens` mints partner app tokens with `grant_type=client_credentials` and a fresh client assertion, one mode per instance. `forMerchant(merchantId)` returns a credential provider for one merchant. Pass it as a client's `token`: requests need no `Flint-Merchant-Id`, and the provider is reused for that merchant. It caches the token until 60 seconds before expiry (`refreshBeforeSeconds`), mints once for concurrent requests, and drops the token when a request gets a 401, which the SDK then retries once. Set `ambientCredentials: false` so a missing token fails instead of using your own `FLINT_API_KEY`.
+
+Node:
+
+```js
+import { Client } from '@flintpay/node';
+import { partnerAppTokens } from '@flintpay/node/custom/partner-oauth.js';
+const tokens = partnerAppTokens(new Client({ ambientCredentials: false }), { clientAssertion, mode: 'live' });
+const merchant = new Client({ token: tokens.forMerchant('mer_01KEZF7C00KPYH1DDFPCCX3B6E'), ambientCredentials: false });
+const orders = await merchant.orders.list();
+```
+
+PHP:
+
+```php
+use Flint\Partner\PartnerAppTokens;
+$tokens = new PartnerAppTokens(new \Flint\Client(new \Flint\ClientOptions(ambientCredentials: false)), $clientAssertion, 'live');
+$merchant = new \Flint\Client(new \Flint\ClientOptions(token: $tokens->forMerchant('mer_01KEZF7C00KPYH1DDFPCCX3B6E'), ambientCredentials: false));
+$orders = $merchant->orders->list();
+```
+
+`app()` returns one app-level token for every merchant instead. Each request with it must name the merchant in its `Flint-Merchant-Id` param. Each app can mint 600 tokens a minute, so reuse providers rather than creating one per request. Calling `getCredential()` yourself surfaces a failed mint's API error, such as `invalid_client`; inside a request, a failed mint is reported as `credential_provider_failed`.
 
 ## Other token requests
 

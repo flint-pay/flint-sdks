@@ -30,12 +30,12 @@ final class InventoryReceipt extends Model {
      */
     public function getIdempotencyKey(): ?string { return $this->get('idempotency_key'); }
     public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
-    /** inventory_receipt_id
+    /** Unique identifier for this inventory receipt, prefixed `invrec_`.
      * @return string
      */
     public function getInventoryReceiptId(): string { return $this->get('inventory_receipt_id'); }
     public function hasInventoryReceiptId(): bool { return $this->has('inventory_receipt_id'); }
-    /**  [] (Value): {@see InventoryReceiptLine}. One line of an inventory receipt: a quantity of an item received at a Location with its disposition.
+    /** Received lines, each with the item, receiving Location, quantity, and disposition. [] (Value): {@see InventoryReceiptLine}. One line of an inventory receipt: a quantity of an item received at a Location with its disposition.
      * @return list<InventoryReceiptLine>
      */
     public function getLines(): array { return $this->get('lines'); }
@@ -45,17 +45,17 @@ final class InventoryReceipt extends Model {
      */
     public function getOccurredAt(): string { return $this->get('occurred_at'); }
     public function hasOccurredAt(): bool { return $this->has('occurred_at'); }
-    /** return_disposition_id
+    /** ID of the Return disposition this receipt records. Absent when the receipt isn't linked to a Return.
      * @return ?string
      */
     public function getReturnDispositionId(): ?string { return $this->get('return_disposition_id'); }
     public function hasReturnDispositionId(): bool { return $this->has('return_disposition_id'); }
-    /** return_id
+    /** ID of the Return these units came back on. Absent when the receipt isn't linked to a Return.
      * @return ?string
      */
     public function getReturnId(): ?string { return $this->get('return_id'); }
     public function hasReturnId(): bool { return $this->has('return_id'); }
-    /**  anyOf[1] (Value): {@see InventorySourceSystem}. The system an inventory event came from, such as manual entry, a point of sale, a warehouse system, or Flint, with your source identifier when it applies. anyOf[2] (Value): null.
+    /** System the change came from, such as a point-of-sale or warehouse system. `null` when the request named no source system. anyOf[1] (Value): {@see InventorySourceSystem}. The system an inventory event came from, such as manual entry, a point of sale, a warehouse system, or Flint, with your source identifier when it applies. anyOf[2] (Value): null.
      * @return InventorySourceSystem|null
      */
     public function getSourceSystem(): InventorySourceSystem|null { return $this->get('source_system'); }

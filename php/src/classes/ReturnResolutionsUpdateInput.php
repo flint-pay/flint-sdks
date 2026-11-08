@@ -5,19 +5,37 @@ namespace Flint;
  * @internal
  *
  * @property-read string $return_resolution_id
- * @property-read array{'adjustments'?: list<array{'adjustment_type': string, 'applied_amount_money': mixed, 'assessed_amount_money': mixed, 'reason': string, 'reason_message'?: string, 'return_line_item_id'?: string, 'return_resolution_adjustment_id'?: string, 'status'?: string, 'value_effect': string, 'waiver_reason'?: string, 'waiver_reason_message'?: string}|object>, 'expected_version'?: int, 'external_reference_id'?: string|null, 'gift_card_refund_destination'?: string, 'line_items'?: list<array{'quantity': int, 'return_line_item_id': string, 'return_resolution_line_item_id'?: string}|object>, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'pricing_basis'?: string, 'replacement_line_items'?: list<array{'bundle_id'?: string, 'description'?: string, 'name'?: string, 'quantity': int, 'return_replacement_line_item_id'?: string, 'sku'?: string, 'type': string, 'unit_price_money'?: mixed, 'variant_id': string}|object|array{'bundle_id': string, 'description'?: string, 'name'?: string, 'quantity': int, 'return_replacement_line_item_id'?: string, 'sku'?: string, 'type': string, 'unit_price_money'?: mixed, 'variant_id'?: string}|object|array{'bundle_id'?: string, 'description'?: string, 'name': string, 'quantity': int, 'return_replacement_line_item_id'?: string, 'sku'?: string, 'type': string, 'unit_price_money'?: mixed, 'variant_id'?: string}|object>}|object $body
+ * @property-read array{'adjustments'?: list<mixed>, 'expected_version'?: int, 'external_reference_id'?: string|null, 'gift_card_refund_destination'?: string, 'line_items'?: list<mixed>, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'pricing_basis'?: string, 'replacement_line_items'?: list<mixed>}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class ReturnResolutionsUpdateInput extends Model {
-    /** @param array{'return_resolution_id': string, 'body': array{'adjustments'?: list<array{'adjustment_type': string, 'applied_amount_money': mixed, 'assessed_amount_money': mixed, 'reason': string, 'reason_message'?: string, 'return_line_item_id'?: string, 'return_resolution_adjustment_id'?: string, 'status'?: string, 'value_effect': string, 'waiver_reason'?: string, 'waiver_reason_message'?: string}|object>, 'expected_version'?: int, 'external_reference_id'?: string|null, 'gift_card_refund_destination'?: string, 'line_items'?: list<array{'quantity': int, 'return_line_item_id': string, 'return_resolution_line_item_id'?: string}|object>, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'pricing_basis'?: string, 'replacement_line_items'?: list<array{'bundle_id'?: string, 'description'?: string, 'name'?: string, 'quantity': int, 'return_replacement_line_item_id'?: string, 'sku'?: string, 'type': string, 'unit_price_money'?: mixed, 'variant_id': string}|object|array{'bundle_id': string, 'description'?: string, 'name'?: string, 'quantity': int, 'return_replacement_line_item_id'?: string, 'sku'?: string, 'type': string, 'unit_price_money'?: mixed, 'variant_id'?: string}|object|array{'bundle_id'?: string, 'description'?: string, 'name': string, 'quantity': int, 'return_replacement_line_item_id'?: string, 'sku'?: string, 'type': string, 'unit_price_money'?: mixed, 'variant_id'?: string}|object>}|object}|object $values */
+    /** @param array{'return_resolution_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': array{'adjustments'?: list<mixed>, 'expected_version'?: int, 'external_reference_id'?: string|null, 'gift_card_refund_destination'?: string, 'line_items'?: list<mixed>, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'pricing_basis'?: string, 'replacement_line_items'?: list<mixed>}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnResolutionsUpdateInput')); }
-    /** Flint return resolution id. Example: "retres_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Flint return resolution id. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
      * @return string
      * @throws SdkError When return_resolution_id is omitted; use hasReturnResolutionId() or valueOrDefault().
      */
     public function getReturnResolutionId(): string { return $this->get('return_resolution_id'); }
     public function hasReturnResolutionId(): bool { return $this->has('return_resolution_id'); }
+    /** Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Merchant-Id is omitted; use hasFlintMerchantId() or valueOrDefault().
+     */
+    public function getFlintMerchantId(): string { return $this->get('Flint-Merchant-Id'); }
+    public function hasFlintMerchantId(): bool { return $this->has('Flint-Merchant-Id'); }
+    /** Mode of the request context, live or test. Optional; it must match the credential's mode. Value enum: "test", "live".
+     * @return string
+     * @throws SdkError When Flint-Mode is omitted; use hasFlintMode() or valueOrDefault().
+     */
+    public function getFlintMode(): string { return $this->get('Flint-Mode'); }
+    public function hasFlintMode(): bool { return $this->has('Flint-Mode'); }
+    /** Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Sandbox-Id is omitted; use hasFlintSandboxId() or valueOrDefault().
+     */
+    public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
+    public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
     /** The request body for: Update return resolution.
-     * @return array{'adjustments'?: list<array{'adjustment_type': string, 'applied_amount_money': mixed, 'assessed_amount_money': mixed, 'reason': string, 'reason_message'?: string, 'return_line_item_id'?: string, 'return_resolution_adjustment_id'?: string, 'status'?: string, 'value_effect': string, 'waiver_reason'?: string, 'waiver_reason_message'?: string}|object>, 'expected_version'?: int, 'external_reference_id'?: string|null, 'gift_card_refund_destination'?: string, 'line_items'?: list<array{'quantity': int, 'return_line_item_id': string, 'return_resolution_line_item_id'?: string}|object>, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'pricing_basis'?: string, 'replacement_line_items'?: list<array{'bundle_id'?: string, 'description'?: string, 'name'?: string, 'quantity': int, 'return_replacement_line_item_id'?: string, 'sku'?: string, 'type': string, 'unit_price_money'?: mixed, 'variant_id': string}|object|array{'bundle_id': string, 'description'?: string, 'name'?: string, 'quantity': int, 'return_replacement_line_item_id'?: string, 'sku'?: string, 'type': string, 'unit_price_money'?: mixed, 'variant_id'?: string}|object|array{'bundle_id'?: string, 'description'?: string, 'name': string, 'quantity': int, 'return_replacement_line_item_id'?: string, 'sku'?: string, 'type': string, 'unit_price_money'?: mixed, 'variant_id'?: string}|object>}|object
+     * @return array{'adjustments'?: list<mixed>, 'expected_version'?: int, 'external_reference_id'?: string|null, 'gift_card_refund_destination'?: string, 'line_items'?: list<mixed>, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'pricing_basis'?: string, 'replacement_line_items'?: list<mixed>}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
     public function getBody(): array|object { return $this->get('body'); }

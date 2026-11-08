@@ -47,7 +47,7 @@ final class WebhookDelivery extends Model {
      */
     public function getErrorSummary(): ?string { return $this->get('error_summary'); }
     public function hasErrorSummary(): bool { return $this->has('error_summary'); }
-    /** Format: int32.
+    /** HTTP status returned by the receiver on the latest recorded attempt. Omitted when no HTTP response was received. Format: int32.
      * @return ?int
      */
     public function getLastResponseCode(): ?int { return $this->get('last_response_code'); }
@@ -72,12 +72,12 @@ final class WebhookDelivery extends Model {
      */
     public function getRetryable(): ?bool { return $this->get('retryable'); }
     public function hasRetryable(): bool { return $this->has('retryable'); }
-    /** Value enum: "pending", "delivered", "failed", "suppressed".
+    /** Current state of this endpoint delivery and its automatic retry schedule. Value enum: "pending", "delivered", "failed", "suppressed".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Why this delivery was suppressed. Present exactly when status is suppressed. Suppressed deliveries have no failure explanation. Value enum: "endpoint_inactive", "endpoint_deleted", "authorization_revoked", "scope_missing", "event_not_allowed".
+    /** Why this delivery was suppressed. Present exactly when status is suppressed. Suppressed deliveries have no failure explanation. Value enum: "endpoint_inactive", "endpoint_deleted", "authorization_revoked", "scope_missing", "event_not_allowed", "partner_app_install_revoked".
      * @return ?string
      */
     public function getSuppressionReason(): ?string { return $this->get('suppression_reason'); }
@@ -87,17 +87,17 @@ final class WebhookDelivery extends Model {
      */
     public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** webhook_delivery_id
+    /** Unique identifier for this webhook delivery, prefixed `wdel_`.
      * @return string
      */
     public function getWebhookDeliveryId(): string { return $this->get('webhook_delivery_id'); }
     public function hasWebhookDeliveryId(): bool { return $this->has('webhook_delivery_id'); }
-    /** webhook_endpoint_id
+    /** ID of the receiving endpoint, retained even after the endpoint is deleted.
      * @return string
      */
     public function getWebhookEndpointId(): string { return $this->get('webhook_endpoint_id'); }
     public function hasWebhookEndpointId(): bool { return $this->has('webhook_endpoint_id'); }
-    /** webhook_event_id
+    /** ID of the event this delivery sends.
      * @return string
      */
     public function getWebhookEventId(): string { return $this->get('webhook_event_id'); }

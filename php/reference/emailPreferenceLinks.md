@@ -18,7 +18,7 @@ Signature: `lookup(array|Model $params, ?RequestOptions $options = null)`
 
 #### Response
 
-Returned payload: [EmailPreferenceLink](../models/EmailPreferenceLinkInput.md#emailpreferencelinkinput).
+Returned payload: [EmailPreferenceLink](../models/EmailPreferenceLink.md#emailpreferencelink).
 
 #### Errors
 
@@ -28,7 +28,6 @@ Returned payload: [EmailPreferenceLink](../models/EmailPreferenceLinkInput.md#em
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -49,7 +48,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 
 ```php
 $result = $client->emailPreferenceLinks->lookup([
-  'token' => 'example',
+  'token' => 'b3BlbmFwaS1maXh0dXJl.eyJ2IjoxLCJwIjoic2FuZGJveCIsImQiOiJlZGVsXzAxS0VaRjdDMDA4OU1SRThFRjc4SFIxRzI2In0.6c_I5nt_K3eTi7XxJJ95dXgQZjGlaY_lVlp64YJPxuo',
 ], new RequestOptions());
 ```
 
@@ -69,7 +68,7 @@ Field definitions: [shared fields](#request-fields). Models: [EmailPreferenceLin
 
 #### Response
 
-Returned payload: [EmailPreferenceLink](../models/EmailPreferenceLinkInput.md#emailpreferencelinkinput).
+Returned payload: [EmailPreferenceLink](../models/EmailPreferenceLink.md#emailpreferencelink).
 
 #### Errors
 
@@ -80,7 +79,6 @@ Returned payload: [EmailPreferenceLink](../models/EmailPreferenceLinkInput.md#em
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -106,7 +104,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->emailPreferenceLinks->unsubscribe([
-  'token' => 'example',
+  'token' => 'b3BlbmFwaS1maXh0dXJl.eyJ2IjoxLCJwIjoic2FuZGJveCIsImQiOiJlZGVsXzAxS0VaRjdDMDA4OU1SRThFRjc4SFIxRzI2In0.6c_I5nt_K3eTi7XxJJ95dXgQZjGlaY_lVlp64YJPxuo',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 

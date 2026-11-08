@@ -40,7 +40,7 @@ final class BuyerReturn extends Model {
      */
     public function getCanceledAt(): ?string { return $this->get('canceled_at'); }
     public function hasCanceledAt(): bool { return $this->has('canceled_at'); }
-    /** Value enum: "buyer_request", "merchant_request", "duplicate", "expired", "created_in_error", "other".
+    /** Why the Return was canceled. Value enum: "buyer_request", "merchant_request", "duplicate", "expired", "created_in_error", "other".
      * @return ?string
      */
     public function getCancellationReason(): ?string { return $this->get('cancellation_reason'); }
@@ -50,7 +50,7 @@ final class BuyerReturn extends Model {
      */
     public function getCompletedAt(): ?string { return $this->get('completed_at'); }
     public function hasCompletedAt(): bool { return $this->has('completed_at'); }
-    /**  [] (Value): {@see BuyerReturnCompletionBlocker}. A condition the buyer can resolve before the Return can complete.
+    /** What is still owed before the Return can complete. Empty when nothing is. [] (Value): {@see BuyerReturnCompletionBlocker}. A condition the buyer can resolve before the Return can complete.
      * @return list<BuyerReturnCompletionBlocker>
      */
     public function getCompletionBlockers(): array { return $this->get('completion_blockers'); }
@@ -70,17 +70,17 @@ final class BuyerReturn extends Model {
      */
     public function getDecisionAt(): ?string { return $this->get('decision_at'); }
     public function hasDecisionAt(): bool { return $this->has('decision_at'); }
-    /** Value enum: "pending", "approved", "partially_approved", "declined".
+    /** Whether the requested units were approved. `pending` until one decision covers every line. Value enum: "pending", "approved", "partially_approved", "declined".
      * @return string
      */
     public function getDecisionStatus(): string { return $this->get('decision_status'); }
     public function hasDecisionStatus(): bool { return $this->has('decision_status'); }
-    /** The money for a return: returned value, deductions, credits, replacement total, and amounts due to or from the buyer.
+    /** The Return's money in one place: the value of the returned lines, deductions and credits, and what has been refunded or collected. The money for a return: returned value, deductions, credits, replacement total, and amounts due to or from the buyer.
      * @return ReturnFinancialSummary
      */
     public function getFinancialSummary(): ReturnFinancialSummary { return $this->get('financial_summary'); }
     public function hasFinancialSummary(): bool { return $this->has('financial_summary'); }
-    /**  [] (Value): {@see BuyerReturnHandoffRequirement}. The merchandise quantities the buyer must hand off, with their destination, instructions, and handoff status.
+    /** What the buyer still has to send back and where. Each entry leaves the list once it is satisfied, so an empty list means nothing is waiting on the buyer. [] (Value): {@see BuyerReturnHandoffRequirement}. The merchandise quantities the buyer must hand off, with their destination, instructions, and handoff status.
      * @return list<BuyerReturnHandoffRequirement>
      */
     public function getHandoffRequirements(): array { return $this->get('handoff_requirements'); }
@@ -90,7 +90,7 @@ final class BuyerReturn extends Model {
      */
     public function getInitiatedBy(): string { return $this->get('initiated_by'); }
     public function hasInitiatedBy(): bool { return $this->has('initiated_by'); }
-    /**  [] (Value): {@see BuyerReturnLineItem}. An item included in a return request.
+    /** The lines being returned. [] (Value): {@see BuyerReturnLineItem}. An item included in a return request.
      * @return list<BuyerReturnLineItem>
      */
     public function getLineItems(): array { return $this->get('line_items'); }
@@ -105,22 +105,22 @@ final class BuyerReturn extends Model {
      */
     public function getMetadata(): array { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** order_id
+    /** ID of the Order the Return is against.
      * @return string
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** Value enum: "not_selected", "pending", "partially_fulfilled", "requires_action", "fulfilled", "failed".
+    /** Whether the buyer has received the value they are owed. Combines the Return's resolutions and its unsettled corrections. Value enum: "not_selected", "pending", "partially_fulfilled", "requires_action", "fulfilled", "failed".
      * @return string
      */
     public function getResolutionStatus(): string { return $this->get('resolution_status'); }
     public function hasResolutionStatus(): bool { return $this->has('resolution_status'); }
-    /** return_id
+    /** Unique identifier for this return, prefixed `ret_`.
      * @return string
      */
     public function getReturnId(): string { return $this->get('return_id'); }
     public function hasReturnId(): bool { return $this->has('return_id'); }
-    /** return_number
+    /** Human-readable number for the Return.
      * @return string
      */
     public function getReturnNumber(): string { return $this->get('return_number'); }
@@ -130,7 +130,7 @@ final class BuyerReturn extends Model {
      */
     public function getReturnResolutionIds(): array { return $this->get('return_resolution_ids'); }
     public function hasReturnResolutionIds(): bool { return $this->has('return_resolution_ids'); }
-    /** Value enum: "requested", "open", "completed", "declined", "canceled".
+    /** Where the whole Return stands. Read `decision_status`, `merchandise_status`, and `resolution_status` for the part you need. Value enum: "requested", "open", "completed", "declined", "canceled".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
@@ -145,7 +145,7 @@ final class BuyerReturn extends Model {
      */
     public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** Format: int64. minimum: 0.
+    /** Goes up with every change to the Return. Each activity's `return_version` is the version that activity produced. A write that takes `expected_version` or `expected_return_version` for this Return compares it with this value. Format: int64. minimum: 0.
      * @return int
      */
     public function getVersion(): int { return $this->get('version'); }

@@ -9,7 +9,7 @@ namespace Flint;
 final class FeedbackReportsGetInput extends Model {
     /** @param array{'feedback_report_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('FeedbackReportsGetInput')); }
-    /** Flint feedback report ID. Example: "fbr_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Flint feedback report ID. Example: "fbr_01KEZF7C00CFKWW2MH94F39D7B".
      * @return string
      * @throws SdkError When feedback_report_id is omitted; use hasFeedbackReportId() or valueOrDefault().
      */

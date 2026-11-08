@@ -8,6 +8,6 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `inventory_allocation_policy_revision_id` | Required | string | minLength: `1`. |
-| `type` | Required | string | Values: `"policy_revision"`. |
+| `inventory_allocation_policy_revision_id` | Required | string | ID of the allocation policy revision that routes demand. minLength: `1`. Example: `"invpv_01KEZF7C00JSFTTBKC1JY614JJ"`. |
+| `type` | Required | string | How Flint routes demand to Locations. Values: `"policy_revision"`. |
 

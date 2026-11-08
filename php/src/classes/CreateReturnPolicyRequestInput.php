@@ -6,11 +6,12 @@ namespace Flint;
  * @property-read MetadataRequestInput|array<array-key, mixed>|\stdClass $metadata
  * @property-read string $name
  * @property-read ReturnPolicyRevisionRequestInput|array<array-key, mixed>|\stdClass $revision
+ * @property-read string $status
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateReturnPolicyRequestInput extends Model {
-    /** @param array{'external_reference_id'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'name': string, 'revision': ReturnPolicyRevisionRequestInput|array<array-key, mixed>|\stdClass}|object $values */
+    /** @param array{'external_reference_id'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'name': string, 'revision': ReturnPolicyRevisionRequestInput|array<array-key, mixed>|\stdClass, 'status'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateReturnPolicyRequestInput')); }
-    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -22,16 +23,22 @@ final class CreateReturnPolicyRequestInput extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** minLength: 1.
+    /** Name of the policy, from 1 to 255 characters. minLength: 1.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** The rules for a return policy revision: scope, eligibility, return window, approval and resolution modes, shipping, and restocking fee.
+    /** The revision with the complete rules. A field you leave out doesn't carry over from the previous revision. The rules for a return policy revision: scope, eligibility, return window, approval and resolution modes, shipping, and restocking fee.
      * @return ReturnPolicyRevisionRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When revision is omitted; use hasRevision() or valueOrDefault().
      */
     public function getRevision(): mixed { return $this->get('revision'); }
     public function hasRevision(): bool { return $this->has('revision'); }
+    /** Whether the policy applies to new Returns. Defaults to inactive. Creating an active policy checks for overlapping active policies and a usable receiving location, just like activation through PATCH. Default: "inactive". Value enum: "active", "inactive".
+     * @return string
+     * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
+     */
+    public function getStatus(): string { return $this->get('status'); }
+    public function hasStatus(): bool { return $this->has('status'); }
 }

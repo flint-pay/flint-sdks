@@ -8,11 +8,11 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.orders.removeDiscounts(
-  "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "ord_01KEZF7C0054GQKJ142A8X367A",
   {
     order_discount_ids: ["ad_01JFXH8Z2K7QF9V3MB0N4T6RCP"],
   },
   { idempotencyKey: idempotencyKey },
 );
+console.log(result.merchant_id);
 console.log(result.order_id);
-console.log(result.status);

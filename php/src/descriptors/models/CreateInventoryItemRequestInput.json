@@ -1,1 +1,1 @@
-{"shared":"CreateInventoryItemRequest","dependencies":["CreateInventoryItemRequest","MetadataRequest"]}
+{"shared":"CreateInventoryItemRequest","dependencies":["CreateInventoryBackorderPolicyRequest","CreateInventoryItemRequest","MetadataRequest"]}

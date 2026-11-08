@@ -13,7 +13,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   allowInsecureHttp: $baseUrl !== null && in_array(parse_url($baseUrl, PHP_URL_HOST), ['localhost', '127.0.0.1'], true) && parse_url($baseUrl, PHP_URL_SCHEME) === 'http',
 ));
-$result = $client->fulfillmentNotifications->get('fnt_01ARZ3NDEKTSV4RRFFQ69G5FAV');
+$result = $client->fulfillmentNotifications->get('fnt_01KEZF7C00QD91RXQH2E7H9K5E');
 echo $result->fulfillment_id . PHP_EOL;
 echo $result->fulfillment_notification_id . PHP_EOL;
 $client->close();

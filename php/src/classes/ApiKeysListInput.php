@@ -4,6 +4,7 @@ namespace Flint;
 /**
  * @internal
  *
+ * @property-read string $partner_app_install_id
  * @property-read list<string>|string $status
  * @property-read int $page_size
  * @property-read string $page_token
@@ -15,9 +16,15 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $updated_before
  * Presence-aware input; omitted fields throw when accessed. */
 final class ApiKeysListInput extends Model {
-    /** @param array{'status'?: list<string>|string, 'page_size'?: int, 'page_token'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface}|object $values */
+    /** @param array{'partner_app_install_id'?: string, 'status'?: list<string>|string, 'page_size'?: int, 'page_token'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ApiKeysListInput')); }
-    /** Optional API key status filter. Active keys have no expiration or a future expires_at. Expired keys are not revoked and have expires_at at or before the current time. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "active", "expired", "revoked". Value enum: "active", "expired", "revoked". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "active", "expired", "revoked". anyOf[1][] (Value): string.  Value enum: "active", "expired", "revoked". anyOf[2] (Value): string.  Value enum: "active", "expired", "revoked".
+    /** Exact-match filter on partner_app_install_id. pattern: ^pinst_[0-9A-HJKMNP-TV-Z]{26}$. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+     * @return string
+     * @throws SdkError When partner_app_install_id is omitted; use hasPartnerAppInstallId() or valueOrDefault().
+     */
+    public function getPartnerAppInstallId(): string { return $this->get('partner_app_install_id'); }
+    public function hasPartnerAppInstallId(): bool { return $this->has('partner_app_install_id'); }
+    /** Optional API key status filter. Active keys have no expiration or a future expires_at. Expired keys are not revoked and have expires_at at or before the current time. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "active", "expired", "revoked". Value enum: "active", "expired", "revoked". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "active", "expired", "revoked". anyOf[1][] (Value): string.  Value enum: "active", "expired", "revoked". anyOf[2] (Value): string.  Value enum: "active", "expired", "revoked".
      * @return list<string>|string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
@@ -29,7 +36,7 @@ final class ApiKeysListInput extends Model {
      */
     public function getPageSize(): int { return $this->get('page_size'); }
     public function hasPageSize(): bool { return $this->has('page_size'); }
-    /** Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error.
+    /** Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error.
      * @return string
      * @throws SdkError When page_token is omitted; use hasPageToken() or valueOrDefault().
      */

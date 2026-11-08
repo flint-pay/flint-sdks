@@ -7,10 +7,11 @@ namespace Flint;
  * @property-read list<string> $default_requested_permissions
  * @property-read string $name
  * @property-read list<PartnerAppPermissionManifestEntryRequestInput|array<array-key, mixed>|\stdClass> $permission_manifest
+ * @property-read PartnerAppPlatformProfileRequestInput|array<array-key, mixed>|\stdClass $platform_profile
  * @property-read list<string> $redirect_uris
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreatePartnerAppRequestInput extends Model {
-    /** @param array{'api_version'?: string, 'client_secret_enabled'?: bool, 'default_requested_permissions'?: list<string>, 'name': string, 'permission_manifest': list<PartnerAppPermissionManifestEntryRequestInput|array<array-key, mixed>|\stdClass>, 'redirect_uris': list<string>}|object $values */
+    /** @param array{'api_version'?: string, 'client_secret_enabled'?: bool, 'default_requested_permissions'?: list<string>, 'name': string, 'permission_manifest': list<PartnerAppPermissionManifestEntryRequestInput|array<array-key, mixed>|\stdClass>, 'platform_profile'?: PartnerAppPlatformProfileRequestInput|array<array-key, mixed>|\stdClass, 'redirect_uris': list<string>}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreatePartnerAppRequestInput')); }
     /** API version for requests the app makes with its install tokens that send no Flint-Version header. Defaults to the version of this request and can't be newer than it. minLength: 1.
      * @return string
@@ -42,6 +43,12 @@ final class CreatePartnerAppRequestInput extends Model {
      */
     public function getPermissionManifest(): array { return $this->get('permission_manifest'); }
     public function hasPermissionManifest(): bool { return $this->has('permission_manifest'); }
+    /** The platform profile Flint reviews before it approves the app as a platform. Optional; set it now or later with PATCH. The whole platform profile. Every field is required except support_phone, and a write replaces the profile whole.
+     * @return PartnerAppPlatformProfileRequestInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When platform_profile is omitted; use hasPlatformProfile() or valueOrDefault().
+     */
+    public function getPlatformProfile(): mixed { return $this->get('platform_profile'); }
+    public function hasPlatformProfile(): bool { return $this->has('platform_profile'); }
     /** Redirect URIs the app can use after authorization. Each must be an absolute HTTPS URL, or HTTP on localhost or a loopback address, with no fragment. At least one is required. [] (Value): string. minLength: 1.
      * @return list<string>
      * @throws SdkError When redirect_uris is omitted; use hasRedirectUris() or valueOrDefault().

@@ -32,22 +32,22 @@ final class InventoryCountAppliedMerchantEventDataObject extends Model {
      */
     public function getIdempotencyKey(): ?string { return $this->get('idempotency_key'); }
     public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
-    /** inventory_count_id
+    /** Unique identifier for this inventory count, prefixed `invc_`.
      * @return string
      */
     public function getInventoryCountId(): string { return $this->get('inventory_count_id'); }
     public function hasInventoryCountId(): bool { return $this->has('inventory_count_id'); }
-    /**  [] (Value): {@see InventoryCountLine}. One item's line in an inventory count, with the quantities Flint expected, the quantities counted, and the variance applied.
+    /** Count lines, one for each inventory item being counted. [] (Value): {@see InventoryCountLine}. One item's line in an inventory count, with the quantities Flint expected, the quantities counted, and the variance applied.
      * @return list<InventoryCountLine>
      */
     public function getLines(): array { return $this->get('lines'); }
     public function hasLines(): bool { return $this->has('lines'); }
-    /** location_id
+    /** ID of the Location whose stock is counted.
      * @return string
      */
     public function getLocationId(): string { return $this->get('location_id'); }
     public function hasLocationId(): bool { return $this->has('location_id'); }
-    /** Where an inventory count came from: the source system, an external actor ID, and when the event occurred.
+    /** Source system, actor, and time reported with the count's observations. Where an inventory count came from: the source system, an external actor ID, and when the event occurred.
      * @return ?InventoryCountObservationProvenance
      */
     public function getObservationProvenance(): ?InventoryCountObservationProvenance { return $this->get('observation_provenance'); }
@@ -67,7 +67,7 @@ final class InventoryCountAppliedMerchantEventDataObject extends Model {
      */
     public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** Format: uint64. minimum: 1.
+    /** Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. Format: uint64. minimum: 1.
      * @return int
      */
     public function getVersion(): int { return $this->get('version'); }

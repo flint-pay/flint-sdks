@@ -13,6 +13,7 @@ namespace Flint;
  * @property-read string $key
  * @property-read ?string $product_id
  * @property-read ?list<PaymentLinkProductOption> $product_options
+ * @property-read list<QuantityPriceBreak> $quantity_price_breaks
  * @property-read ?string $resolved_description
  * @property-read ?string $resolved_name
  * @property-read ?MoneyValue $resolved_unit_price_money
@@ -20,9 +21,9 @@ namespace Flint;
  * @property-read ?string $variant_id
  * Presence-aware response; omitted optional fields return null. */
 final class PublicResolvedLineItemInfo extends Model {
-    /** @param array{'available_modifiers'?: list<mixed>, 'available_variants'?: list<mixed>, 'bundle_components'?: list<mixed>, 'bundle_id'?: string, 'catalog_object_type'?: string, 'image'?: mixed, 'is_inventory_tracked'?: bool, 'is_sold_out': bool, 'key': string, 'product_id'?: string, 'product_options'?: list<mixed>, 'resolved_description'?: string, 'resolved_name'?: string, 'resolved_unit_price_money'?: mixed, 'selected_options'?: list<mixed>, 'variant_id'?: string, ...}|object $values */
+    /** @param array{'available_modifiers'?: list<mixed>, 'available_variants'?: list<mixed>, 'bundle_components'?: list<mixed>, 'bundle_id'?: string, 'catalog_object_type'?: string, 'image'?: mixed, 'is_inventory_tracked'?: bool, 'is_sold_out': bool, 'key': string, 'product_id'?: string, 'product_options'?: list<mixed>, 'quantity_price_breaks': list<mixed>, 'resolved_description'?: string, 'resolved_name'?: string, 'resolved_unit_price_money'?: mixed, 'selected_options'?: list<mixed>, 'variant_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PublicResolvedLineItemInfo')); }
-    /**  [] (Value): {@see PublicResolvedModifierGroup}. A modifier group as resolved for a payment link line item, with its selection limits, display flags, and options or text settings.
+    /** Modifier groups the buyer can choose from for this item. [] (Value): {@see PublicResolvedModifierGroup}. A modifier group as resolved for a payment link line item, with its selection limits, display flags, and options or text settings.
      * @return ?list<PublicResolvedModifierGroup>
      */
     public function getAvailableModifiers(): ?array { return $this->get('available_modifiers'); }
@@ -32,27 +33,27 @@ final class PublicResolvedLineItemInfo extends Model {
      */
     public function getAvailableVariants(): ?array { return $this->get('available_variants'); }
     public function hasAvailableVariants(): bool { return $this->has('available_variants'); }
-    /**  [] (Value): {@see PublicResolvedBundleComponent}. One component of a bundle on a resolved payment link line item, with its variant and quantity.
+    /** The components of the bundle. Present for a bundle line item. [] (Value): {@see PublicResolvedBundleComponent}. One component of a bundle on a resolved payment link line item, with its variant and quantity.
      * @return ?list<PublicResolvedBundleComponent>
      */
     public function getBundleComponents(): ?array { return $this->get('bundle_components'); }
     public function hasBundleComponents(): bool { return $this->has('bundle_components'); }
-    /** bundle_id
+    /** ID of the bundle this line item sells.
      * @return ?string
      */
     public function getBundleId(): ?string { return $this->get('bundle_id'); }
     public function hasBundleId(): bool { return $this->has('bundle_id'); }
-    /** Value enum: "variant", "bundle".
+    /** What the line item sells. Value enum: "variant", "bundle".
      * @return ?string
      */
     public function getCatalogObjectType(): ?string { return $this->get('catalog_object_type'); }
     public function hasCatalogObjectType(): bool { return $this->has('catalog_object_type'); }
-    /** An image with its `url`, `width`, and `height`, and optional `alt` text.
+    /** Image of the variant or bundle. An image with its URL, size, and alt text.
      * @return ?Image
      */
     public function getImage(): ?Image { return $this->get('image'); }
     public function hasImage(): bool { return $this->has('image'); }
-    /** is_inventory_tracked
+    /** Whether Flint tracks stock for the item.
      * @return ?bool
      */
     public function getIsInventoryTracked(): ?bool { return $this->get('is_inventory_tracked'); }
@@ -62,12 +63,12 @@ final class PublicResolvedLineItemInfo extends Model {
      */
     public function getIsSoldOut(): bool { return $this->get('is_sold_out'); }
     public function hasIsSoldOut(): bool { return $this->has('is_sold_out'); }
-    /** key
+    /** Key of the payment link line item this entry describes.
      * @return string
      */
     public function getKey(): string { return $this->get('key'); }
     public function hasKey(): bool { return $this->has('key'); }
-    /** product_id
+    /** ID of the product the variant belongs to.
      * @return ?string
      */
     public function getProductId(): ?string { return $this->get('product_id'); }
@@ -77,27 +78,32 @@ final class PublicResolvedLineItemInfo extends Model {
      */
     public function getProductOptions(): ?array { return $this->get('product_options'); }
     public function hasProductOptions(): bool { return $this->has('product_options'); }
-    /** resolved_description
+    /** Default quantity breaks for a fixed variant. Empty for bundles, variant choice lines, and ad hoc lines. Each offered variant on a variant choice line has its own schedule in available_variants. [] (Value): {@see QuantityPriceBreak}. A net unit price that applies when one catalog line reaches minimum_quantity.
+     * @return list<QuantityPriceBreak>
+     */
+    public function getQuantityPriceBreaks(): array { return $this->get('quantity_price_breaks'); }
+    public function hasQuantityPriceBreaks(): bool { return $this->has('quantity_price_breaks'); }
+    /** Current catalog description of the variant or bundle, as of this read.
      * @return ?string
      */
     public function getResolvedDescription(): ?string { return $this->get('resolved_description'); }
     public function hasResolvedDescription(): bool { return $this->has('resolved_description'); }
-    /** resolved_name
+    /** Current catalog name of the variant or bundle, as of this read.
      * @return ?string
      */
     public function getResolvedName(): ?string { return $this->get('resolved_name'); }
     public function hasResolvedName(): bool { return $this->has('resolved_name'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Current catalog unit price of the variant or bundle, as of this read. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return ?MoneyValue
      */
     public function getResolvedUnitPriceMoney(): ?MoneyValue { return $this->get('resolved_unit_price_money'); }
     public function hasResolvedUnitPriceMoney(): bool { return $this->has('resolved_unit_price_money'); }
-    /**  [] (Value): {@see SelectedProductOption}. An option and value chosen for a product variant, such as size Large.
+    /** The product options the variant selects, such as size or color. [] (Value): {@see SelectedProductOption}. An option and value chosen for a product variant, such as size Large.
      * @return ?list<SelectedProductOption>
      */
     public function getSelectedOptions(): ?array { return $this->get('selected_options'); }
     public function hasSelectedOptions(): bool { return $this->has('selected_options'); }
-    /** variant_id
+    /** ID of the variant this line item sells.
      * @return ?string
      */
     public function getVariantId(): ?string { return $this->get('variant_id'); }

@@ -4,7 +4,7 @@
 
 ### files.complete
 
-Completing a merchant_logo or merchant_icon file requires a live-mode credential or a Dashboard session in any selected environment. Test credentials receive 403 FORBIDDEN with reason live_mode_required. After PUT succeeds, complete the file to process its image. Returns the ready file; completing a ready file again returns it. Send no request body or {}. Completing before the bytes arrive returns ACTION_NOT_ALLOWED with reason status_not_reached and current_status awaiting_upload. Attach the returned file_id as images[].file_id before expires_at, 24 hours after processing. Completion requires the purpose's write scope, with the same merchant-wide branding and environment boundaries as createFile. Partner installs can upload commerce images but cannot upload merchant_logo or merchant_icon: live install credentials receive INSUFFICIENT_SCOPE with scope_requirement because merchants.profile.write is not grantable to installs. Idempotency is scoped to merchant, credential, environment, route, and file_id. A replay returns the original result; it does not extend upload or attachment deadlines. After a lost completion response, repeat this route with the same key and file_id.
+Completing a merchant_logo or merchant_icon file requires a live-mode credential or a Dashboard session in any selected environment. Test credentials fail with `FORBIDDEN` and reason `live_mode_required`. After PUT succeeds, complete the file to process its image. Returns the ready file; completing a ready file again returns it. Send no request body or {}. Completing before the bytes arrive returns ACTION_NOT_ALLOWED with reason status_not_reached and current_status awaiting_upload. Attach the returned file_id as images[].file_id before expires_at, 24 hours after processing. Completion requires the purpose's write scope, with the same merchant-wide branding and environment boundaries as createFile. Partner install tokens need the same purpose scope; a live install token with merchants.profile.write can upload merchant_logo and merchant_icon. Idempotency is scoped to merchant, credential, environment, route, and file_id. A replay returns the original result; it does not extend upload or attachment deadlines. After a lost completion response, repeat this route with the same key and file_id.
 
 `POST /v1/files/{file_id}/complete`
 
@@ -15,6 +15,9 @@ Signature: `complete(string|Model $file_id, array|Model|null $params = null, ?Re
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `file_id` | Required | string | Flint file ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Optional | object | maxProperties: `0`. |
 
 Body shape: object.
@@ -32,7 +35,6 @@ Returned payload: [File](../models/File.md#file).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -55,14 +57,14 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->files->complete('file_01ARZ3NDEKTSV4RRFFQ69G5FAV', null, new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->files->complete('file_01KEZF7C00BZ179303GY9R0P03', null, new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/files-complete.php)
 
 ### files.create
 
-Upload a local image to Flint. Create a file, PUT the bytes to upload.url with upload.method and every upload.headers value, then POST /v1/files/{file_id}/complete. The URL works for 15 minutes. Purpose requires its own write scope: product and product_variant use commerce.products.write; bundle uses commerce.bundles.write; payment_link uses checkouts.payment_links.write; subscription_plan uses commerce.subscription_plans.write; merchant_logo and merchant_icon use merchants.profile.write. Logo and icon files are merchant-wide. Creating or completing them requires a live-mode credential or a Dashboard session in any selected environment; test credentials receive 403 FORBIDDEN with reason live_mode_required. All other purposes belong to the authenticated environment. Partner installs can upload commerce images but cannot upload merchant_logo or merchant_icon: live install credentials receive INSUFFICIENT_SCOPE with scope_requirement because merchants.profile.write is not grantable to installs. Idempotency is scoped to merchant, credential, environment, and route. A replay returns the original upload target without extending its expiry. After a lost response, retry with the same Idempotency-Key or create another file. Each upload URL expires 15 minutes after creation.
+Upload a local image to Flint. Create a file, PUT the bytes to upload.url with upload.method and every upload.headers value, then POST /v1/files/{file_id}/complete. The URL works for 15 minutes. Purpose requires its own write scope: product and product_variant use commerce.products.write; bundle uses commerce.bundles.write; payment_link uses checkouts.payment_links.write; subscription_plan uses commerce.subscription_plans.write; merchant_logo and merchant_icon use merchants.profile.write. Logo and icon files are merchant-wide. Creating or completing them requires a live-mode credential or a Dashboard session in any selected environment; test credentials fail with `FORBIDDEN` and reason `live_mode_required`. All other purposes belong to the authenticated environment. Partner install tokens need the same purpose scope; a live install token with merchants.profile.write can upload merchant_logo and merchant_icon. Idempotency is scoped to merchant, credential, environment, and route. A replay returns the original upload target without extending its expiry. After a lost response, retry with the same idempotency key or create another file. Each upload URL expires 15 minutes after creation.
 
 `POST /v1/files`
 
@@ -72,6 +74,9 @@ Signature: `create(array|Model $params, ?RequestOptions $options = null)`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [CreateFileRequestInput](../models/CreateFileRequestInput.md#createfilerequestinput) | The request body for: Create a file. |
 
 Body model: [CreateFileRequestInput](../models/CreateFileRequestInput.md#createfilerequestinput).
@@ -92,7 +97,6 @@ Returned payload: [File](../models/File.md#file).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -128,7 +132,7 @@ $result = $client->files->create([
 
 ### files.get
 
-Returns a file's current status without upload credentials. Purpose requires its own read scope: product and product_variant use commerce.products.read; bundle uses commerce.bundles.read; payment_link uses checkouts.payment_links.read; subscription_plan uses commerce.subscription_plans.read; merchant_logo and merchant_icon use merchants.profile.read. The matching write scope also grants read access. Dashboard sessions require the purpose's manage capability. Logo and icon files are merchant-wide; other files belong to the authenticated environment. Partner installs can read commerce files but cannot read merchant_logo or merchant_icon. Expired deadlines are reflected immediately. Only ready files include url, width, and height. The response uses Cache-Control: no-store.
+Returns a file's current status without upload credentials. Purpose requires its own read scope: product and product_variant use commerce.products.read; bundle uses commerce.bundles.read; payment_link uses checkouts.payment_links.read; subscription_plan uses commerce.subscription_plans.read; merchant_logo and merchant_icon use merchants.profile.read. The matching write scope also grants read access. Dashboard sessions require the purpose's manage capability. Logo and icon files are merchant-wide; other files belong to the authenticated environment. Partner install tokens need the same purpose scope. Expired deadlines are reflected immediately. Only ready files include url, width, and height. The response uses Cache-Control: no-store.
 
 `GET /v1/files/{file_id}`
 
@@ -139,6 +143,9 @@ Signature: `get(string|Model $file_id, array|Model|null $params = null, ?Request
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `file_id` | Required | string | Flint file ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -152,7 +159,6 @@ Returned payload: [File](../models/File.md#file).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -170,7 +176,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```php
-$result = $client->files->get('file_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
+$result = $client->files->get('file_01KEZF7C00BZ179303GY9R0P03', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/files-get.php)

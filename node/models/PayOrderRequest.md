@@ -21,7 +21,7 @@ The request body for: Pay order.
 | `completion_behavior` | Conditional | string | What happens when the selected payment intents don't cover the balance. Defaults to complete_order. Values: `"complete_order"`, `"partial_payment"`. |
 | `payment_intents` | Conditional | Array of [OrderPaymentIntentSelection](../models/OrderPaymentIntentSelection.md#orderpaymentintentselection) | minItems: `1`. |
 | `setup_payment_source` | Conditional | [PaymentSourceCredentialToken](../models/PaymentSourceCredentialToken.md#paymentsourcecredentialtoken) | The `token` variant of `PaymentSourceCredential`. |
-| `order_payment_attempt_id` | Conditional | string | minLength: `1`. |
+| `order_payment_attempt_id` | Conditional | string | minLength: `1`. Example: `"opat_01KEZF7C00B5PW9F2R8A4YSH5D"`. |
 
 ### PayOrderRequest variant 1: `action` = `"pay"`
 
@@ -67,7 +67,7 @@ Buyer email and phone recorded on the order. A checkout session payment uses the
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `email` | Optional | (string or null) and string | Email for the buyer, such as buyer@example.com. On checkout session updates, null clears the saved email. Format: `email`. minLength: `1`. maxLength: `255`. minLength: `1`. Email for the buyer, such as buyer@example.com. On checkout session updates, null clears the saved email. Format: `email`. minLength: `1`. maxLength: `255`. minLength: `1`. |
+| `email` | Optional | (string or null) and string | Email for the buyer, such as buyer@example.com. On checkout session updates, null clears the saved email. Format: `email`. minLength: `1`. maxLength: `255`. Example: `"buyer@example.com"`. minLength: `1`. Email for the buyer, such as buyer@example.com. On checkout session updates, null clears the saved email. Format: `email`. minLength: `1`. maxLength: `255`. Example: `"buyer@example.com"`. minLength: `1`. |
 | `phone` | Optional | (string or null) and string | Phone for the buyer, in E.164 format, such as +14155551234. On checkout session updates, null clears the saved phone. minLength: `1`. pattern: `^\+[1-9][0-9]{1,14}$`. minLength: `1`. Phone for the buyer, in E.164 format, such as +14155551234. On checkout session updates, null clears the saved phone. minLength: `1`. pattern: `^\+[1-9][0-9]{1,14}$`. minLength: `1`. |
 
 ### PayOrderRequest variant 1.expected_outstanding_money

@@ -11,17 +11,18 @@ Request input.
 | `amount_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `availability` | Required | string | Values: `"available"`, `"unavailable"`, `"cannot_calculate"`. |
 | `current` | Required | boolean | True when this is the subscription's saved preferred delivery method, including when unavailable. |
-| `delivery_method_id` | Required | string |  |
+| `delivery_method_id` | Required | string | Example: `"dmet_01KEZF7C00YSG3X2D1TZJ36TM0"`. |
 | `description` | Optional | string |  |
 | `failure_category` | Optional | string | Reason the method cannot serve this subscription destination. Values can expand as delivery capabilities change. Values: [16 declared values](DeliveryCandidateOutcomeResourceInput.md#deliverycandidateoutcomeresourceinput-failure_category-values). |
 | `name` | Required | string |  |
 | `price_type` | Required | string | Values: `"fixed"`, `"quoted"`. |
 | `selectable` | Required | boolean | True when this method is offered, renewable, and currently serves the destination. |
 | `type` | Required | string | Values: `"shipment"`, `"local_delivery"`. |
-| `unavailable_reason` | Optional | string | Reason the method cannot serve this subscription destination. Values can expand as delivery capabilities change. Values: [7 declared values](#subscriptiondeliveryoptioninput-unavailable_reason-values). |
+| `unavailable_reason` | Optional | string | Reason the method cannot serve this subscription destination. Values can expand as delivery capabilities change. Values: [8 declared values](#subscriptiondeliveryoptioninput-unavailable_reason-values). |
 
 #### SubscriptionDeliveryOptionInput unavailable_reason values
 
+- `"dependency_revoked"`
 - `"destination_not_served"`
 - `"pickup_unavailable"`
 - `"no_window_available"`

@@ -4,12 +4,13 @@ namespace Flint;
 /**
  * @property-read string|\DateTimeInterface $expires_at
  * @property-read string $purpose
+ * @property-read string|null $return_url
  * @property-read string $url
  * Presence-aware input; omitted fields throw when accessed. */
 final class AccessLinkInput extends Model {
-    /** @param array{'expires_at': string|\DateTimeInterface, 'purpose': string, 'url': string, ...}|object $values */
+    /** @param array{'expires_at': string|\DateTimeInterface, 'purpose': string, 'return_url': string|null, 'url': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('AccessLinkInput')); }
-    /** When the link stops opening the resource or signing the buyer in. Format: date-time.
+    /** When the link stops opening the resource or signing the buyer in. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When expires_at is omitted; use hasExpiresAt() or valueOrDefault().
      */
@@ -21,7 +22,13 @@ final class AccessLinkInput extends Model {
      */
     public function getPurpose(): string { return $this->get('purpose'); }
     public function hasPurpose(): bool { return $this->has('purpose'); }
-    /** The link to send the buyer. It carries a bearer credential, so anyone with it can open the resource or sign in as the customer, as its purpose describes, until expires_at or until it reaches its open limit. The link uses the merchant's customer account host. Format: uri.
+    /** The merchant destination supplied when creating a customer or subscription access link. Null when omitted, and always null for order and Return links.
+     * @return string|null
+     * @throws SdkError When return_url is omitted; use hasReturnUrl() or valueOrDefault().
+     */
+    public function getReturnUrl(): string|null { return $this->get('return_url'); }
+    public function hasReturnUrl(): bool { return $this->has('return_url'); }
+    /** The link to send the buyer. It carries a bearer credential, so anyone with it can open the resource or sign in as the customer, as its purpose describes, until expires_at or until it reaches its open limit. The link uses the merchant's customer account host. Format: uri. Example: "https://example.com/receipt".
      * @return string
      * @throws SdkError When url is omitted; use hasUrl() or valueOrDefault().
      */

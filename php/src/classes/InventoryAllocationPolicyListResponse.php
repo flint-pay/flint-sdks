@@ -10,22 +10,22 @@ namespace Flint;
 final class InventoryAllocationPolicyListResponse extends Model {
     /** @param array{'data': list<mixed>, 'meta'?: mixed, 'next_page_token'?: string, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryAllocationPolicyListResponse')); }
-    /**  [] (Value): {@see InventoryAllocationPolicy}. Named, version-fenced rules that decide which Locations serve demand and in what order.
+    /** Resource, collection, or operation result returned by this request. [] (Value): {@see InventoryAllocationPolicy}. Named, version-fenced rules that decide which Locations serve demand and in what order.
      * @return list<InventoryAllocationPolicy>
      */
     public function getData(): array { return $this->get('data'); }
     public function hasData(): bool { return $this->has('data'); }
-    /** Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+    /** Additional information about this response. Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
      * @return ?ResponseMeta
      */
     public function getMeta(): ?ResponseMeta { return $this->get('meta'); }
     public function hasMeta(): bool { return $this->has('meta'); }
-    /** next_page_token
+    /** Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no next page.
      * @return ?string
      */
     public function getNextPageToken(): ?string { return $this->get('next_page_token'); }
     public function hasNextPageToken(): bool { return $this->has('next_page_token'); }
-    /** maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$.
+    /** Identifier of this API request, used to correlate logs and support requests. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$.
      * @return string
      */
     public function getRequestId(): string { return $this->get('request_id'); }

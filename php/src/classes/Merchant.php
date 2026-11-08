@@ -10,29 +10,27 @@ namespace Flint;
  * @property-read ?string $api_version_rollback_expires_at
  * @property-read ?string $business_name
  * @property-read ?string $business_type
- * @property-read ?string $created_at
+ * @property-read string $created_at
  * @property-read string|null $email
  * @property-read ?ImageAttachment $icon
  * @property-read ?ImageAttachment $logo
  * @property-read string $merchant_id
  * @property-read ?array<array-key, string> $metadata
- * @property-read ExpandedOrganizationSummary|null $organization
- * @property-read string $organization_id
  * @property-read ?string $phone
  * @property-read MerchantReadiness $readiness
- * @property-read ?string $reporting_timezone
  * @property-read string $status
  * @property-read ?string $support_email
  * @property-read ?string $support_phone
  * @property-read ?string $support_url
- * @property-read ?string $updated_at
+ * @property-read ?string $timezone
+ * @property-read string $updated_at
  * @property-read int $version
  * @property-read ?string $website_url
  * Presence-aware response; omitted optional fields return null. */
 final class Merchant extends Model {
-    /** @param array{'address'?: mixed, 'api_version'?: string, 'api_version_changed_at'?: string, 'api_version_pinned_at'?: string, 'api_version_previous'?: string, 'api_version_rollback_expires_at'?: string, 'business_name'?: string, 'business_type'?: string, 'created_at'?: string, 'email': string|null, 'icon'?: mixed, 'logo'?: mixed, 'merchant_id': string, 'metadata'?: mixed, 'organization'?: mixed, 'organization_id': string, 'phone'?: string, 'readiness': mixed, 'reporting_timezone'?: string, 'status': string, 'support_email'?: string, 'support_phone'?: string, 'support_url'?: string, 'updated_at'?: string, 'version': int, 'website_url'?: string, ...}|object $values */
+    /** @param array{'address'?: mixed, 'api_version'?: string, 'api_version_changed_at'?: string, 'api_version_pinned_at'?: string, 'api_version_previous'?: string, 'api_version_rollback_expires_at'?: string, 'business_name'?: string, 'business_type'?: string, 'created_at': string, 'email': string|null, 'icon'?: mixed, 'logo'?: mixed, 'merchant_id': string, 'metadata'?: mixed, 'phone'?: string, 'readiness': mixed, 'status': string, 'support_email'?: string, 'support_phone'?: string, 'support_url'?: string, 'timezone'?: string, 'updated_at': string, 'version': int, 'website_url'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('Merchant')); }
-    /** A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country.
+    /** The merchant's business address. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country.
      * @return ?Address
      */
     public function getAddress(): ?Address { return $this->get('address'); }
@@ -73,11 +71,11 @@ final class Merchant extends Model {
     public function getBusinessType(): ?string { return $this->get('business_type'); }
     public function hasBusinessType(): bool { return $this->has('business_type'); }
     /** RFC3339 timestamp. Format: date-time.
-     * @return ?string
+     * @return string
      */
-    public function getCreatedAt(): ?string { return $this->get('created_at'); }
+    public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** email
+    /** The account's contact email address. A new account starts with the sign-up email. `null` when none is set.
      * @return string|null
      */
     public function getEmail(): string|null { return $this->get('email'); }
@@ -87,77 +85,67 @@ final class Merchant extends Model {
      */
     public function getIcon(): ?ImageAttachment { return $this->get('icon'); }
     public function hasIcon(): bool { return $this->has('icon'); }
-    /** An image attached to a resource, with its display properties and attachment metadata.
+    /** The merchant's public brand mark. An image attached to a resource, with its display properties and attachment metadata.
      * @return ?ImageAttachment
      */
     public function getLogo(): ?ImageAttachment { return $this->get('logo'); }
     public function hasLogo(): bool { return $this->has('logo'); }
-    /** merchant_id
+    /** Stable identifier of the merchant.
      * @return string
      */
     public function getMerchantId(): string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
+    /** Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      * @return ?array<array-key, string>
      */
     public function getMetadata(): ?array { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Present only when `expand` includes `organization`; `null` when expanded and there is no related organization. anyOf[1] (Value): {@see ExpandedOrganizationSummary}. An organization's summary fields, such as its name, status, and parent, returned when the organization is expanded. anyOf[2] (Value): null.
-     * @return ExpandedOrganizationSummary|null
-     */
-    public function getOrganization(): ExpandedOrganizationSummary|null { return $this->get('organization'); }
-    public function hasOrganization(): bool { return $this->has('organization'); }
-    /** The organization this merchant belongs to. Flint creates it with the merchant, and it can't be changed through the API.
-     * @return string
-     */
-    public function getOrganizationId(): string { return $this->get('organization_id'); }
-    public function hasOrganizationId(): bool { return $this->has('organization_id'); }
-    /** phone
+    /** The account's contact phone number, in international format such as +12125551234.
      * @return ?string
      */
     public function getPhone(): ?string { return $this->get('phone'); }
     public function hasPhone(): bool { return $this->has('phone'); }
-    /** A merchant's readiness to accept payments and receive payouts, with per-capability status and outstanding requirements.
+    /** Whether the merchant can accept payments and receive payouts, and what is still needed. A merchant's readiness to accept payments and receive payouts, with per-capability status and outstanding requirements.
      * @return MerchantReadiness
      */
     public function getReadiness(): MerchantReadiness { return $this->get('readiness'); }
     public function hasReadiness(): bool { return $this->has('readiness'); }
-    /** reporting_timezone
-     * @return ?string
-     */
-    public function getReportingTimezone(): ?string { return $this->get('reporting_timezone'); }
-    public function hasReportingTimezone(): bool { return $this->has('reporting_timezone'); }
-    /** Value enum: "active", "suspended", "restricted", "closed".
+    /** Whether Flint lets the account operate. `readiness` says whether payments and payouts are available. Value enum: "active", "suspended", "restricted", "closed".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** support_email
+    /** Support email address shown to buyers, for example on receipts and checkout.
      * @return ?string
      */
     public function getSupportEmail(): ?string { return $this->get('support_email'); }
     public function hasSupportEmail(): bool { return $this->has('support_email'); }
-    /** support_phone
+    /** Support phone number shown to buyers, in international format such as +12125551234.
      * @return ?string
      */
     public function getSupportPhone(): ?string { return $this->get('support_phone'); }
     public function hasSupportPhone(): bool { return $this->has('support_phone'); }
-    /** support_url
+    /** Support page shown to buyers.
      * @return ?string
      */
     public function getSupportUrl(): ?string { return $this->get('support_url'); }
     public function hasSupportUrl(): bool { return $this->has('support_url'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** Business IANA time zone, such as America/New_York. Used for invoice deadlines, new locations, notifications, and reporting when a request omits its time zone. Omitted when unset; UTC then applies. Existing resources keep their saved time zone.
      * @return ?string
      */
-    public function getUpdatedAt(): ?string { return $this->get('updated_at'); }
+    public function getTimezone(): ?string { return $this->get('timezone'); }
+    public function hasTimezone(): bool { return $this->has('timezone'); }
+    /** RFC3339 timestamp. Format: date-time.
+     * @return string
+     */
+    public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
     /** Merchant version. Profile, status, and API version changes advance this version, including business name and business type changes synced from the payment provider. Readiness updates alone do not. Format: int64. minimum: 1.
      * @return int
      */
     public function getVersion(): int { return $this->get('version'); }
     public function hasVersion(): bool { return $this->has('version'); }
-    /** website_url
+    /** The business's website.
      * @return ?string
      */
     public function getWebsiteUrl(): ?string { return $this->get('website_url'); }

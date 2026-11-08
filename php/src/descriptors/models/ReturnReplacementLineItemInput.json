@@ -1,1 +1,1 @@
-{"shared":"ReturnReplacementLineItem","dependencies":["MoneyValue","ReturnReplacementLineItem"]}
+{"shared":"ReturnReplacementLineItem","dependencies":["MoneyValue","ReturnReplacementLineItem","SharedCodec1399"]}

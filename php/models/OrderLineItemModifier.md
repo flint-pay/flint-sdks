@@ -2,13 +2,13 @@
 
 ## OrderLineItemModifier
 
-A modifier selected on an order line item, with its quantity, price change, total, and display flags.
+A modifier selected on an order line item.
 
 Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `metadata` | Optional | Map of string | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/PayoutResponse.md#payoutresponsedatametadata). |
+| `metadata` | Optional | Map of string | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/FulfillmentResponse.md#fulfillmentresponsedataline_itemsmodifiersmetadata). |
 | `modifier_group_name` | Required | string | Name of the modifier group recorded when this selection was added to the order line item. |
 | `modifier_id` | Optional | string | Identifier of the selected catalog modifier. If its group is owned by a modifier set (source: inline), read the group through GET /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it. |
 | `name` | Required | string | Name of the selected modifier recorded on the order line item. |
@@ -17,12 +17,16 @@ Response model.
 | `show_on_fulfillment` | Required | boolean | Whether this selection appears in fulfillment details, recorded when selected. |
 | `show_on_receipt` | Required | boolean | Whether this selection appears on buyer receipts, recorded when selected. |
 | `source_type` | Required | string | Whether the selection is a catalog list modifier or buyer-entered text. Values: `"catalog_modifier"`, `"text"`. |
-| `text` | Optional | [TextModifierRequest](../models/TextModifierRequest.md#textmodifierrequest) | Selected text group and buyer-entered value. Read an inline text group through its owning modifier set. Text a buyer entered for a text modifier group on an order line item. |
+| `text` | Optional | [TextModifierRequest](../models/TextModifierRequest.md#textmodifierrequest) | Selected text group and buyer-entered value. Read an inline text group through its owning modifier set. Text a buyer entered for a text modifier group on an order line item. `text`: [field definitions](../models/FulfillmentResponse.md#fulfillmentresponsedataline_itemsmodifierstext). |
 | `text_value` | Optional | string | Buyer-entered text recorded for a text modifier selection. |
-| `total_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Total price added by this selection. Multiplies unit_price_delta_money by the modifier quantity and, for per_item pricing, by the line item quantity. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `total_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Total price this selection adds to the line: `unit_price_delta_money` times the selection's `quantity` times the line item's `quantity`. Always 0 for text selections. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `unit_price_delta_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Amount added to the item's unit price for each unit of this selection, recorded when selected. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 
 ### OrderLineItemModifier.metadata
 
-Field definitions: [PayoutResponse.data.metadata](../models/PayoutResponse.md#payoutresponsedatametadata).
+Field definitions: [FulfillmentResponse.data.line_items[].modifiers[].metadata](../models/FulfillmentResponse.md#fulfillmentresponsedataline_itemsmodifiersmetadata).
+
+### OrderLineItemModifier.text
+
+Field definitions: [FulfillmentResponse.data.line_items[].modifiers[].text](../models/FulfillmentResponse.md#fulfillmentresponsedataline_itemsmodifierstext).
 

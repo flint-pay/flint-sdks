@@ -15,13 +15,13 @@ namespace Flint;
 final class InventoryReceiptInput extends Model {
     /** @param array{'created_at': string|\DateTimeInterface, 'external_actor_id'?: string, 'idempotency_key'?: string, 'inventory_receipt_id': string, 'lines': list<InventoryReceiptLineInput|array<array-key, mixed>|\stdClass>, 'occurred_at': string|\DateTimeInterface, 'return_disposition_id'?: string, 'return_id'?: string, 'source_system': array{'external_source_id'?: string, 'type': string, ...}|object|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryReceiptInput')); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Your identifier for the actor who recorded the event. Don't put secrets in this field. maxLength: 255.
+    /** Your identifier for the actor who recorded the event. Don't put secrets in this field. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_actor_id is omitted; use hasExternalActorId() or valueOrDefault().
      */
@@ -33,37 +33,37 @@ final class InventoryReceiptInput extends Model {
      */
     public function getIdempotencyKey(): string { return $this->get('idempotency_key'); }
     public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
-    /** inventory_receipt_id
+    /** Unique identifier for this inventory receipt, prefixed `invrec_`. Example: "invrec_01KEZF7C00JXXCYA06SH8RCM2N".
      * @return string
      * @throws SdkError When inventory_receipt_id is omitted; use hasInventoryReceiptId() or valueOrDefault().
      */
     public function getInventoryReceiptId(): string { return $this->get('inventory_receipt_id'); }
     public function hasInventoryReceiptId(): bool { return $this->has('inventory_receipt_id'); }
-    /**  [] (Value): {@see InventoryReceiptLineInput}. One line of an inventory receipt: a quantity of an item received at a Location with its disposition.
+    /** Received lines, each with the item, receiving Location, quantity, and disposition. [] (Value): {@see InventoryReceiptLineInput}. One line of an inventory receipt: a quantity of an item received at a Location with its disposition.
      * @return list<InventoryReceiptLineInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When lines is omitted; use hasLines() or valueOrDefault().
      */
     public function getLines(): array { return $this->get('lines'); }
     public function hasLines(): bool { return $this->has('lines'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When occurred_at is omitted; use hasOccurredAt() or valueOrDefault().
      */
     public function getOccurredAt(): string|\DateTimeInterface { return $this->get('occurred_at'); }
     public function hasOccurredAt(): bool { return $this->has('occurred_at'); }
-    /** return_disposition_id
+    /** ID of the Return disposition this receipt records. Absent when the receipt isn't linked to a Return. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
      * @return string
      * @throws SdkError When return_disposition_id is omitted; use hasReturnDispositionId() or valueOrDefault().
      */
     public function getReturnDispositionId(): string { return $this->get('return_disposition_id'); }
     public function hasReturnDispositionId(): bool { return $this->has('return_disposition_id'); }
-    /** return_id
+    /** ID of the Return these units came back on. Absent when the receipt isn't linked to a Return. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
      * @return string
      * @throws SdkError When return_id is omitted; use hasReturnId() or valueOrDefault().
      */
     public function getReturnId(): string { return $this->get('return_id'); }
     public function hasReturnId(): bool { return $this->has('return_id'); }
-    /**  anyOf[1] (Value): {@see InventorySourceSystemInput}. The system an inventory event came from, such as manual entry, a point of sale, a warehouse system, or Flint, with your source identifier when it applies. anyOf[2] (Value): null.
+    /** System the change came from, such as a point-of-sale or warehouse system. `null` when the request named no source system. anyOf[1] (Value): {@see InventorySourceSystemInput}. The system an inventory event came from, such as manual entry, a point of sale, a warehouse system, or Flint, with your source identifier when it applies. anyOf[2] (Value): null.
      * @return array{'external_source_id'?: string, 'type': string, ...}|object|null
      * @throws SdkError When source_system is omitted; use hasSourceSystem() or valueOrDefault().
      */

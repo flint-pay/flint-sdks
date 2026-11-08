@@ -10,7 +10,7 @@ namespace Flint;
 final class SubscriptionDeliveryMethodImpactInput extends Model {
     /** @param array{'delivery_method_id': string, 'mode': string, 'no_longer_eligible_counts': SubscriptionCountsInput|array<array-key, mixed>|\stdClass, 'subscription_counts': SubscriptionCountsInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionDeliveryMethodImpactInput')); }
-    /** delivery_method_id
+    /** Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
      * @return string
      * @throws SdkError When delivery_method_id is omitted; use hasDeliveryMethodId() or valueOrDefault().
      */

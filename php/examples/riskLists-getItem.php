@@ -13,7 +13,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   allowInsecureHttp: $baseUrl !== null && in_array(parse_url($baseUrl, PHP_URL_HOST), ['localhost', '127.0.0.1'], true) && parse_url($baseUrl, PHP_URL_SCHEME) === 'http',
 ));
-$result = $client->riskLists->getItem('rl_01ARZ3NDEKTSV4RRFFQ69G5FAV', 'rli_01ARZ3NDEKTSV4RRFFQ69G5FAV');
+$result = $client->riskLists->getItem('rl_01KEZF7C00VYSERA4QCTJP147A', 'rli_01KEZF7C006BND1CJYPAJW9JWE');
 echo $result->risk_list_id . PHP_EOL;
 echo $result->risk_list_item_id . PHP_EOL;
 $client->close();

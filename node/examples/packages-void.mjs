@@ -8,7 +8,7 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.packages.void(
-  "pkg_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R",
   undefined,
   { idempotencyKey: idempotencyKey },
 );

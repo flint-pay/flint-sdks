@@ -28,7 +28,7 @@ final class InlineModifierGroupRequestInput extends Model {
      */
     public function getAllowQuantities(): bool { return $this->get('allow_quantities'); }
     public function hasAllowQuantities(): bool { return $this->has('allow_quantities'); }
-    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -70,7 +70,7 @@ final class InlineModifierGroupRequestInput extends Model {
      */
     public function getMinSelected(): int { return $this->get('min_selected'); }
     public function hasMinSelected(): bool { return $this->has('min_selected'); }
-    /** Stable identifier of the modifier group. For a group a modifier set owns (`source: inline`), read it through `GET /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups` doesn't return it. minLength: 1.
+    /** Stable identifier of the modifier group. For a group a modifier set owns (`source: inline`), read it through `GET /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups` doesn't return it. minLength: 1. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
      * @return string
      * @throws SdkError When modifier_group_id is omitted; use hasModifierGroupId() or valueOrDefault().
      */

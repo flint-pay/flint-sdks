@@ -32,7 +32,7 @@ final class PromotionCandidate extends Model {
      */
     public function getAppliedMoney(): ?MoneyValue { return $this->get('applied_money'); }
     public function hasAppliedMoney(): bool { return $this->has('applied_money'); }
-    /** Which kinds of discounts a promotion can combine with: line item, order, and service charge discounts.
+    /** Which promotion discount classes this promotion may share an order with. Both promotions must allow each other's class. Which kinds of discounts a promotion can combine with: line item, order, and service charge discounts.
      * @return ?PromotionCombinesWith
      */
     public function getCombinesWith(): ?PromotionCombinesWith { return $this->get('combines_with'); }
@@ -42,17 +42,17 @@ final class PromotionCandidate extends Model {
      */
     public function getCurrentMoney(): ?MoneyValue { return $this->get('current_money'); }
     public function hasCurrentMoney(): bool { return $this->has('current_money'); }
-    /** customer_facing_name
+    /** The name buyers see for the promotion: its `display_name`, or its `name` when it has no display name.
      * @return string
      */
     public function getCustomerFacingName(): string { return $this->get('customer_facing_name'); }
     public function hasCustomerFacingName(): bool { return $this->has('customer_facing_name'); }
-    /** Value enum: "order", "line_item", "service_charge".
+    /** Whether the promotion discounts the order, individual line items, or service charges. Value enum: "order", "line_item", "service_charge".
      * @return ?string
      */
     public function getDiscountClass(): ?string { return $this->get('discount_class'); }
     public function hasDiscountClass(): bool { return $this->has('discount_class'); }
-    /** Only one promotion in an exclusivity group continues. See Promotion for the evaluation order.
+    /** The promotion's exclusivity group and priority. Promotions in the same group compete, and only one of them applies. Only one promotion in an exclusivity group continues. See Promotion for the evaluation order.
      * @return ?PromotionExclusivity
      */
     public function getExclusivity(): ?PromotionExclusivity { return $this->get('exclusivity'); }
@@ -62,32 +62,32 @@ final class PromotionCandidate extends Model {
      */
     public function getGapMoney(): ?MoneyValue { return $this->get('gap_money'); }
     public function hasGapMoney(): bool { return $this->has('gap_money'); }
-    /**  [] (Value): string.
+    /** IDs of the order charges the discount applies to. Set for `service_charge` promotions. [] (Value): string.
      * @return ?list<string>
      */
     public function getOrderChargeIds(): ?array { return $this->get('order_charge_ids'); }
     public function hasOrderChargeIds(): bool { return $this->has('order_charge_ids'); }
-    /**  [] (Value): string.
+    /** IDs of the order line items the discount applies to. Omitted when it applies to none. [] (Value): string.
      * @return ?list<string>
      */
     public function getOrderLineItemIds(): ?array { return $this->get('order_line_item_ids'); }
     public function hasOrderLineItemIds(): bool { return $this->has('order_line_item_ids'); }
-    /** promotion_code
+    /** The code the buyer entered. Omitted when the promotion applies automatically.
      * @return ?string
      */
     public function getPromotionCode(): ?string { return $this->get('promotion_code'); }
     public function hasPromotionCode(): bool { return $this->has('promotion_code'); }
-    /** promotion_code_id
+    /** ID of the promotion code the buyer entered. Omitted when the promotion applies automatically.
      * @return ?string
      */
     public function getPromotionCodeId(): ?string { return $this->get('promotion_code_id'); }
     public function hasPromotionCodeId(): bool { return $this->has('promotion_code_id'); }
-    /** Value enum: "already_applied", "automatic_disabled", "buy_item_missing", "code_invalid", "code_required", "codes_disabled", "currency_mismatch", "exhausted", "expired", "inactive", "max_promotions_reached", "minimum_not_met", "no_discountable_balance", "not_combinable", "not_eligible", "not_yet_started", "superseded", "superseded_by_better_offer", "superseded_by_higher_priority", "unknown_type".
+    /** Why the promotion did not apply, or stopped applying. Omitted for a promotion that applies. Value enum: "already_applied", "automatic_disabled", "buy_item_missing", "code_invalid", "code_required", "codes_disabled", "currency_mismatch", "customer_limit_reached", "customer_mismatch", "customer_required", "exhausted", "expired", "inactive", "max_promotions_reached", "minimum_not_met", "no_discountable_balance", "not_combinable", "not_eligible", "not_yet_started", "recurrence_completed", "superseded", "superseded_by_better_offer", "superseded_by_higher_priority", "unknown_type".
      * @return ?string
      */
     public function getPromotionDeclineReason(): ?string { return $this->get('promotion_decline_reason'); }
     public function hasPromotionDeclineReason(): bool { return $this->has('promotion_decline_reason'); }
-    /** promotion_id
+    /** ID of the promotion.
      * @return string
      */
     public function getPromotionId(): string { return $this->get('promotion_id'); }

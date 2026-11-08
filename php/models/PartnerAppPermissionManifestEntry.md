@@ -6,5 +6,11 @@ One permission a partner app can request, with a title, a description, and the F
 
 Response model.
 
-Fields, types, descriptions and enum values: [PartnerAppPermissionManifestEntryRequestInput](../models/PartnerAppPermissionManifestEntryRequestInput.md#partnerapppermissionmanifestentryrequestinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `description` | Required | string | minLength: `1`. |
+| `optional` | Optional | boolean | Whether the merchant can decline this permission when they approve the install. Defaults to false: the permission is required and is always granted. |
+| `permission_id` | Required | string | minLength: `1`. |
+| `required_scopes` | Required | Array of string | Items: minLength: `1`. |
+| `title` | Required | string | minLength: `1`. |
 

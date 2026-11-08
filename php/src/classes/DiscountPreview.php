@@ -9,17 +9,17 @@ namespace Flint;
 final class DiscountPreview extends Model {
     /** @param array{'applied': list<mixed>, 'available': list<mixed>, 'skipped': list<mixed>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DiscountPreview')); }
-    /**  [] (Value): {@see PromotionCandidate}. A promotion considered for an order, with its discount amounts, its stacking rules, and why it was or was not applied.
+    /** Promotions that apply to the order now. [] (Value): {@see PromotionCandidate}. A promotion considered for an order, with its discount amounts, its stacking rules, and why it was or was not applied.
      * @return list<PromotionCandidate>
      */
     public function getApplied(): array { return $this->get('applied'); }
     public function hasApplied(): bool { return $this->has('applied'); }
-    /**  [] (Value): {@see PromotionCandidate}. A promotion considered for an order, with its discount amounts, its stacking rules, and why it was or was not applied.
+    /** Promotions the order is eligible for that aren't applied. [] (Value): {@see PromotionCandidate}. A promotion considered for an order, with its discount amounts, its stacking rules, and why it was or was not applied.
      * @return list<PromotionCandidate>
      */
     public function getAvailable(): array { return $this->get('available'); }
     public function hasAvailable(): bool { return $this->has('available'); }
-    /**  [] (Value): {@see PromotionCandidate}. A promotion considered for an order, with its discount amounts, its stacking rules, and why it was or was not applied.
+    /** Promotions Flint evaluated and didn't apply. [] (Value): {@see PromotionCandidate}. A promotion considered for an order, with its discount amounts, its stacking rules, and why it was or was not applied.
      * @return list<PromotionCandidate>
      */
     public function getSkipped(): array { return $this->get('skipped'); }

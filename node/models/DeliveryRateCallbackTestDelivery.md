@@ -10,14 +10,14 @@ Result of sending a test request to a delivery rate callback, with its status, l
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `delivery_rate_callback_id` | Required | string |  |
-| `delivery_rate_callback_revision_id` | Required | string |  |
+| `delivery_rate_callback_id` | Required | string | Example: `"dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1"`. |
+| `delivery_rate_callback_revision_id` | Required | string | Example: `"dcbr_01KEZF7C003QAPFXXMCHC59T5J"`. |
 | `failure_category` | Optional | string | Why the callback test failed and the action that can make the next test succeed. - `authentication_or_http_error`: Return a 2xx status after verifying the enabled signing methods. For a 401, check JWT verification with Flint's JWKS, issuer, delivery_rate_callback_id audience, expiration, and body_sha256 of the exact request bytes. For HMAC, check the shared secret and verify the raw body before parsing it. - `blocked_target`: Use a public HTTPS callback target allowed by Flint's outbound network policy. - `connection_error`: Restore network connectivity to the callback host, then test again. - `dns_error`: Fix the callback hostname or its DNS records, then test again. - `invalid_response`: Return a 2xx application/json response within maximum_response_bytes. For a test delivery, the body must also follow the callback response rules. Then test again. - `request_error`: Flint couldn't complete the request for another reason. Check the URL and your server logs, then test again. - `timeout`: Acknowledge the callback within its configured timeout, then test again. - `tls_error`: Fix the callback certificate and TLS configuration, then test again. Values: [8 declared values](#deliveryratecallbacktestdelivery-failure_category-values). |
 | `http_status_code` | Optional | integer |  |
-| `key_id` | Required | string | ID of the HMAC signing key that signed this request. Empty for a JWT-only callback, which has no shared secret. |
+| `key_id` | Required | string | ID of the HMAC signing key that signed this request. Empty for a JWT-only callback, which has no shared secret. Example: `"cbkey_00112233445566778899aabb"`. |
 | `latency_milliseconds` | Required | integer | Format: `int64`. |
 | `status` | Required | string | Values: `"succeeded"`, `"failed"`. |
-| `tested_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
+| `tested_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 
 #### DeliveryRateCallbackTestDelivery failure_category values
 

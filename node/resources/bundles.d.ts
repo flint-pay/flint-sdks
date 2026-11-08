@@ -12,9 +12,9 @@ import type {
     BundlesListParams,
     BundlesUpdateParams
 } from '../declarations/types-1.js';
-import type { ClientOptions } from '../declarations/types-5.js';
-import type { RequestOptions } from '../declarations/types-48.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+import type { ClientOptions } from '../declarations/types-6.js';
+import type { RequestOptions } from '../declarations/types-51.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -43,46 +43,41 @@ export type {
     BundlesUpdateParams,
     BundleComponentVariantSummary
 } from '../declarations/types-1.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { ClientOptions } from '../declarations/types-5.js';
-export type { CreateBundleRequestInput, CreateBundleComponentRequestInput, CreateBundleComponentRequest } from '../declarations/types-6.js';
-export type { ImageRequestInput, ImageInputSourceURLInput, ImageInputFileInput, ImageAttachment } from '../declarations/types-25.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+export type { ClientOptions } from '../declarations/types-6.js';
+export type { CreateBundleRequestInput, CreateBundleComponentRequestInput, CreateBundleComponentRequest } from '../declarations/types-7.js';
+export type { ImageRequestInput, ImageInputSourceURLInput, ImageInputFileInput, ImageAttachment } from '../declarations/types-27.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-36.js';
 export type {
-    MetadataRequestInput,
     MoneyValueInput,
-    MetadataMap,
     ModifierSet,
     ModifierSetGroup,
     ModifierGroup,
     Modifier,
     MoneyValue,
     ModifierOverride,
-    ModifierSetGroupExisting,
-    ModifierSetGroupInline,
-    NextAction,
-    MetadataPatchRequestInput,
-    MetadataPatchRequest
-} from '../declarations/types-35.js';
+    NextAction
+} from '../declarations/types-37.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-12.js';
-export type { CategoryReference } from '../declarations/types-4.js';
-export type {
-    TextModifierConfig,
-    UpdateBundleRequestInput,
-    UpdateBundleComponentRequestInput,
-    UpdateBundleComponentRequest
-} from '../declarations/types-58.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
-export type { SelectedProductOption } from '../declarations/types-53.js';
-export { makeCreateBundleComponentRequest, makeCreateBundleRequest } from '../declarations/types-63.js';
-export { makeImageInputFile, makeImageInputSourceURL, makeImageRequest } from '../declarations/types-68.js';
-export { makeMetadataPatchRequest, makeMetadataRequest, makeModifierOverride } from '../declarations/types-69.js';
-export { makeMoneyValue } from '../declarations/types-70.js';
-export { makeUpdateBundleComponentRequest, makeUpdateBundleRequest } from '../declarations/types-74.js';
+export type { Credentials } from '../declarations/types-13.js';
+export type { CategoryReference } from '../declarations/types-5.js';
+export type { TextModifierConfig, UpdateBundleComponentRequest } from '../declarations/types-62.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
+export type { SelectedProductOption } from '../declarations/types-56.js';
+export type { UpdateBundleRequestInput, UpdateBundleComponentRequestInput } from '../declarations/types-63.js';
+export { makeCreateBundleComponentRequest, makeCreateBundleRequest } from '../declarations/types-68.js';
+export { makeImageInputFile, makeImageInputSourceURL, makeImageRequest } from '../declarations/types-73.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-74.js';
+export { makeMoneyValue } from '../declarations/types-75.js';
+export { makeUpdateBundleComponentRequest, makeUpdateBundleRequest } from '../declarations/types-79.js';
 export interface BundlesResource {
     /**
- * Create bundle.
+ * Creates a bundle: several product variants sold as one line at a single price. Send `name` and
+ * `unit_price_money`, and list the `components` (variants and quantities). An active bundle needs
+ * at least one component, every component must be active, and all components must share the same
+ * taxable setting and tax category. A SKU or barcode that another variant or bundle already uses
+ * fails with `ALREADY_EXISTS`.
  *
  * `POST /v1/bundles`
  * @see https://developers.withflintpay.com/docs/api/bundles#createBundle
@@ -95,10 +90,10 @@ export interface BundlesResource {
  */
     create(params: BundlesCreateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Bundle, BundleResponse>>;
     /**
- * Archives a bundle and returns its final state. Returns the archived resource exactly as GET
- * returns it. Repeating DELETE returns 200 without changing version or updated_at, sending a
- * webhook, or checking references. When expected_version is present, it is compared before the
- * archived replay; a stale version returns 409 VERSION_CONFLICT with current_version.
+ * Archives a bundle and returns its final state. Returns the archived resource as a read does.
+ * Deleting an already archived resource returns it again without changing its version or
+ * `updated_at`, sending a webhook, or checking references. A stale `expected_version` fails with
+ * `VERSION_CONFLICT` and the `current_version`, even when the resource is already archived.
  *
  * `DELETE /v1/bundles/{bundle_id}`
  * @param bundle_id Flint bundle ID.
@@ -107,18 +102,18 @@ export interface BundlesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.bundles.delete("bun_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey })
+ * client.bundles.delete("bun_01KEZF7C00TQ6S76Z6CVQF5SVN", {}, { idempotencyKey: idempotencyKey })
  */
     delete(bundle_id: InputValue<string>, params?: BundlesDeleteParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Bundle, BundleResponse>>;
     /**
- * Get bundle.
+ * Returns one bundle by ID, with its price, components, and whether it is available for sale.
  *
  * `GET /v1/bundles/{bundle_id}`
  * @param bundle_id Flint bundle ID.
  * @see https://developers.withflintpay.com/docs/api/bundles#getBundle
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.bundles.get("bun_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.bundles.get("bun_01KEZF7C00TQ6S76Z6CVQF5SVN")
  */
     get(bundle_id: InputValue<string>, params?: BundlesGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<Bundle, BundleResponse>>;
     /**
@@ -129,7 +124,7 @@ export interface BundlesResource {
  * @see https://developers.withflintpay.com/docs/api/bundles#listBundleComponents
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.bundles.listComponents("bun_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.bundles.listComponents("bun_01KEZF7C00TQ6S76Z6CVQF5SVN")
  */
     listComponents(bundle_id: InputValue<string>, params?: BundlesListComponentsParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<BundleComponentListResponse, BundleComponentListResponse>>;
     /** Iterate pages lazily.
@@ -159,9 +154,12 @@ export interface BundlesResource {
      */
     listItems(params?: BundlesListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<Bundle>;
     /**
- * Update bundle. An archived resource returns 409 ACTION_NOT_ALLOWED with reason archived and
- * current_status archived. The error identifies the archived resource; a create under an archived
- * parent identifies that parent.
+ * Applies a sparse update to a bundle: only the fields you send change. Sending `components`
+ * replaces the whole list; omitted components are removed. `expected_version` is required when you
+ * send `components` or `images`, and a stale version fails with `VERSION_CONFLICT`. A SKU or
+ * barcode that another variant or bundle already uses fails with `ALREADY_EXISTS`. Fails with
+ * `ACTION_NOT_ALLOWED` and reason `archived` when the resource, or the parent it belongs to, is
+ * archived. The error names the archived resource and its `current_status`.
  *
  * `PATCH /v1/bundles/{bundle_id}`
  * @param bundle_id Flint bundle ID.

@@ -8,7 +8,7 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.testClocks.advance(
-  "tclk_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ",
   {
     expected_version: 1,
     frozen_at: "2026-12-01T00:00:00Z",

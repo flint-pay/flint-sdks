@@ -13,7 +13,7 @@ namespace Flint;
 final class ReturnLineItemDecisionProposalInput extends Model {
     /** @param array{'allowed_resolution_types': list<string>, 'automatic_resolution_type'?: string, 'based_on_quantity': int, 'is_inspection_required': bool, 'receiving_location_id'?: string, 'release_timing'?: string, 'return_required_quantity': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnLineItemDecisionProposalInput')); }
-    /** [] enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit". [] (Value): string.  Value enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit".
+    /** Resolution types the proposal allows. [] enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit". [] (Value): string.  Value enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit".
      * @return list<string>
      * @throws SdkError When allowed_resolution_types is omitted; use hasAllowedResolutionTypes() or valueOrDefault().
      */
@@ -31,13 +31,13 @@ final class ReturnLineItemDecisionProposalInput extends Model {
      */
     public function getBasedOnQuantity(): int { return $this->get('based_on_quantity'); }
     public function hasBasedOnQuantity(): bool { return $this->has('based_on_quantity'); }
-    /** is_inspection_required
+    /** Whether the proposal requires inspection of the returned units.
      * @return bool
      * @throws SdkError When is_inspection_required is omitted; use hasIsInspectionRequired() or valueOrDefault().
      */
     public function getIsInspectionRequired(): bool { return $this->get('is_inspection_required'); }
     public function hasIsInspectionRequired(): bool { return $this->has('is_inspection_required'); }
-    /** receiving_location_id
+    /** ID of the Location the proposal sends returned merchandise to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When receiving_location_id is omitted; use hasReceivingLocationId() or valueOrDefault().
      */

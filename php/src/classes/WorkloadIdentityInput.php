@@ -24,7 +24,7 @@ namespace Flint;
 final class WorkloadIdentityInput extends Model {
     /** @param array{'archived_at'?: string|\DateTimeInterface, 'audience': string, 'claim_conditions': list<WorkloadIdentityClaimConditionInput|array<array-key, mixed>|\stdClass>, 'created_at': string|\DateTimeInterface, 'created_by': WorkloadIdentityCreatorInput|array<array-key, mixed>|\stdClass, 'issuer': string, 'last_used_at'?: string|\DateTimeInterface, 'mode': string, 'name': string, 'platform': string, 'sandbox_id'?: string, 'scopes': list<string>, 'status': string, 'subject': string, 'subject_match': string, 'updated_at': string|\DateTimeInterface, 'version': int, 'workload_identity_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WorkloadIdentityInput')); }
-    /** Time the identity was archived. Omitted before archival. Format: date-time.
+    /** Time the identity was archived. Omitted before archival. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When archived_at is omitted; use hasArchivedAt() or valueOrDefault().
      */
@@ -42,7 +42,7 @@ final class WorkloadIdentityInput extends Model {
      */
     public function getClaimConditions(): array { return $this->get('claim_conditions'); }
     public function hasClaimConditions(): bool { return $this->has('claim_conditions'); }
-    /** Time the identity was created. Format: date-time.
+    /** Time the identity was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
@@ -60,13 +60,13 @@ final class WorkloadIdentityInput extends Model {
      */
     public function getIssuer(): string { return $this->get('issuer'); }
     public function hasIssuer(): bool { return $this->has('issuer'); }
-    /** Most recent use. Omitted before the first use. Format: date-time.
+    /** Most recent use. Omitted before the first use. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When last_used_at is omitted; use hasLastUsedAt() or valueOrDefault().
      */
     public function getLastUsedAt(): string|\DateTimeInterface { return $this->get('last_used_at'); }
     public function hasLastUsedAt(): bool { return $this->has('last_used_at'); }
-    /** Value enum: "test", "live".
+    /** Environment used for this resource or request. Value enum: "test", "live".
      * @return string
      * @throws SdkError When mode is omitted; use hasMode() or valueOrDefault().
      */
@@ -84,7 +84,7 @@ final class WorkloadIdentityInput extends Model {
      */
     public function getPlatform(): string { return $this->get('platform'); }
     public function hasPlatform(): bool { return $this->has('platform'); }
-    /** The sandbox containing this identity. Present only in test mode.
+    /** The sandbox containing this identity. Present only in test mode. Example: "test_01KEZF7C00JC77HTMTB2XHNPE0".
      * @return string
      * @throws SdkError When sandbox_id is omitted; use hasSandboxId() or valueOrDefault().
      */
@@ -114,7 +114,7 @@ final class WorkloadIdentityInput extends Model {
      */
     public function getSubjectMatch(): string { return $this->get('subject_match'); }
     public function hasSubjectMatch(): bool { return $this->has('subject_match'); }
-    /** Time the identity last changed. Format: date-time.
+    /** Time the identity last changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */
@@ -126,7 +126,7 @@ final class WorkloadIdentityInput extends Model {
      */
     public function getVersion(): int { return $this->get('version'); }
     public function hasVersion(): bool { return $this->has('version'); }
-    /** workload_identity_id
+    /** Unique identifier for this workload identity, prefixed `wid_`. Example: "wid_01KEZF7C00GKCN7Y1482VY8TWP".
      * @return string
      * @throws SdkError When workload_identity_id is omitted; use hasWorkloadIdentityId() or valueOrDefault().
      */

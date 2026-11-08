@@ -6,6 +6,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $created_at
  * @property-read string $current_delivery_method_revision_id
  * @property-read string $delivery_method_id
+ * @property-read string|null $delivery_revocation_id
  * @property-read string $description
  * @property-read int $display_position
  * @property-read string $external_reference_id
@@ -19,7 +20,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryMethodInput extends Model {
-    /** @param array{'configuration': DeliveryMethodConfigurationInput|array<array-key, mixed>|\stdClass, 'created_at': string|\DateTimeInterface, 'current_delivery_method_revision_id': string, 'delivery_method_id': string, 'description'?: string, 'display_position': int, 'external_reference_id'?: string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'name': string, 'recommendation_priority'?: int, 'status': string, 'subscription_counts': SubscriptionCountsInput|array<array-key, mixed>|\stdClass, 'type': string, 'updated_at': string|\DateTimeInterface, 'version': int}|object $values */
+    /** @param array{'configuration': DeliveryMethodConfigurationInput|array<array-key, mixed>|\stdClass, 'created_at': string|\DateTimeInterface, 'current_delivery_method_revision_id': string, 'delivery_method_id': string, 'delivery_revocation_id': string|null, 'description'?: string, 'display_position': int, 'external_reference_id'?: string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'name': string, 'recommendation_priority'?: int, 'status': string, 'subscription_counts': SubscriptionCountsInput|array<array-key, mixed>|\stdClass, 'type': string, 'updated_at': string|\DateTimeInterface, 'version': int}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryMethodInput')); }
     /** Current eligibility, pricing, origin, estimate, and tax configuration. How a delivery method works: its origin, pricing, eligibility, timing estimate, tax settings, recipient requirements, and option lifetimes.
      * @return DeliveryMethodConfigurationInput|array<array-key, mixed>|\stdClass
@@ -27,24 +28,30 @@ final class DeliveryMethodInput extends Model {
      */
     public function getConfiguration(): mixed { return $this->get('configuration'); }
     public function hasConfiguration(): bool { return $this->has('configuration'); }
-    /** Time the method was created. Format: date-time.
+    /** Time the method was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Immutable revision currently used for new quotes.
+    /** Immutable revision currently used for new quotes. Example: "dmetr_01KEZF7C001ZF9D92DY1G51GV9".
      * @return string
      * @throws SdkError When current_delivery_method_revision_id is omitted; use hasCurrentDeliveryMethodRevisionId() or valueOrDefault().
      */
     public function getCurrentDeliveryMethodRevisionId(): string { return $this->get('current_delivery_method_revision_id'); }
     public function hasCurrentDeliveryMethodRevisionId(): bool { return $this->has('current_delivery_method_revision_id'); }
-    /** Stable delivery method ID.
+    /** Stable delivery method ID. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
      * @return string
      * @throws SdkError When delivery_method_id is omitted; use hasDeliveryMethodId() or valueOrDefault().
      */
     public function getDeliveryMethodId(): string { return $this->get('delivery_method_id'); }
     public function hasDeliveryMethodId(): bool { return $this->has('delivery_method_id'); }
+    /** The revocation fencing this resource's own current revision. `null` when the current revision isn't revoked. It doesn't cover dependencies: a method can be unusable while this is `null` because its rate callback revision, signing key, or a Location's address is revoked. A revocation doesn't change `status`; publish a new revision to clear it. Example: "drev_01KEZF7C007Q141XJ28YAAC87B".
+     * @return string|null
+     * @throws SdkError When delivery_revocation_id is omitted; use hasDeliveryRevocationId() or valueOrDefault().
+     */
+    public function getDeliveryRevocationId(): string|null { return $this->get('delivery_revocation_id'); }
+    public function hasDeliveryRevocationId(): bool { return $this->has('delivery_revocation_id'); }
     /** Optional buyer-facing description.
      * @return string
      * @throws SdkError When description is omitted; use hasDescription() or valueOrDefault().
@@ -57,7 +64,7 @@ final class DeliveryMethodInput extends Model {
      */
     public function getDisplayPosition(): int { return $this->get('display_position'); }
     public function hasDisplayPosition(): bool { return $this->has('display_position'); }
-    /** Caller-owned identifier for this resource in an external system. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -99,7 +106,7 @@ final class DeliveryMethodInput extends Model {
      */
     public function getType(): string { return $this->get('type'); }
     public function hasType(): bool { return $this->has('type'); }
-    /** Time the method last changed. Format: date-time.
+    /** Time the method last changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */

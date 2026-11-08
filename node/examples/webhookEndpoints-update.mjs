@@ -14,5 +14,4 @@ const result = await client.webhookEndpoints.update(
   },
   { idempotencyKey: idempotencyKey },
 );
-console.log(result.status);
-console.log(result.webhook_endpoint_id);
+console.log(result);

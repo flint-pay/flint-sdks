@@ -10,7 +10,7 @@ namespace Flint;
 final class WebhookEndpointsDeleteInput extends Model {
     /** @param array{'webhook_endpoint_id': string, 'expected_version'?: int}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WebhookEndpointsDeleteInput')); }
-    /** Flint webhook endpoint ID. Example: "whep_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Flint webhook endpoint ID. Example: "whep_01KEZF7C006FXYTAJRZCGCBJTN".
      * @return string
      * @throws SdkError When webhook_endpoint_id is omitted; use hasWebhookEndpointId() or valueOrDefault().
      */

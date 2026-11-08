@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read DeliveryCountryConditionInput|array<array-key, mixed>|\stdClass $country
  * @property-read mixed $not
  * @property-read DeliveryPostalCodeConditionInput|array<array-key, mixed>|\stdClass $postal_code
- * @property-read array{'maximum_distance': DeliveryDistanceInput|array<array-key, mixed>|\stdClass, 'measurement'?: string, 'origin': array{'location_id'?: string, 'method_origin'?: bool}|object, 'subject'?: string}|object $radius
+ * @property-read DeliveryRadiusConditionInput|array<array-key, mixed>|\stdClass $radius
  * @property-read DeliveryStateConditionInput|array<array-key, mixed>|\stdClass $state
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryZoneConfigurationInput extends Model {
@@ -44,10 +44,10 @@ final class DeliveryZoneConfigurationInput extends Model {
     public function getPostalCode(): mixed { return $this->get('postal_code'); }
     public function hasPostalCode(): bool { return $this->has('postal_code'); }
     /** Eligibility condition that matches when the destination or buyer location is within `maximum_distance` of an origin, measured in a straight line.
-     * @return array{'maximum_distance': DeliveryDistanceInput|array<array-key, mixed>|\stdClass, 'measurement'?: string, 'origin': array{'location_id'?: string, 'method_origin'?: bool}|object, 'subject'?: string}|object
+     * @return DeliveryRadiusConditionInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When radius is omitted; use hasRadius() or valueOrDefault().
      */
-    public function getRadius(): array|object { return $this->get('radius'); }
+    public function getRadius(): mixed { return $this->get('radius'); }
     public function hasRadius(): bool { return $this->has('radius'); }
     /** Eligibility condition that matches when the destination or buyer location is in one of the listed states or provinces, given as ISO 3166-2 codes.
      * @return DeliveryStateConditionInput|array<array-key, mixed>|\stdClass

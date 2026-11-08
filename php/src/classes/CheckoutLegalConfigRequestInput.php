@@ -11,31 +11,31 @@ namespace Flint;
 final class CheckoutLegalConfigRequestInput extends Model {
     /** @param array{'contract_url'?: string, 'refund_policy_url'?: string, 'require_terms_of_service'?: bool, 'shipping_policy_url'?: string, 'terms_of_service_url'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutLegalConfigRequestInput')); }
-    /** minLength: 1.
+    /** An `https://` URL of the contract the buyer agrees to, linked in checkout. minLength: 1.
      * @return string
      * @throws SdkError When contract_url is omitted; use hasContractUrl() or valueOrDefault().
      */
     public function getContractUrl(): string { return $this->get('contract_url'); }
     public function hasContractUrl(): bool { return $this->has('contract_url'); }
-    /** minLength: 1.
+    /** An `https://` URL of your refund policy, linked in checkout. minLength: 1.
      * @return string
      * @throws SdkError When refund_policy_url is omitted; use hasRefundPolicyUrl() or valueOrDefault().
      */
     public function getRefundPolicyUrl(): string { return $this->get('refund_policy_url'); }
     public function hasRefundPolicyUrl(): bool { return $this->has('refund_policy_url'); }
-    /** require_terms_of_service
+    /** Whether the buyer must accept the terms of service before paying.
      * @return bool
      * @throws SdkError When require_terms_of_service is omitted; use hasRequireTermsOfService() or valueOrDefault().
      */
     public function getRequireTermsOfService(): bool { return $this->get('require_terms_of_service'); }
     public function hasRequireTermsOfService(): bool { return $this->has('require_terms_of_service'); }
-    /** minLength: 1.
+    /** An `https://` URL of your shipping policy, linked in checkout. minLength: 1.
      * @return string
      * @throws SdkError When shipping_policy_url is omitted; use hasShippingPolicyUrl() or valueOrDefault().
      */
     public function getShippingPolicyUrl(): string { return $this->get('shipping_policy_url'); }
     public function hasShippingPolicyUrl(): bool { return $this->has('shipping_policy_url'); }
-    /** minLength: 1.
+    /** An `https://` URL of your terms of service, linked in checkout. minLength: 1.
      * @return string
      * @throws SdkError When terms_of_service_url is omitted; use hasTermsOfServiceUrl() or valueOrDefault().
      */

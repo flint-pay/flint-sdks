@@ -31,22 +31,22 @@ namespace Flint;
 final class BuyerReturnPreviewResponseDataEligibilityEligibilityPolicyEvaluationLineItemsItem extends Model {
     /** @param array{'allowed_resolution_types': list<string>, 'bundle_components': list<mixed>, 'bundle_id'?: string, 'description'?: string, 'eligible_quantity': int, 'expires_at'?: string, 'fulfillment_id': string, 'image'?: mixed, 'ineligibility_reason'?: string, 'is_inspection_required': bool, 'is_merchandise_return_required': bool, 'modifiers': list<mixed>, 'name': string, 'order_line_item_id': string, 'policy_adjustment_proposals': list<mixed>, 'product_id'?: string, 'reason': string, 'receiving_location_id'?: string, 'release_timing': string, 'requested_quantity': int, 'selected_options': list<mixed>, 'sku'?: string, 'status': string, 'suggested_return_reason_ids': list<string>, 'variant_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerReturnPreviewResponseDataEligibilityEligibilityPolicyEvaluationLineItemsItem')); }
-    /** [] enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit". [] (Value): string.  Value enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit".
+    /** Resolution types the policy allows for this line. [] enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit". [] (Value): string.  Value enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit".
      * @return list<string>
      */
     public function getAllowedResolutionTypes(): array { return $this->get('allowed_resolution_types'); }
     public function hasAllowedResolutionTypes(): bool { return $this->has('allowed_resolution_types'); }
-    /**  [] (Value): {@see BuyerReturnPreviewResponseDataEligibilityEligibilityPolicyEvaluationLineItemsItemBundleComponentsItem}. An item included in a bundle.
+    /** Components of the bundle the line was sold from. [] (Value): {@see BuyerReturnPreviewResponseDataEligibilityEligibilityPolicyEvaluationLineItemsItemBundleComponentsItem}. An item included in a bundle.
      * @return list<BuyerReturnPreviewResponseDataEligibilityEligibilityPolicyEvaluationLineItemsItemBundleComponentsItem>
      */
     public function getBundleComponents(): array { return $this->get('bundle_components'); }
     public function hasBundleComponents(): bool { return $this->has('bundle_components'); }
-    /** bundle_id
+    /** ID of the bundle the line was sold from.
      * @return ?string
      */
     public function getBundleId(): ?string { return $this->get('bundle_id'); }
     public function hasBundleId(): bool { return $this->has('bundle_id'); }
-    /** description
+    /** Description of the item as sold.
      * @return ?string
      */
     public function getDescription(): ?string { return $this->get('description'); }
@@ -61,12 +61,12 @@ final class BuyerReturnPreviewResponseDataEligibilityEligibilityPolicyEvaluation
      */
     public function getExpiresAt(): ?string { return $this->get('expires_at'); }
     public function hasExpiresAt(): bool { return $this->has('expires_at'); }
-    /** fulfillment_id
+    /** ID of the fulfillment the units were delivered in.
      * @return string
      */
     public function getFulfillmentId(): string { return $this->get('fulfillment_id'); }
     public function hasFulfillmentId(): bool { return $this->has('fulfillment_id'); }
-    /** An image with its `url`, `width`, and `height`, and optional `alt` text.
+    /** Image of the item as sold. An image with its URL, size, and alt text.
      * @return ?BuyerReturnPreviewResponseDataEligibilityEligibilityPolicyEvaluationLineItemsItemImage
      */
     public function getImage(): ?BuyerReturnPreviewResponseDataEligibilityEligibilityPolicyEvaluationLineItemsItemImage { return $this->get('image'); }
@@ -76,47 +76,47 @@ final class BuyerReturnPreviewResponseDataEligibilityEligibilityPolicyEvaluation
      */
     public function getIneligibilityReason(): ?string { return $this->get('ineligibility_reason'); }
     public function hasIneligibilityReason(): bool { return $this->has('ineligibility_reason'); }
-    /** is_inspection_required
+    /** Whether the policy requires inspection of the returned units.
      * @return bool
      */
     public function getIsInspectionRequired(): bool { return $this->get('is_inspection_required'); }
     public function hasIsInspectionRequired(): bool { return $this->has('is_inspection_required'); }
-    /** is_merchandise_return_required
+    /** Whether the policy requires the buyer to send the merchandise back.
      * @return bool
      */
     public function getIsMerchandiseReturnRequired(): bool { return $this->get('is_merchandise_return_required'); }
     public function hasIsMerchandiseReturnRequired(): bool { return $this->has('is_merchandise_return_required'); }
-    /**  [] (Value): {@see BuyerReturnPreviewResponseDataEligibilityEligibilityPolicyEvaluationLineItemsItemModifiersItem}. A selected modifier recorded on an item in the buyer's Return, including its modifier group name and price.
+    /** Modifiers selected on the order line, with their prices. [] (Value): {@see BuyerReturnPreviewResponseDataEligibilityEligibilityPolicyEvaluationLineItemsItemModifiersItem}. A selected modifier recorded on an item in the buyer's Return, including its modifier group name and price.
      * @return list<BuyerReturnPreviewResponseDataEligibilityEligibilityPolicyEvaluationLineItemsItemModifiersItem>
      */
     public function getModifiers(): array { return $this->get('modifiers'); }
     public function hasModifiers(): bool { return $this->has('modifiers'); }
-    /** name
+    /** Name of the item as sold.
      * @return string
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** order_line_item_id
+    /** ID of the order line item the units come from.
      * @return string
      */
     public function getOrderLineItemId(): string { return $this->get('order_line_item_id'); }
     public function hasOrderLineItemId(): bool { return $this->has('order_line_item_id'); }
-    /**  [] (Value): {@see BuyerReturnPreviewResponseDataEligibilityEligibilityPolicyEvaluationLineItemsItemPolicyAdjustmentProposalsItem}. A fee or credit a return policy proposes for a line, calculated as a flat amount or a percent.
+    /** Fees or credits the policy proposes for this line, to add to a resolution as adjustments. [] (Value): {@see BuyerReturnPreviewResponseDataEligibilityEligibilityPolicyEvaluationLineItemsItemPolicyAdjustmentProposalsItem}. A fee or credit a return policy proposes for a line, calculated as a flat amount or a percent.
      * @return list<BuyerReturnPreviewResponseDataEligibilityEligibilityPolicyEvaluationLineItemsItemPolicyAdjustmentProposalsItem>
      */
     public function getPolicyAdjustmentProposals(): array { return $this->get('policy_adjustment_proposals'); }
     public function hasPolicyAdjustmentProposals(): bool { return $this->has('policy_adjustment_proposals'); }
-    /** product_id
+    /** ID of the catalog product the item was sold from.
      * @return ?string
      */
     public function getProductId(): ?string { return $this->get('product_id'); }
     public function hasProductId(): bool { return $this->has('product_id'); }
-    /** Value enum: "eligible_under_policy", "manual_review_required", "return_window_expired", "quantity_unavailable", "policy_ineligible", "resolution_not_allowed", "reason_not_allowed", "policy_conflict", "no_matching_policy".
+    /** Why the line got this result. Value enum: "eligible_under_policy", "manual_review_required", "return_window_expired", "quantity_unavailable", "policy_ineligible", "resolution_not_allowed", "reason_not_allowed", "policy_conflict", "no_matching_policy".
      * @return string
      */
     public function getReason(): string { return $this->get('reason'); }
     public function hasReason(): bool { return $this->has('reason'); }
-    /** receiving_location_id
+    /** ID of the Location the policy sends returned merchandise to.
      * @return ?string
      */
     public function getReceivingLocationId(): ?string { return $this->get('receiving_location_id'); }
@@ -131,17 +131,17 @@ final class BuyerReturnPreviewResponseDataEligibilityEligibilityPolicyEvaluation
      */
     public function getRequestedQuantity(): int { return $this->get('requested_quantity'); }
     public function hasRequestedQuantity(): bool { return $this->has('requested_quantity'); }
-    /**  [] (Value): {@see BuyerReturnPreviewResponseDataEligibilityEligibilityPolicyEvaluationLineItemsItemSelectedOptionsItem}. An option and value chosen for a product variant, such as size Large.
+    /** Variant options selected for the item, such as size and color. [] (Value): {@see BuyerReturnPreviewResponseDataEligibilityEligibilityPolicyEvaluationLineItemsItemSelectedOptionsItem}. An option and value chosen for a product variant, such as size Large.
      * @return list<BuyerReturnPreviewResponseDataEligibilityEligibilityPolicyEvaluationLineItemsItemSelectedOptionsItem>
      */
     public function getSelectedOptions(): array { return $this->get('selected_options'); }
     public function hasSelectedOptions(): bool { return $this->has('selected_options'); }
-    /** sku
+    /** SKU of the item as sold.
      * @return ?string
      */
     public function getSku(): ?string { return $this->get('sku'); }
     public function hasSku(): bool { return $this->has('sku'); }
-    /** Value enum: "eligible", "ineligible", "review_required".
+    /** Whether the policy lets the buyer return this. `review_required` means the merchant decides. Value enum: "eligible", "ineligible", "review_required".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
@@ -151,7 +151,7 @@ final class BuyerReturnPreviewResponseDataEligibilityEligibilityPolicyEvaluation
      */
     public function getSuggestedReturnReasonIds(): array { return $this->get('suggested_return_reason_ids'); }
     public function hasSuggestedReturnReasonIds(): bool { return $this->has('suggested_return_reason_ids'); }
-    /** variant_id
+    /** ID of the catalog variant the item was sold from.
      * @return ?string
      */
     public function getVariantId(): ?string { return $this->get('variant_id'); }

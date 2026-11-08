@@ -10,17 +10,17 @@ namespace Flint;
 final class DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemBundleGiftCardPurchaseRecipient extends Model {
     /** @param array{'email': string, 'message'?: string, 'name'?: string, 'send_at'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemBundleGiftCardPurchaseRecipient')); }
-    /** Format: email. minLength: 1. maxLength: 254.
+    /** Email address the gift card is delivered to. Format: email. minLength: 1. maxLength: 254.
      * @return string
      */
     public function getEmail(): string { return $this->get('email'); }
     public function hasEmail(): bool { return $this->has('email'); }
-    /** maxLength: 200.
+    /** Personal message included with the gift card. maxLength: 200.
      * @return ?string
      */
     public function getMessage(): ?string { return $this->get('message'); }
     public function hasMessage(): bool { return $this->has('message'); }
-    /** maxLength: 255.
+    /** Name of the person receiving the gift card. maxLength: 255.
      * @return ?string
      */
     public function getName(): ?string { return $this->get('name'); }

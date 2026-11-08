@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read int $min_selected
  * @property-read InlineModifierGroupRequestInput|array<array-key, mixed>|\stdClass $modifier_group
  * @property-read string $modifier_group_id
- * @property-read list<ModifierOverrideInput|array<array-key, mixed>|\stdClass> $modifier_overrides
+ * @property-read list<ModifierOverrideRequestInput|array<array-key, mixed>|\stdClass> $modifier_overrides
  * @property-read string $modifier_set_group_id
  * @property-read int $position
  * @property-read bool $required
@@ -16,7 +16,7 @@ namespace Flint;
  * @property-read string $source
  * Presence-aware input; omitted fields throw when accessed. */
 final class ModifierSetGroupInputInlineInput extends Model {
-    /** @param array{'display_name'?: string, 'max_selected'?: int, 'min_selected'?: int, 'modifier_group': InlineModifierGroupRequestInput|array<array-key, mixed>|\stdClass, 'modifier_group_id'?: string, 'modifier_overrides'?: list<ModifierOverrideInput|array<array-key, mixed>|\stdClass>, 'modifier_set_group_id'?: string, 'position'?: int, 'required'?: bool, 'show_on_fulfillment'?: bool, 'show_on_receipt'?: bool, 'source': string}|object $values */
+    /** @param array{'display_name'?: string, 'max_selected'?: int, 'min_selected'?: int, 'modifier_group': InlineModifierGroupRequestInput|array<array-key, mixed>|\stdClass, 'modifier_group_id'?: string, 'modifier_overrides'?: list<ModifierOverrideRequestInput|array<array-key, mixed>|\stdClass>, 'modifier_set_group_id'?: string, 'position'?: int, 'required'?: bool, 'show_on_fulfillment'?: bool, 'show_on_receipt'?: bool, 'source': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ModifierSetGroupInputInlineInput')); }
     /** Overrides the group's name for this set. Omit it to use the group's name. minLength: 1. maxLength: 255.
      * @return string
@@ -42,19 +42,19 @@ final class ModifierSetGroupInputInlineInput extends Model {
      */
     public function getModifierGroup(): mixed { return $this->get('modifier_group'); }
     public function hasModifierGroup(): bool { return $this->has('modifier_group'); }
-    /** Identifier of the independent modifier group referenced when source is existing. minLength: 1.
+    /** Identifier of the independent modifier group referenced when source is existing. minLength: 1. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
      * @return string
      * @throws SdkError When modifier_group_id is omitted; use hasModifierGroupId() or valueOrDefault().
      */
     public function getModifierGroupId(): string { return $this->get('modifier_group_id'); }
     public function hasModifierGroupId(): bool { return $this->has('modifier_group_id'); }
-    /** Overrides for individual list modifiers in this set. A choice is offered only when its status is active and its override's available is not false. [] (Value): {@see ModifierOverrideInput}. Settings for one modifier that apply only within a modifier set group, overriding the modifier group's own values.
-     * @return list<ModifierOverrideInput|array<array-key, mixed>|\stdClass>
+    /** Overrides for individual list modifiers in this set. A choice is offered only when its status is active and its override's available is not false. [] (Value): {@see ModifierOverrideRequestInput}. Settings for one modifier that apply only within a modifier set group, overriding the modifier group's own values.
+     * @return list<ModifierOverrideRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When modifier_overrides is omitted; use hasModifierOverrides() or valueOrDefault().
      */
     public function getModifierOverrides(): array { return $this->get('modifier_overrides'); }
     public function hasModifierOverrides(): bool { return $this->has('modifier_overrides'); }
-    /** Stable identifier of this group entry within the set. In a replacement request, include it to retain an entry or omit it to create one. minLength: 1.
+    /** Stable identifier of this group entry within the set. In a replacement request, include it to retain an entry or omit it to create one. minLength: 1. Example: "msg_01KEZF7C008GXTVA2AQ1SRFGFC".
      * @return string
      * @throws SdkError When modifier_set_group_id is omitted; use hasModifierSetGroupId() or valueOrDefault().
      */

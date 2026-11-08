@@ -2,12 +2,12 @@
 
 ## InventoryTransferResultInput
 
-inventory_transfer is the primary resource and expected_version target. Stock-moving transitions return this result instead of a resource alone.
+inventory_transfer is the primary resource and expected_version target. Stock-moving actions return this result instead of a resource alone.
 
 Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `inventory_levels` | Required | Array of [InventoryLevelInput](../models/InventoryLevelInput.md#inventorylevelinput) | Post-commit state of every level this command touched, one entry per level. A replay returns the levels the original command produced. Empty when no levels changed. |
-| `inventory_transfer` | Required | [InventoryTransferInput](../models/InventoryTransferInput.md#inventorytransferinput) | Stock moving between locations. |
+| `inventory_transfer` | Required | [InventoryTransferInput](../models/InventoryTransferInput.md#inventorytransferinput) | The inventory transfer. Stock moving between locations. |
 

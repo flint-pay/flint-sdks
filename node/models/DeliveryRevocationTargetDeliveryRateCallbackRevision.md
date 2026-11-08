@@ -2,7 +2,7 @@
 
 ## DeliveryRevocationTargetDeliveryRateCallbackRevision
 
-A typed revocation target. Each target_type accepts only its resource-specific fields.
+
 
 
 
@@ -10,13 +10,20 @@ A typed revocation target. Each target_type accepts only its resource-specific f
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `delivery_method_id` | Optional | string |  |
-| `delivery_method_revision_id` | Optional | string |  |
-| `delivery_rate_callback_id` | Required | string |  |
-| `delivery_rate_callback_revision_id` | Required | string |  |
-| `delivery_rate_callback_signing_key_id` | Optional | string |  |
-| `expected_version` | Optional | integer | Required for delivery_method and delivery_rate_callback targets. The revocation resolves and permanently fences only the exact current revision at this stable-resource version. Omit it for exact revision, geography, and signing-key targets. Format: `uint64`. minimum: `1`. |
-| `location_geography_version` | Optional | integer | Exact version of the Location geography to revoke. Required for location_geography targets. Format: `int64`. minimum: `1`. |
-| `location_id` | Optional | string |  |
-| `target_type` | Required | string | Values: `"delivery_rate_callback_revision"`. |
+| `delivery_rate_callback_id` | Required | string | ID of the delivery rate callback that owns the targeted revision or signing key. Example: `"dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1"`. |
+| `delivery_rate_callback_revision_id` | Required | string | ID of the immutable revision to fence. It must belong to delivery_rate_callback_id. Example: `"dcbr_01KEZF7C003QAPFXXMCHC59T5J"`. |
+| `target_type` | Required | string | Fences one immutable revision of the named delivery rate callback. Values: `"delivery_rate_callback_revision"`. |
+
+### DeliveryRevocationTargetDeliveryRateCallbackRevision variant 1: `target_type` = `"delivery_rate_callback_revision"`
+
+anyOf CreateDeliveryRevocationTargetDeliveryRateCallbackRevision: Declared schema CreateDeliveryRevocationTargetDeliveryRateCallbackRevision. Fences one immutable revision of the named delivery rate callback..
+
+- Constraints for `delivery_rate_callback_id`: minLength: `1`.
+- Constraints for `delivery_rate_callback_revision_id`: minLength: `1`.
+
+### DeliveryRevocationTargetDeliveryRateCallbackRevision variant 2: `target_type` = `"delivery_rate_callback_revision"`
+
+anyOf DeliveryRevocationTargetDeliveryRateCallbackRevision: Declared schema DeliveryRevocationTargetDeliveryRateCallbackRevision. Fences one immutable revision of the named delivery rate callback..
+
+No additional constraints.
 

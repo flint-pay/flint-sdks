@@ -16,7 +16,7 @@ final class FulfillmentOutcomeInput extends Model {
      */
     public function getNotes(): string { return $this->get('notes'); }
     public function hasNotes(): bool { return $this->has('notes'); }
-    /** Time the terminal outcome occurred. Format: date-time.
+    /** Time the terminal outcome occurred. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When occurred_at is omitted; use hasOccurredAt() or valueOrDefault().
      */

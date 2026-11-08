@@ -8,7 +8,7 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.workloadIdentities.delete(
-  "wid_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "wid_01KEZF7C00GKCN7Y1482VY8TWP",
   {},
   { idempotencyKey: idempotencyKey },
 );

@@ -8,7 +8,7 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.invoices.markUncollectible(
-  "inv_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "inv_01KEZF7C00A5GEBMWHEAJFSAR4",
   undefined,
   { idempotencyKey: idempotencyKey },
 );

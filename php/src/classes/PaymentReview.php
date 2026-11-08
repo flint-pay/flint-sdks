@@ -26,10 +26,11 @@ namespace Flint;
  * @property-read ResourceReference|null $resolution_started_by
  * @property-read PaymentReviewRisk $risk
  * @property-read string $status
+ * @property-read list<string> $supported_actions
  * @property-read string $updated_at
  * Presence-aware response; omitted optional fields return null. */
 final class PaymentReview extends Model {
-    /** @param array{'closed_at': string|null, 'closed_by': mixed, 'closed_reason': string|null, 'customer'?: mixed, 'customer_id': string|null, 'ip_address': string|null, 'last_resolution_failure': mixed, 'matched_risk_rule_id': string|null, 'opened_at': string, 'opened_reason': string, 'order'?: mixed, 'order_id': string|null, 'payment_flow': string, 'payment_intent'?: mixed, 'payment_intent_id': string, 'payment_review_id': string, 'payment_summary': mixed, 'pending_action': string|null, 'refund_id': string|null, 'refunded_money': mixed, 'resolution_started_at': string|null, 'resolution_started_by': mixed, 'risk': mixed, 'status': string, 'updated_at': string, ...}|object $values */
+    /** @param array{'closed_at': string|null, 'closed_by': mixed, 'closed_reason': string|null, 'customer'?: mixed, 'customer_id': string|null, 'ip_address': string|null, 'last_resolution_failure': mixed, 'matched_risk_rule_id': string|null, 'opened_at': string, 'opened_reason': string, 'order'?: mixed, 'order_id': string|null, 'payment_flow': string, 'payment_intent'?: mixed, 'payment_intent_id': string, 'payment_review_id': string, 'payment_summary': mixed, 'pending_action': string|null, 'refund_id': string|null, 'refunded_money': mixed, 'resolution_started_at': string|null, 'resolution_started_by': mixed, 'risk': mixed, 'status': string, 'supported_actions': list<string>, 'updated_at': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentReview')); }
     /** RFC3339 timestamp. Format: date-time.
      * @return string|null
@@ -106,7 +107,7 @@ final class PaymentReview extends Model {
      */
     public function getPaymentIntentId(): string { return $this->get('payment_intent_id'); }
     public function hasPaymentIntentId(): bool { return $this->has('payment_intent_id'); }
-    /** payment_review_id
+    /** Unique identifier for this payment review, prefixed `rev_`.
      * @return string
      */
     public function getPaymentReviewId(): string { return $this->get('payment_review_id'); }
@@ -136,7 +137,7 @@ final class PaymentReview extends Model {
      */
     public function getResolutionStartedAt(): string|null { return $this->get('resolution_started_at'); }
     public function hasResolutionStartedAt(): bool { return $this->has('resolution_started_at'); }
-    /** The credential that started resolving this payment review. Null when Flint started it. anyOf[1] (Value): {@see ResourceReference}. A reference to another resource by `resource_type` and `resource_id`. anyOf[2] (Value): null.
+    /** The credential that started resolving this payment review, retained after closure. Null when no resolution has started or Flint started it. anyOf[1] (Value): {@see ResourceReference}. A reference to another resource by `resource_type` and `resource_id`. anyOf[2] (Value): null.
      * @return ResourceReference|null
      */
     public function getResolutionStartedBy(): ResourceReference|null { return $this->get('resolution_started_by'); }
@@ -151,6 +152,11 @@ final class PaymentReview extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
+    /** Lifecycle actions accepted in the current stored review state. An action remains listed while it is processing or can be repeated without changing the result. [] enum: "approve", "decline". [] (Value): string.  Value enum: "approve", "decline".
+     * @return list<string>
+     */
+    public function getSupportedActions(): array { return $this->get('supported_actions'); }
+    public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
     /** RFC3339 timestamp. Format: date-time.
      * @return string
      */

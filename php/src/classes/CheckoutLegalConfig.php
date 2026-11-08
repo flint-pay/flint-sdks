@@ -11,27 +11,27 @@ namespace Flint;
 final class CheckoutLegalConfig extends Model {
     /** @param array{'contract_url'?: string, 'refund_policy_url'?: string, 'require_terms_of_service'?: bool, 'shipping_policy_url'?: string, 'terms_of_service_url'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutLegalConfig')); }
-    /** contract_url
+    /** An `https://` URL of the contract the buyer agrees to, linked in checkout.
      * @return ?string
      */
     public function getContractUrl(): ?string { return $this->get('contract_url'); }
     public function hasContractUrl(): bool { return $this->has('contract_url'); }
-    /** refund_policy_url
+    /** An `https://` URL of your refund policy, linked in checkout.
      * @return ?string
      */
     public function getRefundPolicyUrl(): ?string { return $this->get('refund_policy_url'); }
     public function hasRefundPolicyUrl(): bool { return $this->has('refund_policy_url'); }
-    /** require_terms_of_service
+    /** Whether the buyer must accept the terms of service before paying.
      * @return ?bool
      */
     public function getRequireTermsOfService(): ?bool { return $this->get('require_terms_of_service'); }
     public function hasRequireTermsOfService(): bool { return $this->has('require_terms_of_service'); }
-    /** shipping_policy_url
+    /** An `https://` URL of your shipping policy, linked in checkout.
      * @return ?string
      */
     public function getShippingPolicyUrl(): ?string { return $this->get('shipping_policy_url'); }
     public function hasShippingPolicyUrl(): bool { return $this->has('shipping_policy_url'); }
-    /** terms_of_service_url
+    /** An `https://` URL of your terms of service, linked in checkout.
      * @return ?string
      */
     public function getTermsOfServiceUrl(): ?string { return $this->get('terms_of_service_url'); }

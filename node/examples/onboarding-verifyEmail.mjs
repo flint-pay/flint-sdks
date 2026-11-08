@@ -15,4 +15,4 @@ const result = await client.onboarding.verifyEmail(
   { idempotencyKey: idempotencyKey },
 );
 console.log(result.merchant.merchant_id);
-console.log(result.merchant.organization_id);
+console.log(result.merchant.readiness.payments.status);

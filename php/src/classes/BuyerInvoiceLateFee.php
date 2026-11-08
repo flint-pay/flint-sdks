@@ -42,7 +42,7 @@ final class BuyerInvoiceLateFee extends Model {
      */
     public function getInvoiceScheduleEntryId(): ?string { return $this->get('invoice_schedule_entry_id'); }
     public function hasInvoiceScheduleEntryId(): bool { return $this->has('invoice_schedule_entry_id'); }
-    /** The late fee policy from payment_terms_snapshot, copied when the fee was assessed. anyOf[1] (Value): {@see InvoiceLateFeePolicy}. A late fee for overdue invoices: a fixed amount or a percentage, a grace period in days, and whether Flint applies it automatically. anyOf[2] (Value): null.
+    /** The late fee policy from payment_terms_snapshot, copied when the fee was assessed. `null` when no policy was captured. anyOf[1] (Value): {@see InvoiceLateFeePolicy}. A late fee for overdue invoices: a fixed amount or a percentage, a grace period in days, and whether Flint applies it automatically. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getLateFeePolicy(): mixed { return $this->get('late_fee_policy'); }

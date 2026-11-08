@@ -9,23 +9,24 @@ namespace Flint;
  * @property-read string $refresh_token_expires_at
  * @property-read ?string $revoked_at
  * @property-read string $status
+ * @property-read list<string> $supported_actions
  * @property-read string $refresh_token
  * @property-read string $secret
  * Presence-aware response; omitted optional fields return null. */
 final class CustomerSessionWithSecret extends Model {
-    /** @param array{'created_at': string, 'customer_id': string, 'customer_session_id': string, 'expires_at': string, 'refresh_token_expires_at': string, 'revoked_at'?: string, 'status': string, 'refresh_token': string, 'secret': string, ...}|object $values */
+    /** @param array{'created_at': string, 'customer_id': string, 'customer_session_id': string, 'expires_at': string, 'refresh_token_expires_at': string, 'revoked_at'?: string, 'status': string, 'supported_actions': list<string>, 'refresh_token': string, 'secret': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerSessionWithSecret')); }
     /** When the session was created. Format: date-time.
      * @return string
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** customer_id
+    /** ID of the customer the session acts as.
      * @return string
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** customer_session_id
+    /** ID of this session. Use it to tell sessions apart; it is not a credential.
      * @return string
      */
     public function getCustomerSessionId(): string { return $this->get('customer_session_id'); }
@@ -50,6 +51,11 @@ final class CustomerSessionWithSecret extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
+    /** Lifecycle actions Flint accepts now, independent of the caller's permissions. Contains revoke for active and revoked sessions because repeating a revocation succeeds. [] enum: "revoke". [] (Value): string.  Value enum: "revoke".
+     * @return list<string>
+     */
+    public function getSupportedActions(): array { return $this->get('supported_actions'); }
+    public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
     /** Single-use refresh token. Returned only on create and refresh; retry rotation with the same Idempotency-Key.
      * @return string
      */

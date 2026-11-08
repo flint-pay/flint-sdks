@@ -23,7 +23,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $updated_before
  * Presence-aware input; omitted fields throw when accessed. */
 final class ReturnDispositionsListParams extends Model {
-    /** @param array{'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'disposition_type'?: list<string>|string, 'external_reference_id'?: string, 'idempotency_key'?: string, 'inventory_location_id'?: string, 'occurred_after'?: string|\DateTimeInterface, 'occurred_before'?: string|\DateTimeInterface, 'page_size'?: int, 'page_token'?: string, 'query'?: string, 'replaces_return_disposition_id'?: string, 'return_id'?: string, 'return_inspection_line_item_id'?: string, 'return_line_item_id'?: string, 'return_receipt_line_item_id'?: string, 'status'?: list<string>|string, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface}|object $values */
+    /** @param array{'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'disposition_type'?: list<string>|string, 'external_reference_id'?: string, 'idempotency_key'?: string, 'inventory_location_id'?: string, 'occurred_after'?: string|\DateTimeInterface, 'occurred_before'?: string|\DateTimeInterface, 'page_size'?: int, 'page_token'?: string, 'query'?: string, 'replaces_return_disposition_id'?: string, 'return_id'?: string, 'return_inspection_line_item_id'?: string, 'return_line_item_id'?: string, 'return_receipt_line_item_id'?: string, 'status'?: list<string>|string, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnDispositionsListParams')); }
     /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z".
      * @return string|\DateTimeInterface
@@ -37,13 +37,13 @@ final class ReturnDispositionsListParams extends Model {
      */
     public function getCreatedBefore(): string|\DateTimeInterface { return $this->get('created_before'); }
     public function hasCreatedBefore(): bool { return $this->has('created_before'); }
-    /** Filter by disposition type. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "sellable", "quality_control", "damaged", "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer", "lost". Value enum: "sellable", "quality_control", "damaged", "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer", "lost". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "sellable", "quality_control", "damaged", "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer", "lost". anyOf[1][] (Value): string.  Value enum: "sellable", "quality_control", "damaged", "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer", "lost". anyOf[2] (Value): string.  Value enum: "sellable", "quality_control", "damaged", "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer", "lost".
+    /** Filter by disposition type. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "sellable", "quality_control", "damaged", "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer", "lost". Value enum: "sellable", "quality_control", "damaged", "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer", "lost". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "sellable", "quality_control", "damaged", "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer", "lost". anyOf[1][] (Value): string.  Value enum: "sellable", "quality_control", "damaged", "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer", "lost". anyOf[2] (Value): string.  Value enum: "sellable", "quality_control", "damaged", "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer", "lost".
      * @return list<string>|string
      * @throws SdkError When disposition_type is omitted; use hasDispositionType() or valueOrDefault().
      */
     public function getDispositionType(): mixed { return $this->get('disposition_type'); }
     public function hasDispositionType(): bool { return $this->has('disposition_type'); }
-    /** Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
+    /** Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -55,7 +55,7 @@ final class ReturnDispositionsListParams extends Model {
      */
     public function getIdempotencyKey(): string { return $this->get('idempotency_key'); }
     public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
-    /** Filter by inventory location id.
+    /** Filter by inventory location id. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When inventory_location_id is omitted; use hasInventoryLocationId() or valueOrDefault().
      */
@@ -79,7 +79,7 @@ final class ReturnDispositionsListParams extends Model {
      */
     public function getPageSize(): int { return $this->get('page_size'); }
     public function hasPageSize(): bool { return $this->has('page_size'); }
-    /** Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error.
+    /** Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error.
      * @return string
      * @throws SdkError When page_token is omitted; use hasPageToken() or valueOrDefault().
      */
@@ -91,37 +91,37 @@ final class ReturnDispositionsListParams extends Model {
      */
     public function getQuery(): string { return $this->get('query'); }
     public function hasQuery(): bool { return $this->has('query'); }
-    /** Filter by replaces return disposition id.
+    /** Filter by replaces return disposition id. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
      * @return string
      * @throws SdkError When replaces_return_disposition_id is omitted; use hasReplacesReturnDispositionId() or valueOrDefault().
      */
     public function getReplacesReturnDispositionId(): string { return $this->get('replaces_return_disposition_id'); }
     public function hasReplacesReturnDispositionId(): bool { return $this->has('replaces_return_disposition_id'); }
-    /** Filter by return id. Example: "ret_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Filter by return id. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
      * @return string
      * @throws SdkError When return_id is omitted; use hasReturnId() or valueOrDefault().
      */
     public function getReturnId(): string { return $this->get('return_id'); }
     public function hasReturnId(): bool { return $this->has('return_id'); }
-    /** Filter by return inspection line item id. Example: "retinli_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Filter by return inspection line item id. Example: "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4".
      * @return string
      * @throws SdkError When return_inspection_line_item_id is omitted; use hasReturnInspectionLineItemId() or valueOrDefault().
      */
     public function getReturnInspectionLineItemId(): string { return $this->get('return_inspection_line_item_id'); }
     public function hasReturnInspectionLineItemId(): bool { return $this->has('return_inspection_line_item_id'); }
-    /** Filter by return line item id. Example: "retli_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Filter by return line item id. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
      * @return string
      * @throws SdkError When return_line_item_id is omitted; use hasReturnLineItemId() or valueOrDefault().
      */
     public function getReturnLineItemId(): string { return $this->get('return_line_item_id'); }
     public function hasReturnLineItemId(): bool { return $this->has('return_line_item_id'); }
-    /** Filter by return receipt line item id. Example: "retrcli_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Filter by return receipt line item id. Example: "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE".
      * @return string
      * @throws SdkError When return_receipt_line_item_id is omitted; use hasReturnReceiptLineItemId() or valueOrDefault().
      */
     public function getReturnReceiptLineItemId(): string { return $this->get('return_receipt_line_item_id'); }
     public function hasReturnReceiptLineItemId(): bool { return $this->has('return_receipt_line_item_id'); }
-    /** Filter by status. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "pending", "succeeded", "failed", "canceled". Value enum: "pending", "succeeded", "failed", "canceled". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "pending", "succeeded", "failed", "canceled". anyOf[1][] (Value): string.  Value enum: "pending", "succeeded", "failed", "canceled". anyOf[2] (Value): string.  Value enum: "pending", "succeeded", "failed", "canceled".
+    /** Filter by status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "pending", "succeeded", "failed", "canceled". Value enum: "pending", "succeeded", "failed", "canceled". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "pending", "succeeded", "failed", "canceled". anyOf[1][] (Value): string.  Value enum: "pending", "succeeded", "failed", "canceled". anyOf[2] (Value): string.  Value enum: "pending", "succeeded", "failed", "canceled".
      * @return list<string>|string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
@@ -139,4 +139,22 @@ final class ReturnDispositionsListParams extends Model {
      */
     public function getUpdatedBefore(): string|\DateTimeInterface { return $this->get('updated_before'); }
     public function hasUpdatedBefore(): bool { return $this->has('updated_before'); }
+    /** Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Merchant-Id is omitted; use hasFlintMerchantId() or valueOrDefault().
+     */
+    public function getFlintMerchantId(): string { return $this->get('Flint-Merchant-Id'); }
+    public function hasFlintMerchantId(): bool { return $this->has('Flint-Merchant-Id'); }
+    /** Mode of the request context, live or test. Optional; it must match the credential's mode. Value enum: "test", "live".
+     * @return string
+     * @throws SdkError When Flint-Mode is omitted; use hasFlintMode() or valueOrDefault().
+     */
+    public function getFlintMode(): string { return $this->get('Flint-Mode'); }
+    public function hasFlintMode(): bool { return $this->has('Flint-Mode'); }
+    /** Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Sandbox-Id is omitted; use hasFlintSandboxId() or valueOrDefault().
+     */
+    public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
+    public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
 }

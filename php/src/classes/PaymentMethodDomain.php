@@ -34,7 +34,7 @@ final class PaymentMethodDomain extends Model {
      */
     public function getPaymentOptionStatuses(): array { return $this->get('payment_option_statuses'); }
     public function hasPaymentOptionStatuses(): bool { return $this->has('payment_option_statuses'); }
-    /** Value enum: "active", "inactive".
+    /** Whether wallet buttons are on for the hostname. Change it with `PATCH`. Value enum: "active", "inactive".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
@@ -44,7 +44,7 @@ final class PaymentMethodDomain extends Model {
      */
     public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** Value enum: "active", "action_required", "unavailable".
+    /** Whether the hostname passed the checks wallets need, summarizing `payment_option_statuses`. Value enum: "active", "action_required", "unavailable".
      * @return string
      */
     public function getValidationStatus(): string { return $this->get('validation_status'); }

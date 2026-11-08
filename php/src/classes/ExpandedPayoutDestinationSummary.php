@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read ?string $country
  * @property-read ?string $created_at
  * @property-read string $currency
- * @property-read bool $default_for_currency
+ * @property-read bool $is_default_for_currency
  * @property-read ?string $last4
  * @property-read string $payout_destination_id
  * @property-read string $status
@@ -16,14 +16,14 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class ExpandedPayoutDestinationSummary extends Model {
-    /** @param array{'available_payout_methods': list<string>, 'bank_name'?: string, 'country'?: string, 'created_at'?: string, 'currency': string, 'default_for_currency': bool, 'last4'?: string, 'payout_destination_id': string, 'status': string, 'type': string, 'updated_at'?: string, 'version': int, ...}|object $values */
+    /** @param array{'available_payout_methods': list<string>, 'bank_name'?: string, 'country'?: string, 'created_at'?: string, 'currency': string, 'is_default_for_currency': bool, 'last4'?: string, 'payout_destination_id': string, 'status': string, 'type': string, 'updated_at'?: string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ExpandedPayoutDestinationSummary')); }
     /** Payout methods available through Flint for this destination. Only standard is currently available. [] enum: "standard". [] (Value): string.  Value enum: "standard".
      * @return list<string>
      */
     public function getAvailablePayoutMethods(): array { return $this->get('available_payout_methods'); }
     public function hasAvailablePayoutMethods(): bool { return $this->has('available_payout_methods'); }
-    /** bank_name
+    /** Name of the bank, when your processor reports it.
      * @return ?string
      */
     public function getBankName(): ?string { return $this->get('bank_name'); }
@@ -43,17 +43,17 @@ final class ExpandedPayoutDestinationSummary extends Model {
      */
     public function getCurrency(): string { return $this->get('currency'); }
     public function hasCurrency(): bool { return $this->has('currency'); }
-    /** default_for_currency
+    /** Whether this is the default destination for its currency. Scheduled payouts, and payouts created without payout_destination_id, go to the default, and only an active destination can be it.
      * @return bool
      */
-    public function getDefaultForCurrency(): bool { return $this->get('default_for_currency'); }
-    public function hasDefaultForCurrency(): bool { return $this->has('default_for_currency'); }
-    /** last4
+    public function getIsDefaultForCurrency(): bool { return $this->get('is_default_for_currency'); }
+    public function hasIsDefaultForCurrency(): bool { return $this->has('is_default_for_currency'); }
+    /** Last four digits of the account or card number.
      * @return ?string
      */
     public function getLast4(): ?string { return $this->get('last4'); }
     public function hasLast4(): bool { return $this->has('last4'); }
-    /** payout_destination_id
+    /** Unique identifier for this payout destination, prefixed `pdest_`.
      * @return string
      */
     public function getPayoutDestinationId(): string { return $this->get('payout_destination_id'); }

@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read int $available_quantity
+ * @property-read int $backordered_quantity
  * @property-read int $claim_version
  * @property-read int $committed_quantity
  * @property-read string|\DateTimeInterface $created_at
@@ -24,7 +25,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class InventoryLevelInput extends Model {
-    /** @param array{'available_quantity': int, 'claim_version': int, 'committed_quantity': int, 'created_at': string|\DateTimeInterface, 'damaged_quantity': int, 'held_quantity': int, 'incoming_quantity': int, 'inventory_item'?: InventoryItemInput|array<array-key, mixed>|\stdClass, 'inventory_item_id': string, 'inventory_level_id': string, 'location_id': string, 'on_hand_quantity': int, 'physical_version': int, 'quality_control_quantity': int, 'quarantined_quantity': int, 'safety_stock_quantity': int, 'shortage_quantity': int, 'unavailable_on_hand_quantity': int, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
+    /** @param array{'available_quantity': int, 'backordered_quantity': int, 'claim_version': int, 'committed_quantity': int, 'created_at': string|\DateTimeInterface, 'damaged_quantity': int, 'held_quantity': int, 'incoming_quantity': int, 'inventory_item'?: InventoryItemInput|array<array-key, mixed>|\stdClass, 'inventory_item_id': string, 'inventory_level_id': string, 'location_id': string, 'on_hand_quantity': int, 'physical_version': int, 'quality_control_quantity': int, 'quarantined_quantity': int, 'safety_stock_quantity': int, 'shortage_quantity': int, 'unavailable_on_hand_quantity': int, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryLevelInput')); }
     /** Derived and never written: on_hand minus unavailable, held, committed, and safety stock, never below 0. See shortage_quantity for the excess. Whole-number quantity; fractional quantities are not supported. Format: int64.
      * @return int
@@ -32,6 +33,12 @@ final class InventoryLevelInput extends Model {
      */
     public function getAvailableQuantity(): int { return $this->get('available_quantity'); }
     public function hasAvailableQuantity(): bool { return $this->has('available_quantity'); }
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. minimum: 0.
+     * @return int
+     * @throws SdkError When backordered_quantity is omitted; use hasBackorderedQuantity() or valueOrDefault().
+     */
+    public function getBackorderedQuantity(): int { return $this->get('backordered_quantity'); }
+    public function hasBackorderedQuantity(): bool { return $this->has('backordered_quantity'); }
     /** Advances only when held or committed quantities change. Format: int64. minimum: 0.
      * @return int
      * @throws SdkError When claim_version is omitted; use hasClaimVersion() or valueOrDefault().
@@ -44,7 +51,7 @@ final class InventoryLevelInput extends Model {
      */
     public function getCommittedQuantity(): int { return $this->get('committed_quantity'); }
     public function hasCommittedQuantity(): bool { return $this->has('committed_quantity'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
@@ -74,19 +81,19 @@ final class InventoryLevelInput extends Model {
      */
     public function getInventoryItem(): mixed { return $this->get('inventory_item'); }
     public function hasInventoryItem(): bool { return $this->has('inventory_item'); }
-    /** inventory_item_id
+    /** ID of the inventory item the stock is for. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
      * @return string
      * @throws SdkError When inventory_item_id is omitted; use hasInventoryItemId() or valueOrDefault().
      */
     public function getInventoryItemId(): string { return $this->get('inventory_item_id'); }
     public function hasInventoryItemId(): bool { return $this->has('inventory_item_id'); }
-    /** inventory_level_id
+    /** Unique identifier for this inventory level, prefixed `invl_`. Example: "invl_01KEZF7C00H201XZXKRX5KMDDE".
      * @return string
      * @throws SdkError When inventory_level_id is omitted; use hasInventoryLevelId() or valueOrDefault().
      */
     public function getInventoryLevelId(): string { return $this->get('inventory_level_id'); }
     public function hasInventoryLevelId(): bool { return $this->has('inventory_level_id'); }
-    /** location_id
+    /** ID of the Location that holds the stock. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When location_id is omitted; use hasLocationId() or valueOrDefault().
      */
@@ -134,7 +141,7 @@ final class InventoryLevelInput extends Model {
      */
     public function getUnavailableOnHandQuantity(): int { return $this->get('unavailable_on_hand_quantity'); }
     public function hasUnavailableOnHandQuantity(): bool { return $this->has('unavailable_on_hand_quantity'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */

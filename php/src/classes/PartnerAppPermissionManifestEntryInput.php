@@ -23,7 +23,7 @@ final class PartnerAppPermissionManifestEntryInput extends Model {
      */
     public function getOptional(): bool { return $this->get('optional'); }
     public function hasOptional(): bool { return $this->has('optional'); }
-    /** minLength: 1.
+    /** minLength: 1. Example: "manage_orders".
      * @return string
      * @throws SdkError When permission_id is omitted; use hasPermissionId() or valueOrDefault().
      */

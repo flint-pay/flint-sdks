@@ -7,7 +7,7 @@ namespace Flint;
 final class ConfirmCustomerVerificationRequestInput extends Model {
     /** @param array{'code': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ConfirmCustomerVerificationRequestInput')); }
-    /** minLength: 1. pattern: ^[0-9]{6}$.
+    /** The six-digit code Flint sent to the customer's email. minLength: 1. pattern: ^[0-9]{6}$.
      * @return string
      * @throws SdkError When code is omitted; use hasCode() or valueOrDefault().
      */

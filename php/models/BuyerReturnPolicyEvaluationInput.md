@@ -8,14 +8,14 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `evaluated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `expires_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `line_items` | Required | Array of [BuyerReturnPolicyEvaluationLineItemInput](../models/BuyerReturnPolicyEvaluationLineItemInput.md#buyerreturnpolicyevaluationlineiteminput) |  |
-| `reason` | Required | string | Values: [9 declared values](#buyerreturnpolicyevaluationinput-reason-values). |
-| `reason_message` | Required | string |  |
-| `return_policy_id` | Optional | string |  |
-| `return_policy_revision_id` | Optional | string |  |
-| `status` | Required | string | Values: `"eligible"`, `"ineligible"`, `"review_required"`. |
+| `evaluated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
+| `expires_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
+| `line_items` | Required | Array of [BuyerReturnPolicyEvaluationLineItemInput](../models/BuyerReturnPolicyEvaluationLineItemInput.md#buyerreturnpolicyevaluationlineiteminput) | Eligibility of each line asked about. |
+| `reason` | Required | string | Why the selection got this result. Values: [9 declared values](#buyerreturnpolicyevaluationinput-reason-values). |
+| `reason_message` | Required | string | Explanation of `reason`. |
+| `return_policy_id` | Optional | string | ID of the policy that judged the lines. Absent when none matched. Example: `"rpol_01KEZF7C00H8C042BEK6HBRANX"`. |
+| `return_policy_revision_id` | Optional | string | ID of the policy revision that judged the lines. Absent when none matched. Example: `"rpolv_01KEZF7C007AWH6P4QC14Q25TC"`. |
+| `status` | Required | string | Overall result for the selection. `review_required` when the lines differ. Values: `"eligible"`, `"ineligible"`, `"review_required"`. |
 
 #### BuyerReturnPolicyEvaluationInput reason values
 

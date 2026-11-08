@@ -1,1 +1,1 @@
-{"shared":"GiftCardCustomAmountBoundsRequest","dependencies":["GiftCardCustomAmountBoundsRequest","SharedCodec604"]}
+{"shared":"GiftCardCustomAmountBoundsRequest","dependencies":["GiftCardCustomAmountBoundsRequest","MoneyValue"]}

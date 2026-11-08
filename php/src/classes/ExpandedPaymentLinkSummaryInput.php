@@ -16,61 +16,61 @@ namespace Flint;
 final class ExpandedPaymentLinkSummaryInput extends Model {
     /** @param array{'completed_count': int, 'created_at'?: string|\DateTimeInterface, 'description'?: string, 'name': string, 'payment_link_id': string, 'payment_link_type'?: string, 'status': string, 'subscription_plan_id'?: string, 'updated_at'?: string|\DateTimeInterface, 'url'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ExpandedPaymentLinkSummaryInput')); }
-    /** Format: int32.
+    /** Number of paid checkout sessions started from this link. Format: int32.
      * @return int
      * @throws SdkError When completed_count is omitted; use hasCompletedCount() or valueOrDefault().
      */
     public function getCompletedCount(): int { return $this->get('completed_count'); }
     public function hasCompletedCount(): bool { return $this->has('completed_count'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** description
+    /** Text about what the link sells, returned to buyers when they open it.
      * @return string
      * @throws SdkError When description is omitted; use hasDescription() or valueOrDefault().
      */
     public function getDescription(): string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** name
+    /** Name of the payment link.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** payment_link_id
+    /** Unique identifier for this payment link, prefixed `pl_`. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
      * @return string
      * @throws SdkError When payment_link_id is omitted; use hasPaymentLinkId() or valueOrDefault().
      */
     public function getPaymentLinkId(): string { return $this->get('payment_link_id'); }
     public function hasPaymentLinkId(): bool { return $this->has('payment_link_id'); }
-    /** Value enum: "standard", "donation", "event".
+    /** What kind of link this is. Value enum: "standard", "donation", "event".
      * @return string
      * @throws SdkError When payment_link_type is omitted; use hasPaymentLinkType() or valueOrDefault().
      */
     public function getPaymentLinkType(): string { return $this->get('payment_link_type'); }
     public function hasPaymentLinkType(): bool { return $this->has('payment_link_type'); }
-    /** Value enum: "active", "inactive".
+    /** Whether the link can start new checkouts. Value enum: "active", "inactive".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** subscription_plan_id
+    /** Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
      * @return string
      * @throws SdkError When subscription_plan_id is omitted; use hasSubscriptionPlanId() or valueOrDefault().
      */
     public function getSubscriptionPlanId(): string { return $this->get('subscription_plan_id'); }
     public function hasSubscriptionPlanId(): bool { return $this->has('subscription_plan_id'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */
     public function getUpdatedAt(): string|\DateTimeInterface { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** url
+    /** URL buyers open to use the link.
      * @return string
      * @throws SdkError When url is omitted; use hasUrl() or valueOrDefault().
      */

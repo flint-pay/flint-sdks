@@ -32,7 +32,7 @@ final class InvoiceDocumentRow extends Model {
      */
     public function getIsInformational(): bool { return $this->get('is_informational'); }
     public function hasIsInformational(): bool { return $this->has('is_informational'); }
-    /** Value enum: "subtotal", "discount", "charge", "tax", "tip", "total", "late_fee", "late_fee_waived", "payments", "credit_note", "credits", "written_off", "amount_due", "refunded".
+    /** What the row shows. Value enum: "subtotal", "discount", "charge", "tax", "tip", "total", "late_fee", "late_fee_waived", "payments", "credit_note", "credits", "written_off", "amount_due", "refunded".
      * @return string
      */
     public function getKind(): string { return $this->get('kind'); }
@@ -57,12 +57,12 @@ final class InvoiceDocumentRow extends Model {
      */
     public function getPromotionCode(): ?string { return $this->get('promotion_code'); }
     public function hasPromotionCode(): bool { return $this->has('promotion_code'); }
-    /** Value enum: "sales_tax", "use_tax", "retail_delivery_fee".
+    /** The kind of tax on a tax row. Value enum: "sales_tax", "use_tax", "retail_delivery_fee", "vat", "gst", "hst", "pst", "qst".
      * @return ?string
      */
     public function getTaxType(): ?string { return $this->get('tax_type'); }
     public function hasTaxType(): bool { return $this->has('tax_type'); }
-    /** Value enum: "standard_rated", "not_taxable", "customer_exempt", "tax_disabled", "location_required", "calculation_incomplete".
+    /** Why a tax row's tax is what it is. Value enum: "standard_rated", "not_taxable", "customer_exempt", "tax_disabled", "location_required", "calculation_incomplete", "reverse_charge".
      * @return ?string
      */
     public function getTaxabilityReason(): ?string { return $this->get('taxability_reason'); }

@@ -2,6 +2,8 @@
 
 ## DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemCustomGiftCardPurchaseRecipient
 
+Who receives the gift card. `null` when no recipient was set.
+
 The recipient of a purchased gift card: `email`, optional `name` and `message`, and an optional `send_at` time.
 
 Response model.

@@ -13,7 +13,7 @@ A subscription item's quantity, subtotal, and discount in an estimated renewal.
 | `discount_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. `discount_money`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options). |
 | `name` | Required | string |  |
 | `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
-| `subscription_line_item_id` | Required | string or null | The saved subscription line ID; null when previewing replacement plan lines. |
+| `subscription_line_item_id` | Required | string or null | The saved subscription line ID; null when previewing new or replacement lines. Example: `"sli_01KEZF7C00PPWVJ2N321V84ASA"`. |
 | `subtotal_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. `subtotal_money`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options). |
 
 ### SubscriptionRenewalEstimateLineItem.discount_money

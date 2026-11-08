@@ -10,17 +10,17 @@ namespace Flint;
 final class GiftCardNotificationRecipient extends Model {
     /** @param array{'email': string, 'message'?: string, 'name'?: string, 'send_at'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardNotificationRecipient')); }
-    /** Format: email. minLength: 1. maxLength: 254.
+    /** Email address the notification is sent to. Format: email. minLength: 1. maxLength: 254.
      * @return string
      */
     public function getEmail(): string { return $this->get('email'); }
     public function hasEmail(): bool { return $this->has('email'); }
-    /** minLength: 1. maxLength: 200.
+    /** Message included in the notification. minLength: 1. maxLength: 200.
      * @return ?string
      */
     public function getMessage(): ?string { return $this->get('message'); }
     public function hasMessage(): bool { return $this->has('message'); }
-    /** minLength: 1. maxLength: 255.
+    /** Name of the person the notification is addressed to. minLength: 1. maxLength: 255.
      * @return ?string
      */
     public function getName(): ?string { return $this->get('name'); }

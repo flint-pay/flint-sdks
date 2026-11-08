@@ -22,16 +22,15 @@ namespace Flint;
  * @property-read string|\DateTimeInterface|null $scheduled_start_at
  * @property-read ServiceFulfillmentDetailsInput|array<array-key, mixed>|\stdClass $service_details
  * @property-read ShipmentFulfillmentDetailsInput|array<array-key, mixed>|\stdClass $shipment_details
- * @property-read list<ExpandedShipmentSummaryInput|array<array-key, mixed>|\stdClass> $shipments
+ * @property-read list<BuyerExpandedShipmentSummaryInput|array<array-key, mixed>|\stdClass> $shipments
  * @property-read string $status
- * @property-read list<string> $supported_actions
  * @property-read string|\DateTimeInterface $terminal_at
  * @property-read string $type
  * @property-read string|\DateTimeInterface $updated_at
  * @property-read int $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class BuyerFulfillmentInput extends Model {
-    /** @param array{'charges'?: list<FulfillmentChargeLinkInput|array<array-key, mixed>|\stdClass>, 'completed_at'?: string|\DateTimeInterface, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'digital_details'?: DigitalFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'dispatched_at'?: string|\DateTimeInterface, 'fulfillment_id': string, 'line_items': list<BuyerFulfillmentLineItemInput|array<array-key, mixed>|\stdClass>, 'local_delivery_details'?: BuyerDeliveryFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'order_id': string, 'order_number'?: string, 'outcome'?: BuyerFulfillmentOutcomeInput|array<array-key, mixed>|\stdClass, 'packages'?: list<BuyerExpandedPackageSummaryInput|array<array-key, mixed>|\stdClass>, 'packed_at'?: string|\DateTimeInterface, 'picked_at'?: string|\DateTimeInterface, 'pickup_details'?: PickupFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'recipient'?: FulfillmentRecipientInput|array<array-key, mixed>|\stdClass, 'scheduled_start_at': string|\DateTimeInterface|null, 'service_details'?: ServiceFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'shipment_details'?: ShipmentFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'shipments'?: list<ExpandedShipmentSummaryInput|array<array-key, mixed>|\stdClass>, 'status': string, 'supported_actions': list<string>, 'terminal_at'?: string|\DateTimeInterface, 'type': string, 'updated_at'?: string|\DateTimeInterface, 'version': int, ...}|object $values */
+    /** @param array{'charges'?: list<FulfillmentChargeLinkInput|array<array-key, mixed>|\stdClass>, 'completed_at'?: string|\DateTimeInterface, 'created_at': string|\DateTimeInterface, 'customer_id'?: string, 'digital_details'?: DigitalFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'dispatched_at'?: string|\DateTimeInterface, 'fulfillment_id': string, 'line_items': list<BuyerFulfillmentLineItemInput|array<array-key, mixed>|\stdClass>, 'local_delivery_details'?: BuyerDeliveryFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'order_id': string, 'order_number'?: string, 'outcome'?: BuyerFulfillmentOutcomeInput|array<array-key, mixed>|\stdClass, 'packages'?: list<BuyerExpandedPackageSummaryInput|array<array-key, mixed>|\stdClass>, 'packed_at'?: string|\DateTimeInterface, 'picked_at'?: string|\DateTimeInterface, 'pickup_details'?: PickupFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'recipient'?: FulfillmentRecipientInput|array<array-key, mixed>|\stdClass, 'scheduled_start_at': string|\DateTimeInterface|null, 'service_details'?: ServiceFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'shipment_details'?: ShipmentFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'shipments'?: list<BuyerExpandedShipmentSummaryInput|array<array-key, mixed>|\stdClass>, 'status': string, 'terminal_at'?: string|\DateTimeInterface, 'type': string, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerFulfillmentInput')); }
     /** Order charges associated with this fulfillment. [] (Value): {@see FulfillmentChargeLinkInput}. Links a fulfillment to an order charge by `order_charge_id`.
      * @return list<FulfillmentChargeLinkInput|array<array-key, mixed>|\stdClass>
@@ -39,19 +38,19 @@ final class BuyerFulfillmentInput extends Model {
      */
     public function getCharges(): array { return $this->get('charges'); }
     public function hasCharges(): bool { return $this->has('charges'); }
-    /** When the fulfillment was completed. Mirrors the completion time for its type: delivered_at for shipment, local delivery, and digital fulfillments, picked_up_at for pickup, and service_details.completed_at for service fulfillments. Omitted until a completion time is recorded. Format: date-time.
+    /** When the fulfillment was completed. Mirrors the completion time for its type: delivered_at for shipment, local delivery, and digital fulfillments, picked_up_at for pickup, and service_details.completed_at for service fulfillments. Omitted until a completion time is recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When completed_at is omitted; use hasCompletedAt() or valueOrDefault().
      */
     public function getCompletedAt(): string|\DateTimeInterface { return $this->get('completed_at'); }
     public function hasCompletedAt(): bool { return $this->has('completed_at'); }
-    /** When the fulfillment was created, in RFC3339 format. Format: date-time.
+    /** When the fulfillment was created, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Customer receiving this fulfillment, when one is set.
+    /** Customer receiving this fulfillment, when one is set. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */
@@ -63,13 +62,13 @@ final class BuyerFulfillmentInput extends Model {
      */
     public function getDigitalDetails(): mixed { return $this->get('digital_details'); }
     public function hasDigitalDetails(): bool { return $this->has('digital_details'); }
-    /** First time this fulfillment reached dispatched. Format: date-time.
+    /** First time this fulfillment reached dispatched. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When dispatched_at is omitted; use hasDispatchedAt() or valueOrDefault().
      */
     public function getDispatchedAt(): string|\DateTimeInterface { return $this->get('dispatched_at'); }
     public function hasDispatchedAt(): bool { return $this->has('dispatched_at'); }
-    /** Stable identifier of the fulfillment.
+    /** Stable identifier of the fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
      * @return string
      * @throws SdkError When fulfillment_id is omitted; use hasFulfillmentId() or valueOrDefault().
      */
@@ -87,7 +86,7 @@ final class BuyerFulfillmentInput extends Model {
      */
     public function getLocalDeliveryDetails(): mixed { return $this->get('local_delivery_details'); }
     public function hasLocalDeliveryDetails(): bool { return $this->has('local_delivery_details'); }
-    /** Order whose items this fulfillment delivers.
+    /** Order whose items this fulfillment delivers. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */
@@ -111,13 +110,13 @@ final class BuyerFulfillmentInput extends Model {
      */
     public function getPackages(): array { return $this->get('packages'); }
     public function hasPackages(): bool { return $this->has('packages'); }
-    /** First time this fulfillment reached packed. Format: date-time.
+    /** First time this fulfillment reached packed. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When packed_at is omitted; use hasPackedAt() or valueOrDefault().
      */
     public function getPackedAt(): string|\DateTimeInterface { return $this->get('packed_at'); }
     public function hasPackedAt(): bool { return $this->has('packed_at'); }
-    /** First time this fulfillment reached picked. Format: date-time.
+    /** First time this fulfillment reached picked. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When picked_at is omitted; use hasPickedAt() or valueOrDefault().
      */
@@ -135,7 +134,7 @@ final class BuyerFulfillmentInput extends Model {
      */
     public function getRecipient(): mixed { return $this->get('recipient'); }
     public function hasRecipient(): bool { return $this->has('recipient'); }
-    /** Derived start of the service schedule or pickup, local delivery, or shipment window. Null when no schedule is booked, including digital fulfillments. Details remain the authoritative schedule inputs. Nulls sort first ascending and last descending, then by fulfillment_id in the same direction. Format: date-time.
+    /** Derived start of the service schedule or pickup, local delivery, or shipment window. Null when no schedule is booked, including digital fulfillments. Details remain the authoritative schedule inputs. Nulls sort first ascending and last descending, then by fulfillment_id in the same direction. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface|null
      * @throws SdkError When scheduled_start_at is omitted; use hasScheduledStartAt() or valueOrDefault().
      */
@@ -153,8 +152,8 @@ final class BuyerFulfillmentInput extends Model {
      */
     public function getShipmentDetails(): mixed { return $this->get('shipment_details'); }
     public function hasShipmentDetails(): bool { return $this->has('shipment_details'); }
-    /** Shipments associated with this fulfillment. [] (Value): {@see ExpandedShipmentSummaryInput}. A shipment's summary fields, including direction, status, and package count, returned when the shipment is expanded.
-     * @return list<ExpandedShipmentSummaryInput|array<array-key, mixed>|\stdClass>
+    /** Shipments associated with this fulfillment. [] (Value): {@see BuyerExpandedShipmentSummaryInput}. A buyer-visible shipment summary, with its direction, status, and package count.
+     * @return list<BuyerExpandedShipmentSummaryInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When shipments is omitted; use hasShipments() or valueOrDefault().
      */
     public function getShipments(): array { return $this->get('shipments'); }
@@ -165,25 +164,19 @@ final class BuyerFulfillmentInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Always empty for buyer credentials. maxItems: 0. [] enum: "complete", "cancel", "hold", "start", "mark_ready", "fail", "schedule", "accept", "mark_preparing", "mark_picked", "mark_packed", "dispatch", "mark_no_show", "release_hold". [] (Value): string.  Value enum: "complete", "cancel", "hold", "start", "mark_ready", "fail", "schedule", "accept", "mark_preparing", "mark_picked", "mark_packed", "dispatch", "mark_no_show", "release_hold".
-     * @return list<string>
-     * @throws SdkError When supported_actions is omitted; use hasSupportedActions() or valueOrDefault().
-     */
-    public function getSupportedActions(): array { return $this->get('supported_actions'); }
-    public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
-    /** When the fulfillment entered a terminal state: completed, canceled, failed, or no_show. This records the state transition; completed_at records completion evidence supplied for the fulfillment. Format: date-time.
+    /** When the fulfillment entered a terminal state: completed, canceled, failed, or no_show. This records the state transition; completed_at records completion evidence supplied for the fulfillment. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When terminal_at is omitted; use hasTerminalAt() or valueOrDefault().
      */
     public function getTerminalAt(): string|\DateTimeInterface { return $this->get('terminal_at'); }
     public function hasTerminalAt(): bool { return $this->has('terminal_at'); }
-    /** Value enum: "shipment", "pickup", "local_delivery", "digital", "service".
+    /** How the items are delivered: shipment, pickup, local delivery, digital delivery, or service. Value enum: "shipment", "pickup", "local_delivery", "digital", "service".
      * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */
     public function getType(): string { return $this->get('type'); }
     public function hasType(): bool { return $this->has('type'); }
-    /** When the fulfillment was last updated, in RFC3339 format. Format: date-time.
+    /** When the fulfillment was last updated, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */

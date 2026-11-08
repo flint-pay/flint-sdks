@@ -15,13 +15,13 @@ final class CancelReturnDispositionRequestInput extends Model {
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** Value enum: "created_in_error", "changed_disposition", "duplicate", "other".
+    /** Why it is being canceled. Value enum: "created_in_error", "changed_disposition", "duplicate", "other".
      * @return string
      * @throws SdkError When reason is omitted; use hasReason() or valueOrDefault().
      */
     public function getReason(): string { return $this->get('reason'); }
     public function hasReason(): bool { return $this->has('reason'); }
-    /** minLength: 1.
+    /** Optional detail about `reason`, kept with the record. minLength: 1.
      * @return string
      * @throws SdkError When reason_message is omitted; use hasReasonMessage() or valueOrDefault().
      */

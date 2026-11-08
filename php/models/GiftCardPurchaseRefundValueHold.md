@@ -8,9 +8,9 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `purchase_refund_allocation_id` | Required | string |  |
-| `refund_id` | Required | string |  |
-| `root_gift_card_id` | Required | string |  |
-| `root_gift_card_load_id` | Required | string |  |
-| `value_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `purchase_refund_allocation_id` | Required | string | ID of the pending purchase refund entry that holds the value. |
+| `refund_id` | Required | string | ID of the pending refund that holds the value. |
+| `root_gift_card_id` | Required | string | ID of the original card whose purchase is being refunded. |
+| `root_gift_card_load_id` | Required | string | ID of the original funding load that is being refunded. |
+| `value_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The unspent value held. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 

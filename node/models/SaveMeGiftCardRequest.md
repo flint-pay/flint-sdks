@@ -10,10 +10,10 @@ The request body for: Save a gift card to your account.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `code` | Conditional | string | minLength: `1`. |
-| `credential_type` | Required | string | Values: `"code"`, `"recipient_access"`. |
-| `grant_id` | Conditional | string | minLength: `1`. |
-| `recipient_access_token` | Conditional | string | minLength: `1`. |
+| `code` | Conditional | string | The gift card's code. Spaces and hyphens are ignored. minLength: `1`. |
+| `credential_type` | Required | string | The proof that the buyer can use the card: its code, or the private recipient link they received. Values: `"code"`, `"recipient_access"`. |
+| `grant_id` | Conditional | string | ID of the recipient access grant, from the path of the private recipient link. minLength: `1`. Example: `"gcg_01KEZF7C00BTDW4CJQTB38Q828"`. |
+| `recipient_access_token` | Conditional | string | Token from the fragment of the private recipient link. minLength: `1`. |
 
 ### SaveMeGiftCardRequest variant 1: `credential_type` = `"code"`
 

@@ -2,6 +2,8 @@
 
 ## DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemBundleTaxCalculationComponentsItemJurisdiction
 
+The taxing jurisdiction this component's tax is owed to.
+
 The taxing jurisdiction of a draft tax component, identified by code, level, name, state, and country.
 
 Response model.

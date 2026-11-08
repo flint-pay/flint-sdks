@@ -12,5 +12,5 @@ Display details for a card payment source: brand, last four digits, and payment 
 | --- | --- | --- | --- |
 | `brand` | Optional | string | Values: `"visa"`, `"mastercard"`, `"amex"`, `"discover"`, `"diners"`, `"jcb"`, `"unionpay"`. |
 | `last4` | Optional | string |  |
-| `payment_method_id` | Optional | string |  |
+| `payment_method_id` | Optional | string | Example: `"pm_01KEZF7C0034B248TXXE4NXYFZ"`. |
 

@@ -15,7 +15,10 @@ Signature: `get(string|Model $balance_transaction_id, array|Model|null $params =
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `balance_transaction_id` | Required | string | Flint balance transaction ID. |
-| `expand` | Optional | Array of string or string | Supported expansions: order. Expansion requires money_movement.balance_transactions.read plus commerce.orders.read. Limits: at most 10 unique expand paths per request. Pass expand=order. Items values: `"order"`. Values: `"order"`. |
+| `expand` | Optional | Array of string or string | Include related objects in the response. Supported expansions: order. Expansion requires money_movement.balance_transactions.read plus commerce.orders.read. Limits: at most 10 unique expand paths per request. Items values: `"order"`. Values: `"order"`. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -29,7 +32,6 @@ Returned payload: [BalanceTransaction](../models/BalanceTransaction.md#balancetr
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -47,14 +49,14 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```php
-$result = $client->balanceTransactions->get('btxn_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
+$result = $client->balanceTransactions->get('btxn_01KEZF7C00H1Z82CMFWWXMZGHZ', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/balanceTransactions-get.php)
 
 ### balanceTransactions.list
 
-Returns a paginated ledger of balance-affecting transactions, including availability timing and related public resources. Default order: created_at descending, then balance_transaction_id descending.
+Returns a paginated ledger of balance-affecting transactions, including availability timing and related public resources. Default order: occurred_at descending, then balance_transaction_id descending.
 
 `GET /v1/balance-transactions`
 
@@ -67,37 +69,20 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 | `currency` | Optional | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. |
 | `payout_id` | Optional | string | Lists the balance transactions this payout carried, newest first. Their `net_money` sums to the payout's `amount_money`. Works in any payout status once the payout's contents are prepared, usually minutes after it is created. Returns `503 SERVICE_UNAVAILABLE` with `Retry-After` while they are prepared, and `409 ACTION_NOT_ALLOWED` with `reason: not_itemized` for a payout that doesn't list its contents, such as a manual payout. |
 | `order_id` | Optional | string | Exact-match filter on `order_id`. |
-| `expand` | Optional | Array of string or string | Supported expansions: order. Each expansion resolves with one batched lookup per page. Expansion requires money_movement.balance_transactions.read plus commerce.orders.read. Limits: at most 10 unique expand paths per request. Pass expand=order. Items values: `"order"`. Values: `"order"`. |
-| `type` | Optional | Array of string or string | Optional balance transaction type filter. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [17 declared values](#balancetransactionslist-input-type--values). Values: [17 declared values](#balancetransactionslist-input-type--values). |
-| `related_resource_type` | Optional | Array of string or string | Filter by related_resource.resource_type. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"payment_intent"`, `"refund"`, `"dispute"`, `"payout"`, `"payout_destination"`, `"merchant_billing_invoice"`. Values: `"payment_intent"`, `"refund"`, `"dispute"`, `"payout"`, `"payout_destination"`, `"merchant_billing_invoice"`. |
+| `expand` | Optional | Array of string or string | Include related objects in the response. Supported expansions: order. Each expansion resolves with one batched lookup per page. Expansion requires money_movement.balance_transactions.read plus commerce.orders.read. Limits: at most 10 unique expand paths per request. Items values: `"order"`. Values: `"order"`. |
+| `type` | Optional | Array of string or string | Optional balance transaction type filter. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [18 declared values](../models/BalanceTransactionInput.md#balancetransactioninput-type-values). Values: [18 declared values](../models/BalanceTransactionInput.md#balancetransactioninput-type-values). |
+| `related_resource_type` | Optional | Array of string or string | Filter by related_resource.resource_type. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"payment_intent"`, `"refund"`, `"dispute"`, `"payout"`, `"payout_destination"`, `"merchant_billing_invoice"`. Values: `"payment_intent"`, `"refund"`, `"dispute"`, `"payout"`, `"payout_destination"`, `"merchant_billing_invoice"`. |
 | `related_resource_id` | Optional | string | Filter by related_resource.resource_id. |
-| `status` | Optional | Array of string or string | Optional balance transaction status filter. Without it, the list returns transactions in every status. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"pending"`, `"available"`. Values: `"pending"`, `"available"`. |
+| `status` | Optional | Array of string or string | Optional balance transaction status filter. Without it, the list returns transactions in every status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"pending"`, `"available"`. Values: `"pending"`, `"available"`. |
 | `occurred_after` | Optional | string | Inclusive lower bound on occurred_at. Format: `date-time`. |
 | `occurred_before` | Optional | string | Exclusive upper bound on occurred_at. Format: `date-time`. |
 | `available_after` | Optional | string | Inclusive lower bound on available_at. Format: `date-time`. |
 | `available_before` | Optional | string | Exclusive upper bound on available_at. Format: `date-time`. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
-
-#### balanceTransactions.list input type [] values
-
-- `"payment"`
-- `"refund"`
-- `"dispute"`
-- `"dispute_reversal"`
-- `"return"`
-- `"recovery"`
-- `"payout"`
-- `"payout_failure"`
-- `"payout_cancellation"`
-- `"payout_reversal"`
-- `"payout_advance"`
-- `"payout_advance_funding"`
-- `"reserve_hold"`
-- `"reserve_release"`
-- `"adjustment"`
-- `"merchant_billing_collection"`
-- `"merchant_billing_collection_reversal"`
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -112,7 +97,6 @@ Returned payload: [BalanceTransactionListResponse](../models/BalanceTransactionL
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |

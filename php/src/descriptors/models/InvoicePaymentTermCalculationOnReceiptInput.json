@@ -1,1 +1,1 @@
-{"shared":"InvoicePaymentTermCalculationOnReceipt","dependencies":["InvoicePaymentTermCalculationOnReceipt","SharedCodec791","SharedCodec792"]}
+{"shared":"InvoicePaymentTermCalculationOnReceiptRequest","dependencies":["InvoicePaymentTermCalculationOnReceiptRequest","SharedCodec881","SharedCodec882"]}

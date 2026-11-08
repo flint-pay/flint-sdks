@@ -8,7 +8,7 @@ namespace Flint;
 final class SubscriptionBillingScheduleUpdateInputExternalInput extends Model {
     /** @param array{'next_billing_at'?: string|\DateTimeInterface|null, 'owner': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionBillingScheduleUpdateInputExternalInput')); }
-    /** Future date at which Flint attempts the next charge. Omit to preserve the date or send null to clear it. Format: date-time. minLength: 1.
+    /** Future date at which Flint attempts the next charge. Omit to preserve the date or send null to clear it. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface|null
      * @throws SdkError When next_billing_at is omitted; use hasNextBillingAt() or valueOrDefault().
      */

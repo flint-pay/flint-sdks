@@ -22,12 +22,12 @@ namespace Flint;
 final class BuyerReturnPreviewResponseDataEligibilityEligibilityLineItemsItem extends Model {
     /** @param array{'bundle_components': list<mixed>, 'bundle_id'?: string, 'can_buyer_request': bool, 'description'?: string, 'eligibility': mixed, 'fulfillment_id': string, 'image'?: mixed, 'modifiers': list<mixed>, 'name': string, 'order_line_item_id': string, 'product_id'?: string, 'requested_quantity'?: int, 'selected_options': list<mixed>, 'sku'?: string, 'suggested_return_reasons': list<mixed>, 'variant_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerReturnPreviewResponseDataEligibilityEligibilityLineItemsItem')); }
-    /**  [] (Value): {@see BuyerReturnPreviewResponseDataEligibilityEligibilityLineItemsItemBundleComponentsItem}. An item included in a bundle.
+    /** Components of the bundle the line was sold from. [] (Value): {@see BuyerReturnPreviewResponseDataEligibilityEligibilityLineItemsItemBundleComponentsItem}. An item included in a bundle.
      * @return list<BuyerReturnPreviewResponseDataEligibilityEligibilityLineItemsItemBundleComponentsItem>
      */
     public function getBundleComponents(): array { return $this->get('bundle_components'); }
     public function hasBundleComponents(): bool { return $this->has('bundle_components'); }
-    /** bundle_id
+    /** ID of the bundle the line was sold from.
      * @return ?string
      */
     public function getBundleId(): ?string { return $this->get('bundle_id'); }
@@ -37,42 +37,42 @@ final class BuyerReturnPreviewResponseDataEligibilityEligibilityLineItemsItem ex
      */
     public function getCanBuyerRequest(): bool { return $this->get('can_buyer_request'); }
     public function hasCanBuyerRequest(): bool { return $this->has('can_buyer_request'); }
-    /** description
+    /** Description of the item as sold.
      * @return ?string
      */
     public function getDescription(): ?string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** An item's Return eligibility, eligible quantity, allowed resolution types, and eligibility reasons shown to the buyer.
+    /** How the policy judged this line. An item's Return eligibility, eligible quantity, allowed resolution types, and eligibility reasons shown to the buyer.
      * @return BuyerReturnPreviewResponseDataEligibilityEligibilityLineItemsItemEligibility
      */
     public function getEligibility(): BuyerReturnPreviewResponseDataEligibilityEligibilityLineItemsItemEligibility { return $this->get('eligibility'); }
     public function hasEligibility(): bool { return $this->has('eligibility'); }
-    /** fulfillment_id
+    /** ID of the fulfillment the units were delivered in.
      * @return string
      */
     public function getFulfillmentId(): string { return $this->get('fulfillment_id'); }
     public function hasFulfillmentId(): bool { return $this->has('fulfillment_id'); }
-    /** An image with its `url`, `width`, and `height`, and optional `alt` text.
+    /** Image of the item as sold. An image with its URL, size, and alt text.
      * @return ?BuyerReturnPreviewResponseDataEligibilityEligibilityLineItemsItemImage
      */
     public function getImage(): ?BuyerReturnPreviewResponseDataEligibilityEligibilityLineItemsItemImage { return $this->get('image'); }
     public function hasImage(): bool { return $this->has('image'); }
-    /**  [] (Value): {@see BuyerReturnPreviewResponseDataEligibilityEligibilityLineItemsItemModifiersItem}. A selected modifier recorded on an item in the buyer's Return, including its modifier group name and price.
+    /** Modifiers selected on the order line, with their prices. [] (Value): {@see BuyerReturnPreviewResponseDataEligibilityEligibilityLineItemsItemModifiersItem}. A selected modifier recorded on an item in the buyer's Return, including its modifier group name and price.
      * @return list<BuyerReturnPreviewResponseDataEligibilityEligibilityLineItemsItemModifiersItem>
      */
     public function getModifiers(): array { return $this->get('modifiers'); }
     public function hasModifiers(): bool { return $this->has('modifiers'); }
-    /** name
+    /** Name of the item as sold.
      * @return string
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** order_line_item_id
+    /** ID of the order line item the units come from.
      * @return string
      */
     public function getOrderLineItemId(): string { return $this->get('order_line_item_id'); }
     public function hasOrderLineItemId(): bool { return $this->has('order_line_item_id'); }
-    /** product_id
+    /** ID of the catalog product the item was sold from.
      * @return ?string
      */
     public function getProductId(): ?string { return $this->get('product_id'); }
@@ -82,12 +82,12 @@ final class BuyerReturnPreviewResponseDataEligibilityEligibilityLineItemsItem ex
      */
     public function getRequestedQuantity(): ?int { return $this->get('requested_quantity'); }
     public function hasRequestedQuantity(): bool { return $this->has('requested_quantity'); }
-    /**  [] (Value): {@see BuyerReturnPreviewResponseDataEligibilityEligibilityLineItemsItemSelectedOptionsItem}. An option and value chosen for a product variant, such as size Large.
+    /** Variant options selected for the item, such as size and color. [] (Value): {@see BuyerReturnPreviewResponseDataEligibilityEligibilityLineItemsItemSelectedOptionsItem}. An option and value chosen for a product variant, such as size Large.
      * @return list<BuyerReturnPreviewResponseDataEligibilityEligibilityLineItemsItemSelectedOptionsItem>
      */
     public function getSelectedOptions(): array { return $this->get('selected_options'); }
     public function hasSelectedOptions(): bool { return $this->has('selected_options'); }
-    /** sku
+    /** SKU of the item as sold.
      * @return ?string
      */
     public function getSku(): ?string { return $this->get('sku'); }
@@ -97,7 +97,7 @@ final class BuyerReturnPreviewResponseDataEligibilityEligibilityLineItemsItem ex
      */
     public function getSuggestedReturnReasons(): array { return $this->get('suggested_return_reasons'); }
     public function hasSuggestedReturnReasons(): bool { return $this->has('suggested_return_reasons'); }
-    /** variant_id
+    /** ID of the catalog variant the item was sold from.
      * @return ?string
      */
     public function getVariantId(): ?string { return $this->get('variant_id'); }

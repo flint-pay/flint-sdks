@@ -17,8 +17,8 @@ $client = new Client(new ClientOptions(
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->customDomains->create([
+  'hostname' => 'pay.example.com',
   'type' => 'checkout',
-  'hostname' => 'example',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->custom_domain_id . PHP_EOL;
 echo $result->status . PHP_EOL;

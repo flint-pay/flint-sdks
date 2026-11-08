@@ -9,7 +9,7 @@ namespace Flint;
  * @property-read int $delay_days_override
  * @property-read string $interval
  * @property-read string $merchant_id
- * @property-read array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass $minimum_balance_by_currency
+ * @property-read array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass $minimum_balance_currency_options
  * @property-read list<int> $monthly_payout_days
  * @property-read list<NextActionInput|array<array-key, mixed>|\stdClass> $next_actions
  * @property-read string $payout_settings_id
@@ -20,7 +20,7 @@ namespace Flint;
  * @property-read list<string> $weekly_payout_days
  * Presence-aware input; omitted fields throw when accessed. */
 final class PayoutSettingsInput extends Model {
-    /** @param array{'blocked_reasons': list<MoneyMovementBlockedReasonInput|array<array-key, mixed>|\stdClass>, 'created_at': string|\DateTimeInterface|null, 'default_payout_destinations'?: array<array-key, string>|\stdClass, 'delay_days': int, 'delay_days_override'?: int, 'interval': string, 'merchant_id': string, 'minimum_balance_by_currency'?: array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass, 'monthly_payout_days': list<int>, 'next_actions': list<NextActionInput|array<array-key, mixed>|\stdClass>, 'payout_settings_id': string, 'statement_descriptor'?: string, 'status': string, 'updated_at': string|\DateTimeInterface|null, 'version': int, 'weekly_payout_days': list<string>, ...}|object $values */
+    /** @param array{'blocked_reasons': list<MoneyMovementBlockedReasonInput|array<array-key, mixed>|\stdClass>, 'created_at': string|\DateTimeInterface|null, 'default_payout_destinations': array<array-key, string>|\stdClass, 'delay_days': int, 'delay_days_override'?: int, 'interval': string, 'merchant_id': string, 'minimum_balance_currency_options'?: array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass, 'monthly_payout_days': list<int>, 'next_actions': list<NextActionInput|array<array-key, mixed>|\stdClass>, 'payout_settings_id': string, 'statement_descriptor'?: string, 'status': string, 'updated_at': string|\DateTimeInterface|null, 'version': int, 'weekly_payout_days': list<string>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PayoutSettingsInput')); }
     /** Why payouts can't run. Empty when nothing blocks them. [] (Value): {@see MoneyMovementBlockedReasonInput}. Why a money movement action is blocked, with an error code, a message, next steps, and who can resolve it.
      * @return list<MoneyMovementBlockedReasonInput|array<array-key, mixed>|\stdClass>
@@ -28,25 +28,25 @@ final class PayoutSettingsInput extends Model {
      */
     public function getBlockedReasons(): array { return $this->get('blocked_reasons'); }
     public function hasBlockedReasons(): bool { return $this->has('blocked_reasons'); }
-    /** When Flint stored the payout settings record, as an RFC 3339 UTC instant at second precision. Null when no stored settings record exists. Format: date-time.
+    /** When Flint stored the payout settings record, as an RFC 3339 UTC instant at second precision. Null when no stored settings record exists. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface|null
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface|null { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Default payout destination for each currency, as a map from currency code to payout_destination_id. Read-only: change defaults in the payouts embedded component. * (Value): string.
+    /** Default payout destination for each currency, as a map from currency code to payout_destination_id. Empty when no defaults are configured. Change a currency's default with `default_payout_destinations` on PATCH /v1/payout-settings, or in the payouts embedded component. * (Value): string.
      * @return array<array-key, string>|\stdClass
      * @throws SdkError When default_payout_destinations is omitted; use hasDefaultPayoutDestinations() or valueOrDefault().
      */
     public function getDefaultPayoutDestinations(): array|object { return $this->get('default_payout_destinations'); }
     public function hasDefaultPayoutDestinations(): bool { return $this->has('default_payout_destinations'); }
-    /** Days a payment stays pending before its funds become available to pay out. Format: int32.
+    /** Normal settlement delay in days before a payment's funds become available to pay out. A new account's first payments can stay pending longer; each balance transaction's available_at is when its funds become available. Format: int32.
      * @return int
      * @throws SdkError When delay_days is omitted; use hasDelayDays() or valueOrDefault().
      */
     public function getDelayDays(): int { return $this->get('delay_days'); }
     public function hasDelayDays(): bool { return $this->has('delay_days'); }
-    /** Delay in days you set in place of the account's default, 0 through 31. Absent when none is set. Format: int32.
+    /** Settlement delay in days you set in place of the account's default, 0 through 31. It doesn't guarantee the pending time of every payment; see available_at on each balance transaction. Absent when none is set. Format: int32.
      * @return int
      * @throws SdkError When delay_days_override is omitted; use hasDelayDaysOverride() or valueOrDefault().
      */
@@ -58,7 +58,7 @@ final class PayoutSettingsInput extends Model {
      */
     public function getInterval(): string { return $this->get('interval'); }
     public function hasInterval(): bool { return $this->has('interval'); }
-    /** Merchant these settings belong to.
+    /** Merchant these settings belong to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
      * @return string
      * @throws SdkError When merchant_id is omitted; use hasMerchantId() or valueOrDefault().
      */
@@ -66,23 +66,23 @@ final class PayoutSettingsInput extends Model {
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
     /** Amount kept in your balance instead of paid out, keyed by currency code. Absent when no minimum is set. * (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass
-     * @throws SdkError When minimum_balance_by_currency is omitted; use hasMinimumBalanceByCurrency() or valueOrDefault().
+     * @throws SdkError When minimum_balance_currency_options is omitted; use hasMinimumBalanceCurrencyOptions() or valueOrDefault().
      */
-    public function getMinimumBalanceByCurrency(): array|object { return $this->get('minimum_balance_by_currency'); }
-    public function hasMinimumBalanceByCurrency(): bool { return $this->has('minimum_balance_by_currency'); }
+    public function getMinimumBalanceCurrencyOptions(): array|object { return $this->get('minimum_balance_currency_options'); }
+    public function hasMinimumBalanceCurrencyOptions(): bool { return $this->has('minimum_balance_currency_options'); }
     /** Days of the month, 1 through 31, on which monthly payouts are sent. [] (Value): integer. Format: int32.
      * @return list<int>
      * @throws SdkError When monthly_payout_days is omitted; use hasMonthlyPayoutDays() or valueOrDefault().
      */
     public function getMonthlyPayoutDays(): array { return $this->get('monthly_payout_days'); }
     public function hasMonthlyPayoutDays(): bool { return $this->has('monthly_payout_days'); }
-    /** Steps that would let payouts run, when Flint has one to suggest. Empty otherwise. [] (Value): {@see NextActionInput}. A suggested next step for resolving an error, warning, or blocked state, such as the API operation to call or the scope it needs.
+    /** Steps that would let payouts run, when Flint has one to suggest. Empty otherwise. [] (Value): {@see NextActionInput}. A follow-up action. When target_resource is present, send its resource_id in the target request field named {resource_type}_id.
      * @return list<NextActionInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When next_actions is omitted; use hasNextActions() or valueOrDefault().
      */
     public function getNextActions(): array { return $this->get('next_actions'); }
     public function hasNextActions(): bool { return $this->has('next_actions'); }
-    /** Stable identifier of your payout settings.
+    /** Stable identifier of your payout settings. Example: "pset_01KEZF7C0027X093301CQ36WSZ".
      * @return string
      * @throws SdkError When payout_settings_id is omitted; use hasPayoutSettingsId() or valueOrDefault().
      */
@@ -100,7 +100,7 @@ final class PayoutSettingsInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** When the stored payout settings record was last updated, as an RFC 3339 UTC instant at second precision. Without a stored record, this is the provider's update time when supplied, otherwise null. Format: date-time.
+    /** When the stored payout settings record was last updated, as an RFC 3339 UTC instant at second precision. Without a stored record, this is your processor's update time. `null` when there is no stored record and your processor supplied no update time. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface|null
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */

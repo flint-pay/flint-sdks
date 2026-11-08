@@ -12,11 +12,11 @@ const result = await client.orders.create(
     line_items: [
       {
         type: "variant",
-        variant_id: "var_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+        variant_id: "var_01KEZF7C004GSH2KT8CNYVMHGX",
       },
     ],
   },
   { idempotencyKey: idempotencyKey },
 );
+console.log(result.merchant_id);
 console.log(result.order_id);
-console.log(result.status);

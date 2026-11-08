@@ -16,9 +16,7 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->invoices->reverseManualPayment('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV', 'omp_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
-  'reversal_note' => 'Payment returned by bank',
-], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->invoices->reverseManualPayment('inv_01KEZF7C00A5GEBMWHEAJFSAR4', 'omp_01KEZF7C007J18203RBJKB9TYE', null, new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->invoice->invoice_id . PHP_EOL;
 echo $result->invoice->merchant_id . PHP_EOL;
 $client->close();

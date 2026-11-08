@@ -6,5 +6,13 @@ One line of an inventory adjustment, with the item, Location, movement written, 
 
 Response model.
 
-Fields, types, descriptions and enum values: [InventoryAdjustmentLineInput](../models/InventoryAdjustmentLineInput.md#inventoryadjustmentlineinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `damaged_quantity_delta` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
+| `inventory_item_id` | Required | string | ID of the inventory item the stock is for. |
+| `inventory_movement_id` | Required | string or null | Movement this line wrote. `null` when the line changed nothing. |
+| `location_id` | Required | string | ID of the Location that holds the stock. |
+| `on_hand_quantity_delta` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
+| `quality_control_quantity_delta` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
+| `quarantined_quantity_delta` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 

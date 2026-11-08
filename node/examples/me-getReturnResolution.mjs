@@ -8,7 +8,7 @@ const client = new Client({
   customerToken,
 });
 const result = await client.me.getReturnResolution(
-  "retres_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "retres_01KEZF7C00C7RZJN31W9SGMEQ3"
 );
 console.log(result.return_id);
 console.log(result.return_resolution_id);

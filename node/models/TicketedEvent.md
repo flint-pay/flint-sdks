@@ -12,8 +12,8 @@ Event details for a ticketed order: name, location, start time, time zone, and t
 | --- | --- | --- | --- |
 | `location` | Optional | string | Where the event takes place. |
 | `name` | Required | string | Event name when the order was placed. |
-| `starts_at` | Optional | string | When the event starts. RFC 3339 timestamp. Format: `date-time`. |
+| `starts_at` | Optional | string | When the event starts. RFC 3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `ticket_numbers` | Required | Array of string | Ticket numbers issued for this order. Empty while ticket_status is pending. |
-| `ticket_status` | Required | string | Values: `"pending"`, `"issued"`, `"void"`. |
+| `ticket_status` | Required | string | Whether the order's tickets are issued. Values: `"pending"`, `"issued"`, `"voided"`. |
 | `timezone` | Optional | string | IANA time zone Flint shows the event in. |
 

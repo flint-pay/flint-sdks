@@ -2,11 +2,14 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read ?bool $allow_quantity_adjustment
  * @property-read ?list<ExpandedSubscriptionPlanSummaryLineItemsItemBundleBundleComponentsItem> $bundle_components
  * @property-read string $bundle_id
  * @property-read ?list<ExpandedSubscriptionPlanSummaryLineItemsItemBundleCategoriesItem> $categories
  * @property-read ?string $description
  * @property-read ?ExpandedSubscriptionPlanSummaryLineItemsItemBundleImage $image
+ * @property-read ?int $max_quantity
+ * @property-read ?int $min_quantity
  * @property-read ?list<ExpandedSubscriptionPlanSummaryLineItemsItemBundleModifiersItem> $modifiers
  * @property-read ?string $name
  * @property-read ?string $product_id
@@ -22,8 +25,13 @@ namespace Flint;
  * @property-read ?string $variant_id
  * Presence-aware response; omitted optional fields return null. */
 final class ExpandedSubscriptionPlanSummaryLineItemsItemBundle extends Model {
-    /** @param array{'bundle_components'?: list<mixed>, 'bundle_id': string, 'categories'?: list<mixed>, 'description'?: string, 'image'?: mixed, 'modifiers'?: list<mixed>, 'name'?: string, 'product_id'?: string, 'quantity': int, 'selected_options'?: list<mixed>, 'sku'?: string, 'subscription_plan_line_item_id': string, 'swap_variant_ids': list<string>, 'swap_variants'?: list<mixed>, 'tax'?: mixed, 'type': string, 'unit_price_money'?: mixed, 'variant_id'?: string, ...}|object $values */
+    /** @param array{'allow_quantity_adjustment'?: bool, 'bundle_components'?: list<mixed>, 'bundle_id': string, 'categories'?: list<mixed>, 'description'?: string, 'image'?: mixed, 'max_quantity'?: int, 'min_quantity'?: int, 'modifiers'?: list<mixed>, 'name'?: string, 'product_id'?: string, 'quantity': int, 'selected_options'?: list<mixed>, 'sku'?: string, 'subscription_plan_line_item_id': string, 'swap_variant_ids': list<string>, 'swap_variants'?: list<mixed>, 'tax'?: mixed, 'type': string, 'unit_price_money'?: mixed, 'variant_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ExpandedSubscriptionPlanSummaryLineItemsItemBundle')); }
+    /** Whether buyers may adjust this line quantity. Defaults to false. At most one line per plan may allow adjustment. Default: false.
+     * @return ?bool
+     */
+    public function getAllowQuantityAdjustment(): ?bool { return $this->get('allow_quantity_adjustment'); }
+    public function hasAllowQuantityAdjustment(): bool { return $this->has('allow_quantity_adjustment'); }
     /**  [] (Value): {@see ExpandedSubscriptionPlanSummaryLineItemsItemBundleBundleComponentsItem}. An item included in a bundle.
      * @return ?list<ExpandedSubscriptionPlanSummaryLineItemsItemBundleBundleComponentsItem>
      */
@@ -44,12 +52,22 @@ final class ExpandedSubscriptionPlanSummaryLineItemsItemBundle extends Model {
      */
     public function getDescription(): ?string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** An image with its `url`, `width`, and `height`, and optional `alt` text.
+    /** An image with its URL, size, and alt text.
      * @return ?ExpandedSubscriptionPlanSummaryLineItemsItemBundleImage
      */
     public function getImage(): ?ExpandedSubscriptionPlanSummaryLineItemsItemBundleImage { return $this->get('image'); }
     public function hasImage(): bool { return $this->has('image'); }
-    /**  [] (Value): {@see ExpandedSubscriptionPlanSummaryLineItemsItemBundleModifiersItem}. A modifier selected on an order line item, with its quantity, price change, total, and display flags.
+    /** Maximum buyer quantity. Defaults to 9999. Merchants may set any line quantity from 1 to 9999. Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1. maximum: 9999. Default: 9999.
+     * @return ?int
+     */
+    public function getMaxQuantity(): ?int { return $this->get('max_quantity'); }
+    public function hasMaxQuantity(): bool { return $this->has('max_quantity'); }
+    /** Minimum buyer quantity. Defaults to 1. The bounds must enclose the plan line quantity. Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1. maximum: 9999. Default: 1.
+     * @return ?int
+     */
+    public function getMinQuantity(): ?int { return $this->get('min_quantity'); }
+    public function hasMinQuantity(): bool { return $this->has('min_quantity'); }
+    /**  [] (Value): {@see ExpandedSubscriptionPlanSummaryLineItemsItemBundleModifiersItem}. A modifier selected on an order line item.
      * @return ?list<ExpandedSubscriptionPlanSummaryLineItemsItemBundleModifiersItem>
      */
     public function getModifiers(): ?array { return $this->get('modifiers'); }
@@ -79,7 +97,7 @@ final class ExpandedSubscriptionPlanSummaryLineItemsItemBundle extends Model {
      */
     public function getSku(): ?string { return $this->get('sku'); }
     public function hasSku(): bool { return $this->has('sku'); }
-    /** subscription_plan_line_item_id
+    /** Unique identifier for this subscription plan line item, prefixed `spli_`.
      * @return string
      */
     public function getSubscriptionPlanLineItemId(): string { return $this->get('subscription_plan_line_item_id'); }

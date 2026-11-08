@@ -9,7 +9,7 @@ namespace Flint;
 final class InvoicePaymentOptionCostComparisonInput extends Model {
     /** @param array{'compared_with_payment_option': string, 'estimated_savings_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'lower_cost_payment_option': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoicePaymentOptionCostComparisonInput')); }
-    /** Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit".
+    /** Payment option used as the baseline for estimated_savings_money. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit".
      * @return string
      * @throws SdkError When compared_with_payment_option is omitted; use hasComparedWithPaymentOption() or valueOrDefault().
      */
@@ -21,7 +21,7 @@ final class InvoicePaymentOptionCostComparisonInput extends Model {
      */
     public function getEstimatedSavingsMoney(): mixed { return $this->get('estimated_savings_money'); }
     public function hasEstimatedSavingsMoney(): bool { return $this->has('estimated_savings_money'); }
-    /** Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit".
+    /** Payment option estimated to cost the merchant less for this invoice. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit".
      * @return string
      * @throws SdkError When lower_cost_payment_option is omitted; use hasLowerCostPaymentOption() or valueOrDefault().
      */

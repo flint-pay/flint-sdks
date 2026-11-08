@@ -1,1 +1,1 @@
-{"shared":"PaymentLinkLineItemPatchInputCustomVariable","dependencies":["MoneyValue","OrderLineItemTax","PaymentLinkLineItemPatchInputCustomVariable","SharedCodec1001","SharedCodec1010","SharedCodec1012"]}
+{"shared":"PaymentLinkLineItemPatchInputCustomVariable","dependencies":["MoneyValue","OrderLineItemTaxRequest","PaymentLinkLineItemPatchInputCustomVariable","SharedCodec1114","SharedCodec1123","SharedCodec1125"]}

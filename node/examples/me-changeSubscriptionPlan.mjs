@@ -1,0 +1,24 @@
+import { Client } from "@flintpay/node";
+const baseUrl = process.env.FLINT_BASE_URL || undefined;
+const customerToken = process.env.CUSTOMER_TOKEN;
+if (!customerToken) throw new Error("Set CUSTOMER_TOKEN: this call requires a credential");
+const client = new Client({
+  baseUrl,
+  allowInsecureHttp: !!baseUrl && ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
+  customerToken,
+});
+// Persist this key with the action before sending; reuse it for every resubmission.
+const idempotencyKey = crypto.randomUUID();
+
+const result = await client.me.changeSubscriptionPlan(
+  "sub_01KEZF7C00BVRE8YDBXQB74BBM",
+  {
+    billing_interval: "monthly",
+    billing_interval_count: 1,
+    expected_version: 1,
+    subscription_plan_id: "plan_01KEZF7C00H4XP3KVYSYYWA181",
+  },
+  { idempotencyKey: idempotencyKey },
+);
+console.log(result.subscription.customer_id);
+console.log(result.subscription.merchant_id);

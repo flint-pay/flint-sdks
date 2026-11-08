@@ -2,31 +2,15 @@
 
 ## PartnerWebhookEnvelopeSourceInput
 
-The source of a partner webhook event, selected by type.
+The merchant and partner app install the event concerns. Environment fields are present for installed-merchant events.
 
 Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `merchant_id` | Required | string |  |
-| `partner_app_install_id` | Required | string |  |
-| `type` | Required | string |  |
-| `environment_grant_id` | Conditional | string |  |
-| `mode` | Conditional | string | Values: `"test"`, `"live"`. |
-| `sandbox_id` | Conditional | string |  |
-
-### PartnerWebhookEnvelopeSourceInput variant 1: `type` = `"partner_app"`
-
-oneOf with type: "partner_app": The partner_app source of a partner webhook event..
-
-- Undeclared: `environment_grant_id`, `mode`, `sandbox_id`.
-- Constraints for `type`: Values: `"partner_app"`.
-
-### PartnerWebhookEnvelopeSourceInput variant 2: `type` = `"installed_merchants"`
-
-oneOf with type: "installed_merchants": The installed_merchants source of a partner webhook event..
-
-- Required: `environment_grant_id`, `mode`.
-- Optional: `sandbox_id`.
-- Constraints for `type`: Values: `"installed_merchants"`.
+| `environment_grant_id` | Optional | string | The grant authorizing delivery from this merchant environment. Example: `"egrt_01KEZF7C00MQQDDB7YWGXV3MXY"`. |
+| `merchant_id` | Required | string | The merchant the event concerns. Example: `"mer_01KEZF7C00KPYH1DDFPCCX3B6E"`. |
+| `mode` | Optional | string | Whether the installed merchant event came from live mode or a sandbox. Values: `"test"`, `"live"`. |
+| `partner_app_install_id` | Required | string | The install connecting the merchant to the partner app. Example: `"pinst_01KEZF7C003HVKZR3GZAW6AFAZ"`. |
+| `sandbox_id` | Optional | string | The sandbox the event came from, present only in test mode. Example: `"test_01KEZF7C00JC77HTMTB2XHNPE0"`. |
 

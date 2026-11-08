@@ -16,7 +16,7 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->packages->deleteItem('pkg_01ARZ3NDEKTSV4RRFFQ69G5FAV', 'pki_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->packages->deleteItem('pkg_01KEZF7C00ZZA16BJCEJBWKJ5R', 'pki_01KEZF7C00CEFTYV5RD7XVYQ7B', [], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->fulfillment_id . PHP_EOL;
 echo $result->order_id . PHP_EOL;
 $client->close();

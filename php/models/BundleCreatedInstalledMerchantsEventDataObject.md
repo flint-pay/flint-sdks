@@ -2,9 +2,11 @@
 
 ## BundleCreatedInstalledMerchantsEventDataObject
 
-Several variants sold as one line at the bundle's price. A bundle line takes its components' shared taxability and tax category; all components must share both stored values. An unset category uses the merchant default and equals only another unset category.
+The affected public resource without expansions, client authority fields, or fields computed for an individual caller.
+
+The resource snapshot, without expansions. Webhooks omit these fields: `modifier_set`.
 
 Response model.
 
-Fields, types, descriptions and enum values: [Bundle](../models/Bundle.md#bundle).
+Fields, types, descriptions and enum values: [BundleArchivedMerchantEventDataObject](../models/BundleArchivedMerchantEventDataObject.md#bundlearchivedmerchanteventdataobject).
 

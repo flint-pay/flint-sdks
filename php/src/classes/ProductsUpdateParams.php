@@ -7,16 +7,16 @@ namespace Flint;
  * @property-read string|null $description
  * @property-read int $expected_version
  * @property-read string|null $external_reference_id
- * @property-read list<array{'alt'?: string, 'file_id'?: string, 'source_reference'?: string, 'source_url': string}|object|array{'alt'?: string, 'file_id': string, 'source_reference'?: string, 'source_url'?: string}|object> $images
+ * @property-read list<ImageRequestInput|array<array-key, mixed>|\stdClass> $images
  * @property-read array<array-key, string|null>|\stdClass|null $metadata
  * @property-read string|null $modifier_set_id
  * @property-read string $name
- * @property-read list<array{'existing_variant_value'?: string, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'name': string, 'option_id'?: string, 'position'?: int, 'status'?: string, 'values'?: list<array{'metadata'?: array<array-key, string|null>|\stdClass|null, 'option_value_id'?: string, 'position'?: int, 'status'?: string, 'value': string}|object>}|object> $options
+ * @property-read list<UpdateProductOptionRequestInput|array<array-key, mixed>|\stdClass> $options
  * @property-read string $product_type
  * @property-read string $status
  * Presence-aware input; omitted fields throw when accessed. */
 final class ProductsUpdateParams extends Model {
-    /** @param array{'category_handles'?: list<string>, 'default_variant_id'?: string|null, 'description'?: string|null, 'expected_version'?: int, 'external_reference_id'?: string|null, 'images'?: list<array{'alt'?: string, 'file_id'?: string, 'source_reference'?: string, 'source_url': string}|object|array{'alt'?: string, 'file_id': string, 'source_reference'?: string, 'source_url'?: string}|object>, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'modifier_set_id'?: string|null, 'name'?: string, 'options'?: list<array{'existing_variant_value'?: string, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'name': string, 'option_id'?: string, 'position'?: int, 'status'?: string, 'values'?: list<array{'metadata'?: array<array-key, string|null>|\stdClass|null, 'option_value_id'?: string, 'position'?: int, 'status'?: string, 'value': string}|object>}|object>, 'product_type'?: string, 'status'?: string}|object $values */
+    /** @param array{'category_handles'?: list<string>, 'default_variant_id'?: string|null, 'description'?: string|null, 'expected_version'?: int, 'external_reference_id'?: string|null, 'images'?: list<ImageRequestInput|array<array-key, mixed>|\stdClass>, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'modifier_set_id'?: string|null, 'name'?: string, 'options'?: list<UpdateProductOptionRequestInput|array<array-key, mixed>|\stdClass>, 'product_type'?: string, 'status'?: string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ProductsUpdateParams')); }
     /** Relationship set of category handles that must already exist. Each handle has 1 to 100 characters (Unicode code points). Unknown handles return RESOURCE_NOT_FOUND. Replaces the whole set when present; send [] to clear it. On PATCH, omission leaves it unchanged. Does not require expected_version. maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. maxLength: 100. pattern: ^[a-z0-9]+(-[a-z0-9]+)*$.
      * @return list<string>
@@ -24,7 +24,7 @@ final class ProductsUpdateParams extends Model {
      */
     public function getCategoryHandles(): array { return $this->get('category_handles'); }
     public function hasCategoryHandles(): bool { return $this->has('category_handles'); }
-    /** Send null to clear it. minLength: 1. Example: "var_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Send null to clear it. minLength: 1. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
      * @return string|null
      * @throws SdkError When default_variant_id is omitted; use hasDefaultVariantId() or valueOrDefault().
      */
@@ -42,14 +42,14 @@ final class ProductsUpdateParams extends Model {
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string|null
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
     public function getExternalReferenceId(): string|null { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
     /** The complete desired gallery in display order. The first image is primary. Send [] to clear the gallery. minItems: 0. maxItems: 8. [] (Value): {@see ImageRequestInput}. An image you supply by `source_url`, with optional `alt` text and external reference.
-     * @return list<array{'alt'?: string, 'file_id'?: string, 'source_reference'?: string, 'source_url': string}|object|array{'alt'?: string, 'file_id': string, 'source_reference'?: string, 'source_url'?: string}|object>
+     * @return list<ImageRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When images is omitted; use hasImages() or valueOrDefault().
      */
     public function getImages(): array { return $this->get('images'); }
@@ -60,7 +60,7 @@ final class ProductsUpdateParams extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Attached modifier set. Send null on update to remove it. minLength: 1. Example: "ms_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Attached modifier set. Send null on update to remove it. minLength: 1. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR".
      * @return string|null
      * @throws SdkError When modifier_set_id is omitted; use hasModifierSetId() or valueOrDefault().
      */
@@ -73,7 +73,7 @@ final class ProductsUpdateParams extends Model {
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
     /** Replaces all product options and values atomically. Include existing option_id and option_value_id values to retain members. Omitted members are archived. Null is not accepted. [] (Value): {@see UpdateProductOptionRequestInput}. A product option to keep or add when updating a product, with its name, position, status, and values.
-     * @return list<array{'existing_variant_value'?: string, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'name': string, 'option_id'?: string, 'position'?: int, 'status'?: string, 'values'?: list<array{'metadata'?: array<array-key, string|null>|\stdClass|null, 'option_value_id'?: string, 'position'?: int, 'status'?: string, 'value': string}|object>}|object>
+     * @return list<UpdateProductOptionRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When options is omitted; use hasOptions() or valueOrDefault().
      */
     public function getOptions(): array { return $this->get('options'); }
@@ -90,4 +90,22 @@ final class ProductsUpdateParams extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
+    /** Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Merchant-Id is omitted; use hasFlintMerchantId() or valueOrDefault().
+     */
+    public function getFlintMerchantId(): string { return $this->get('Flint-Merchant-Id'); }
+    public function hasFlintMerchantId(): bool { return $this->has('Flint-Merchant-Id'); }
+    /** Mode of the request context, live or test. Optional; it must match the credential's mode. Value enum: "test", "live".
+     * @return string
+     * @throws SdkError When Flint-Mode is omitted; use hasFlintMode() or valueOrDefault().
+     */
+    public function getFlintMode(): string { return $this->get('Flint-Mode'); }
+    public function hasFlintMode(): bool { return $this->has('Flint-Mode'); }
+    /** Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Sandbox-Id is omitted; use hasFlintSandboxId() or valueOrDefault().
+     */
+    public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
+    public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
 }

@@ -5,14 +5,15 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $created_at
  * @property-read string $display_reason
  * @property-read string $held_by
+ * @property-read string $initiated_by
  * @property-read string $previous_status
  * @property-read string $reason
  * @property-read string $reason_notes
  * Presence-aware input; omitted fields throw when accessed. */
 final class FulfillmentHoldInput extends Model {
-    /** @param array{'created_at': string|\DateTimeInterface, 'display_reason'?: string, 'held_by'?: string, 'previous_status': string, 'reason': string, 'reason_notes'?: string, ...}|object $values */
+    /** @param array{'created_at': string|\DateTimeInterface, 'display_reason'?: string, 'held_by'?: string, 'initiated_by': string, 'previous_status': string, 'reason': string, 'reason_notes'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('FulfillmentHoldInput')); }
-    /** Time the hold became active. Format: date-time.
+    /** Time the hold became active. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
@@ -30,6 +31,12 @@ final class FulfillmentHoldInput extends Model {
      */
     public function getHeldBy(): string { return $this->get('held_by'); }
     public function hasHeldBy(): bool { return $this->has('held_by'); }
+    /** Who placed this hold: merchant for the merchant or its integration, or flint for a Flint payment hold. Value enum: "merchant", "flint".
+     * @return string
+     * @throws SdkError When initiated_by is omitted; use hasInitiatedBy() or valueOrDefault().
+     */
+    public function getInitiatedBy(): string { return $this->get('initiated_by'); }
+    public function hasInitiatedBy(): bool { return $this->has('initiated_by'); }
     /** Status before this hold. Never on_hold or terminal. The release_hold action restores this status. Value enum: "pending", "accepted", "in_progress", "ready", "scheduled", "preparing", "picked", "packed", "dispatched".
      * @return string
      * @throws SdkError When previous_status is omitted; use hasPreviousStatus() or valueOrDefault().

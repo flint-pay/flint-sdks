@@ -15,7 +15,7 @@ namespace Flint;
 final class ProductOptionInput extends Model {
     /** @param array{'created_at'?: string|\DateTimeInterface, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'name': string, 'option_id': string, 'position': int, 'product_id': string, 'status': string, 'updated_at'?: string|\DateTimeInterface, 'values'?: list<ProductOptionValueInput|array<array-key, mixed>|\stdClass>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ProductOptionInput')); }
-    /** When this resource was created, as an RFC3339 timestamp. Format: date-time.
+    /** When this resource was created, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
@@ -33,7 +33,7 @@ final class ProductOptionInput extends Model {
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Stable identifier of the product option.
+    /** Stable identifier of the product option. Example: "opt_01KEZF7C008R5Q9BG9B4B4KQH8".
      * @return string
      * @throws SdkError When option_id is omitted; use hasOptionId() or valueOrDefault().
      */
@@ -45,7 +45,7 @@ final class ProductOptionInput extends Model {
      */
     public function getPosition(): int { return $this->get('position'); }
     public function hasPosition(): bool { return $this->has('position'); }
-    /** Identifier of the product this option belongs to.
+    /** Identifier of the product this option belongs to. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
      * @return string
      * @throws SdkError When product_id is omitted; use hasProductId() or valueOrDefault().
      */
@@ -57,13 +57,13 @@ final class ProductOptionInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** When this resource last changed, as an RFC3339 timestamp. Format: date-time.
+    /** When this resource last changed, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */
     public function getUpdatedAt(): string|\DateTimeInterface { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** Values offered for this option, such as Small, Medium, and Large for Size. [] (Value): {@see ProductOptionValueInput}. One value of a product option, such as a size or color, with its position and status.
+    /** Values offered for this option, such as Small, Medium, and Large for Size. [] (Value): {@see ProductOptionValueInput}. One value of a product option, such as a size or color.
      * @return list<ProductOptionValueInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When values is omitted; use hasValues() or valueOrDefault().
      */

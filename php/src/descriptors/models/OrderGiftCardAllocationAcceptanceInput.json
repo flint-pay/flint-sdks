@@ -1,1 +1,1 @@
-{"shared":"OrderGiftCardAllocationAcceptance","dependencies":["OrderGiftCardAllocationAcceptance","SharedCodec907","SharedCodec908","SharedCodec909"]}
+{"shared":"OrderGiftCardAllocationAcceptance","dependencies":["MoneyValue","OrderGiftCardAllocationAcceptance","SharedCodec1008","SharedCodec1009"]}

@@ -2,7 +2,7 @@
 
 ## DeliveryRateCallbackConfiguration
 
-Settings for a delivery rate callback: the endpoint `url` Flint calls, request timeout, request and response size limits, redirect policy, and whether previews can use it.
+
 
 
 
@@ -16,4 +16,16 @@ Settings for a delivery rate callback: the endpoint `url` Flint calls, request t
 | `redirect_policy` | Optional | string | Default: `"reject"`. Values: `"reject"`. |
 | `request_timeout_seconds` | Optional | number | minimum: `0.1`. maximum: `10`. Default: `2`. |
 | `url` | Required | string | minLength: `1`. |
+
+### DeliveryRateCallbackConfiguration variant 1: `redirect_policy` = `"reject"`
+
+anyOf variant 1: Declared schema DeliveryRateCallbackConfiguration. Settings for a delivery rate callback: the endpoint `url` Flint calls, request timeout, request and response size limits, redirect policy, and whether previews can use it..
+
+No additional constraints.
+
+### DeliveryRateCallbackConfiguration variant 2: `redirect_policy` = `"reject"`
+
+anyOf variant 2: Declared schema DeliveryRateCallbackConfigurationRequest. Settings for a delivery rate callback: the endpoint `url` Flint calls, request timeout, request and response size limits, redirect policy, and whether previews can use it..
+
+No additional constraints.
 

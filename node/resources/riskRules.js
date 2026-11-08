@@ -5,9 +5,9 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/riskRules.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import r0 from '../descriptors/resources/riskRules.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import settings from '../descriptors/settings.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createRiskRule"]:r0,["deleteRiskRule"]:r0,["getRiskRule"]:r0,["getRiskRuleAttributes"]:r0,["listRiskRules"]:r0,["updateRiskRule"]:r0});
 export class Client {
@@ -15,7 +15,11 @@ export class Client {
 constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.riskRules = Object.freeze({
-      create: async (params, options) => this.#runtime.request("createRiskRule", _sdkRequestInput([], [], [], true, true, params, [
+      create: async (params, options) => this.#runtime.request("createRiskRule", _sdkRequestInput([], [], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
@@ -23,7 +27,10 @@ this.riskRules = Object.freeze({
       delete: async (risk_rule_id, params, options) => this.#runtime.request("deleteRiskRule", _sdkRequestInput([
   "risk_rule_id"
 ], [risk_rule_id], [
-  "expected_version"
+  "expected_version",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Idempotency-Key",
   "Flint-Version",
@@ -31,18 +38,29 @@ this.riskRules = Object.freeze({
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("deleteRiskRule", result, path))),
       get: async (risk_rule_id, params, options) => this.#runtime.request("getRiskRule", _sdkRequestInput([
   "risk_rule_id"
-], [risk_rule_id], [], false, false, params, [
+], [risk_rule_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getRiskRule", result, path))),
-      getAttributes: async (params, options) => this.#runtime.request("getRiskRuleAttributes", _sdkRequestInput([], [], [], false, false, params, [
+      getAttributes: async (params, options) => this.#runtime.request("getRiskRuleAttributes", _sdkRequestInput([], [], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getRiskRuleAttributes", result, path))),
       list: async (params, options) => this.#runtime.request("listRiskRules", _sdkRequestInput([], [], [
   "status",
   "page_size",
-  "page_token"
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -50,7 +68,10 @@ this.riskRules = Object.freeze({
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listRiskRules", _sdkRequestInput([], [], [
   "status",
   "page_size",
-  "page_token"
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -58,14 +79,21 @@ this.riskRules = Object.freeze({
       listItems: (params, options) => this.#runtime.items("listRiskRules", _sdkRequestInput([], [], [
   "status",
   "page_size",
-  "page_token"
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
 ]), options),
       update: async (risk_rule_id, params, options) => this.#runtime.request("updateRiskRule", _sdkRequestInput([
   "risk_rule_id"
-], [risk_rule_id], [], true, true, params, [
+], [risk_rule_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
@@ -77,13 +105,13 @@ close() { return this.#runtime.close(); }
 }
 export { makeCreateRiskRuleRequest } from '../models/CreateRiskRuleRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makeRiskPredicateNode } from '../models/RiskPredicateNode.js';
-export { makeRiskPredicateNodeAll } from '../models/RiskPredicateNodeAll.js';
-export { makeRiskPredicateNodeAny } from '../models/RiskPredicateNodeAny.js';
-export { makeRiskPredicateNodeComparison } from '../models/RiskPredicateNodeComparison.js';
-export { makeRiskPredicateNodeIn } from '../models/RiskPredicateNodeIn.js';
-export { makeRiskPredicateNodeInList } from '../models/RiskPredicateNodeInList.js';
-export { makeRiskPredicateNodeIsMissing } from '../models/RiskPredicateNodeIsMissing.js';
-export { makeRiskPredicateNodeMoneyComparison } from '../models/RiskPredicateNodeMoneyComparison.js';
-export { makeRiskPredicateNodeNot } from '../models/RiskPredicateNodeNot.js';
+export { makeRiskPredicateNodeAllRequest } from '../models/RiskPredicateNodeAllRequest.js';
+export { makeRiskPredicateNodeAnyRequest } from '../models/RiskPredicateNodeAnyRequest.js';
+export { makeRiskPredicateNodeComparisonRequest } from '../models/RiskPredicateNodeComparisonRequest.js';
+export { makeRiskPredicateNodeInListRequest } from '../models/RiskPredicateNodeInListRequest.js';
+export { makeRiskPredicateNodeInRequest } from '../models/RiskPredicateNodeInRequest.js';
+export { makeRiskPredicateNodeIsMissingRequest } from '../models/RiskPredicateNodeIsMissingRequest.js';
+export { makeRiskPredicateNodeMoneyComparisonRequest } from '../models/RiskPredicateNodeMoneyComparisonRequest.js';
+export { makeRiskPredicateNodeNotRequest } from '../models/RiskPredicateNodeNotRequest.js';
+export { makeRiskPredicateNodeRequest } from '../models/RiskPredicateNodeRequest.js';
 export { makeUpdateRiskRuleRequest } from '../models/UpdateRiskRuleRequest.js';

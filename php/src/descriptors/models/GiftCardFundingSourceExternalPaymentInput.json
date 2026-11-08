@@ -1,1 +1,1 @@
-{"shared":"GiftCardFundingSourceExternalPayment","dependencies":["GiftCardFundingSourceExternalPayment","SharedCodec205","SharedCodec206"]}
+{"shared":"GiftCardFundingSourceExternalPaymentRequest","dependencies":["GiftCardFundingSourceExternalPaymentRequest","SharedCodec242","SharedCodec243"]}

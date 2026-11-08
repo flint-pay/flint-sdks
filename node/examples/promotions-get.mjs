@@ -5,7 +5,7 @@ const client = new Client({
   allowInsecureHttp: !!baseUrl && ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
 });
 const result = await client.promotions.get(
-  "promo_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "promo_01KEZF7C00QQ8EZ74BDYSZ315V"
 );
 console.log(result.promotion_id);
 console.log(result.status);

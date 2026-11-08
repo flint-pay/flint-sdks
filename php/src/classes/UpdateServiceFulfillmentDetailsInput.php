@@ -11,7 +11,7 @@ namespace Flint;
 final class UpdateServiceFulfillmentDetailsInput extends Model {
     /** @param array{'completed_at'?: string|\DateTimeInterface|null, 'notes'?: string|null, 'scheduled_end_at'?: string|\DateTimeInterface|null, 'scheduled_start_at'?: string|\DateTimeInterface|null, 'timezone'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdateServiceFulfillmentDetailsInput')); }
-    /** RFC3339 timestamp. Send null to clear it. Format: date-time. minLength: 1.
+    /** RFC3339 timestamp. Send null to clear it. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface|null
      * @throws SdkError When completed_at is omitted; use hasCompletedAt() or valueOrDefault().
      */
@@ -23,19 +23,19 @@ final class UpdateServiceFulfillmentDetailsInput extends Model {
      */
     public function getNotes(): string|null { return $this->get('notes'); }
     public function hasNotes(): bool { return $this->has('notes'); }
-    /** RFC3339 timestamp. Send null to clear it. Format: date-time. minLength: 1.
+    /** RFC3339 timestamp. Send null to clear it. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface|null
      * @throws SdkError When scheduled_end_at is omitted; use hasScheduledEndAt() or valueOrDefault().
      */
     public function getScheduledEndAt(): string|\DateTimeInterface|null { return $this->get('scheduled_end_at'); }
     public function hasScheduledEndAt(): bool { return $this->has('scheduled_end_at'); }
-    /** RFC3339 timestamp. Send null to clear it. Format: date-time. minLength: 1.
+    /** RFC3339 timestamp. Send null to clear it. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface|null
      * @throws SdkError When scheduled_start_at is omitted; use hasScheduledStartAt() or valueOrDefault().
      */
     public function getScheduledStartAt(): string|\DateTimeInterface|null { return $this->get('scheduled_start_at'); }
     public function hasScheduledStartAt(): bool { return $this->has('scheduled_start_at'); }
-    /** minLength: 1.
+    /** Uses an IANA time zone name. minLength: 1.
      * @return string
      * @throws SdkError When timezone is omitted; use hasTimezone() or valueOrDefault().
      */

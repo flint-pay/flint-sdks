@@ -20,11 +20,15 @@ Body model: [CreateCustomerSessionRequestInput](../models/CreateCustomerSessionR
 
 #### customerSessions.create body fields
 
-Field definitions: [shared fields](../models/CreateCustomerSessionRequestInput.md#createcustomersessionrequestinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `customer_id` | Required | string | ID of the customer the session acts as. Calls made with the session's secret see only this customer's data. minLength: `1`. |
+| `expires_in_seconds` | Optional | integer | How long the secret authenticates account calls, in seconds. Defaults to 3600 (one hour). Refreshing issues a new secret with a new window. Format: `int64`. minimum: `300`. maximum: `86400`. |
+| `refresh_expires_in_seconds` | Optional | integer | How long the refresh token can be exchanged for a new secret, in seconds. Defaults to 604800 (seven days). Format: `int64`. minimum: `3600`. maximum: `2592000`. |
 
 #### Response
 
-Returned payload: [CustomerSessionWithSecret](../models/CustomerSessionWithSecretInput.md#customersessionwithsecretinput).
+Returned payload: [CustomerSessionWithSecret](../models/CustomerSessionWithSecret.md#customersessionwithsecret).
 
 #### Errors
 
@@ -35,7 +39,6 @@ Returned payload: [CustomerSessionWithSecret](../models/CustomerSessionWithSecre
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -61,7 +64,9 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->customerSessions->create([
-  'customer_id' => 'cus_01ARZ3NDEKTSV4RRFFQ69G5FAV',
+  'customer_id' => 'cus_01KEZF7C003ACYXT6Q5EQZ78EE',
+  'expires_in_seconds' => 3600,
+  'refresh_expires_in_seconds' => 604800,
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
@@ -69,7 +74,7 @@ $result = $client->customerSessions->create([
 
 ### customerSessions.refresh
 
-Rotates a customer session secret and refresh token without a merchant API key. Reusing a rotated refresh token revokes the session family. Send one fixed Idempotency-Key per session: Flint scopes the key to the refresh token, so concurrent refreshes replay the same pair. On IDEMPOTENCY_KEY_IN_PROGRESS, retry the same key and token.
+Rotates a customer session secret and refresh token without a merchant API key. Reusing a rotated refresh token revokes the session family. Use one fixed idempotency key per session: Flint scopes the key to the refresh token, so concurrent refreshes replay the same pair. On `IDEMPOTENCY_KEY_IN_PROGRESS`, retry with the same key and token.
 
 `POST /v1/customer-sessions/refresh`
 
@@ -87,11 +92,11 @@ Body model: [RefreshCustomerSessionRequestInput](../models/RefreshCustomerSessio
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `refresh_token` | Required | string | minLength: `1`. |
+| `refresh_token` | Required | string | The `refresh_token` returned when the session was created or last refreshed. It works once; the response carries the next one. minLength: `1`. |
 
 #### Response
 
-Returned payload: [CustomerSessionWithSecret](../models/CustomerSessionWithSecretInput.md#customersessionwithsecretinput).
+Returned payload: [CustomerSessionWithSecret](../models/CustomerSessionWithSecret.md#customersessionwithsecret).
 
 #### Errors
 
@@ -101,7 +106,6 @@ Returned payload: [CustomerSessionWithSecret](../models/CustomerSessionWithSecre
 | 401 | AuthenticationError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -128,7 +132,7 @@ $customerSessionId = 'cses_01ARZ3NDEKTSV4RRFFQ69G5FAV';
 $idempotencyKey = 'refresh-' . $customerSessionId;
 
 $result = $client->customerSessions->refresh([
-  'refresh_token' => 'example',
+  'refresh_token' => 'flint_cref_YmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmI',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
@@ -150,7 +154,7 @@ Signature: `revoke(string|Model $customer_session_id, array|Model|null $params =
 
 #### Response
 
-Returned payload: [CustomerSession](../models/CustomerSessionInput.md#customersessioninput).
+Returned payload: [CustomerSession](../models/CustomerSession.md#customersession).
 
 #### Errors
 
@@ -161,7 +165,6 @@ Returned payload: [CustomerSession](../models/CustomerSessionInput.md#customerse
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -184,7 +187,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->customerSessions->revoke('cses_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->customerSessions->revoke('cses_01KEZF7C00FBVRP25FZTW7KWZV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/customerSessions-revoke.php)

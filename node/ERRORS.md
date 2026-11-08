@@ -26,6 +26,7 @@ Inspect the error code together with status and class; retry only when the opera
 - `"API_VERSION_RETIRED"`
 - `"AUTHENTICATION_REQUIRED"`
 - `"CONCURRENT_MODIFICATION"`
+- `"CUSTOMER_EMAIL_REQUIRED"`
 - `"DELIVERY_REQUOTE_REQUIRED"`
 - `"EXTERNAL_SERVICE_ERROR"`
 - `"FORBIDDEN"`
@@ -38,13 +39,11 @@ Inspect the error code together with status and class; retry only when the opera
 - `"INTERNAL_ERROR"`
 - `"INVALID_CREDENTIAL"`
 - `"INVALID_REQUEST"`
-- `"INVALID_VALUE"`
 - `"INVENTORY_INSUFFICIENT"`
 - `"LIMIT_EXCEEDED"`
 - `"LIMIT_REACHED"`
 - `"MERCHANT_NOT_READY"`
 - `"METHOD_NOT_ALLOWED"`
-- `"NOT_ALLOWED"`
 - `"OPERATION_IN_PROGRESS"`
 - `"PAYMENT_ATTEMPT_ACTIVE"`
 - `"PAYMENT_OPTION_UNAVAILABLE"`
@@ -56,12 +55,10 @@ Inspect the error code together with status and class; retry only when the opera
 - `"REQUEST_BODY_TOO_LARGE"`
 - `"REQUEST_CANCELED"`
 - `"REQUEST_TIMEOUT"`
-- `"REQUIRED"`
 - `"RESOURCE_IN_USE"`
 - `"RESOURCE_NOT_FOUND"`
 - `"ROUTE_NOT_FOUND"`
 - `"SERVICE_UNAVAILABLE"`
-- `"UNKNOWN_FIELD"`
 - `"UNSUPPORTED_CONTENT_TYPE"`
 - `"VERSION_CONFLICT"`
 

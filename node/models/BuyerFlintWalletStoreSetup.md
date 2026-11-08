@@ -11,7 +11,7 @@ The state of a request to save a payment method in the signed-in buyer's Flint w
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `client_setup` | Required | [StripeClientSetup](../models/StripeClientSetup.md#stripeclientsetup) or null |  |
-| `payment_method_id` | Required | string |  |
-| `status` | Required | string | Values: `"pending"`, `"active"`, `"failed"`, `"expired"`. |
-| `store_setup_id` | Required | string |  |
+| `payment_method_id` | Required | string | ID of the store's card copy this setup creates. The copy can be used for payments once `status` is `active`. Example: `"pm_01KEZF7C0034B248TXXE4NXYFZ"`. |
+| `status` | Required | string | Whether the store's copy of the card is ready to use. Values: `"pending"`, `"active"`, `"failed"`, `"expired"`. |
+| `store_setup_id` | Required | string | Unique identifier for this flint wallet store setup, prefixed `fwss_`. Example: `"fwss_01KEZF7C003N5D2C3AVYZ5VMEQ"`. |
 

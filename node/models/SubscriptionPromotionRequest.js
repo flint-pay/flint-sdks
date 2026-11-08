@@ -1,0 +1,10 @@
+import { d5835 as c0, d5836 as c1, d5837 as c2 } from '../descriptors/data/257.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d8318 as c3 } from '../descriptors/data/400.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d8318 as d8318 } from '../descriptors/data/400.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { lazyCodec, preparedCodec } from '../descriptor-source.js';
+const read = d8318;
+let prepared;
+function codec() { return prepared ??= preparedCodec(read(), {["PromotionRefInputPromotionCode"]:c0(),["PromotionRefInputPromotionID"]:c1(),["PromotionRefRequest"]:c2(),["SubscriptionPromotionRequest"]:c3()}); }
+export { codec as _validate };
+import { modelFromCodec } from '../runtime.js';
+export function makeSubscriptionPromotionRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

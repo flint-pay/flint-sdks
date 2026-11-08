@@ -8,12 +8,12 @@ namespace Flint;
 final class InventoryReservationConsumedInstalledMerchantsEventDataObjectOwnerMerchant extends Model {
     /** @param array{'key': string, 'type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryReservationConsumedInstalledMerchantsEventDataObjectOwnerMerchant')); }
-    /** key
+    /** Your identifier for the claim that holds the stock.
      * @return string
      */
     public function getKey(): string { return $this->get('key'); }
     public function hasKey(): bool { return $this->has('key'); }
-    /** Value enum: "merchant".
+    /** Who holds the reservation. Value enum: "merchant".
      * @return string
      */
     public function getType(): string { return $this->get('type'); }

@@ -62,7 +62,7 @@ final class SubscriptionPaymentRetrySucceededMerchantEventDataObject extends Mod
      */
     public function getSubscriptionId(): string { return $this->get('subscription_id'); }
     public function hasSubscriptionId(): bool { return $this->has('subscription_id'); }
-    /** subscription_payment_retry_id
+    /** Unique identifier for this subscription payment retry, prefixed `spr_`.
      * @return string
      */
     public function getSubscriptionPaymentRetryId(): string { return $this->get('subscription_payment_retry_id'); }

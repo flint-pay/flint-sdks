@@ -10,22 +10,22 @@ namespace Flint;
 final class BuyerCheckoutProblemResource extends Model {
     /** @param array{'blocks_completion': bool, 'code': string, 'remediation'?: mixed, 'severity': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerCheckoutProblemResource')); }
-    /** blocks_completion
+    /** Whether the checkout cannot complete until the problem is resolved.
      * @return bool
      */
     public function getBlocksCompletion(): bool { return $this->get('blocks_completion'); }
     public function hasBlocksCompletion(): bool { return $this->has('blocks_completion'); }
-    /** Value enum: "delivery_selection_stale", "delivery_selection_invalid", "delivery_unreadable", "payment_in_progress".
+    /** Which condition affects the checkout. Value enum: "delivery_selection_stale", "delivery_selection_invalid", "delivery_unreadable", "payment_in_progress".
      * @return string
      */
     public function getCode(): string { return $this->get('code'); }
     public function hasCode(): bool { return $this->has('code'); }
-    /** Guidance for recovering from a payment error: whether and how to retry (`retry`), and optional next steps.
+    /** What the caller can do about the problem, and whether retrying the same request can help. Guidance for recovering from a payment error: whether and how to retry (`retry`), and optional next steps.
      * @return ?BuyerErrorRemediation
      */
     public function getRemediation(): ?BuyerErrorRemediation { return $this->get('remediation'); }
     public function hasRemediation(): bool { return $this->has('remediation'); }
-    /** Value enum: "error".
+    /** How serious the problem is. Value enum: "error".
      * @return string
      */
     public function getSeverity(): string { return $this->get('severity'); }

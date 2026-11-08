@@ -5,9 +5,9 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/deliveryZones.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import r0 from '../descriptors/resources/deliveryZones.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import settings from '../descriptors/settings.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createDeliveryZone"]:r0,["deleteDeliveryZone"]:r0,["getDeliveryZone"]:r0,["listDeliveryZones"]:r0,["updateDeliveryZone"]:r0});
 export class Client {
@@ -15,7 +15,11 @@ export class Client {
 constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.deliveryZones = Object.freeze({
-      create: async (params, options) => this.#runtime.request("createDeliveryZone", _sdkRequestInput([], [], [], true, true, params, [
+      create: async (params, options) => this.#runtime.request("createDeliveryZone", _sdkRequestInput([], [], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
@@ -23,7 +27,10 @@ this.deliveryZones = Object.freeze({
       delete: async (delivery_zone_id, params, options) => this.#runtime.request("deleteDeliveryZone", _sdkRequestInput([
   "delivery_zone_id"
 ], [delivery_zone_id], [
-  "expected_version"
+  "expected_version",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Idempotency-Key",
   "Flint-Version",
@@ -31,7 +38,11 @@ this.deliveryZones = Object.freeze({
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("deleteDeliveryZone", result, path))),
       get: async (delivery_zone_id, params, options) => this.#runtime.request("getDeliveryZone", _sdkRequestInput([
   "delivery_zone_id"
-], [delivery_zone_id], [], false, false, params, [
+], [delivery_zone_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getDeliveryZone", result, path))),
@@ -41,7 +52,10 @@ this.deliveryZones = Object.freeze({
   "query",
   "external_reference_id",
   "status",
-  "delivery_method_id"
+  "delivery_method_id",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -52,7 +66,10 @@ this.deliveryZones = Object.freeze({
   "query",
   "external_reference_id",
   "status",
-  "delivery_method_id"
+  "delivery_method_id",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -63,14 +80,21 @@ this.deliveryZones = Object.freeze({
   "query",
   "external_reference_id",
   "status",
-  "delivery_method_id"
+  "delivery_method_id",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
 ]), options),
       update: async (delivery_zone_id, params, options) => this.#runtime.request("updateDeliveryZone", _sdkRequestInput([
   "delivery_zone_id"
-], [delivery_zone_id], [], true, true, params, [
+], [delivery_zone_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
@@ -81,14 +105,14 @@ this.deliveryZones = Object.freeze({
 close() { return this.#runtime.close(); }
 }
 export { makeCreateDeliveryZoneRequest } from '../models/CreateDeliveryZoneRequest.js';
-export { makeDeliveryCountryCondition } from '../models/DeliveryCountryCondition.js';
-export { makeDeliveryDistance } from '../models/DeliveryDistance.js';
-export { makeDeliveryPostalCodeCondition } from '../models/DeliveryPostalCodeCondition.js';
-export { makeDeliveryPostalCodeValue } from '../models/DeliveryPostalCodeValue.js';
-export { makeDeliveryRadiusCondition } from '../models/DeliveryRadiusCondition.js';
+export { makeDeliveryCountryConditionRequest } from '../models/DeliveryCountryConditionRequest.js';
+export { makeDeliveryDistanceRequest } from '../models/DeliveryDistanceRequest.js';
+export { makeDeliveryPostalCodeConditionRequest } from '../models/DeliveryPostalCodeConditionRequest.js';
+export { makeDeliveryPostalCodeValueRequest } from '../models/DeliveryPostalCodeValueRequest.js';
+export { makeDeliveryRadiusConditionRequest } from '../models/DeliveryRadiusConditionRequest.js';
 export { makeDeliveryRadiusOrigin } from '../models/DeliveryRadiusOrigin.js';
-export { makeDeliveryStateCondition } from '../models/DeliveryStateCondition.js';
-export { makeDeliveryZoneConfiguration } from '../models/DeliveryZoneConfiguration.js';
+export { makeDeliveryStateConditionRequest } from '../models/DeliveryStateConditionRequest.js';
+export { makeDeliveryZoneConfigurationRequest } from '../models/DeliveryZoneConfigurationRequest.js';
 export { makeMetadataPatchRequest } from '../models/MetadataPatchRequest.js';
 export { makeMetadataRequest } from '../models/MetadataRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';

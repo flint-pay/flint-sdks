@@ -16,7 +16,7 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->subscriptionPlans->delete('plan_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->subscriptionPlans->delete('plan_01KEZF7C004CY5ZR33XST2AASV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+echo $result->merchant_id . PHP_EOL;
 echo $result->status . PHP_EOL;
-echo $result->subscription_plan_id . PHP_EOL;
 $client->close();

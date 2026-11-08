@@ -24,7 +24,7 @@ final class BuyerOrderLineItemModifierInput extends Model {
      */
     public function getModifierGroupName(): string { return $this->get('modifier_group_name'); }
     public function hasModifierGroupName(): bool { return $this->has('modifier_group_name'); }
-    /** Identifier of the selected catalog modifier. If its group is owned by a modifier set (source: inline), read the group through GET /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it.
+    /** Identifier of the selected catalog modifier. If its group is owned by a modifier set (source: inline), read the group through GET /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it. Example: "mod_01KEZF7C00SAWDZBQJX5H0XW1S".
      * @return string
      * @throws SdkError When modifier_id is omitted; use hasModifierId() or valueOrDefault().
      */
@@ -36,7 +36,7 @@ final class BuyerOrderLineItemModifierInput extends Model {
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Stable identifier of the selected modifier on this order line item.
+    /** Stable identifier of the selected modifier on this order line item. Example: "olim_01KEZF7C00YP0WSZGRAD25EB1Z".
      * @return string
      * @throws SdkError When order_line_item_modifier_id is omitted; use hasOrderLineItemModifierId() or valueOrDefault().
      */
@@ -78,7 +78,7 @@ final class BuyerOrderLineItemModifierInput extends Model {
      */
     public function getTextValue(): string { return $this->get('text_value'); }
     public function hasTextValue(): bool { return $this->has('text_value'); }
-    /** Total price added by this selection. Multiplies unit_price_delta_money by the modifier quantity and, for per_item pricing, by the line item quantity. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Total price this selection adds to the line: `unit_price_delta_money` times the selection's `quantity` times the line item's `quantity`. Always 0 for text selections. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When total_money is omitted; use hasTotalMoney() or valueOrDefault().
      */

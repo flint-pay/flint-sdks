@@ -8,6 +8,7 @@ namespace Flint;
  * @property-read ?int $contract_term_months
  * @property-read bool $delivery_required
  * @property-read ?MoneyValue $early_termination_fee_money
+ * @property-read list<CheckoutSubscriptionTermsLineItemsItem> $line_items
  * @property-read string $plan_name
  * @property-read int $quantity
  * @property-read list<int> $quantity_options
@@ -18,7 +19,7 @@ namespace Flint;
  * @property-read ?int $trial_period_days
  * Presence-aware response; omitted optional fields return null. */
 final class CheckoutSubscriptionTerms extends Model {
-    /** @param array{'billing_interval': string, 'billing_interval_count': int, 'billing_interval_options': list<mixed>, 'contract_term_months'?: int, 'delivery_required': bool, 'early_termination_fee_money'?: mixed, 'plan_name': string, 'quantity': int, 'quantity_options': list<int>, 'recurring_shipping'?: mixed, 'recurring_total_money': mixed, 'setup_fee_money'?: mixed, 'subscription_plan_id': string, 'trial_period_days'?: int, ...}|object $values */
+    /** @param array{'billing_interval': string, 'billing_interval_count': int, 'billing_interval_options': list<mixed>, 'contract_term_months'?: int, 'delivery_required': bool, 'early_termination_fee_money'?: mixed, 'line_items': list<object{'allow_quantity_adjustment': bool, 'max_quantity': int, 'min_quantity': int, 'name': string, 'quantity': int, 'subscription_plan_line_item_id'?: string, 'unit_price_money': mixed}>, 'plan_name': string, 'quantity': int, 'quantity_options': list<int>, 'recurring_shipping'?: mixed, 'recurring_total_money': mixed, 'setup_fee_money'?: mixed, 'subscription_plan_id': string, 'trial_period_days'?: int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutSubscriptionTerms')); }
     /** Value enum: "daily", "weekly", "monthly", "yearly".
      * @return string
@@ -30,7 +31,7 @@ final class CheckoutSubscriptionTerms extends Model {
      */
     public function getBillingIntervalCount(): int { return $this->get('billing_interval_count'); }
     public function hasBillingIntervalCount(): bool { return $this->has('billing_interval_count'); }
-    /** minItems: 1. [] (Value): {@see SubscriptionIntervalOption}. A billing interval, such as every 2 months, offered by a subscription plan.
+    /** minItems: 1. [] (Value): {@see SubscriptionIntervalOption}. A billing cadence offered by a subscription plan or offer. Every option bills the same line prices once per period; prices are not scaled by the interval. For a different price per interval, create separate plans.
      * @return list<SubscriptionIntervalOption>
      */
     public function getBillingIntervalOptions(): array { return $this->get('billing_interval_options'); }
@@ -50,6 +51,11 @@ final class CheckoutSubscriptionTerms extends Model {
      */
     public function getEarlyTerminationFeeMoney(): ?MoneyValue { return $this->get('early_termination_fee_money'); }
     public function hasEarlyTerminationFeeMoney(): bool { return $this->has('early_termination_fee_money'); }
+    /** Identified frozen plan lines with buyer quantity permissions and bounds. [] (Value): {@see CheckoutSubscriptionTermsLineItemsItem}.
+     * @return list<CheckoutSubscriptionTermsLineItemsItem>
+     */
+    public function getLineItems(): array { return $this->get('line_items'); }
+    public function hasLineItems(): bool { return $this->has('line_items'); }
     /** Plan name shown to the buyer.
      * @return string
      */

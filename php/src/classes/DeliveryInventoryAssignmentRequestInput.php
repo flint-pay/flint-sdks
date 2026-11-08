@@ -16,13 +16,13 @@ final class DeliveryInventoryAssignmentRequestInput extends Model {
      */
     public function getDemandKey(): string { return $this->get('demand_key'); }
     public function hasDemandKey(): bool { return $this->has('demand_key'); }
-    /** minLength: 1.
+    /** minLength: 1. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
      * @return string
      * @throws SdkError When inventory_item_id is omitted; use hasInventoryItemId() or valueOrDefault().
      */
     public function getInventoryItemId(): string { return $this->get('inventory_item_id'); }
     public function hasInventoryItemId(): bool { return $this->has('inventory_item_id'); }
-    /** minLength: 1.
+    /** minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When location_id is omitted; use hasLocationId() or valueOrDefault().
      */

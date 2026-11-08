@@ -16,7 +16,7 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->customers->deleteAddress('cus_01ARZ3NDEKTSV4RRFFQ69G5FAV', 'caddr_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->customers->deleteAddress('cus_01KEZF7C006X9JK6NZNA2SM9XD', 'caddr_01KEZF7C00K2Q127FBJAXWB0FP', [], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->customer_address_id . PHP_EOL;
 echo $result->customer_id . PHP_EOL;
 $client->close();

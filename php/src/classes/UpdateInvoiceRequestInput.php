@@ -40,7 +40,7 @@ final class UpdateInvoiceRequestInput extends Model {
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** Caller-owned identifier for this resource in an external system. Use it as your sync key: it isn't printed on the invoice, and GET /v1/invoices filters on it by exact match. Send null to clear it. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. Use it as your sync key: it isn't printed on the invoice, and GET /v1/invoices filters on it by exact match. Send null to clear it. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string|null
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -64,7 +64,7 @@ final class UpdateInvoiceRequestInput extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** When the invoice is due. Send the invoice's payment_due object back unchanged, or a new one. Sending payment_terms captures the term's current revision again. When an invoice is due, used when creating or updating an invoice: no due date, a fixed time, payment terms, or a default.
+    /** When the invoice is due. Send the invoice's payment_due object back unchanged, or a new one. Sending payment_terms captures the term's current revision again. When an invoice is due, used when creating or updating an invoice: no due date, a calendar date, payment terms, or a default.
      * @return InvoicePaymentDueRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When payment_due is omitted; use hasPaymentDue() or valueOrDefault().
      */
@@ -76,7 +76,7 @@ final class UpdateInvoiceRequestInput extends Model {
      */
     public function getPoNumber(): string|null { return $this->get('po_number'); }
     public function hasPoNumber(): bool { return $this->has('po_number'); }
-    /** Where Flint emails the invoice and its reminders. Required at issue when delivery resolves to email, and when you schedule the issue. Send null to clear it. minLength: 1.
+    /** Where Flint emails the invoice and its reminders. Defaults to the linked customer's email when omitted at creation. Send null to leave it unset at creation; PATCH null clears it. Required at issue when delivery resolves to email, and when you schedule the issue. Send null to clear it. minLength: 1.
      * @return string|null
      * @throws SdkError When recipient_email is omitted; use hasRecipientEmail() or valueOrDefault().
      */
@@ -106,13 +106,13 @@ final class UpdateInvoiceRequestInput extends Model {
      */
     public function getScheduleEntries(): array { return $this->get('schedule_entries'); }
     public function hasScheduleEntries(): bool { return $this->has('schedule_entries'); }
-    /** When Flint issues and delivers this draft, as an RFC 3339 timestamp in the future. A scheduled issue delivers by email, so the draft needs recipient_email. Clearing it cancels the scheduled issue. Send null to clear it. Format: date-time. minLength: 1.
+    /** When Flint issues and delivers this draft, as an RFC 3339 timestamp in the future. A scheduled issue delivers by email, so the draft needs recipient_email. Clearing it cancels the scheduled issue. Send null to clear it. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface|null
      * @throws SdkError When scheduled_issue_at is omitted; use hasScheduledIssueAt() or valueOrDefault().
      */
     public function getScheduledIssueAt(): string|\DateTimeInterface|null { return $this->get('scheduled_issue_at'); }
     public function hasScheduledIssueAt(): bool { return $this->has('scheduled_issue_at'); }
-    /** The calendar date of the billed service, in YYYY-MM-DD format. The invoice and PDF print it as written, without timezone conversion. Send null to clear it. Format: date. minLength: 1.
+    /** The calendar date of the billed service, in YYYY-MM-DD format. The invoice and PDF print it as written, without timezone conversion. Send null to clear it. Format: date. minLength: 1. Example: "2026-08-02".
      * @return string|null
      * @throws SdkError When service_date is omitted; use hasServiceDate() or valueOrDefault().
      */

@@ -10,41 +10,45 @@ Fields shared by partner webhook payloads.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `api_version` | Required | string | Format: `date`. |
-| `created_at` | Required | string | Format: `date-time`. |
-| `data` | Required | object | `data`: [field definitions](../models/GiftCardCreatedInstalledMerchantsEvent.md#giftcardcreatedinstalledmerchantseventdata). |
-| `event_type` | Required | string | Values: `"gift_card.created"`. |
-| `partner_app_id` | Required | string |  |
+| `api_version` | Required | string | API version used to render this delivery attempt. The older of the event version and the endpoint version when the attempt runs, with default resolved to the merchant pin. Format: `date`. Example: `"2026-08-02"`. |
+| `created_at` | Required | string | When Flint recorded the event. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
+| `data` | Required | object | The resource snapshot recorded for this event and rendered at the delivery API version. `data`: [field definitions](../models/GiftCardCreatedInstalledMerchantsEvent.md#giftcardcreatedinstalledmerchantseventdata). |
+| `event_source` | Required | string | The origin of the event. Selects the webhook envelope and the fields in source. Values: `"installed_merchants"`. |
+| `event_type` | Required | string | The resource change or condition this event announces. Values: `"gift_card.created"`. |
+| `partner_app_id` | Required | string | ID of the partner app that owns the receiving endpoint. Example: `"papp_01KEZF7C00Y8VMXYZ1GNPP3WHV"`. |
 | `payload_version` | Required | integer | 2 for every current event. 1 only for an event queued before 2026-10-16 and delivered afterwards, which keeps its previous data shape. Values: `1`, `2`. |
-| `source` | Required | [WebhookEventSource](../models/WebhookEventSource.md#webhookeventsource) and object | The source of a partner webhook event, selected by type. `source`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventsource). |
+| `source` | Required | [WebhookEventSource](../models/WebhookEventSource.md#webhookeventsource) and object | The merchant and partner app install this event concerns, with environment details for installed-merchant events. The merchant and partner app install the event concerns. Environment fields are present for installed-merchant events. `source`: [field definitions](../models/BalanceTransactionCreatedInstalledMerchantsEvent.md#balancetransactioncreatedinstalledmerchantseventsource). |
 | `test` | Required | boolean | true for a synthetic event sent from the test-events endpoint, false otherwise. |
-| `webhook_event_id` | Required | string |  |
+| `webhook_event_id` | Required | string | Stable ID of the recorded webhook event, shared by its delivery attempts. Example: `"whev_01KEZF7C00362MS3HV970TRZGS"`. |
 
 ### GiftCardCreatedInstalledMerchantsEvent.data
 
+The resource snapshot recorded for this event and rendered at the delivery API version.
+
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `object` | Required | object and [GiftCard](../models/GiftCard.md#giftcard) | Merchant-issued purchased gift card. Posted balance includes reserved value; available value is balance minus reservations. Frozen value remains part of outstanding liability. Gift cards are independent resources and cannot be transferred across merchants or currencies. `object`: [field definitions](../models/GiftCardCreatedInstalledMerchantsEvent.md#giftcardcreatedinstalledmerchantseventdataobject). |
+| `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. `object`: [field definitions](../models/GiftCardCreatedInstalledMerchantsEvent.md#giftcardcreatedinstalledmerchantseventdataobject). |
+| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
 
 ### GiftCardCreatedInstalledMerchantsEvent.data.object
 
-Merchant-issued purchased gift card. Posted balance includes reserved value; available value is balance minus reservations. Frozen value remains part of outstanding liability. Gift cards are independent resources and cannot be transferred across merchants or currencies.
+The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields.
 
 Field definitions: [shared fields](GiftCard.md#giftcard).
 
 ### GiftCardCreatedInstalledMerchantsEvent.data.object.available_money
 
-Field definitions: [BuyerCheckoutSession.tip.smart_tip_money_options[]](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options).
+Field definitions: [BuyerGiftCard.available_money](../models/BuyerGiftCard.md#buyergiftcardavailable_money).
 
 ### GiftCardCreatedInstalledMerchantsEvent.data.object.balance_money
 
-Field definitions: [BuyerCheckoutSession.tip.smart_tip_money_options[]](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options).
+Field definitions: [BuyerGiftCard.balance_money](../models/BuyerGiftCard.md#buyergiftcardbalance_money).
 
 ### GiftCardCreatedInstalledMerchantsEvent.data.object.reserved_money
 
-Field definitions: [BuyerCheckoutSession.tip.smart_tip_money_options[]](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options).
+Field definitions: [BuyerGiftCard.reserved_money](../models/BuyerGiftCard.md#buyergiftcardreserved_money).
 
 ### GiftCardCreatedInstalledMerchantsEvent.source
 
-Declared alternatives: [BundleArchivedInstalledMerchantsEvent.source](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventsource).
+Field definitions: [BalanceTransactionCreatedInstalledMerchantsEvent.source](../models/BalanceTransactionCreatedInstalledMerchantsEvent.md#balancetransactioncreatedinstalledmerchantseventsource).
 

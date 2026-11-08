@@ -15,17 +15,17 @@ final class GiftCardFundingLossResolution extends Model {
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Value enum: "honor_value".
+    /** What the merchant decided about the card's value after the funding payment lost a dispute. Value enum: "honor_value".
      * @return string
      */
     public function getDisposition(): string { return $this->get('disposition'); }
     public function hasDisposition(): bool { return $this->has('disposition'); }
-    /** gift_card_funding_disposition_id
+    /** ID of the funding disposition recorded for the lost dispute.
      * @return string
      */
     public function getGiftCardFundingDispositionId(): string { return $this->get('gift_card_funding_disposition_id'); }
     public function hasGiftCardFundingDispositionId(): bool { return $this->has('gift_card_funding_disposition_id'); }
-    /** reason_message
+    /** The note you gave when you created the disposition.
      * @return string
      */
     public function getReasonMessage(): string { return $this->get('reason_message'); }

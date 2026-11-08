@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 final class TestClocksResource {
     public function __construct(private readonly Runtime $runtime) {}
-    /** Sandbox only. Moves the test clock forward to `frozen_at`. Flint returns `202` with the clock in status `advancing`, then moves the clock's customers and their subscriptions to `frozen_at`, running the billing that falls due along the way, in order. Flint sends `test_clock.ready` when the advance finishes, or `test_clock.failed` if it can't finish. You can also read the clock with `GET /v1/test-clocks/{test_clock_id}` until its status is `ready` or `failed`. One advance reaches at most two years, or two billing intervals of any subscription on the clock that isn't canceled, whichever is earlier.
+    /** Sandbox only. Moves the test clock forward to `frozen_at`. Flint accepts the request and returns the clock in status `advancing`, then moves the clock's customers and their subscriptions to `frozen_at`, running the billing that falls due along the way, in order. Flint sends `test_clock.ready` when the advance finishes, or `test_clock.failed` if it can't finish. You can also read the clock with `GET /v1/test-clocks/{test_clock_id}` until its status is `ready` or `failed`. One advance reaches at most two years, or two billing intervals of any subscription on the clock that isn't canceled, whichever is earlier.
      * @param string|Model $test_clock_id ID of the test clock.
      * @param TestClocksAdvanceParams|array<array-key, mixed>|Model $params Flat body fields and query/header parameters; path arguments follow URL order.
      * @return TestClock

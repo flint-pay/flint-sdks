@@ -8,6 +8,7 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `checked_in_ticket_count` | Required | integer | Tickets for this payment link that are checked in now, counted when the summary is read. Undoing a check-in or voiding a ticket lowers it. 0 for links that have issued no tickets. Format: `int32`. minimum: `0`. |
 | `computed_at` | Required | string | UTC time at which the summary was computed, at second precision. Format: `date-time`. |
 | `paid_order_count` | Required | integer | Number of orders whose collection has completed, across all currencies, including fully and partially refunded orders. Format: `int64`. |
 | `paid_totals` | Required | Array of [MoneyValue](../models/MoneyValue.md#moneyvalue) | Gross paid totals in integer minor units, one Money object per currency with paid orders, sorted by currency. Refunds are not subtracted. Empty array when there are no paid orders. |

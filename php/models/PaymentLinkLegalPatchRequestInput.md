@@ -10,7 +10,7 @@ Request input.
 | --- | --- | --- | --- |
 | `contract_url` | Optional | string or null | Send null to clear it. minLength: `1`. maxLength: `2048`. |
 | `refund_policy_url` | Optional | string or null | Send null to clear it. minLength: `1`. maxLength: `2048`. |
-| `require_terms_of_service` | Optional | boolean |  |
+| `require_terms_of_service` | Optional | boolean | Whether the buyer must accept the terms of service before paying. |
 | `shipping_policy_url` | Optional | string or null | Send null to clear it. minLength: `1`. maxLength: `2048`. |
 | `terms_of_service_url` | Optional | string or null | Send null to clear it. minLength: `1`. maxLength: `2048`. |
 

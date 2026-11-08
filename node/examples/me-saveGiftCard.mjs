@@ -12,8 +12,8 @@ const idempotencyKey = crypto.randomUUID();
 
 const result = await client.me.saveGiftCard(
   {
+    code: "0123456789AB1234",
     credential_type: "code",
-    code: "example",
   },
   { idempotencyKey: idempotencyKey },
 );

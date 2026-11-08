@@ -4,14 +4,14 @@ namespace Flint;
 /**
  * @property-read string $external_reference_id
  * @property-read MetadataRequestInput|array<array-key, mixed>|\stdClass $metadata
- * @property-read list<array{'display_name'?: string, 'max_selected'?: int, 'min_selected'?: int, 'modifier_group'?: CreateInlineModifierGroupRequestInput|array<array-key, mixed>|\stdClass, 'modifier_group_id': string, 'modifier_overrides'?: list<array{'available'?: bool, 'default_quantity'?: int, 'line_item_tax_category'?: string, 'modifier_id': string, 'selected_by_default'?: bool, 'taxable'?: bool, 'unit_price_delta_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass}|object>, 'position'?: int, 'required'?: bool, 'show_on_fulfillment'?: bool, 'show_on_receipt'?: bool, 'source': string}|object|array{'display_name'?: string, 'max_selected'?: int, 'min_selected'?: int, 'modifier_group': CreateInlineModifierGroupRequestInput|array<array-key, mixed>|\stdClass, 'modifier_group_id'?: string, 'modifier_overrides'?: list<array{'available'?: bool, 'default_quantity'?: int, 'line_item_tax_category'?: string, 'modifier_id': string, 'selected_by_default'?: bool, 'taxable'?: bool, 'unit_price_delta_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass}|object>, 'position'?: int, 'required'?: bool, 'show_on_fulfillment'?: bool, 'show_on_receipt'?: bool, 'source': string}|object> $modifier_groups
+ * @property-read list<CreateModifierSetGroupRequestInput|array<array-key, mixed>|\stdClass> $modifier_groups
  * @property-read string $name
  * @property-read string $status
  * Presence-aware input; omitted fields throw when accessed. */
 final class ModifierSetsCreateParams extends Model {
-    /** @param array{'external_reference_id'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'modifier_groups'?: list<array{'display_name'?: string, 'max_selected'?: int, 'min_selected'?: int, 'modifier_group'?: CreateInlineModifierGroupRequestInput|array<array-key, mixed>|\stdClass, 'modifier_group_id': string, 'modifier_overrides'?: list<array{'available'?: bool, 'default_quantity'?: int, 'line_item_tax_category'?: string, 'modifier_id': string, 'selected_by_default'?: bool, 'taxable'?: bool, 'unit_price_delta_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass}|object>, 'position'?: int, 'required'?: bool, 'show_on_fulfillment'?: bool, 'show_on_receipt'?: bool, 'source': string}|object|array{'display_name'?: string, 'max_selected'?: int, 'min_selected'?: int, 'modifier_group': CreateInlineModifierGroupRequestInput|array<array-key, mixed>|\stdClass, 'modifier_group_id'?: string, 'modifier_overrides'?: list<array{'available'?: bool, 'default_quantity'?: int, 'line_item_tax_category'?: string, 'modifier_id': string, 'selected_by_default'?: bool, 'taxable'?: bool, 'unit_price_delta_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass}|object>, 'position'?: int, 'required'?: bool, 'show_on_fulfillment'?: bool, 'show_on_receipt'?: bool, 'source': string}|object>, 'name': string, 'status'?: string}|object $values */
+    /** @param array{'external_reference_id'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'modifier_groups'?: list<CreateModifierSetGroupRequestInput|array<array-key, mixed>|\stdClass>, 'name': string, 'status'?: string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ModifierSetsCreateParams')); }
-    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -24,7 +24,7 @@ final class ModifierSetsCreateParams extends Model {
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** Ordered group entries in this set, including references to reusable groups and groups owned by the set. [] (Value): {@see CreateModifierSetGroupRequestInput}. A modifier group to add to a modifier set, either an existing group by ID or one defined inline, chosen by `source`.
-     * @return list<array{'display_name'?: string, 'max_selected'?: int, 'min_selected'?: int, 'modifier_group'?: CreateInlineModifierGroupRequestInput|array<array-key, mixed>|\stdClass, 'modifier_group_id': string, 'modifier_overrides'?: list<array{'available'?: bool, 'default_quantity'?: int, 'line_item_tax_category'?: string, 'modifier_id': string, 'selected_by_default'?: bool, 'taxable'?: bool, 'unit_price_delta_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass}|object>, 'position'?: int, 'required'?: bool, 'show_on_fulfillment'?: bool, 'show_on_receipt'?: bool, 'source': string}|object|array{'display_name'?: string, 'max_selected'?: int, 'min_selected'?: int, 'modifier_group': CreateInlineModifierGroupRequestInput|array<array-key, mixed>|\stdClass, 'modifier_group_id'?: string, 'modifier_overrides'?: list<array{'available'?: bool, 'default_quantity'?: int, 'line_item_tax_category'?: string, 'modifier_id': string, 'selected_by_default'?: bool, 'taxable'?: bool, 'unit_price_delta_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass}|object>, 'position'?: int, 'required'?: bool, 'show_on_fulfillment'?: bool, 'show_on_receipt'?: bool, 'source': string}|object>
+     * @return list<CreateModifierSetGroupRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When modifier_groups is omitted; use hasModifierGroups() or valueOrDefault().
      */
     public function getModifierGroups(): array { return $this->get('modifier_groups'); }
@@ -41,4 +41,22 @@ final class ModifierSetsCreateParams extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
+    /** Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Merchant-Id is omitted; use hasFlintMerchantId() or valueOrDefault().
+     */
+    public function getFlintMerchantId(): string { return $this->get('Flint-Merchant-Id'); }
+    public function hasFlintMerchantId(): bool { return $this->has('Flint-Merchant-Id'); }
+    /** Mode of the request context, live or test. Optional; it must match the credential's mode. Value enum: "test", "live".
+     * @return string
+     * @throws SdkError When Flint-Mode is omitted; use hasFlintMode() or valueOrDefault().
+     */
+    public function getFlintMode(): string { return $this->get('Flint-Mode'); }
+    public function hasFlintMode(): bool { return $this->has('Flint-Mode'); }
+    /** Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Sandbox-Id is omitted; use hasFlintSandboxId() or valueOrDefault().
+     */
+    public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
+    public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
 }

@@ -8,11 +8,9 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.subscriptions.skipCycle(
-  "sub_01ARZ3NDEKTSV4RRFFQ69G5FAV",
-  {
-    initiated_by: "merchant",
-  },
+  "sub_01KEZF7C00BVRE8YDBXQB74BBM",
+  undefined,
   { idempotencyKey: idempotencyKey },
 );
 console.log(result.customer_id);
-console.log(result.payment_method_id);
+console.log(result.merchant_id);

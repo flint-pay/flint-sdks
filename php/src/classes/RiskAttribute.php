@@ -15,12 +15,12 @@ namespace Flint;
 final class RiskAttribute extends Model {
     /** @param array{'available_from': string, 'enum_values'?: list<string>, 'is_available': bool, 'is_nullable': bool, 'missing_value_behavior': string, 'name': string, 'operators': list<string>, 'unavailable_reason'?: string, 'value_type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RiskAttribute')); }
-    /** Value enum: "pre_authorization", "post_authorization".
+    /** The stage from which the attribute's value is known. Value enum: "pre_authorization", "post_authorization".
      * @return string
      */
     public function getAvailableFrom(): string { return $this->get('available_from'); }
     public function hasAvailableFrom(): bool { return $this->has('available_from'); }
-    /**  [] (Value): string.
+    /** The values the attribute can take. Present for `enum` attributes. [] (Value): string.
      * @return ?list<string>
      */
     public function getEnumValues(): ?array { return $this->get('enum_values'); }
@@ -35,12 +35,12 @@ final class RiskAttribute extends Model {
      */
     public function getIsNullable(): bool { return $this->get('is_nullable'); }
     public function hasIsNullable(): bool { return $this->has('is_nullable'); }
-    /** Value enum: "not_applicable_except_is_missing".
+    /** How a comparison treats a payment that has no value for the attribute. Value enum: "not_applicable_except_is_missing".
      * @return string
      */
     public function getMissingValueBehavior(): string { return $this->get('missing_value_behavior'); }
     public function hasMissingValueBehavior(): bool { return $this->has('missing_value_behavior'); }
-    /** name
+    /** Name of the attribute, as a rule's `attribute` field uses it.
      * @return string
      */
     public function getName(): string { return $this->get('name'); }
@@ -50,12 +50,12 @@ final class RiskAttribute extends Model {
      */
     public function getOperators(): array { return $this->get('operators'); }
     public function hasOperators(): bool { return $this->has('operators'); }
-    /** Value enum: "risk_scoring_not_enabled", "ip_geolocation_not_enabled".
+    /** Why the attribute can't be used in rules. Present when `is_available` is `false`. Value enum: "risk_scoring_not_enabled", "ip_geolocation_not_enabled".
      * @return ?string
      */
     public function getUnavailableReason(): ?string { return $this->get('unavailable_reason'); }
     public function hasUnavailableReason(): bool { return $this->has('unavailable_reason'); }
-    /** Value enum: "money", "currency", "string", "enum", "country", "email", "ip_address", "boolean", "integer".
+    /** The kind of value the attribute holds. Value enum: "money", "currency", "string", "enum", "country", "email", "ip_address", "boolean", "integer".
      * @return string
      */
     public function getValueType(): string { return $this->get('value_type'); }

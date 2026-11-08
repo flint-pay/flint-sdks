@@ -31,7 +31,7 @@ final class UpdateDeliveryFulfillmentDetailsInput extends Model {
      */
     public function getCarrier(): string|null { return $this->get('carrier'); }
     public function hasCarrier(): bool { return $this->has('carrier'); }
-    /** Time at which the courier collected the order. Send null to clear it. Format: date-time. minLength: 1.
+    /** Time at which the courier collected the order. Send null to clear it. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface|null
      * @throws SdkError When courier_pickup_at is omitted; use hasCourierPickupAt() or valueOrDefault().
      */
@@ -55,13 +55,13 @@ final class UpdateDeliveryFulfillmentDetailsInput extends Model {
      */
     public function getCourierSupportPhone(): string|null { return $this->get('courier_support_phone'); }
     public function hasCourierSupportPhone(): bool { return $this->has('courier_support_phone'); }
-    /** RFC3339 timestamp. Send null to clear it. Format: date-time. minLength: 1.
+    /** RFC3339 timestamp. Send null to clear it. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface|null
      * @throws SdkError When delivered_at is omitted; use hasDeliveredAt() or valueOrDefault().
      */
     public function getDeliveredAt(): string|\DateTimeInterface|null { return $this->get('delivered_at'); }
     public function hasDeliveredAt(): bool { return $this->has('delivered_at'); }
-    /** RFC3339 timestamp. Send null to clear it. Format: date-time. minLength: 1.
+    /** RFC3339 timestamp. Send null to clear it. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface|null
      * @throws SdkError When dispatched_at is omitted; use hasDispatchedAt() or valueOrDefault().
      */
@@ -73,13 +73,13 @@ final class UpdateDeliveryFulfillmentDetailsInput extends Model {
      */
     public function getDropoffNotes(): string|null { return $this->get('dropoff_notes'); }
     public function hasDropoffNotes(): bool { return $this->has('dropoff_notes'); }
-    /** Deadline after which an undelivered job should enter merchant review. Send null to clear it. Format: date-time. minLength: 1.
+    /** Deadline after which an undelivered job should enter merchant review. Send null to clear it. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface|null
      * @throws SdkError When expires_at is omitted; use hasExpiresAt() or valueOrDefault().
      */
     public function getExpiresAt(): string|\DateTimeInterface|null { return $this->get('expires_at'); }
     public function hasExpiresAt(): bool { return $this->has('expires_at'); }
-    /** Stable delivery job ID owned by the courier or merchant dispatch system. Send null to clear it. minLength: 1. maxLength: 255.
+    /** Stable delivery job ID owned by the courier or merchant dispatch system. Send null to clear it. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string|null
      * @throws SdkError When external_delivery_id is omitted; use hasExternalDeliveryId() or valueOrDefault().
      */
@@ -103,19 +103,19 @@ final class UpdateDeliveryFulfillmentDetailsInput extends Model {
      */
     public function getPrepTimeDurationSeconds(): int|null { return $this->get('prep_time_duration_seconds'); }
     public function hasPrepTimeDurationSeconds(): bool { return $this->has('prep_time_duration_seconds'); }
-    /** Time at which the order became ready for courier pickup. Send null to clear it. Format: date-time. minLength: 1.
+    /** Time at which the order became ready for courier pickup. Send null to clear it. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface|null
      * @throws SdkError When ready_at is omitted; use hasReadyAt() or valueOrDefault().
      */
     public function getReadyAt(): string|\DateTimeInterface|null { return $this->get('ready_at'); }
     public function hasReadyAt(): bool { return $this->has('ready_at'); }
-    /** Send null to clear it. minLength: 1.
+    /** Send null to clear it. minLength: 1. Example: "boston-north".
      * @return string|null
      * @throws SdkError When service_area_id is omitted; use hasServiceAreaId() or valueOrDefault().
      */
     public function getServiceAreaId(): string|null { return $this->get('service_area_id'); }
     public function hasServiceAreaId(): bool { return $this->has('service_area_id'); }
-    /** minLength: 1.
+    /** Uses an IANA time zone name. minLength: 1.
      * @return string
      * @throws SdkError When timezone is omitted; use hasTimezone() or valueOrDefault().
      */
@@ -127,13 +127,13 @@ final class UpdateDeliveryFulfillmentDetailsInput extends Model {
      */
     public function getTrackingUrl(): string|null { return $this->get('tracking_url'); }
     public function hasTrackingUrl(): bool { return $this->has('tracking_url'); }
-    /** RFC3339 timestamp. Send null to clear it. Format: date-time. minLength: 1.
+    /** RFC3339 timestamp. Send null to clear it. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface|null
      * @throws SdkError When window_end_at is omitted; use hasWindowEndAt() or valueOrDefault().
      */
     public function getWindowEndAt(): string|\DateTimeInterface|null { return $this->get('window_end_at'); }
     public function hasWindowEndAt(): bool { return $this->has('window_end_at'); }
-    /** RFC3339 timestamp. Send null to clear it. Format: date-time. minLength: 1.
+    /** RFC3339 timestamp. Send null to clear it. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface|null
      * @throws SdkError When window_start_at is omitted; use hasWindowStartAt() or valueOrDefault().
      */

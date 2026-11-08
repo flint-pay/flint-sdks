@@ -9,7 +9,7 @@ namespace Flint;
 final class CustomerDeletionRequestsCreateInput extends Model {
     /** @param array{'body': array{'customer_id': string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerDeletionRequestsCreateInput')); }
-    /** The request body for: Request customer account deletion.
+    /** The request body for: Request customer account deletion. Example: {"customer_id":"cus_01KEZF7C003ACYXT6Q5EQZ78EE"}.
      * @return array{'customer_id': string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

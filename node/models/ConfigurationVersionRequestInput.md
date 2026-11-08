@@ -2,7 +2,7 @@
 
 ## ConfigurationVersionRequestInput
 
-Request input. Response: [GiftCardVersionRequest](../models/GiftCardVersionRequest.md#giftcardversionrequest).
+Request input. Response: [CloseGiftCardRequest](../models/CloseGiftCardRequest.md#closegiftcardrequest).
 
 The request body for: Revoke an API key.
 

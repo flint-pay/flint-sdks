@@ -14,12 +14,11 @@ namespace Flint;
  * @property-read ?string $checkout_session_id
  * @property-read ?string $created_at
  * @property-read ?string $customer_id
- * @property-read string|null $external_reference_id
+ * @property-read string $customer_presence
  * @property-read ?PaymentFulfillmentHold $fulfillment_hold
  * @property-read ?string $invoice_id
  * @property-read PaymentErrorSummary|null $last_payment_error
  * @property-read ?string $merchant_id
- * @property-read array<array-key, mixed> $metadata
  * @property-read ?string $order_id
  * @property-read string $payment_flow
  * @property-read string $payment_intent_id
@@ -31,6 +30,7 @@ namespace Flint;
  * @property-read ?MoneyValue $released_money
  * @property-read ?string $return_id
  * @property-read ?string $selected_payment_option
+ * @property-read string|null $statement_descriptor
  * @property-read string $status
  * @property-read string $support_reference
  * @property-read list<string> $supported_actions
@@ -40,14 +40,14 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class BuyerPaymentIntent extends Model {
-    /** @param array{'amount_money': mixed, 'authorization_expires_at'?: string, 'authorized_at'?: string, 'authorized_money'?: mixed, 'cancellation_reason'?: string, 'capturable_money'?: mixed, 'capture_method'?: string, 'captured_at'?: string, 'captured_money'?: mixed, 'checkout_session_id'?: string, 'created_at'?: string, 'customer_id'?: string, 'external_reference_id'?: string|null, 'fulfillment_hold'?: mixed, 'invoice_id'?: string, 'last_payment_error': mixed, 'merchant_id'?: string, 'metadata': \stdClass, 'order_id'?: string, 'payment_flow': string, 'payment_intent_id': string, 'payment_options': list<string>, 'payment_source'?: mixed, 'receipt_email'?: string|null, 'refund_status'?: string, 'refunded_money'?: mixed, 'released_money'?: mixed, 'return_id'?: string, 'selected_payment_option'?: string, 'status': string, 'support_reference': string, 'supported_actions': list<string>, 'tip_money'?: mixed, 'transaction_purpose'?: string, 'updated_at'?: string, 'version': int, ...}|object $values */
+    /** @param array{'amount_money': mixed, 'authorization_expires_at'?: string, 'authorized_at'?: string, 'authorized_money'?: mixed, 'cancellation_reason'?: string, 'capturable_money'?: mixed, 'capture_method'?: string, 'captured_at'?: string, 'captured_money'?: mixed, 'checkout_session_id'?: string, 'created_at'?: string, 'customer_id'?: string, 'customer_presence': string, 'fulfillment_hold'?: mixed, 'invoice_id'?: string, 'last_payment_error': mixed, 'merchant_id'?: string, 'order_id'?: string, 'payment_flow': string, 'payment_intent_id': string, 'payment_options': list<string>, 'payment_source'?: mixed, 'receipt_email'?: string|null, 'refund_status'?: string, 'refunded_money'?: mixed, 'released_money'?: mixed, 'return_id'?: string, 'selected_payment_option'?: string, 'statement_descriptor': string|null, 'status': string, 'support_reference': string, 'supported_actions': list<string>, 'tip_money'?: mixed, 'transaction_purpose'?: string, 'updated_at'?: string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerPaymentIntent')); }
     /** The amount requested from the buyer, including any tip_money. Capturing doesn't change it: after a partial capture it still shows the requested amount, and captured_money shows what was collected. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getAmountMoney(): MoneyValue { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** When the hold lapses if it hasn't been collected. Set when the hold is placed. Format: date-time.
+    /** When the hold lapses if it hasn't been collected: the earlier of the payment provider's deadline and any guarantee for reserved resources. Omitted until a hold is placed. Format: date-time.
      * @return ?string
      */
     public function getAuthorizationExpiresAt(): ?string { return $this->get('authorization_expires_at'); }
@@ -102,11 +102,11 @@ final class BuyerPaymentIntent extends Model {
      */
     public function getCustomerId(): ?string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255.
-     * @return string|null
+    /** Whether you took part in the latest charge. absent means the store charged your saved card while you weren't there, such as for a renewal or a fee. Each payment attempt sets it again. Value enum: "present", "absent".
+     * @return string
      */
-    public function getExternalReferenceId(): string|null { return $this->get('external_reference_id'); }
-    public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
+    public function getCustomerPresence(): string { return $this->get('customer_presence'); }
+    public function hasCustomerPresence(): bool { return $this->has('customer_presence'); }
     /** Present when a payment provider asked Flint to pause fulfillment for this payment. While its status is active, open fulfillments are on hold. A hold on fulfillment tied to a payment, with the reason, the action required, and whether the hold is active or released.
      * @return ?PaymentFulfillmentHold
      */
@@ -127,11 +127,6 @@ final class BuyerPaymentIntent extends Model {
      */
     public function getMerchantId(): ?string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** Caller-owned metadata. Keys starting with flint_ are reserved for Flint and aren't returned. maxProperties: 0.
-     * @return array<array-key, mixed>
-     */
-    public function getMetadata(): array { return $this->get('metadata'); }
-    public function hasMetadata(): bool { return $this->has('metadata'); }
     /** Order this payment belongs to.
      * @return ?string
      */
@@ -187,6 +182,11 @@ final class BuyerPaymentIntent extends Model {
      */
     public function getSelectedPaymentOption(): ?string { return $this->get('selected_payment_option'); }
     public function hasSelectedPaymentOption(): bool { return $this->has('selected_payment_option'); }
+    /** The text shown on the buyer's card or bank statement for this payment. `null` until the charge is created. `null` when the provider supplies no descriptor. Frozen when the charge is created.
+     * @return string|null
+     */
+    public function getStatementDescriptor(): string|null { return $this->get('statement_descriptor'); }
+    public function hasStatementDescriptor(): bool { return $this->has('statement_descriptor'); }
     /** Lifecycle status. requires_payment_method covers both a new payment and one whose last attempt failed, so read last_payment_error with it. succeeded, canceled, and expired are final. Refunds never change status. Value enum: "requires_payment_method", "requires_confirmation", "requires_action", "processing", "requires_capture", "canceled", "succeeded", "expired".
      * @return string
      */

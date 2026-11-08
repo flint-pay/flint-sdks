@@ -9,7 +9,7 @@ namespace Flint;
 final class CreateRiskListRequestInput extends Model {
     /** @param array{'alias': string, 'item_type': string, 'name': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateRiskListRequestInput')); }
-    /** minLength: 1. pattern: ^[a-z][a-z0-9_]{0,127}$.
+    /** Name rules use to refer to this list: a lowercase letter, then up to 127 lowercase letters, digits, or underscores. It can't be changed after creation. minLength: 1. pattern: ^[a-z][a-z0-9_]{0,127}$.
      * @return string
      * @throws SdkError When alias is omitted; use hasAlias() or valueOrDefault().
      */
@@ -21,7 +21,7 @@ final class CreateRiskListRequestInput extends Model {
      */
     public function getItemType(): string { return $this->get('item_type'); }
     public function hasItemType(): bool { return $this->has('item_type'); }
-    /** minLength: 1.
+    /** Display name of the list. minLength: 1.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */

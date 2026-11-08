@@ -1,1 +1,1 @@
-{"shared":"CreatePartnerAppRequest","dependencies":["CreatePartnerAppRequest","PartnerAppPermissionManifestEntryRequest"]}
+{"shared":"CreatePartnerAppRequest","dependencies":["CreatePartnerAppRequest","MoneyValue","PartnerAppPermissionManifestEntryRequest","PartnerAppPlatformProfileRequest"]}

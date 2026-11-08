@@ -22,7 +22,7 @@ final class ResponseMetaInput extends Model {
      */
     public function getIdempotencyReplayed(): bool { return $this->get('idempotency_replayed'); }
     public function hasIdempotencyReplayed(): bool { return $this->has('idempotency_replayed'); }
-    /** Trace identifier to include when contacting Flint about this request.
+    /** Trace identifier to include when contacting Flint about this request. Example: "0123456789abcdef0123456789abcdef".
      * @return string
      * @throws SdkError When trace_id is omitted; use hasTraceId() or valueOrDefault().
      */

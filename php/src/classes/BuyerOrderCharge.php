@@ -5,7 +5,7 @@ namespace Flint;
  * @property-read ?MoneyValue $amount_money
  * @property-read MoneyValue $applied_money
  * @property-read ?string $calculation_basis
- * @property-read ?string $created_at
+ * @property-read string $created_at
  * @property-read ?string $description
  * @property-read ?string $fulfillment_id
  * @property-read string $name
@@ -16,10 +16,10 @@ namespace Flint;
  * @property-read MoneyValue $tax_money
  * @property-read MoneyValue $total_money
  * @property-read string $type
- * @property-read ?string $updated_at
+ * @property-read string $updated_at
  * Presence-aware response; omitted optional fields return null. */
 final class BuyerOrderCharge extends Model {
-    /** @param array{'amount_money'?: mixed, 'applied_money': mixed, 'calculation_basis'?: string, 'created_at'?: string, 'description'?: string, 'fulfillment_id'?: string, 'name': string, 'order_charge_id': string, 'percent'?: float, 'refunded_money': mixed, 'tax'?: mixed, 'tax_money': mixed, 'total_money': mixed, 'type': string, 'updated_at'?: string, ...}|object $values */
+    /** @param array{'amount_money'?: mixed, 'applied_money': mixed, 'calculation_basis'?: string, 'created_at': string, 'description'?: string, 'fulfillment_id'?: string, 'name': string, 'order_charge_id': string, 'percent'?: float, 'refunded_money': mixed, 'tax'?: mixed, 'tax_money': mixed, 'total_money': mixed, 'type': string, 'updated_at': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerOrderCharge')); }
     /** Fixed charge amount before charge discounts and tax. Percentage charges use percent instead. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return ?MoneyValue
@@ -31,37 +31,37 @@ final class BuyerOrderCharge extends Model {
      */
     public function getAppliedMoney(): MoneyValue { return $this->get('applied_money'); }
     public function hasAppliedMoney(): bool { return $this->has('applied_money'); }
-    /** Value enum: "subtotal_pre_discount", "subtotal_post_discount".
+    /** The amount a percent charge is calculated from. Value enum: "subtotal_pre_discount", "subtotal_post_discount".
      * @return ?string
      */
     public function getCalculationBasis(): ?string { return $this->get('calculation_basis'); }
     public function hasCalculationBasis(): bool { return $this->has('calculation_basis'); }
     /** RFC3339 timestamp. Format: date-time.
-     * @return ?string
+     * @return string
      */
-    public function getCreatedAt(): ?string { return $this->get('created_at'); }
+    public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** description
+    /** Optional description of the charge.
      * @return ?string
      */
     public function getDescription(): ?string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** fulfillment_id
+    /** ID of the fulfillment this charge belongs to, such as a shipping fee on its shipment.
      * @return ?string
      */
     public function getFulfillmentId(): ?string { return $this->get('fulfillment_id'); }
     public function hasFulfillmentId(): bool { return $this->has('fulfillment_id'); }
-    /** name
+    /** What the buyer sees for this charge at checkout and on receipts.
      * @return string
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** order_charge_id
+    /** Unique identifier for this order charge, prefixed `och_`.
      * @return string
      */
     public function getOrderChargeId(): string { return $this->get('order_charge_id'); }
     public function hasOrderChargeId(): bool { return $this->has('order_charge_id'); }
-    /** multipleOf: 0.0001.
+    /** Percentage points of the base `calculation_basis` names, such as `3` for 3%. Fixed charges use `amount_money` instead. multipleOf: 0.0001.
      * @return ?float
      */
     public function getPercent(): ?float { return $this->get('percent'); }
@@ -71,7 +71,7 @@ final class BuyerOrderCharge extends Model {
      */
     public function getRefundedMoney(): MoneyValue { return $this->get('refunded_money'); }
     public function hasRefundedMoney(): bool { return $this->has('refunded_money'); }
-    /** Tax settings for an order charge calculated by Flint or supplied by you, including the charge's tax category and whether it is taxable.
+    /** How tax applies to this charge. Tax settings for an order charge calculated by Flint or supplied by you, including the charge's tax category and whether it is taxable.
      * @return ?OrderCalculatedChargeTax
      */
     public function getTax(): ?OrderCalculatedChargeTax { return $this->get('tax'); }
@@ -86,14 +86,14 @@ final class BuyerOrderCharge extends Model {
      */
     public function getTotalMoney(): MoneyValue { return $this->get('total_money'); }
     public function hasTotalMoney(): bool { return $this->has('total_money'); }
-    /** Value enum: "service_fee", "delivery_fee", "shipping_fee", "handling_fee", "packaging_fee", "small_order_fee", "service_area_fee", "setup_fee", "installation_fee", "cleaning_fee", "booking_fee", "reservation_fee", "ticket_fee", "fulfillment_fee", "restocking_fee", "rush_fee", "other".
+    /** What the charge is for. It classifies the charge in reporting and sets its default tax category. Value enum: "service_fee", "delivery_fee", "shipping_fee", "handling_fee", "packaging_fee", "small_order_fee", "service_area_fee", "setup_fee", "installation_fee", "cleaning_fee", "booking_fee", "reservation_fee", "ticket_fee", "fulfillment_fee", "restocking_fee", "rush_fee", "other".
      * @return string
      */
     public function getType(): string { return $this->get('type'); }
     public function hasType(): bool { return $this->has('type'); }
     /** RFC3339 timestamp. Format: date-time.
-     * @return ?string
+     * @return string
      */
-    public function getUpdatedAt(): ?string { return $this->get('updated_at'); }
+    public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
 }

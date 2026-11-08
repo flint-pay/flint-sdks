@@ -15,7 +15,7 @@ namespace Flint;
 final class ReturnInspectionLineItemRequestInput extends Model {
     /** @param array{'acceptance_status': string, 'condition': string, 'finding_codes'?: list<string>, 'internal_note'?: string, 'quantity': int, 'return_line_item_id'?: string, 'return_receipt_line_item_id': string, 'verification_reason'?: string, 'verification_reason_message'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnInspectionLineItemRequestInput')); }
-    /** Value enum: "accepted", "rejected", "review_required".
+    /** Whether the inspected units were accepted, rejected, or need a merchant's decision. Value enum: "accepted", "rejected", "review_required".
      * @return string
      * @throws SdkError When acceptance_status is omitted; use hasAcceptanceStatus() or valueOrDefault().
      */
@@ -27,13 +27,13 @@ final class ReturnInspectionLineItemRequestInput extends Model {
      */
     public function getCondition(): string { return $this->get('condition'); }
     public function hasCondition(): bool { return $this->has('condition'); }
-    /** [] enum: "matches_expected_item", "wrong_item", "damaged", "defective", "used", "missing_parts", "empty_package", "counterfeit_suspected", "other". [] (Value): string.  Value enum: "matches_expected_item", "wrong_item", "damaged", "defective", "used", "missing_parts", "empty_package", "counterfeit_suspected", "other".
+    /** What the inspection found. Up to 50 values, none repeated. [] enum: "matches_expected_item", "wrong_item", "damaged", "defective", "used", "missing_parts", "empty_package", "counterfeit_suspected", "other". [] (Value): string.  Value enum: "matches_expected_item", "wrong_item", "damaged", "defective", "used", "missing_parts", "empty_package", "counterfeit_suspected", "other".
      * @return list<string>
      * @throws SdkError When finding_codes is omitted; use hasFindingCodes() or valueOrDefault().
      */
     public function getFindingCodes(): array { return $this->get('finding_codes'); }
     public function hasFindingCodes(): bool { return $this->has('finding_codes'); }
-    /** minLength: 1.
+    /** Note for your own team about this line. minLength: 1.
      * @return string
      * @throws SdkError When internal_note is omitted; use hasInternalNote() or valueOrDefault().
      */
@@ -45,25 +45,25 @@ final class ReturnInspectionLineItemRequestInput extends Model {
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
-    /** minLength: 1.
+    /** ID of the Return line inspected. minLength: 1. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
      * @return string
      * @throws SdkError When return_line_item_id is omitted; use hasReturnLineItemId() or valueOrDefault().
      */
     public function getReturnLineItemId(): string { return $this->get('return_line_item_id'); }
     public function hasReturnLineItemId(): bool { return $this->has('return_line_item_id'); }
-    /** minLength: 1.
+    /** ID of the receipt line inspected. minLength: 1. Example: "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE".
      * @return string
      * @throws SdkError When return_receipt_line_item_id is omitted; use hasReturnReceiptLineItemId() or valueOrDefault().
      */
     public function getReturnReceiptLineItemId(): string { return $this->get('return_receipt_line_item_id'); }
     public function hasReturnReceiptLineItemId(): bool { return $this->has('return_receipt_line_item_id'); }
-    /** Value enum: "order_match_confirmed", "sku_match_confirmed", "inspection_confirmed", "merchant_review", "other".
+    /** Why the receipt line was verified against the Return line. Value enum: "order_match_confirmed", "sku_match_confirmed", "inspection_confirmed", "merchant_review", "other".
      * @return string
      * @throws SdkError When verification_reason is omitted; use hasVerificationReason() or valueOrDefault().
      */
     public function getVerificationReason(): string { return $this->get('verification_reason'); }
     public function hasVerificationReason(): bool { return $this->has('verification_reason'); }
-    /** minLength: 1.
+    /** Detail about `verification_reason`. minLength: 1.
      * @return string
      * @throws SdkError When verification_reason_message is omitted; use hasVerificationReasonMessage() or valueOrDefault().
      */

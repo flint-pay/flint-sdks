@@ -5,9 +5,9 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/deliveryMethods.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import r0 from '../descriptors/resources/deliveryMethods.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import settings from '../descriptors/settings.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createDeliveryMethod"]:r0,["deleteDeliveryMethod"]:r0,["getDeliveryMethod"]:r0,["listDeliveryMethods"]:r0,["updateDeliveryMethod"]:r0});
 export class Client {
@@ -15,7 +15,11 @@ export class Client {
 constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.deliveryMethods = Object.freeze({
-      create: async (params, options) => this.#runtime.request("createDeliveryMethod", _sdkRequestInput([], [], [], true, true, params, [
+      create: async (params, options) => this.#runtime.request("createDeliveryMethod", _sdkRequestInput([], [], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
@@ -23,7 +27,10 @@ this.deliveryMethods = Object.freeze({
       delete: async (delivery_method_id, params, options) => this.#runtime.request("deleteDeliveryMethod", _sdkRequestInput([
   "delivery_method_id"
 ], [delivery_method_id], [
-  "expected_version"
+  "expected_version",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Idempotency-Key",
   "Flint-Version",
@@ -31,7 +38,11 @@ this.deliveryMethods = Object.freeze({
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("deleteDeliveryMethod", result, path))),
       get: async (delivery_method_id, params, options) => this.#runtime.request("getDeliveryMethod", _sdkRequestInput([
   "delivery_method_id"
-], [delivery_method_id], [], false, false, params, [
+], [delivery_method_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getDeliveryMethod", result, path))),
@@ -45,7 +56,10 @@ this.deliveryMethods = Object.freeze({
   "delivery_zone_id",
   "delivery_location_set_id",
   "delivery_rate_callback_id",
-  "location_id"
+  "location_id",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -60,7 +74,10 @@ this.deliveryMethods = Object.freeze({
   "delivery_zone_id",
   "delivery_location_set_id",
   "delivery_rate_callback_id",
-  "location_id"
+  "location_id",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -75,14 +92,21 @@ this.deliveryMethods = Object.freeze({
   "delivery_zone_id",
   "delivery_location_set_id",
   "delivery_rate_callback_id",
-  "location_id"
+  "location_id",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
 ]), options),
       update: async (delivery_method_id, params, options) => this.#runtime.request("updateDeliveryMethod", _sdkRequestInput([
   "delivery_method_id"
-], [delivery_method_id], [], true, true, params, [
+], [delivery_method_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
@@ -104,12 +128,12 @@ export { makeDeliveryBusinessDayRangeRequest } from '../models/DeliveryBusinessD
 export { makeDeliveryCalculatedPricingStrategyRequest } from '../models/DeliveryCalculatedPricingStrategyRequest.js';
 export { makeDeliveryCallbackPricingStrategyRequest } from '../models/DeliveryCallbackPricingStrategyRequest.js';
 export { makeDeliveryCallerSuppliedPricingStrategyRequest } from '../models/DeliveryCallerSuppliedPricingStrategyRequest.js';
-export { makeDeliveryCountryCondition } from '../models/DeliveryCountryCondition.js';
+export { makeDeliveryCountryConditionRequest } from '../models/DeliveryCountryConditionRequest.js';
 export { makeDeliveryCustomerBooleanCondition } from '../models/DeliveryCustomerBooleanCondition.js';
 export { makeDeliveryCustomerSegmentCondition } from '../models/DeliveryCustomerSegmentCondition.js';
-export { makeDeliveryDistance } from '../models/DeliveryDistance.js';
+export { makeDeliveryDistanceRequest } from '../models/DeliveryDistanceRequest.js';
 export { makeDeliveryDistanceUnitPriceRequest } from '../models/DeliveryDistanceUnitPriceRequest.js';
-export { makeDeliveryEligibilityExpression } from '../models/DeliveryEligibilityExpression.js';
+export { makeDeliveryEligibilityExpressionRequest } from '../models/DeliveryEligibilityExpressionRequest.js';
 export { makeDeliveryEstimateRuleRequest } from '../models/DeliveryEstimateRuleRequest.js';
 export { makeDeliveryFixedPricingStrategyRequest } from '../models/DeliveryFixedPricingStrategyRequest.js';
 export { makeDeliveryMethodConfigurationCreateRequest } from '../models/DeliveryMethodConfigurationCreateRequest.js';
@@ -123,8 +147,8 @@ export { makeDeliveryMethodOriginSelectorInputPickupLocationCollection } from '.
 export { makeDeliveryMethodOriginSelectorInputPickupLocationCollectionDeliveryLocationSet } from '../models/DeliveryMethodOriginSelectorInputPickupLocationCollectionDeliveryLocationSet.js';
 export { makeDeliveryMethodOriginSelectorInputPickupLocationCollectionLocations } from '../models/DeliveryMethodOriginSelectorInputPickupLocationCollectionLocations.js';
 export { makeDeliveryMethodOriginSelectorRequest } from '../models/DeliveryMethodOriginSelectorRequest.js';
-export { makeDeliveryPostalCodeCondition } from '../models/DeliveryPostalCodeCondition.js';
-export { makeDeliveryPostalCodeValue } from '../models/DeliveryPostalCodeValue.js';
+export { makeDeliveryPostalCodeConditionRequest } from '../models/DeliveryPostalCodeConditionRequest.js';
+export { makeDeliveryPostalCodeValueRequest } from '../models/DeliveryPostalCodeValueRequest.js';
 export { makeDeliveryPricingRateCreateRequest } from '../models/DeliveryPricingRateCreateRequest.js';
 export { makeDeliveryPricingRateRequest } from '../models/DeliveryPricingRateRequest.js';
 export { makeDeliveryPricingStrategyCreateInputCalculated } from '../models/DeliveryPricingStrategyCreateInputCalculated.js';
@@ -142,13 +166,13 @@ export { makeDeliveryPricingStrategyInputRateTable } from '../models/DeliveryPri
 export { makeDeliveryPricingStrategyInputTiered } from '../models/DeliveryPricingStrategyInputTiered.js';
 export { makeDeliveryPricingStrategyRequest } from '../models/DeliveryPricingStrategyRequest.js';
 export { makeDeliveryPricingTierBandRequest } from '../models/DeliveryPricingTierBandRequest.js';
-export { makeDeliveryRadiusCondition } from '../models/DeliveryRadiusCondition.js';
+export { makeDeliveryRadiusConditionRequest } from '../models/DeliveryRadiusConditionRequest.js';
 export { makeDeliveryRadiusOrigin } from '../models/DeliveryRadiusOrigin.js';
 export { makeDeliveryRateTablePricingStrategyCreateRequest } from '../models/DeliveryRateTablePricingStrategyCreateRequest.js';
 export { makeDeliveryRateTablePricingStrategyRequest } from '../models/DeliveryRateTablePricingStrategyRequest.js';
-export { makeDeliveryRecipientRequirement } from '../models/DeliveryRecipientRequirement.js';
+export { makeDeliveryRecipientRequirementRequest } from '../models/DeliveryRecipientRequirementRequest.js';
 export { makeDeliveryScheduleWindowRuleRequest } from '../models/DeliveryScheduleWindowRuleRequest.js';
-export { makeDeliveryStateCondition } from '../models/DeliveryStateCondition.js';
+export { makeDeliveryStateConditionRequest } from '../models/DeliveryStateConditionRequest.js';
 export { makeDeliveryTieredPricingStrategyInputQuantityOrMoney } from '../models/DeliveryTieredPricingStrategyInputQuantityOrMoney.js';
 export { makeDeliveryTieredPricingStrategyInputWeight } from '../models/DeliveryTieredPricingStrategyInputWeight.js';
 export { makeDeliveryTieredPricingStrategyRequest } from '../models/DeliveryTieredPricingStrategyRequest.js';
@@ -156,7 +180,7 @@ export { makeDeliveryTransitTimeRuleRequest } from '../models/DeliveryTransitTim
 export { makeDeliveryWeeklyIntervalRequest } from '../models/DeliveryWeeklyIntervalRequest.js';
 export { makeDeliveryWeightUnitPriceRequest } from '../models/DeliveryWeightUnitPriceRequest.js';
 export { makeDeliveryWindowTimeCondition } from '../models/DeliveryWindowTimeCondition.js';
-export { makeDeliveryZoneCondition } from '../models/DeliveryZoneCondition.js';
+export { makeDeliveryZoneConditionRequest } from '../models/DeliveryZoneConditionRequest.js';
 export { makeMetadataPatchRequest } from '../models/MetadataPatchRequest.js';
 export { makeMetadataRequest } from '../models/MetadataRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';

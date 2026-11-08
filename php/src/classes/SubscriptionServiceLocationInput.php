@@ -14,7 +14,7 @@ final class SubscriptionServiceLocationInput extends Model {
      */
     public function getAddress(): mixed { return $this->get('address'); }
     public function hasAddress(): bool { return $this->has('address'); }
-    /** customer_address_id
+    /** Example: "caddr_01KEZF7C00K2Q127FBJAXWB0FP".
      * @return string
      * @throws SdkError When customer_address_id is omitted; use hasCustomerAddressId() or valueOrDefault().
      */

@@ -8,6 +8,6 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `line_items` | Required | Array of [ReturnLineItemRequestInput](../models/ReturnLineItemRequestInput.md#returnlineitemrequestinput) | minItems: `1`. maxItems: `100`. |
-| `order_id` | Required | string | minLength: `1`. |
+| `line_items` | Required | Array of [ReturnLineItemRequestInput](../models/ReturnLineItemRequestInput.md#returnlineitemrequestinput) | The lines to check or return, each naming an order line item. minItems: `1`. maxItems: `100`. |
+| `order_id` | Required | string | ID of the Order to return items from. minLength: `1`. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
 

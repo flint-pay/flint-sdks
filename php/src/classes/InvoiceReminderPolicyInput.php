@@ -7,7 +7,7 @@ namespace Flint;
 final class InvoiceReminderPolicyInput extends Model {
     /** @param array{'rules': list<InvoiceReminderRuleInput|array<array-key, mixed>|\stdClass>}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceReminderPolicyInput')); }
-    /** maxItems: 20. [] (Value): {@see InvoiceReminderRuleInput}. One reminder in an invoice reminder policy. `days_from_due` sets when it is sent: negative values are days before the due date, positive values days after.
+    /** Reminder dates relative to the invoice due date. At most 20 rules; [] disables scheduled reminders. maxItems: 20. [] (Value): {@see InvoiceReminderRuleInput}. One reminder in an invoice reminder policy. `days_from_due` sets when it is sent: negative values are days before the due date, positive values days after.
      * @return list<InvoiceReminderRuleInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When rules is omitted; use hasRules() or valueOrDefault().
      */

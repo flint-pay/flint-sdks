@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 final class OpenapiResource {
     public function __construct(private readonly Runtime $runtime) {}
-    /** Returns the Flint public OpenAPI document for tooling, schema inspection, and client generation.
+    /** Returns the Flint public OpenAPI document for tooling, schema inspection, and client generation. The document describes one API version: the `version` query parameter if you send it, otherwise the `Flint-Version` header, otherwise Flint's current version. The route takes no credential. The body is gzip-compressed when the request's `Accept-Encoding` header accepts gzip.
      * @param OpenapiGetSpecParams|array<array-key, mixed>|Model|null $params Flat body fields and query/header parameters; path arguments follow URL order.
      * @return Result<array<array-key, mixed>>
      */

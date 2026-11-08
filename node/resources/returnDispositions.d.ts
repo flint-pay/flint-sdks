@@ -1,16 +1,17 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { CancelReturnDispositionResponse } from '../declarations/types-4.js';
-import type { ClientOptions } from '../declarations/types-5.js';
-import type { GetReturnDispositionResponse } from '../declarations/types-23.js';
-import type { ListReturnDispositionsResponse } from '../declarations/types-32.js';
-import type { RequestOptions, RetryReturnDispositionResponse, ReturnDisposition } from '../declarations/types-48.js';
+import type { ClientOptions } from '../declarations/types-6.js';
+import type { GetReturnDispositionResponse } from '../declarations/types-25.js';
+import type { ListReturnDispositionsResponse } from '../declarations/types-34.js';
+import type { RequestOptions, RetryReturnDispositionResponse } from '../declarations/types-51.js';
 import type {
+    ReturnDisposition,
     ReturnDispositionsCancelParams,
     ReturnDispositionsGetParams,
     ReturnDispositionsListParams,
     ReturnDispositionsRetryParams
-} from '../declarations/types-49.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-52.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -27,31 +28,34 @@ export type {
 } from '../runtime.js';
 export type {
     ReturnDispositionsCancelParams,
+    ReturnDisposition,
     ReturnDispositionsGetParams,
     ReturnDispositionsListParams,
-    ReturnDispositionsRetryParams
-} from '../declarations/types-49.js';
+    ReturnDispositionsRetryParams,
+    ReturnActor
+} from '../declarations/types-52.js';
 export type {
     RequestOptions,
-    ReturnDisposition,
     RetryReturnDispositionResponse,
-    ReturnActor,
     ResponseMeta,
     ResponseWarning,
+    ResourceReference,
     RetryReturnDispositionRequestInput
-} from '../declarations/types-48.js';
+} from '../declarations/types-51.js';
 export type { CancelReturnDispositionResponse, CancelReturnDispositionRequestInput } from '../declarations/types-4.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { GetReturnDispositionResponse } from '../declarations/types-23.js';
-export type { ListReturnDispositionsResponse } from '../declarations/types-32.js';
-export type { ClientOptions } from '../declarations/types-5.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+export type { GetReturnDispositionResponse } from '../declarations/types-25.js';
+export type { ListReturnDispositionsResponse } from '../declarations/types-34.js';
+export type { ClientOptions } from '../declarations/types-6.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-12.js';
-export type { MetadataMap, NextAction, MoneyValue } from '../declarations/types-35.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
-export { makeCancelReturnDispositionRequest } from '../declarations/types-62.js';
-export { makeMoneyValue } from '../declarations/types-70.js';
-export { makeRetryReturnDispositionRequest } from '../declarations/types-72.js';
+export type { Credentials } from '../declarations/types-13.js';
+export type { MetadataMap } from '../declarations/types-36.js';
+export type { NextAction, MoneyValue } from '../declarations/types-37.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
+export type { DisputesAcceptParams } from '../declarations/types-22.js';
+export { makeCancelReturnDispositionRequest } from '../declarations/types-67.js';
+export { makeMoneyValue } from '../declarations/types-75.js';
+export { makeRetryReturnDispositionRequest } from '../declarations/types-77.js';
 export interface ReturnDispositionsResource {
     /**
  * Cancel a disposition that has not started its inventory effect. Cancellation is refused once the
@@ -64,8 +68,8 @@ export interface ReturnDispositionsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returnDispositions.cancel("retdsp_01ARZ3NDEKTSV4RRFFQ69G5FAV", {reason:
- * "created_in_error"}, { idempotencyKey: idempotencyKey })
+ * client.returnDispositions.cancel("retdsp_01KEZF7C007H87J66PH2EEK1VW", {expected_version: 1,
+ * reason: "created_in_error"}, { idempotencyKey: idempotencyKey })
  */
     cancel(return_disposition_id: InputValue<string>, params: ReturnDispositionsCancelParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<ReturnDisposition, CancelReturnDispositionResponse>>;
     /**
@@ -77,7 +81,7 @@ export interface ReturnDispositionsResource {
  * @see https://developers.withflintpay.com/docs/api/return-dispositions#getReturnDisposition
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.returnDispositions.get("retdsp_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.returnDispositions.get("retdsp_01KEZF7C007H87J66PH2EEK1VW")
  */
     get(return_disposition_id: InputValue<string>, params?: ReturnDispositionsGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<ReturnDisposition, GetReturnDispositionResponse>>;
     /**
@@ -110,8 +114,8 @@ export interface ReturnDispositionsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returnDispositions.retry("retdsp_01ARZ3NDEKTSV4RRFFQ69G5FAV", {reason:
- * "dependency_recovered"}, { idempotencyKey: idempotencyKey })
+ * client.returnDispositions.retry("retdsp_01KEZF7C007H87J66PH2EEK1VW", {expected_version: 2,
+ * reason: "mapping_corrected"}, { idempotencyKey: idempotencyKey })
  */
     retry(return_disposition_id: InputValue<string>, params: ReturnDispositionsRetryParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<ReturnDisposition, RetryReturnDispositionResponse>>;
 }

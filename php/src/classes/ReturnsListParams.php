@@ -27,7 +27,7 @@ namespace Flint;
  * @property-read list<string>|string $expand
  * Presence-aware input; omitted fields throw when accessed. */
 final class ReturnsListParams extends Model {
-    /** @param array{'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'customer_id'?: string, 'decision_status'?: list<string>|string, 'external_reference_id'?: string, 'idempotency_key'?: string, 'merchandise_status'?: list<string>|string, 'order_id'?: string, 'page_size'?: int, 'page_token'?: string, 'query'?: string, 'receiving_location_id'?: string, 'resolution_status'?: list<string>|string, 'resolution_type'?: list<string>|string, 'return_number'?: string, 'return_reason_id'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'status'?: list<string>|string, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'work_type'?: list<string>|string, 'expand'?: list<string>|string}|object $values */
+    /** @param array{'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'customer_id'?: string, 'decision_status'?: list<string>|string, 'external_reference_id'?: string, 'idempotency_key'?: string, 'merchandise_status'?: list<string>|string, 'order_id'?: string, 'page_size'?: int, 'page_token'?: string, 'query'?: string, 'receiving_location_id'?: string, 'resolution_status'?: list<string>|string, 'resolution_type'?: list<string>|string, 'return_number'?: string, 'return_reason_id'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'status'?: list<string>|string, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'work_type'?: list<string>|string, 'expand'?: list<string>|string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnsListParams')); }
     /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z".
      * @return string|\DateTimeInterface
@@ -41,19 +41,19 @@ final class ReturnsListParams extends Model {
      */
     public function getCreatedBefore(): string|\DateTimeInterface { return $this->get('created_before'); }
     public function hasCreatedBefore(): bool { return $this->has('created_before'); }
-    /** Filter by customer id. Example: "cus_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Filter by customer id. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** Filter by decision status. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "pending", "approved", "partially_approved", "declined". Value enum: "pending", "approved", "partially_approved", "declined". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "pending", "approved", "partially_approved", "declined". anyOf[1][] (Value): string.  Value enum: "pending", "approved", "partially_approved", "declined". anyOf[2] (Value): string.  Value enum: "pending", "approved", "partially_approved", "declined".
+    /** Filter by decision status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "pending", "approved", "partially_approved", "declined". Value enum: "pending", "approved", "partially_approved", "declined". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "pending", "approved", "partially_approved", "declined". anyOf[1][] (Value): string.  Value enum: "pending", "approved", "partially_approved", "declined". anyOf[2] (Value): string.  Value enum: "pending", "approved", "partially_approved", "declined".
      * @return list<string>|string
      * @throws SdkError When decision_status is omitted; use hasDecisionStatus() or valueOrDefault().
      */
     public function getDecisionStatus(): mixed { return $this->get('decision_status'); }
     public function hasDecisionStatus(): bool { return $this->has('decision_status'); }
-    /** Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
+    /** Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -65,13 +65,13 @@ final class ReturnsListParams extends Model {
      */
     public function getIdempotencyKey(): string { return $this->get('idempotency_key'); }
     public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
-    /** Filter by merchandise status. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "not_required", "awaiting_handoff", "in_transit", "partially_received", "inspection_required", "partially_inspected", "inspection_review_required", "disposition_required", "resolved", "exception". Value enum: "not_required", "awaiting_handoff", "in_transit", "partially_received", "inspection_required", "partially_inspected", "inspection_review_required", "disposition_required", "resolved", "exception". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "not_required", "awaiting_handoff", "in_transit", "partially_received", "inspection_required", "partially_inspected", "inspection_review_required", "disposition_required", "resolved", "exception". anyOf[1][] (Value): string.  Value enum: "not_required", "awaiting_handoff", "in_transit", "partially_received", "inspection_required", "partially_inspected", "inspection_review_required", "disposition_required", "resolved", "exception". anyOf[2] (Value): string.  Value enum: "not_required", "awaiting_handoff", "in_transit", "partially_received", "inspection_required", "partially_inspected", "inspection_review_required", "disposition_required", "resolved", "exception".
+    /** Filter by merchandise status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "not_required", "awaiting_handoff", "in_transit", "partially_received", "inspection_required", "partially_inspected", "inspection_review_required", "disposition_required", "resolved", "exception". Value enum: "not_required", "awaiting_handoff", "in_transit", "partially_received", "inspection_required", "partially_inspected", "inspection_review_required", "disposition_required", "resolved", "exception". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "not_required", "awaiting_handoff", "in_transit", "partially_received", "inspection_required", "partially_inspected", "inspection_review_required", "disposition_required", "resolved", "exception". anyOf[1][] (Value): string.  Value enum: "not_required", "awaiting_handoff", "in_transit", "partially_received", "inspection_required", "partially_inspected", "inspection_review_required", "disposition_required", "resolved", "exception". anyOf[2] (Value): string.  Value enum: "not_required", "awaiting_handoff", "in_transit", "partially_received", "inspection_required", "partially_inspected", "inspection_review_required", "disposition_required", "resolved", "exception".
      * @return list<string>|string
      * @throws SdkError When merchandise_status is omitted; use hasMerchandiseStatus() or valueOrDefault().
      */
     public function getMerchandiseStatus(): mixed { return $this->get('merchandise_status'); }
     public function hasMerchandiseStatus(): bool { return $this->has('merchandise_status'); }
-    /** Filter by order id. Example: "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Filter by order id. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */
@@ -83,7 +83,7 @@ final class ReturnsListParams extends Model {
      */
     public function getPageSize(): int { return $this->get('page_size'); }
     public function hasPageSize(): bool { return $this->has('page_size'); }
-    /** Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error.
+    /** Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error.
      * @return string
      * @throws SdkError When page_token is omitted; use hasPageToken() or valueOrDefault().
      */
@@ -95,19 +95,19 @@ final class ReturnsListParams extends Model {
      */
     public function getQuery(): string { return $this->get('query'); }
     public function hasQuery(): bool { return $this->has('query'); }
-    /** Filter by receiving location id. Example: "loc_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Filter by receiving location id. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When receiving_location_id is omitted; use hasReceivingLocationId() or valueOrDefault().
      */
     public function getReceivingLocationId(): string { return $this->get('receiving_location_id'); }
     public function hasReceivingLocationId(): bool { return $this->has('receiving_location_id'); }
-    /** Filter by resolution status. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "not_selected", "pending", "partially_fulfilled", "requires_action", "fulfilled", "failed". Value enum: "not_selected", "pending", "partially_fulfilled", "requires_action", "fulfilled", "failed". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "not_selected", "pending", "partially_fulfilled", "requires_action", "fulfilled", "failed". anyOf[1][] (Value): string.  Value enum: "not_selected", "pending", "partially_fulfilled", "requires_action", "fulfilled", "failed". anyOf[2] (Value): string.  Value enum: "not_selected", "pending", "partially_fulfilled", "requires_action", "fulfilled", "failed".
+    /** Filter by resolution status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "not_selected", "pending", "partially_fulfilled", "requires_action", "fulfilled", "failed". Value enum: "not_selected", "pending", "partially_fulfilled", "requires_action", "fulfilled", "failed". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "not_selected", "pending", "partially_fulfilled", "requires_action", "fulfilled", "failed". anyOf[1][] (Value): string.  Value enum: "not_selected", "pending", "partially_fulfilled", "requires_action", "fulfilled", "failed". anyOf[2] (Value): string.  Value enum: "not_selected", "pending", "partially_fulfilled", "requires_action", "fulfilled", "failed".
      * @return list<string>|string
      * @throws SdkError When resolution_status is omitted; use hasResolutionStatus() or valueOrDefault().
      */
     public function getResolutionStatus(): mixed { return $this->get('resolution_status'); }
     public function hasResolutionStatus(): bool { return $this->has('resolution_status'); }
-    /** Filter by resolution type. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "refund", "exchange", "replacement", "store_credit", "no_monetary_action", "correction". Value enum: "refund", "exchange", "replacement", "store_credit", "no_monetary_action", "correction". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "refund", "exchange", "replacement", "store_credit", "no_monetary_action", "correction". anyOf[1][] (Value): string.  Value enum: "refund", "exchange", "replacement", "store_credit", "no_monetary_action", "correction". anyOf[2] (Value): string.  Value enum: "refund", "exchange", "replacement", "store_credit", "no_monetary_action", "correction".
+    /** Filter by resolution type. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "refund", "exchange", "replacement", "store_credit", "no_monetary_action", "correction". Value enum: "refund", "exchange", "replacement", "store_credit", "no_monetary_action", "correction". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "refund", "exchange", "replacement", "store_credit", "no_monetary_action", "correction". anyOf[1][] (Value): string.  Value enum: "refund", "exchange", "replacement", "store_credit", "no_monetary_action", "correction". anyOf[2] (Value): string.  Value enum: "refund", "exchange", "replacement", "store_credit", "no_monetary_action", "correction".
      * @return list<string>|string
      * @throws SdkError When resolution_type is omitted; use hasResolutionType() or valueOrDefault().
      */
@@ -119,7 +119,7 @@ final class ReturnsListParams extends Model {
      */
     public function getReturnNumber(): string { return $this->get('return_number'); }
     public function hasReturnNumber(): bool { return $this->has('return_number'); }
-    /** Filter by return reason id. Example: "rrsn_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Filter by return reason id. Example: "rrsn_01KEZF7C00SEE2T4EYP1NXAH3E".
      * @return string
      * @throws SdkError When return_reason_id is omitted; use hasReturnReasonId() or valueOrDefault().
      */
@@ -137,7 +137,7 @@ final class ReturnsListParams extends Model {
      */
     public function getSortDirection(): string { return $this->get('sort_direction'); }
     public function hasSortDirection(): bool { return $this->has('sort_direction'); }
-    /** Filter by status. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "requested", "open", "completed", "declined", "canceled". Value enum: "requested", "open", "completed", "declined", "canceled". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "requested", "open", "completed", "declined", "canceled". anyOf[1][] (Value): string.  Value enum: "requested", "open", "completed", "declined", "canceled". anyOf[2] (Value): string.  Value enum: "requested", "open", "completed", "declined", "canceled".
+    /** Filter by status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "requested", "open", "completed", "declined", "canceled". Value enum: "requested", "open", "completed", "declined", "canceled". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "requested", "open", "completed", "declined", "canceled". anyOf[1][] (Value): string.  Value enum: "requested", "open", "completed", "declined", "canceled". anyOf[2] (Value): string.  Value enum: "requested", "open", "completed", "declined", "canceled".
      * @return list<string>|string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
@@ -155,16 +155,34 @@ final class ReturnsListParams extends Model {
      */
     public function getUpdatedBefore(): string|\DateTimeInterface { return $this->get('updated_before'); }
     public function hasUpdatedBefore(): bool { return $this->has('updated_before'); }
-    /** Filter by work type. Matches only returns that are still requested or open. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "decision", "handoff", "receipt", "inspection", "disposition", "resolution", "exception". Value enum: "decision", "handoff", "receipt", "inspection", "disposition", "resolution", "exception". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "decision", "handoff", "receipt", "inspection", "disposition", "resolution", "exception". anyOf[1][] (Value): string.  Value enum: "decision", "handoff", "receipt", "inspection", "disposition", "resolution", "exception". anyOf[2] (Value): string.  Value enum: "decision", "handoff", "receipt", "inspection", "disposition", "resolution", "exception".
+    /** Filter by work type. Matches only returns that are still requested or open. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "decision", "handoff", "receipt", "inspection", "disposition", "resolution", "exception". Value enum: "decision", "handoff", "receipt", "inspection", "disposition", "resolution", "exception". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "decision", "handoff", "receipt", "inspection", "disposition", "resolution", "exception". anyOf[1][] (Value): string.  Value enum: "decision", "handoff", "receipt", "inspection", "disposition", "resolution", "exception". anyOf[2] (Value): string.  Value enum: "decision", "handoff", "receipt", "inspection", "disposition", "resolution", "exception".
      * @return list<string>|string
      * @throws SdkError When work_type is omitted; use hasWorkType() or valueOrDefault().
      */
     public function getWorkType(): mixed { return $this->get('work_type'); }
     public function hasWorkType(): bool { return $this->has('work_type'); }
-    /** Supported expansions: customer, order. Include the requested related resources using scoped batch reads for this page. Each relationship requires its existing target read scopes. Expansion changes the representation without changing pagination tokens. Limits: at most 10 unique expand paths per request. Repeat expand, for example expand=customer&expand=order, or pass one comma-separated value. [] enum: "customer", "order". Value enum: "customer", "order". anyOf[1] (Value): Array of string.  [] enum: "customer", "order". anyOf[1][] (Value): string.  Value enum: "customer", "order". anyOf[2] (Value): string.  Value enum: "customer", "order".
+    /** Include related objects in the response. Supported expansions: customer, order. Include the requested related resources using scoped batch reads for this page. Each relationship requires its existing target read scopes. Expansion changes the representation without changing pagination tokens. Limits: at most 10 unique expand paths per request. [] enum: "customer", "order". Value enum: "customer", "order". anyOf[1] (Value): Array of string.  [] enum: "customer", "order". anyOf[1][] (Value): string.  Value enum: "customer", "order". anyOf[2] (Value): string.  Value enum: "customer", "order".
      * @return list<string>|string
      * @throws SdkError When expand is omitted; use hasExpand() or valueOrDefault().
      */
     public function getExpand(): mixed { return $this->get('expand'); }
     public function hasExpand(): bool { return $this->has('expand'); }
+    /** Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Merchant-Id is omitted; use hasFlintMerchantId() or valueOrDefault().
+     */
+    public function getFlintMerchantId(): string { return $this->get('Flint-Merchant-Id'); }
+    public function hasFlintMerchantId(): bool { return $this->has('Flint-Merchant-Id'); }
+    /** Mode of the request context, live or test. Optional; it must match the credential's mode. Value enum: "test", "live".
+     * @return string
+     * @throws SdkError When Flint-Mode is omitted; use hasFlintMode() or valueOrDefault().
+     */
+    public function getFlintMode(): string { return $this->get('Flint-Mode'); }
+    public function hasFlintMode(): bool { return $this->has('Flint-Mode'); }
+    /** Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Sandbox-Id is omitted; use hasFlintSandboxId() or valueOrDefault().
+     */
+    public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
+    public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
 }

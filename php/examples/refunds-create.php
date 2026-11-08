@@ -17,9 +17,9 @@ $client = new Client(new ClientOptions(
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->refunds->create([
-  'refund_type' => 'full',
   'order_id' => 'ord_01ARZ3NDEKTSV4RRFFQ69G5FAV',
+  'refund_type' => 'full',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
+echo $result->merchant_id . PHP_EOL;
 echo $result->refund_id . PHP_EOL;
-echo $result->status . PHP_EOL;
 $client->close();

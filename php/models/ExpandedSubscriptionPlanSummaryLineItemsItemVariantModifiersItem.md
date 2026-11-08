@@ -2,7 +2,7 @@
 
 ## ExpandedSubscriptionPlanSummaryLineItemsItemVariantModifiersItem
 
-A modifier selected on an order line item, with its quantity, price change, total, and display flags.
+A modifier selected on an order line item.
 
 Response model.
 
@@ -17,12 +17,18 @@ Response model.
 | `show_on_fulfillment` | Required | boolean | Whether this selection appears in fulfillment details, recorded when selected. |
 | `show_on_receipt` | Required | boolean | Whether this selection appears on buyer receipts, recorded when selected. |
 | `source_type` | Required | string | Whether the selection is a catalog list modifier or buyer-entered text. Values: `"catalog_modifier"`, `"text"`. |
-| `text` | Optional | [ExpandedSubscriptionPlanSummaryLineItemsItemVariantModifiersItemText](../models/ExpandedSubscriptionPlanSummaryLineItemsItemVariantModifiersItemText.md#expandedsubscriptionplansummarylineitemsitemvariantmodifiersitemtext) | Selected text group and buyer-entered value. Read an inline text group through its owning modifier set. Text a buyer entered for a text modifier group on an order line item. |
+| `text` | Optional | [ExpandedSubscriptionPlanSummaryLineItemsItemVariantModifiersItemText](../models/ExpandedSubscriptionPlanSummaryLineItemsItemVariantModifiersItemText.md#expandedsubscriptionplansummarylineitemsitemvariantmodifiersitemtext) | Selected text group and buyer-entered value. Read an inline text group through its owning modifier set. Text a buyer entered for a text modifier group on an order line item. `text`: [field definitions](../models/ExpandedSubscriptionPlanSummaryLineItemsItemVariantModifiersItem.md#expandedsubscriptionplansummarylineitemsitemvariantmodifiersitemtext-fields-1). |
 | `text_value` | Optional | string | Buyer-entered text recorded for a text modifier selection. |
-| `total_money` | Required | [ExpandedSubscriptionPlanSummaryLineItemsItemVariantModifiersItemTotalMoney](../models/ExpandedSubscriptionPlanSummaryLineItemsItemVariantModifiersItemTotalMoney.md#expandedsubscriptionplansummarylineitemsitemvariantmodifiersitemtotalmoney) | Total price added by this selection. Multiplies unit_price_delta_money by the modifier quantity and, for per_item pricing, by the line item quantity. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `total_money` | Required | [ExpandedSubscriptionPlanSummaryLineItemsItemVariantModifiersItemTotalMoney](../models/ExpandedSubscriptionPlanSummaryLineItemsItemVariantModifiersItemTotalMoney.md#expandedsubscriptionplansummarylineitemsitemvariantmodifiersitemtotalmoney) | Total price this selection adds to the line: `unit_price_delta_money` times the selection's `quantity` times the line item's `quantity`. Always 0 for text selections. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `unit_price_delta_money` | Required | [ExpandedSubscriptionPlanSummaryLineItemsItemVariantModifiersItemUnitPriceDeltaMoney](../models/ExpandedSubscriptionPlanSummaryLineItemsItemVariantModifiersItemUnitPriceDeltaMoney.md#expandedsubscriptionplansummarylineitemsitemvariantmodifiersitemunitpricedeltamoney) | Amount added to the item's unit price for each unit of this selection, recorded when selected. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 
 ### ExpandedSubscriptionPlanSummaryLineItemsItemVariantModifiersItem.metadata
 
 Value shape: Map of string. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. 
+
+### ExpandedSubscriptionPlanSummaryLineItemsItemVariantModifiersItem.text fields 1
+
+Selected text group and buyer-entered value. Read an inline text group through its owning modifier set. Text a buyer entered for a text modifier group on an order line item.
+
+Field definitions: [shared fields](TextModifierRequestInput.md#textmodifierrequestinput).
 

@@ -16,7 +16,7 @@ final class ImageInputFileInput extends Model {
      */
     public function getAlt(): string { return $this->get('alt'); }
     public function hasAlt(): bool { return $this->has('alt'); }
-    /** The ID of a ready file uploaded with POST /v1/files. Send exactly one of source_url or file_id. minLength: 1. pattern: ^file_[0-9A-HJKMNP-TV-Z]{26}$.
+    /** The ID of a ready file uploaded with POST /v1/files. Send exactly one of source_url or file_id. minLength: 1. pattern: ^file_[0-9A-HJKMNP-TV-Z]{26}$. Example: "file_01KEZF7C00BZ179303GY9R0P03".
      * @return string
      * @throws SdkError When file_id is omitted; use hasFileId() or valueOrDefault().
      */

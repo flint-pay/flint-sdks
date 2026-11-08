@@ -16,13 +16,13 @@ namespace Flint;
 final class ReturnPolicyInput extends Model {
     /** @param array{'created_at': string|\DateTimeInterface, 'current_return_policy_revision_id': string, 'current_revision'?: array{'allowed_resolution_types': list<string>, 'approval_mode': string, 'automatic_resolution_type'?: string, 'completion_mode'?: string, 'created_at': string|\DateTimeInterface, 'effective_at'?: string|\DateTimeInterface, 'eligibility_result': string, 'ineligibility_reason'?: string, 'is_inspection_required'?: bool, 'is_merchandise_return_required': bool, 'priority': int, 'receipt_disposition_mode': string, 'receiving_location_id'?: string, 'release_timing'?: string, 'resolution_mode'?: string, 'resolution_selection_mode'?: string, 'restocking_fee'?: ReturnRestockingFeePolicyInput|array<array-key, mixed>|\stdClass, 'return_policy_id': string, 'return_policy_revision_id': string, 'return_shipping'?: ReturnShippingPolicyInput|array<array-key, mixed>|\stdClass, 'return_window'?: ReturnWindowInput|array<array-key, mixed>|\stdClass, 'scope': ReturnPolicyScopeInput|array<array-key, mixed>|\stdClass, ...}|object|null, 'external_reference_id'?: string, 'metadata': MetadataMapInput|array<array-key, mixed>|\stdClass, 'name': string, 'return_policy_id': string, 'status': string, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnPolicyInput')); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** current_return_policy_revision_id
+    /** ID of the revision Flint judges new requests by. Example: "rpolv_01KEZF7C007AWH6P4QC14Q25TC".
      * @return string
      * @throws SdkError When current_return_policy_revision_id is omitted; use hasCurrentReturnPolicyRevisionId() or valueOrDefault().
      */
@@ -34,25 +34,25 @@ final class ReturnPolicyInput extends Model {
      */
     public function getCurrentRevision(): mixed { return $this->get('current_revision'); }
     public function hasCurrentRevision(): bool { return $this->has('current_revision'); }
-    /** Caller-owned identifier for this resource in an external system. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
+    /** Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      * @return MetadataMapInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** name
+    /** Name of the policy.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** return_policy_id
+    /** Unique identifier for this return policy, prefixed `rpol_`. Example: "rpol_01KEZF7C00H8C042BEK6HBRANX".
      * @return string
      * @throws SdkError When return_policy_id is omitted; use hasReturnPolicyId() or valueOrDefault().
      */
@@ -64,13 +64,13 @@ final class ReturnPolicyInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */
     public function getUpdatedAt(): string|\DateTimeInterface { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** Format: int64. minimum: 0.
+    /** Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. Format: int64. minimum: 0.
      * @return int
      * @throws SdkError When version is omitted; use hasVersion() or valueOrDefault().
      */

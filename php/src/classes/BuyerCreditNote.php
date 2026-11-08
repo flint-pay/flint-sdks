@@ -15,13 +15,14 @@ namespace Flint;
  * @property-read MoneyValue $refunded_money
  * @property-read TaxIdentity|null $seller_tax_identity
  * @property-read string $status
+ * @property-read list<TaxCurrencyConversion> $tax_currency_conversions
  * @property-read MoneyValue $total_money
  * @property-read ?string $voided_at
  * Presence-aware response; omitted optional fields return null. */
 final class BuyerCreditNote extends Model {
-    /** @param array{'buyer_tax_identity': mixed, 'credit_note_id': string, 'credit_note_number': string, 'invoice_id': string, 'issued_at': string, 'latest_refund_status'?: string, 'line_items': list<mixed>, 'memo': string|null, 'pending_refund_money': mixed, 'reason': string, 'refunded_money': mixed, 'seller_tax_identity': mixed, 'status': string, 'total_money': mixed, 'voided_at'?: string, ...}|object $values */
+    /** @param array{'buyer_tax_identity': mixed, 'credit_note_id': string, 'credit_note_number': string, 'invoice_id': string, 'issued_at': string, 'latest_refund_status'?: string, 'line_items': list<mixed>, 'memo': string|null, 'pending_refund_money': mixed, 'reason': string, 'refunded_money': mixed, 'seller_tax_identity': mixed, 'status': string, 'tax_currency_conversions': list<mixed>, 'total_money': mixed, 'voided_at'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerCreditNote')); }
-    /** Identity frozen on the source invoice at issue. Later profile edits do not change this document. anyOf[1] (Value): {@see TaxIdentity}. Merchant-provided legal identity displayed on invoices and credit notes. Does not verify IDs or change tax treatment. Tax IDs are an owned collection in display order; replacing the array requires the parent's expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add one. anyOf[2] (Value): null.
+    /** Identity frozen on the source invoice at issue. Later profile edits do not change this document. `null` when no buyer tax identity was captured on the source invoice. Customer deletion preserves identities captured on issued invoices and credit notes. anyOf[1] (Value): {@see TaxIdentity}. Merchant-provided legal identity displayed on invoices and credit notes. Does not verify IDs or change tax treatment. Tax IDs are an owned collection in display order; replacing the array requires the parent's expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add one. anyOf[2] (Value): null.
      * @return TaxIdentity|null
      */
     public function getBuyerTaxIdentity(): TaxIdentity|null { return $this->get('buyer_tax_identity'); }
@@ -51,7 +52,7 @@ final class BuyerCreditNote extends Model {
      */
     public function getLatestRefundStatus(): ?string { return $this->get('latest_refund_status'); }
     public function hasLatestRefundStatus(): bool { return $this->has('latest_refund_status'); }
-    /** Itemized corrections against frozen invoice lines. Amount and quantity corrections share each source line's remaining value, discount, and tax across issued, non-void credit notes. Drafts reserve no credit. [] (Value): {@see CreditNoteLineItem}. One correction calculated from the frozen invoice line's remaining billed value, discount, and tax. The source line's inclusive or additive tax mode is preserved. Current catalog prices and tax settings do not affect the correction. Stored issued values are never recalculated by a read.
+    /** Itemized corrections against frozen invoice lines. Amount and quantity corrections share each source line's remaining value, discount, and tax across issued credit notes that have not been voided. Drafts reserve no credit. [] (Value): {@see CreditNoteLineItem}. One correction calculated from the frozen invoice line's remaining billed value, discount, and tax. The source line's inclusive or additive tax mode is preserved. Current catalog prices and tax settings do not affect the correction. Stored issued values are never recalculated by a read.
      * @return list<CreditNoteLineItem>
      */
     public function getLineItems(): array { return $this->get('line_items'); }
@@ -76,22 +77,27 @@ final class BuyerCreditNote extends Model {
      */
     public function getRefundedMoney(): MoneyValue { return $this->get('refunded_money'); }
     public function hasRefundedMoney(): bool { return $this->has('refunded_money'); }
-    /** Identity frozen on the source invoice at issue. Later profile edits do not change this document. anyOf[1] (Value): {@see TaxIdentity}. Merchant-provided legal identity displayed on invoices and credit notes. Does not verify IDs or change tax treatment. Tax IDs are an owned collection in display order; replacing the array requires the parent's expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add one. anyOf[2] (Value): null.
+    /** Identity frozen on the source invoice at issue. Later profile edits do not change this document. `null` when no seller tax identity was captured. anyOf[1] (Value): {@see TaxIdentity}. Merchant-provided legal identity displayed on invoices and credit notes. Does not verify IDs or change tax treatment. Tax IDs are an owned collection in display order; replacing the array requires the parent's expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add one. anyOf[2] (Value): null.
      * @return TaxIdentity|null
      */
     public function getSellerTaxIdentity(): TaxIdentity|null { return $this->get('seller_tax_identity'); }
     public function hasSellerTaxIdentity(): bool { return $this->has('seller_tax_identity'); }
-    /** issued once it is numbered and frozen, void once retired. Value enum: "issued", "void".
+    /** issued once it is numbered and frozen, voided once withdrawn. Value enum: "issued", "voided".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
+    /** The credit note's VAT stated in the currency of the country that charges it, frozen at issue. Each entry reuses the invoice's currency, exchange_rate, rate_date, and rate_source from snapshot.tax_currency_conversions, with this note's credited VAT and taxable amount converted the same way. Always [] on drafts and when the invoice froze no conversion. The credit note PDF prints the same figures. [] (Value): {@see TaxCurrencyConversion}. VAT on an issued document converted into the currency of the country whose VAT is charged.
+     * @return list<TaxCurrencyConversion>
+     */
+    public function getTaxCurrencyConversions(): array { return $this->get('tax_currency_conversions'); }
+    public function hasTaxCurrencyConversions(): bool { return $this->has('tax_currency_conversions'); }
     /** The face value of the credit note, the sum of its lines. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getTotalMoney(): MoneyValue { return $this->get('total_money'); }
     public function hasTotalMoney(): bool { return $this->has('total_money'); }
-    /** When the credit note was voided. Absent unless it is void. Format: date-time.
+    /** When the credit note was voided. Absent unless its status is voided. Format: date-time.
      * @return ?string
      */
     public function getVoidedAt(): ?string { return $this->get('voided_at'); }

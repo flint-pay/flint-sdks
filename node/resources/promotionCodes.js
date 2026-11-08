@@ -5,18 +5,50 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/promotionCodes.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import r0 from '../descriptors/resources/promotionCodes.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import settings from '../descriptors/settings.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["listPromotionCodes"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["createPromotionCode"]:r0,["deletePromotionCode"]:r0,["getPromotionCode"]:r0,["listPromotionCodes"]:r0,["updatePromotionCode"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.promotionCodes = Object.freeze({
+      create: async (params, options) => this.#runtime.request("createPromotionCode", _sdkRequestInput([], [], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createPromotionCode", result, path))),
+      delete: async (promotion_code_id, params, options) => this.#runtime.request("deletePromotionCode", _sdkRequestInput([
+  "promotion_code_id"
+], [promotion_code_id], [
+  "expected_version",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("deletePromotionCode", result, path))),
+      get: async (promotion_code_id, params, options) => this.#runtime.request("getPromotionCode", _sdkRequestInput([
+  "promotion_code_id"
+], [promotion_code_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getPromotionCode", result, path))),
       list: async (params, options) => this.#runtime.request("listPromotionCodes", _sdkRequestInput([], [], [
   "promotion_id",
+  "customer_id",
   "code",
   "status",
   "availability",
@@ -28,13 +60,17 @@ this.promotionCodes = Object.freeze({
   "created_before",
   "updated_after",
   "updated_before",
-  "expand"
+  "expand",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listPromotionCodes", result, path))),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listPromotionCodes", _sdkRequestInput([], [], [
   "promotion_id",
+  "customer_id",
   "code",
   "status",
   "availability",
@@ -46,13 +82,17 @@ this.promotionCodes = Object.freeze({
   "created_before",
   "updated_after",
   "updated_before",
-  "expand"
+  "expand",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
 ]), options), [], (result, path) => this.#runtime.decodePayload("listPromotionCodes", result, path)),
       listItems: (params, options) => this.#runtime.items("listPromotionCodes", _sdkRequestInput([], [], [
   "promotion_id",
+  "customer_id",
   "code",
   "status",
   "availability",
@@ -64,18 +104,32 @@ this.promotionCodes = Object.freeze({
   "created_before",
   "updated_after",
   "updated_before",
-  "expand"
+  "expand",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
 ]), options),
+      update: async (promotion_code_id, params, options) => this.#runtime.request("updatePromotionCode", _sdkRequestInput([
+  "promotion_code_id"
+], [promotion_code_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updatePromotionCode", result, path))),
     });
 }
 [Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
+export { makeCreatePromotionCodeRequest } from '../models/CreatePromotionCodeRequest.js';
+export { makeMetadataPatchRequest } from '../models/MetadataPatchRequest.js';
+export { makeMetadataRequest } from '../models/MetadataRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makePromotionRecurrence } from '../models/PromotionRecurrence.js';
-export { makePromotionRecurrenceForever } from '../models/PromotionRecurrenceForever.js';
-export { makePromotionRecurrenceOnce } from '../models/PromotionRecurrenceOnce.js';
-export { makePromotionRecurrenceRepeating } from '../models/PromotionRecurrenceRepeating.js';
+export { makeUpdatePromotionCodeRequest } from '../models/UpdatePromotionCodeRequest.js';

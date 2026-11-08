@@ -8,5 +8,5 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `delivery_url` | Optional | string | minLength: `1`. |
+| `delivery_url` | Optional | string | URL where the recipient can access the delivered digital goods. minLength: `1`. |
 

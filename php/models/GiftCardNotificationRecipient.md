@@ -6,5 +6,10 @@ Who receives a gift card notification: their `email`, optional `name` and `messa
 
 Response model.
 
-Fields, types, descriptions and enum values: [GiftCardNotificationRecipientInput](../models/GiftCardNotificationRecipientInput.md#giftcardnotificationrecipientinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `email` | Required | string | Email address the notification is sent to. Format: `email`. minLength: `1`. maxLength: `254`. |
+| `message` | Optional | string | Message included in the notification. minLength: `1`. maxLength: `200`. |
+| `name` | Optional | string | Name of the person the notification is addressed to. minLength: `1`. maxLength: `255`. |
+| `send_at` | Optional | string | Optional whole-second send time between now and 90 days from now. Format: `date-time`. minLength: `1`. |
 

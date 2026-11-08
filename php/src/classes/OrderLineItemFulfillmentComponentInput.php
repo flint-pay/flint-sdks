@@ -9,7 +9,7 @@ namespace Flint;
 final class OrderLineItemFulfillmentComponentInput extends Model {
     /** @param array{'bundle_component_id': string, 'profile': array{'allowed_types': list<string>, 'requirement': string, ...}|object|null, 'quantity_per_line_item_unit': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderLineItemFulfillmentComponentInput')); }
-    /** ID of the bundle component these requirements apply to.
+    /** ID of the bundle component these requirements apply to. Example: "bunc_01KEZF7C00CQASEZGAPEANTGD1".
      * @return string
      * @throws SdkError When bundle_component_id is omitted; use hasBundleComponentId() or valueOrDefault().
      */

@@ -8,8 +8,8 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `inventory_allocation_policy_id` | Optional | string | minLength: `1`. |
-| `inventory_allocation_policy_revision_id` | Optional | string | minLength: `1`. |
-| `location_id` | Optional | string | minLength: `1`. |
+| `inventory_allocation_policy_id` | Optional | string | minLength: `1`. Example: `"invp_01KEZF7C0076BZX855WAGC5SQK"`. |
+| `inventory_allocation_policy_revision_id` | Optional | string | minLength: `1`. Example: `"invpv_01KEZF7C00JSFTTBKC1JY614JJ"`. |
+| `location_id` | Optional | string | minLength: `1`. Example: `"loc_01KEZF7C00CMHRRYA3MV996JB2"`. |
 | `type` | Required | string | Values: `"fixed_location"`, `"policy"`, `"policy_revision"`. |
 

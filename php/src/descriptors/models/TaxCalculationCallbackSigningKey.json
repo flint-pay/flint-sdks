@@ -1,0 +1,1 @@
+{"shared":"TaxCalculationCallbackSigningKey","phpRepresentation":{"kind":"record","fields":{"key_id":{"kind":"value","type":"string"},"secret":{"kind":"value","type":"string"},"tax_calculation_callback_id":{"kind":"value","type":"string"}}},"dependencies":["TaxCalculationCallbackSigningKey"]}

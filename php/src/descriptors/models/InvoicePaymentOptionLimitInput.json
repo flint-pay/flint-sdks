@@ -1,1 +1,1 @@
-{"shared":"InvoicePaymentOptionLimit","dependencies":["InvoicePaymentOptionLimit","MoneyValue"]}
+{"shared":"InvoicePaymentOptionLimitRequest","dependencies":["InvoicePaymentOptionLimitRequest","MoneyValue"]}

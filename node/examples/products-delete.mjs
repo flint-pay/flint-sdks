@@ -8,7 +8,7 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.products.delete(
-  "prod_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "prod_01KEZF7C00BVSHCNWVH528HB66",
   {},
   { idempotencyKey: idempotencyKey },
 );

@@ -6,5 +6,9 @@ Result of rotating a delivery rate callback's signing key, including the new `ke
 
 Response model.
 
-Fields, types, descriptions and enum values: [DeliveryRateCallbackSigningKeyRotationInput](../models/DeliveryRateCallbackSigningKeyRotationInput.md#deliveryratecallbacksigningkeyrotationinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `delivery_rate_callback_id` | Required | string |  |
+| `key_id` | Required | string |  |
+| `secret` | Required | string | New signing secret. Returned only by this rotation response. |
 

@@ -20,12 +20,12 @@ final class SubscriptionRenewalEstimateDiscount extends Model {
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Promotion ID for a promotion discount; null for unused-time credit.
+    /** Promotion ID for a promotion discount; null for unused-time credit or proration.
      * @return string|null
      */
     public function getPromotionId(): string|null { return $this->get('promotion_id'); }
     public function hasPromotionId(): bool { return $this->has('promotion_id'); }
-    /** Value enum: "promotion", "plan_change_credit".
+    /** Value enum: "promotion", "plan_change_credit", "proration".
      * @return string
      */
     public function getSource(): string { return $this->get('source'); }

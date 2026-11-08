@@ -8,7 +8,7 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.customDomains.delete(
-  "cdom_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "cdom_01KEZF7C00483JTTKHZVFQHKS8",
   {},
   { idempotencyKey: idempotencyKey },
 );

@@ -11,7 +11,7 @@
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `enabled_payment_options` | Optional | Array of string | Items values: `"card"`, `"apple_pay"`, `"google_pay"`, `"affirm"`, `"ach_debit"`. |
-| `payment_note` | Optional | string |  |
+| `payment_note` | Optional | string | A note shown to the buyer with the payment options. |
 
 ### CheckoutPaymentConfig variant 1
 

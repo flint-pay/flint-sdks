@@ -14,12 +14,12 @@ final class GiftCardPurchaseRefundRecovery extends Model {
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Value enum: "original", "replacement".
+    /** Where the restored value went. Value enum: "original", "replacement".
      * @return string
      */
     public function getDestination(): string { return $this->get('destination'); }
     public function hasDestination(): bool { return $this->has('destination'); }
-    /**  [] (Value): {@see GiftCardPurchaseRefundRecoveryDestination}. A gift card and load that received recovered value in a gift card purchase refund recovery, with the amount.
+    /** The cards and loads that received the restored value. [] (Value): {@see GiftCardPurchaseRefundRecoveryDestination}. A gift card and load that received recovered value in a gift card purchase refund recovery, with the amount.
      * @return list<GiftCardPurchaseRefundRecoveryDestination>
      */
     public function getDestinations(): array { return $this->get('destinations'); }

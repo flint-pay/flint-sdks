@@ -10,19 +10,23 @@ A fee or credit a return policy proposes for a line, calculated as a flat amount
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `adjustment_type` | Required | string | Values: `"return_shipping_fee"`, `"restocking_fee"`, `"other_fee"`, `"goodwill_credit"`, `"price_correction"`, `"other"`. |
+| `adjustment_type` | Required | string | What the fee or credit is for. Values: `"return_shipping_fee"`, `"restocking_fee"`, `"other_fee"`, `"goodwill_credit"`, `"price_correction"`, `"other"`. |
 | `based_on_quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
-| `calculated_amount_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. `calculated_amount_money`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options). |
-| `calculation_type` | Required | string | Values: `"flat"`, `"percent"`. |
-| `flat_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. `flat_money`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options). |
-| `percent` | Optional | number | Format: `double`. multipleOf: `0.0001`. |
-| `value_effect` | Required | string | Values: `"deduction"`, `"credit"`. |
+| `calculated_amount_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The amount worked out for the line's returned quantity. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `calculated_amount_money`: [field definitions](../models/ReturnPolicyAdjustmentProposal.md#returnpolicyadjustmentproposalcalculated_amount_money). |
+| `calculation_type` | Required | string | How the amount is worked out. Values: `"flat"`, `"percent"`. |
+| `flat_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Fixed amount proposed for the line, whatever the quantity. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `flat_money`: [field definitions](../models/ReturnPolicyAdjustmentProposal.md#returnpolicyadjustmentproposalflat_money). |
+| `percent` | Optional | number | Percentage points of the returned units' subtotal, such as `10` for 10%. Format: `double`. multipleOf: `0.0001`. |
+| `value_effect` | Required | string | Whether the amount reduces or increases what the buyer receives. Values: `"deduction"`, `"credit"`. |
 
 ### ReturnPolicyAdjustmentProposal.calculated_amount_money
 
-Field definitions: [BuyerCheckoutSession.tip.smart_tip_money_options[]](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options).
+The amount worked out for the line's returned quantity. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+
+Field definitions: [shared fields](MoneyValueInput.md#moneyvalueinput).
 
 ### ReturnPolicyAdjustmentProposal.flat_money
 
-Field definitions: [BuyerCheckoutSession.tip.smart_tip_money_options[]](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options).
+Fixed amount proposed for the line, whatever the quantity. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+
+Field definitions: [shared fields](MoneyValueInput.md#moneyvalueinput).
 

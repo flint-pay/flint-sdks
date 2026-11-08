@@ -26,13 +26,13 @@ final class MerchantBillingEntryInput extends Model {
      */
     public function getAvailableCreditEffectMoney(): mixed { return $this->get('available_credit_effect_money'); }
     public function hasAvailableCreditEffectMoney(): bool { return $this->has('available_credit_effect_money'); }
-    /** Balance transaction for this collection or collection reversal, when present.
+    /** Balance transaction for this collection or collection reversal, when present. Example: "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ".
      * @return string
      * @throws SdkError When balance_transaction_id is omitted; use hasBalanceTransactionId() or valueOrDefault().
      */
     public function getBalanceTransactionId(): string { return $this->get('balance_transaction_id'); }
     public function hasBalanceTransactionId(): bool { return $this->has('balance_transaction_id'); }
-    /** When Flint recorded the entry. Use created_after to pick up new entries, including late arrivals. Format: date-time.
+    /** When Flint inserted the entry. Never changes and is never backdated from occurred_at. Overlap created_after passes by a few minutes and deduplicate by merchant_billing_entry_id to pick up late commits. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
@@ -44,25 +44,25 @@ final class MerchantBillingEntryInput extends Model {
      */
     public function getDescription(): string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** Related dispute, when the entry is associated with a dispute.
+    /** Related dispute, when the entry is associated with a dispute. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD".
      * @return string
      * @throws SdkError When dispute_id is omitted; use hasDisputeId() or valueOrDefault().
      */
     public function getDisputeId(): string { return $this->get('dispute_id'); }
     public function hasDisputeId(): bool { return $this->has('dispute_id'); }
-    /** Event fee category. Present only for event_fee entries. card_dispute applies only when Flint paid the processor's dispute fee; a fee already deducted from your balance is recorded on the dispute balance transaction instead. Value enum: "bank_verification", "failed_ach_payment", "ach_dispute", "card_dispute".
+    /** Event fee category. Present only for event_fee entries. card_dispute applies only when Flint paid the processor's dispute fee; a fee already deducted from your balance is recorded on the dispute balance transaction instead. Value enum: "bank_verification", "failed_ach_payment", "ach_dispute", "card_dispute", "external_paid_order_overage".
      * @return string
      * @throws SdkError When event_fee_type is omitted; use hasEventFeeType() or valueOrDefault().
      */
     public function getEventFeeType(): string { return $this->get('event_fee_type'); }
     public function hasEventFeeType(): bool { return $this->has('event_fee_type'); }
-    /** Stable entry ID. Re-reading an entry returns the same values.
+    /** Stable entry ID. Re-reading an entry returns the same values. Example: "mbe_01KEZF7C00S06A5G1B4867TF78".
      * @return string
      * @throws SdkError When merchant_billing_entry_id is omitted; use hasMerchantBillingEntryId() or valueOrDefault().
      */
     public function getMerchantBillingEntryId(): string { return $this->get('merchant_billing_entry_id'); }
     public function hasMerchantBillingEntryId(): bool { return $this->has('merchant_billing_entry_id'); }
-    /** Related invoice issued by Flint, when applicable.
+    /** Related invoice issued by Flint, when applicable. Example: "msinv_01KEZF7C00MB754KPEPACGRMNP".
      * @return string
      * @throws SdkError When merchant_billing_invoice_id is omitted; use hasMerchantBillingInvoiceId() or valueOrDefault().
      */
@@ -74,7 +74,7 @@ final class MerchantBillingEntryInput extends Model {
      */
     public function getNetBillingEffectMoney(): mixed { return $this->get('net_billing_effect_money'); }
     public function hasNetBillingEffectMoney(): bool { return $this->has('net_billing_effect_money'); }
-    /** When the billing event happened. An entry can be recorded after entries that occurred later. Format: date-time.
+    /** When the billing event happened. An entry can be recorded after entries that occurred later. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When occurred_at is omitted; use hasOccurredAt() or valueOrDefault().
      */
@@ -86,13 +86,13 @@ final class MerchantBillingEntryInput extends Model {
      */
     public function getOutstandingEffectMoney(): mixed { return $this->get('outstanding_effect_money'); }
     public function hasOutstandingEffectMoney(): bool { return $this->has('outstanding_effect_money'); }
-    /** Related payment intent, when the entry is associated with a payment.
+    /** Related payment intent, when the entry is associated with a payment. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
      * @return string
      * @throws SdkError When payment_intent_id is omitted; use hasPaymentIntentId() or valueOrDefault().
      */
     public function getPaymentIntentId(): string { return $this->get('payment_intent_id'); }
     public function hasPaymentIntentId(): bool { return $this->has('payment_intent_id'); }
-    /** Entry corrected, credited, collected, reversed, or written off by this entry, when applicable.
+    /** Entry corrected, credited, collected, reversed, or written off by this entry, when applicable. Example: "mbe_01KEZF7C00S06A5G1B4867TF78".
      * @return string
      * @throws SdkError When related_merchant_billing_entry_id is omitted; use hasRelatedMerchantBillingEntryId() or valueOrDefault().
      */

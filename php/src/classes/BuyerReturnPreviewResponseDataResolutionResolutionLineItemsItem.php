@@ -22,22 +22,22 @@ final class BuyerReturnPreviewResponseDataResolutionResolutionLineItemsItem exte
      */
     public function getReleaseTiming(): ?string { return $this->get('release_timing'); }
     public function hasReleaseTiming(): bool { return $this->has('release_timing'); }
-    /** return_line_item_id
+    /** ID of the Return line the resolution covers.
      * @return string
      */
     public function getReturnLineItemId(): string { return $this->get('return_line_item_id'); }
     public function hasReturnLineItemId(): bool { return $this->has('return_line_item_id'); }
-    /** return_resolution_id
+    /** ID of the resolution the line belongs to.
      * @return string
      */
     public function getReturnResolutionId(): string { return $this->get('return_resolution_id'); }
     public function hasReturnResolutionId(): bool { return $this->has('return_resolution_id'); }
-    /** return_resolution_line_item_id
+    /** ID of an existing resolution line to keep. Leave out to add a new line.
      * @return string
      */
     public function getReturnResolutionLineItemId(): string { return $this->get('return_resolution_line_item_id'); }
     public function hasReturnResolutionLineItemId(): bool { return $this->has('return_resolution_line_item_id'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Value of the returned units this line covers. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return BuyerReturnPreviewResponseDataResolutionResolutionLineItemsItemReturnedTotalMoney
      */
     public function getReturnedTotalMoney(): BuyerReturnPreviewResponseDataResolutionResolutionLineItemsItemReturnedTotalMoney { return $this->get('returned_total_money'); }

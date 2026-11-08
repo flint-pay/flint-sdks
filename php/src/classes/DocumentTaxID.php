@@ -26,7 +26,7 @@ final class DocumentTaxID extends Model {
      */
     public function getIdentifierType(): string { return $this->get('identifier_type'); }
     public function hasIdentifierType(): bool { return $this->has('identifier_type'); }
-    /** minLength: 1. maxLength: 64.
+    /** State or province of the country, when the ID applies to one region only. Omitted for IDs that apply to the whole country. minLength: 1. maxLength: 64.
      * @return ?string
      */
     public function getRegion(): ?string { return $this->get('region'); }

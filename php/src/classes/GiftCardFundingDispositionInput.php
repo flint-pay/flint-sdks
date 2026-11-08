@@ -18,7 +18,7 @@ namespace Flint;
 final class GiftCardFundingDispositionInput extends Model {
     /** @param array{'created_at': string|\DateTimeInterface, 'disposition': string, 'dispute_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'dispute_id': string, 'gift_card_funding_disposition_id': string, 'gift_card_ids': list<string>, 'honored_value_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'idempotency_key': string, 'original_gift_card_consideration_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'payment_intent_id': string, 'preserved_reserved_value_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'reason_message': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardFundingDispositionInput')); }
-    /** When the disposition was created. Format: date-time.
+    /** When the disposition was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
@@ -36,19 +36,19 @@ final class GiftCardFundingDispositionInput extends Model {
      */
     public function getDisputeAmountMoney(): mixed { return $this->get('dispute_amount_money'); }
     public function hasDisputeAmountMoney(): bool { return $this->has('dispute_amount_money'); }
-    /** The lost dispute this disposition resolves.
+    /** The lost dispute this disposition resolves. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD".
      * @return string
      * @throws SdkError When dispute_id is omitted; use hasDisputeId() or valueOrDefault().
      */
     public function getDisputeId(): string { return $this->get('dispute_id'); }
     public function hasDisputeId(): bool { return $this->has('dispute_id'); }
-    /** Stable identifier of the disposition.
+    /** Stable identifier of the disposition. Example: "gfd_01KEZF7C0077Q8RK3Q4FD2DTW8".
      * @return string
      * @throws SdkError When gift_card_funding_disposition_id is omitted; use hasGiftCardFundingDispositionId() or valueOrDefault().
      */
     public function getGiftCardFundingDispositionId(): string { return $this->get('gift_card_funding_disposition_id'); }
     public function hasGiftCardFundingDispositionId(): bool { return $this->has('gift_card_funding_disposition_id'); }
-    /** Gift cards whose value this disposition honors, including replacement cards that received value from the disputed funding. [] (Value): string.
+    /** Gift cards whose value this disposition honors, including replacement cards that received value from the disputed funding. [] (Value): string. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
      * @return list<string>
      * @throws SdkError When gift_card_ids is omitted; use hasGiftCardIds() or valueOrDefault().
      */
@@ -72,7 +72,7 @@ final class GiftCardFundingDispositionInput extends Model {
      */
     public function getOriginalGiftCardConsiderationMoney(): mixed { return $this->get('original_gift_card_consideration_money'); }
     public function hasOriginalGiftCardConsiderationMoney(): bool { return $this->has('original_gift_card_consideration_money'); }
-    /** The disputed payment that funded the gift card value.
+    /** The disputed payment that funded the gift card value. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
      * @return string
      * @throws SdkError When payment_intent_id is omitted; use hasPaymentIntentId() or valueOrDefault().
      */

@@ -1,0 +1,1 @@
+{"shared":"UpdateTaxCalculationCallbackRequest","dependencies":["SharedCodec1574","SharedCodec1580","SharedCodec1581","TaxCalculationCallbackConfigurationPatchRequest","UpdateTaxCalculationCallbackRequest","WebhookSigningMethod"]}

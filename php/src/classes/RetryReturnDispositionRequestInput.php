@@ -15,13 +15,13 @@ final class RetryReturnDispositionRequestInput extends Model {
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** Value enum: "dependency_recovered", "mapping_corrected", "operator_retry", "other".
+    /** Why the disposition is being run again. Value enum: "dependency_recovered", "mapping_corrected", "operator_retry", "other".
      * @return string
      * @throws SdkError When reason is omitted; use hasReason() or valueOrDefault().
      */
     public function getReason(): string { return $this->get('reason'); }
     public function hasReason(): bool { return $this->has('reason'); }
-    /** minLength: 1.
+    /** Optional detail about `reason`, kept with the record. minLength: 1.
      * @return string
      * @throws SdkError When reason_message is omitted; use hasReasonMessage() or valueOrDefault().
      */

@@ -14,6 +14,9 @@ Signature: `create(array|Model $params, ?RequestOptions $options = null)`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [CreateCreditNoteRequestInput](../models/CreateCreditNoteRequestInput.md#createcreditnoterequestinput) | The request body for: Create credit note. |
 
 Body model: [CreateCreditNoteRequestInput](../models/CreateCreditNoteRequestInput.md#createcreditnoterequestinput).
@@ -24,7 +27,7 @@ Body model: [CreateCreditNoteRequestInput](../models/CreateCreditNoteRequestInpu
 | --- | --- | --- | --- |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `invoice_id` | Required | string | The invoice to correct. It has to be past draft and not voided. minLength: `1`. |
-| `line_items` | Optional | Array of [CreditNoteLineItemRequestInput](../models/CreditNoteLineItemRequestInput.md#creditnotelineitemrequestinput) | Initial draft corrections. Omit or send [] to create an empty draft. Null is not accepted. Items: A credit note line you supply when creating or updating a credit note: the invoice line item it credits and how much, or an existing line to keep. |
+| `line_items` | Optional | Array of [CreditNoteLineItemRequestInput](../models/CreditNoteLineItemRequestInput.md#creditnotelineitemrequestinput) | Initial draft corrections. Omit or send [] to create an empty draft. Null is not accepted. |
 | `memo` | Optional | string | Free text shown on the credit note, up to 4096 characters. minLength: `1`. maxLength: `4096`. |
 | `reason` | Required | string | Why the invoice is being corrected: returned_goods, order_adjustment, billing_error, goodwill, or other. Shown on the credit note document. Values: `"returned_goods"`, `"order_adjustment"`, `"billing_error"`, `"goodwill"`, `"other"`. |
 
@@ -41,7 +44,6 @@ Returned payload: [CreditNote](../models/CreditNote.md#creditnote).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -67,7 +69,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->creditNotes->create([
-  'invoice_id' => 'inv_01ARZ3NDEKTSV4RRFFQ69G5FAV',
+  'invoice_id' => 'inv_01KEZF7C00A5GEBMWHEAJFSAR4',
   'reason' => 'returned_goods',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
@@ -87,6 +89,9 @@ Signature: `createAllocation(string|Model $credit_note_id, array|Model $params, 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `credit_note_id` | Required | string | Flint credit note ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [CreateCreditNoteAllocationRequestInput](../models/CreateCreditNoteAllocationRequestInput.md#createcreditnoteallocationrequestinput) | The request body for: Allocate credit note. |
 
 Body model: [CreateCreditNoteAllocationRequestInput](../models/CreateCreditNoteAllocationRequestInput.md#createcreditnoteallocationrequestinput).
@@ -95,7 +100,7 @@ Body model: [CreateCreditNoteAllocationRequestInput](../models/CreateCreditNoteA
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Required | [MoneyValueInput](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantTaxCalculationComponentsItemFlatMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvarianttaxcalculationcomponentsitemflatmoney) | Credit to apply, no more than the credit note's available_money or the invoice's outstanding balance. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `amount_money` | Required | [MoneyValueInput](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseFaceValueMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantgiftcardpurchasefacevaluemoney) | Credit to apply, no more than the credit note's available_money or the invoice's outstanding balance. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `expected_version` | Optional | integer | Credit note version last read. Optional; a stale version returns VERSION_CONFLICT. Format: `int64`. minimum: `1`. |
 
 #### Response
@@ -111,7 +116,6 @@ Returned payload: [CreditNoteAllocationResult](../models/CreditNoteAllocationRes
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -146,78 +150,6 @@ $result = $client->creditNotes->createAllocation('cn_01ARZ3NDEKTSV4RRFFQ69G5FAV'
 
 [Complete runnable example](../examples/creditNotes-createAllocation.php)
 
-### creditNotes.createRefund
-
-Creates a refund against an issued credit note on a paid invoice. Omit amount_money to refund all available credit. Refunds use the source invoice's original payments and do not reopen its balance. Idempotency-Key is required and retained for the lifetime of the refund command, scoped to merchant, environment, credit note, and key. Reusing it with another request conflicts. Recover a lost response by listing this note's refunds with idempotency_key. A failed remainder can be requested with a new key after its outcome is definitive.
-
-`POST /v1/credit-notes/{credit_note_id}/refunds`
-
-Signature: `createRefund(string|Model $credit_note_id, array|Model $params, ?RequestOptions $options = null)`
-
-#### Request fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `credit_note_id` | Required | string | Flint credit note ID. |
-| `body` | Required | [CreateCreditNoteRefundRequestInput](../models/CreateCreditNoteRefundRequestInput.md#createcreditnoterefundrequestinput) | The request body for: Refund credit note. |
-
-Body model: [CreateCreditNoteRefundRequestInput](../models/CreateCreditNoteRefundRequestInput.md#createcreditnoterefundrequestinput).
-
-#### creditNotes.createRefund body fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `amount_money` | Optional | [MoneyValueInput](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantTaxCalculationComponentsItemFlatMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvarianttaxcalculationcomponentsitemflatmoney) | Credit to refund. Omit to refund all available credit, which Flint resolves once when it accepts the request. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `expected_version` | Optional | integer | Credit note version last read. Optional; a stale version returns VERSION_CONFLICT. Format: `int64`. minimum: `1`. |
-| `reason` | Required | string | Why the refund is being made. Values: [12 declared values](../models/CreateCreditNoteRefundRequestInput.md#createcreditnoterefundrequestinput-reason-values). |
-| `reason_message` | Optional | string | Optional note explaining the refund. minLength: `1`. |
-
-#### Response
-
-Returned payload: [Refund](../models/Refund.md#refund).
-
-#### Errors
-
-| Status | Error class |
-| --- | --- |
-| 400 | InvalidRequestError |
-| 401 | AuthenticationError |
-| 403 | PermissionError |
-| 404 | NotFoundError |
-| 409 | ConflictError |
-| 410 | ApiError |
-| 413 | ApiError |
-| 415 | ApiError |
-| 429 | RateLimitError |
-| 500 | ServerError |
-| 503 | ServerError |
-| 504 | ServerError |
-
-Other failures: [runtime error reference](../RUNTIME.md#error-reference).
-
-#### Request behavior
-
-Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
-
-Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
-
-Idempotent: key required, [As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent retention](../RUNTIME.md#idempotency).
-
-Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
-
-#### Example
-
-```php
-// Persist this key with the action before sending; reuse it for every resubmission.
-$idempotencyKey = bin2hex(random_bytes(16));
-
-$result = $client->creditNotes->createRefund('cn_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
-  'reason' => 'duplicate',
-], new RequestOptions(idempotencyKey: $idempotencyKey));
-```
-
-[Complete runnable example](../examples/creditNotes-createRefund.php)
-
 ### creditNotes.get
 
 Returns one credit note with its lines, total, and the credit still available to allocate.
@@ -231,7 +163,10 @@ Signature: `get(string|Model $credit_note_id, array|Model|null $params = null, ?
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `credit_note_id` | Required | string | Flint credit note ID. |
-| `expand` | Optional | Array of string or string | Supported expansions: invoice. Include the source invoice summary with expand=invoice. Requires commerce.credit_notes.read and commerce.invoices.read. Limits: at most 10 unique expand paths per request. Pass expand=invoice. Items values: `"invoice"`. Values: `"invoice"`. |
+| `expand` | Optional | Array of string or string | Include related objects in the response. Supported expansions: invoice. Include the source invoice summary with expand=invoice. Requires commerce.credit_notes.read and commerce.invoices.read. Limits: at most 10 unique expand paths per request. Items values: `"invoice"`. Values: `"invoice"`. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -245,7 +180,6 @@ Returned payload: [CreditNote](../models/CreditNote.md#creditnote).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -263,7 +197,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```php
-$result = $client->creditNotes->get('cn_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
+$result = $client->creditNotes->get('cn_01KEZF7C00N1TRRCVDNY8S471H', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/creditNotes-get.php)
@@ -293,10 +227,13 @@ getAllocation(string|
 | --- | --- | --- | --- |
 | `credit_note_id` | Required | string | Flint credit note ID. |
 | `credit_note_allocation_id` | Required | string | Flint credit note allocation ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
-Returned payload: [CreditNoteAllocation](../models/CreditNoteAllocation.md#creditnoteallocation).
+Returned payload: [CreditNoteAllocation](../models/CreditNoteAllocationCreatedMerchantEventDataObject.md#creditnoteallocationcreatedmerchanteventdataobject).
 
 #### Errors
 
@@ -306,7 +243,6 @@ Returned payload: [CreditNoteAllocation](../models/CreditNoteAllocation.md#credi
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -324,7 +260,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```php
-$result = $client->creditNotes->getAllocation('cn_01ARZ3NDEKTSV4RRFFQ69G5FAV', 'cna_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
+$result = $client->creditNotes->getAllocation('cn_01KEZF7C00N1TRRCVDNY8S471H', 'cna_01KEZF7C00EH6DMS9BD8F72CMA', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/creditNotes-getAllocation.php)
@@ -342,6 +278,9 @@ Signature: `getPDF(string|Model $credit_note_id, array|Model|null $params = null
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `credit_note_id` | Required | string | Flint credit note ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -356,7 +295,6 @@ Response body (inside Result.data): null.
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -372,14 +310,14 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```php
-$result = $client->creditNotes->getPDF('cn_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
+$result = $client->creditNotes->getPDF('cn_01KEZF7C00N1TRRCVDNY8S471H', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/creditNotes-getPDF.php)
 
 ### creditNotes.issue
 
-Issues a draft credit note and freezes its number, lines, and totals. Provide allocation to issue and apply credit to its invoice atomically, or refund to initiate a linked refund on a paid invoice. Allocation and refund cannot be combined. Omit allocation.amount_money to apply the smaller of the credit available after issue and the invoice's outstanding balance. An explicit amount must be positive, use the invoice's currency, and fit both balances. The result includes credit_note_allocation when allocation is requested. Idempotency-Key is required and is retained for as long as the issue's effects exist, scoped to merchant, environment, credit note, and key. Reuse the key with the identical request to recover the original credit note and allocation. Recover an allocation after a lost response by listing this note's allocations with idempotency_key=issue:<issue key>. For refunds, list this note's refunds filtered by the original idempotency_key. A pending refund is accepted but has not completed. Without allocation or refund, issuance leaves the invoice balance unchanged. Issue validates the stored preview against current shared creditable pools. A fitting correction whose preview changed returns CONCURRENT_MODIFICATION with reason credit_note_creditable_value_changed: replace its existing corrections with PATCH using the current expected_version, review the recalculated amounts, and issue again. A stored correction exceeding the remaining pool returns ACTION_NOT_ALLOWED with reason not_offered. Update the draft lines before issuing again. Affected historical tax allocations return ACTION_NOT_ALLOWED with reason credit_note_tax_reconciliation_required.
+Issues a draft credit note and freezes its number, lines, and totals. Provide allocation to issue and apply credit to its invoice atomically, or refund to initiate a linked refund on a paid invoice. Allocation and refund cannot be combined. Omit allocation.amount_money to apply the smaller of the credit available after issue and the invoice's outstanding balance. An explicit amount must be positive, use the invoice's currency, and fit both balances. The result includes credit_note_allocation when allocation is requested. Idempotency-Key is required and is retained for as long as the issue's effects exist, scoped to merchant, environment, credit note, and key. Reuse the key with the identical request to recover the original credit note and allocation. After a lost response, list this note's allocations or refunds filtered by the issue request's idempotency_key. A pending refund is accepted but has not completed. Without allocation or refund, issuance leaves the invoice balance unchanged. Issue validates the stored preview against current shared creditable pools. A fitting correction whose preview changed fails with `VERSION_CONFLICT`, which includes the credit note and `current_version`: replace its existing corrections with PATCH using the current expected_version, review the recalculated amounts, and issue again. A stored correction exceeding the remaining pool fails with `ACTION_NOT_ALLOWED` and reason `not_offered`. Update the draft lines before issuing again. Affected historical tax allocations fail with `ACTION_NOT_ALLOWED` and reason `credit_note_tax_reconciliation_required`.
 
 `POST /v1/credit-notes/{credit_note_id}/issue`
 
@@ -390,6 +328,9 @@ Signature: `issue(string|Model $credit_note_id, array|Model|null $params = null,
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `credit_note_id` | Required | string | Flint credit note ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Optional | [IssueCreditNoteRequestInput](../models/IssueCreditNoteRequestInput.md#issuecreditnoterequestinput) | The request body for: Issue credit note. |
 
 Body model: [IssueCreditNoteRequestInput](../models/IssueCreditNoteRequestInput.md#issuecreditnoterequestinput).
@@ -411,7 +352,6 @@ Returned payload: [IssueCreditNoteResult](../models/IssueCreditNoteResult.md#iss
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -437,7 +377,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->creditNotes->issue('cn_01ARZ3NDEKTSV4RRFFQ69G5FAV', null, new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->creditNotes->issue('cn_01KEZF7C00N1TRRCVDNY8S471H', null, new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/creditNotes-issue.php)
@@ -455,16 +395,19 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
 | `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
 | `invoice_id` | Optional | string | Filter by invoice. |
 | `customer_id` | Optional | string | Filter by the source invoice's current customer_id. |
-| `reason` | Optional | Array of string or string | Filter by credit note reason. Repeat the parameter or pass comma-separated values to match multiple reasons. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"returned_goods"`, `"order_adjustment"`, `"billing_error"`, `"goodwill"`, `"other"`. Values: `"returned_goods"`, `"order_adjustment"`, `"billing_error"`, `"goodwill"`, `"other"`. |
+| `reason` | Optional | Array of string or string | Filter by credit note reason. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"returned_goods"`, `"order_adjustment"`, `"billing_error"`, `"goodwill"`, `"other"`. Values: `"returned_goods"`, `"order_adjustment"`, `"billing_error"`, `"goodwill"`, `"other"`. |
 | `external_reference_id` | Optional | string | Exact-match filter on the caller-owned external reference ID. minLength: `1`. maxLength: `255`. |
 | `query` | Optional | string | Search across credit note ID, credit note number, memo, and external reference ID. Text fields match any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the start and need the type prefix, such as cn_01. |
-| `status` | Optional | Array of string or string | Filter by status. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"draft"`, `"issued"`, `"void"`. Values: `"draft"`, `"issued"`, `"void"`. |
-| `expand` | Optional | Array of string or string | Supported expansions: invoice. Include the requested related resources using scoped batch reads for this page. Each relationship requires its existing target read scopes. Expansion changes the representation without changing pagination tokens. Limits: at most 10 unique expand paths per request. Pass expand=invoice. Items values: `"invoice"`. Values: `"invoice"`. |
+| `status` | Optional | Array of string or string | Filter by status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"draft"`, `"issued"`, `"voided"`. Values: `"draft"`, `"issued"`, `"voided"`. |
+| `expand` | Optional | Array of string or string | Include related objects in the response. Supported expansions: invoice. Include the requested related resources using scoped batch reads for this page. Each relationship requires its existing target read scopes. Expansion changes the representation without changing pagination tokens. Limits: at most 10 unique expand paths per request. Items values: `"invoice"`. Values: `"invoice"`. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -477,7 +420,6 @@ Returned payload: [CreditNoteListResponse](../models/CreditNoteListResponse.md#c
 | 400 | InvalidRequestError |
 | 401 | AuthenticationError |
 | 403 | PermissionError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -516,8 +458,11 @@ Signature: `listAllocations(string|Model $credit_note_id, array|Model|null $para
 | --- | --- | --- | --- |
 | `credit_note_id` | Required | string | Flint credit note ID. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -531,7 +476,6 @@ Returned payload: [CreditNoteAllocationListResponse](../models/CreditNoteAllocat
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -551,59 +495,10 @@ Pagination: `listAllocationsItems`, `listAllocationsPages`. [Canonical paginatio
 #### Example
 
 ```php
-$result = $client->creditNotes->listAllocations('cn_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
+$result = $client->creditNotes->listAllocations('cn_01KEZF7C00N1TRRCVDNY8S471H', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/creditNotes-listAllocations.php)
-
-### creditNotes.listRefunds
-
-Lists linked refunds, including failed attempts, newest first. Filter by idempotency_key to recover a refund after a lost response. Default order: time each refund was applied to the credit note (descending), then refund_id descending.
-
-`GET /v1/credit-notes/{credit_note_id}/refunds`
-
-Signature: `listRefunds(string|Model $credit_note_id, array|Model|null $params = null, ?RequestOptions $options = null)`
-
-#### Request fields
-
-Field definitions: [shared fields](#request-fields-8).
-
-#### Response
-
-Returned payload: [CreditNoteRefundListResponse](../models/CreditNoteRefundListResponse.md#creditnoterefundlistresponse).
-
-#### Errors
-
-| Status | Error class |
-| --- | --- |
-| 400 | InvalidRequestError |
-| 401 | AuthenticationError |
-| 403 | PermissionError |
-| 404 | NotFoundError |
-| 410 | ApiError |
-| 429 | RateLimitError |
-| 500 | ServerError |
-| 503 | ServerError |
-
-Other failures: [runtime error reference](../RUNTIME.md#error-reference).
-
-#### Request behavior
-
-Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
-
-Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
-
-Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
-
-Pagination: `listRefundsItems`, `listRefundsPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
-
-#### Example
-
-```php
-$result = $client->creditNotes->listRefunds('cn_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
-```
-
-[Complete runnable example](../examples/creditNotes-listRefunds.php)
 
 ### creditNotes.reverseAllocation
 
@@ -630,6 +525,9 @@ reverseAllocation(string|
 | --- | --- | --- | --- |
 | `credit_note_id` | Required | string | Flint credit note ID. |
 | `credit_note_allocation_id` | Required | string | Flint credit note allocation ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Optional | [ResourceVersionRequestInput](../models/ResourceVersionRequestInput.md#resourceversionrequestinput) | The request body for: Mark invoice uncollectible; Regenerate invoice public link; Resume one of the current buyer's subscriptions; Resume subscription; Reverse credit note allocation; Void credit note; Void invoice. |
 
 #### Response
@@ -645,7 +543,6 @@ Returned payload: [CreditNoteAllocationResult](../models/CreditNoteAllocationRes
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -670,7 +567,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->creditNotes->reverseAllocation('cn_01ARZ3NDEKTSV4RRFFQ69G5FAV', 'cna_01ARZ3NDEKTSV4RRFFQ69G5FAV', null, new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->creditNotes->reverseAllocation('cn_01KEZF7C00N1TRRCVDNY8S471H', 'cna_01KEZF7C00EH6DMS9BD8F72CMA', null, new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/creditNotes-reverseAllocation.php)
@@ -688,6 +585,9 @@ Signature: `update(string|Model $credit_note_id, array|Model $params, ?RequestOp
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `credit_note_id` | Required | string | Flint credit note ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [UpdateCreditNoteRequestInput](../models/UpdateCreditNoteRequestInput.md#updatecreditnoterequestinput) | The request body for: Update credit note. |
 
 Body model: [UpdateCreditNoteRequestInput](../models/UpdateCreditNoteRequestInput.md#updatecreditnoterequestinput).
@@ -698,7 +598,7 @@ Body model: [UpdateCreditNoteRequestInput](../models/UpdateCreditNoteRequestInpu
 | --- | --- | --- | --- |
 | `expected_version` | Optional | integer | Credit note version last read. Required when line_items is present. Required when any of these fields is present: line_items. Format: `int64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. |
-| `line_items` | Optional | Array of [CreditNoteLineItemRequestInput](../models/CreditNoteLineItemRequestInput.md#creditnotelineitemrequestinput) | Full replacement of the draft's owned line collection; requires expected_version. Recalculates corrections from current remaining creditable pools. After CONCURRENT_MODIFICATION with reason credit_note_creditable_value_changed, replace the existing corrections using the credit note's current version, review the new amounts, and issue again. Scalar memo or reason changes do not reprice lines. Items: A credit note line you supply when creating or updating a credit note: the invoice line item it credits and how much, or an existing line to keep. |
+| `line_items` | Optional | Array of [CreditNoteLineItemRequestInput](../models/CreditNoteLineItemRequestInput.md#creditnotelineitemrequestinput) | Full replacement of the draft's owned line collection; requires expected_version. Recalculates corrections from current remaining creditable pools. After VERSION_CONFLICT, replace the existing corrections using current_version as expected_version, review the new amounts, and issue again. Scalar memo or reason changes do not reprice lines. |
 | `memo` | Optional | string or null | Send null to clear it. minLength: `1`. maxLength: `4096`. |
 | `reason` | Optional | string | Why the invoice is being corrected: returned_goods, order_adjustment, billing_error, goodwill, or other. Cannot be null; omit it to keep the current reason. Values: `"returned_goods"`, `"order_adjustment"`, `"billing_error"`, `"goodwill"`, `"other"`. |
 
@@ -715,7 +615,6 @@ Returned payload: [CreditNote](../models/CreditNote.md#creditnote).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -749,7 +648,7 @@ $result = $client->creditNotes->update('cn_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
 
 ### creditNotes.void
 
-Voids an issued credit note. Reverse every allocation first. A credit note with a pending or succeeded refund can't be voided. Blockers return 409 RESOURCE_IN_USE with details[0].blocking_resources listing the allocations and refunds. Void is terminal, and an invoice cannot be voided while an issued credit note stands against it.
+Voids an issued credit note. Reverse every allocation first. A credit note with a pending or succeeded refund can't be voided. Blockers fail with `RESOURCE_IN_USE`, and `details[0].blocking_resources` lists the allocations and refunds. Void is terminal, and an invoice cannot be voided while an issued credit note stands against it.
 
 `POST /v1/credit-notes/{credit_note_id}/void`
 
@@ -760,6 +659,9 @@ Signature: `void(string|Model $credit_note_id, array|Model|null $params = null, 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `credit_note_id` | Required | string | Flint credit note ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Optional | [ResourceVersionRequestInput](../models/ResourceVersionRequestInput.md#resourceversionrequestinput) | The request body for: Mark invoice uncollectible; Regenerate invoice public link; Resume one of the current buyer's subscriptions; Resume subscription; Reverse credit note allocation; Void credit note; Void invoice. |
 
 #### Response
@@ -775,7 +677,6 @@ Returned payload: [CreditNote](../models/CreditNote.md#creditnote).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -800,7 +701,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->creditNotes->void('cn_01ARZ3NDEKTSV4RRFFQ69G5FAV', null, new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->creditNotes->void('cn_01KEZF7C00N1TRRCVDNY8S471H', null, new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/creditNotes-void.php)

@@ -5,7 +5,7 @@ const client = new Client({
   allowInsecureHttp: !!baseUrl && ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
 });
 const result = await client.invoices.getPDF(
-  "inv_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "inv_01KEZF7C00A5GEBMWHEAJFSAR4"
 );
 // Choose a destination path; PDF bytes must not be decoded as text.
 const resultPath = process.env.API_DOWNLOAD_PATH ?? "download.pdf";

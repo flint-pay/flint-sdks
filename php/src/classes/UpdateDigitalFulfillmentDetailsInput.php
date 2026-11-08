@@ -8,7 +8,7 @@ namespace Flint;
 final class UpdateDigitalFulfillmentDetailsInput extends Model {
     /** @param array{'delivered_at'?: string|\DateTimeInterface|null, 'delivery_url'?: string|null}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdateDigitalFulfillmentDetailsInput')); }
-    /** RFC3339 timestamp. Send null to clear it. Format: date-time. minLength: 1.
+    /** RFC3339 timestamp. Send null to clear it. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface|null
      * @throws SdkError When delivered_at is omitted; use hasDeliveredAt() or valueOrDefault().
      */

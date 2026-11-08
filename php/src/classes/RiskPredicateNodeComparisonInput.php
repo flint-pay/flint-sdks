@@ -9,19 +9,19 @@ namespace Flint;
 final class RiskPredicateNodeComparisonInput extends Model {
     /** @param array{'attribute': string, 'operator': string, 'value': string|int|bool}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RiskPredicateNodeComparisonInput')); }
-    /** minLength: 1. maxLength: 280.
+    /** The payment attribute to test. Read the attribute registry for the names a rule can use. minLength: 1. maxLength: 280.
      * @return string
      * @throws SdkError When attribute is omitted; use hasAttribute() or valueOrDefault().
      */
     public function getAttribute(): string { return $this->get('attribute'); }
     public function hasAttribute(): bool { return $this->has('attribute'); }
-    /** Value enum: "eq", "neq", "gt", "gte", "lt", "lte".
+    /** How the attribute is compared. Value enum: "eq", "neq", "gt", "gte", "lt", "lte".
      * @return string
      * @throws SdkError When operator is omitted; use hasOperator() or valueOrDefault().
      */
     public function getOperator(): string { return $this->get('operator'); }
     public function hasOperator(): bool { return $this->has('operator'); }
-    /**  oneOf[1] (Value): string. minLength: 1. oneOf[2] (Value): integer. oneOf[3] (Value): boolean.
+    /** The value to compare with. oneOf[1] (Value): string. minLength: 1. oneOf[2] (Value): integer. oneOf[3] (Value): boolean.
      * @return string|int|bool
      * @throws SdkError When value is omitted; use hasValue() or valueOrDefault().
      */

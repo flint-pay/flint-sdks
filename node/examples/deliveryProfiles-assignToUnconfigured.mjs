@@ -8,8 +8,8 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.deliveryProfiles.assignToUnconfigured(
-  "dprof_01ARZ3NDEKTSV4RRFFQ69G5FAV",
-  {},
+  "dprof_01KEZF7C0020J13FQYNY9854R0",
+  undefined,
   { idempotencyKey: idempotencyKey },
 );
 console.log(result.delivery_profile_id);

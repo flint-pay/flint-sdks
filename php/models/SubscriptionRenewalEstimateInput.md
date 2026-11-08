@@ -2,13 +2,13 @@
 
 ## SubscriptionRenewalEstimateInput
 
-Estimated pricing and billing time for a subscription's next renewal, including items, discounts, shipping, and tax.
+Estimated pricing and billing time for a subscription renewal, including items, discounts, shipping, and tax.
 
 Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `billing_at` | Required | string or null | Expected billing time, or null when billing is not scheduled. Format: `date-time`. |
+| `billing_at` | Required | string or null | Expected billing time, or null when billing is not scheduled. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `currency` | Required | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. Example: `"USD"`. |
 | `discount_money` | Required | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `discounts` | Required | Array of [SubscriptionRenewalEstimateDiscountInput](../models/SubscriptionRenewalEstimateDiscountInput.md#subscriptionrenewalestimatediscountinput) |  |
@@ -16,6 +16,6 @@ Request input.
 | `shipping_money` | Required | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) or null | Estimated shipping; null for a digital subscription. |
 | `subscription_cycle` | Required | integer | Format: `uint64`. minimum: `0`. |
 | `subtotal_money` | Required | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `tax_money` | Required | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) or null | Estimated tax; null when no tax address is available. |
+| `tax_money` | Required | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) or null | Estimated tax; null when tax can't be calculated yet. |
 | `total_money` | Required | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 

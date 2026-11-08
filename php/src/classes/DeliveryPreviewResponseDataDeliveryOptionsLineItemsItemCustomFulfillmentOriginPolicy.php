@@ -8,12 +8,12 @@ namespace Flint;
 final class DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemCustomFulfillmentOriginPolicy extends Model {
     /** @param array{'location_id'?: string, 'origin_policy_type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemCustomFulfillmentOriginPolicy')); }
-    /** minLength: 1.
+    /** ID of the location the item ships from. Required for `fixed_location`; not accepted for other policies. minLength: 1.
      * @return ?string
      */
     public function getLocationId(): ?string { return $this->get('location_id'); }
     public function hasLocationId(): bool { return $this->has('location_id'); }
-    /** Value enum: "fixed_location", "inventory_routing", "method_origin".
+    /** How Flint picks the location the item ships from. Value enum: "fixed_location", "inventory_routing", "method_origin".
      * @return string
      */
     public function getOriginPolicyType(): string { return $this->get('origin_policy_type'); }

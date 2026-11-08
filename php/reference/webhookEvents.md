@@ -4,7 +4,7 @@
 
 ### webhookEvents.get
 
-Returns a specific webhook event for the authenticated merchant.
+Returns a specific webhook event for the authenticated merchant. Global partner-source records are invisible in sandbox mode; a direct reference returns 404 RESOURCE_NOT_FOUND.
 
 `GET /v1/webhook-events/{webhook_event_id}`
 
@@ -15,6 +15,9 @@ Signature: `get(string|Model $webhook_event_id, array|Model|null $params = null,
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `webhook_event_id` | Required | string | Flint webhook event ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -28,7 +31,6 @@ Returned payload: [WebhookEvent](../models/WebhookEvent.md#webhookevent).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -46,14 +48,14 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```php
-$result = $client->webhookEvents->get('whev_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
+$result = $client->webhookEvents->get('whev_01KEZF7C00362MS3HV970TRZGS', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/webhookEvents-get.php)
 
 ### webhookEvents.list
 
-Returns recent canonical webhook events for the authenticated merchant. Default order: created_at descending, then webhook_event_id descending.
+Returns recent canonical webhook events for the authenticated merchant. Sandbox reads omit global partner-source records. Filters selecting only partner_app or installed_merchants return an empty collection. Direct resource reads of partner-source records return 404 RESOURCE_NOT_FOUND in sandbox mode; exact-ID list filters return an empty collection when no visible records match. Default order: created_at descending, then webhook_event_id descending.
 
 `GET /v1/webhook-events`
 
@@ -64,19 +66,22 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `webhook_endpoint_id` | Optional | string | Filter to events that have a delivery for this webhook endpoint. |
-| `delivery_status` | Optional | Array of string or string | Filter to events that have a delivery with this status. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"pending"`, `"delivered"`, `"failed"`, `"suppressed"`. Values: `"pending"`, `"delivered"`, `"failed"`, `"suppressed"`. |
-| `event_source` | Optional | Array of string or string | Filter by webhook event source. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"merchant"`, `"partner_app"`, `"installed_merchants"`. Values: `"merchant"`, `"partner_app"`, `"installed_merchants"`. |
+| `delivery_status` | Optional | Array of string or string | Filter to events that have a delivery with this status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"pending"`, `"delivered"`, `"failed"`, `"suppressed"`. Values: `"pending"`, `"delivered"`, `"failed"`, `"suppressed"`. |
+| `event_source` | Optional | Array of string or string | Filter by webhook event source. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"merchant"`, `"partner_app"`, `"installed_merchants"`. Values: `"merchant"`, `"partner_app"`, `"installed_merchants"`. |
 | `partner_app_id` | Optional | string | Filter by partner app ID for partner-source webhook events. |
-| `event_type` | Optional | Array of string or string | Filter by webhook event type. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [251 declared values](../models/CreateWebhookTestEventRequestInput.md#createwebhooktesteventrequestinput-event_type-values). Values: [251 declared values](../models/CreateWebhookTestEventRequestInput.md#createwebhooktesteventrequestinput-event_type-values). |
-| `resource_type` | Optional | Array of string or string | Filter by affected resource type. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [68 declared values](#webhookeventslist-input-resource_type--values). Values: [68 declared values](#webhookeventslist-input-resource_type--values). |
+| `event_type` | Optional | Array of string or string | Filter by webhook event type. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [275 declared values](../models/CreateWebhookTestEventRequestInput.md#createwebhooktesteventrequestinput-event_type-values). Values: [275 declared values](../models/CreateWebhookTestEventRequestInput.md#createwebhooktesteventrequestinput-event_type-values). |
+| `resource_type` | Optional | Array of string or string | Filter by affected resource type. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [74 declared values](#webhookeventslist-input-resource_type--values). Values: [74 declared values](#webhookeventslist-input-resource_type--values). |
 | `resource_id` | Optional | string | Filter by affected resource ID. |
 | `api_request_log_id` | Optional | string | Filter by API request log ID associated with the event. |
 | `request_id` | Optional | string | Filter by request ID associated with the event. |
 | `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
 | `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
-| `include` | Optional | Array of string | Optional comma-separated expansions. Use test_events to include synthetic webhook test events. Items values: `"test_events"`. |
+| `test` | Optional | boolean | Filter by whether the event is synthetic: true returns only synthetic test events, false excludes them. Omit to return all events. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### webhookEvents.list input resource_type [] values
 
@@ -90,6 +95,7 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 - `"custom_domain"`
 - `"customer"`
 - `"customer_deletion_request"`
+- `"customer_email_preferences"`
 - `"delivery_location_set"`
 - `"delivery_method"`
 - `"delivery_profile"`
@@ -122,7 +128,9 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 - `"modifier_group"`
 - `"modifier_set"`
 - `"order"`
+- `"order_edit"`
 - `"package"`
+- `"partner_app"`
 - `"partner_app_install"`
 - `"payment_intent"`
 - `"payment_link"`
@@ -131,6 +139,7 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 - `"payout"`
 - `"payout_destination"`
 - `"payout_settings"`
+- `"price_list"`
 - `"product"`
 - `"product_variant"`
 - `"promotion"`
@@ -146,8 +155,10 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 - `"subscription"`
 - `"subscription_delivery_migration"`
 - `"subscription_payment_retry"`
+- `"tax_calculation_callback"`
 - `"tax_connection"`
 - `"test_clock"`
+- `"ticket"`
 
 #### Response
 
@@ -160,7 +171,7 @@ Returned payload: [WebhookEventListResponse](../models/WebhookEventListResponse.
 | 400 | InvalidRequestError |
 | 401 | AuthenticationError |
 | 403 | PermissionError |
-| 410 | ApiError |
+| 404 | NotFoundError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -187,7 +198,7 @@ $result = $client->webhookEvents->list([], new RequestOptions());
 
 ### webhookEvents.stream
 
-Streams canonical merchant webhook events created after the connection opens or after the supplied event ID. SSE event IDs are resumable webhook event IDs. Control records include ready, gap, withheld, and disconnect. Gap records indicate cursor_unavailable or payload_expired; withheld records hide payloads the caller cannot read. Backpressure emits disconnect with reason backpressure and resume_cursor identifying the last sent event, so clients can reconnect without losing events.
+Streams canonical merchant webhook events created after the connection opens or after the supplied event ID. SSE event IDs are resumable webhook event IDs. Control records include ready, gap, withheld, and disconnect. Gap records indicate cursor_unavailable or payload_expired; withheld records hide payloads the caller cannot read. Backpressure emits disconnect with reason backpressure and resume_cursor identifying the last sent event, so clients can reconnect without losing events. A partner app token streams the installed merchant's events in the environment its grant covers, and sees a payload only for an event Flint forwards to installed-merchant endpoints whose read scope the grant holds; every other event is a withheld record.
 
 `GET /v1/webhook-events/stream`
 
@@ -197,9 +208,13 @@ Signature: `stream(array|Model|null $params = null, ?RequestOptions $options = n
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `event_type` | Optional | Array of string or string | Filter by canonical merchant webhook event type. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [245 declared values](#webhookeventsstream-input-event_type--values). Values: [245 declared values](#webhookeventsstream-input-event_type--values). |
+| `event_type` | Optional | Array of string or string | Filter by canonical merchant webhook event type. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [269 declared values](#webhookeventsstream-input-event_type--values). Values: [269 declared values](#webhookeventsstream-input-event_type--values). |
+| `test` | Optional | boolean | Filter by whether the event is synthetic: true returns only synthetic test events, false excludes them. Omit to return all events. |
 | `after_event_id` | Optional | string | Webhook event ID to resume after. Last-Event-ID is preferred when reconnecting. |
 | `Last-Event-ID` | Optional | string | Webhook event cursor received from the previous SSE connection. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### webhookEvents.stream input event_type [] values
 
@@ -218,6 +233,7 @@ Signature: `stream(array|Model|null $params = null, ?RequestOptions $options = n
 - `"checkout_session.invalidated"`
 - `"checkout_session.paid"`
 - `"checkout_session.partially_paid"`
+- `"checkout_session.updated"`
 - `"credit_note.created"`
 - `"credit_note.issued"`
 - `"credit_note.updated"`
@@ -234,6 +250,7 @@ Signature: `stream(array|Model|null $params = null, ?RequestOptions $options = n
 - `"customer_deletion_request.failed"`
 - `"customer_deletion_request.processing"`
 - `"customer_deletion_request.rejected"`
+- `"customer_email_preferences.updated"`
 - `"delivery_location_set.activated"`
 - `"delivery_location_set.archived"`
 - `"delivery_location_set.created"`
@@ -352,8 +369,14 @@ Signature: `stream(array|Model|null $params = null, ?RequestOptions $options = n
 - `"order.partially_refunded"`
 - `"order.refunded"`
 - `"order.updated"`
+- `"order_edit.created"`
 - `"package.created"`
 - `"package.updated"`
+- `"partner_app.platform_approved"`
+- `"partner_app.platform_limited"`
+- `"partner_app.platform_rejected"`
+- `"partner_app.updated"`
+- `"payment_intent.authorization_expiring"`
 - `"payment_intent.canceled"`
 - `"payment_intent.created"`
 - `"payment_intent.expired"`
@@ -369,20 +392,24 @@ Signature: `stream(array|Model|null $params = null, ?RequestOptions $options = n
 - `"payment_method.activated"`
 - `"payment_method.archived"`
 - `"payment_method.failed"`
+- `"payment_method.updated"`
 - `"payment_review.closed"`
 - `"payment_review.opened"`
 - `"payment_review.reopened"`
 - `"payout.canceled"`
 - `"payout.created"`
 - `"payout.failed"`
-- `"payout.paid"`
 - `"payout.reversed"`
+- `"payout.succeeded"`
 - `"payout.updated"`
 - `"payout_destination.archived"`
 - `"payout_destination.created"`
 - `"payout_destination.disabled"`
 - `"payout_destination.updated"`
 - `"payout_settings.updated"`
+- `"price_list.archived"`
+- `"price_list.created"`
+- `"price_list.updated"`
 - `"product.archived"`
 - `"product.created"`
 - `"product.updated"`
@@ -429,9 +456,12 @@ Signature: `stream(array|Model|null $params = null, ?RequestOptions $options = n
 - `"subscription.delivery_pause_upcoming"`
 - `"subscription.delivery_updated"`
 - `"subscription.dunning_exhausted"`
+- `"subscription.end_upcoming"`
 - `"subscription.past_due"`
 - `"subscription.paused"`
 - `"subscription.payment_succeeded"`
+- `"subscription.plan_change_canceled"`
+- `"subscription.plan_change_scheduled"`
 - `"subscription.plan_changed"`
 - `"subscription.reactivated"`
 - `"subscription.renewal_upcoming"`
@@ -442,12 +472,21 @@ Signature: `stream(array|Model|null $params = null, ?RequestOptions $options = n
 - `"subscription_payment_retry.created"`
 - `"subscription_payment_retry.failed"`
 - `"subscription_payment_retry.succeeded"`
+- `"tax_calculation_callback.activated"`
+- `"tax_calculation_callback.archived"`
+- `"tax_calculation_callback.created"`
+- `"tax_calculation_callback.deactivated"`
+- `"tax_calculation_callback.updated"`
 - `"tax_connection.updated"`
 - `"test_clock.advancing"`
 - `"test_clock.archived"`
 - `"test_clock.created"`
 - `"test_clock.failed"`
 - `"test_clock.ready"`
+- `"ticket.checked_in"`
+- `"ticket.created"`
+- `"ticket.updated"`
+- `"ticket.voided"`
 
 #### Response
 
@@ -460,7 +499,7 @@ Response body (inside Result.data): null.
 | 400 | InvalidRequestError |
 | 401 | AuthenticationError |
 | 403 | PermissionError |
-| 410 | ApiError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |

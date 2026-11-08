@@ -8,9 +8,9 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_specification` | Required | object and Alternative shapes (see declared variants) | How the entry's amount is set: a fixed amount, a percent of the invoice total, or the remaining balance. How much a payment schedule entry collects: a fixed amount, a percentage of the invoice total, or the remaining balance. `amount_specification`: [declared alternatives](../models/InvoiceScheduleEntry.md#invoicescheduleentryamount_specification). |
+| `amount_specification` | Required | object and Alternative shapes (see declared variants) | How the entry's amount is set: a fixed amount, a percent of the invoice total, or the remaining balance. How much a payment schedule entry collects: a fixed amount, a percentage of the invoice total, or the remaining balance. `amount_specification`: [declared alternatives](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoiceschedule_entriesamount_specification). |
 | `credit_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Credit note credit allocated to this entry, minus reversed allocations. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `due` | Required | object and Alternative shapes (see declared variants) | When the entry is due. When a payment schedule entry on an invoice is due: at issue, on a set date, or on the invoice due date. `due`: [declared alternatives](../models/InvoiceScheduleEntry.md#invoicescheduleentrydue). |
+| `due` | Required | object and Alternative shapes (see declared variants) | When the entry is due. When a payment schedule entry on an invoice is due: at issue, on a set date, or on the invoice due date. `due`: [declared alternatives](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoiceschedule_entriesdue). |
 | `invoice_schedule_entry_id` | Required | string | Flint invoice schedule entry ID. Kept across draft edits that send it back with the entry. |
 | `kind` | Required | string | The entry's role in the schedule. Values: `"deposit"`, `"installment"`, `"balance"`. |
 | `outstanding_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | What is still owed on this entry, including its unpaid late fee, never below zero. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
@@ -21,64 +21,9 @@ Response model.
 
 ### InvoiceScheduleEntry.amount_specification
 
-How the entry's amount is set: a fixed amount, a percent of the invoice total, or the remaining balance. How much a payment schedule entry collects: a fixed amount, a percentage of the invoice total, or the remaining balance.
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `amount_money` | Conditional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The amount to collect, in the invoice currency. Required with fixed and not accepted with any other type. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `percent` | Conditional | number | Percentage of snapshot.pricing_amounts.total_money to collect, greater than 0 and at most 100, with up to four decimal places. Required with percentage and not accepted with any other type. multipleOf: `0.0001`. |
-| `type` | Required | string | How the entry's amount is set. Values: `"fixed"`, `"percentage"`, `"remaining_balance"`. |
-
-### InvoiceScheduleEntry.amount_specification variant 1: `type` = `"fixed"`
-
-oneOf with type: "fixed": The `fixed` variant of `InvoiceScheduleAmountSpecification`..
-
-- Condition: not (present(`percent`)).
-- Required: `amount_money`.
-- Optional: `percent`.
-- Constraints for `type`: Values: `"fixed"`.
-
-### InvoiceScheduleEntry.amount_specification variant 2: `type` = `"percentage"`
-
-oneOf with type: "percentage": The `percentage` variant of `InvoiceScheduleAmountSpecification`..
-
-- Condition: not (present(`amount_money`)).
-- Required: `percent`.
-- Optional: `amount_money`.
-- Constraints for `type`: Values: `"percentage"`.
-
-### InvoiceScheduleEntry.amount_specification variant 3: `type` = `"remaining_balance"`
-
-oneOf with type: "remaining_balance": The `remaining_balance` variant of `InvoiceScheduleAmountSpecification`..
-
-- Condition: not (at least one(present(`amount_money`); present(`percent`))).
-- Optional: `amount_money`, `percent`.
-- Constraints for `type`: Values: `"remaining_balance"`.
+Declared alternatives: [CollectInvoiceResponse.data.invoice.schedule_entries[].amount_specification](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoiceschedule_entriesamount_specification).
 
 ### InvoiceScheduleEntry.due
 
-When the entry is due. When a payment schedule entry on an invoice is due: at issue, on a set date, or on the invoice due date.
-
-Field definitions: [shared fields](InvoiceScheduleDueInput.md#invoicescheduledueinput).
-
-### InvoiceScheduleEntry.due variant 1: `type` = `"at_issue"`
-
-oneOf with type: "at_issue": The `at_issue` variant of `InvoiceScheduleDue`..
-
-- Optional: `due_at`.
-- Constraints for `type`: Values: `"at_issue"`.
-
-### InvoiceScheduleEntry.due variant 2: `type` = `"date"`
-
-oneOf with type: "date": The `date` variant of `InvoiceScheduleDue`..
-
-- Required: `due_at`.
-- Constraints for `type`: Values: `"date"`.
-
-### InvoiceScheduleEntry.due variant 3: `type` = `"invoice_due_date"`
-
-oneOf with type: "invoice_due_date": The `invoice_due_date` variant of `InvoiceScheduleDue`..
-
-- Optional: `due_at`.
-- Constraints for `type`: Values: `"invoice_due_date"`.
+Declared alternatives: [CollectInvoiceResponse.data.invoice.schedule_entries[].due](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoiceschedule_entriesdue).
 

@@ -16,7 +16,7 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->sandboxes->createAPIKey('test_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
+$result = $client->sandboxes->createAPIKey('test_01KEZF7C00JC77HTMTB2XHNPE0', [
   'access' => 'restricted',
   'name' => 'Partner demo key',
   'scopes' => [

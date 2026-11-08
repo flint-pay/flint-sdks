@@ -14,42 +14,42 @@ namespace Flint;
 final class RefundUnissuedGiftCardRecovery extends Model {
     /** @param array{'order_id': string, 'order_line_item_id': string, 'payment_intent_id': string, 'purchase_refund_allocation_id': string, 'returned_amount_money': mixed, 'settlement_allocation_id': string, 'source_pending_amount_money': mixed, 'source_remaining_amount_money': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RefundUnissuedGiftCardRecovery')); }
-    /** order_id
+    /** The order the gift card was sold on.
      * @return string
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** order_line_item_id
+    /** The gift card line item the cash paid for. Name it in a `line_items` entry of the new refund.
      * @return string
      */
     public function getOrderLineItemId(): string { return $this->get('order_line_item_id'); }
     public function hasOrderLineItemId(): bool { return $this->has('order_line_item_id'); }
-    /** payment_intent_id
+    /** The payment the returned cash belongs to. Name it in the new refund.
      * @return string
      */
     public function getPaymentIntentId(): string { return $this->get('payment_intent_id'); }
     public function hasPaymentIntentId(): bool { return $this->has('payment_intent_id'); }
-    /** purchase_refund_allocation_id
+    /** ID of the gift card purchase refund allocation whose cash came back after it failed.
      * @return string
      */
     public function getPurchaseRefundAllocationId(): string { return $this->get('purchase_refund_allocation_id'); }
     public function hasPurchaseRefundAllocationId(): bool { return $this->has('purchase_refund_allocation_id'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Cash that came back and funded no gift card. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getReturnedAmountMoney(): MoneyValue { return $this->get('returned_amount_money'); }
     public function hasReturnedAmountMoney(): bool { return $this->has('returned_amount_money'); }
-    /** settlement_allocation_id
+    /** ID of the settlement allocation this entry draws on. Entries that share one describe the same pool, so their amounts aren't additive.
      * @return string
      */
     public function getSettlementAllocationId(): string { return $this->get('settlement_allocation_id'); }
     public function hasSettlementAllocationId(): bool { return $this->has('settlement_allocation_id'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Cash on the whole settlement allocation that pending refunds hold. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getSourcePendingAmountMoney(): MoneyValue { return $this->get('source_pending_amount_money'); }
     public function hasSourcePendingAmountMoney(): bool { return $this->has('source_pending_amount_money'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Cash left on the whole settlement allocation, including cash that pending refunds hold. Subtract `source_pending_amount_money` to find what you can refund now. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getSourceRemainingAmountMoney(): MoneyValue { return $this->get('source_remaining_amount_money'); }

@@ -2,9 +2,11 @@
 
 ## FulfillmentEventCreatedInstalledMerchantsEventDataObject
 
-An action recorded during an order's fulfillment.
+The affected public resource without expansions, client authority fields, or fields computed for an individual caller.
+
+The resource snapshot, without expansions. Webhooks omit no additional fields.
 
 Response model.
 
-Fields, types, descriptions and enum values: [FulfillmentEvent](../models/FulfillmentEvent.md#fulfillmentevent).
+Fields, types, descriptions and enum values: [FulfillmentEventCreatedMerchantEventDataObject](../models/FulfillmentEventCreatedMerchantEventDataObject.md#fulfillmenteventcreatedmerchanteventdataobject).
 

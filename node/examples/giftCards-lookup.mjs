@@ -6,7 +6,7 @@ const client = new Client({
 });
 const result = await client.giftCards.lookup(
   {
-    code: "example",
+    code: "0123456789AB1234",
   }
 );
 console.log(result.gift_card_id);

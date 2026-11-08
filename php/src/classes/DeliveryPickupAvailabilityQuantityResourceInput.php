@@ -9,13 +9,13 @@ namespace Flint;
 final class DeliveryPickupAvailabilityQuantityResourceInput extends Model {
     /** @param array{'bundle_component_id'?: string, 'order_line_item_id': string, 'quantity': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPickupAvailabilityQuantityResourceInput')); }
-    /** bundle_component_id
+    /** Example: "bunc_01KEZF7C00CQASEZGAPEANTGD1".
      * @return string
      * @throws SdkError When bundle_component_id is omitted; use hasBundleComponentId() or valueOrDefault().
      */
     public function getBundleComponentId(): string { return $this->get('bundle_component_id'); }
     public function hasBundleComponentId(): bool { return $this->has('bundle_component_id'); }
-    /** order_line_item_id
+    /** Example: "li_01KEZF7C008YPRCK7VDKTGWR31".
      * @return string
      * @throws SdkError When order_line_item_id is omitted; use hasOrderLineItemId() or valueOrDefault().
      */

@@ -8,8 +8,8 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.customers.deleteAddress(
-  "cus_01ARZ3NDEKTSV4RRFFQ69G5FAV",
-  "caddr_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "cus_01KEZF7C006X9JK6NZNA2SM9XD",
+  "caddr_01KEZF7C00K2Q127FBJAXWB0FP",
   {},
   { idempotencyKey: idempotencyKey },
 );

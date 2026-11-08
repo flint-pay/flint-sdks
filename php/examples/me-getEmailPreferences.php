@@ -17,5 +17,5 @@ $client = new Client(new ClientOptions(
   allowInsecureHttp: $baseUrl !== null && in_array(parse_url($baseUrl, PHP_URL_HOST), ['localhost', '127.0.0.1'], true) && parse_url($baseUrl, PHP_URL_SCHEME) === 'http',
 ));
 $result = $client->me->getEmailPreferences();
-echo $result->customer_id . PHP_EOL;
+echo json_encode($result, JSON_THROW_ON_ERROR) . PHP_EOL;
 $client->close();

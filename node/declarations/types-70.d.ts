@@ -1,138 +1,136 @@
 import type { InputValue, Model } from '../runtime.js';
-import type { ModifierSetGroupRequestInput, MoneyValueInput, OAuthRevokeRequestInput } from './types-35.js';
 import type {
-    OAuthTokenRequestInput,
-    OAuthTokenRequestAuthorizationCodeInput,
-    OAuthTokenRequestDeviceCodeInput,
-    OAuthTokenRequestRefreshTokenInput,
-    OAuthTokenRequestTokenExchangeInput,
-    OnboardingAdvanceRequestInput,
-    OnboardingProfileRequestInput,
-    OnboardingStartRequestInput,
-    OnboardingVerifyEmailRequestInput,
-    OrderCalculatedChargeTaxInput,
-    OrderCalculatedLineItemTaxInput,
-    OrderChargeInputAmountInput,
-    OrderChargeInputPercentInput,
-    OrderChargeRequestInput,
-    OrderChargeTaxAssignmentInput
-} from './types-36.js';
+    CreateOrderLineItemInputCustomInput,
+    CreateOrderLineItemInputVariantInput,
+    CreateOrderLineItemRequestInput,
+    CreateOrderPaymentIntentRequestInput,
+    CreateOrderRequestInput,
+    CreateOrderTipInput,
+    CreateOrderTipAmountInput,
+    CreateOrderTipPercentInput,
+    CreatePackageItemRequestInput,
+    CreatePartnerAppCredentialJWKSURLRequestInput,
+    CreatePartnerAppCredentialPublicKeyRequestInput,
+    CreatePartnerAppCredentialRequestInput
+} from './types-10.js';
 import type {
-    OrderDeliveryDestinationRecipientRequestInput,
-    OrderDeliveryDestinationRequestInput,
-    OrderDraftLineItemInventoryDemandRequestInput,
-    OrderDraftLineItemTaxCalculationRequestInput,
-    OrderDraftLineItemTaxRequestInput,
-    OrderDraftTaxComponentRequestInput,
-    OrderDraftTaxJurisdictionRequestInput,
-    OrderGiftCardAllocationAcceptanceInput,
-    OrderInventoryRoutingSourceRequestInput,
-    OrderLineItemModifierInputCatalogInput,
-    OrderLineItemModifierInputTextInput,
-    OrderLineItemModifierRequestInput,
-    OrderLineItemTaxInput,
-    OrderLineItemTaxAssignmentInput,
-    OrderPaymentIntentSelectionInput,
-    OrderPaymentIntentSelectionAttachedInput,
-    OrderPaymentIntentSelectionPaymentMethodInput,
-    OrderPaymentIntentSelectionStripeConfirmationTokenInput
-} from './types-37.js';
+    CreatePartnerAppCredentialWorkloadIdentityRequestInput,
+    CreatePartnerAppRequestInput,
+    CreatePaymentIntentRequestInput,
+    CreatePaymentLinkRequestInput,
+    CreatePaymentMethodDomainRequestInput,
+    CreatePayoutRequestInput,
+    CreatePickupFulfillmentDetailsInput,
+    CreatePriceListPricesRequestInput,
+    CreatePriceListRequestInput,
+    CreateProductOptionRequestInput,
+    CreateProductOptionValueRequestInput,
+    CreateProductRequestInput,
+    CreateProductRequestOptionedInput,
+    CreateProductRequestSimpleInput,
+    CreatePromotionCodeRequestInput,
+    CreatePromotionRequestInput,
+    CreateReceivablesAgingReportRequestInput,
+    CreateRefundRequestInput,
+    CreateRefundRequestAmountInput,
+    CreateRefundRequestCreditNoteInput,
+    CreateRefundRequestFullInput,
+    CreateRefundRequestTargetsInput,
+    CreateReportRequestInput,
+    CreateReturnDispositionRequestInput,
+    CreateReturnDispositionRequestInspectionLineInput,
+    CreateReturnDispositionRequestReceiptLineInput,
+    CreateReturnEligibilityPreviewRequestInput,
+    CreateReturnInspectionRequestInput,
+    CreateReturnPolicyRequestInput
+} from './types-11.js';
 import type {
-    OrderPaymentIntentSelectionTokenInput,
-    OrderPaymentSourceCardSelectionInput,
-    OrderPaymentSourceSelectionInput,
-    OrderTaxCalculationInputAutomaticInput,
-    OrderTaxCalculationInputExternalInput,
-    OrderTaxCalculationRequestInput,
-    OrderTaxComponentRequestInput,
-    OrderTaxJurisdictionRequestInput,
-    OrderTaxLocationFullAddressRequestInput,
-    OrderTaxLocationInputFullAddressInput,
-    OrderTaxLocationInputPostalCodeInput,
-    OrderTaxLocationPostalAddressRequestInput,
-    OrderTaxLocationRequestInput,
-    OrderTaxRequestInput,
-    OrderTaxUpdateRequestInput
-} from './types-38.js';
-import type {
-    PackageCreateInputCreatedInput,
-    PackageCreateInputShippedInput,
-    PackageCreateRequestInput,
-    PackageTransitionRequestInput,
-    PackageTransitionRequestMarkDeliveredInput,
-    PackageTransitionRequestMarkDeliveryAttemptedInput,
-    PackageTransitionRequestMarkExceptionInput,
-    PackageTransitionRequestMarkInTransitInput,
-    PackageTransitionRequestMarkOutForDeliveryInput,
-    PackageTransitionRequestMarkPackedInput,
-    PackageTransitionRequestMarkReturnedInput,
-    PackageTransitionRequestMarkShippedInput
-} from './types-39.js';
-import type { PartnerAppCredentialJWKSURLRequestInput } from './types-40.js';
-export declare function makeModifierSetGroupRequest(value: InputValue<ModifierSetGroupRequestInput>): Model<ModifierSetGroupRequestInput>;
-export declare function makeMoneyValue(value: InputValue<MoneyValueInput>): Model<MoneyValueInput>;
-export declare function makeOAuthRevokeRequest(value: InputValue<OAuthRevokeRequestInput>): Model<OAuthRevokeRequestInput>;
-export declare function makeOAuthTokenRequest(value: InputValue<OAuthTokenRequestInput>): Model<OAuthTokenRequestInput>;
-export declare function makeOAuthTokenRequestAuthorizationCode(value: InputValue<OAuthTokenRequestAuthorizationCodeInput>): Model<OAuthTokenRequestAuthorizationCodeInput>;
-export declare function makeOAuthTokenRequestDeviceCode(value: InputValue<OAuthTokenRequestDeviceCodeInput>): Model<OAuthTokenRequestDeviceCodeInput>;
-export declare function makeOAuthTokenRequestRefreshToken(value: InputValue<OAuthTokenRequestRefreshTokenInput>): Model<OAuthTokenRequestRefreshTokenInput>;
-export declare function makeOAuthTokenRequestTokenExchange(value: InputValue<OAuthTokenRequestTokenExchangeInput>): Model<OAuthTokenRequestTokenExchangeInput>;
-export declare function makeOnboardingAdvanceRequest(value: InputValue<OnboardingAdvanceRequestInput>): Model<OnboardingAdvanceRequestInput>;
-export declare function makeOnboardingProfileRequest(value: InputValue<OnboardingProfileRequestInput>): Model<OnboardingProfileRequestInput>;
-export declare function makeOnboardingStartRequest(value: InputValue<OnboardingStartRequestInput>): Model<OnboardingStartRequestInput>;
-export declare function makeOnboardingVerifyEmailRequest(value: InputValue<OnboardingVerifyEmailRequestInput>): Model<OnboardingVerifyEmailRequestInput>;
-export declare function makeOrderCalculatedChargeTax(value: InputValue<OrderCalculatedChargeTaxInput>): Model<OrderCalculatedChargeTaxInput>;
-export declare function makeOrderCalculatedLineItemTax(value: InputValue<OrderCalculatedLineItemTaxInput>): Model<OrderCalculatedLineItemTaxInput>;
-export declare function makeOrderChargeInputAmount(value: InputValue<OrderChargeInputAmountInput>): Model<OrderChargeInputAmountInput>;
-export declare function makeOrderChargeInputPercent(value: InputValue<OrderChargeInputPercentInput>): Model<OrderChargeInputPercentInput>;
-export declare function makeOrderChargeRequest(value: InputValue<OrderChargeRequestInput>): Model<OrderChargeRequestInput>;
-export declare function makeOrderChargeTaxAssignment(value: InputValue<OrderChargeTaxAssignmentInput>): Model<OrderChargeTaxAssignmentInput>;
-export declare function makeOrderDeliveryDestinationRecipientRequest(value: InputValue<OrderDeliveryDestinationRecipientRequestInput>): Model<OrderDeliveryDestinationRecipientRequestInput>;
-export declare function makeOrderDeliveryDestinationRequest(value: InputValue<OrderDeliveryDestinationRequestInput>): Model<OrderDeliveryDestinationRequestInput>;
-export declare function makeOrderDraftLineItemInventoryDemandRequest(value: InputValue<OrderDraftLineItemInventoryDemandRequestInput>): Model<OrderDraftLineItemInventoryDemandRequestInput>;
-export declare function makeOrderDraftLineItemTaxCalculationRequest(value: InputValue<OrderDraftLineItemTaxCalculationRequestInput>): Model<OrderDraftLineItemTaxCalculationRequestInput>;
-export declare function makeOrderDraftLineItemTaxRequest(value: InputValue<OrderDraftLineItemTaxRequestInput>): Model<OrderDraftLineItemTaxRequestInput>;
-export declare function makeOrderDraftTaxComponentRequest(value: InputValue<OrderDraftTaxComponentRequestInput>): Model<OrderDraftTaxComponentRequestInput>;
-export declare function makeOrderDraftTaxJurisdictionRequest(value: InputValue<OrderDraftTaxJurisdictionRequestInput>): Model<OrderDraftTaxJurisdictionRequestInput>;
-export declare function makeOrderGiftCardAllocationAcceptance(value: InputValue<OrderGiftCardAllocationAcceptanceInput>): Model<OrderGiftCardAllocationAcceptanceInput>;
-export declare function makeOrderInventoryRoutingSourceRequest(value: InputValue<OrderInventoryRoutingSourceRequestInput>): Model<OrderInventoryRoutingSourceRequestInput>;
-export declare function makeOrderLineItemModifierInputCatalog(value: InputValue<OrderLineItemModifierInputCatalogInput>): Model<OrderLineItemModifierInputCatalogInput>;
-export declare function makeOrderLineItemModifierInputText(value: InputValue<OrderLineItemModifierInputTextInput>): Model<OrderLineItemModifierInputTextInput>;
-export declare function makeOrderLineItemModifierRequest(value: InputValue<OrderLineItemModifierRequestInput>): Model<OrderLineItemModifierRequestInput>;
-export declare function makeOrderLineItemTax(value: InputValue<OrderLineItemTaxInput>): Model<OrderLineItemTaxInput>;
-export declare function makeOrderLineItemTaxAssignment(value: InputValue<OrderLineItemTaxAssignmentInput>): Model<OrderLineItemTaxAssignmentInput>;
-export declare function makeOrderPaymentIntentSelection(value: InputValue<Exclude<OrderPaymentIntentSelectionInput & object, readonly unknown[]>>): Model<Exclude<OrderPaymentIntentSelectionInput & object, readonly unknown[]>>;
-export declare function makeOrderPaymentIntentSelection(value: InputValue<OrderPaymentIntentSelectionInput>): Model<OrderPaymentIntentSelectionInput>;
-export declare function makeOrderPaymentIntentSelectionAttached(value: InputValue<OrderPaymentIntentSelectionAttachedInput>): Model<OrderPaymentIntentSelectionAttachedInput>;
-export declare function makeOrderPaymentIntentSelectionPaymentMethod(value: InputValue<OrderPaymentIntentSelectionPaymentMethodInput>): Model<OrderPaymentIntentSelectionPaymentMethodInput>;
-export declare function makeOrderPaymentIntentSelectionStripeConfirmationToken(value: InputValue<OrderPaymentIntentSelectionStripeConfirmationTokenInput>): Model<OrderPaymentIntentSelectionStripeConfirmationTokenInput>;
-export declare function makeOrderPaymentIntentSelectionToken(value: InputValue<OrderPaymentIntentSelectionTokenInput>): Model<OrderPaymentIntentSelectionTokenInput>;
-export declare function makeOrderPaymentSourceCardSelection(value: InputValue<OrderPaymentSourceCardSelectionInput>): Model<OrderPaymentSourceCardSelectionInput>;
-export declare function makeOrderPaymentSourceSelection(value: InputValue<OrderPaymentSourceSelectionInput>): Model<OrderPaymentSourceSelectionInput>;
-export declare function makeOrderTaxCalculationInputAutomatic(value: InputValue<OrderTaxCalculationInputAutomaticInput>): Model<OrderTaxCalculationInputAutomaticInput>;
-export declare function makeOrderTaxCalculationInputExternal(value: InputValue<OrderTaxCalculationInputExternalInput>): Model<OrderTaxCalculationInputExternalInput>;
-export declare function makeOrderTaxCalculationRequest(value: InputValue<OrderTaxCalculationRequestInput>): Model<OrderTaxCalculationRequestInput>;
-export declare function makeOrderTaxComponentRequest(value: InputValue<OrderTaxComponentRequestInput>): Model<OrderTaxComponentRequestInput>;
-export declare function makeOrderTaxJurisdictionRequest(value: InputValue<OrderTaxJurisdictionRequestInput>): Model<OrderTaxJurisdictionRequestInput>;
-export declare function makeOrderTaxLocationFullAddressRequest(value: InputValue<OrderTaxLocationFullAddressRequestInput>): Model<OrderTaxLocationFullAddressRequestInput>;
-export declare function makeOrderTaxLocationInputFullAddress(value: InputValue<OrderTaxLocationInputFullAddressInput>): Model<OrderTaxLocationInputFullAddressInput>;
-export declare function makeOrderTaxLocationInputPostalCode(value: InputValue<OrderTaxLocationInputPostalCodeInput>): Model<OrderTaxLocationInputPostalCodeInput>;
-export declare function makeOrderTaxLocationPostalAddressRequest(value: InputValue<OrderTaxLocationPostalAddressRequestInput>): Model<OrderTaxLocationPostalAddressRequestInput>;
-export declare function makeOrderTaxLocationRequest(value: InputValue<Exclude<OrderTaxLocationRequestInput & object, readonly unknown[]>>): Model<Exclude<OrderTaxLocationRequestInput & object, readonly unknown[]>>;
-export declare function makeOrderTaxLocationRequest(value: InputValue<OrderTaxLocationRequestInput>): Model<OrderTaxLocationRequestInput>;
-export declare function makeOrderTaxRequest(value: InputValue<OrderTaxRequestInput>): Model<OrderTaxRequestInput>;
-export declare function makeOrderTaxUpdateRequest(value: InputValue<OrderTaxUpdateRequestInput>): Model<OrderTaxUpdateRequestInput>;
-export declare function makePackageCreateInputCreated(value: InputValue<PackageCreateInputCreatedInput>): Model<PackageCreateInputCreatedInput>;
-export declare function makePackageCreateInputShipped(value: InputValue<PackageCreateInputShippedInput>): Model<PackageCreateInputShippedInput>;
-export declare function makePackageCreateRequest(value: InputValue<PackageCreateRequestInput>): Model<PackageCreateRequestInput>;
-export declare function makePackageTransitionRequest(value: InputValue<Exclude<PackageTransitionRequestInput & object, readonly unknown[]>>): Model<Exclude<PackageTransitionRequestInput & object, readonly unknown[]>>;
-export declare function makePackageTransitionRequest(value: InputValue<PackageTransitionRequestInput>): Model<PackageTransitionRequestInput>;
-export declare function makePackageTransitionRequestMarkDelivered(value: InputValue<PackageTransitionRequestMarkDeliveredInput>): Model<PackageTransitionRequestMarkDeliveredInput>;
-export declare function makePackageTransitionRequestMarkDeliveryAttempted(value: InputValue<PackageTransitionRequestMarkDeliveryAttemptedInput>): Model<PackageTransitionRequestMarkDeliveryAttemptedInput>;
-export declare function makePackageTransitionRequestMarkException(value: InputValue<PackageTransitionRequestMarkExceptionInput>): Model<PackageTransitionRequestMarkExceptionInput>;
-export declare function makePackageTransitionRequestMarkInTransit(value: InputValue<PackageTransitionRequestMarkInTransitInput>): Model<PackageTransitionRequestMarkInTransitInput>;
-export declare function makePackageTransitionRequestMarkOutForDelivery(value: InputValue<PackageTransitionRequestMarkOutForDeliveryInput>): Model<PackageTransitionRequestMarkOutForDeliveryInput>;
-export declare function makePackageTransitionRequestMarkPacked(value: InputValue<PackageTransitionRequestMarkPackedInput>): Model<PackageTransitionRequestMarkPackedInput>;
-export declare function makePackageTransitionRequestMarkReturned(value: InputValue<PackageTransitionRequestMarkReturnedInput>): Model<PackageTransitionRequestMarkReturnedInput>;
-export declare function makePackageTransitionRequestMarkShipped(value: InputValue<PackageTransitionRequestMarkShippedInput>): Model<PackageTransitionRequestMarkShippedInput>;
-export declare function makePartnerAppCredentialJWKSURLRequest(value: InputValue<PartnerAppCredentialJWKSURLRequestInput>): Model<PartnerAppCredentialJWKSURLRequestInput>;
+    CreateReturnPreviewRequestInput,
+    CreateReturnPreviewRequestEligibilityInput,
+    CreateReturnPreviewRequestResolutionInput,
+    CreateReturnReasonRequestInput,
+    CreateReturnReceiptRequestInput,
+    CreateReturnRequestInput,
+    CreateReturnResolutionPreviewRequestInput,
+    CreateReturnResolutionPreviewRequestCorrectionInput,
+    CreateReturnResolutionPreviewRequestStandardInput,
+    CreateReturnResolutionRequestInput,
+    CreateReturnResolutionRequestCorrectionInput,
+    CreateReturnResolutionRequestStandardInput,
+    CreateRiskListRequestInput,
+    CreateRiskPreviewRequestInput,
+    CreateRiskPreviewRequestInlineInput,
+    CreateRiskPreviewRequestStoredRuleInput,
+    CreateRiskRuleRequestInput,
+    CreateSandboxRequestInput,
+    CreateServiceFulfillmentDetailsInput,
+    CreateShipmentRequestInput,
+    CreateShipmentRequestOutboundInput,
+    CreateShipmentRequestReturnInput,
+    CreateSubscriptionAccessLinkRequestInput
+} from './types-12.js';
+export declare function makeCreateOrderLineItemInputCustom(value: InputValue<CreateOrderLineItemInputCustomInput>): Model<CreateOrderLineItemInputCustomInput>;
+export declare function makeCreateOrderLineItemInputVariant(value: InputValue<CreateOrderLineItemInputVariantInput>): Model<CreateOrderLineItemInputVariantInput>;
+export declare function makeCreateOrderLineItemRequest(value: InputValue<CreateOrderLineItemRequestInput>): Model<CreateOrderLineItemRequestInput>;
+export declare function makeCreateOrderPaymentIntentRequest(value: InputValue<CreateOrderPaymentIntentRequestInput>): Model<CreateOrderPaymentIntentRequestInput>;
+export declare function makeCreateOrderRequest(value: InputValue<CreateOrderRequestInput>): Model<CreateOrderRequestInput>;
+export declare function makeCreateOrderTip(value: InputValue<CreateOrderTipInput>): Model<CreateOrderTipInput>;
+export declare function makeCreateOrderTipAmount(value: InputValue<CreateOrderTipAmountInput>): Model<CreateOrderTipAmountInput>;
+export declare function makeCreateOrderTipPercent(value: InputValue<CreateOrderTipPercentInput>): Model<CreateOrderTipPercentInput>;
+export declare function makeCreatePackageItemRequest(value: InputValue<CreatePackageItemRequestInput>): Model<CreatePackageItemRequestInput>;
+export declare function makeCreatePartnerAppCredentialJWKSURLRequest(value: InputValue<CreatePartnerAppCredentialJWKSURLRequestInput>): Model<CreatePartnerAppCredentialJWKSURLRequestInput>;
+export declare function makeCreatePartnerAppCredentialPublicKeyRequest(value: InputValue<CreatePartnerAppCredentialPublicKeyRequestInput>): Model<CreatePartnerAppCredentialPublicKeyRequestInput>;
+export declare function makeCreatePartnerAppCredentialRequest(value: InputValue<Exclude<CreatePartnerAppCredentialRequestInput & object, readonly unknown[]>>): Model<Exclude<CreatePartnerAppCredentialRequestInput & object, readonly unknown[]>>;
+export declare function makeCreatePartnerAppCredentialRequest(value: InputValue<CreatePartnerAppCredentialRequestInput>): Model<CreatePartnerAppCredentialRequestInput>;
+export declare function makeCreatePartnerAppCredentialWorkloadIdentityRequest(value: InputValue<CreatePartnerAppCredentialWorkloadIdentityRequestInput>): Model<CreatePartnerAppCredentialWorkloadIdentityRequestInput>;
+export declare function makeCreatePartnerAppRequest(value: InputValue<CreatePartnerAppRequestInput>): Model<CreatePartnerAppRequestInput>;
+export declare function makeCreatePaymentIntentRequest(value: InputValue<CreatePaymentIntentRequestInput>): Model<CreatePaymentIntentRequestInput>;
+export declare function makeCreatePaymentLinkRequest(value: InputValue<CreatePaymentLinkRequestInput>): Model<CreatePaymentLinkRequestInput>;
+export declare function makeCreatePaymentMethodDomainRequest(value: InputValue<CreatePaymentMethodDomainRequestInput>): Model<CreatePaymentMethodDomainRequestInput>;
+export declare function makeCreatePayoutRequest(value: InputValue<CreatePayoutRequestInput>): Model<CreatePayoutRequestInput>;
+export declare function makeCreatePickupFulfillmentDetails(value: InputValue<CreatePickupFulfillmentDetailsInput>): Model<CreatePickupFulfillmentDetailsInput>;
+export declare function makeCreatePriceListPricesRequest(value: InputValue<CreatePriceListPricesRequestInput>): Model<CreatePriceListPricesRequestInput>;
+export declare function makeCreatePriceListRequest(value: InputValue<CreatePriceListRequestInput>): Model<CreatePriceListRequestInput>;
+export declare function makeCreateProductOptionRequest(value: InputValue<CreateProductOptionRequestInput>): Model<CreateProductOptionRequestInput>;
+export declare function makeCreateProductOptionValueRequest(value: InputValue<CreateProductOptionValueRequestInput>): Model<CreateProductOptionValueRequestInput>;
+export declare function makeCreateProductRequest(value: InputValue<CreateProductRequestInput>): Model<CreateProductRequestInput>;
+export declare function makeCreateProductRequestOptioned(value: InputValue<CreateProductRequestOptionedInput>): Model<CreateProductRequestOptionedInput>;
+export declare function makeCreateProductRequestSimple(value: InputValue<CreateProductRequestSimpleInput>): Model<CreateProductRequestSimpleInput>;
+export declare function makeCreatePromotionCodeRequest(value: InputValue<CreatePromotionCodeRequestInput>): Model<CreatePromotionCodeRequestInput>;
+export declare function makeCreatePromotionRequest(value: InputValue<CreatePromotionRequestInput>): Model<CreatePromotionRequestInput>;
+export declare function makeCreateReceivablesAgingReportRequest(value: InputValue<CreateReceivablesAgingReportRequestInput>): Model<CreateReceivablesAgingReportRequestInput>;
+export declare function makeCreateRefundRequest(value: InputValue<CreateRefundRequestInput>): Model<CreateRefundRequestInput>;
+export declare function makeCreateRefundRequestAmount(value: InputValue<CreateRefundRequestAmountInput>): Model<CreateRefundRequestAmountInput>;
+export declare function makeCreateRefundRequestCreditNote(value: InputValue<CreateRefundRequestCreditNoteInput>): Model<CreateRefundRequestCreditNoteInput>;
+export declare function makeCreateRefundRequestFull(value: InputValue<CreateRefundRequestFullInput>): Model<CreateRefundRequestFullInput>;
+export declare function makeCreateRefundRequestTargets(value: InputValue<CreateRefundRequestTargetsInput>): Model<CreateRefundRequestTargetsInput>;
+export declare function makeCreateReportRequest(value: InputValue<CreateReportRequestInput>): Model<CreateReportRequestInput>;
+export declare function makeCreateReturnDispositionRequest(value: InputValue<CreateReturnDispositionRequestInput>): Model<CreateReturnDispositionRequestInput>;
+export declare function makeCreateReturnDispositionRequestInspectionLine(value: InputValue<CreateReturnDispositionRequestInspectionLineInput>): Model<CreateReturnDispositionRequestInspectionLineInput>;
+export declare function makeCreateReturnDispositionRequestReceiptLine(value: InputValue<CreateReturnDispositionRequestReceiptLineInput>): Model<CreateReturnDispositionRequestReceiptLineInput>;
+export declare function makeCreateReturnEligibilityPreviewRequest(value: InputValue<CreateReturnEligibilityPreviewRequestInput>): Model<CreateReturnEligibilityPreviewRequestInput>;
+export declare function makeCreateReturnInspectionRequest(value: InputValue<CreateReturnInspectionRequestInput>): Model<CreateReturnInspectionRequestInput>;
+export declare function makeCreateReturnPolicyRequest(value: InputValue<CreateReturnPolicyRequestInput>): Model<CreateReturnPolicyRequestInput>;
+export declare function makeCreateReturnPreviewRequest(value: InputValue<CreateReturnPreviewRequestInput>): Model<CreateReturnPreviewRequestInput>;
+export declare function makeCreateReturnPreviewRequestEligibility(value: InputValue<CreateReturnPreviewRequestEligibilityInput>): Model<CreateReturnPreviewRequestEligibilityInput>;
+export declare function makeCreateReturnPreviewRequestResolution(value: InputValue<CreateReturnPreviewRequestResolutionInput>): Model<CreateReturnPreviewRequestResolutionInput>;
+export declare function makeCreateReturnReasonRequest(value: InputValue<CreateReturnReasonRequestInput>): Model<CreateReturnReasonRequestInput>;
+export declare function makeCreateReturnReceiptRequest(value: InputValue<CreateReturnReceiptRequestInput>): Model<CreateReturnReceiptRequestInput>;
+export declare function makeCreateReturnRequest(value: InputValue<CreateReturnRequestInput>): Model<CreateReturnRequestInput>;
+export declare function makeCreateReturnResolutionPreviewRequest(value: InputValue<CreateReturnResolutionPreviewRequestInput>): Model<CreateReturnResolutionPreviewRequestInput>;
+export declare function makeCreateReturnResolutionPreviewRequestCorrection(value: InputValue<CreateReturnResolutionPreviewRequestCorrectionInput>): Model<CreateReturnResolutionPreviewRequestCorrectionInput>;
+export declare function makeCreateReturnResolutionPreviewRequestStandard(value: InputValue<CreateReturnResolutionPreviewRequestStandardInput>): Model<CreateReturnResolutionPreviewRequestStandardInput>;
+export declare function makeCreateReturnResolutionRequest(value: InputValue<CreateReturnResolutionRequestInput>): Model<CreateReturnResolutionRequestInput>;
+export declare function makeCreateReturnResolutionRequestCorrection(value: InputValue<CreateReturnResolutionRequestCorrectionInput>): Model<CreateReturnResolutionRequestCorrectionInput>;
+export declare function makeCreateReturnResolutionRequestStandard(value: InputValue<CreateReturnResolutionRequestStandardInput>): Model<CreateReturnResolutionRequestStandardInput>;
+export declare function makeCreateRiskListRequest(value: InputValue<CreateRiskListRequestInput>): Model<CreateRiskListRequestInput>;
+export declare function makeCreateRiskPreviewRequest(value: InputValue<CreateRiskPreviewRequestInput>): Model<CreateRiskPreviewRequestInput>;
+export declare function makeCreateRiskPreviewRequestInline(value: InputValue<CreateRiskPreviewRequestInlineInput>): Model<CreateRiskPreviewRequestInlineInput>;
+export declare function makeCreateRiskPreviewRequestStoredRule(value: InputValue<CreateRiskPreviewRequestStoredRuleInput>): Model<CreateRiskPreviewRequestStoredRuleInput>;
+export declare function makeCreateRiskRuleRequest(value: InputValue<CreateRiskRuleRequestInput>): Model<CreateRiskRuleRequestInput>;
+export declare function makeCreateSandboxRequest(value: InputValue<CreateSandboxRequestInput>): Model<CreateSandboxRequestInput>;
+export declare function makeCreateServiceFulfillmentDetails(value: InputValue<CreateServiceFulfillmentDetailsInput>): Model<CreateServiceFulfillmentDetailsInput>;
+export declare function makeCreateShipmentRequest(value: InputValue<CreateShipmentRequestInput>): Model<CreateShipmentRequestInput>;
+export declare function makeCreateShipmentRequestOutbound(value: InputValue<CreateShipmentRequestOutboundInput>): Model<CreateShipmentRequestOutboundInput>;
+export declare function makeCreateShipmentRequestReturn(value: InputValue<CreateShipmentRequestReturnInput>): Model<CreateShipmentRequestReturnInput>;
+export declare function makeCreateSubscriptionAccessLinkRequest(value: InputValue<CreateSubscriptionAccessLinkRequestInput>): Model<CreateSubscriptionAccessLinkRequestInput>;

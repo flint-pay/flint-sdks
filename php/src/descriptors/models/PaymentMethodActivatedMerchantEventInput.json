@@ -1,1 +1,1 @@
-{"shared":"PaymentMethodActivatedMerchantEvent","dependencies":["CardDetails","PaymentMethod","PaymentMethodActivatedMerchantEvent","SharedCodec1028","SharedCodec14","SharedCodec15","SharedCodec16","SharedCodec64","SharedCodec65"]}
+{"shared":"PaymentMethodActivatedMerchantEvent","dependencies":["CardDetails","PaymentMethod","PaymentMethodActivatedMerchantEvent","SharedCodec1142","SharedCodec1143","SharedCodec18","SharedCodec23","SharedCodec24","SharedCodec25","SharedCodec26","SharedCodec75","SharedCodec76"]}

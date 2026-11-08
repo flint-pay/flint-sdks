@@ -8,7 +8,7 @@ const client = new Client({
   customerToken,
 });
 const result = await client.me.getFulfillment(
-  "ful_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "ful_01KEZF7C00F24WVSTTWR1FQX5T"
 );
 console.log(result.fulfillment_id);
 console.log(result.order_id);

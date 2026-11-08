@@ -2,9 +2,11 @@
 
 ## PaymentLinkCreatedMerchantEventDataObjectLineItemsItemBundleTax
 
+Tax settings for an ad hoc line item. Catalog lines use the catalog's.
+
 A line item's tax category and whether it is taxable.
 
 Response model.
 
-Fields, types, descriptions and enum values: [ExpandedSubscriptionPlanSummaryLineItemsItemVariantTax](../models/ExpandedSubscriptionPlanSummaryLineItemsItemVariantTax.md#expandedsubscriptionplansummarylineitemsitemvarianttax).
+Fields, types, descriptions and enum values: [PaymentLinkLineItemsItemBundleTax](../models/PaymentLinkLineItemsItemBundleTax.md#paymentlinklineitemsitembundletax).
 

@@ -9,7 +9,7 @@ namespace Flint;
 final class DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemBundleTax extends Model {
     /** @param array{'calculation'?: mixed, 'line_item_tax_category'?: string, 'taxable'?: bool, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemBundleTax')); }
-    /** A tax calculation you supply for a draft order line item, made of tax components and a price mode.
+    /** The tax you supply for this line item. Used when the order's tax `mode` is `external`. A tax calculation you supply for a draft order line item, made of tax components and a price mode.
      * @return ?DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemBundleTaxCalculation
      */
     public function getCalculation(): ?DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemBundleTaxCalculation { return $this->get('calculation'); }
@@ -19,7 +19,7 @@ final class DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemBundleTax ext
      */
     public function getLineItemTaxCategory(): ?string { return $this->get('line_item_tax_category'); }
     public function hasLineItemTaxCategory(): bool { return $this->has('line_item_tax_category'); }
-    /** taxable
+    /** Whether the line item is subject to tax.
      * @return ?bool
      */
     public function getTaxable(): ?bool { return $this->get('taxable'); }

@@ -30,19 +30,19 @@ final class ReturnReceiptLineItemInput extends Model {
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
-    /** return_line_item_id
+    /** ID of the Return line the units were matched to. Absent for unverified units. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
      * @return string
      * @throws SdkError When return_line_item_id is omitted; use hasReturnLineItemId() or valueOrDefault().
      */
     public function getReturnLineItemId(): string { return $this->get('return_line_item_id'); }
     public function hasReturnLineItemId(): bool { return $this->has('return_line_item_id'); }
-    /** return_receipt_id
+    /** ID of the receipt the line belongs to. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
      * @return string
      * @throws SdkError When return_receipt_id is omitted; use hasReturnReceiptId() or valueOrDefault().
      */
     public function getReturnReceiptId(): string { return $this->get('return_receipt_id'); }
     public function hasReturnReceiptId(): bool { return $this->has('return_receipt_id'); }
-    /** return_receipt_line_item_id
+    /** Unique identifier for this return receipt line item, prefixed `retrcli_`. Example: "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE".
      * @return string
      * @throws SdkError When return_receipt_line_item_id is omitted; use hasReturnReceiptLineItemId() or valueOrDefault().
      */
@@ -54,37 +54,37 @@ final class ReturnReceiptLineItemInput extends Model {
      */
     public function getSupportedActions(): array { return $this->get('supported_actions'); }
     public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
-    /** Merchandise received in a return that does not match an expected return line, described by name, SKU, and description.
+    /** What the operator recorded for units that match no line. Present on `unverified` lines. Merchandise received in a return that does not match an expected return line, described by name, SKU, and description.
      * @return ReturnUnverifiedItemInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When unverified_item is omitted; use hasUnverifiedItem() or valueOrDefault().
      */
     public function getUnverifiedItem(): mixed { return $this->get('unverified_item'); }
     public function hasUnverifiedItem(): bool { return $this->has('unverified_item'); }
-    /** Value enum: "order_match_confirmed", "sku_match_confirmed", "inspection_confirmed", "merchant_review", "other".
+    /** Why the units were verified against the line. Value enum: "order_match_confirmed", "sku_match_confirmed", "inspection_confirmed", "merchant_review", "other".
      * @return string
      * @throws SdkError When verification_reason is omitted; use hasVerificationReason() or valueOrDefault().
      */
     public function getVerificationReason(): string { return $this->get('verification_reason'); }
     public function hasVerificationReason(): bool { return $this->has('verification_reason'); }
-    /** verification_reason_message
+    /** Detail about `verification_reason`.
      * @return string
      * @throws SdkError When verification_reason_message is omitted; use hasVerificationReasonMessage() or valueOrDefault().
      */
     public function getVerificationReasonMessage(): string { return $this->get('verification_reason_message'); }
     public function hasVerificationReasonMessage(): bool { return $this->has('verification_reason_message'); }
-    /** Value enum: "matched", "unverified", "excess".
+    /** Whether the units are matched to a line. Value enum: "matched", "unverified", "excess".
      * @return string
      * @throws SdkError When verification_status is omitted; use hasVerificationStatus() or valueOrDefault().
      */
     public function getVerificationStatus(): string { return $this->get('verification_status'); }
     public function hasVerificationStatus(): bool { return $this->has('verification_status'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When verified_at is omitted; use hasVerifiedAt() or valueOrDefault().
      */
     public function getVerifiedAt(): string|\DateTimeInterface { return $this->get('verified_at'); }
     public function hasVerifiedAt(): bool { return $this->has('verified_at'); }
-    /** Who performed a return action: a buyer, merchant, integration, or the system, with an optional ID.
+    /** Who verified the line. Who performed a return action: a buyer, merchant, integration, or the system, with an optional ID.
      * @return ReturnActorInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When verified_by is omitted; use hasVerifiedBy() or valueOrDefault().
      */

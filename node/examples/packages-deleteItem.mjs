@@ -8,8 +8,8 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.packages.deleteItem(
-  "pkg_01ARZ3NDEKTSV4RRFFQ69G5FAV",
-  "pki_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R",
+  "pki_01KEZF7C00CEFTYV5RD7XVYQ7B",
   {},
   { idempotencyKey: idempotencyKey },
 );

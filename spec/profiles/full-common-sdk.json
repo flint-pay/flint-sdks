@@ -283,7 +283,116 @@
     },
     "/components/schemas/UpdateProductOptionValueInput/properties/metadata/propertyNames": {
       "pattern": "^(?:$|[^f]|f(?:$|[^l])|fl(?:$|[^i])|fli(?:$|[^n])|flin(?:$|[^t])|flint(?:$|[^_]))"
-    }
+    },
+    "/components/schemas/DeliveryEligibilityExpressionInput/oneOf": [
+      {
+        "required": [
+          "all"
+        ]
+      },
+      {
+        "required": [
+          "any"
+        ]
+      },
+      {
+        "required": [
+          "not"
+        ]
+      },
+      {
+        "required": [
+          "zone"
+        ]
+      },
+      {
+        "required": [
+          "country"
+        ]
+      },
+      {
+        "required": [
+          "state"
+        ]
+      },
+      {
+        "required": [
+          "postal_code"
+        ]
+      },
+      {
+        "required": [
+          "radius"
+        ]
+      },
+      {
+        "required": [
+          "window_time"
+        ]
+      },
+      {
+        "required": [
+          "customer_segment"
+        ]
+      },
+      {
+        "required": [
+          "customer_merchant_verified"
+        ]
+      },
+      {
+        "required": [
+          "customer_has_email"
+        ]
+      },
+      {
+        "required": [
+          "customer_has_phone"
+        ]
+      },
+      {
+        "required": [
+          "subscription_purchase"
+        ]
+      }
+    ],
+    "/components/schemas/DeliveryZoneConfigurationInput/oneOf": [
+      {
+        "required": [
+          "all"
+        ]
+      },
+      {
+        "required": [
+          "any"
+        ]
+      },
+      {
+        "required": [
+          "not"
+        ]
+      },
+      {
+        "required": [
+          "country"
+        ]
+      },
+      {
+        "required": [
+          "state"
+        ]
+      },
+      {
+        "required": [
+          "postal_code"
+        ]
+      },
+      {
+        "required": [
+          "radius"
+        ]
+      }
+    ]
   },
   "models": {
     "Money": "MoneyValue",
@@ -388,7 +497,6 @@
     "OrderDraftLineItemTaxInput": "OrderDraftLineItemTaxRequest",
     "OrderDraftTaxComponentInput": "OrderDraftTaxComponentRequest",
     "OrderDraftTaxJurisdictionInput": "OrderDraftTaxJurisdictionRequest",
-    "OrderInventoryRoutingSourceInput": "OrderInventoryRoutingSourceRequest",
     "OrderTaxCalculationInput": "OrderTaxCalculationRequest",
     "OrderTaxComponentInput": "OrderTaxComponentRequest",
     "OrderTaxJurisdictionInput": "OrderTaxJurisdictionRequest",
@@ -417,7 +525,6 @@
     "PromotionRuleGroupInput": "PromotionRuleGroupRequest",
     "PromotionRuleInput": "PromotionRuleRequest",
     "PromotionRuleValueInput": "PromotionRuleValueRequest",
-    "ReceiptSettingsInput": "ReceiptSettingsRequest",
     "RefundAdjustmentReasonInput": "RefundAdjustmentReasonRequest",
     "RefundTenderAllocationInput": "RefundTenderAllocationRequest",
     "ResolvePaymentLinkLineItemModifierInput": "ResolvePaymentLinkLineItemModifierRequest",
@@ -518,7 +625,7 @@
     "guides": {
       "pagination-and-retries": "# Pagination and retries\n\nCursor helpers follow `page_token` and `next_page_token` lazily and retain your filters. `listItems` yields resources; `listPages` yields page bodies with `data` and `next_page_token`. Read each page's `lastResponse` (PHP `lastResponse()`) for HTTP metadata. Pagination throws `PaginationLimitError` when the implicit 1,000-page cap leaves a continuation; an explicit `maxPages` stops quietly. Set `maxItems` to bound the number of items. `deadlineMs` bounds each page request. Cancellation bounds the whole iteration.\n\nSee [retries and idempotency](../RUNTIME.md#retries-and-idempotency) for retry behavior and request options.\n\n`packages.listItems()` iterates packages; `packages.listPackageItems()` lists contents of a package. `riskLists.listItems()` iterates lists; `riskLists.listRiskListItems()` lists entries inside one risk list.\n",
       "default-credentials": "# Default credentials\n\nThe client discovers merchant credentials only when no credential option is passed on the client or request. Passing an empty credential, including `undefined` or `null`, fails with `ConfigurationError` (`credential_missing`) before sending. Set `FLINT_API_KEY` or `FLINT_ACCESS_TOKEN`, use workload identity, or sign in with `flint auth login` for the saved CLI session. Setting both credential variables fails with `credential_conflict`. Explicit credentials take precedence. Anonymous and buyer-scoped calls retain their existing authentication rules.\n\n## GitHub Actions\n\nConfigure a Flint workload identity that trusts the repository and job subject, and grant the job `permissions: id-token: write`. Set the non-secret `FLINT_WORKLOAD_IDENTITY_ID`. The SDK requests a GitHub subject token and exchanges it with Flint automatically. Set `FLINT_OIDC_AUDIENCE` when your trusted audience differs from the API origin, and `FLINT_OIDC_SCOPE` to narrow permissions.\n\nNode:\n\n```js\nimport { Client } from '@flintpay/node';\nconst client = new Client();\nconst context = await client.authContext.get();\n```\n\nPHP:\n\n```php\n$client = new \\Flint\\Client(new \\Flint\\ClientOptions());\n$context = $client->authContext->get();\n```\n\nThe default API URL serves sandbox and live mode. Use a `flint_test_` key for your sandbox and a `flint_live_` key for live mode.\n\n## Workload identity sources\n\nSet `FLINT_WORKLOAD_IDENTITY_ID` to your Flint workload identity. `FLINT_OIDC_SOURCE` accepts `auto`, `none`, `token`, `token_file`, `github_actions`, `gitlab_ci`, `kubernetes`, `gcp`, `azure` and `aws`. Source options passed to `workloadIdentityCredentials` override environment settings. Auto discovery selects the first matching source:\n\n1. `FLINT_OIDC_TOKEN`, then `FLINT_OIDC_TOKEN_FILE`.\n2. GitHub Actions when `GITHUB_ACTIONS=true`, with `permissions: id-token: write`.\n3. GitLab CI when `GITLAB_CI=true`. Configure `id_tokens:` to supply `FLINT_OIDC_TOKEN` with the trusted audience. A missing token error includes the configuration to add.\n4. Kubernetes when `KUBERNETES_SERVICE_HOST` is set. Project a token for Flint's audience at `/var/run/secrets/flint/token`, or set `FLINT_OIDC_TOKEN_FILE` to your separate projected token.\n5. GCP when `K_SERVICE`, `FUNCTION_TARGET` or `GCE_METADATA_HOST` is set. The SDK requests a metadata identity token for the configured audience; `GCE_METADATA_HOST` overrides the metadata host.\n6. Azure when both `IDENTITY_ENDPOINT` and `IDENTITY_HEADER` are set. Set `FLINT_OIDC_AUDIENCE` to your Entra app ID URI; `FLINT_AZURE_CLIENT_ID` selects a user-assigned identity. Explicit Azure selection uses that endpoint pair when present and IMDS otherwise.\n7. AWS when `AWS_EXECUTION_ENV` starts with `AWS_Lambda_` or `AWS_ECS_`, or `AWS_LAMBDA_FUNCTION_NAME`, `ECS_CONTAINER_METADATA_URI` or `ECS_CONTAINER_METADATA_URI_V4` is set.\n\nCloud metadata is not probed without these markers in auto mode. Explicit `kubernetes`, `gcp`, `azure` and `aws` sources work without markers. Token files are reread on every exchange. Neither runtime reads `AWS_WEB_IDENTITY_TOKEN_FILE`, `AZURE_FEDERATED_TOKEN_FILE` or Kubernetes' default service account token, including when a configured file resolves to one of them. `FLINT_OIDC_AUDIENCE` otherwise defaults to the API origin; `FLINT_OIDC_SCOPE` narrows permissions. Set source `none` to disable federation.\n\n### AWS setup\n\nAWS support is optional. Install its SDK only when using source `aws`:\n\n```sh\nnpm install @aws-sdk/client-sts@^3.1161.0\ncomposer require aws/aws-sdk-php:^3.402.5\n```\n\nNode declares an optional peer dependency; PHP lists a Composer suggestion. Without the package, selecting `aws` throws `ConfigurationError` with code `workload_identity_failed`, `workloadIdentity.reason` set to `source_unavailable` and whose description names `@aws-sdk/client-sts` or `aws/aws-sdk-php`.\n\nConfigure an AWS region and grant the workload role `sts:GetWebIdentityToken`. The source requests an ES384 subject token using AWS's standard credential chain, including shared profiles, assumed roles, SSO, ECS, EKS Pod Identity and EC2 IMDS. AWS manages credential precedence and refresh. Unset `AWS_WEB_IDENTITY_TOKEN_FILE` and remove `web_identity_token_file` from shared configuration and credentials files, including unused profiles: inbound web identity is refused before invoking the chain. The PHP AWS SDK also requires SimpleXML, which Composer checks during installation.\n\nDirect GCP, Azure and AWS metadata requests bypass environment proxies, refuse redirects and use short timeouts bounded by the request deadline. STS GetWebIdentityToken uses a regional endpoint with proxies and redirects disabled. Node AWS refuses `NODE_USE_ENV_PROXY=1`, `--use-env-proxy` (including `NODE_OPTIONS`) and proxy-configured global HTTP agents; its protected STS handler also reaches nested role and SSO clients.\n\nPHP protects the standard chain's direct ECS/IMDS providers and STS requests. Internal profile-based metadata, assume-role, SSO and login clients do not consistently inherit that protection: their requests can honor environment proxies and follow redirects; nested ECS bypasses proxies but can follow redirects. Use those profile paths only where that AWS SDK behavior is acceptable. Profile subprocesses and internally created clients retain AWS's timeout behavior.\n\n## Saved CLI session\n\nWhen neither credential environment variable nor a workload identity ID is set, `defaultCredentials()` runs exactly `flint auth token --output json` without a shell. Run `flint auth login` first. Imported API keys cannot be exported and produce `API_KEY_NOT_EXPORTABLE`. Set `FLINT_CLI_CREDENTIALS=0` to disable the CLI process. Output is bounded to 64 KiB per stream and the process to five seconds, within the request deadline. Tokens with `expires_at` share the refresh cache; tokens without expiry are exported for each resolution.\n\nA configured workload identity that fails never falls back to the CLI session. `ambientCredentials: false` disables all implicit discovery, including the CLI process.\n\nThe SDK validates the subject token audience and expiry before exchange. Access tokens are cached by origin, workload identity, audience, scope and source, refreshed before expiry, and invalidated for one retry after a 401. No refresh token is stored.\n\n## Explicit providers and tenant isolation\n\nNode exports `defaultCredentials()` and `workloadIdentityCredentials({ workloadIdentityId, source, audience, scope })`. PHP exposes the same functions in the `Flint` namespace and accepts an options array for `workloadIdentityCredentials`. Pass a provider through `apiKey` or a named bearer credential.\n\nFor an app that serves multiple merchants, set `ambientCredentials: false` and pass each merchant's credentials explicitly. This prevents missing tenant credentials from using the app's own environment. The option disables automatic discovery; an explicitly supplied provider still runs.\n\n```js\nconst client = new Client({ ambientCredentials: false });\nawait client.orders.list(undefined, { apiKey: tenant.flintKey });\n```\n\n```php\n$client = new \\Flint\\Client(new \\Flint\\ClientOptions(ambientCredentials: false));\n$client->orders->list(null, new \\Flint\\RequestOptions(apiKey: $tenant->flintKey));\n```\n",
-      "partner-oauth": "# Partner app OAuth\n\nA partner app installs on a merchant's account through Flint's consent screen, then calls the API with the install's access token. The handwritten helpers in `custom/` build the consent URL, check the callback, and sign the client assertions that token and revoke requests need. See [partner app installs](https://developers.withflintpay.com/docs/guides/partner-app-installs) for credentials, lifetimes and errors.\n\n## Send the merchant to install\n\n`buildAuthorizeUrl` makes no request. It returns the URL to send the merchant's browser to, a random `state`, and the PKCE `codeVerifier` behind its S256 `code_challenge`. Store `state` and `codeVerifier` with this attempt on your server.\n\nNode:\n\n```js\nimport { buildAuthorizeUrl } from '@flintpay/node/custom/partner-oauth.js';\nconst { url, state, codeVerifier } = buildAuthorizeUrl({\n  clientId: 'fpc_0123456789abcdef',\n  redirectUri: 'https://example.com/flint/oauth/callback',\n  mode: 'test',\n  scope: ['manage_orders', 'read_customers'],\n});\n// Save state and codeVerifier, then redirect the browser to url.\n```\n\nPHP:\n\n```php\nuse Flint\\Partner\\OAuth;\n$authorize = OAuth::buildAuthorizeUrl([\n    'clientId' => 'fpc_0123456789abcdef',\n    'redirectUri' => 'https://example.com/flint/oauth/callback',\n    'mode' => 'test',\n    'scope' => ['manage_orders', 'read_customers'],\n]);\n// Save $authorize->state and $authorize->codeVerifier, then redirect to $authorize->url.\n```\n\nOmit `scope` to request the app's default permissions. `sandboxId` (test mode only), `merchantId` and `baseUrl` are optional. This replaces `oauth.authorizePartnerInstall`, which 8.0.0 removed: `GET /v1/oauth/authorize` redirects a browser to the consent screen, so a call from your server can't complete it.\n\n## Sign client assertions\n\n`privateKeyJwt` signs a new RFC 7523 JWT for every request: `iss` and `sub` are your client ID, `aud` is `https://api.withflintpay.com`, `jti` is unique, and the assertion expires after 120 seconds. It omits the optional `iat`, which Flint rejects when it's ahead of Flint's clock. Use the key registered as a `public_key` credential or published at your `jwks_url`, and pass its `kid` as `keyId`. Node signs ES256, ES384, PS256, RS256 and EdDSA. PHP signs ES256, ES384 and RS256 with ext-openssl, and EdDSA with ext-sodium.\n\nNode:\n\n```js\nimport { privateKeyJwt } from '@flintpay/node/custom/partner-oauth.js';\nconst clientAssertion = privateKeyJwt({\n  clientId: 'fpc_0123456789abcdef',\n  privateKey: process.env.FLINT_PRIVATE_KEY_PEM,\n  algorithm: 'ES256',\n  keyId: 'backend-2026-10',\n});\n```\n\nPHP:\n\n```php\nuse Flint\\Partner\\PrivateKeyJwt;\n$clientAssertion = new PrivateKeyJwt('fpc_0123456789abcdef', getenv('FLINT_PRIVATE_KEY_PEM'), 'ES256', 'backend-2026-10');\n```\n\nWith a `workload_identity` credential, your OIDC provider's token is the assertion. Request it with `https://api.withflintpay.com` as the audience and return it from your own provider: in Node, an object with `clientId` and `getAssertion()`; in PHP, a class implementing `Flint\\Partner\\ClientAssertionProvider`.\n\n## Handle the callback\n\n`parseAuthorizeCallback` compares the callback's `state` with the one you stored before reading anything else. It throws `AuthorizeCallbackError` with `error` set to `state_mismatch`, to the callback's OAuth error such as `access_denied`, or to `invalid_request` for a repeated or missing parameter. Exchange the code right away: it expires after 5 minutes and works once.\n\nNode:\n\n```js\nimport { Client } from '@flintpay/node';\nimport { exchangeCode, parseAuthorizeCallback } from '@flintpay/node/custom/partner-oauth.js';\nconst { code } = parseAuthorizeCallback(request.url, { state: saved.state });\nconst client = new Client({ ambientCredentials: false });\nconst token = await exchangeCode(client, {\n  code,\n  redirectUri: 'https://example.com/flint/oauth/callback',\n  codeVerifier: saved.codeVerifier,\n  clientAssertion,\n});\n```\n\nPHP:\n\n```php\n$callback = OAuth::parseAuthorizeCallback($_SERVER['REQUEST_URI'], $saved['state']);\n$client = new \\Flint\\Client(new \\Flint\\ClientOptions(ambientCredentials: false));\n$token = OAuth::exchangeCode($client, [\n    'code' => $callback['code'],\n    'redirectUri' => 'https://example.com/flint/oauth/callback',\n    'codeVerifier' => $saved['codeVerifier'],\n    'clientAssertion' => $clientAssertion,\n]);\n```\n\nStore the token response as the partner guide describes. Call the API for that merchant with a client whose `token` is the access token and with `ambientCredentials: false`, so a missing token fails instead of using your own `FLINT_API_KEY`.\n\n## Other token requests\n\n`clientAuthentication(clientAssertion)` (PHP `OAuth::clientAuthentication($clientAssertion)`) returns `client_id`, `client_assertion_type` and a fresh `client_assertion` to add to any `oauth.exchangeToken` or `oauth.revokeToken` call. `revokeToken` (PHP `OAuth::revokeToken`) revokes a token with a fresh assertion. Each signed assertion works once, so get a new one for every request.\n"
+      "partner-oauth": "# Partner app OAuth\n\nA partner app installs on a merchant's account through Flint's consent screen, then calls the API for that merchant with partner app tokens. The handwritten helpers in `custom/` build the consent URL, check the callback, sign the client assertions that token and revoke requests need, and mint and cache partner app tokens. See [partner app installs](https://developers.withflintpay.com/docs/guides/partner-app-installs) for credentials, lifetimes and errors.\n\n## Send the merchant to install\n\n`buildAuthorizeUrl` makes no request. It returns the URL to send the merchant's browser to, a random `state`, and the PKCE `codeVerifier` behind its S256 `code_challenge`. Store `state` and `codeVerifier` with this attempt on your server.\n\nNode:\n\n```js\nimport { buildAuthorizeUrl } from '@flintpay/node/custom/partner-oauth.js';\nconst { url, state, codeVerifier } = buildAuthorizeUrl({\n  clientId: 'fpc_0123456789abcdef',\n  redirectUri: 'https://example.com/flint/oauth/callback',\n  mode: 'test',\n  scope: ['manage_orders', 'read_customers'],\n});\n// Save state and codeVerifier, then redirect the browser to url.\n```\n\nPHP:\n\n```php\nuse Flint\\Partner\\OAuth;\n$authorize = OAuth::buildAuthorizeUrl([\n    'clientId' => 'fpc_0123456789abcdef',\n    'redirectUri' => 'https://example.com/flint/oauth/callback',\n    'mode' => 'test',\n    'scope' => ['manage_orders', 'read_customers'],\n]);\n// Save $authorize->state and $authorize->codeVerifier, then redirect to $authorize->url.\n```\n\nOmit `scope` to request the app's default permissions. `sandboxId` (test mode only), `merchantId` and `baseUrl` are optional. This replaces `oauth.authorizePartnerInstall`, which 8.0.0 removed: `GET /v1/oauth/authorize` redirects a browser to the consent screen, so a call from your server can't complete it.\n\n## Sign client assertions\n\n`privateKeyJwt` signs a new RFC 7523 JWT for every request: `iss` and `sub` are your client ID, `aud` is `https://api.withflintpay.com`, `jti` is unique, and the assertion expires after 120 seconds. It omits the optional `iat`, which Flint rejects when it's ahead of Flint's clock. Use the key registered as a `public_key` credential or published at your `jwks_url`, and pass its `kid` as `keyId`. Node signs ES256, ES384, PS256, RS256 and EdDSA. PHP signs ES256, ES384 and RS256 with ext-openssl, and EdDSA with ext-sodium.\n\nNode:\n\n```js\nimport { privateKeyJwt } from '@flintpay/node/custom/partner-oauth.js';\nconst clientAssertion = privateKeyJwt({\n  clientId: 'fpc_0123456789abcdef',\n  privateKey: process.env.FLINT_PRIVATE_KEY_PEM,\n  algorithm: 'ES256',\n  keyId: 'backend-2026-10',\n});\n```\n\nPHP:\n\n```php\nuse Flint\\Partner\\PrivateKeyJwt;\n$clientAssertion = new PrivateKeyJwt('fpc_0123456789abcdef', getenv('FLINT_PRIVATE_KEY_PEM'), 'ES256', 'backend-2026-10');\n```\n\nWith a `workload_identity` credential, your OIDC provider's token is the assertion. Request it with `https://api.withflintpay.com` as the audience and return it from your own provider: in Node, an object with `clientId` and `getAssertion()`; in PHP, a class implementing `Flint\\Partner\\ClientAssertionProvider`.\n\n## Handle the callback\n\n`parseAuthorizeCallback` compares the callback's `state` with the one you stored before reading anything else. It throws `AuthorizeCallbackError` with `error` set to `state_mismatch`, to the callback's OAuth error such as `access_denied`, or to `invalid_request` for a repeated or missing parameter. Exchange the code right away: it expires after 5 minutes and works once.\n\nNode:\n\n```js\nimport { Client } from '@flintpay/node';\nimport { exchangeCode, parseAuthorizeCallback } from '@flintpay/node/custom/partner-oauth.js';\nconst { code } = parseAuthorizeCallback(request.url, { state: saved.state });\nconst client = new Client({ ambientCredentials: false });\nconst token = await exchangeCode(client, {\n  code,\n  redirectUri: 'https://example.com/flint/oauth/callback',\n  codeVerifier: saved.codeVerifier,\n  clientAssertion,\n});\n```\n\nPHP:\n\n```php\n$callback = OAuth::parseAuthorizeCallback($_SERVER['REQUEST_URI'], $saved['state']);\n$client = new \\Flint\\Client(new \\Flint\\ClientOptions(ambientCredentials: false));\n$token = OAuth::exchangeCode($client, [\n    'code' => $callback['code'],\n    'redirectUri' => 'https://example.com/flint/oauth/callback',\n    'codeVerifier' => $saved['codeVerifier'],\n    'clientAssertion' => $clientAssertion,\n]);\n```\n\nThe exchange activates the install and returns a partner app token bound to that merchant. It lasts up to 900 seconds and comes with no refresh token. Store the response's IDs as the partner guide describes, and mint new tokens with `partnerAppTokens` from then on.\n\n## Call the API for installed merchants\n\n`partnerAppTokens` mints partner app tokens with `grant_type=client_credentials` and a fresh client assertion, one mode per instance. `forMerchant(merchantId)` returns a credential provider for one merchant. Pass it as a client's `token`: requests need no `Flint-Merchant-Id`, and the provider is reused for that merchant. It caches the token until 60 seconds before expiry (`refreshBeforeSeconds`), mints once for concurrent requests, and drops the token when a request gets a 401, which the SDK then retries once. Set `ambientCredentials: false` so a missing token fails instead of using your own `FLINT_API_KEY`.\n\nNode:\n\n```js\nimport { Client } from '@flintpay/node';\nimport { partnerAppTokens } from '@flintpay/node/custom/partner-oauth.js';\nconst tokens = partnerAppTokens(new Client({ ambientCredentials: false }), { clientAssertion, mode: 'live' });\nconst merchant = new Client({ token: tokens.forMerchant('mer_01KEZF7C00KPYH1DDFPCCX3B6E'), ambientCredentials: false });\nconst orders = await merchant.orders.list();\n```\n\nPHP:\n\n```php\nuse Flint\\Partner\\PartnerAppTokens;\n$tokens = new PartnerAppTokens(new \\Flint\\Client(new \\Flint\\ClientOptions(ambientCredentials: false)), $clientAssertion, 'live');\n$merchant = new \\Flint\\Client(new \\Flint\\ClientOptions(token: $tokens->forMerchant('mer_01KEZF7C00KPYH1DDFPCCX3B6E'), ambientCredentials: false));\n$orders = $merchant->orders->list();\n```\n\n`app()` returns one app-level token for every merchant instead. Each request with it must name the merchant in its `Flint-Merchant-Id` param. Each app can mint 600 tokens a minute, so reuse providers rather than creating one per request. Calling `getCredential()` yourself surfaces a failed mint's API error, such as `invalid_client`; inside a request, a failed mint is reported as `credential_provider_failed`.\n\n## Other token requests\n\n`clientAuthentication(clientAssertion)` (PHP `OAuth::clientAuthentication($clientAssertion)`) returns `client_id`, `client_assertion_type` and a fresh `client_assertion` to add to any `oauth.exchangeToken` or `oauth.revokeToken` call. `revokeToken` (PHP `OAuth::revokeToken`) revokes a token with a fresh assertion. Each signed assertion works once, so get a new one for every request.\n"
     },
     "apiName": "Flint",
     "operationUrl": "https://developers.withflintpay.com/docs/api/{tagSlug}#{operationId}",
@@ -588,7 +695,11 @@
       "oauth": "oauth",
       "cli_oauth": "cli-oauth",
       "partner_oauth": "partner-oauth",
-      "meta": "openapi"
+      "meta": "openapi",
+      "customer_tax_exemptions": "customer-tax-exemptions",
+      "price-lists": "price-lists",
+      "tax_calculation_callbacks": "tax-calculation-callbacks",
+      "tickets": "tickets"
     },
     "exampleValues": {
       "customer_address_id": "caddr_01ARZ3NDEKTSV4RRFFQ69G5FAV",
@@ -1141,29 +1252,6 @@
       "pagination": false,
       "retry": {
         "maxAttempts": 3
-      }
-    },
-    "listCreditNoteRefunds": {
-      "response": {
-        "payloadPath": null
-      },
-      "idempotency": false,
-      "retry": {
-        "maxAttempts": 3
-      }
-    },
-    "createCreditNoteRefund": {
-      "pagination": false,
-      "idempotency": {
-        "auto": false,
-        "retention": "As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent."
-      },
-      "retry": {
-        "maxAttempts": 3
-      },
-      "defaults": {
-        "timeoutMs": 150000,
-        "deadlineMs": 300000
       }
     },
     "voidCreditNote": {
@@ -1750,19 +1838,6 @@
         "maxAttempts": 3
       }
     },
-    "revokeDeliveryDependency": {
-      "pagination": false,
-      "idempotency": {
-        "auto": true,
-        "autoKeyPrefix": "flint-sdk-"
-      },
-      "retry": {
-        "maxAttempts": 3
-      },
-      "resource": "deliveryRevocations",
-      "method": "create",
-      "namingReason": "Follow the POST collection path pending the operation-ID correction (FLI-428)."
-    },
     "getDeliveryRevocation": {
       "idempotency": false,
       "pagination": false,
@@ -2289,16 +2364,6 @@
         "maxAttempts": 3
       }
     },
-    "transitionFulfillment": {
-      "pagination": false,
-      "idempotency": {
-        "auto": true,
-        "autoKeyPrefix": "flint-sdk-"
-      },
-      "retry": {
-        "maxAttempts": 3
-      }
-    },
     "listGiftCardFundingDispositions": {
       "idempotency": false,
       "response": {
@@ -2543,8 +2608,8 @@
     "createGiftCardLoad": {
       "pagination": false,
       "example": {
-        "gift_card_id": "gc_01ARZ3NDEKTSV4RRFFQ69G5FAV",
         "body": {
+          "gift_card_id": "gc_01ARZ3NDEKTSV4RRFFQ69G5FAV",
           "source": {
             "external_reference_id": "example",
             "funding_source_type": "external_payment",
@@ -2569,16 +2634,6 @@
       }
     },
     "rotateGiftCardCode": {
-      "pagination": false,
-      "idempotency": {
-        "auto": true,
-        "autoKeyPrefix": "flint-sdk-"
-      },
-      "retry": {
-        "maxAttempts": 3
-      }
-    },
-    "transitionGiftCard": {
       "pagination": false,
       "idempotency": {
         "auto": true,
@@ -2729,16 +2784,6 @@
         },
         "inventory_count_id": "invc_01ARZ3NDEKTSV4RRFFQ69G5FAV"
       },
-      "idempotency": {
-        "auto": true,
-        "autoKeyPrefix": "flint-sdk-"
-      },
-      "retry": {
-        "maxAttempts": 3
-      }
-    },
-    "transitionInventoryCount": {
-      "pagination": false,
       "idempotency": {
         "auto": true,
         "autoKeyPrefix": "flint-sdk-"
@@ -2915,16 +2960,6 @@
         "inventory_reservation_id": "invr_01ARZ3NDEKTSV4RRFFQ69G5FAV"
       }
     },
-    "transitionInventoryReservation": {
-      "pagination": false,
-      "idempotency": {
-        "auto": true,
-        "autoKeyPrefix": "flint-sdk-"
-      },
-      "retry": {
-        "maxAttempts": 3
-      }
-    },
     "listInventoryTransfers": {
       "response": {
         "payloadPath": null
@@ -2965,16 +3000,6 @@
           "note": "Transfer to the main warehouse"
         },
         "inventory_transfer_id": "invtr_01ARZ3NDEKTSV4RRFFQ69G5FAV"
-      }
-    },
-    "transitionInventoryTransfer": {
-      "pagination": false,
-      "idempotency": {
-        "auto": true,
-        "autoKeyPrefix": "flint-sdk-"
-      },
-      "retry": {
-        "maxAttempts": 3
       }
     },
     "listInvoicePaymentTerms": {
@@ -3116,8 +3141,8 @@
     "issueInvoice": {
       "pagination": false,
       "idempotency": {
-        "auto": true,
-        "autoKeyPrefix": "flint-sdk-"
+        "auto": false,
+        "retention": "As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent."
       },
       "retry": {
         "maxAttempts": 3
@@ -4447,8 +4472,8 @@
     "createFulfillment": {
       "pagination": false,
       "idempotency": {
-        "auto": true,
-        "autoKeyPrefix": "flint-sdk-"
+        "auto": false,
+        "retention": "As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent."
       },
       "retry": {
         "maxAttempts": 3
@@ -4601,87 +4626,6 @@
         "maxAttempts": 3
       }
     },
-    "listOrganizations": {
-      "response": {
-        "payloadPath": null
-      },
-      "idempotency": false,
-      "retry": {
-        "maxAttempts": 3
-      }
-    },
-    "createOrganization": {
-      "pagination": false,
-      "idempotency": {
-        "auto": true,
-        "autoKeyPrefix": "flint-sdk-"
-      },
-      "retry": {
-        "maxAttempts": 3
-      }
-    },
-    "deleteOrganization": {
-      "pagination": false,
-      "idempotency": {
-        "auto": true,
-        "autoKeyPrefix": "flint-sdk-"
-      },
-      "retry": {
-        "maxAttempts": 3
-      }
-    },
-    "getOrganization": {
-      "idempotency": false,
-      "pagination": false,
-      "retry": {
-        "maxAttempts": 3
-      }
-    },
-    "updateOrganization": {
-      "pagination": false,
-      "idempotency": {
-        "auto": true,
-        "autoKeyPrefix": "flint-sdk-"
-      },
-      "retry": {
-        "maxAttempts": 3
-      },
-      "example": {
-        "body": {
-          "name": "Example Retail"
-        },
-        "organization_id": "org_01ARZ3NDEKTSV4RRFFQ69G5FAV"
-      }
-    },
-    "listOrganizationMemberships": {
-      "response": {
-        "payloadPath": null
-      },
-      "idempotency": false,
-      "retry": {
-        "maxAttempts": 3
-      }
-    },
-    "grantOrganizationMembership": {
-      "pagination": false,
-      "idempotency": {
-        "auto": true,
-        "autoKeyPrefix": "flint-sdk-"
-      },
-      "retry": {
-        "maxAttempts": 3
-      }
-    },
-    "removeOrganizationMembership": {
-      "pagination": false,
-      "idempotency": {
-        "auto": true,
-        "autoKeyPrefix": "flint-sdk-"
-      },
-      "retry": {
-        "maxAttempts": 3
-      }
-    },
     "listPackages": {
       "response": {
         "payloadPath": null
@@ -4765,16 +4709,6 @@
         },
         "package_id": "pkg_01ARZ3NDEKTSV4RRFFQ69G5FAV",
         "package_item_id": "pki_01ARZ3NDEKTSV4RRFFQ69G5FAV"
-      }
-    },
-    "transitionPackage": {
-      "pagination": false,
-      "idempotency": {
-        "auto": true,
-        "autoKeyPrefix": "flint-sdk-"
-      },
-      "retry": {
-        "maxAttempts": 3
       }
     },
     "voidPackage": {
@@ -5466,7 +5400,6 @@
         "body": {
           "max_uses": 50
         },
-        "promotion_id": "promo_01ARZ3NDEKTSV4RRFFQ69G5FAV",
         "promotion_code_id": "pcode_01ARZ3NDEKTSV4RRFFQ69G5FAV"
       }
     },
@@ -5480,6 +5413,12 @@
       }
     },
     "createRefund": {
+      "example": {
+        "body": {
+          "refund_type": "full",
+          "order_id": "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+        }
+      },
       "pagination": false,
       "idempotency": {
         "auto": false,
@@ -7072,6 +7011,14 @@
       }
     },
     "createTaxRegistration": {
+      "example": {
+        "body": {
+          "country": "US",
+          "registration_number": "1234561234",
+          "start_date": "2026-01-01",
+          "state": "TX"
+        }
+      },
       "pagination": false,
       "idempotency": {
         "auto": true,
@@ -7161,6 +7108,854 @@
       "pagination": false
     },
     "advanceTestClock": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "getCustomerEmailPreferences": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "listCustomerTaxExemptions": {
+      "response": {
+        "payloadPath": null
+      },
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "createCustomerTaxExemption": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "deleteCustomerTaxExemption": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "getCustomerTaxExemption": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "updateCustomerTaxExemption": {
+      "example": {
+        "customer_id": "cus_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+        "customer_tax_exemption_id": "ctex_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+        "body": {
+          "description": "Example exemption"
+        }
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "createDeliveryRevocation": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "lookupEmailPreferences": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 1,
+        "statuses": [],
+        "transport": false
+      },
+      "pagination": false
+    },
+    "acceptFulfillment": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "cancelFulfillment": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "completeFulfillment": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "dispatchFulfillment": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "failFulfillment": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "holdFulfillment": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "markFulfillmentNoShow": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "markFulfillmentPacked": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "markFulfillmentPicked": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "markFulfillmentPreparing": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "markFulfillmentReady": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "releaseFulfillmentHold": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "scheduleFulfillment": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "startFulfillment": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "closeGiftCard": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "freezeGiftCard": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "unfreezeGiftCard": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "applyInventoryCount": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "cancelInventoryCount": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "commitInventoryReservation": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "consumeInventoryReservation": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "releaseInventoryReservation": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "cancelInventoryTransfer": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "departInventoryTransfer": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "receiveInventoryTransfer": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "reportInventoryTransferLoss": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "returnInventoryTransferToOrigin": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "getMeOrderReceiptPDF": {
+      "response": {
+        "return": "result"
+      },
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "changeMeSubscriptionPlan": {
+      "idempotency": {
+        "auto": false,
+        "retention": "As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent."
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "changeMeSubscriptionQuantity": {
+      "idempotency": {
+        "auto": false,
+        "retention": "As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent."
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "listMeTickets": {
+      "response": {
+        "payloadPath": null
+      },
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "createOrderEditPreview": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 1,
+        "statuses": [],
+        "transport": false
+      },
+      "pagination": false
+    },
+    "listOrderEdits": {
+      "response": {
+        "payloadPath": null
+      },
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "createOrderEdit": {
+      "idempotency": {
+        "auto": false,
+        "retention": "As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent."
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "getOrderEdit": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "retryOrderEditRefund": {
+      "idempotency": {
+        "auto": false,
+        "retention": "As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent."
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "getOrderReceiptPDF": {
+      "response": {
+        "return": "result"
+      },
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "markPackageDelivered": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "markPackageDeliveryAttempted": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "markPackageException": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "markPackageInTransit": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "markPackageOutForDelivery": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "markPackagePacked": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "markPackageReturned": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "markPackageShipped": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "acceptPartnerAppPlatformTerms": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "listPriceLists": {
+      "response": {
+        "payloadPath": null
+      },
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "createPriceList": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "deletePriceList": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "getPriceList": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "updatePriceList": {
+      "example": {
+        "price_list_id": "prl_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+        "body": {
+          "name": "Wholesale"
+        }
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "listPriceListPrices": {
+      "response": {
+        "payloadPath": null
+      },
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "createPriceListPrices": {
+      "example": {
+        "price_list_id": "prl_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+        "body": {
+          "prices": [
+            {
+              "variant_id": "var_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+              "unit_price_money": {
+                "amount": "800",
+                "currency": "USD"
+              }
+            }
+          ]
+        }
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "deletePriceListPrice": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "getPriceListPrice": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "updatePriceListPrice": {
+      "example": {
+        "price_list_id": "prl_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+        "price_list_price_id": "prlp_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+        "body": {
+          "unit_price_money": {
+            "amount": "750",
+            "currency": "USD"
+          }
+        }
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "changeSubscriptionQuantity": {
+      "idempotency": {
+        "auto": false,
+        "retention": "As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent."
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "applySubscriptionPromotion": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "removeSubscriptionPromotions": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "listTaxCalculationCallbacks": {
+      "response": {
+        "payloadPath": null
+      },
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "createTaxCalculationCallback": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "deleteTaxCalculationCallback": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "getTaxCalculationCallback": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "updateTaxCalculationCallback": {
+      "example": {
+        "tax_calculation_callback_id": "tcb_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+        "body": {
+          "name": "Tax engine"
+        }
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "checkTaxCalculationCallbackConnection": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "rotateTaxCalculationCallbackSecret": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "createTaxCalculationCallbackTestDelivery": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "listTickets": {
+      "response": {
+        "payloadPath": null
+      },
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "lookupTicket": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 1,
+        "statuses": [],
+        "transport": false
+      },
+      "pagination": false
+    },
+    "getTicket": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "updateTicket": {
+      "example": {
+        "ticket_id": "tkt_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+        "body": {
+          "attendee_name": "Example Attendee"
+        }
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "checkInTicket": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "rotateTicketCode": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "undoTicketCheckIn": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "voidTicket": {
       "idempotency": {
         "auto": true,
         "autoKeyPrefix": "flint-sdk-"

@@ -10,30 +10,55 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `api_version` | Required | string | Format: `date`. |
-| `created_at` | Required | string | Format: `date-time`. |
-| `data` | Required | [RefundCreatedMerchantEventData](../models/RefundCreatedMerchantEventData.md#refundcreatedmerchanteventdata) | `data`: [field definitions](../models/RefundCreatedMerchantEvent.md#refundcreatedmerchanteventdata-fields-1). |
-| `event_type` | Required | string | Values: `"refund.created"`. |
-| `merchant_id` | Required | string |  |
-| `mode` | Required | string | Values: `"test"`, `"live"`. |
+| `api_version` | Required | string | API version used to render this delivery attempt. The older of the event version and the endpoint version when the attempt runs, with default resolved to the merchant pin. Format: `date`. |
+| `created_at` | Required | string | When Flint recorded the event. Format: `date-time`. |
+| `data` | Required | [RefundCreatedMerchantEventData](../models/RefundCreatedMerchantEventData.md#refundcreatedmerchanteventdata) | The resource snapshot recorded for this event and rendered at the delivery API version. `data`: [field definitions](../models/RefundCreatedMerchantEvent.md#refundcreatedmerchanteventdata-fields-1). |
+| `event_source` | Required | string | The origin of the event. Selects the webhook envelope and the fields in source. Values: `"merchant"`. |
+| `event_type` | Required | string | The resource change or condition this event announces. Values: `"refund.created"`. |
+| `merchant_id` | Required | string | ID of the merchant this resource belongs to. |
+| `mode` | Required | string | Environment used for this resource or request. Values: `"test"`, `"live"`. |
 | `payload_version` | Required | integer | 2 for every current event. 1 only for an event queued before 2026-10-16 and delivered afterwards, which keeps its previous data shape. Values: `1`, `2`. |
-| `request` | Required | [RefundCreatedMerchantEventRequest](../models/RefundCreatedMerchantEventRequest.md#refundcreatedmerchanteventrequest) or null |  |
+| `request` | Required | [RefundCreatedMerchantEventRequest](../models/RefundCreatedMerchantEventRequest.md#refundcreatedmerchanteventrequest) or null | The originating request. `null` when the event has no originating request ID. |
+| `sandbox_id` | Optional | string | Public sandbox ID for this event. Present exactly when mode is test; omitted in live mode. |
 | `test` | Required | boolean | true for a synthetic event sent from the test-events endpoint, false otherwise. |
-| `webhook_event_id` | Required | string |  |
+| `webhook_event_id` | Required | string | Stable ID of the recorded webhook event, shared by its delivery attempts. |
 
 ### RefundCreatedMerchantEvent.data fields 1
 
+The resource snapshot recorded for this event and rendered at the delivery API version.
+
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `object` | Required | object and [Refund](../models/Refund.md#refund) | Money returned against a collected payment. `object`: [field definitions](../models/RefundCreatedMerchantEvent.md#refundcreatedmerchanteventdata-fields-1object). |
+| `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. `object`: [field definitions](../models/RefundCreatedMerchantEvent.md#refundcreatedmerchanteventdata-fields-1object). |
+| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
 
 ### RefundCreatedMerchantEvent.data fields 1.object
 
-Money returned against a collected payment.
+The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields.
 
 Field definitions: [shared fields](Refund.md#refund).
 
+### RefundCreatedMerchantEvent.data fields 1.object.line_item_allocations[]
+
+Field definitions: [CancelReturnResponse.data.return_resolutions[].refunds[].line_item_allocations[]](../models/CancelReturnResponse.md#cancelreturnresponsedatareturn_resolutionsrefundsline_item_allocations).
+
 ### RefundCreatedMerchantEvent.data fields 1.object.metadata
 
-Field definitions: [CancelReturnResponse.data.metadata](../models/CancelReturnResponse.md#cancelreturnresponsedatametadata).
+Field definitions: [OrderResponse.data.charges[].metadata](../models/OrderResponse.md#orderresponsedatachargesmetadata).
+
+### RefundCreatedMerchantEvent.data fields 1.object.payment_refunds[]
+
+Field definitions: [CancelReturnResponse.data.return_resolutions[].refunds[].payment_refunds[]](../models/CancelReturnResponse.md#cancelreturnresponsedatareturn_resolutionsrefundspayment_refunds).
+
+### RefundCreatedMerchantEvent.data fields 1.object.tax_breakdown_refunds[]
+
+Field definitions: [CancelReturnResponse.data.return_resolutions[].refunds[].line_item_allocations[].tax_breakdown_refunds[]](../models/CancelReturnResponse.md#cancelreturnresponsedatareturn_resolutionsrefundsline_item_allocationstax_breakdown_refunds).
+
+### RefundCreatedMerchantEvent.data fields 1.object.tender_allocations[]
+
+Field definitions: [CancelReturnResponse.data.return_resolutions[].refunds[].tender_allocations[]](../models/CancelReturnResponse.md#cancelreturnresponsedatareturn_resolutionsrefundstender_allocations).
+
+### RefundCreatedMerchantEvent.data fields 1.object.unissued_gift_card_recoveries[]
+
+Field definitions: [CancelReturnResponse.data.return_resolutions[].refunds[].unissued_gift_card_recoveries[]](../models/CancelReturnResponse.md#cancelreturnresponsedatareturn_resolutionsrefundsunissued_gift_card_recoveries).
 

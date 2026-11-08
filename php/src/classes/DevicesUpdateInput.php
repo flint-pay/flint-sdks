@@ -10,7 +10,7 @@ namespace Flint;
 final class DevicesUpdateInput extends Model {
     /** @param array{'device_id': string, 'body': array{'expected_version'?: int, 'location_id'?: string|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'name'?: string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DevicesUpdateInput')); }
-    /** Flint device ID. Example: "dev_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Flint device ID. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6".
      * @return string
      * @throws SdkError When device_id is omitted; use hasDeviceId() or valueOrDefault().
      */

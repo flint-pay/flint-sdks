@@ -6,5 +6,5 @@ Settings for a text modifier group: whether input is required or multiline, and 
 
 Response model.
 
-Fields, types, descriptions and enum values: [ModifierSetModifierGroupsItemExistingModifierGroupText](../models/ModifierSetModifierGroupsItemExistingModifierGroupText.md#modifiersetmodifiergroupsitemexistingmodifiergrouptext).
+Fields, types, descriptions and enum values: [TextModifierConfigInput](../models/TextModifierConfigInput.md#textmodifierconfiginput).
 

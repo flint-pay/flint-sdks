@@ -1,0 +1,1 @@
+{"shared":"BackorderPolicy","phpRepresentation":{"kind":"record","fields":{"enabled":{"kind":"value","type":"bool"},"expected_ship_date":{"kind":"nullable","value":{"kind":"value","type":"string"}},"limit_quantity":{"kind":"nullable","value":{"kind":"value","type":"int"}}}},"dependencies":["BackorderPolicy"]}

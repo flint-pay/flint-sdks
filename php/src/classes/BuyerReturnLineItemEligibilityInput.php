@@ -16,13 +16,13 @@ namespace Flint;
 final class BuyerReturnLineItemEligibilityInput extends Model {
     /** @param array{'allowed_resolution_types': list<string>, 'decision_proposal'?: ReturnLineItemDecisionProposalInput|array<array-key, mixed>|\stdClass, 'eligible_quantity': int, 'evaluated_at'?: string|\DateTimeInterface, 'expires_at'?: string|\DateTimeInterface, 'ineligibility_reason'?: string, 'policy_adjustment_proposals': list<ReturnPolicyAdjustmentProposalInput|array<array-key, mixed>|\stdClass>, 'reason': string, 'reason_message': string, 'status': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerReturnLineItemEligibilityInput')); }
-    /** [] enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit". [] (Value): string.  Value enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit".
+    /** Resolution types the policy allows for this line. [] enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit". [] (Value): string.  Value enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit".
      * @return list<string>
      * @throws SdkError When allowed_resolution_types is omitted; use hasAllowedResolutionTypes() or valueOrDefault().
      */
     public function getAllowedResolutionTypes(): array { return $this->get('allowed_resolution_types'); }
     public function hasAllowedResolutionTypes(): bool { return $this->has('allowed_resolution_types'); }
-    /** The pinned policy decision recomputed for based_on_quantity. A decide with only approved_quantity commits these values. Policy automatic resolution selects the policy automatic_resolution_type for policy_default or the line's requested_resolution_type for buyer_requested. When buyer_requested has no requested_resolution_type, the proposal still exists without automatic_resolution_type, so resolution is manual. Manual policy resolution also has no automatic_resolution_type. An unset release_timing is filled with after_inspection when merchandise and inspection are required, after_receipt when merchandise is required without inspection, or after_approval when no merchandise is required.
+    /** Terms the policy proposes if the line is approved. Absent when the policy can't propose any. The pinned policy decision recomputed for based_on_quantity. A decide with only approved_quantity commits these values. Policy automatic resolution selects the policy automatic_resolution_type for policy_default or the line's requested_resolution_type for buyer_requested. When buyer_requested has no requested_resolution_type, the proposal still exists without automatic_resolution_type, so resolution is manual. Manual policy resolution also has no automatic_resolution_type. An unset release_timing is filled with after_inspection when merchandise and inspection are required, after_receipt when merchandise is required without inspection, or after_approval when no merchandise is required.
      * @return ReturnLineItemDecisionProposalInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When decision_proposal is omitted; use hasDecisionProposal() or valueOrDefault().
      */
@@ -34,13 +34,13 @@ final class BuyerReturnLineItemEligibilityInput extends Model {
      */
     public function getEligibleQuantity(): int { return $this->get('eligible_quantity'); }
     public function hasEligibleQuantity(): bool { return $this->has('eligible_quantity'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When evaluated_at is omitted; use hasEvaluatedAt() or valueOrDefault().
      */
     public function getEvaluatedAt(): string|\DateTimeInterface { return $this->get('evaluated_at'); }
     public function hasEvaluatedAt(): bool { return $this->has('evaluated_at'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When expires_at is omitted; use hasExpiresAt() or valueOrDefault().
      */
@@ -52,25 +52,25 @@ final class BuyerReturnLineItemEligibilityInput extends Model {
      */
     public function getIneligibilityReason(): string { return $this->get('ineligibility_reason'); }
     public function hasIneligibilityReason(): bool { return $this->has('ineligibility_reason'); }
-    /**  [] (Value): {@see ReturnPolicyAdjustmentProposalInput}. A fee or credit a return policy proposes for a line, calculated as a flat amount or a percent.
+    /** Fees or credits the policy proposes for this line, to add to a resolution as adjustments. [] (Value): {@see ReturnPolicyAdjustmentProposalInput}. A fee or credit a return policy proposes for a line, calculated as a flat amount or a percent.
      * @return list<ReturnPolicyAdjustmentProposalInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When policy_adjustment_proposals is omitted; use hasPolicyAdjustmentProposals() or valueOrDefault().
      */
     public function getPolicyAdjustmentProposals(): array { return $this->get('policy_adjustment_proposals'); }
     public function hasPolicyAdjustmentProposals(): bool { return $this->has('policy_adjustment_proposals'); }
-    /** Value enum: "eligible_under_policy", "manual_review_required", "return_window_expired", "quantity_unavailable", "policy_ineligible", "resolution_not_allowed", "reason_not_allowed", "policy_conflict", "no_matching_policy".
+    /** Why the line got this result. Value enum: "eligible_under_policy", "manual_review_required", "return_window_expired", "quantity_unavailable", "policy_ineligible", "resolution_not_allowed", "reason_not_allowed", "policy_conflict", "no_matching_policy".
      * @return string
      * @throws SdkError When reason is omitted; use hasReason() or valueOrDefault().
      */
     public function getReason(): string { return $this->get('reason'); }
     public function hasReason(): bool { return $this->has('reason'); }
-    /** reason_message
+    /** Explanation of `reason`.
      * @return string
      * @throws SdkError When reason_message is omitted; use hasReasonMessage() or valueOrDefault().
      */
     public function getReasonMessage(): string { return $this->get('reason_message'); }
     public function hasReasonMessage(): bool { return $this->has('reason_message'); }
-    /** Value enum: "eligible", "ineligible", "review_required".
+    /** Whether the policy lets the buyer return this. `review_required` means the merchant decides. Value enum: "eligible", "ineligible", "review_required".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */

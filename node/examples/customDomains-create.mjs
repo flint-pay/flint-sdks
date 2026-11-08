@@ -9,8 +9,8 @@ const idempotencyKey = crypto.randomUUID();
 
 const result = await client.customDomains.create(
   {
+    hostname: "pay.example.com",
     type: "checkout",
-    hostname: "example",
   },
   { idempotencyKey: idempotencyKey },
 );

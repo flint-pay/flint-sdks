@@ -6,5 +6,8 @@ A failed attempt to resolve a review by refund, with the `refund_id` and when it
 
 Response model.
 
-Fields, types, descriptions and enum values: [PaymentReviewResolutionFailureInput](../models/PaymentReviewResolutionFailureInput.md#paymentreviewresolutionfailureinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `failed_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
+| `refund_id` | Required | string |  |
 

@@ -2,9 +2,11 @@
 
 ## InvoiceDeliveryAttemptSentInstalledMerchantsEventDataObject
 
-One attempt to deliver an invoice by email, either the original send or a reminder, with its recipients and status.
+The affected public resource without expansions, client authority fields, or fields computed for an individual caller.
+
+The resource snapshot, without expansions. Webhooks omit no additional fields.
 
 Response model.
 
-Fields, types, descriptions and enum values: [InvoiceDeliveryAttempt](../models/InvoiceDeliveryAttempt.md#invoicedeliveryattempt).
+Fields, types, descriptions and enum values: [InvoiceDeliveryAttemptFailedMerchantEventDataObject](../models/InvoiceDeliveryAttemptFailedMerchantEventDataObject.md#invoicedeliveryattemptfailedmerchanteventdataobject).
 

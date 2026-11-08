@@ -3,18 +3,19 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string|null $buyer_note
+ * @property-read string $catalog_price_behavior
  * @property-read string $customer_id
  * @property-read array{'address': AddressRequestInput|array<array-key, mixed>|\stdClass, 'recipient'?: OrderDeliveryDestinationRecipientRequestInput|array<array-key, mixed>|\stdClass}|object|null $delivery_destination
  * @property-read int $expected_version
  * @property-read string|null $external_reference_id
  * @property-read string|null $internal_note
- * @property-read array{'inventory_allocation_policy_id'?: string, 'inventory_allocation_policy_revision_id'?: string, 'location_id'?: string, 'type': string}|object $inventory_routing_source
+ * @property-read InventoryRoutingSourceRequestInput|array<array-key, mixed>|\stdClass $inventory_routing_source
  * @property-read array<array-key, string|null>|\stdClass|null $metadata
  * @property-read array{'amount_money': array{'amount': string, 'currency': string}|object, 'calculation_type': string, 'description'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'name'?: string, 'percent'?: int|float}|object|array{'amount_money'?: array{'amount': string, 'currency': string}|object, 'calculation_type': string, 'description'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'name'?: string, 'percent': int|float}|object|null $requested_tip
- * @property-read array{'calculation'?: OrderTaxCalculationRequestInput|array<array-key, mixed>|\stdClass, 'charge_calculations'?: list<array{'calculation': TaxCalculationRequestModelInput|array<array-key, mixed>|\stdClass, 'order_charge_id': string}|object>, 'enabled'?: bool, 'line_item_calculations'?: list<array{'calculation': TaxCalculationRequestModelInput|array<array-key, mixed>|\stdClass, 'order_line_item_id': string}|object>, 'location'?: OrderTaxLocationRequestInput|array<array-key, mixed>|\stdClass}|object $tax
+ * @property-read OrderTaxUpdateRequestInput|array<array-key, mixed>|\stdClass $tax
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrdersUpdateParams extends Model {
-    /** @param array{'buyer_note'?: string|null, 'customer_id'?: string, 'delivery_destination'?: array{'address': AddressRequestInput|array<array-key, mixed>|\stdClass, 'recipient'?: OrderDeliveryDestinationRecipientRequestInput|array<array-key, mixed>|\stdClass}|object|null, 'expected_version'?: int, 'external_reference_id'?: string|null, 'internal_note'?: string|null, 'inventory_routing_source'?: array{'inventory_allocation_policy_id'?: string, 'inventory_allocation_policy_revision_id'?: string, 'location_id'?: string, 'type': string}|object, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'requested_tip'?: array{'amount_money': array{'amount': string, 'currency': string}|object, 'calculation_type': string, 'description'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'name'?: string, 'percent'?: int|float}|object|array{'amount_money'?: array{'amount': string, 'currency': string}|object, 'calculation_type': string, 'description'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'name'?: string, 'percent': int|float}|object|null, 'tax'?: array{'calculation'?: OrderTaxCalculationRequestInput|array<array-key, mixed>|\stdClass, 'charge_calculations'?: list<array{'calculation': TaxCalculationRequestModelInput|array<array-key, mixed>|\stdClass, 'order_charge_id': string}|object>, 'enabled'?: bool, 'line_item_calculations'?: list<array{'calculation': TaxCalculationRequestModelInput|array<array-key, mixed>|\stdClass, 'order_line_item_id': string}|object>, 'location'?: OrderTaxLocationRequestInput|array<array-key, mixed>|\stdClass}|object}|object $values */
+    /** @param array{'buyer_note'?: string|null, 'catalog_price_behavior'?: string, 'customer_id'?: string, 'delivery_destination'?: array{'address': AddressRequestInput|array<array-key, mixed>|\stdClass, 'recipient'?: OrderDeliveryDestinationRecipientRequestInput|array<array-key, mixed>|\stdClass}|object|null, 'expected_version'?: int, 'external_reference_id'?: string|null, 'internal_note'?: string|null, 'inventory_routing_source'?: InventoryRoutingSourceRequestInput|array<array-key, mixed>|\stdClass, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'requested_tip'?: array{'amount_money': array{'amount': string, 'currency': string}|object, 'calculation_type': string, 'description'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'name'?: string, 'percent'?: int|float}|object|array{'amount_money'?: array{'amount': string, 'currency': string}|object, 'calculation_type': string, 'description'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'name'?: string, 'percent': int|float}|object|null, 'tax'?: OrderTaxUpdateRequestInput|array<array-key, mixed>|\stdClass, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrdersUpdateParams')); }
     /** Buyer-provided note about this order, such as a gift message or purchase preference. Send null to clear it. minLength: 1. maxLength: 1000.
      * @return string|null
@@ -22,7 +23,13 @@ final class OrdersUpdateParams extends Model {
      */
     public function getBuyerNote(): string|null { return $this->get('buyer_note'); }
     public function hasBuyerNote(): bool { return $this->has('buyer_note'); }
-    /** minLength: 1. Example: "cus_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Defaults to keep, preserving frozen prices. Send reprice with an explicit non-null customer_id to refresh every catalog variant line on an open, unpaid order. Reassigning resolves the new customer’s direct list, then segment list, then variant pricing. Subscription-owned prices remain locked. If any catalog line’s variant is no longer for sale, reprice is refused; remove that line first. Default: "keep". Value enum: "keep", "reprice".
+     * @return string
+     * @throws SdkError When catalog_price_behavior is omitted; use hasCatalogPriceBehavior() or valueOrDefault().
+     */
+    public function getCatalogPriceBehavior(): string { return $this->get('catalog_price_behavior'); }
+    public function hasCatalogPriceBehavior(): bool { return $this->has('catalog_price_behavior'); }
+    /** Customer to attach. Cannot be null or cleared. Reassignment requires catalog_price_behavior: reprice, which resolves the new customer’s direct list, then segment list, then variant pricing. minLength: 1. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */
@@ -40,7 +47,7 @@ final class OrdersUpdateParams extends Model {
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** Caller-owned identifier for this resource in an external system.  Send null to clear external_reference_id. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system.  Send null to clear external_reference_id. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string|null
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -52,11 +59,11 @@ final class OrdersUpdateParams extends Model {
      */
     public function getInternalNote(): string|null { return $this->get('internal_note'); }
     public function hasInternalNote(): bool { return $this->has('internal_note'); }
-    /** Where inventory for an order is allocated from: a fixed location, an allocation policy, or a specific policy revision.
-     * @return array{'inventory_allocation_policy_id'?: string, 'inventory_allocation_policy_revision_id'?: string, 'location_id'?: string, 'type': string}|object
+    /** How Flint chooses the Locations that fill this order's inventory: one fixed Location, an allocation policy, or a specific policy revision. Where you want inventory routed from: a fixed Location, an inventory allocation policy, or one policy revision, selected by `type`.
+     * @return InventoryRoutingSourceRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When inventory_routing_source is omitted; use hasInventoryRoutingSource() or valueOrDefault().
      */
-    public function getInventoryRoutingSource(): array|object { return $this->get('inventory_routing_source'); }
+    public function getInventoryRoutingSource(): mixed { return $this->get('inventory_routing_source'); }
     public function hasInventoryRoutingSource(): bool { return $this->has('inventory_routing_source'); }
     /** Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Send null to clear caller-owned metadata and preserve Flint-managed keys. anyOf[1] (Value): {@see MetadataPatchRequestInput}. Changes to a caller-owned metadata map. Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes the key, and an empty object makes no change; send null for the whole field to clear all caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not exist is allowed, so the number of operations is not itself the stored-map limit. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2] (Value): null.
      * @return array<array-key, string|null>|\stdClass|null
@@ -70,10 +77,28 @@ final class OrdersUpdateParams extends Model {
      */
     public function getRequestedTip(): mixed { return $this->get('requested_tip'); }
     public function hasRequestedTip(): bool { return $this->has('requested_tip'); }
-    /** Changes to an order's tax settings: whether tax is enabled, the calculation, the location, and per-line-item or per-charge calculations.
-     * @return array{'calculation'?: OrderTaxCalculationRequestInput|array<array-key, mixed>|\stdClass, 'charge_calculations'?: list<array{'calculation': TaxCalculationRequestModelInput|array<array-key, mixed>|\stdClass, 'order_charge_id': string}|object>, 'enabled'?: bool, 'line_item_calculations'?: list<array{'calculation': TaxCalculationRequestModelInput|array<array-key, mixed>|\stdClass, 'order_line_item_id': string}|object>, 'location'?: OrderTaxLocationRequestInput|array<array-key, mixed>|\stdClass}|object
+    /** Tax settings for the order. Changes to an order's tax settings: whether tax is enabled, the calculation, the location, and per-line-item or per-charge calculations.
+     * @return OrderTaxUpdateRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When tax is omitted; use hasTax() or valueOrDefault().
      */
-    public function getTax(): array|object { return $this->get('tax'); }
+    public function getTax(): mixed { return $this->get('tax'); }
     public function hasTax(): bool { return $this->has('tax'); }
+    /** Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Merchant-Id is omitted; use hasFlintMerchantId() or valueOrDefault().
+     */
+    public function getFlintMerchantId(): string { return $this->get('Flint-Merchant-Id'); }
+    public function hasFlintMerchantId(): bool { return $this->has('Flint-Merchant-Id'); }
+    /** Mode of the request context, live or test. Optional; it must match the credential's mode. Value enum: "test", "live".
+     * @return string
+     * @throws SdkError When Flint-Mode is omitted; use hasFlintMode() or valueOrDefault().
+     */
+    public function getFlintMode(): string { return $this->get('Flint-Mode'); }
+    public function hasFlintMode(): bool { return $this->has('Flint-Mode'); }
+    /** Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Sandbox-Id is omitted; use hasFlintSandboxId() or valueOrDefault().
+     */
+    public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
+    public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
 }

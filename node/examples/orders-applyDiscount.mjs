@@ -8,13 +8,13 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.orders.applyDiscount(
-  "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "ord_01KEZF7C0054GQKJ142A8X367A",
   {
     promotion: {
-      promotion_id: "promo_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+      promotion_id: "promo_01KEZF7C00QQ8EZ74BDYSZ315V",
     },
   },
   { idempotencyKey: idempotencyKey },
 );
+console.log(result.merchant_id);
 console.log(result.order_id);
-console.log(result.status);

@@ -11,19 +11,19 @@ namespace Flint;
 final class DeliverySelectionLifecycleEventResourceInput extends Model {
     /** @param array{'created_at': string|\DateTimeInterface, 'delivery_selection_id': string, 'delivery_selection_lifecycle_event_id': string, 'reason': string, 'status': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliverySelectionLifecycleEventResourceInput')); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** delivery_selection_id
+    /** Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
      * @return string
      * @throws SdkError When delivery_selection_id is omitted; use hasDeliverySelectionId() or valueOrDefault().
      */
     public function getDeliverySelectionId(): string { return $this->get('delivery_selection_id'); }
     public function hasDeliverySelectionId(): bool { return $this->has('delivery_selection_id'); }
-    /** delivery_selection_lifecycle_event_id
+    /** Example: "dsle_01KEZF7C00FR4QPRPMM4T248FD".
      * @return string
      * @throws SdkError When delivery_selection_lifecycle_event_id is omitted; use hasDeliverySelectionLifecycleEventId() or valueOrDefault().
      */

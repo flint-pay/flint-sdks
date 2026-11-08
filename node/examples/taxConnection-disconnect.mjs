@@ -14,5 +14,5 @@ const result = await client.taxConnection.disconnect(
   },
   { idempotencyKey: idempotencyKey },
 );
+console.log(result.settings.merchant_id);
 console.log(result.settings.settings_id);
-console.log(result.tax_connection.status);

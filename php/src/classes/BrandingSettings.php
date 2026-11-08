@@ -27,7 +27,7 @@ final class BrandingSettings extends Model {
      */
     public function getCornerRadius(): ?int { return $this->get('corner_radius'); }
     public function hasCornerRadius(): bool { return $this->has('corner_radius'); }
-    /** Value enum: "instrument_sans", "system_sans", "system_serif", "monospace".
+    /** Typeface of hosted checkout and buyer pages. Without one, Flint uses `instrument_sans`. Value enum: "instrument_sans", "system_sans", "system_serif", "monospace".
      * @return ?string
      */
     public function getFontFamily(): ?string { return $this->get('font_family'); }

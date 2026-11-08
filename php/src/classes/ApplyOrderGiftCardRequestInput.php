@@ -8,7 +8,7 @@ namespace Flint;
 final class ApplyOrderGiftCardRequestInput extends Model {
     /** @param array{'code': string, 'expected_version'?: int}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ApplyOrderGiftCardRequestInput')); }
-    /** minLength: 1. maxLength: 64.
+    /** The gift card's code. Spaces and hyphens are ignored. minLength: 1. maxLength: 64.
      * @return string
      * @throws SdkError When code is omitted; use hasCode() or valueOrDefault().
      */

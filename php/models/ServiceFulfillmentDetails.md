@@ -6,5 +6,11 @@ Details of a service fulfillment: the scheduled start and end, timezone, complet
 
 Response model.
 
-Fields, types, descriptions and enum values: [ServiceFulfillmentDetailsInput](../models/ServiceFulfillmentDetailsInput.md#servicefulfillmentdetailsinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `completed_at` | Optional | string | When the service was completed, in RFC3339 format. Format: `date-time`. |
+| `notes` | Optional | string | Additional instructions or notes for performing the service. |
+| `scheduled_end_at` | Optional | string | Scheduled end of the service, in RFC3339 format. Format: `date-time`. |
+| `scheduled_start_at` | Optional | string | Scheduled start of the service, in RFC3339 format. Format: `date-time`. |
+| `timezone` | Optional | string | Timezone used to display the service appointment. Uses an IANA time zone name. |
 

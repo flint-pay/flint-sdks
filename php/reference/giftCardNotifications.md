@@ -15,6 +15,9 @@ Signature: `cancel(string|Model $gift_card_notification_id, array|Model|null $pa
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `gift_card_notification_id` | Required | string | Flint resource ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Optional | [CancelGiftCardNotificationRequestInput](../models/CancelGiftCardNotificationRequestInput.md#cancelgiftcardnotificationrequestinput) | The request body for: Cancel a gift card notification. |
 
 Body model: [CancelGiftCardNotificationRequestInput](../models/CancelGiftCardNotificationRequestInput.md#cancelgiftcardnotificationrequestinput).
@@ -32,7 +35,6 @@ Returned payload: [GiftCardNotification](../models/GiftCardNotification.md#giftc
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -57,7 +59,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->giftCardNotifications->cancel('gcn_01ARZ3NDEKTSV4RRFFQ69G5FAV', null, new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->giftCardNotifications->cancel('gcn_01KEZF7C0023FN0HF9GH34RZA1', null, new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/giftCardNotifications-cancel.php)
@@ -74,13 +76,20 @@ Signature: `create(array|Model $params, ?RequestOptions $options = null)`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [CreateGiftCardNotificationRequestInput](../models/CreateGiftCardNotificationRequestInput.md#creategiftcardnotificationrequestinput) | The request body for: Send a gift card notification. |
 
 Body model: [CreateGiftCardNotificationRequestInput](../models/CreateGiftCardNotificationRequestInput.md#creategiftcardnotificationrequestinput).
 
 #### giftCardNotifications.create body fields
 
-Field definitions: [shared fields](../models/CreateGiftCardNotificationRequestInput.md#creategiftcardnotificationrequestinput). Models: [GiftCardNotificationRecipientInput](../models/GiftCardNotificationRecipientInput.md#giftcardnotificationrecipientinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `gift_card_id` | Required | string | ID of the gift card the notification is about. minLength: `1`. |
+| `recipient` | Required | [GiftCardNotificationRecipientInput](../models/GiftCardNotificationRecipientInput.md#giftcardnotificationrecipientinput) | Who the notification is sent to. Who receives a gift card notification: their `email`, optional `name` and `message`, and an optional `send_at` time. |
+| `resend_of_notification_id` | Optional | string | ID of the earlier notification this one sends again. minLength: `1`. |
 
 #### Response
 
@@ -95,7 +104,6 @@ Returned payload: [GiftCardNotification](../models/GiftCardNotification.md#giftc
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -121,9 +129,10 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->giftCardNotifications->create([
-  'gift_card_id' => 'gc_01ARZ3NDEKTSV4RRFFQ69G5FAV',
+  'gift_card_id' => 'gc_01KEZF7C00Z8CQGX4BKKBJ3B5S',
   'recipient' => (object) [
-    'email' => 'example@example.invalid',
+    'email' => 'alex@example.com',
+    'name' => 'Alex Morgan',
   ],
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
@@ -143,6 +152,9 @@ Signature: `get(string|Model $gift_card_notification_id, array|Model|null $param
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `gift_card_notification_id` | Required | string | Flint resource ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -157,7 +169,6 @@ Returned payload: [GiftCardNotification](../models/GiftCardNotification.md#giftc
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -175,7 +186,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```php
-$result = $client->giftCardNotifications->get('gcn_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
+$result = $client->giftCardNotifications->get('gcn_01KEZF7C0023FN0HF9GH34RZA1', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/giftCardNotifications-get.php)
@@ -196,8 +207,11 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 | `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
 | `gift_card_id` | Optional | string | Exact, case-sensitive filter. maxLength: `255`. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
-| `status` | Optional | Array of string or string | Exact, case-sensitive filter. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"bounced"`, `"canceled"`, `"failed"`, `"queued"`, `"scheduled"`, `"sending"`, `"sent"`, `"unconfirmed"`. Values: `"bounced"`, `"canceled"`, `"failed"`, `"queued"`, `"scheduled"`, `"sending"`, `"sent"`, `"unconfirmed"`. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
+| `status` | Optional | Array of string or string | Exact, case-sensitive filter. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"canceled"`, `"failed"`, `"pending"`, `"scheduled"`, `"sent"`, `"unconfirmed"`. Values: `"canceled"`, `"failed"`, `"pending"`, `"scheduled"`, `"sent"`, `"unconfirmed"`. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -211,7 +225,6 @@ Returned payload: [GiftCardNotificationListResponse](../models/GiftCardNotificat
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |

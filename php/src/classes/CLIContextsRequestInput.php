@@ -8,7 +8,7 @@ namespace Flint;
 final class CLIContextsRequestInput extends Model {
     /** @param array{'client_id': string, 'refresh_token': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CLIContextsRequestInput')); }
-    /** Value enum: "flint-cli".
+    /** Example: "flint-cli". Value enum: "flint-cli".
      * @return string
      * @throws SdkError When client_id is omitted; use hasClientId() or valueOrDefault().
      */

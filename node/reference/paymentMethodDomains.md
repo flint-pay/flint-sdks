@@ -35,7 +35,6 @@ Returned payload: [PaymentMethodDomain](../models/PaymentMethodDomain.md#payment
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -99,7 +98,6 @@ Returned payload: [PaymentMethodDomain](../models/PaymentMethodDomain.md#payment
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -117,7 +115,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```typescript
-const result = await client.paymentMethodDomains.get("pmdom_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
+const result = await client.paymentMethodDomains.get("pmdom_01KEZF7C001WQCSRGH9GWR6628", {}, {  });
 ```
 
 [Complete runnable example](../examples/paymentMethodDomains-get.mjs)
@@ -134,10 +132,10 @@ Signature: `list(params?: PaymentMethodDomainsListParams, options?: _SdkWithoutI
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `status` | Optional | Array of string or string | Filter by status. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"inactive"`. Values: `"active"`, `"inactive"`. |
+| `status` | Optional | Array of string or string | Filter by status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"inactive"`. Values: `"active"`, `"inactive"`. |
 | `domain_name` | Optional | string | Exact hostname filter after trimming whitespace and converting to lowercase. Accepts an ASCII fully-qualified hostname without a URL, port, wildcard, or IP address. Matches the entire stored domain name. minLength: `1`. maxLength: `253`. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 
 #### Response
 
@@ -152,7 +150,6 @@ Returned payload: [PaymentMethodDomainListResponse](../models/PaymentMethodDomai
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -211,7 +208,6 @@ Returned payload: [PaymentMethodDomain](../models/PaymentMethodDomain.md#payment
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |

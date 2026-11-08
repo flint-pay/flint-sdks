@@ -8,7 +8,7 @@ namespace Flint;
 final class InventoryOriginPolicy extends Model {
     /** @param array{'post_payment_inventory_failure_action'?: string, 'subscription_inventory_block_action'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryOriginPolicy')); }
-    /** Value enum: "exception_state", "auto_refund".
+    /** What Flint does when it can't deduct stock for an order after the order is paid. Value enum: "exception_state", "auto_refund".
      * @return ?string
      */
     public function getPostPaymentInventoryFailureAction(): ?string { return $this->get('post_payment_inventory_failure_action'); }

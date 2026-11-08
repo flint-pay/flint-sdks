@@ -11,10 +11,10 @@
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `amount_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. `amount_money`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options). |
-| `delivery_window_id` | Required | string |  |
-| `end_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
-| `expires_at` | Required | string | Format: `date-time`. |
-| `start_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
+| `delivery_window_id` | Required | string | Example: `"fwin_f3539d59e7d8e9ea803c681d0d155ecdce9de54aa27b90aec630cae8f086b31d"`. |
+| `end_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
+| `expires_at` | Required | string | Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
+| `start_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 
 ### DeliveryWindowRequest variant 1
 

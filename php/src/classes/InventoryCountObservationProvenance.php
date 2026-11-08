@@ -19,7 +19,7 @@ final class InventoryCountObservationProvenance extends Model {
      */
     public function getOccurredAt(): ?string { return $this->get('occurred_at'); }
     public function hasOccurredAt(): bool { return $this->has('occurred_at'); }
-    /**  anyOf[1] (Value): {@see InventorySourceSystem}. The system an inventory event came from, such as manual entry, a point of sale, a warehouse system, or Flint, with your source identifier when it applies. anyOf[2] (Value): null.
+    /** System the change came from, such as a point-of-sale or warehouse system. `null` when the request named no source system. anyOf[1] (Value): {@see InventorySourceSystem}. The system an inventory event came from, such as manual entry, a point of sale, a warehouse system, or Flint, with your source identifier when it applies. anyOf[2] (Value): null.
      * @return InventorySourceSystem|null
      */
     public function getSourceSystem(): InventorySourceSystem|null { return $this->get('source_system'); }

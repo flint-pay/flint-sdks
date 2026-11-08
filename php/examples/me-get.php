@@ -18,5 +18,5 @@ $client = new Client(new ClientOptions(
 ));
 $result = $client->me->get();
 echo $result->customer_id . PHP_EOL;
-echo $result->status . PHP_EOL;
+echo $result->merchant_id . PHP_EOL;
 $client->close();

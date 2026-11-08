@@ -8,8 +8,8 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.giftCards.rotateCode(
-  "gc_01ARZ3NDEKTSV4RRFFQ69G5FAV",
-  {},
+  "gc_01KEZF7C00RT1618WYBM1Y94CG",
+  undefined,
   { idempotencyKey: idempotencyKey },
 );
 console.log(result.gift_card.gift_card_id);

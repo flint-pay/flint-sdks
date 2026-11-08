@@ -2,14 +2,21 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read string $buyer_ip_address
  * @property-read string $credential_type
  * @property-read int $expected_version
  * @property-read bool $save_payment_method
  * @property-read array{'confirmation_token': string}|object $stripe
  * Presence-aware input; omitted fields throw when accessed. */
 final class ConfirmPaymentIntentRequestStripeConfirmationTokenInput extends Model {
-    /** @param array{'credential_type': string, 'expected_version'?: int, 'save_payment_method'?: bool, 'stripe': array{'confirmation_token': string}|object}|object $values */
+    /** @param array{'buyer_ip_address'?: string, 'credential_type': string, 'expected_version'?: int, 'save_payment_method'?: bool, 'stripe': array{'confirmation_token': string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ConfirmPaymentIntentRequestStripeConfirmationTokenInput')); }
+    /** The buyer's IP address, for risk screening, when your server pays on the buyer's behalf. Write-only. minLength: 1. maxLength: 64.
+     * @return string
+     * @throws SdkError When buyer_ip_address is omitted; use hasBuyerIpAddress() or valueOrDefault().
+     */
+    public function getBuyerIpAddress(): string { return $this->get('buyer_ip_address'); }
+    public function hasBuyerIpAddress(): bool { return $this->has('buyer_ip_address'); }
     /** Value enum: "stripe_confirmation_token".
      * @return string
      * @throws SdkError When credential_type is omitted; use hasCredentialType() or valueOrDefault().

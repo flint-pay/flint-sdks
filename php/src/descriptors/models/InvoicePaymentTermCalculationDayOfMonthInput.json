@@ -1,1 +1,1 @@
-{"shared":"InvoicePaymentTermCalculationDayOfMonth","dependencies":["InvoicePaymentTermCalculationDayOfMonth","SharedCodec798"]}
+{"shared":"InvoicePaymentTermCalculationDayOfMonthRequest","dependencies":["InvoicePaymentTermCalculationDayOfMonthRequest","SharedCodec888"]}

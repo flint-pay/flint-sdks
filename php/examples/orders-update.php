@@ -19,6 +19,6 @@ $idempotencyKey = bin2hex(random_bytes(16));
 $result = $client->orders->update('ord_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
   'buyer_note' => 'Please include a gift receipt',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
+echo $result->merchant_id . PHP_EOL;
 echo $result->order_id . PHP_EOL;
-echo $result->status . PHP_EOL;
 $client->close();

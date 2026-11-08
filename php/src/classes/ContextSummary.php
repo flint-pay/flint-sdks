@@ -11,27 +11,27 @@ namespace Flint;
 final class ContextSummary extends Model {
     /** @param array{'environment': string, 'id': string, 'merchant_id': string, 'name': string, 'sandbox_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ContextSummary')); }
-    /** Value enum: "sandbox", "live".
+    /** Whether the context is a sandbox or a live account. Value enum: "sandbox", "live".
      * @return string
      */
     public function getEnvironment(): string { return $this->get('environment'); }
     public function hasEnvironment(): bool { return $this->has('environment'); }
-    /** id
+    /** ID of the context. Name it as `context_id` when you refresh a token.
      * @return string
      */
     public function getId(): string { return $this->get('id'); }
     public function hasId(): bool { return $this->has('id'); }
-    /** merchant_id
+    /** ID of the merchant this resource belongs to.
      * @return string
      */
     public function getMerchantId(): string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** name
+    /** Name of the context.
      * @return string
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** sandbox_id
+    /** ID of the sandbox this resource belongs to.
      * @return ?string
      */
     public function getSandboxId(): ?string { return $this->get('sandbox_id'); }

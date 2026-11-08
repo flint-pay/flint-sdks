@@ -1,1 +1,1 @@
-{"shared":"SettlementAmounts","dependencies":["MoneyValue","SettlementAmounts","SignedMoney"]}
+{"shared":"SettlementAmounts","dependencies":["MoneyValue","SettlementAmounts"]}

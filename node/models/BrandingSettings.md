@@ -13,7 +13,7 @@ A merchant's branding settings: colors, corner radius, and font family. Checkout
 | `accent_color` | Optional | string | A hex color in the form #RRGGBB, such as #1A73E8. |
 | `background_color` | Optional | string | A hex color in the form #RRGGBB, such as #1A73E8. |
 | `corner_radius` | Optional | integer | Corner radius in pixels, from 0 to 32. 0 is a square corner. Format: `int32`. |
-| `font_family` | Optional | string | Values: `"instrument_sans"`, `"system_sans"`, `"system_serif"`, `"monospace"`. |
+| `font_family` | Optional | string | Typeface of hosted checkout and buyer pages. Without one, Flint uses `instrument_sans`. Values: `"instrument_sans"`, `"system_sans"`, `"system_serif"`, `"monospace"`. |
 | `primary_color` | Optional | string | A hex color in the form #RRGGBB, such as #1A73E8. |
 | `text_color` | Optional | string | A hex color in the form #RRGGBB, such as #1A73E8. |
 

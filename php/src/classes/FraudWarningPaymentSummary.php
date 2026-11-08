@@ -10,22 +10,22 @@ namespace Flint;
 final class FraudWarningPaymentSummary extends Model {
     /** @param array{'amount_money': mixed, 'email': string, 'last4': string, 'payment_method_brand': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('FraudWarningPaymentSummary')); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** The payment amount. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getAmountMoney(): MoneyValue { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** email
+    /** Email address the buyer gave for the payment.
      * @return string
      */
     public function getEmail(): string { return $this->get('email'); }
     public function hasEmail(): bool { return $this->has('email'); }
-    /** last4
+    /** Last four digits of the card.
      * @return string
      */
     public function getLast4(): string { return $this->get('last4'); }
     public function hasLast4(): bool { return $this->has('last4'); }
-    /** Value enum: "amex", "discover", "diners", "jcb", "mastercard", "unionpay", "visa", "unknown".
+    /** The card network. Value enum: "amex", "discover", "diners", "jcb", "mastercard", "unionpay", "visa", "unknown".
      * @return string
      */
     public function getPaymentMethodBrand(): string { return $this->get('payment_method_brand'); }

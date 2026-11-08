@@ -14,7 +14,7 @@ namespace Flint;
 final class PaymentMethodDomainInput extends Model {
     /** @param array{'created_at': string|\DateTimeInterface, 'domain_name': string, 'payment_method_domain_id': string, 'payment_option_statuses': list<PaymentMethodDomainPaymentOptionStatusInput|array<array-key, mixed>|\stdClass>, 'status': string, 'updated_at': string|\DateTimeInterface, 'validation_status': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentMethodDomainInput')); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
@@ -26,7 +26,7 @@ final class PaymentMethodDomainInput extends Model {
      */
     public function getDomainName(): string { return $this->get('domain_name'); }
     public function hasDomainName(): bool { return $this->has('domain_name'); }
-    /** Flint payment method domain ID, starting with pmdom_.
+    /** Flint payment method domain ID, starting with pmdom_. Example: "pmdom_01KEZF7C001WQCSRGH9GWR6628".
      * @return string
      * @throws SdkError When payment_method_domain_id is omitted; use hasPaymentMethodDomainId() or valueOrDefault().
      */
@@ -38,19 +38,19 @@ final class PaymentMethodDomainInput extends Model {
      */
     public function getPaymentOptionStatuses(): array { return $this->get('payment_option_statuses'); }
     public function hasPaymentOptionStatuses(): bool { return $this->has('payment_option_statuses'); }
-    /** Value enum: "active", "inactive".
+    /** Whether wallet buttons are on for the hostname. Change it with `PATCH`. Value enum: "active", "inactive".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */
     public function getUpdatedAt(): string|\DateTimeInterface { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** Value enum: "active", "action_required", "unavailable".
+    /** Whether the hostname passed the checks wallets need, summarizing `payment_option_statuses`. Value enum: "active", "action_required", "unavailable".
      * @return string
      * @throws SdkError When validation_status is omitted; use hasValidationStatus() or valueOrDefault().
      */

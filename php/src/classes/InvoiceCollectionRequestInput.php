@@ -4,10 +4,10 @@ namespace Flint;
 /**
  * @property-read string $mode
  * @property-read string|null $payment_method_id
- * @property-read InvoicePaymentPolicyInput|array<array-key, mixed>|\stdClass $payment_policy
+ * @property-read InvoicePaymentPolicyRequestInput|array<array-key, mixed>|\stdClass $payment_policy
  * Presence-aware input; omitted fields throw when accessed. */
 final class InvoiceCollectionRequestInput extends Model {
-    /** @param array{'mode': string, 'payment_method_id'?: string|null, 'payment_policy'?: InvoicePaymentPolicyInput|array<array-key, mixed>|\stdClass}|object $values */
+    /** @param array{'mode': string, 'payment_method_id'?: string|null, 'payment_policy'?: InvoicePaymentPolicyRequestInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceCollectionRequestInput')); }
     /** How the invoice is collected. merchant_default resolves when the draft is written, and reads return the resolved mode. Value enum: "merchant_default", "buyer_initiated", "automatic", "external".
      * @return string
@@ -15,14 +15,14 @@ final class InvoiceCollectionRequestInput extends Model {
      */
     public function getMode(): string { return $this->get('mode'); }
     public function hasMode(): bool { return $this->has('mode'); }
-    /** The customer's saved card to charge. Accepted only with automatic. Without one, Flint charges the customer's default card, selected when the invoice is issued. Send null to clear it. minLength: 1.
+    /** The customer's saved card to charge. Accepted only with automatic. Without one, Flint charges the customer's default card, selected when the invoice is issued. Send null to clear it. minLength: 1. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
      * @return string|null
      * @throws SdkError When payment_method_id is omitted; use hasPaymentMethodId() or valueOrDefault().
      */
     public function getPaymentMethodId(): string|null { return $this->get('payment_method_id'); }
     public function hasPaymentMethodId(): bool { return $this->has('payment_method_id'); }
     /** The payment options the hosted invoice page offers. Accepted only with buyer_initiated. Omit it to use the invoice settings payment_policy, or the checkout payment options when that isn't set. Which payment options an invoice accepts, any per-option total limits, and whether to show a cost comparison.
-     * @return InvoicePaymentPolicyInput|array<array-key, mixed>|\stdClass
+     * @return InvoicePaymentPolicyRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When payment_policy is omitted; use hasPaymentPolicy() or valueOrDefault().
      */
     public function getPaymentPolicy(): mixed { return $this->get('payment_policy'); }

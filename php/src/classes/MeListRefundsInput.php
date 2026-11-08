@@ -28,19 +28,19 @@ final class MeListRefundsInput extends Model {
      */
     public function getPageSize(): int { return $this->get('page_size'); }
     public function hasPageSize(): bool { return $this->has('page_size'); }
-    /** Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error.
+    /** Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error.
      * @return string
      * @throws SdkError When page_token is omitted; use hasPageToken() or valueOrDefault().
      */
     public function getPageToken(): string { return $this->get('page_token'); }
     public function hasPageToken(): bool { return $this->has('page_token'); }
-    /** Filter by order ID. Example: "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Filter by order ID. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** Filter by refund status. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "pending", "succeeded", "partially_succeeded", "failed". Value enum: "pending", "succeeded", "partially_succeeded", "failed". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "pending", "succeeded", "partially_succeeded", "failed". anyOf[1][] (Value): string.  Value enum: "pending", "succeeded", "partially_succeeded", "failed". anyOf[2] (Value): string.  Value enum: "pending", "succeeded", "partially_succeeded", "failed".
+    /** Filter by refund status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "pending", "succeeded", "partially_succeeded", "failed". Value enum: "pending", "succeeded", "partially_succeeded", "failed". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "pending", "succeeded", "partially_succeeded", "failed". anyOf[1][] (Value): string.  Value enum: "pending", "succeeded", "partially_succeeded", "failed". anyOf[2] (Value): string.  Value enum: "pending", "succeeded", "partially_succeeded", "failed".
      * @return list<string>|string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
@@ -64,7 +64,7 @@ final class MeListRefundsInput extends Model {
      */
     public function getCurrency(): string { return $this->get('currency'); }
     public function hasCurrency(): bool { return $this->has('currency'); }
-    /** Filter by linked Return ID. Example: "ret_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Filter by linked Return ID. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
      * @return string
      * @throws SdkError When return_id is omitted; use hasReturnId() or valueOrDefault().
      */

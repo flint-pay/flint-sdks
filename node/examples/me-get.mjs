@@ -9,4 +9,4 @@ const client = new Client({
 });
 const result = await client.me.get();
 console.log(result.customer_id);
-console.log(result.status);
+console.log(result.merchant_id);

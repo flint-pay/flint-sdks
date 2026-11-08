@@ -13,6 +13,6 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   allowInsecureHttp: $baseUrl !== null && in_array(parse_url($baseUrl, PHP_URL_HOST), ['localhost', '127.0.0.1'], true) && parse_url($baseUrl, PHP_URL_SCHEME) === 'http',
 ));
-$result = $client->merchantBillingBalances->get('mbbal_01ARZ3NDEKTSV4RRFFQ69G5FAV');
+$result = $client->merchantBillingBalances->get('mbbal_01KEZF7C002TWWZA70R4DRVJC9');
 echo $result->merchant_billing_balance_id . PHP_EOL;
 $client->close();

@@ -8,7 +8,7 @@ namespace Flint;
 final class CustomerReceivables extends Model {
     /** @param array{'balances': list<mixed>, 'observed_at': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerReceivables')); }
-    /**  [] (Value): {@see CustomerReceivableBalance}. A customer's outstanding and overdue amounts in one currency.
+    /** One balance per currency in which the customer has an outstanding or overdue amount. Empty when the customer owes nothing. [] (Value): {@see CustomerReceivableBalance}. A customer's outstanding and overdue amounts in one currency.
      * @return list<CustomerReceivableBalance>
      */
     public function getBalances(): array { return $this->get('balances'); }

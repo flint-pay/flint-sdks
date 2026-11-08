@@ -10,12 +10,12 @@ namespace Flint;
 final class OrderGiftCardSelection extends Model {
     /** @param array{'available_money': mixed, 'gift_card_id': string, 'last4': string, 'requires_authorization': bool, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderGiftCardSelection')); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** The card's available balance. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getAvailableMoney(): MoneyValue { return $this->get('available_money'); }
     public function hasAvailableMoney(): bool { return $this->has('available_money'); }
-    /** gift_card_id
+    /** ID of the gift card selected for the order.
      * @return string
      */
     public function getGiftCardId(): string { return $this->get('gift_card_id'); }
@@ -25,7 +25,7 @@ final class OrderGiftCardSelection extends Model {
      */
     public function getLast4(): string { return $this->get('last4'); }
     public function hasLast4(): bool { return $this->has('last4'); }
-    /** requires_authorization
+    /** Whether the card's current code must be applied again before the order can use it.
      * @return bool
      */
     public function getRequiresAuthorization(): bool { return $this->get('requires_authorization'); }

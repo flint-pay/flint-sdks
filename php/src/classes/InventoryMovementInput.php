@@ -2,9 +2,10 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read int $backordered_quantity_delta
  * @property-read int $committed_quantity_delta
  * @property-read string|\DateTimeInterface $created_at
- * @property-read array{'resource_id': string, 'resource_type': ResourceTypeInput|array<array-key, mixed>|\stdClass}|object|null $created_by
+ * @property-read array{'resource_id': string, 'resource_type': string}|object|null $created_by
  * @property-read int $damaged_quantity_delta
  * @property-read string $external_actor_id
  * @property-read int $held_quantity_delta
@@ -34,22 +35,28 @@ namespace Flint;
  * @property-read string $type
  * Presence-aware input; omitted fields throw when accessed. */
 final class InventoryMovementInput extends Model {
-    /** @param array{'committed_quantity_delta': int, 'created_at': string|\DateTimeInterface, 'created_by': array{'resource_id': string, 'resource_type': ResourceTypeInput|array<array-key, mixed>|\stdClass}|object|null, 'damaged_quantity_delta': int, 'external_actor_id'?: string, 'held_quantity_delta': int, 'idempotency_key'?: string, 'incoming_quantity_delta': int, 'inventory_item'?: InventoryItemInput|array<array-key, mixed>|\stdClass, 'inventory_item_id': string, 'inventory_level_claim_version': int, 'inventory_level_id': string, 'inventory_level_physical_version': int, 'inventory_level_version': int, 'inventory_movement_id': string, 'location_id': string, 'note'?: string, 'occurred_at': string|\DateTimeInterface, 'on_hand_quantity_delta': int, 'quality_control_quantity_delta': int, 'quarantined_quantity_delta': int, 'reason'?: string, 'resulting_inventory_level': InventoryLevelInput|array<array-key, mixed>|\stdClass, 'return_disposition_id'?: string, 'return_id'?: string, 'safety_stock_quantity_delta': int, 'source_observation_sequence'?: int, 'source_reference': ResourceReferenceInput|array<array-key, mixed>|\stdClass, 'source_system': array{'external_source_id'?: string, 'type': string, ...}|object|null, 'type': string, ...}|object $values */
+    /** @param array{'backordered_quantity_delta': int, 'committed_quantity_delta': int, 'created_at': string|\DateTimeInterface, 'created_by': array{'resource_id': string, 'resource_type': string}|object|null, 'damaged_quantity_delta': int, 'external_actor_id'?: string, 'held_quantity_delta': int, 'idempotency_key'?: string, 'incoming_quantity_delta': int, 'inventory_item'?: InventoryItemInput|array<array-key, mixed>|\stdClass, 'inventory_item_id': string, 'inventory_level_claim_version': int, 'inventory_level_id': string, 'inventory_level_physical_version': int, 'inventory_level_version': int, 'inventory_movement_id': string, 'location_id': string, 'note'?: string, 'occurred_at': string|\DateTimeInterface, 'on_hand_quantity_delta': int, 'quality_control_quantity_delta': int, 'quarantined_quantity_delta': int, 'reason'?: string, 'resulting_inventory_level': InventoryLevelInput|array<array-key, mixed>|\stdClass, 'return_disposition_id'?: string, 'return_id'?: string, 'safety_stock_quantity_delta': int, 'source_observation_sequence'?: int, 'source_reference': ResourceReferenceInput|array<array-key, mixed>|\stdClass, 'source_system': array{'external_source_id'?: string, 'type': string, ...}|object|null, 'type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryMovementInput')); }
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64.
+     * @return int
+     * @throws SdkError When backordered_quantity_delta is omitted; use hasBackorderedQuantityDelta() or valueOrDefault().
+     */
+    public function getBackorderedQuantityDelta(): int { return $this->get('backordered_quantity_delta'); }
+    public function hasBackorderedQuantityDelta(): bool { return $this->has('backordered_quantity_delta'); }
     /** Whole-number quantity; fractional quantities are not supported. Format: int64.
      * @return int
      * @throws SdkError When committed_quantity_delta is omitted; use hasCommittedQuantityDelta() or valueOrDefault().
      */
     public function getCommittedQuantityDelta(): int { return $this->get('committed_quantity_delta'); }
     public function hasCommittedQuantityDelta(): bool { return $this->has('committed_quantity_delta'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** The credential that recorded this movement. null when Flint recorded it on its own, such as an expired hold or a fulfillment handoff. anyOf[1] (Value): {@see ResourceReferenceInput}. A reference to another resource by `resource_type` and `resource_id`. anyOf[2] (Value): null.
-     * @return array{'resource_id': string, 'resource_type': ResourceTypeInput|array<array-key, mixed>|\stdClass}|object|null
+    /** The credential that recorded this movement. `null` when Flint recorded it on its own, such as an expired hold or a fulfillment handoff. anyOf[1] (Value): {@see ResourceReferenceInput}. A reference to another resource by `resource_type` and `resource_id`. anyOf[2] (Value): null.
+     * @return array{'resource_id': string, 'resource_type': string}|object|null
      * @throws SdkError When created_by is omitted; use hasCreatedBy() or valueOrDefault().
      */
     public function getCreatedBy(): mixed { return $this->get('created_by'); }
@@ -60,7 +67,7 @@ final class InventoryMovementInput extends Model {
      */
     public function getDamagedQuantityDelta(): int { return $this->get('damaged_quantity_delta'); }
     public function hasDamagedQuantityDelta(): bool { return $this->has('damaged_quantity_delta'); }
-    /** Your identifier for the actor who recorded the event. Don't put secrets in this field. maxLength: 255.
+    /** Your identifier for the actor who recorded the event. Don't put secrets in this field. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_actor_id is omitted; use hasExternalActorId() or valueOrDefault().
      */
@@ -90,7 +97,7 @@ final class InventoryMovementInput extends Model {
      */
     public function getInventoryItem(): mixed { return $this->get('inventory_item'); }
     public function hasInventoryItem(): bool { return $this->has('inventory_item'); }
-    /** inventory_item_id
+    /** ID of the inventory item the stock is for. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
      * @return string
      * @throws SdkError When inventory_item_id is omitted; use hasInventoryItemId() or valueOrDefault().
      */
@@ -102,7 +109,7 @@ final class InventoryMovementInput extends Model {
      */
     public function getInventoryLevelClaimVersion(): int { return $this->get('inventory_level_claim_version'); }
     public function hasInventoryLevelClaimVersion(): bool { return $this->has('inventory_level_claim_version'); }
-    /** inventory_level_id
+    /** ID of the inventory level this movement changed. Example: "invl_01KEZF7C00H201XZXKRX5KMDDE".
      * @return string
      * @throws SdkError When inventory_level_id is omitted; use hasInventoryLevelId() or valueOrDefault().
      */
@@ -120,25 +127,25 @@ final class InventoryMovementInput extends Model {
      */
     public function getInventoryLevelVersion(): int { return $this->get('inventory_level_version'); }
     public function hasInventoryLevelVersion(): bool { return $this->has('inventory_level_version'); }
-    /** inventory_movement_id
+    /** Unique identifier for this inventory movement, prefixed `invm_`. Example: "invm_01KEZF7C00DYPFT9PS0NZY805Z".
      * @return string
      * @throws SdkError When inventory_movement_id is omitted; use hasInventoryMovementId() or valueOrDefault().
      */
     public function getInventoryMovementId(): string { return $this->get('inventory_movement_id'); }
     public function hasInventoryMovementId(): bool { return $this->has('inventory_movement_id'); }
-    /** location_id
+    /** ID of the Location that holds the stock. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When location_id is omitted; use hasLocationId() or valueOrDefault().
      */
     public function getLocationId(): string { return $this->get('location_id'); }
     public function hasLocationId(): bool { return $this->has('location_id'); }
-    /** note
+    /** Note recorded with the command that wrote this movement. Absent when it had none.
      * @return string
      * @throws SdkError When note is omitted; use hasNote() or valueOrDefault().
      */
     public function getNote(): string { return $this->get('note'); }
     public function hasNote(): bool { return $this->has('note'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When occurred_at is omitted; use hasOccurredAt() or valueOrDefault().
      */
@@ -168,19 +175,19 @@ final class InventoryMovementInput extends Model {
      */
     public function getReason(): string { return $this->get('reason'); }
     public function hasReason(): bool { return $this->has('reason'); }
-    /** The quantity state of one inventory item at one Location.
+    /** The inventory level as it stood after this movement. The quantity state of one inventory item at one Location.
      * @return InventoryLevelInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When resulting_inventory_level is omitted; use hasResultingInventoryLevel() or valueOrDefault().
      */
     public function getResultingInventoryLevel(): mixed { return $this->get('resulting_inventory_level'); }
     public function hasResultingInventoryLevel(): bool { return $this->has('resulting_inventory_level'); }
-    /** return_disposition_id
+    /** ID of the Return disposition whose receipt wrote this movement. Absent on other movements. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
      * @return string
      * @throws SdkError When return_disposition_id is omitted; use hasReturnDispositionId() or valueOrDefault().
      */
     public function getReturnDispositionId(): string { return $this->get('return_disposition_id'); }
     public function hasReturnDispositionId(): bool { return $this->has('return_disposition_id'); }
-    /** return_id
+    /** ID of the Return whose receipt wrote this movement. Absent on other movements. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
      * @return string
      * @throws SdkError When return_id is omitted; use hasReturnId() or valueOrDefault().
      */
@@ -204,13 +211,13 @@ final class InventoryMovementInput extends Model {
      */
     public function getSourceReference(): mixed { return $this->get('source_reference'); }
     public function hasSourceReference(): bool { return $this->has('source_reference'); }
-    /**  anyOf[1] (Value): {@see InventorySourceSystemInput}. The system an inventory event came from, such as manual entry, a point of sale, a warehouse system, or Flint, with your source identifier when it applies. anyOf[2] (Value): null.
+    /** System the change came from, such as a point-of-sale or warehouse system. `null` when the request named no source system. anyOf[1] (Value): {@see InventorySourceSystemInput}. The system an inventory event came from, such as manual entry, a point of sale, a warehouse system, or Flint, with your source identifier when it applies. anyOf[2] (Value): null.
      * @return array{'external_source_id'?: string, 'type': string, ...}|object|null
      * @throws SdkError When source_system is omitted; use hasSourceSystem() or valueOrDefault().
      */
     public function getSourceSystem(): mixed { return $this->get('source_system'); }
     public function hasSourceSystem(): bool { return $this->has('source_system'); }
-    /** Value enum: "adjustment", "count_applied", "reservation_consumed", "reservation_committed", "reservation_commitment_released", "reservation_expired", "reservation_held", "reservation_hold_released", "reservation_reallocated_in", "reservation_reallocated_out", "return_received", "safety_stock_change", "transfer_departed", "transfer_received", "transfer_returned", "transfer_lost".
+    /** What caused this movement. Value enum: "adjustment", "count_applied", "reservation_consumed", "reservation_committed", "reservation_commitment_released", "reservation_expired", "reservation_held", "reservation_hold_released", "reservation_reallocated_in", "reservation_reallocated_out", "return_received", "safety_stock_change", "transfer_departed", "transfer_received", "transfer_returned", "transfer_lost".
      * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */

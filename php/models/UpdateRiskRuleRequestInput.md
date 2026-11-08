@@ -8,11 +8,11 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `action` | Conditional | string | Values: `"allow"`, `"block"`, `"review"`, `"require_3ds"`. |
-| `description` | Conditional | string | minLength: `1`. |
+| `action` | Conditional | string | What Flint does with a payment the rule matches. Values: `"allow"`, `"block"`, `"review"`, `"require_3ds"`. |
+| `description` | Conditional | string | Your note on what the rule is for. Limited to 512 characters (Unicode code points). Leading and trailing whitespace is trimmed. minLength: `1`. maxLength: `512`. |
 | `expected_version` | Optional | integer | Optional risk rule version last read by the caller. Format: `int64`. minimum: `1`. |
-| `predicate` | Conditional | [RiskPredicateNodeInput](../models/RiskPredicateNodeInput.md#riskpredicatenodeinput) | A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not` group of other nodes. |
-| `status` | Conditional | string | Values: `"active"`, `"inactive"`. |
+| `predicate` | Conditional | [RiskPredicateNodeRequestInput](../models/RiskPredicateNodeRequestInput.md#riskpredicatenoderequestinput) | The condition a payment must meet for the rule to match. A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not` group of other nodes. |
+| `status` | Conditional | string | Whether the rule runs. Values: `"active"`, `"inactive"`. |
 
 ### UpdateRiskRuleRequestInput variant 1
 

@@ -9,7 +9,7 @@ namespace Flint;
 final class MeGetRefundInput extends Model {
     /** @param array{'refund_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MeGetRefundInput')); }
-    /** Flint refund ID. Example: "ref_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Flint refund ID. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
      * @return string
      * @throws SdkError When refund_id is omitted; use hasRefundId() or valueOrDefault().
      */

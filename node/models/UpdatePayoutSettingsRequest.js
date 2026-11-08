@@ -1,12 +1,12 @@
-import { d4312 as c0 } from '../descriptors/data/181.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d6397 as c1, d6398 as c2, d6399 as c3, d6400 as c4 } from '../descriptors/data/299.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d4586 as c5 } from '../descriptors/data/197.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d4217 as c6 } from '../descriptors/data/175.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d4217 as d4217 } from '../descriptors/data/175.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import { d5556 as c0 } from '../descriptors/data/241.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d7685 as c1, d7686 as c2, d7687 as c3, d7688 as c4, d7689 as c5, d7690 as c6 } from '../descriptors/data/364.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d5839 as c7 } from '../descriptors/data/257.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d5460 as c8 } from '../descriptors/data/235.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d5460 as d5460 } from '../descriptors/data/235.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d4217;
+const read = d5460;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["SharedCodec1430"]:c1(),["SharedCodec1431"]:c2(),["SharedCodec1432"]:c3(),["SharedCodec1433"]:c4(),["SharedCodec62"]:c5(),["UpdatePayoutSettingsRequest"]:c6()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["SharedCodec1633"]:c1(),["SharedCodec1634"]:c2(),["SharedCodec1635"]:c3(),["SharedCodec1636"]:c4(),["SharedCodec1637"]:c5(),["SharedCodec1638"]:c6(),["SharedCodec73"]:c7(),["UpdatePayoutSettingsRequest"]:c8()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeUpdatePayoutSettingsRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

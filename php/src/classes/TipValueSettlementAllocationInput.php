@@ -14,7 +14,7 @@ final class TipValueSettlementAllocationInput extends Model {
      */
     public function getAmountMoney(): mixed { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** value_settlement_id
+    /** Example: "ovst_01KEZF7C00EMVZ016PM34KKFGY".
      * @return string
      * @throws SdkError When value_settlement_id is omitted; use hasValueSettlementId() or valueOrDefault().
      */

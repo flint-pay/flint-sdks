@@ -23,7 +23,7 @@ final class DeliveryLocationSummaryResourceInput extends Model {
      */
     public function getInstructions(): string { return $this->get('instructions'); }
     public function hasInstructions(): bool { return $this->has('instructions'); }
-    /** location_id
+    /** Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When location_id is omitted; use hasLocationId() or valueOrDefault().
      */
@@ -35,7 +35,7 @@ final class DeliveryLocationSummaryResourceInput extends Model {
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** timezone
+    /** Uses an IANA time zone name.
      * @return string
      * @throws SdkError When timezone is omitted; use hasTimezone() or valueOrDefault().
      */

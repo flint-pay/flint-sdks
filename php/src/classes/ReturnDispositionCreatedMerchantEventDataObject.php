@@ -40,17 +40,17 @@ final class ReturnDispositionCreatedMerchantEventDataObject extends Model {
      */
     public function getCanceledAt(): ?string { return $this->get('canceled_at'); }
     public function hasCanceledAt(): bool { return $this->has('canceled_at'); }
-    /** Who performed a return action: a buyer, merchant, integration, or the system, with an optional ID.
+    /** Who canceled the disposition. Merchant reads only. Who performed a return action: a buyer, merchant, integration, or the system, with an optional ID.
      * @return ?ReturnActor
      */
     public function getCanceledBy(): ?ReturnActor { return $this->get('canceled_by'); }
     public function hasCanceledBy(): bool { return $this->has('canceled_by'); }
-    /** Value enum: "created_in_error", "changed_disposition", "duplicate", "other".
+    /** Why the disposition was canceled. Value enum: "created_in_error", "changed_disposition", "duplicate", "other".
      * @return ?string
      */
     public function getCancellationReason(): ?string { return $this->get('cancellation_reason'); }
     public function hasCancellationReason(): bool { return $this->has('cancellation_reason'); }
-    /** cancellation_reason_message
+    /** Detail sent with the cancellation. Merchant reads only.
      * @return ?string
      */
     public function getCancellationReasonMessage(): ?string { return $this->get('cancellation_reason_message'); }
@@ -60,12 +60,12 @@ final class ReturnDispositionCreatedMerchantEventDataObject extends Model {
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Who performed a return action: a buyer, merchant, integration, or the system, with an optional ID.
+    /** Who created the disposition. Who performed a return action: a buyer, merchant, integration, or the system, with an optional ID.
      * @return ReturnActor
      */
     public function getCreatedBy(): ReturnActor { return $this->get('created_by'); }
     public function hasCreatedBy(): bool { return $this->has('created_by'); }
-    /** Value enum: "sellable", "quality_control", "damaged", "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer", "lost".
+    /** What happens to the received units. Value enum: "sellable", "quality_control", "damaged", "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer", "lost".
      * @return string
      */
     public function getDispositionType(): string { return $this->get('disposition_type'); }
@@ -85,22 +85,22 @@ final class ReturnDispositionCreatedMerchantEventDataObject extends Model {
      */
     public function getFailureMessage(): ?string { return $this->get('failure_message'); }
     public function hasFailureMessage(): bool { return $this->has('failure_message'); }
-    /** inventory_location_id
+    /** ID of the Location whose stock the disposition changes. Required for `sellable`, `quality_control`, `damaged`, `quarantined`, and `lost`; rejected for the other types.
      * @return ?string
      */
     public function getInventoryLocationId(): ?string { return $this->get('inventory_location_id'); }
     public function hasInventoryLocationId(): bool { return $this->has('inventory_location_id'); }
-    /**  [] (Value): string.
+    /** IDs of the inventory movements the disposition wrote. Empty when it moved no stock. [] (Value): string.
      * @return list<string>
      */
     public function getInventoryMovementIds(): array { return $this->get('inventory_movement_ids'); }
     public function hasInventoryMovementIds(): bool { return $this->has('inventory_movement_ids'); }
-    /** inventory_receipt_id
+    /** ID of the inventory receipt the disposition recorded. Absent when it recorded none.
      * @return ?string
      */
     public function getInventoryReceiptId(): ?string { return $this->get('inventory_receipt_id'); }
     public function hasInventoryReceiptId(): bool { return $this->has('inventory_receipt_id'); }
-    /** Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
+    /** Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      * @return array<array-key, string>
      */
     public function getMetadata(): array { return $this->get('metadata'); }
@@ -115,27 +115,27 @@ final class ReturnDispositionCreatedMerchantEventDataObject extends Model {
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
-    /** Value enum: "inspection_result", "return_policy", "warehouse_override", "safety_requirement", "other".
+    /** Why the disposition was made. Value enum: "inspection_result", "return_policy", "warehouse_override", "safety_requirement", "other".
      * @return string
      */
     public function getReason(): string { return $this->get('reason'); }
     public function hasReason(): bool { return $this->has('reason'); }
-    /** reason_message
+    /** Optional detail about `reason`, kept with the record.
      * @return ?string
      */
     public function getReasonMessage(): ?string { return $this->get('reason_message'); }
     public function hasReasonMessage(): bool { return $this->has('reason_message'); }
-    /** replaced_by_return_disposition_id
+    /** ID of the disposition that took over this one. Present when a replacement canceled it.
      * @return ?string
      */
     public function getReplacedByReturnDispositionId(): ?string { return $this->get('replaced_by_return_disposition_id'); }
     public function hasReplacedByReturnDispositionId(): bool { return $this->has('replaced_by_return_disposition_id'); }
-    /** replaces_return_disposition_id
+    /** ID of the `failed` or `canceled` disposition this one replaces. It takes over that disposition's unused capacity.
      * @return ?string
      */
     public function getReplacesReturnDispositionId(): ?string { return $this->get('replaces_return_disposition_id'); }
     public function hasReplacesReturnDispositionId(): bool { return $this->has('replaces_return_disposition_id'); }
-    /** return_disposition_id
+    /** Unique identifier for this return disposition, prefixed `retdsp_`.
      * @return string
      */
     public function getReturnDispositionId(): string { return $this->get('return_disposition_id'); }
@@ -145,22 +145,22 @@ final class ReturnDispositionCreatedMerchantEventDataObject extends Model {
      */
     public function getReturnId(): string { return $this->get('return_id'); }
     public function hasReturnId(): bool { return $this->has('return_id'); }
-    /** return_inspection_line_item_id
+    /** ID of the inspection line the disposition covers. Absent when it covers a receipt line.
      * @return ?string
      */
     public function getReturnInspectionLineItemId(): ?string { return $this->get('return_inspection_line_item_id'); }
     public function hasReturnInspectionLineItemId(): bool { return $this->has('return_inspection_line_item_id'); }
-    /** return_line_item_id
+    /** ID of the Return line the units belong to.
      * @return ?string
      */
     public function getReturnLineItemId(): ?string { return $this->get('return_line_item_id'); }
     public function hasReturnLineItemId(): bool { return $this->has('return_line_item_id'); }
-    /** return_receipt_line_item_id
+    /** ID of the receipt line the disposition covers. Absent when it covers an inspection line.
      * @return ?string
      */
     public function getReturnReceiptLineItemId(): ?string { return $this->get('return_receipt_line_item_id'); }
     public function hasReturnReceiptLineItemId(): bool { return $this->has('return_receipt_line_item_id'); }
-    /** Value enum: "pending", "succeeded", "failed", "canceled".
+    /** Whether inventory has applied the disposition. Value enum: "pending", "succeeded", "failed", "canceled".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
@@ -175,7 +175,7 @@ final class ReturnDispositionCreatedMerchantEventDataObject extends Model {
      */
     public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** Format: int64. minimum: 0.
+    /** Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. Format: int64. minimum: 0.
      * @return int
      */
     public function getVersion(): int { return $this->get('version'); }

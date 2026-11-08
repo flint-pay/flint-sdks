@@ -8,13 +8,10 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.paymentIntents.confirm(
-  "pi_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "pi_01KEZF7C00G8H9D509YEV22P7R",
   {
-    credential_type: "stripe_confirmation_token",
-    save_payment_method: true,
-    stripe: {
-      confirmation_token: "ctoken_123",
-    },
+    credential_type: "token",
+    payment_source_token: "example",
   },
   { idempotencyKey: idempotencyKey },
 );

@@ -2,6 +2,8 @@
 
 ## CreateReturnPreviewResponseDataResolutionResolutionAdjustmentsItemWaivedBy
 
+Who waived the adjustment.
+
 Who performed a return action: a buyer, merchant, integration, or the system, with an optional ID.
 
 Response model.

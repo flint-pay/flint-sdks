@@ -8,5 +8,5 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `enabled` | Optional | boolean |  |
+| `enabled` | Optional | boolean | Whether Flint calculates automatic tax on the order it creates for this checkout. Omit to use tax.default_enabled from your settings. |
 

@@ -24,7 +24,7 @@ final class UpdateProductRequestInput extends Model {
      */
     public function getCategoryHandles(): array { return $this->get('category_handles'); }
     public function hasCategoryHandles(): bool { return $this->has('category_handles'); }
-    /** Send null to clear it. minLength: 1.
+    /** Send null to clear it. minLength: 1. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
      * @return string|null
      * @throws SdkError When default_variant_id is omitted; use hasDefaultVariantId() or valueOrDefault().
      */
@@ -42,7 +42,7 @@ final class UpdateProductRequestInput extends Model {
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string|null
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -60,7 +60,7 @@ final class UpdateProductRequestInput extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Attached modifier set. Send null on update to remove it. minLength: 1.
+    /** Attached modifier set. Send null on update to remove it. minLength: 1. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR".
      * @return string|null
      * @throws SdkError When modifier_set_id is omitted; use hasModifierSetId() or valueOrDefault().
      */

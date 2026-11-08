@@ -3,17 +3,23 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read ?string $name
+ * @property-read string $product_id
  * @property-read ?string $sku
  * @property-read string $variant_id
  * Presence-aware response; omitted optional fields return null. */
 final class ProductVariantMatch extends Model {
-    /** @param array{'name'?: string, 'sku'?: string, 'variant_id': string, ...}|object $values */
+    /** @param array{'name'?: string, 'product_id': string, 'sku'?: string, 'variant_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ProductVariantMatch')); }
     /** Name of the matching variant, when set.
      * @return ?string
      */
     public function getName(): ?string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
+    /** Identifier of the product the matching variant belongs to.
+     * @return string
+     */
+    public function getProductId(): string { return $this->get('product_id'); }
+    public function hasProductId(): bool { return $this->has('product_id'); }
     /** Stock keeping unit of the matching variant, when set.
      * @return ?string
      */

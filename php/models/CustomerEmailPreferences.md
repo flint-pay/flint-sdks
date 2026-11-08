@@ -2,9 +2,9 @@
 
 ## CustomerEmailPreferences
 
-A customer's email preferences: checkout reminders and shipping updates.
+The optional email categories an address receives from a merchant, with its current customer and preference version when available.
 
 Response model.
 
-Fields, types, descriptions and enum values: [CustomerEmailPreferencesInput](../models/CustomerEmailPreferencesInput.md#customeremailpreferencesinput).
+Fields, types, descriptions and enum values: [CustomerEmailPreferencesUpdatedMerchantEventDataObject](../models/CustomerEmailPreferencesUpdatedMerchantEventDataObject.md#customeremailpreferencesupdatedmerchanteventdataobject).
 

@@ -37,7 +37,6 @@ Returned payload: [TaxConnection](../models/TaxConnection.md#taxconnection).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -81,7 +80,7 @@ Signature: `createRegistration(params: TaxConnectionCreateRegistrationParams, op
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `body` | Required | [CreateTaxRegistrationRequestInput](../models/CreateTaxRegistrationRequestInput.md#createtaxregistrationrequestinput) | Register a US state where the seller collects tax. |
+| `body` | Required | [CreateTaxRegistrationRequestInput](../models/CreateTaxRegistrationRequestInput.md#createtaxregistrationrequestinput) | Register a US state, Canadian federal GST/HST, or Canadian provincial tax. |
 
 Body model: [CreateTaxRegistrationRequestInput](../models/CreateTaxRegistrationRequestInput.md#createtaxregistrationrequestinput).
 
@@ -89,11 +88,11 @@ Body model: [CreateTaxRegistrationRequestInput](../models/CreateTaxRegistrationR
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `country` | Optional | string | Country of registration. Only US is accepted. minLength: `2`. maxLength: `2`. pattern: `^[A-Z]{2}$`. Default: `"US"`. Values: `"US"`. |
+| `country` | Optional | string | Country of registration. Omit for US. Uses ISO 3166-1 alpha-2 country codes. minLength: `2`. maxLength: `2`. pattern: `^[A-Z]{2}$`. Default: `"US"`. Values: `"US"`, `"CA"`. |
 | `end_date` | Optional | string or null | Last day the registration applies, inclusive. Must be on or after start_date and today (UTC). Send null to clear the end date before the registration has ended. Format: `date`. minLength: `1`. |
 | `registration_number` | Required | string | Seller's tax registration number. Write-only; responses return only its last four characters. minLength: `1`. maxLength: `255`. Input only. |
 | `start_date` | Required | string | First day the registration applies, inclusive. Flint checks it against each sale's local date. Status and validation use the UTC date. May be up to 365 days in the future. Format: `date`. minLength: `1`. |
-| `state` | Required | string | US postal state code or DC. Values: [47 declared values](../models/CreateTaxRegistrationRequest.md#createtaxregistrationrequest-state-values). |
+| `state` | Optional | string | US state code or DC. For CA, omit for federal GST/HST, or use BC, MB, QC or SK for provincial tax. Uses the US postal abbreviation from ISO 3166-2:US (without the US- prefix). Values: [51 declared values](../models/CreateTaxRegistrationRequest.md#createtaxregistrationrequest-state-values). |
 
 #### Response
 
@@ -107,7 +106,6 @@ Returned payload: [TaxRegistration](../models/TaxRegistration.md#taxregistration
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -134,14 +132,14 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.taxConnection.createRegistration({state: "AL", registration_number: "example", start_date: "2026-01-01"}, { idempotencyKey: idempotencyKey });
+const result = await client.taxConnection.createRegistration({country: "US", registration_number: "1234561234", start_date: "2026-01-01", state: "TX"}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/taxConnection-createRegistration.mjs)
 
 ### taxConnection.deleteRegistration
 
-Hard-deletes a pending, rejected or scheduled registration and returns its final snapshot with status removed. While disconnected, deletes locally and records tax-account cleanup for the next connect. Otherwise, removes a possible tax-account copy first. If earlier creation is unconfirmed, an empty tax-account registration list does not prove the copy is absent: EXTERNAL_SERVICE_ERROR keeps the local registration. Retry the same request with the same Idempotency-Key until the copy can be identified and removed. Provider failure retains the local registration. An online deletion of a pending or rejected registration that removes existing or possibly created tax-account coverage marks open calculated automatic-tax orders without an issued invoice incomplete and advances their versions. Scheduled and disconnected deletions do not invalidate calculations. Scheduled deletion removes its tax-account copy immediately unless disconnected, without pausing automatic tax or invalidating calculations. Active and ended registrations cannot be deleted. Later GET returns RESOURCE_NOT_FOUND.
+Hard-deletes a pending, rejected or scheduled registration and returns its final snapshot with status removed. While disconnected, deletes locally and records tax-account cleanup for the next connect. Otherwise, removes a possible tax-account copy first. If earlier creation is unconfirmed, an empty tax-account registration list does not prove the copy is absent: EXTERNAL_SERVICE_ERROR keeps the local registration. Retry the same request with the same idempotency key until the copy can be identified and removed. Provider failure retains the local registration. An online deletion of a pending or rejected registration that removes existing or possibly created tax-account coverage marks open calculated automatic-tax orders without an issued invoice incomplete and advances their versions. Scheduled and disconnected deletions do not invalidate calculations. Scheduled deletion removes its tax-account copy immediately unless disconnected, without pausing automatic tax or invalidating calculations. Active and ended registrations cannot be deleted. A later GET fails with `RESOURCE_NOT_FOUND`.
 
 `DELETE /v1/tax-connection/registrations/{tax_registration_id}`
 
@@ -173,7 +171,6 @@ Returned payload: [TaxRegistration](../models/TaxRegistration.md#taxregistration
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 502 | ServerError |
@@ -198,7 +195,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.taxConnection.deleteRegistration("trg_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey });
+const result = await client.taxConnection.deleteRegistration("trg_01KEZF7C008JBM8XMQB3J1FK7J", {}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/taxConnection-deleteRegistration.mjs)
@@ -235,7 +232,6 @@ Returned payload: [DisconnectTaxConnectionResult](../models/DisconnectTaxConnect
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -289,7 +285,6 @@ Returned payload: [TaxConnection](../models/TaxConnection.md#taxconnection).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -345,7 +340,6 @@ Returned payload: [TaxRegistration](../models/TaxRegistration.md#taxregistration
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -363,7 +357,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```typescript
-const result = await client.taxConnection.getRegistration("trg_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
+const result = await client.taxConnection.getRegistration("trg_01KEZF7C008JBM8XMQB3J1FK7J", {}, {  });
 ```
 
 [Complete runnable example](../examples/taxConnection-getRegistration.mjs)
@@ -380,10 +374,10 @@ Signature: `listRegistrations(params?: TaxConnectionListRegistrationsParams, opt
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
-| `status` | Optional | Array of string or string | Return registrations with these statuses. Removed registrations never list. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"pending"`, `"scheduled"`, `"active"`, `"ended"`, `"rejected"`, `"removed"`. Values: `"pending"`, `"scheduled"`, `"active"`, `"ended"`, `"rejected"`, `"removed"`. |
-| `state` | Optional | Array of string or string | Return registrations in these exact US postal states. Values match case-sensitively and intersect the status filter. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [47 declared values](../models/CreateTaxRegistrationRequest.md#createtaxregistrationrequest-state-values). Values: [47 declared values](../models/CreateTaxRegistrationRequest.md#createtaxregistrationrequest-state-values). |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 100. minimum: `1`. maximum: `100`. Default: `100`. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
+| `status` | Optional | Array of string or string | Return registrations with these statuses. Removed registrations never list. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"pending"`, `"scheduled"`, `"active"`, `"ended"`, `"rejected"`, `"removed"`. Values: `"pending"`, `"scheduled"`, `"active"`, `"ended"`, `"rejected"`, `"removed"`. |
+| `state` | Optional | Array of string or string | Return registrations in these US states, given by two-letter ISO 3166-2 code without the `US-` prefix. Values match case-sensitively and intersect the status filter. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [51 declared values](../models/CreateTaxRegistrationRequest.md#createtaxregistrationrequest-state-values). Values: [51 declared values](../models/CreateTaxRegistrationRequest.md#createtaxregistrationrequest-state-values). |
 
 #### Response
 
@@ -397,7 +391,6 @@ Returned payload: [TaxRegistrationListResponse](../models/TaxRegistrationListRes
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -500,7 +493,6 @@ Returned payload: [TaxRegistration](../models/TaxRegistration.md#taxregistration
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |

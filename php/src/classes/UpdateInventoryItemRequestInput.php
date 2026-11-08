@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read InventoryBackorderPolicyRequestInput|array<array-key, mixed>|\stdClass $backorder
  * @property-read string|null $barcode
  * @property-read int $expected_version
  * @property-read string|null $external_reference_id
@@ -11,21 +12,27 @@ namespace Flint;
  * @property-read string $status
  * Presence-aware input; omitted fields throw when accessed. */
 final class UpdateInventoryItemRequestInput extends Model {
-    /** @param array{'barcode'?: string|null, 'expected_version'?: int, 'external_reference_id'?: string|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'name'?: string, 'sku'?: string|null, 'status'?: string}|object $values */
+    /** @param array{'backorder'?: InventoryBackorderPolicyRequestInput|array<array-key, mixed>|\stdClass, 'barcode'?: string|null, 'expected_version'?: int, 'external_reference_id'?: string|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'name'?: string, 'sku'?: string|null, 'status'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdateInventoryItemRequestInput')); }
+    /** Backorder settings to apply to this inventory item. Patch object: fields you send are applied, fields you omit are unchanged. minProperties: 1.
+     * @return InventoryBackorderPolicyRequestInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When backorder is omitted; use hasBackorder() or valueOrDefault().
+     */
+    public function getBackorder(): mixed { return $this->get('backorder'); }
+    public function hasBackorder(): bool { return $this->has('backorder'); }
     /** Send null to clear it. minLength: 1.
      * @return string|null
      * @throws SdkError When barcode is omitted; use hasBarcode() or valueOrDefault().
      */
     public function getBarcode(): string|null { return $this->get('barcode'); }
     public function hasBarcode(): bool { return $this->has('barcode'); }
-    /** Format: uint64. minimum: 1.
+    /** Version last read from the resource returned in `data` (the primary resource for a result object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on the operation and fields being changed. Format: uint64. minimum: 1.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string|null
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -37,7 +44,7 @@ final class UpdateInventoryItemRequestInput extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** minLength: 1.
+    /** Merchant-facing inventory item name. minLength: 1.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
@@ -49,7 +56,7 @@ final class UpdateInventoryItemRequestInput extends Model {
      */
     public function getSku(): string|null { return $this->get('sku'); }
     public function hasSku(): bool { return $this->has('sku'); }
-    /** Value enum: "active", "inactive".
+    /** New status for the inventory item. Omit it to leave the status unchanged. Value enum: "active", "inactive".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */

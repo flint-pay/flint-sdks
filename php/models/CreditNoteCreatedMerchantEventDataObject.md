@@ -2,7 +2,9 @@
 
 ## CreditNoteCreatedMerchantEventDataObject
 
-A correction against an issued invoice. Credit notes reduce what is owed; refunds return what was already collected.
+The affected public resource without expansions, client authority fields, or fields computed for an individual caller.
+
+The resource snapshot, without expansions. Webhooks omit no additional fields.
 
 Response model.
 

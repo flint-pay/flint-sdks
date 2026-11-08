@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read string $correction_reason_message
  * @property-read string $external_actor_id
  * @property-read string $external_reference_id
- * @property-read list<array{'quantity': int, 'return_line_item_id': string, 'type': string, 'unverified_item'?: ReturnUnverifiedItemInput|array<array-key, mixed>|\stdClass}|object|array{'quantity': int, 'return_line_item_id'?: string, 'type': string, 'unverified_item': ReturnUnverifiedItemInput|array<array-key, mixed>|\stdClass}|object> $line_items
+ * @property-read list<ReturnReceiptLineItemRequestInput|array<array-key, mixed>|\stdClass> $line_items
  * @property-read string|\DateTimeInterface $received_at
  * @property-read string $receiving_location_id
  * @property-read string $shipment_id
@@ -14,66 +14,84 @@ namespace Flint;
  * @property-read string $supersedes_return_receipt_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class ReturnsCreateReceiptParams extends Model {
-    /** @param array{'correction_reason'?: string, 'correction_reason_message'?: string, 'external_actor_id'?: string, 'external_reference_id'?: string, 'line_items': list<array{'quantity': int, 'return_line_item_id': string, 'type': string, 'unverified_item'?: ReturnUnverifiedItemInput|array<array-key, mixed>|\stdClass}|object|array{'quantity': int, 'return_line_item_id'?: string, 'type': string, 'unverified_item': ReturnUnverifiedItemInput|array<array-key, mixed>|\stdClass}|object>, 'received_at': string|\DateTimeInterface, 'receiving_location_id': string, 'shipment_id'?: string, 'source_system'?: ReturnSourceSystemRequestInput|array<array-key, mixed>|\stdClass, 'supersedes_return_receipt_id'?: string}|object $values */
+    /** @param array{'correction_reason'?: string, 'correction_reason_message'?: string, 'external_actor_id'?: string, 'external_reference_id'?: string, 'line_items': list<ReturnReceiptLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'received_at': string|\DateTimeInterface, 'receiving_location_id': string, 'shipment_id'?: string, 'source_system'?: ReturnSourceSystemRequestInput|array<array-key, mixed>|\stdClass, 'supersedes_return_receipt_id'?: string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnsCreateReceiptParams')); }
-    /** Value enum: "entry_error", "duplicate_observation", "source_correction", "reconciliation_correction", "other".
+    /** Why this observation replaces an earlier one. Send with `supersedes_return_receipt_id` or `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation", "source_correction", "reconciliation_correction", "other".
      * @return string
      * @throws SdkError When correction_reason is omitted; use hasCorrectionReason() or valueOrDefault().
      */
     public function getCorrectionReason(): string { return $this->get('correction_reason'); }
     public function hasCorrectionReason(): bool { return $this->has('correction_reason'); }
-    /** minLength: 1.
+    /** Detail about `correction_reason`. minLength: 1.
      * @return string
      * @throws SdkError When correction_reason_message is omitted; use hasCorrectionReasonMessage() or valueOrDefault().
      */
     public function getCorrectionReasonMessage(): string { return $this->get('correction_reason_message'); }
     public function hasCorrectionReasonMessage(): bool { return $this->has('correction_reason_message'); }
-    /** Your identifier for the actor who recorded the event. Don't put secrets in this field. minLength: 1. maxLength: 255.
+    /** Your identifier for the actor who recorded the event. Don't put secrets in this field. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_actor_id is omitted; use hasExternalActorId() or valueOrDefault().
      */
     public function getExternalActorId(): string { return $this->get('external_actor_id'); }
     public function hasExternalActorId(): bool { return $this->has('external_actor_id'); }
-    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** minItems: 1. [] (Value): {@see ReturnReceiptLineItemRequestInput}. One line of received merchandise: a matched return line, excess quantity, or an unverified item.
-     * @return list<array{'quantity': int, 'return_line_item_id': string, 'type': string, 'unverified_item'?: ReturnUnverifiedItemInput|array<array-key, mixed>|\stdClass}|object|array{'quantity': int, 'return_line_item_id'?: string, 'type': string, 'unverified_item': ReturnUnverifiedItemInput|array<array-key, mixed>|\stdClass}|object>
+    /** The lines recorded. minItems: 1. [] (Value): {@see ReturnReceiptLineItemRequestInput}. One line of received merchandise: a matched return line, excess quantity, or an unverified item.
+     * @return list<ReturnReceiptLineItemRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When line_items is omitted; use hasLineItems() or valueOrDefault().
      */
     public function getLineItems(): array { return $this->get('line_items'); }
     public function hasLineItems(): bool { return $this->has('line_items'); }
-    /** When the event occurred, at most 5 minutes in the future. Format: date-time. minLength: 1.
+    /** When the event occurred, at most 5 minutes in the future. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When received_at is omitted; use hasReceivedAt() or valueOrDefault().
      */
     public function getReceivedAt(): string|\DateTimeInterface { return $this->get('received_at'); }
     public function hasReceivedAt(): bool { return $this->has('received_at'); }
-    /** minLength: 1. Example: "loc_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** ID of the Location that received the goods. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When receiving_location_id is omitted; use hasReceivingLocationId() or valueOrDefault().
      */
     public function getReceivingLocationId(): string { return $this->get('receiving_location_id'); }
     public function hasReceivingLocationId(): bool { return $this->has('receiving_location_id'); }
-    /** minLength: 1. Example: "shp_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** ID of the return shipment the goods arrived in. Absent when the receipt isn't tied to a shipment. minLength: 1. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
      * @return string
      * @throws SdkError When shipment_id is omitted; use hasShipmentId() or valueOrDefault().
      */
     public function getShipmentId(): string { return $this->get('shipment_id'); }
     public function hasShipmentId(): bool { return $this->has('shipment_id'); }
-    /** The system a return event came from, such as a point of sale or warehouse system, with its own identifier.
+    /** System that recorded the observation. `null` when no source system was recorded. The system a return event came from, such as a point of sale or warehouse system, with its own identifier.
      * @return ReturnSourceSystemRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When source_system is omitted; use hasSourceSystem() or valueOrDefault().
      */
     public function getSourceSystem(): mixed { return $this->get('source_system'); }
     public function hasSourceSystem(): bool { return $this->has('source_system'); }
-    /** minLength: 1.
+    /** ID of the receipt this one corrects. minLength: 1. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
      * @return string
      * @throws SdkError When supersedes_return_receipt_id is omitted; use hasSupersedesReturnReceiptId() or valueOrDefault().
      */
     public function getSupersedesReturnReceiptId(): string { return $this->get('supersedes_return_receipt_id'); }
     public function hasSupersedesReturnReceiptId(): bool { return $this->has('supersedes_return_receipt_id'); }
+    /** Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Merchant-Id is omitted; use hasFlintMerchantId() or valueOrDefault().
+     */
+    public function getFlintMerchantId(): string { return $this->get('Flint-Merchant-Id'); }
+    public function hasFlintMerchantId(): bool { return $this->has('Flint-Merchant-Id'); }
+    /** Mode of the request context, live or test. Optional; it must match the credential's mode. Value enum: "test", "live".
+     * @return string
+     * @throws SdkError When Flint-Mode is omitted; use hasFlintMode() or valueOrDefault().
+     */
+    public function getFlintMode(): string { return $this->get('Flint-Mode'); }
+    public function hasFlintMode(): bool { return $this->has('Flint-Mode'); }
+    /** Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Sandbox-Id is omitted; use hasFlintSandboxId() or valueOrDefault().
+     */
+    public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
+    public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
 }

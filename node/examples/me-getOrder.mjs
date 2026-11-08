@@ -8,7 +8,7 @@ const client = new Client({
   customerToken,
 });
 const result = await client.me.getOrder(
-  "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "ord_01KEZF7C0054GQKJ142A8X367A"
 );
+console.log(result.merchant_id);
 console.log(result.order_id);
-console.log(result.status);

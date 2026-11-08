@@ -10,16 +10,17 @@ A merchant's authorization of a partner application.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
+| `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `environment_grants` | Optional | Array of [PartnerEnvironmentGrant](../models/PartnerEnvironmentGrant.md#partnerenvironmentgrant) |  |
-| `installed_by_user_id` | Optional | string |  |
-| `merchant_id` | Required | string |  |
-| `partner_app_id` | Required | string |  |
-| `partner_app_install_id` | Required | string |  |
+| `installed_by_user_id` | Optional | string | Example: `"usr_01KEZF7C00YC8757ZYP9727JM0"`. |
+| `merchant_id` | Required | string | ID of the merchant this resource belongs to. Example: `"mer_01KEZF7C00KPYH1DDFPCCX3B6E"`. |
+| `partner_app_id` | Required | string | Example: `"papp_01KEZF7C00Y8VMXYZ1GNPP3WHV"`. |
+| `partner_app_install_id` | Required | string | Unique identifier for this partner app install, prefixed `pinst_`. Example: `"pinst_01KEZF7C003HVKZR3GZAW6AFAZ"`. |
 | `partner_app_name` | Required | string | The app’s current name. |
-| `revoked_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
+| `revoked_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `revoked_by` | Optional | string | Values: `"merchant"`, `"partner_app"`. |
-| `revoked_by_user_id` | Optional | string |  |
+| `revoked_by_user_id` | Optional | string | Example: `"usr_01KEZF7C00YC8757ZYP9727JM0"`. |
 | `status` | Required | string | Values: `"pending_exchange"`, `"active"`, `"revoked"`. |
-| `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
+| `supported_actions` | Required | Array of string | Lifecycle actions Flint accepts now. Revoke is accepted for pending and active installations and returns the current installation when it is already revoked. Items values: `"revoke"`. |
+| `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 

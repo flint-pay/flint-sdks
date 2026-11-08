@@ -4,7 +4,7 @@
 
 ### returnReasons.create
 
-Create a merchant Return reason buyers can select. Buyer reasons are distinct from inspection findings, decline reasons, and Refund reasons. Flint handles and all existing merchant handles, including archived reasons, are reserved. A conflicting handle returns 409 ALREADY_EXISTS.
+Create a merchant Return reason buyers can select. Buyer reasons are distinct from inspection findings, decline reasons, and Refund reasons. Flint handles and all existing merchant handles, including archived reasons, are reserved. A conflicting handle fails with `ALREADY_EXISTS`.
 
 `POST /v1/return-reasons`
 
@@ -14,17 +14,27 @@ Signature: `create(array|Model $params, ?RequestOptions $options = null)`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [CreateReturnReasonRequestInput](../models/CreateReturnReasonRequestInput.md#createreturnreasonrequestinput) | The request body for: Create return reason. |
 
 Body model: [CreateReturnReasonRequestInput](../models/CreateReturnReasonRequestInput.md#createreturnreasonrequestinput).
 
 #### returnReasons.create body fields
 
-Field definitions: [shared fields](../models/CreateReturnReasonRequestInput.md#createreturnreasonrequestinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `category_handles` | Optional | Array of string | Catalog category handles this reason applies to. A reason with categories is suggested, and accepted from a customer session, only for order lines whose product is in one of them. A reason with no categories applies to every line. Not product types or tags: use handles from GET /v1/categories. Repeated handles are dropped. maxItems: `100`. Items: minLength: `1`. |
+| `description` | Optional | string | Description, limited to 2048 bytes after trimming surrounding whitespace. minLength: `1`. |
+| `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
+| `handle` | Required | string | Stable lower_snake_case identifier. After trimming surrounding whitespace, it must start with a lowercase letter and contain only lowercase letters, digits, and underscores, with 1 through 100 characters. minLength: `1`. |
+| `is_note_required` | Optional | boolean | Whether a Return line with this reason needs a buyer_note. Defaults to false. Default: `false`. |
+| `name` | Required | string | Display name, limited to 1 through 255 bytes after trimming surrounding whitespace. minLength: `1`. |
 
 #### Response
 
-Returned payload: [ReturnReason](../models/ReturnReasonInput.md#returnreasoninput).
+Returned payload: [ReturnReason](../models/ReturnReason.md#returnreason).
 
 #### Errors
 
@@ -35,7 +45,6 @@ Returned payload: [ReturnReason](../models/ReturnReasonInput.md#returnreasoninpu
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -61,8 +70,9 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->returnReasons->create([
-  'handle' => 'example',
-  'name' => 'example',
+  'handle' => 'too_small',
+  'is_note_required' => false,
+  'name' => 'Too small',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
@@ -82,10 +92,13 @@ Signature: `delete(string|Model $return_reason_id, array|Model|null $params = nu
 | --- | --- | --- | --- |
 | `return_reason_id` | Required | string | Flint return reason id. |
 | `expected_version` | Optional | integer | Optional. The reason's current version. If it changed, the archive fails with 409 VERSION_CONFLICT and nothing changes. Format: `int64`. minimum: `1`. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
-Returned payload: [ReturnReason](../models/ReturnReasonInput.md#returnreasoninput).
+Returned payload: [ReturnReason](../models/ReturnReason.md#returnreason).
 
 #### Errors
 
@@ -96,7 +109,6 @@ Returned payload: [ReturnReason](../models/ReturnReasonInput.md#returnreasoninpu
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -119,7 +131,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->returnReasons->delete('rrsn_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->returnReasons->delete('rrsn_01KEZF7C00SEE2T4EYP1NXAH3E', [], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/returnReasons-delete.php)
@@ -137,10 +149,13 @@ Signature: `get(string|Model $return_reason_id, array|Model|null $params = null,
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `return_reason_id` | Required | string | Flint return reason id. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
-Returned payload: [ReturnReason](../models/ReturnReasonInput.md#returnreasoninput).
+Returned payload: [ReturnReason](../models/ReturnReason.md#returnreason).
 
 #### Errors
 
@@ -150,7 +165,6 @@ Returned payload: [ReturnReason](../models/ReturnReasonInput.md#returnreasoninpu
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -168,7 +182,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```php
-$result = $client->returnReasons->get('rrsn_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
+$result = $client->returnReasons->get('rrsn_01KEZF7C00SEE2T4EYP1NXAH3E', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/returnReasons-get.php)
@@ -188,10 +202,13 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 | `external_reference_id` | Optional | string | Exact-match filter on the caller-owned external reference ID. minLength: `1`. maxLength: `255`. |
 | `handle` | Optional | string | Exact, case-sensitive match on the reason's handle, for Flint and merchant reasons. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. Format: `int32`. minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `query` | Optional | string | Search by return reason ID, handle, name, description, or external reference ID. |
-| `source` | Optional | Array of string or string | Filter by source. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"flint"`, `"merchant"`. Values: `"flint"`, `"merchant"`. |
-| `status` | Optional | Array of string or string | Filter by status. Repeat the parameter or send comma-separated values to match any of several. Omitted, the list leaves out archived rows; name archived to include them. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"archived"`, `"inactive"`. Values: `"active"`, `"archived"`, `"inactive"`. |
+| `source` | Optional | Array of string or string | Filter by source. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"flint"`, `"merchant"`. Values: `"flint"`, `"merchant"`. |
+| `status` | Optional | Array of string or string | Filter by status. Omitted, the list leaves out archived rows; name archived to include them. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"archived"`, `"inactive"`. Values: `"active"`, `"archived"`, `"inactive"`. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -205,7 +222,6 @@ Returned payload: [ListReturnReasonsResponse](../models/ListReturnReasonsRespons
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -243,17 +259,28 @@ Signature: `update(string|Model $return_reason_id, array|Model $params, ?Request
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `return_reason_id` | Required | string | Flint return reason id. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [UpdateReturnReasonRequestInput](../models/UpdateReturnReasonRequestInput.md#updatereturnreasonrequestinput) | The request body for: Update return reason. |
 
 Body model: [UpdateReturnReasonRequestInput](../models/UpdateReturnReasonRequestInput.md#updatereturnreasonrequestinput).
 
 #### returnReasons.update body fields
 
-Field definitions: [shared fields](../models/UpdateReturnReasonRequestInput.md#updatereturnreasonrequestinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `category_handles` | Optional | Array of string | Catalog category handles this reason applies to. A reason with categories is suggested, and accepted from a customer session, only for order lines whose product is in one of them. A reason with no categories applies to every line. Not product types or tags: use handles from GET /v1/categories. Repeated handles are dropped. Requires expected_version. maxItems: `100`. Items: minLength: `1`. |
+| `description` | Optional | string or null | Description, limited to 2048 bytes after trimming surrounding whitespace. Send null to clear it. minLength: `1`. |
+| `expected_version` | Optional | integer | Required when any of these fields is present: category_handles. Format: `int64`. minimum: `1`. |
+| `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. |
+| `is_note_required` | Optional | boolean | Whether a Return line with this reason needs a buyer_note. |
+| `name` | Optional | string | Display name, limited to 1 through 255 bytes after trimming surrounding whitespace. minLength: `1`. |
+| `status` | Optional | string | Set active to offer the reason or inactive to stop offering it. To archive a merchant reason, use DELETE. Values: `"active"`, `"inactive"`. |
 
 #### Response
 
-Returned payload: [ReturnReason](../models/ReturnReasonInput.md#returnreasoninput).
+Returned payload: [ReturnReason](../models/ReturnReason.md#returnreason).
 
 #### Errors
 
@@ -264,7 +291,6 @@ Returned payload: [ReturnReason](../models/ReturnReasonInput.md#returnreasoninpu
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |

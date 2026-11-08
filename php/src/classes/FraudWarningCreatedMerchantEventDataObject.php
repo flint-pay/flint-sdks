@@ -27,17 +27,17 @@ final class FraudWarningCreatedMerchantEventDataObject extends Model {
      */
     public function getDispute(): Dispute|null { return $this->get('dispute'); }
     public function hasDispute(): bool { return $this->has('dispute'); }
-    /** The dispute that opened on this payment after the warning. `null` until one opens.
+    /** The dispute that opened on this payment after the warning. `null` when no dispute has opened.
      * @return string|null
      */
     public function getDisputeId(): string|null { return $this->get('dispute_id'); }
     public function hasDisputeId(): bool { return $this->has('dispute_id'); }
-    /** Value enum: "card_never_received", "fraudulent_card_application", "made_with_counterfeit_card", "made_with_lost_card", "made_with_stolen_card", "unauthorized_use_of_card", "other".
+    /** The kind of fraud the card network reported. Value enum: "card_never_received", "fraudulent_card_application", "made_with_counterfeit_card", "made_with_lost_card", "made_with_stolen_card", "unauthorized_use_of_card", "other".
      * @return string
      */
     public function getFraudType(): string { return $this->get('fraud_type'); }
     public function hasFraudType(): bool { return $this->has('fraud_type'); }
-    /** fraud_warning_id
+    /** Unique identifier for this fraud warning, prefixed `frw_`.
      * @return string
      */
     public function getFraudWarningId(): string { return $this->get('fraud_warning_id'); }
@@ -52,12 +52,12 @@ final class FraudWarningCreatedMerchantEventDataObject extends Model {
      */
     public function getPaymentIntent(): ExpandedPaymentIntentSummary|null { return $this->get('payment_intent'); }
     public function hasPaymentIntent(): bool { return $this->has('payment_intent'); }
-    /** payment_intent_id
+    /** ID of the payment the warning is about.
      * @return string
      */
     public function getPaymentIntentId(): string { return $this->get('payment_intent_id'); }
     public function hasPaymentIntentId(): bool { return $this->has('payment_intent_id'); }
-    /** Payment details shown on a public fraud warning: amount, buyer email, card brand, and last four digits.
+    /** The payment's amount, buyer email, and card, for recognizing it. Payment details shown on a public fraud warning: amount, buyer email, card brand, and last four digits.
      * @return FraudWarningPaymentSummary
      */
     public function getPaymentSummary(): FraudWarningPaymentSummary { return $this->get('payment_summary'); }

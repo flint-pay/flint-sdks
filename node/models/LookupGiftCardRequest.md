@@ -22,11 +22,11 @@ anyOf variant 1: Declared schema ConfirmCheckoutSessionCustomerVerificationReque
 
 anyOf variant 2: Declared schema ConfirmCustomerVerificationRequest. The request body for: Confirm a customer email verification..
 
-- Constraints for `code`: minLength: `1`. pattern: `^[0-9]{6}$`.
+- Constraints for `code`: The six-digit code Flint sent to the customer's email. minLength: `1`. pattern: `^[0-9]{6}$`.
 
 ### LookupGiftCardRequest variant 3
 
 anyOf variant 3: Declared schema LookupGiftCardRequest. The request body for: Look up a gift card code..
 
-- Constraints for `code`: minLength: `1`.
+- Constraints for `code`: The gift card's code. Spaces and hyphens are ignored. minLength: `1`.
 

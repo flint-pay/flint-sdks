@@ -22,10 +22,11 @@ Body model: [CreateSandboxRequestInput](../models/CreateSandboxRequest.md#create
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `access` | Optional | string | Key access. Full and read_only resolve from the current scope catalog for the key's mode; restricted holds only its listed scopes. Granting full or read_only requires a freshly verified authorized user session or a full-access API key. Values: `"full"`, `"read_only"`, `"restricted"`. |
+| `access` | Optional | string | Key access. Full and read_only resolve from the current scope catalog for the key's mode; restricted holds only its listed scopes. Granting full or read_only requires a freshly verified authorized user session, or a full-access API key in the key's mode or a live full-access key granting a test key. Values: `"full"`, `"read_only"`, `"restricted"`. |
+| `initial_onboarding` | Optional | string | The onboarding state the sandbox starts in, and returns to when you reset it. `complete` prefills a verified test identity; `not_started` leaves requirements due so you can rehearse onboarding. Default: `"complete"`. Values: `"complete"`, `"not_started"`. |
 | `issue_test_key` | Optional | boolean |  |
 | `name` | Required | string | minLength: `1`. |
-| `scopes` | Optional | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. minItems: `1`. uniqueItems: `true`. Items values: [96 declared values](../models/APIKey.md#apikey-scopes--values). |
+| `scopes` | Optional | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. minItems: `1`. uniqueItems: `true`. Items values: [92 declared values](../models/CreateSandboxRequest.md#createsandboxrequest-scopes--values). |
 | `test_key_name` | Optional | string | minLength: `1`. maxLength: `100`. |
 
 #### sandboxes.create: Test key
@@ -34,10 +35,11 @@ Body model: [CreateSandboxRequestInput](../models/CreateSandboxRequest.md#create
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `access` | Optional | string | Key access. Full and read_only resolve from the current scope catalog for the key's mode; restricted holds only its listed scopes. Granting full or read_only requires a freshly verified authorized user session or a full-access API key. Values: `"full"`, `"read_only"`, `"restricted"`. |
+| `access` | Optional | string | Key access. Full and read_only resolve from the current scope catalog for the key's mode; restricted holds only its listed scopes. Granting full or read_only requires a freshly verified authorized user session, or a full-access API key in the key's mode or a live full-access key granting a test key. Values: `"full"`, `"read_only"`, `"restricted"`. |
+| `initial_onboarding` | Optional | string | The onboarding state the sandbox starts in, and returns to when you reset it. `complete` prefills a verified test identity; `not_started` leaves requirements due so you can rehearse onboarding. Default: `"complete"`. Values: `"complete"`, `"not_started"`. |
 | `issue_test_key` | Required | boolean | Values: `true`. |
 | `name` | Required | string | minLength: `1`. |
-| `scopes` | Optional | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. minItems: `1`. uniqueItems: `true`. Items values: [96 declared values](../models/APIKey.md#apikey-scopes--values). |
+| `scopes` | Optional | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. minItems: `1`. uniqueItems: `true`. Items values: [92 declared values](../models/CreateSandboxRequest.md#createsandboxrequest-scopes--values). |
 | `test_key_name` | Optional | string | minLength: `1`. maxLength: `100`. |
 
 #### sandboxes.create: Full
@@ -46,10 +48,11 @@ Body model: [CreateSandboxRequestInput](../models/CreateSandboxRequest.md#create
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `access` | Required | string | Key access. Full and read_only resolve from the current scope catalog for the key's mode; restricted holds only its listed scopes. Granting full or read_only requires a freshly verified authorized user session or a full-access API key. Values: `"full"`. |
+| `access` | Required | string | Key access. Full and read_only resolve from the current scope catalog for the key's mode; restricted holds only its listed scopes. Granting full or read_only requires a freshly verified authorized user session, or a full-access API key in the key's mode or a live full-access key granting a test key. Values: `"full"`. |
+| `initial_onboarding` | Optional | string | The onboarding state the sandbox starts in, and returns to when you reset it. `complete` prefills a verified test identity; `not_started` leaves requirements due so you can rehearse onboarding. Default: `"complete"`. Values: `"complete"`, `"not_started"`. |
 | `issue_test_key` | Required | boolean | Values: `true`. |
 | `name` | Required | string | minLength: `1`. |
-| `scopes` | Optional | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. minItems: `1`. uniqueItems: `true`. Items values: [96 declared values](../models/APIKey.md#apikey-scopes--values). |
+| `scopes` | Optional | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. minItems: `1`. uniqueItems: `true`. Items values: [92 declared values](../models/CreateSandboxRequest.md#createsandboxrequest-scopes--values). |
 | `test_key_name` | Optional | string | minLength: `1`. maxLength: `100`. |
 
 #### sandboxes.create: Read only
@@ -58,10 +61,11 @@ Body model: [CreateSandboxRequestInput](../models/CreateSandboxRequest.md#create
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `access` | Required | string | Key access. Full and read_only resolve from the current scope catalog for the key's mode; restricted holds only its listed scopes. Granting full or read_only requires a freshly verified authorized user session or a full-access API key. Values: `"read_only"`. |
+| `access` | Required | string | Key access. Full and read_only resolve from the current scope catalog for the key's mode; restricted holds only its listed scopes. Granting full or read_only requires a freshly verified authorized user session, or a full-access API key in the key's mode or a live full-access key granting a test key. Values: `"read_only"`. |
+| `initial_onboarding` | Optional | string | The onboarding state the sandbox starts in, and returns to when you reset it. `complete` prefills a verified test identity; `not_started` leaves requirements due so you can rehearse onboarding. Default: `"complete"`. Values: `"complete"`, `"not_started"`. |
 | `issue_test_key` | Required | boolean | Values: `true`. |
 | `name` | Required | string | minLength: `1`. |
-| `scopes` | Optional | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. minItems: `1`. uniqueItems: `true`. Items values: [96 declared values](../models/APIKey.md#apikey-scopes--values). |
+| `scopes` | Optional | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. minItems: `1`. uniqueItems: `true`. Items values: [92 declared values](../models/CreateSandboxRequest.md#createsandboxrequest-scopes--values). |
 | `test_key_name` | Optional | string | minLength: `1`. maxLength: `100`. |
 
 #### sandboxes.create: Restricted
@@ -70,10 +74,11 @@ Body model: [CreateSandboxRequestInput](../models/CreateSandboxRequest.md#create
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `access` | Required | string | Key access. Full and read_only resolve from the current scope catalog for the key's mode; restricted holds only its listed scopes. Granting full or read_only requires a freshly verified authorized user session or a full-access API key. Values: `"restricted"`. |
+| `access` | Required | string | Key access. Full and read_only resolve from the current scope catalog for the key's mode; restricted holds only its listed scopes. Granting full or read_only requires a freshly verified authorized user session, or a full-access API key in the key's mode or a live full-access key granting a test key. Values: `"restricted"`. |
+| `initial_onboarding` | Optional | string | The onboarding state the sandbox starts in, and returns to when you reset it. `complete` prefills a verified test identity; `not_started` leaves requirements due so you can rehearse onboarding. Default: `"complete"`. Values: `"complete"`, `"not_started"`. |
 | `issue_test_key` | Required | boolean | Values: `true`. |
 | `name` | Required | string | minLength: `1`. |
-| `scopes` | Required | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. minItems: `1`. uniqueItems: `true`. Items values: [96 declared values](../models/APIKey.md#apikey-scopes--values). |
+| `scopes` | Required | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. minItems: `1`. uniqueItems: `true`. Items values: [92 declared values](../models/CreateSandboxRequest.md#createsandboxrequest-scopes--values). |
 | `test_key_name` | Optional | string | minLength: `1`. maxLength: `100`. |
 
 #### sandboxes.create: No test key
@@ -82,10 +87,11 @@ Body model: [CreateSandboxRequestInput](../models/CreateSandboxRequest.md#create
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `access` | Optional | string | Key access. Full and read_only resolve from the current scope catalog for the key's mode; restricted holds only its listed scopes. Granting full or read_only requires a freshly verified authorized user session or a full-access API key. Values: `"full"`, `"read_only"`, `"restricted"`. |
+| `access` | Optional | string | Key access. Full and read_only resolve from the current scope catalog for the key's mode; restricted holds only its listed scopes. Granting full or read_only requires a freshly verified authorized user session, or a full-access API key in the key's mode or a live full-access key granting a test key. Values: `"full"`, `"read_only"`, `"restricted"`. |
+| `initial_onboarding` | Optional | string | The onboarding state the sandbox starts in, and returns to when you reset it. `complete` prefills a verified test identity; `not_started` leaves requirements due so you can rehearse onboarding. Default: `"complete"`. Values: `"complete"`, `"not_started"`. |
 | `issue_test_key` | Optional | boolean | Values: `false`. |
 | `name` | Required | string | minLength: `1`. |
-| `scopes` | Optional | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. minItems: `1`. uniqueItems: `true`. Items values: [96 declared values](../models/APIKey.md#apikey-scopes--values). |
+| `scopes` | Optional | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. minItems: `1`. uniqueItems: `true`. Items values: [92 declared values](../models/CreateSandboxRequest.md#createsandboxrequest-scopes--values). |
 | `test_key_name` | Optional | string | minLength: `1`. maxLength: `100`. |
 
 #### Response
@@ -101,7 +107,6 @@ Returned payload: [CreateDeveloperSandboxResult](../models/CreateDeveloperSandbo
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -152,9 +157,9 @@ Body model: [IssueSandboxAPIKeyRequestInput](../models/IssueSandboxAPIKeyRequest
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `access` | Required | string | Key access. Full and read_only resolve from the current scope catalog for the key's mode; restricted holds only its listed scopes. Granting full or read_only requires a freshly verified authorized user session or a full-access API key. Values: `"full"`, `"read_only"`, `"restricted"`. |
+| `access` | Required | string | Key access. Full and read_only resolve from the current scope catalog for the key's mode; restricted holds only its listed scopes. Granting full or read_only requires a freshly verified authorized user session, or a full-access API key in the key's mode or a live full-access key granting a test key. Values: `"full"`, `"read_only"`, `"restricted"`. |
 | `name` | Required | string | minLength: `1`. maxLength: `100`. |
-| `scopes` | Optional | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. minItems: `1`. uniqueItems: `true`. Items values: [96 declared values](../models/APIKey.md#apikey-scopes--values). |
+| `scopes` | Optional | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. minItems: `1`. uniqueItems: `true`. Items values: [92 declared values](../models/CreateSandboxRequest.md#createsandboxrequest-scopes--values). |
 
 #### sandboxes.createAPIKey with `access: "full"`
 
@@ -187,7 +192,6 @@ Returned payload: [APIKeyWithSecret](../models/APIKeyWithSecret.md#apikeywithsec
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -212,14 +216,14 @@ Authentication modes: `merchant`, `onboarding`. [Credential setup](../RUNTIME.md
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.sandboxes.createAPIKey("test_01ARZ3NDEKTSV4RRFFQ69G5FAV", {access: "restricted", name: "Partner demo key", scopes: ["commerce.orders.read", "customers.read"]}, { idempotencyKey: idempotencyKey });
+const result = await client.sandboxes.createAPIKey("test_01KEZF7C00JC77HTMTB2XHNPE0", {access: "restricted", name: "Partner demo key", scopes: ["commerce.orders.read", "customers.read"]}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/sandboxes-createAPIKey.mjs)
 
 ### sandboxes.delete
 
-Retires a non-default sandbox and frees its original name for reuse.
+Archives a non-default sandbox and frees its original name for reuse.
 
 `DELETE /v1/sandboxes/{sandbox_id}`
 
@@ -244,7 +248,6 @@ Returned payload: [Sandbox](../models/Sandbox.md#sandbox).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -267,7 +270,7 @@ Authentication modes: `merchant`, `onboarding`. [Credential setup](../RUNTIME.md
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.sandboxes.delete("test_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey });
+const result = await client.sandboxes.delete("test_01KEZF7C00JC77HTMTB2XHNPE0", {}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/sandboxes-delete.mjs)
@@ -305,7 +308,6 @@ Returned payload: [Sandbox](../models/Sandbox.md#sandbox).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -323,7 +325,7 @@ Authentication modes: `merchant`, `onboarding`. [Credential setup](../RUNTIME.md
 #### Example
 
 ```typescript
-const result = await client.sandboxes.get("test_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
+const result = await client.sandboxes.get("test_01KEZF7C00JC77HTMTB2XHNPE0", {}, {  });
 ```
 
 [Complete runnable example](../examples/sandboxes-get.mjs)
@@ -338,7 +340,7 @@ Signature: `list(params?: SandboxesListParams, options?: _SdkWithoutIdempotency<
 
 #### Request fields
 
-Field definitions: [shared fields](partnerApps.md#request-fields-7).
+Field definitions: [shared fields](partnerApps.md#request-fields-8).
 
 #### Response
 
@@ -352,7 +354,6 @@ Returned payload: [SandboxListResponse](../models/SandboxListResponse.md#sandbox
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -404,7 +405,6 @@ Returned payload: [Sandbox](../models/Sandbox.md#sandbox).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -427,7 +427,7 @@ Authentication modes: `merchant`, `onboarding`. [Credential setup](../RUNTIME.md
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.sandboxes.reset("test_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey });
+const result = await client.sandboxes.reset("test_01KEZF7C00JC77HTMTB2XHNPE0", {}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/sandboxes-reset.mjs)

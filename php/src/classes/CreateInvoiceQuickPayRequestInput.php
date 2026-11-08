@@ -7,13 +7,13 @@ namespace Flint;
  * @property-read OrderDeliveryDestinationRequestInput|array<array-key, mixed>|\stdClass $delivery_destination
  * @property-read list<CreateOrderDiscountInput|array<array-key, mixed>|\stdClass> $discounts
  * @property-read string $internal_note
- * @property-read OrderInventoryRoutingSourceRequestInput|array<array-key, mixed>|\stdClass $inventory_routing_source
+ * @property-read InventoryRoutingSourceRequestInput|array<array-key, mixed>|\stdClass $inventory_routing_source
  * @property-read list<CreateOrderLineItemRequestInput|array<array-key, mixed>|\stdClass> $line_items
  * @property-read CreateOrderTipInput|array<array-key, mixed>|\stdClass $requested_tip
  * @property-read OrderTaxRequestInput|array<array-key, mixed>|\stdClass $tax
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateInvoiceQuickPayRequestInput extends Model {
-    /** @param array{'buyer_note'?: string, 'customer_id'?: string, 'delivery_destination'?: OrderDeliveryDestinationRequestInput|array<array-key, mixed>|\stdClass, 'discounts'?: list<CreateOrderDiscountInput|array<array-key, mixed>|\stdClass>, 'internal_note'?: string, 'inventory_routing_source'?: OrderInventoryRoutingSourceRequestInput|array<array-key, mixed>|\stdClass, 'line_items': list<CreateOrderLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'requested_tip'?: CreateOrderTipInput|array<array-key, mixed>|\stdClass, 'tax'?: OrderTaxRequestInput|array<array-key, mixed>|\stdClass}|object $values */
+    /** @param array{'buyer_note'?: string, 'customer_id'?: string, 'delivery_destination'?: OrderDeliveryDestinationRequestInput|array<array-key, mixed>|\stdClass, 'discounts'?: list<CreateOrderDiscountInput|array<array-key, mixed>|\stdClass>, 'internal_note'?: string, 'inventory_routing_source'?: InventoryRoutingSourceRequestInput|array<array-key, mixed>|\stdClass, 'line_items': list<CreateOrderLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'requested_tip'?: CreateOrderTipInput|array<array-key, mixed>|\stdClass, 'tax'?: OrderTaxRequestInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateInvoiceQuickPayRequestInput')); }
     /** A note to the buyer on the backing order, captured in snapshot.buyer_note. minLength: 1.
      * @return string
@@ -21,7 +21,7 @@ final class CreateInvoiceQuickPayRequestInput extends Model {
      */
     public function getBuyerNote(): string { return $this->get('buyer_note'); }
     public function hasBuyerNote(): bool { return $this->has('buyer_note'); }
-    /** The customer to bill. The invoice shows their name and billing details, and GET /v1/invoices?customer_id= finds it. minLength: 1.
+    /** The customer to bill. The invoice shows their name and billing details, and GET /v1/invoices?customer_id= finds it. minLength: 1. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */
@@ -45,8 +45,8 @@ final class CreateInvoiceQuickPayRequestInput extends Model {
      */
     public function getInternalNote(): string { return $this->get('internal_note'); }
     public function hasInternalNote(): bool { return $this->has('internal_note'); }
-    /** Where this invoice backing order's tracked demand is routed: a fixed Location, or an allocation policy. Required when any line tracks inventory. Where inventory for an order is allocated from: a fixed location, an allocation policy, or a specific policy revision.
-     * @return OrderInventoryRoutingSourceRequestInput|array<array-key, mixed>|\stdClass
+    /** Where this invoice backing order's tracked demand is routed: a fixed Location, an allocation policy, or an immutable policy revision. Required when any line tracks inventory. Where you want inventory routed from: a fixed Location, an inventory allocation policy, or one policy revision, selected by `type`.
+     * @return InventoryRoutingSourceRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When inventory_routing_source is omitted; use hasInventoryRoutingSource() or valueOrDefault().
      */
     public function getInventoryRoutingSource(): mixed { return $this->get('inventory_routing_source'); }

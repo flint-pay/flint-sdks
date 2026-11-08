@@ -10,22 +10,22 @@ namespace Flint;
 final class BuyerReturnPreviewResponseDataResolutionEligibilityLineItemsItemSuggestedReturnReasonsItem extends Model {
     /** @param array{'handle': string, 'is_note_required': bool, 'name': string, 'return_reason_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerReturnPreviewResponseDataResolutionEligibilityLineItemsItemSuggestedReturnReasonsItem')); }
-    /** handle
+    /** Handle of the reason.
      * @return string
      */
     public function getHandle(): string { return $this->get('handle'); }
     public function hasHandle(): bool { return $this->has('handle'); }
-    /** is_note_required
+    /** Whether a line that uses this reason needs a `buyer_note`.
      * @return bool
      */
     public function getIsNoteRequired(): bool { return $this->get('is_note_required'); }
     public function hasIsNoteRequired(): bool { return $this->has('is_note_required'); }
-    /** name
+    /** Name of the reason.
      * @return string
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** return_reason_id
+    /** ID of the reason.
      * @return string
      */
     public function getReturnReasonId(): string { return $this->get('return_reason_id'); }

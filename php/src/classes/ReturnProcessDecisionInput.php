@@ -35,7 +35,7 @@ final class ReturnProcessDecisionInput extends Model {
      */
     public function getAutomaticResolutionType(): string|null { return $this->get('automatic_resolution_type'); }
     public function hasAutomaticResolutionType(): bool { return $this->has('automatic_resolution_type'); }
-    /** Value enum: "not_eligible", "quantity_unavailable", "evidence_missing", "suspected_abuse", "merchant_discretion", "other".
+    /** Why the line's declined quantity is declined. Value enum: "not_eligible", "quantity_unavailable", "evidence_missing", "suspected_abuse", "merchant_discretion", "other".
      * @return string
      * @throws SdkError When decline_reason is omitted; use hasDeclineReason() or valueOrDefault().
      */
@@ -65,7 +65,7 @@ final class ReturnProcessDecisionInput extends Model {
      */
     public function getOverrideReasonMessage(): string { return $this->get('override_reason_message'); }
     public function hasOverrideReasonMessage(): bool { return $this->has('override_reason_message'); }
-    /** Optional receiving Location with a postal address. Defaults to the buildable pinned policy proposal or no location when no proposal can be built. Required when the resulting return_required_quantity is above zero and there is no starting location. A process receipt does not supply the decision's location. minLength: 1.
+    /** Optional receiving Location with a postal address. Defaults to the buildable pinned policy proposal or no location when no proposal can be built. Required when the resulting return_required_quantity is above zero and there is no starting location. A process receipt does not supply the decision's location. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When receiving_location_id is omitted; use hasReceivingLocationId() or valueOrDefault().
      */

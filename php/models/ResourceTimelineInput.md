@@ -8,8 +8,8 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `entries` | Required | Array of [ResourceTimelineEntryInput](../models/ResourceTimelineEntryInput.md#resourcetimelineentryinput) |  |
-| `resource_id` | Required | string |  |
-| `resource_type` | Required | [ResourceTypeInput](../models/ResourceTypeInput.md#resourcetypeinput) | Public resource type: the resource's ID field name without `_id`. Clients must accept values added in future releases. Values: [141 declared values](APIRequestLogInput.md#apirequestloginput-resource_type-values). |
-| `test` | Required | boolean |  |
+| `entries` | Required | Array of [ResourceTimelineEntryInput](../models/ResourceTimelineEntryInput.md#resourcetimelineentryinput) | Timeline entries for the resource, each tagged by `entry_type`. Narrowed by `include`, `occurred_after`, and `occurred_before`. |
+| `resource_id` | Required | string | ID of the resource this timeline is for. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
+| `resource_type` | Required | string | Type of the resource this timeline is for. Example: `"order"`. Values: [146 declared values](APIRequestLogInput.md#apirequestloginput-resource_type-values). |
+| `test` | Required | boolean | `true` when the timeline is for test mode data and `false` for live data. |
 

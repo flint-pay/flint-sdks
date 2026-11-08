@@ -1,8 +1,8 @@
 import type { Result, WithResponseInfo, InputValue, WebhookHeaders as _SdkWebhookHeaders } from '../runtime.js';
-import type { ClientOptions } from './types-5.js';
-import type { VerifiedWebhook } from './types-61.js';
-import type { WebhookVerificationOptions } from './types-62.js';
-import type { verifyWebhook, verifyWebhookAsync } from './types-75.js';
+import type { ClientOptions } from './types-6.js';
+import type { VerifiedWebhook } from './types-65.js';
+import type { WebhookVerificationOptions } from './types-66.js';
+import type { verifyWebhook, verifyWebhookAsync } from './types-80.js';
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {
     constructor(options?: ClientOptions);
@@ -39,6 +39,7 @@ export declare class Client {
     readonly discountPreviews: import('../resources/discountPreviews.js').DiscountPreviewsResource;
     readonly disputes: import('../resources/disputes.js').DisputesResource;
     readonly emailPreferenceLinks: import('../resources/emailPreferenceLinks.js').EmailPreferenceLinksResource;
+    readonly emailPreferences: import('../resources/emailPreferences.js').EmailPreferencesResource;
     readonly feedbackReports: import('../resources/feedbackReports.js').FeedbackReportsResource;
     readonly files: import('../resources/files.js').FilesResource;
     readonly fraudWarnings: import('../resources/fraudWarnings.js').FraudWarningsResource;
@@ -74,8 +75,8 @@ export declare class Client {
     readonly oauth: import('../resources/oauth.js').OauthResource;
     readonly onboarding: import('../resources/onboarding.js').OnboardingResource;
     readonly openapi: import('../resources/openapi.js').OpenapiResource;
+    readonly orderEditPreviews: import('../resources/orderEditPreviews.js').OrderEditPreviewsResource;
     readonly orders: import('../resources/orders.js').OrdersResource;
-    readonly organizations: import('../resources/organizations.js').OrganizationsResource;
     readonly packages: import('../resources/packages.js').PackagesResource;
     readonly partnerAppInstalls: import('../resources/partnerAppInstalls.js').PartnerAppInstallsResource;
     readonly partnerApps: import('../resources/partnerApps.js').PartnerAppsResource;
@@ -87,6 +88,7 @@ export declare class Client {
     readonly payoutDestinations: import('../resources/payoutDestinations.js').PayoutDestinationsResource;
     readonly payoutSettings: import('../resources/payoutSettings.js').PayoutSettingsResource;
     readonly payouts: import('../resources/payouts.js').PayoutsResource;
+    readonly priceLists: import('../resources/priceLists.js').PriceListsResource;
     readonly products: import('../resources/products.js').ProductsResource;
     readonly promotionCodes: import('../resources/promotionCodes.js').PromotionCodesResource;
     readonly promotions: import('../resources/promotions.js').PromotionsResource;
@@ -113,8 +115,10 @@ export declare class Client {
     readonly subscriptionPlans: import('../resources/subscriptionPlans.js').SubscriptionPlansResource;
     readonly subscriptionPreviews: import('../resources/subscriptionPreviews.js').SubscriptionPreviewsResource;
     readonly subscriptions: import('../resources/subscriptions.js').SubscriptionsResource;
+    readonly taxCalculationCallbacks: import('../resources/taxCalculationCallbacks.js').TaxCalculationCallbacksResource;
     readonly taxConnection: import('../resources/taxConnection.js').TaxConnectionResource;
     readonly testClocks: import('../resources/testClocks.js').TestClocksResource;
+    readonly tickets: import('../resources/tickets.js').TicketsResource;
     readonly webhookDeliveries: import('../resources/webhookDeliveries.js').WebhookDeliveriesResource;
     readonly webhookEndpoints: import('../resources/webhookEndpoints.js').WebhookEndpointsResource;
     readonly webhookEventTypes: import('../resources/webhookEventTypes.js').WebhookEventTypesResource;

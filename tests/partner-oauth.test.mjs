@@ -17,6 +17,7 @@ import {
   createState,
   exchangeCode,
   parseAuthorizeCallback,
+  partnerAppTokens,
   privateKeyJwt,
   revokeToken,
 } from "../node/custom/partner-oauth.js";
@@ -52,7 +53,7 @@ function php(body, ...args) {
     `<?php
 declare(strict_types=1);
 require ${JSON.stringify(join(root, "php/src/autoload.php"))};
-foreach (['ClientAssertionProvider', 'AuthorizeUrl', 'AuthorizeCallbackError', 'OAuth', 'PrivateKeyJwt'] as $class) {
+foreach (['ClientAssertionProvider', 'AuthorizeUrl', 'AuthorizeCallbackError', 'OAuth', 'PrivateKeyJwt', 'PartnerAppCredentials', 'PartnerAppTokens'] as $class) {
     require ${JSON.stringify(join(root, "php/custom/Partner"))} . '/' . $class . '.php';
 }
 use Flint\\Partner\\{OAuth, PrivateKeyJwt, AuthorizeCallbackError, ClientAssertionProvider};
@@ -443,11 +444,11 @@ test("client authentication fields come from any assertion provider without leak
   assert.deepEqual(result.invalid, { error: "ConfigurationError", code: "credential_invalid", param: null });
 });
 
+// A code exchange returns a merchant-bound partner app token and no refresh token.
 const issued = {
   access_token: "fpat_synthetic",
   token_type: "Bearer",
-  expires_in: 3600,
-  refresh_token: "fprt_synthetic",
+  expires_in: 900,
   scope: "manage_orders read_customers",
   merchant_id: "mer_01KEZF7C00MPP0T9S0KH5BB4CC",
   partner_app_id: "papp_01KEZF7C00D8DXK5AXR7NPRJ0J",
@@ -488,7 +489,7 @@ test("code exchange and revocation send form requests with a fresh assertion in 
   });
   assert.equal(token.access_token, issued.access_token);
   assert.equal(token.mode, "test");
-  await revokeToken(client, { token: "fprt_synthetic", tokenTypeHint: "refresh_token", clientAssertion: assertion });
+  await revokeToken(client, { token: "fpat_synthetic", tokenTypeHint: "access_token", clientAssertion: assertion });
   rejects(() => codeChallenge("short"), "codeVerifier");
   await assert.rejects(
     exchangeCode(client, { code: "c", redirectUri: "https://example.com/cb", codeVerifier: "short", clientAssertion: assertion }),
@@ -511,7 +512,7 @@ test("code exchange and revocation send form requests with a fresh assertion in 
         'codeVerifier' => $argv[3],
         'clientAssertion' => $assertion,
     ]);
-    OAuth::revokeToken($client, ['token' => 'fprt_synthetic', 'tokenTypeHint' => 'refresh_token', 'clientAssertion' => $assertion]);
+    OAuth::revokeToken($client, ['token' => 'fpat_synthetic', 'tokenTypeHint' => 'access_token', 'clientAssertion' => $assertion]);
     echo json_encode(['sent' => $sent, 'token' => $token->getAccessToken()]);`,
     pem,
     JSON.stringify(issued),
@@ -555,8 +556,8 @@ test("code exchange and revocation send form requests with a fresh assertion in 
       }).jti,
     );
     assert.deepEqual({ ...revocation, client_assertion: undefined }, {
-      token: "fprt_synthetic",
-      token_type_hint: "refresh_token",
+      token: "fpat_synthetic",
+      token_type_hint: "access_token",
       client_id: "fpc_0123456789abcdef",
       client_assertion_type: CLIENT_ASSERTION_TYPE,
       client_assertion: undefined,
@@ -576,7 +577,7 @@ test("TypeScript consumers get typed partner OAuth helpers", () => {
       `import { Client } from "../../node/index.js";
 import {
   buildAuthorizeUrl, exchangeCode, parseAuthorizeCallback, privateKeyJwt, revokeToken,
-  clientAuthentication, AuthorizeCallbackError, type ClientAssertionProvider,
+  clientAuthentication, AuthorizeCallbackError, partnerAppTokens, type ClientAssertionProvider,
 } from "../../node/custom/partner-oauth.js";
 const { url, state, codeVerifier }: { url: string; state: string; codeVerifier: string } = buildAuthorizeUrl({
   clientId: "fpc_synthetic", redirectUri: "https://example.com/cb", mode: "test", scope: ["manage_orders"],
@@ -601,6 +602,13 @@ async function flow(callbackUrl: string) {
   await client.oauth.exchangeToken({ grant_type: "authorization_code", code, redirect_uri: "https://example.com/cb", code_verifier: codeVerifier, ...fields });
   return url;
 }
+const tokens = partnerAppTokens(client, { clientAssertion: assertion, mode: "live" });
+const merchantClient = new Client({ token: tokens.forMerchant("mer_01KEZF7C00MPP0T9S0KH5BB4CC"), ambientCredentials: false });
+void merchantClient;
+const appToken: Promise<{ value: string; expiresAt: Date }> = tokens.app().getCredential();
+void appToken;
+// @ts-expect-error Partner app tokens are minted for test or live.
+partnerAppTokens(client, { clientAssertion: assertion, mode: "sandbox" });
 try { void flow("https://example.com/cb?code=x&state=y"); } catch (error) {
   if (error instanceof AuthorizeCallbackError) { const reason: string = error.error; void reason; }
 }
@@ -628,4 +636,173 @@ try { void flow("https://example.com/cb?code=x&state=y"); } catch (error) {
   } finally {
     rmSync(directory, { recursive: true, force: true });
   }
+});
+
+const MERCHANT = "mer_01KEZF7C00MPP0T9S0KH5BB4CC";
+const minted = (n, extra = {}) => ({
+  access_token: `fpat_minted_${n}`,
+  token_type: "Bearer",
+  expires_in: 900,
+  mode: "live",
+  partner_app_id: "papp_01KEZF7C00D8DXK5AXR7NPRJ0J",
+  ...extra,
+});
+
+test("partner app tokens mint per merchant, cache, refresh before expiry and retry a 401 once in Node", async (t) => {
+  const { privateKey, publicKey } = keys.EdDSA();
+  const clientAssertion = privateKeyJwt({ clientId: "fpc_0123456789abcdef", privateKey, algorithm: "EdDSA" });
+  const mints = [];
+  const calls = [];
+  let reject = 0;
+  const transport = async (url, init) => {
+    const headers = Object.fromEntries(new Headers(init.headers));
+    if (String(url).endsWith("/v1/oauth/token")) {
+      mints.push(formFields(init.body));
+      await new Promise((resolve) => setImmediate(resolve));
+      return new Response(JSON.stringify(minted(mints.length, mints.at(-1).merchant_id ? { merchant_id: mints.at(-1).merchant_id } : {})), {
+        status: 200,
+        headers: { "content-type": "application/json" },
+      });
+    }
+    calls.push({ url: String(url), authorization: headers.authorization, merchant: headers["flint-merchant-id"] });
+    if (reject > 0) {
+      reject--;
+      return new Response(JSON.stringify({ error: { code: "INVALID_CREDENTIAL", message: "Expired." }, request_id: "req_01KEZF7C00MPP0T9S0KH5BB4CC" }), {
+        status: 401,
+        headers: { "content-type": "application/json" },
+      });
+    }
+    return new Response(JSON.stringify({ data: [], request_id: "req_01KEZF7C00MPP0T9S0KH5BB4CC" }), { status: 200, headers: { "content-type": "application/json" } });
+  };
+  const minter = new Client({ ambientCredentials: false, transport });
+  const tokens = partnerAppTokens(minter, { clientAssertion, mode: "live" });
+  const credentials = tokens.forMerchant(MERCHANT);
+  assert.equal(tokens.forMerchant(MERCHANT), credentials, "one provider per merchant");
+  t.mock.timers.enable({ apis: ["Date"], now: Date.parse("2026-11-08T12:00:00Z") });
+  // Concurrent first calls share one mint.
+  const [a, b] = await Promise.all([credentials.getCredential(), credentials.getCredential()]);
+  assert.equal(mints.length, 1);
+  assert.equal(a.value, "fpat_minted_1");
+  assert.equal(b.value, "fpat_minted_1");
+  assert.equal(a.expiresAt.toISOString(), "2026-11-08T12:15:00.000Z");
+  const { client_assertion, ...fields } = mints[0];
+  assert.deepEqual(fields, {
+    grant_type: "client_credentials",
+    mode: "live",
+    merchant_id: MERCHANT,
+    client_id: "fpc_0123456789abcdef",
+    client_assertion_type: CLIENT_ASSERTION_TYPE,
+  });
+  verifyAssertion(client_assertion, "EdDSA", publicKey, { clientId: "fpc_0123456789abcdef", audience: "https://api.withflintpay.com", lifetime: 120 });
+  // Reused until 60 seconds before expiry, then minted again.
+  t.mock.timers.setTime(Date.parse("2026-11-08T12:13:59Z"));
+  assert.equal((await credentials.getCredential()).value, "fpat_minted_1");
+  t.mock.timers.setTime(Date.parse("2026-11-08T12:14:01Z"));
+  assert.equal((await credentials.getCredential()).value, "fpat_minted_2");
+  assert.equal(mints.length, 2);
+  // A client using the provider sends the token; a 401 drops it and retries once.
+  const merchant = new Client({ token: credentials, ambientCredentials: false, transport });
+  await merchant.balances.list();
+  assert.deepEqual(calls.at(-1), { url: "https://api.withflintpay.com/v1/balances", authorization: "Bearer fpat_minted_2", merchant: undefined });
+  reject = 1;
+  await merchant.balances.list();
+  assert.deepEqual(calls.slice(-2).map((call) => call.authorization), ["Bearer fpat_minted_2", "Bearer fpat_minted_3"]);
+  assert.equal(mints.length, 3);
+  // App-level tokens omit merchant_id; requests name the merchant themselves.
+  const app = tokens.app();
+  assert.equal(tokens.app(), app);
+  assert.equal((await app.getCredential()).value, "fpat_minted_4");
+  assert.equal(Object.hasOwn(mints.at(-1), "merchant_id"), false);
+  assert.deepEqual(JSON.parse(JSON.stringify(credentials)), { mode: "live", merchantId: MERCHANT });
+  rejects(() => tokens.forMerchant("merchant_1"), "merchantId");
+  rejects(() => partnerAppTokens(minter, { clientAssertion, mode: "sandbox" }), "mode");
+  rejects(() => partnerAppTokens(minter, { clientAssertion, mode: "live", refreshBeforeSeconds: 601 }), "refreshBeforeSeconds");
+  rejects(() => partnerAppTokens({}, { clientAssertion, mode: "live" }), "client");
+  // A mint that fails surfaces its error and leaves nothing cached.
+  const failing = partnerAppTokens(
+    new Client({
+      ambientCredentials: false,
+      transport: async () =>
+        new Response(JSON.stringify({ error: "invalid_client", error_description: "Client authentication failed." }), {
+          status: 401,
+          headers: { "content-type": "application/json" },
+        }),
+    }),
+    { clientAssertion, mode: "live" },
+  ).forMerchant(MERCHANT);
+  await assert.rejects(failing.getCredential(), { status: 401, code: "invalid_client" });
+});
+
+test("PHP partner app tokens mint per merchant, cache, expire and retry a 401 once", () => {
+  const { privateKey, publicKey } = keys.ES256();
+  const result = php(
+    `$mints = [];
+    $calls = [];
+    $reject = 0;
+    $expires = 900;
+        $transport = function (array $request) use (&$mints, &$calls, &$reject, &$expires): array {
+        if (str_ends_with($request['url'], '/v1/oauth/token')) {
+            parse_str($request['body'], $fields);
+            $mints[] = $fields;
+            $body = ['access_token' => 'fpat_minted_' . count($mints), 'token_type' => 'Bearer', 'expires_in' => $expires, 'mode' => 'live', 'partner_app_id' => 'papp_01KEZF7C00D8DXK5AXR7NPRJ0J'] + (isset($fields['merchant_id']) ? ['merchant_id' => $fields['merchant_id']] : []);
+            return ['status' => 200, 'headers' => ['content-type' => 'application/json'], 'body' => json_encode($body)];
+        }
+        $calls[] = [$request['headers']['authorization'] ?? null, $request['headers']['flint-merchant-id'] ?? null];
+        if ($reject > 0) {
+            $reject--;
+            return ['status' => 401, 'headers' => ['content-type' => 'application/json'], 'body' => '{"error":{"code":"INVALID_CREDENTIAL","message":"Expired."},"request_id":"req_01KEZF7C00MPP0T9S0KH5BB4CC"}'];
+        }
+        return ['status' => 200, 'headers' => ['content-type' => 'application/json'], 'body' => '{"data":[],"request_id":"req_01KEZF7C00MPP0T9S0KH5BB4CC"}'];
+    };
+    $minter = new \\Flint\\Client(new \\Flint\\ClientOptions(ambientCredentials: false, transport: $transport));
+    $tokens = new \\Flint\\Partner\\PartnerAppTokens($minter, new PrivateKeyJwt('fpc_0123456789abcdef', $argv[1], 'ES256'), 'live');
+    $credentials = $tokens->forMerchant($argv[2]);
+    $out = ['same' => $tokens->forMerchant($argv[2]) === $credentials];
+    $out['first'] = [$credentials->getCredential()->value, $credentials->getCredential()->value, count($mints)];
+    $out['expiresIn'] = $credentials->getCredential()->expiresAt->getTimestamp() - time();
+    $merchant = new \\Flint\\Client(new \\Flint\\ClientOptions(token: $credentials, ambientCredentials: false, transport: $transport));
+    $merchant->balances->list();
+    $reject = 1;
+    $merchant->balances->list();
+    $out['calls'] = $calls;
+    $out['afterRetry'] = count($mints);
+    // A token within refreshBeforeSeconds of expiry is minted again.
+    $expires = 1;
+    $short = (new \\Flint\\Partner\\PartnerAppTokens($minter, new PrivateKeyJwt('fpc_0123456789abcdef', $argv[1], 'ES256'), 'live', 0))->app();
+    $first = $short->getCredential()->value;
+    usleep(1100000);
+    $out['short'] = [$first, $short->getCredential()->value];
+    $out['appMint'] = array_key_exists('merchant_id', $mints[count($mints) - 1]);
+    $out['mint'] = $mints[0];
+    $out['debug'] = print_r($credentials, true) . print_r($tokens, true);
+    $out['invalid'] = [attempt(fn() => $tokens->forMerchant('merchant_1')), attempt(fn() => new \\Flint\\Partner\\PartnerAppTokens($minter, new PrivateKeyJwt('fpc_0123456789abcdef', $argv[1], 'ES256'), 'sandbox'))];
+    echo json_encode($out);`,
+    privateKey.export({ type: "pkcs8", format: "pem" }),
+    MERCHANT,
+  );
+  assert.equal(result.same, true);
+  assert.deepEqual(result.first, ["fpat_minted_1", "fpat_minted_1", 1]);
+  assert.ok(result.expiresIn > 890 && result.expiresIn <= 900, String(result.expiresIn));
+  assert.deepEqual(result.calls, [
+    ["Bearer fpat_minted_1", null],
+    ["Bearer fpat_minted_1", null],
+    ["Bearer fpat_minted_2", null],
+  ]);
+  assert.equal(result.afterRetry, 2);
+  assert.deepEqual(result.short, ["fpat_minted_3", "fpat_minted_4"]);
+  assert.equal(result.appMint, false);
+  const { client_assertion, ...fields } = result.mint;
+  assert.deepEqual(fields, {
+    grant_type: "client_credentials",
+    mode: "live",
+    merchant_id: MERCHANT,
+    client_id: "fpc_0123456789abcdef",
+    client_assertion_type: CLIENT_ASSERTION_TYPE,
+  });
+  verifyAssertion(client_assertion, "ES256", publicKey, { clientId: "fpc_0123456789abcdef", audience: "https://api.withflintpay.com", lifetime: 120 });
+  assert.doesNotMatch(result.debug, /fpat_|PRIVATE KEY/);
+  assert.deepEqual(result.invalid, [
+    { error: "InvalidInputError", code: "INVALID_REQUEST", param: "merchantId" },
+    { error: "InvalidInputError", code: "INVALID_REQUEST", param: "mode" },
+  ]);
 });

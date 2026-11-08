@@ -8,8 +8,8 @@ const client = new Client({
   customerToken,
 });
 const result = await client.me.getCreditNotePDF(
-  "inv_01ARZ3NDEKTSV4RRFFQ69G5FAV",
-  "cn_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "inv_01KEZF7C00A5GEBMWHEAJFSAR4",
+  "cn_01KEZF7C00N1TRRCVDNY8S471H"
 );
 // Choose a destination path; PDF bytes must not be decoded as text.
 const resultPath = process.env.API_DOWNLOAD_PATH ?? "download.pdf";

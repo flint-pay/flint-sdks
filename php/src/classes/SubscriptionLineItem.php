@@ -2,12 +2,15 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read bool $allow_quantity_adjustment
  * @property-read MoneyValue $base_subtotal_money
  * @property-read ?list<BundleComponent> $bundle_components
  * @property-read ?string $bundle_id
  * @property-read ?list<CategoryReference> $categories
  * @property-read ?string $description
  * @property-read ?Image $image
+ * @property-read ?int $max_quantity
+ * @property-read ?int $min_quantity
  * @property-read MoneyValue $modifier_total_money
  * @property-read ?list<OrderLineItemModifier> $modifiers
  * @property-read string $name
@@ -15,17 +18,22 @@ namespace Flint;
  * @property-read int $quantity
  * @property-read ?list<SelectedProductOption> $selected_options
  * @property-read ?string $sku
- * @property-read ?string $source_type
  * @property-read ?string $subscription_line_item_id
  * @property-read ?string $subscription_offer_id
  * @property-read ?string $subscription_plan_line_item_id
  * @property-read MoneyValue $subtotal_money
+ * @property-read string $type
  * @property-read MoneyValue $unit_price_money
  * @property-read ?string $variant_id
  * Presence-aware response; omitted optional fields return null. */
 final class SubscriptionLineItem extends Model {
-    /** @param array{'base_subtotal_money': mixed, 'bundle_components'?: list<mixed>, 'bundle_id'?: string, 'categories'?: list<mixed>, 'description'?: string, 'image'?: mixed, 'modifier_total_money': mixed, 'modifiers'?: list<mixed>, 'name': string, 'product_id'?: string, 'quantity': int, 'selected_options'?: list<mixed>, 'sku'?: string, 'source_type'?: string, 'subscription_line_item_id'?: string, 'subscription_offer_id'?: string, 'subscription_plan_line_item_id'?: string, 'subtotal_money': mixed, 'unit_price_money': mixed, 'variant_id'?: string, ...}|object $values */
+    /** @param array{'allow_quantity_adjustment': bool, 'base_subtotal_money': mixed, 'bundle_components'?: list<mixed>, 'bundle_id'?: string, 'categories'?: list<mixed>, 'description'?: string, 'image'?: mixed, 'max_quantity'?: int, 'min_quantity'?: int, 'modifier_total_money': mixed, 'modifiers'?: list<mixed>, 'name': string, 'product_id'?: string, 'quantity': int, 'selected_options'?: list<mixed>, 'sku'?: string, 'subscription_line_item_id'?: string, 'subscription_offer_id'?: string, 'subscription_plan_line_item_id'?: string, 'subtotal_money': mixed, 'type': string, 'unit_price_money': mixed, 'variant_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionLineItem')); }
+    /** Whether the frozen terms allow the buyer to adjust this line quantity.
+     * @return bool
+     */
+    public function getAllowQuantityAdjustment(): bool { return $this->get('allow_quantity_adjustment'); }
+    public function hasAllowQuantityAdjustment(): bool { return $this->has('allow_quantity_adjustment'); }
     /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
@@ -51,17 +59,27 @@ final class SubscriptionLineItem extends Model {
      */
     public function getDescription(): ?string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** An image with its `url`, `width`, and `height`, and optional `alt` text.
+    /** An image with its URL, size, and alt text.
      * @return ?Image
      */
     public function getImage(): ?Image { return $this->get('image'); }
     public function hasImage(): bool { return $this->has('image'); }
+    /** Maximum buyer quantity, defaulting to 9999 when no bound was recorded. Merchants may set any quantity from 1 to 9999. Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1. maximum: 9999.
+     * @return ?int
+     */
+    public function getMaxQuantity(): ?int { return $this->get('max_quantity'); }
+    public function hasMaxQuantity(): bool { return $this->has('max_quantity'); }
+    /** Minimum buyer quantity, defaulting to 1 when no bound was recorded. Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1. maximum: 9999.
+     * @return ?int
+     */
+    public function getMinQuantity(): ?int { return $this->get('min_quantity'); }
+    public function hasMinQuantity(): bool { return $this->has('min_quantity'); }
     /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getModifierTotalMoney(): MoneyValue { return $this->get('modifier_total_money'); }
     public function hasModifierTotalMoney(): bool { return $this->has('modifier_total_money'); }
-    /**  [] (Value): {@see OrderLineItemModifier}. A modifier selected on an order line item, with its quantity, price change, total, and display flags.
+    /**  [] (Value): {@see OrderLineItemModifier}. A modifier selected on an order line item.
      * @return ?list<OrderLineItemModifier>
      */
     public function getModifiers(): ?array { return $this->get('modifiers'); }
@@ -91,12 +109,7 @@ final class SubscriptionLineItem extends Model {
      */
     public function getSku(): ?string { return $this->get('sku'); }
     public function hasSku(): bool { return $this->has('sku'); }
-    /** Value enum: "variant", "bundle".
-     * @return ?string
-     */
-    public function getSourceType(): ?string { return $this->get('source_type'); }
-    public function hasSourceType(): bool { return $this->has('source_type'); }
-    /** subscription_line_item_id
+    /** Unique identifier for this subscription line item, prefixed `sli_`.
      * @return ?string
      */
     public function getSubscriptionLineItemId(): ?string { return $this->get('subscription_line_item_id'); }
@@ -116,6 +129,11 @@ final class SubscriptionLineItem extends Model {
      */
     public function getSubtotalMoney(): MoneyValue { return $this->get('subtotal_money'); }
     public function hasSubtotalMoney(): bool { return $this->has('subtotal_money'); }
+    /** Whether the line was sold from a catalog variant, a bundle, or a custom item. Value enum: "variant", "bundle", "custom".
+     * @return string
+     */
+    public function getType(): string { return $this->get('type'); }
+    public function hasType(): bool { return $this->has('type'); }
     /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */

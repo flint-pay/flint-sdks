@@ -1,0 +1,13 @@
+[Model index](../MODELS.md) · [Runtime guide](../RUNTIME.md)
+
+## PaymentIntentAuthorizationExpiringInstalledMerchantsEventData
+
+The resource snapshot recorded for this event and rendered at the delivery API version.
+
+Response model.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `object` | Required | [PaymentIntentAuthorizationExpiringInstalledMerchantsEventDataObject](../models/PaymentIntentAuthorizationExpiringInstalledMerchantsEventDataObject.md#paymentintentauthorizationexpiringinstalledmerchantseventdataobject) | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `processing_fee_money`, `add_on_fees`, `merchant_net_money`. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `processing_fee_money`, `add_on_fees`, `merchant_net_money`. |
+| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
+

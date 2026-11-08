@@ -15,13 +15,13 @@ final class CustomerVerificationsCreateParams extends Model {
      */
     public function getChannel(): string { return $this->get('channel'); }
     public function hasChannel(): bool { return $this->has('channel'); }
-    /** minLength: 1. Example: "cus_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** ID of the customer whose email to verify. The code goes to this customer's current email. minLength: 1. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** Value enum: "link_guest_purchases".
+    /** What the verification is for. It can only be used for that purpose. Value enum: "link_guest_purchases".
      * @return string
      * @throws SdkError When purpose is omitted; use hasPurpose() or valueOrDefault().
      */

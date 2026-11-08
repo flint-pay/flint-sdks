@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read ?string $created_at
+ * @property-read string $created_at
  * @property-read ?string $delivered_at
  * @property-read string $direction
  * @property-read string $fulfillment_id
@@ -14,16 +14,16 @@ namespace Flint;
  * @property-read string $shipment_id
  * @property-read ?string $shipped_at
  * @property-read string $status
- * @property-read ?string $updated_at
+ * @property-read string $updated_at
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class BuyerShipment extends Model {
-    /** @param array{'created_at'?: string, 'delivered_at'?: string, 'direction': string, 'fulfillment_id': string, 'handed_off_at'?: string, 'order_id': string, 'package_count': int, 'return_id'?: string, 'return_line_items'?: list<mixed>, 'shipment_id': string, 'shipped_at'?: string, 'status': string, 'updated_at'?: string, 'version': int, ...}|object $values */
+    /** @param array{'created_at': string, 'delivered_at'?: string, 'direction': string, 'fulfillment_id': string, 'handed_off_at'?: string, 'order_id': string, 'package_count': int, 'return_id'?: string, 'return_line_items'?: list<mixed>, 'shipment_id': string, 'shipped_at'?: string, 'status': string, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerShipment')); }
     /** Creation timestamp. Format: date-time.
-     * @return ?string
+     * @return string
      */
-    public function getCreatedAt(): ?string { return $this->get('created_at'); }
+    public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
     /** When the shipment was delivered, in RFC3339 format. Format: date-time.
      * @return ?string
@@ -81,9 +81,9 @@ final class BuyerShipment extends Model {
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
     /** Last update timestamp. Format: date-time.
-     * @return ?string
+     * @return string
      */
-    public function getUpdatedAt(): ?string { return $this->get('updated_at'); }
+    public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
     /** Monotonic shipment version for expected_version checks. Format: uint64. minimum: 1.
      * @return int

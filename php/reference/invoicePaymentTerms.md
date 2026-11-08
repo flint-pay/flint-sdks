@@ -4,7 +4,7 @@
 
 ### invoicePaymentTerms.create
 
-Create invoice payment term for the authenticated merchant.
+Creates a reusable payment term that decides when an invoice is due, for example on receipt, net days, or a day of the month. Send `name` and `calculation`. A late fee policy is optional; it applies to overdue invoices and is frozen on an invoice when the invoice is issued.
 
 `POST /v1/invoice-payment-terms`
 
@@ -14,13 +14,21 @@ Signature: `create(array|Model $params, ?RequestOptions $options = null)`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [CreateInvoicePaymentTermRequestInput](../models/CreateInvoicePaymentTermRequestInput.md#createinvoicepaymenttermrequestinput) | The request body for: Create invoice payment term. |
 
 Body model: [CreateInvoicePaymentTermRequestInput](../models/CreateInvoicePaymentTermRequestInput.md#createinvoicepaymenttermrequestinput).
 
 #### invoicePaymentTerms.create body fields
 
-Field definitions: [shared fields](../models/CreateInvoicePaymentTermRequestInput.md#createinvoicepaymenttermrequestinput). Models: [InvoicePaymentTermCalculationInput](../models/InvoicePaymentTermCalculationInput.md#invoicepaymenttermcalculationinput), [InvoiceLateFeePolicyInput](../models/InvoiceLateFeePolicyInput.md#invoicelatefeepolicyinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `calculation` | Required | [InvoicePaymentTermCalculationRequestInput](../models/InvoicePaymentTermCalculationInput.md#invoicepaymenttermcalculationinput) | Rule used to calculate the invoice's due date when it is issued. Required on create; omit it on update to preserve the current rule. How an invoice due date is calculated from payment terms, such as on receipt, net days, or a day of the month. |
+| `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
+| `late_fee_policy` | Optional | [InvoiceLateFeePolicyRequestInput](../models/InvoiceLateFeePolicyInput.md#invoicelatefeepolicyinput) | One-time late fee policy for unpaid invoices using this term. Omit it to use no late fee on create or preserve the current policy on update; send null on update to remove it. A late fee for overdue invoices: a fixed amount or a percentage, a grace period in days, and whether Flint applies it automatically. |
+| `name` | Required | string | Name of the payment term shown on invoices. Required on create; omit it on update to preserve the current name. minLength: `1`. |
 
 #### Response
 
@@ -35,7 +43,6 @@ Returned payload: [InvoicePaymentTerm](../models/InvoicePaymentTerm.md#invoicepa
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -84,6 +91,9 @@ Signature: `delete(string|Model $invoice_payment_term_id, array|Model|null $para
 | --- | --- | --- | --- |
 | `invoice_payment_term_id` | Required | string | Flint invoice payment term ID. |
 | `expected_version` | Optional | integer | Optional version last read by the caller. Format: `uint32`. minimum: `1`. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -98,7 +108,6 @@ Returned payload: [InvoicePaymentTerm](../models/InvoicePaymentTerm.md#invoicepa
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -121,7 +130,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->invoicePaymentTerms->delete('ipt_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->invoicePaymentTerms->delete('ipt_01KEZF7C0064N1V301BBMQ37R4', [], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/invoicePaymentTerms-delete.php)
@@ -139,6 +148,9 @@ Signature: `get(string|Model $invoice_payment_term_id, array|Model|null $params 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `invoice_payment_term_id` | Required | string | Flint invoice payment term ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -152,7 +164,6 @@ Returned payload: [InvoicePaymentTerm](../models/InvoicePaymentTerm.md#invoicepa
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -170,7 +181,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```php
-$result = $client->invoicePaymentTerms->get('ipt_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
+$result = $client->invoicePaymentTerms->get('ipt_01KEZF7C0064N1V301BBMQ37R4', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/invoicePaymentTerms-get.php)
@@ -188,10 +199,13 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
-| `status` | Optional | Array of string or string | Filter by status. Repeat the parameter or send comma-separated values to match any of several. Omitted, the list leaves out archived rows; name archived to include them. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"archived"`. Values: `"active"`, `"archived"`. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
+| `status` | Optional | Array of string or string | Filter by status. Omitted, the list leaves out archived rows; name archived to include them. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"archived"`. Values: `"active"`, `"archived"`. |
 | `external_reference_id` | Optional | string | Exact-match filter on the caller-owned external reference ID. minLength: `1`. maxLength: `255`. |
 | `query` | Optional | string | Search across invoice payment term ID, external reference ID, and name. Text fields match any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the start and need the type prefix, such as ipt_01. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -204,7 +218,6 @@ Returned payload: [InvoicePaymentTermListResponse](../models/InvoicePaymentTermL
 | 400 | InvalidRequestError |
 | 401 | AuthenticationError |
 | 403 | PermissionError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -242,13 +255,22 @@ Signature: `update(string|Model $invoice_payment_term_id, array|Model $params, ?
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `invoice_payment_term_id` | Required | string | Flint invoice payment term ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [UpdateInvoicePaymentTermRequestInput](../models/UpdateInvoicePaymentTermRequestInput.md#updateinvoicepaymenttermrequestinput) | The request body for: Update invoice payment term. minProperties: `1`. |
 
 Body model: [UpdateInvoicePaymentTermRequestInput](../models/UpdateInvoicePaymentTermRequestInput.md#updateinvoicepaymenttermrequestinput).
 
 #### invoicePaymentTerms.update body fields
 
-Field definitions: [shared fields](../models/UpdateInvoicePaymentTermRequestInput.md#updateinvoicepaymenttermrequestinput). Models: [InvoicePaymentTermCalculationInput](../models/InvoicePaymentTermCalculationInput.md#invoicepaymenttermcalculationinput), [InvoiceLateFeePolicyInput](../models/InvoiceLateFeePolicyInput.md#invoicelatefeepolicyinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `calculation` | Optional | [InvoicePaymentTermCalculationRequestInput](../models/InvoicePaymentTermCalculationInput.md#invoicepaymenttermcalculationinput) | Rule used to calculate the invoice's due date when it is issued. Required on create; omit it on update to preserve the current rule. How an invoice due date is calculated from payment terms, such as on receipt, net days, or a day of the month. |
+| `expected_version` | Optional | integer | Optional version last read by the caller. Format: `uint32`. minimum: `1`. |
+| `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
+| `late_fee_policy` | Optional | [InvoiceLateFeePolicyRequestInput](../models/InvoiceLateFeePolicyInput.md#invoicelatefeepolicyinput) or null | One-time late fee policy for unpaid invoices using this term. Omit it to use no late fee on create or preserve the current policy on update; send null on update to remove it. |
+| `name` | Optional | string | Name of the payment term shown on invoices. Required on create; omit it on update to preserve the current name. minLength: `1`. |
 
 #### Response
 
@@ -263,7 +285,6 @@ Returned payload: [InvoicePaymentTerm](../models/InvoicePaymentTerm.md#invoicepa
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |

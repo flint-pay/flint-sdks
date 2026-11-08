@@ -46,6 +46,13 @@ test("pagination follows cursors and bounds requests; reads and keyed writes ret
             tax_identity: null,
             billing_address: null,
             shipping_address: null,
+            merchant_id: "mer_01KEZF7C00MPP0T9S0KH5BB4CC",
+            created_at: "2026-10-06T00:00:00Z",
+            updated_at: "2026-10-06T00:00:00Z",
+            external_reference_id: null,
+            internal_note: null,
+            price_list_id: null,
+            segment: null,
           },
         ],
         ...(second ? {} : { next_page_token: "cursor-two" }),
@@ -109,18 +116,18 @@ test("pagination follows cursors and bounds requests; reads and keyed writes ret
     ),
     SdkError,
   );
-  const command = { action: "cancel" };
+  const command = { expected_version: 1 };
   await assert.rejects(
-    client.inventoryCounts.transition("ic_test", command, {
+    client.inventoryCounts.cancel("ic_test", command, {
       ...options("node-fail-inventory"),
       idempotencyKey: "persisted-action-key",
     }),
     SdkError,
   );
   await assert.rejects(
-    client.inventoryCounts.transition(
+    client.inventoryCounts.cancel(
       "ic_test",
-      { action: "invalid" },
+      { action: "cancel" },
       options("node-no-dispatch"),
     ),
     SdkError,
@@ -160,14 +167,14 @@ try {
   $client->customers->update('cus_test', ['email' => 'buyer@example.com'], new \Flint\RequestOptions(headers: ['x-sdk-test' => 'php-fail-update'], idempotencyKey: 'persisted-action-key'));
   throw new \RuntimeException('Expected update failure');
 } catch (\Flint\SdkError $e) {}
-$command = ['action' => 'cancel'];
+$command = ['expected_version' => 1];
 try {
-  $client->inventoryCounts->transition('ic_test', $command, new \Flint\RequestOptions(headers: ['x-sdk-test' => 'php-fail-inventory'], idempotencyKey: 'persisted-action-key'));
+  $client->inventoryCounts->cancel('ic_test', $command, new \Flint\RequestOptions(headers: ['x-sdk-test' => 'php-fail-inventory'], idempotencyKey: 'persisted-action-key'));
   throw new \RuntimeException('Expected inventory failure');
 } catch (\Flint\SdkError $e) {}
 try {
-  $client->inventoryCounts->transition('ic_test', ['action' => 'invalid'], new \Flint\RequestOptions(headers: ['x-sdk-test' => 'php-no-dispatch']));
-  throw new \RuntimeException('Expected action validation');
+  $client->inventoryCounts->cancel('ic_test', ['action' => 'cancel'], new \Flint\RequestOptions(headers: ['x-sdk-test' => 'php-no-dispatch']));
+  throw new \RuntimeException('Expected unknown-field validation');
 } catch (\Flint\SdkError $e) {}
 try {
   $client->customers->list($input, new \Flint\RequestOptions(headers: ['x-sdk-test' => 'php-no-dispatch'], maxAttempts: 0));

@@ -10,7 +10,7 @@ const idempotencyKey = `refresh-${customerSessionId}`;
 
 const result = await client.customerSessions.refresh(
   {
-    refresh_token: "example",
+    refresh_token: "flint_cref_YmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmI",
   },
   { idempotencyKey: idempotencyKey },
 );

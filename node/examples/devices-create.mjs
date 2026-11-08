@@ -19,4 +19,4 @@ const result = await client.devices.create(
   { idempotencyKey: idempotencyKey },
 );
 console.log(result.device_id);
-console.log(result.status);
+console.log(result.merchant_id);

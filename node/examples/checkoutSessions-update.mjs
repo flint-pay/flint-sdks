@@ -17,4 +17,4 @@ const result = await client.checkoutSessions.update(
   { idempotencyKey: idempotencyKey },
 );
 console.log(result.checkout_session_id);
-console.log(result.status);
+console.log(result.merchant_id);

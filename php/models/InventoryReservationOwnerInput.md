@@ -8,9 +8,9 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `key` | Conditional | string |  |
-| `type` | Required | string |  |
-| `order_id` | Conditional | string | The order Flint holds the stock for. Absent only on a closed reservation whose order Flint can no longer identify. |
+| `key` | Conditional | string | Your identifier for the claim that holds the stock. |
+| `type` | Required | string | Who holds the reservation. |
+| `order_id` | Conditional | string | The order Flint holds the stock for. Absent only on a closed reservation whose order Flint can no longer identify. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
 
 ### InventoryReservationOwnerInput variant 1: `type` = `"merchant"`
 

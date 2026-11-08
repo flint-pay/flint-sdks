@@ -35,7 +35,7 @@ final class GiftCardTransactionCreatedInstalledMerchantsEventDataObject extends 
      */
     public function getBalanceBeforeMoney(): MoneyValue { return $this->get('balance_before_money'); }
     public function hasBalanceBeforeMoney(): bool { return $this->has('balance_before_money'); }
-    /** Your reference for the cash you paid the buyer outside Flint. Set only on cash_out transactions; null for other transactions. maxLength: 255.
+    /** Your reference for the cash you paid the buyer outside Flint. `null` when the transaction is not a cash_out. maxLength: 255.
      * @return string|null
      */
     public function getCashOutReference(): string|null { return $this->get('cash_out_reference'); }
@@ -50,7 +50,7 @@ final class GiftCardTransactionCreatedInstalledMerchantsEventDataObject extends 
      */
     public function getGiftCardTransactionId(): string { return $this->get('gift_card_transaction_id'); }
     public function hasGiftCardTransactionId(): bool { return $this->has('gift_card_transaction_id'); }
-    /** Your Idempotency-Key for the command that created this record. null when Flint created it or no key was sent.
+    /** Your Idempotency-Key for the command that created this record. `null` when Flint created it or no key was sent.
      * @return string|null
      */
     public function getIdempotencyKey(): string|null { return $this->get('idempotency_key'); }
@@ -70,7 +70,7 @@ final class GiftCardTransactionCreatedInstalledMerchantsEventDataObject extends 
      */
     public function getPostedAt(): string { return $this->get('posted_at'); }
     public function hasPostedAt(): bool { return $this->has('posted_at'); }
-    /** Your adjustment reason on adjustment transactions; customer_request on cash_out; null on all other transaction types. Value enum: "complimentary", "balance_accidentally_decreased", "support_issue", "suspicious_activity", "balance_accidentally_increased", "customer_request", null.
+    /** Your adjustment reason on adjustment transactions, and customer_request on cash_out. `null` when the transaction is any other type. Value enum: "complimentary", "balance_accidentally_decreased", "support_issue", "suspicious_activity", "balance_accidentally_increased", "customer_request", null.
      * @return string|null
      */
     public function getReason(): string|null { return $this->get('reason'); }
@@ -80,7 +80,7 @@ final class GiftCardTransactionCreatedInstalledMerchantsEventDataObject extends 
      */
     public function getSequence(): int { return $this->get('sequence'); }
     public function hasSequence(): bool { return $this->has('sequence'); }
-    /** The resource that caused this transaction, such as a gift_card_load, gift_card_redemption, refund, or gift_card_funding_disposition. null when the cause has no public resource. anyOf[1] (Value): {@see ResourceReference}. A reference to another resource by `resource_type` and `resource_id`. anyOf[2] (Value): null.
+    /** The resource that caused this transaction, such as a gift_card_load, gift_card_redemption, refund, or gift_card_funding_disposition. `null` when the cause has no public resource. anyOf[1] (Value): {@see ResourceReference}. A reference to another resource by `resource_type` and `resource_id`. anyOf[2] (Value): null.
      * @return ResourceReference|null
      */
     public function getSource(): ResourceReference|null { return $this->get('source'); }

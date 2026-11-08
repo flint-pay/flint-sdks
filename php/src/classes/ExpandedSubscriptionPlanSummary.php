@@ -30,7 +30,7 @@ final class ExpandedSubscriptionPlanSummary extends Model {
      */
     public function getBillingIntervalCount(): int { return $this->get('billing_interval_count'); }
     public function hasBillingIntervalCount(): bool { return $this->has('billing_interval_count'); }
-    /** maxItems: 12. uniqueItems: true. [] (Value): {@see SubscriptionIntervalOption}. A billing interval, such as every 2 months, offered by a subscription plan.
+    /** Offered billing interval and count pairs, including the plan's default pair. Every option bills the same line prices once per period. Use separate plans for different prices per interval. maxItems: 12. uniqueItems: true. [] (Value): {@see SubscriptionIntervalOption}. A billing cadence offered by a subscription plan or offer. Every option bills the same line prices once per period; prices are not scaled by the interval. For a different price per interval, create separate plans.
      * @return ?list<SubscriptionIntervalOption>
      */
     public function getBillingIntervalOptions(): ?array { return $this->get('billing_interval_options'); }
@@ -50,7 +50,7 @@ final class ExpandedSubscriptionPlanSummary extends Model {
      */
     public function getDescription(): ?string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /**  [] (Value): {@see SubscriptionPlanLineItem}. A line item on a subscription plan, from a variant or bundle, with its quantity, price, and variants a subscriber can swap to.
+    /**  [] (Value): {@see SubscriptionPlanLineItem}. A line item on a subscription plan.
      * @return list<ExpandedSubscriptionPlanSummaryLineItemsItemVariant|ExpandedSubscriptionPlanSummaryLineItemsItemBundle|ExpandedSubscriptionPlanSummaryLineItemsItemCustom|\stdClass>|null
      */
     public function getLineItems(): ?array { return $this->get('line_items'); }
@@ -75,7 +75,7 @@ final class ExpandedSubscriptionPlanSummary extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** subscription_plan_id
+    /** Unique identifier for this subscription plan, prefixed `plan_`.
      * @return string
      */
     public function getSubscriptionPlanId(): string { return $this->get('subscription_plan_id'); }

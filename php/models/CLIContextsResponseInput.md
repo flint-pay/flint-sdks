@@ -9,5 +9,5 @@ Request input.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `contexts` | Required | Array of [ContextSummaryInput](../models/ContextSummaryInput.md#contextsummaryinput) | maxItems: `100`. |
-| `oauth_session_id` | Required | string |  |
+| `oauth_session_id` | Required | string | Example: `"session_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"`. |
 

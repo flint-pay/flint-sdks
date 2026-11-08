@@ -10,24 +10,24 @@ Response model.
 | --- | --- | --- | --- |
 | `basis_delivery_quote_id` | Optional | string |  |
 | `basis_delivery_selection_id` | Optional | string |  |
-| `buyer_location` | Optional | object and Alternative shapes (see declared variants) | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. The normalized buyer address or coordinate used for this quote. `buyer_location`: [declared alternatives](../models/DeliveryPreviewResponse.md#deliverypreviewresponsedata-variant-1buyer_location). |
+| `buyer_location` | Optional | object and Alternative shapes (see declared variants) | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. The normalized buyer address or coordinate used for this quote. `buyer_location`: [declared alternatives](../models/DeliveryQuoteResponse.md#deliveryquoteresponsedatabuyer_location). |
 | `buyer_reasons` | Required | Array of string | Buyer-safe reasons no delivery option was available. Merchant configuration details are never included. Items values: [6 declared values](#deliveryquote-buyer_reasons--values). |
 | `checkout_session_id` | Optional | string | Always present with an API key or dashboard credential. |
-| `choice_groups` | Required | Array of [DeliveryQuoteChoiceGroupResource](../models/DeliveryQuoteChoiceGroupResource.md#deliveryquotechoicegroupresource) |  |
+| `choice_groups` | Required | Array of [DeliveryQuoteChoiceGroupResource](../models/DeliveryQuoteChoiceGroupResource.md#deliveryquotechoicegroupresource) | `choice_groups[]`: [field definitions](../models/CheckoutSessionResponse.md#checkoutsessionresponsedatadeliverychoice_groups). |
 | `created_at` | Required | string | When Flint created this quote. Format: `date-time`. |
-| `delivery_quote_id` | Required | string |  |
+| `delivery_quote_id` | Required | string | Unique identifier for this delivery quote, prefixed `dqt_`. |
 | `delivery_quote_version` | Optional | integer | Version of the order's delivery details evaluated by this quote. Always present with an API key or dashboard credential. Format: `uint64`. minimum: `0`. |
 | `delivery_revocation_id` | Required | string or null | The delivery revocation that revoked this quote, or null when no revocation applies. |
-| `destination_address` | Optional | [Address](../models/Address.md#address) | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. `destination_address`: [field definitions](../models/DeliveryPreviewResponse.md#deliverypreviewresponsedata-variant-1destination_address). |
+| `destination_address` | Optional | [Address](../models/Address.md#address) | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. `destination_address`: [field definitions](../models/DeliveryQuoteResponse.md#deliveryquoteresponsedatadestination_address). |
 | `eligibility_context_version` | Optional | integer | Version of the checkout eligibility context evaluated by this quote. Always present with an API key or dashboard credential. Format: `uint64`. minimum: `0`. |
 | `evaluated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `evaluation_status` | Required | string | Values: `"complete"`, `"incomplete"`, `"degraded"`. |
 | `expires_at` | Required | string | Authoritative expiry for this quote: 24 hours when every method uses fixed, tiered, or rate_table pricing, and at most 15 minutes otherwise. A cart with tracked inventory shortens it to the 5 minutes its stock check stays valid. Read this value from every response. Format: `date-time`. |
-| `input_requirements` | Required | Array of [DeliveryInputRequirement](../models/DeliveryInputRequirement.md#deliveryinputrequirement) | Inputs the delivery methods need. A quote requirement, such as the destination address, is input a method needs before Flint can price it. A selection requirement is input a delivery selection needs before payment, such as a recipient field or delivery window an option requires. A method that waits on the buyer's address or store, or on an address the buyer must correct, already lists the recipient fields it requires. Those requirements name the method's choice group and have no delivery_option_ids. |
-| `merchant_diagnostics` | Optional | Array of [DeliveryMerchantDiagnostic](../models/DeliveryMerchantDiagnostic.md#deliverymerchantdiagnostic) | Always present with an API key or dashboard credential. |
-| `methods` | Optional | Array of [DeliveryQuoteMethodResource](../models/DeliveryQuoteMethodResource.md#deliveryquotemethodresource) |  |
+| `input_requirements` | Required | Array of [DeliveryInputRequirement](../models/DeliveryInputRequirement.md#deliveryinputrequirement) | Inputs the delivery methods need. A quote requirement, such as the destination address, is input a method needs before Flint can price it. A selection requirement is input a delivery selection needs before payment, such as a recipient field or delivery window an option requires. A method that waits on the buyer's address or store, or on an address the buyer must correct, already lists the recipient fields it requires. Those requirements name the method's choice group and have no delivery_option_ids. `input_requirements[]`: [field definitions](../models/CheckoutSessionResponse.md#checkoutsessionresponsedatadeliverychoice_groupscandidate_outcomesinput_requirements). |
+| `merchant_diagnostics` | Optional | Array of [DeliveryMerchantDiagnostic](../models/DeliveryMerchantDiagnostic.md#deliverymerchantdiagnostic) | Always present with an API key or dashboard credential. `merchant_diagnostics[]`: [field definitions](../models/CheckoutSessionResponse.md#checkoutsessionresponsedatadeliverymerchant_diagnostics). |
+| `methods` | Optional | Array of [DeliveryQuoteMethodResource](../models/DeliveryQuoteMethodResource.md#deliveryquotemethodresource) | `methods[]`: [field definitions](../models/DeliveryQuoteResponse.md#deliveryquoteresponsedatamethods). |
 | `order_id` | Optional | string | Always present with an API key or dashboard credential. |
-| `pending_caller_rate_requests` | Optional | Array of [DeliveryPendingCallerRateRequest](../models/DeliveryPendingCallerRateRequest.md#deliverypendingcallerraterequest) |  |
+| `pending_caller_rate_requests` | Optional | Array of [DeliveryPendingCallerRateRequest](../models/DeliveryPendingCallerRateRequest.md#deliverypendingcallerraterequest) | `pending_caller_rate_requests[]`: [field definitions](../models/DeliveryQuoteResponse.md#deliveryquoteresponsedatapending_caller_rate_requests). |
 | `revocation_reason` | Optional | string | Why the quote was revoked: the reason on the delivery revocation that fenced a dependency this quote used. Present when status is revoked. Values: `"unsafe_configuration"`, `"location_unavailable"`, `"credential_compromise"`, `"legal_requirement"`, `"other"`. |
 | `revoked_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `selection_required` | Required | boolean |  |
@@ -46,9 +46,29 @@ Response model.
 
 ### DeliveryQuote.buyer_location
 
-Declared alternatives: [DeliveryPreviewResponse.data variant 1.buyer_location](../models/DeliveryPreviewResponse.md#deliverypreviewresponsedata-variant-1buyer_location).
+Declared alternatives: [DeliveryQuoteResponse.data.buyer_location](../models/DeliveryQuoteResponse.md#deliveryquoteresponsedatabuyer_location).
+
+### DeliveryQuote.choice_groups[]
+
+Field definitions: [CheckoutSessionResponse.data.delivery.choice_groups[]](../models/CheckoutSessionResponse.md#checkoutsessionresponsedatadeliverychoice_groups).
 
 ### DeliveryQuote.destination_address
 
-Field definitions: [DeliveryPreviewResponse.data variant 1.destination_address](../models/DeliveryPreviewResponse.md#deliverypreviewresponsedata-variant-1destination_address).
+Field definitions: [DeliveryQuoteResponse.data.destination_address](../models/DeliveryQuoteResponse.md#deliveryquoteresponsedatadestination_address).
+
+### DeliveryQuote.input_requirements[]
+
+Field definitions: [CheckoutSessionResponse.data.delivery.choice_groups[].candidate_outcomes{}.input_requirements[]](../models/CheckoutSessionResponse.md#checkoutsessionresponsedatadeliverychoice_groupscandidate_outcomesinput_requirements).
+
+### DeliveryQuote.merchant_diagnostics[]
+
+Field definitions: [CheckoutSessionResponse.data.delivery.merchant_diagnostics[]](../models/CheckoutSessionResponse.md#checkoutsessionresponsedatadeliverymerchant_diagnostics).
+
+### DeliveryQuote.methods[]
+
+Field definitions: [DeliveryQuoteResponse.data.methods[]](../models/DeliveryQuoteResponse.md#deliveryquoteresponsedatamethods).
+
+### DeliveryQuote.pending_caller_rate_requests[]
+
+Field definitions: [DeliveryQuoteResponse.data.pending_caller_rate_requests[]](../models/DeliveryQuoteResponse.md#deliveryquoteresponsedatapending_caller_rate_requests).
 

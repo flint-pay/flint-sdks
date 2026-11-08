@@ -10,7 +10,7 @@
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `customer_address_id` | Required | string |  |
+| `customer_address_id` | Required | string | Example: `"caddr_01KEZF7C00K2Q127FBJAXWB0FP"`. |
 | `type` | Required | string | Values: `"customer_address"`. |
 
 ### SubscriptionServiceLocationInputCustomerAddress variant 1: `type` = `"customer_address"`

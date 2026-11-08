@@ -8,9 +8,9 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_specification` | Required | [InvoiceScheduleAmountSpecificationInput](../models/InvoiceScheduleAmountSpecificationInput.md#invoicescheduleamountspecificationinput) | How much the entry collects. Deposits and installments use fixed or percentage, and the balance uses remaining_balance. How much a payment schedule entry collects: a fixed amount, a percentage of the invoice total, or the remaining balance. How much the entry collects. Deposits and installments use fixed or percentage, and the balance uses remaining_balance. How much a payment schedule entry collects: a fixed amount, a percentage of the invoice total, or the remaining balance. `amount_specification`: [declared alternatives](../models/InvoiceScheduleEntryWriteInput.md#invoicescheduleentrywriteinput-variant-1amount_specification), [declared alternatives](../models/InvoiceScheduleEntryWriteInput.md#invoicescheduleentrywriteinput-variant-3amount_specification). |
+| `amount_specification` | Required | [InvoiceScheduleAmountSpecificationRequestInput](../models/InvoiceScheduleAmountSpecificationRequestInput.md#invoicescheduleamountspecificationrequestinput) | How much the entry collects. Deposits and installments use fixed or percentage, and the balance uses remaining_balance. How much a payment schedule entry collects: a fixed amount, a percentage of the invoice total, or the remaining balance. How much the entry collects. Deposits and installments use fixed or percentage, and the balance uses remaining_balance. How much a payment schedule entry collects: a fixed amount, a percentage of the invoice total, or the remaining balance. `amount_specification`: [declared alternatives](../models/InvoiceScheduleEntryWriteInput.md#invoicescheduleentrywriteinput-variant-1amount_specification), [declared alternatives](../models/InvoiceScheduleEntryWriteInput.md#invoicescheduleentrywriteinput-variant-3amount_specification). |
 | `due` | Required | [InvoiceScheduleDueWriteInput](../models/InvoiceScheduleDueWriteInput.md#invoicescheduleduewriteinput) | When the entry is due. Deposits use at_issue or date, installments use date, and the balance uses invoice_due_date or date. When a payment schedule entry is due, as supplied when creating or updating an invoice: at issue, on a set date, or on the invoice due date. When the entry is due. Deposits use at_issue or date, installments use date, and the balance uses invoice_due_date or date. When a payment schedule entry is due, as supplied when creating or updating an invoice: at issue, on a set date, or on the invoice due date. `due`: [declared alternatives](../models/InvoiceScheduleEntryWriteInput.md#invoicescheduleentrywriteinput-variant-1due), [declared alternatives](../models/InvoiceScheduleEntryWriteInput.md#invoicescheduleentrywriteinput-variant-2due), [declared alternatives](../models/InvoiceScheduleEntryWriteInput.md#invoicescheduleentrywriteinput-variant-3due). |
-| `invoice_schedule_entry_id` | Optional | string | An existing entry's ID, to keep that entry when you replace the schedule on PATCH. Omit it to add a new entry. minLength: `1`. |
+| `invoice_schedule_entry_id` | Optional | string | An existing entry's ID, to keep that entry when you replace the schedule on PATCH. Omit it to add a new entry. minLength: `1`. Example: `"invse_01KEZF7C006JCPQBD8VZ0RNT6R"`. |
 | `kind` | Required | string | The entry's role in the schedule. Values: `"deposit"`, `"installment"`, `"balance"`. |
 
 ### InvoiceScheduleEntryWriteInput variant 1: `kind` = `"deposit"`
@@ -65,22 +65,22 @@ When the entry is due. Deposits use at_issue or date, installments use date, and
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `due_at` | Conditional | string | When this entry is due. Required for `date`. Not accepted for `at_issue` or `invoice_due_date`, which Flint resolves when the invoice is issued. Format: `date-time`. minLength: `1`. |
+| `due_date` | Conditional | string | Calendar due date in YYYY-MM-DD format in the invoice timezone (UTC when absent). Required for date and must be today or later. Not accepted for at_issue or invoice_due_date, which resolve when the invoice is issued. Format: `date`. minLength: `1`. Example: `"2026-08-02"`. |
 | `type` | Required | string | How the entry's due time is set. Values: `"at_issue"`, `"date"`. |
 
 ### InvoiceScheduleEntryWriteInput variant 1.due variant 1: `type` = `"at_issue"`
 
 oneOf with type: "at_issue": The `at_issue` variant of `InvoiceScheduleDueWrite`..
 
-- Condition: not (present(`due_at`)).
-- Optional: `due_at`.
+- Condition: not (present(`due_date`)).
+- Optional: `due_date`.
 - Constraints for `type`: Values: `"at_issue"`.
 
 ### InvoiceScheduleEntryWriteInput variant 1.due variant 2: `type` = `"date"`
 
 oneOf with type: "date": The `date` variant of `InvoiceScheduleDueWrite`..
 
-- Required: `due_at`.
+- Required: `due_date`.
 - Constraints for `type`: Values: `"date"`.
 
 ### InvoiceScheduleEntryWriteInput variant 2.amount_specification
@@ -117,21 +117,21 @@ When the entry is due. Deposits use at_issue or date, installments use date, and
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `due_at` | Conditional | string | When this entry is due. Required for `date`. Not accepted for `at_issue` or `invoice_due_date`, which Flint resolves when the invoice is issued. Format: `date-time`. minLength: `1`. |
+| `due_date` | Conditional | string | Calendar due date in YYYY-MM-DD format in the invoice timezone (UTC when absent). Required for date and must be today or later. Not accepted for at_issue or invoice_due_date, which resolve when the invoice is issued. Format: `date`. minLength: `1`. Example: `"2026-08-02"`. |
 | `type` | Required | string | How the entry's due time is set. Values: `"date"`, `"invoice_due_date"`. |
 
 ### InvoiceScheduleEntryWriteInput variant 3.due variant 1: `type` = `"date"`
 
 oneOf with type: "date": The `date` variant of `InvoiceScheduleDueWrite`..
 
-- Required: `due_at`.
+- Required: `due_date`.
 - Constraints for `type`: Values: `"date"`.
 
 ### InvoiceScheduleEntryWriteInput variant 3.due variant 2: `type` = `"invoice_due_date"`
 
 oneOf with type: "invoice_due_date": The `invoice_due_date` variant of `InvoiceScheduleDueWrite`..
 
-- Condition: not (present(`due_at`)).
-- Optional: `due_at`.
+- Condition: not (present(`due_date`)).
+- Optional: `due_date`.
 - Constraints for `type`: Values: `"invoice_due_date"`.
 

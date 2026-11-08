@@ -8,7 +8,7 @@ namespace Flint;
 final class SavePaymentMethodRequestInput extends Model {
     /** @param array{'customer_id': string, 'type'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SavePaymentMethodRequestInput')); }
-    /** The customer to save the payment method for. minLength: 1.
+    /** The customer to save the payment method for. minLength: 1. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */

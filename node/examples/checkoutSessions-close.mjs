@@ -8,9 +8,9 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.checkoutSessions.close(
-  "cs_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "cs_01KEZF7C004JRWFW43H037MQRN",
   undefined,
   { idempotencyKey: idempotencyKey },
 );
 console.log(result.checkout_session_id);
-console.log(result.status);
+console.log(result.merchant_id);

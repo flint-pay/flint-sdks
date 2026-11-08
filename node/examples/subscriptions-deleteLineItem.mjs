@@ -8,10 +8,10 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.subscriptions.deleteLineItem(
-  "sub_01ARZ3NDEKTSV4RRFFQ69G5FAV",
-  "sli_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "sub_01KEZF7C00BVRE8YDBXQB74BBM",
+  "sli_01KEZF7C00PPWVJ2N321V84ASA",
   {},
   { idempotencyKey: idempotencyKey },
 );
 console.log(result.customer_id);
-console.log(result.payment_method_id);
+console.log(result.merchant_id);

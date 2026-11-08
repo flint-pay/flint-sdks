@@ -9,7 +9,7 @@ namespace Flint;
 final class PaymentMethodDomainsCreateInput extends Model {
     /** @param array{'body': array{'domain_name': string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentMethodDomainsCreateInput')); }
-    /** The request body for: Register payment method domain.
+    /** The request body for: Register payment method domain. Example: {"domain_name":"pay.example.com"}.
      * @return array{'domain_name': string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

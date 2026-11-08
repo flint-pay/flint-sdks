@@ -4,7 +4,7 @@
 
 ### openapi.getSpec
 
-Returns the Flint public OpenAPI document for tooling, schema inspection, and client generation.
+Returns the Flint public OpenAPI document for tooling, schema inspection, and client generation. The document describes one API version: the `version` query parameter if you send it, otherwise the `Flint-Version` header, otherwise Flint's current version. The route takes no credential. The body is gzip-compressed when the request's `Accept-Encoding` header accepts gzip.
 
 `GET /v1/openapi.json`
 
@@ -25,8 +25,6 @@ Response body (inside Result.data): \stdClass.
 | Status | Error class |
 | --- | --- |
 | 400 | InvalidRequestError |
-| 401 | AuthenticationError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 

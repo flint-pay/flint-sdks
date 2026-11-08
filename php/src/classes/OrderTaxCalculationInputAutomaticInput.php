@@ -8,13 +8,13 @@ namespace Flint;
 final class OrderTaxCalculationInputAutomaticInput extends Model {
     /** @param array{'mode': string, 'price_mode': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderTaxCalculationInputAutomaticInput')); }
-    /** Value enum: "automatic".
+    /** Who supplies the tax: Flint's tax connection (`automatic`) or you (`external`). Value enum: "automatic".
      * @return string
      * @throws SdkError When mode is omitted; use hasMode() or valueOrDefault().
      */
     public function getMode(): string { return $this->get('mode'); }
     public function hasMode(): bool { return $this->has('mode'); }
-    /** Value enum: "additive", "inclusive".
+    /** Whether prices already include tax. `automatic` mode and flat order taxes require `additive`. Value enum: "additive", "inclusive".
      * @return string
      * @throws SdkError When price_mode is omitted; use hasPriceMode() or valueOrDefault().
      */

@@ -6,5 +6,7 @@ The location IDs in a delivery location set.
 
 Response model.
 
-Fields, types, descriptions and enum values: [DeliveryLocationSetConfigurationInput](../models/DeliveryLocationSetConfigurationInput.md#deliverylocationsetconfigurationinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `location_ids` | Required | Array of string | Items: minLength: `1`. |
 

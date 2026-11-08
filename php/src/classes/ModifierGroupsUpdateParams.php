@@ -11,7 +11,7 @@ namespace Flint;
  * @property-read array<array-key, string|null>|\stdClass|null $metadata
  * @property-read int|null $min_quantity
  * @property-read int|null $min_selected
- * @property-read list<array{'default_quantity'?: int, 'line_item_tax_category'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'modifier_id'?: string, 'name': string, 'position'?: int, 'selected_by_default'?: bool, 'show_on_fulfillment'?: bool, 'show_on_receipt'?: bool, 'status'?: string, 'taxable'?: bool, 'unit_price_delta_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass}|object> $modifiers
+ * @property-read list<ModifierRequestInput|array<array-key, mixed>|\stdClass> $modifiers
  * @property-read string $name
  * @property-read bool $show_on_fulfillment
  * @property-read bool $show_on_receipt
@@ -19,7 +19,7 @@ namespace Flint;
  * @property-read array{'max_length'?: int|null, 'min_length'?: int|null, 'multiline'?: bool, 'required'?: bool}|object|null $text
  * Presence-aware input; omitted fields throw when accessed. */
 final class ModifierGroupsUpdateParams extends Model {
-    /** @param array{'allow_quantities'?: bool, 'expected_version'?: int, 'external_reference_id'?: string|null, 'max_quantity'?: int|null, 'max_selected'?: int|null, 'max_total_quantity'?: int|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'min_quantity'?: int|null, 'min_selected'?: int|null, 'modifiers'?: list<array{'default_quantity'?: int, 'line_item_tax_category'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'modifier_id'?: string, 'name': string, 'position'?: int, 'selected_by_default'?: bool, 'show_on_fulfillment'?: bool, 'show_on_receipt'?: bool, 'status'?: string, 'taxable'?: bool, 'unit_price_delta_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass}|object>, 'name'?: string, 'show_on_fulfillment'?: bool, 'show_on_receipt'?: bool, 'status'?: string, 'text'?: array{'max_length'?: int|null, 'min_length'?: int|null, 'multiline'?: bool, 'required'?: bool}|object|null}|object $values */
+    /** @param array{'allow_quantities'?: bool, 'expected_version'?: int, 'external_reference_id'?: string|null, 'max_quantity'?: int|null, 'max_selected'?: int|null, 'max_total_quantity'?: int|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'min_quantity'?: int|null, 'min_selected'?: int|null, 'modifiers'?: list<ModifierRequestInput|array<array-key, mixed>|\stdClass>, 'name'?: string, 'show_on_fulfillment'?: bool, 'show_on_receipt'?: bool, 'status'?: string, 'text'?: array{'max_length'?: int|null, 'min_length'?: int|null, 'multiline'?: bool, 'required'?: bool}|object|null, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ModifierGroupsUpdateParams')); }
     /** Whether buyers can select more than one unit of a list modifier.
      * @return bool
@@ -33,7 +33,7 @@ final class ModifierGroupsUpdateParams extends Model {
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string|null
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -76,7 +76,7 @@ final class ModifierGroupsUpdateParams extends Model {
     public function getMinSelected(): int|null { return $this->get('min_selected'); }
     public function hasMinSelected(): bool { return $this->has('min_selected'); }
     /** Replaces all modifiers atomically. Include modifier_id to retain an existing modifier, omit the ID to create one, and omit a previous modifier to archive it. Omit the array to leave modifiers unchanged. An empty array clears modifiers when the group rules permit it. Null is not accepted. [] (Value): {@see ModifierRequestInput}. A modifier you supply when creating or updating a modifier group, such as an add-on with a price change.
-     * @return list<array{'default_quantity'?: int, 'line_item_tax_category'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'modifier_id'?: string, 'name': string, 'position'?: int, 'selected_by_default'?: bool, 'show_on_fulfillment'?: bool, 'show_on_receipt'?: bool, 'status'?: string, 'taxable'?: bool, 'unit_price_delta_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass}|object>
+     * @return list<ModifierRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When modifiers is omitted; use hasModifiers() or valueOrDefault().
      */
     public function getModifiers(): array { return $this->get('modifiers'); }
@@ -111,4 +111,22 @@ final class ModifierGroupsUpdateParams extends Model {
      */
     public function getText(): mixed { return $this->get('text'); }
     public function hasText(): bool { return $this->has('text'); }
+    /** Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Merchant-Id is omitted; use hasFlintMerchantId() or valueOrDefault().
+     */
+    public function getFlintMerchantId(): string { return $this->get('Flint-Merchant-Id'); }
+    public function hasFlintMerchantId(): bool { return $this->has('Flint-Merchant-Id'); }
+    /** Mode of the request context, live or test. Optional; it must match the credential's mode. Value enum: "test", "live".
+     * @return string
+     * @throws SdkError When Flint-Mode is omitted; use hasFlintMode() or valueOrDefault().
+     */
+    public function getFlintMode(): string { return $this->get('Flint-Mode'); }
+    public function hasFlintMode(): bool { return $this->has('Flint-Mode'); }
+    /** Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Sandbox-Id is omitted; use hasFlintSandboxId() or valueOrDefault().
+     */
+    public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
+    public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
 }

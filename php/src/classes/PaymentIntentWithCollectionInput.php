@@ -16,16 +16,17 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $created_at
  * @property-read array{'created_at'?: string|\DateTimeInterface, 'customer_id': string, 'email': string|null, 'name': string|null, 'phone': string|null, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null $customer
  * @property-read string $customer_id
+ * @property-read string $customer_presence
  * @property-read string $dispute_status
  * @property-read string|null $external_reference_id
  * @property-read PaymentFulfillmentHoldInput|array<array-key, mixed>|\stdClass $fulfillment_hold
- * @property-read array{'collection_block_status'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'due_at'?: string|\DateTimeInterface, 'invoice_id': string, 'invoice_number'?: string, 'is_overdue': bool, 'order_id'?: string, 'outstanding_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'paid_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'refund_status'?: string, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'updated_at'?: string|\DateTimeInterface, ...}|object|null $invoice
+ * @property-read array{'collection_block_status'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'due_date'?: string, 'invoice_id': string, 'invoice_number'?: string, 'is_overdue': bool, 'order_id'?: string, 'outstanding_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'paid_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'refund_status'?: string, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'supported_actions': list<string>, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'updated_at'?: string|\DateTimeInterface, ...}|object|null $invoice
  * @property-read string $invoice_id
  * @property-read array{'code': string, 'failed_at': string|\DateTimeInterface, 'message': string, 'remediation': array{'next_actions'?: list<NextActionInput|array<array-key, mixed>|\stdClass>, 'next_steps'?: string, 'retry': string, ...}|object|null, ...}|object|null $last_payment_error
  * @property-read string $merchant_id
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $merchant_net_money
  * @property-read MetadataMapInput|array<array-key, mixed>|\stdClass $metadata
- * @property-read array{'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': SettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null $order
+ * @property-read array{'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'deferred_promotions': list<DeferredPromotionInput|array<array-key, mixed>|\stdClass>, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'paid_at': string|\DateTimeInterface|null, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': OrderSettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'supported_actions': list<string>, 'updated_at'?: string|\DateTimeInterface, ...}|object|null $order
  * @property-read string $order_id
  * @property-read string $payment_flow
  * @property-read string $payment_intent_id
@@ -39,6 +40,7 @@ namespace Flint;
  * @property-read string $return_id
  * @property-read array{'evaluated_at': string|\DateTimeInterface, 'level': string, 'matched_risk_rule_id'?: string, 'outcome'?: string|null, 'outcome_reason'?: string|null, 'payment_review_id'?: string, 'score'?: int, 'statement': string, ...}|object|null $risk
  * @property-read string $selected_payment_option
+ * @property-read string|null $statement_descriptor
  * @property-read string $status
  * @property-read string $support_reference
  * @property-read list<string> $supported_actions
@@ -49,7 +51,7 @@ namespace Flint;
  * @property-read PaymentCollectionInput|array<array-key, mixed>|\stdClass $payment_collection
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentIntentWithCollectionInput extends Model {
-    /** @param array{'add_on_fees'?: list<PaymentAddOnFeeInput|array<array-key, mixed>|\stdClass>, 'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'authorization_expires_at'?: string|\DateTimeInterface, 'authorized_at'?: string|\DateTimeInterface, 'authorized_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'cancellation_reason'?: string, 'capturable_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'capture_method'?: string, 'captured_at'?: string|\DateTimeInterface, 'captured_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'checkout_session_id'?: string, 'created_at'?: string|\DateTimeInterface, 'customer'?: array{'created_at'?: string|\DateTimeInterface, 'customer_id': string, 'email': string|null, 'name': string|null, 'phone': string|null, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'customer_id'?: string, 'dispute_status'?: string, 'external_reference_id'?: string|null, 'fulfillment_hold'?: PaymentFulfillmentHoldInput|array<array-key, mixed>|\stdClass, 'invoice'?: array{'collection_block_status'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'due_at'?: string|\DateTimeInterface, 'invoice_id': string, 'invoice_number'?: string, 'is_overdue': bool, 'order_id'?: string, 'outstanding_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'paid_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'refund_status'?: string, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'invoice_id'?: string, 'last_payment_error': array{'code': string, 'failed_at': string|\DateTimeInterface, 'message': string, 'remediation': array{'next_actions'?: list<NextActionInput|array<array-key, mixed>|\stdClass>, 'next_steps'?: string, 'retry': string, ...}|object|null, ...}|object|null, 'merchant_id'?: string, 'merchant_net_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'metadata': MetadataMapInput|array<array-key, mixed>|\stdClass, 'order'?: array{'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': SettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'order_id'?: string, 'payment_flow': string, 'payment_intent_id': string, 'payment_options': list<string>, 'payment_source'?: PaymentSourceSummaryInput|array<array-key, mixed>|\stdClass, 'processing_fee_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'receipt_email'?: string|null, 'refund_status'?: string, 'refunded_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'released_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'return_id'?: string, 'risk'?: array{'evaluated_at': string|\DateTimeInterface, 'level': string, 'matched_risk_rule_id'?: string, 'outcome'?: string|null, 'outcome_reason'?: string|null, 'payment_review_id'?: string, 'score'?: int, 'statement': string, ...}|object|null, 'selected_payment_option'?: string, 'status': string, 'support_reference': string, 'supported_actions': list<string>, 'tip_money'?: array{'amount': string, 'currency': string}|object|null, 'transaction_purpose'?: string, 'updated_at'?: string|\DateTimeInterface, 'version': int, 'payment_collection'?: PaymentCollectionInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'add_on_fees'?: list<PaymentAddOnFeeInput|array<array-key, mixed>|\stdClass>, 'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'authorization_expires_at'?: string|\DateTimeInterface, 'authorized_at'?: string|\DateTimeInterface, 'authorized_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'cancellation_reason'?: string, 'capturable_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'capture_method'?: string, 'captured_at'?: string|\DateTimeInterface, 'captured_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'checkout_session_id'?: string, 'created_at'?: string|\DateTimeInterface, 'customer'?: array{'created_at'?: string|\DateTimeInterface, 'customer_id': string, 'email': string|null, 'name': string|null, 'phone': string|null, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'customer_id'?: string, 'customer_presence': string, 'dispute_status'?: string, 'external_reference_id'?: string|null, 'fulfillment_hold'?: PaymentFulfillmentHoldInput|array<array-key, mixed>|\stdClass, 'invoice'?: array{'collection_block_status'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'due_date'?: string, 'invoice_id': string, 'invoice_number'?: string, 'is_overdue': bool, 'order_id'?: string, 'outstanding_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'paid_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'refund_status'?: string, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'supported_actions': list<string>, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'invoice_id'?: string, 'last_payment_error': array{'code': string, 'failed_at': string|\DateTimeInterface, 'message': string, 'remediation': array{'next_actions'?: list<NextActionInput|array<array-key, mixed>|\stdClass>, 'next_steps'?: string, 'retry': string, ...}|object|null, ...}|object|null, 'merchant_id'?: string, 'merchant_net_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'metadata': MetadataMapInput|array<array-key, mixed>|\stdClass, 'order'?: array{'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'deferred_promotions': list<DeferredPromotionInput|array<array-key, mixed>|\stdClass>, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'paid_at': string|\DateTimeInterface|null, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': OrderSettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'supported_actions': list<string>, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'order_id'?: string, 'payment_flow': string, 'payment_intent_id': string, 'payment_options': list<string>, 'payment_source'?: PaymentSourceSummaryInput|array<array-key, mixed>|\stdClass, 'processing_fee_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'receipt_email'?: string|null, 'refund_status'?: string, 'refunded_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'released_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'return_id'?: string, 'risk'?: array{'evaluated_at': string|\DateTimeInterface, 'level': string, 'matched_risk_rule_id'?: string, 'outcome'?: string|null, 'outcome_reason'?: string|null, 'payment_review_id'?: string, 'score'?: int, 'statement': string, ...}|object|null, 'selected_payment_option'?: string, 'statement_descriptor': string|null, 'status': string, 'support_reference': string, 'supported_actions': list<string>, 'tip_money'?: array{'amount': string, 'currency': string}|object|null, 'transaction_purpose'?: string, 'updated_at'?: string|\DateTimeInterface, 'version': int, 'payment_collection'?: PaymentCollectionInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentIntentWithCollectionInput')); }
     /** Itemized invoice, subscription, and automatic tax fees collected with this payment. Available to the merchant only. Empty until fees settle or when no add-ons apply. Refunds do not return or revise these fees. Absent until Flint has determined and verified the fee. If Flint can't verify it when you read the payment intent, the field is omitted rather than shown unverified; read the payment intent again later. [] (Value): {@see PaymentAddOnFeeInput}. A Flint fee added to a payment intent, with the fee type and amount.
      * @return list<PaymentAddOnFeeInput|array<array-key, mixed>|\stdClass>
@@ -63,13 +65,13 @@ final class PaymentIntentWithCollectionInput extends Model {
      */
     public function getAmountMoney(): mixed { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** Deadline to capture a manual-capture hold. The authorization lapses at this time, and a capture attempted after it fails even if status is still requires_capture. Set when the hold is placed. Format: date-time.
+    /** Effective Flint deadline to capture a manual-capture hold: the earlier of the provider capture deadline and any order resource guarantee. Order guarantees last at most 24 hours from the payment attempt start and may end earlier. Capture is refused at or after this time, even while status is requires_capture. Omitted until a hold is placed. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When authorization_expires_at is omitted; use hasAuthorizationExpiresAt() or valueOrDefault().
      */
     public function getAuthorizationExpiresAt(): string|\DateTimeInterface { return $this->get('authorization_expires_at'); }
     public function hasAuthorizationExpiresAt(): bool { return $this->has('authorization_expires_at'); }
-    /** When the processor authorized the payment. Absent until then. Format: date-time.
+    /** When the processor authorized the payment. Absent until then. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When authorized_at is omitted; use hasAuthorizedAt() or valueOrDefault().
      */
@@ -99,7 +101,7 @@ final class PaymentIntentWithCollectionInput extends Model {
      */
     public function getCaptureMethod(): string { return $this->get('capture_method'); }
     public function hasCaptureMethod(): bool { return $this->has('capture_method'); }
-    /** When money was captured. For automatic capture, this is when the payment succeeded. Absent until capture. Format: date-time.
+    /** When money was captured. For automatic capture, this is when the payment succeeded. Absent until capture. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When captured_at is omitted; use hasCapturedAt() or valueOrDefault().
      */
@@ -111,13 +113,13 @@ final class PaymentIntentWithCollectionInput extends Model {
      */
     public function getCapturedMoney(): mixed { return $this->get('captured_money'); }
     public function hasCapturedMoney(): bool { return $this->has('captured_money'); }
-    /** Flint checkout session ID associated with this payment, when present.
+    /** Flint checkout session ID associated with this payment, when present. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
      * @return string
      * @throws SdkError When checkout_session_id is omitted; use hasCheckoutSessionId() or valueOrDefault().
      */
     public function getCheckoutSessionId(): string { return $this->get('checkout_session_id'); }
     public function hasCheckoutSessionId(): bool { return $this->has('checkout_session_id'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
@@ -129,19 +131,25 @@ final class PaymentIntentWithCollectionInput extends Model {
      */
     public function getCustomer(): mixed { return $this->get('customer'); }
     public function hasCustomer(): bool { return $this->has('customer'); }
-    /** Customer linked to this payment intent.
+    /** Customer linked to this payment intent. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
+    /** Whether the customer was present for the most recent confirmation. absent means Flint charged a saved card without them, as a merchant-initiated payment on its stored credential. Subscription renewals and automatic invoice charges are absent, and other payments are absent only when confirmed or paid with customer_presence absent. A customer who pays any of them with a card they enter makes it present. Each confirmation sets it again. Value enum: "present", "absent".
+     * @return string
+     * @throws SdkError When customer_presence is omitted; use hasCustomerPresence() or valueOrDefault().
+     */
+    public function getCustomerPresence(): string { return $this->get('customer_presence'); }
+    public function hasCustomerPresence(): bool { return $this->has('customer_presence'); }
     /** Dispute state of this payment. none means no dispute or inquiry is open or recorded. The inquiry_ values track an issuer inquiry or early warning that isn't a chargeback. Read the dispute with GET /v1/disputes for its deadline and evidence. Value enum: "none", "inquiry_needs_response", "inquiry_under_review", "inquiry_closed", "needs_response", "under_review", "won", "lost", "prevented", "other".
      * @return string
      * @throws SdkError When dispute_status is omitted; use hasDisputeStatus() or valueOrDefault().
      */
     public function getDisputeStatus(): string { return $this->get('dispute_status'); }
     public function hasDisputeStatus(): bool { return $this->has('dispute_status'); }
-    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string|null
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -154,12 +162,12 @@ final class PaymentIntentWithCollectionInput extends Model {
     public function getFulfillmentHold(): mixed { return $this->get('fulfillment_hold'); }
     public function hasFulfillmentHold(): bool { return $this->has('fulfillment_hold'); }
     /** The linked invoice. Returned only with expand=invoice. Present only when `expand` includes `invoice`; `null` when expanded and there is no related invoice. anyOf[1] (Value): {@see ExpandedInvoiceSummaryInput}. An invoice's summary fields, including status, due date, and paid, outstanding, and refunded amounts, returned when the invoice is expanded. anyOf[2] (Value): null.
-     * @return array{'collection_block_status'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'due_at'?: string|\DateTimeInterface, 'invoice_id': string, 'invoice_number'?: string, 'is_overdue': bool, 'order_id'?: string, 'outstanding_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'paid_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'refund_status'?: string, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'updated_at'?: string|\DateTimeInterface, ...}|object|null
+     * @return array{'collection_block_status'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'due_date'?: string, 'invoice_id': string, 'invoice_number'?: string, 'is_overdue': bool, 'order_id'?: string, 'outstanding_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'paid_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'refund_status'?: string, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'supported_actions': list<string>, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'updated_at'?: string|\DateTimeInterface, ...}|object|null
      * @throws SdkError When invoice is omitted; use hasInvoice() or valueOrDefault().
      */
     public function getInvoice(): mixed { return $this->get('invoice'); }
     public function hasInvoice(): bool { return $this->has('invoice'); }
-    /** Invoice this payment intent collects, when it pays an invoice.
+    /** Invoice this payment intent collects, when it pays an invoice. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
      * @return string
      * @throws SdkError When invoice_id is omitted; use hasInvoiceId() or valueOrDefault().
      */
@@ -171,7 +179,7 @@ final class PaymentIntentWithCollectionInput extends Model {
      */
     public function getLastPaymentError(): mixed { return $this->get('last_payment_error'); }
     public function hasLastPaymentError(): bool { return $this->has('last_payment_error'); }
-    /** Merchant that owns this payment intent.
+    /** Merchant that owns this payment intent. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
      * @return string
      * @throws SdkError When merchant_id is omitted; use hasMerchantId() or valueOrDefault().
      */
@@ -190,12 +198,12 @@ final class PaymentIntentWithCollectionInput extends Model {
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** The linked order. Returned only with expand=order. Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1] (Value): {@see ExpandedOrderSummaryInput}. An order's summary fields, including status, payment and refund status, and pricing and settlement amounts, returned when the order is expanded. anyOf[2] (Value): null.
-     * @return array{'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': SettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null
+     * @return array{'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'deferred_promotions': list<DeferredPromotionInput|array<array-key, mixed>|\stdClass>, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'paid_at': string|\DateTimeInterface|null, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': OrderSettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'supported_actions': list<string>, 'updated_at'?: string|\DateTimeInterface, ...}|object|null
      * @throws SdkError When order is omitted; use hasOrder() or valueOrDefault().
      */
     public function getOrder(): mixed { return $this->get('order'); }
     public function hasOrder(): bool { return $this->has('order'); }
-    /** Order this payment intent belongs to. Create it through the order and confirm it with POST /v1/orders/{order_id}/pay. Capture and cancel use POST /v1/payment-intents/{payment_intent_id}/capture or /cancel for every payment intent. Order-owned intents accept PATCH for metadata and external_reference_id.
+    /** Order this payment intent belongs to. Create it through the order and confirm it with POST /v1/orders/{order_id}/pay. Capture and cancel use POST /v1/payment-intents/{payment_intent_id}/capture or /cancel for every payment intent. Order-owned intents accept PATCH for metadata and external_reference_id. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */
@@ -207,7 +215,7 @@ final class PaymentIntentWithCollectionInput extends Model {
      */
     public function getPaymentFlow(): string { return $this->get('payment_flow'); }
     public function hasPaymentFlow(): bool { return $this->has('payment_flow'); }
-    /** Flint payment intent ID.
+    /** Flint payment intent ID. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
      * @return string
      * @throws SdkError When payment_intent_id is omitted; use hasPaymentIntentId() or valueOrDefault().
      */
@@ -231,7 +239,7 @@ final class PaymentIntentWithCollectionInput extends Model {
      */
     public function getProcessingFeeMoney(): mixed { return $this->get('processing_fee_money'); }
     public function hasProcessingFeeMoney(): bool { return $this->has('processing_fee_money'); }
-    /** Email address for this payment's receipt. When it isn't set, Flint uses the customer's email. Format: email. maxLength: 255.
+    /** Email address for this payment's receipt. When it isn't set, Flint uses the customer's email. Format: email. maxLength: 255. Example: "buyer@example.com".
      * @return string|null
      * @throws SdkError When receipt_email is omitted; use hasReceiptEmail() or valueOrDefault().
      */
@@ -255,7 +263,7 @@ final class PaymentIntentWithCollectionInput extends Model {
      */
     public function getReleasedMoney(): mixed { return $this->get('released_money'); }
     public function hasReleasedMoney(): bool { return $this->has('released_money'); }
-    /** Flint return ID associated with this payment, when present.
+    /** Flint return ID associated with this payment, when present. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
      * @return string
      * @throws SdkError When return_id is omitted; use hasReturnId() or valueOrDefault().
      */
@@ -273,6 +281,12 @@ final class PaymentIntentWithCollectionInput extends Model {
      */
     public function getSelectedPaymentOption(): string { return $this->get('selected_payment_option'); }
     public function hasSelectedPaymentOption(): bool { return $this->has('selected_payment_option'); }
+    /** The text shown on the buyer's card or bank statement for this payment. `null` until the charge is created. `null` when the provider supplies no descriptor. Frozen when the charge is created.
+     * @return string|null
+     * @throws SdkError When statement_descriptor is omitted; use hasStatementDescriptor() or valueOrDefault().
+     */
+    public function getStatementDescriptor(): string|null { return $this->get('statement_descriptor'); }
+    public function hasStatementDescriptor(): bool { return $this->has('statement_descriptor'); }
     /** Lifecycle status. requires_payment_method covers both a new payment intent and one whose last attempt failed, so read last_payment_error with it. succeeded, canceled, and expired are final. Refunds and disputes never change status. Value enum: "requires_payment_method", "requires_confirmation", "requires_action", "processing", "requires_capture", "canceled", "succeeded", "expired".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
@@ -303,7 +317,7 @@ final class PaymentIntentWithCollectionInput extends Model {
      */
     public function getTransactionPurpose(): string { return $this->get('transaction_purpose'); }
     public function hasTransactionPurpose(): bool { return $this->has('transaction_purpose'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */

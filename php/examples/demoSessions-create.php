@@ -17,7 +17,6 @@ $client = new Client(new ClientOptions(
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->demoSessions->create([
-  'template' => 'quickstart',
   'Flint-Challenge-Token' => 'example',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->demo_session_id . PHP_EOL;

@@ -8,6 +8,6 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `payment_option` | Required | string | Values: `"apple_pay"`, `"google_pay"`. |
-| `status` | Required | string | Values: `"active"`, `"inactive"`, `"unavailable"`. |
+| `payment_option` | Required | string | The wallet this status is for. Values: `"apple_pay"`, `"google_pay"`. |
+| `status` | Required | string | Whether this wallet's button can show on the hostname. Values: `"active"`, `"inactive"`, `"unavailable"`. |
 

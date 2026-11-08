@@ -19,19 +19,19 @@ namespace Flint;
 final class AuthContextInput extends Model {
     /** @param array{'api_key_id'?: string, 'auth_type': string, 'context_id'?: string, 'environment': string, 'expires_at'?: string|\DateTimeInterface, 'merchant_id': string, 'name'?: string, 'oauth_grant_id'?: string, 'oauth_session_id'?: string, 'organization_id'?: string, 'sandbox_id'?: string, 'scopes': list<string>, 'workload_identity_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('AuthContextInput')); }
-    /** api_key_id
+    /** Example: "key_01KEZF7C008CTC2G5V6J08M6S7".
      * @return string
      * @throws SdkError When api_key_id is omitted; use hasApiKeyId() or valueOrDefault().
      */
     public function getApiKeyId(): string { return $this->get('api_key_id'); }
     public function hasApiKeyId(): bool { return $this->has('api_key_id'); }
-    /** Value enum: "api_key", "oauth", "workload_identity".
+    /** Value enum: "api_key", "oauth", "workload_identity", "partner_app".
      * @return string
      * @throws SdkError When auth_type is omitted; use hasAuthType() or valueOrDefault().
      */
     public function getAuthType(): string { return $this->get('auth_type'); }
     public function hasAuthType(): bool { return $this->has('auth_type'); }
-    /** context_id
+    /** Example: "ctx_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb".
      * @return string
      * @throws SdkError When context_id is omitted; use hasContextId() or valueOrDefault().
      */
@@ -43,13 +43,13 @@ final class AuthContextInput extends Model {
      */
     public function getEnvironment(): string { return $this->get('environment'); }
     public function hasEnvironment(): bool { return $this->has('environment'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When expires_at is omitted; use hasExpiresAt() or valueOrDefault().
      */
     public function getExpiresAt(): string|\DateTimeInterface { return $this->get('expires_at'); }
     public function hasExpiresAt(): bool { return $this->has('expires_at'); }
-    /** merchant_id
+    /** ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
      * @return string
      * @throws SdkError When merchant_id is omitted; use hasMerchantId() or valueOrDefault().
      */
@@ -61,25 +61,25 @@ final class AuthContextInput extends Model {
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** oauth_grant_id
+    /** Example: "clg_01KEZF7C00F8Q8XM1TZ6Y1GB31".
      * @return string
      * @throws SdkError When oauth_grant_id is omitted; use hasOauthGrantId() or valueOrDefault().
      */
     public function getOauthGrantId(): string { return $this->get('oauth_grant_id'); }
     public function hasOauthGrantId(): bool { return $this->has('oauth_grant_id'); }
-    /** oauth_session_id
+    /** Example: "session_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa".
      * @return string
      * @throws SdkError When oauth_session_id is omitted; use hasOauthSessionId() or valueOrDefault().
      */
     public function getOauthSessionId(): string { return $this->get('oauth_session_id'); }
     public function hasOauthSessionId(): bool { return $this->has('oauth_session_id'); }
-    /** organization_id
+    /** Example: "org_01KEZF7C00EA57F19C2ZFWA7HJ".
      * @return string
      * @throws SdkError When organization_id is omitted; use hasOrganizationId() or valueOrDefault().
      */
     public function getOrganizationId(): string { return $this->get('organization_id'); }
     public function hasOrganizationId(): bool { return $this->has('organization_id'); }
-    /** sandbox_id
+    /** ID of the sandbox this resource belongs to. Example: "test_01KEZF7C00JC77HTMTB2XHNPE0".
      * @return string
      * @throws SdkError When sandbox_id is omitted; use hasSandboxId() or valueOrDefault().
      */
@@ -91,7 +91,7 @@ final class AuthContextInput extends Model {
      */
     public function getScopes(): array { return $this->get('scopes'); }
     public function hasScopes(): bool { return $this->has('scopes'); }
-    /** workload_identity_id
+    /** Example: "wid_01KEZF7C00GKCN7Y1482VY8TWP".
      * @return string
      * @throws SdkError When workload_identity_id is omitted; use hasWorkloadIdentityId() or valueOrDefault().
      */

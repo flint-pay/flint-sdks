@@ -1,0 +1,1 @@
+{"shared":"PartnerAppPlatformCapability","phpRepresentation":{"kind":"record","fields":{"capability":{"kind":"value","type":"string"},"inactive_reason":{"kind":"value","type":"string"},"status":{"kind":"value","type":"string"}}},"dependencies":["PartnerAppPlatformCapability"]}

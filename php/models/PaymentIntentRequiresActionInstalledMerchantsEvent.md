@@ -10,25 +10,30 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `api_version` | Required | string | Format: `date`. |
-| `created_at` | Required | string | Format: `date-time`. |
-| `data` | Required | [PaymentIntentRequiresActionInstalledMerchantsEventData](../models/PaymentIntentRequiresActionInstalledMerchantsEventData.md#paymentintentrequiresactioninstalledmerchantseventdata) | `data`: [field definitions](../models/PaymentIntentRequiresActionInstalledMerchantsEvent.md#paymentintentrequiresactioninstalledmerchantseventdata-fields-1). |
-| `event_type` | Required | string | Values: `"payment_intent.requires_action"`. |
-| `partner_app_id` | Required | string |  |
+| `api_version` | Required | string | API version used to render this delivery attempt. The older of the event version and the endpoint version when the attempt runs, with default resolved to the merchant pin. Format: `date`. |
+| `created_at` | Required | string | When Flint recorded the event. Format: `date-time`. |
+| `data` | Required | [PaymentIntentRequiresActionInstalledMerchantsEventData](../models/PaymentIntentRequiresActionInstalledMerchantsEventData.md#paymentintentrequiresactioninstalledmerchantseventdata) | The resource snapshot recorded for this event and rendered at the delivery API version. `data`: [field definitions](../models/PaymentIntentRequiresActionInstalledMerchantsEvent.md#paymentintentrequiresactioninstalledmerchantseventdata-fields-1). |
+| `event_source` | Required | string | The origin of the event. Selects the webhook envelope and the fields in source. Values: `"installed_merchants"`. |
+| `event_type` | Required | string | The resource change or condition this event announces. Values: `"payment_intent.requires_action"`. |
+| `partner_app_id` | Required | string | ID of the partner app that owns the receiving endpoint. |
 | `payload_version` | Required | integer | 2 for every current event. 1 only for an event queued before 2026-10-16 and delivered afterwards, which keeps its previous data shape. Values: `1`, `2`. |
-| `source` | Required | Alternative shapes (see declared variants) and object | The source of a partner webhook event, selected by type. `source`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventsource). |
+| `source` | Required | [PaymentIntentRequiresActionInstalledMerchantsEventSource](../models/PaymentIntentRequiresActionInstalledMerchantsEventSource.md#paymentintentrequiresactioninstalledmerchantseventsource) | The merchant and partner app install this event concerns, with environment details for installed-merchant events. The merchant and partner app install the event concerns. Environment fields are present for installed-merchant events. `source`: [field definitions](../models/PaymentIntentRequiresActionInstalledMerchantsEvent.md#paymentintentrequiresactioninstalledmerchantseventsource-fields-1). |
 | `test` | Required | boolean | true for a synthetic event sent from the test-events endpoint, false otherwise. |
-| `webhook_event_id` | Required | string |  |
+| `webhook_event_id` | Required | string | Stable ID of the recorded webhook event, shared by its delivery attempts. |
 
 ### PaymentIntentRequiresActionInstalledMerchantsEvent.data fields 1
 
-Field definitions: [shared fields](PaymentIntentCanceledMerchantEvent.md#paymentintentcanceledmerchanteventdata-fields-1).
+The resource snapshot recorded for this event and rendered at the delivery API version.
+
+Field definitions: [shared fields](PaymentIntentAuthorizationExpiringMerchantEvent.md#paymentintentauthorizationexpiringmerchanteventdata-fields-1).
 
 ### PaymentIntentRequiresActionInstalledMerchantsEvent.data fields 1.object
 
-Field definitions: [PaymentIntentCanceledMerchantEvent.data fields 1.object](../models/PaymentIntentCanceledMerchantEvent.md#paymentintentcanceledmerchanteventdata-fields-1object).
+Field definitions: [PaymentIntentAuthorizationExpiringMerchantEvent.data fields 1.object](../models/PaymentIntentAuthorizationExpiringMerchantEvent.md#paymentintentauthorizationexpiringmerchanteventdata-fields-1object).
 
-### PaymentIntentRequiresActionInstalledMerchantsEvent.source
+### PaymentIntentRequiresActionInstalledMerchantsEvent.source fields 1
 
-Declared alternatives: [BundleArchivedInstalledMerchantsEvent.source](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventsource).
+The merchant and partner app install this event concerns, with environment details for installed-merchant events. The merchant and partner app install the event concerns. Environment fields are present for installed-merchant events.
+
+Field definitions: [shared fields](BalanceTransactionCreatedInstalledMerchantsEventInput.md#balancetransactioncreatedinstalledmerchantseventinputsource).
 

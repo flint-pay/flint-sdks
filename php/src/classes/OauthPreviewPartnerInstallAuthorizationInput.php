@@ -23,7 +23,7 @@ final class OauthPreviewPartnerInstallAuthorizationInput extends Model {
      */
     public function getResponseType(): string { return $this->get('response_type'); }
     public function hasResponseType(): bool { return $this->has('response_type'); }
-    /** Partner app client ID.
+    /** Partner app client ID. Example: "fpc_00112233445566778899aabbccddeeff".
      * @return string
      * @throws SdkError When client_id is omitted; use hasClientId() or valueOrDefault().
      */
@@ -59,7 +59,7 @@ final class OauthPreviewPartnerInstallAuthorizationInput extends Model {
      */
     public function getScope(): string { return $this->get('scope'); }
     public function hasScope(): bool { return $this->has('scope'); }
-    /** Optional active merchant sandbox ID, accepted only with mode=test. When omitted in test mode, Flint uses the merchant's default sandbox. Example: "test_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Optional active merchant sandbox ID, accepted only with mode=test. When omitted in test mode, Flint uses the merchant's default sandbox. Example: "test_01KEZF7C00JC77HTMTB2XHNPE0".
      * @return string
      * @throws SdkError When sandbox_id is omitted; use hasSandboxId() or valueOrDefault().
      */

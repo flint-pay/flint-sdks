@@ -11,12 +11,12 @@ namespace Flint;
 final class CreateReturnPreviewResponseDataEligibilityEligibilitySelectionLineItemsLineItemsItem extends Model {
     /** @param array{'fulfillment_id'?: string, 'order_line_item_id': string, 'requested_quantity': int, 'requested_resolution_type'?: string, 'return_reason_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateReturnPreviewResponseDataEligibilityEligibilitySelectionLineItemsLineItemsItem')); }
-    /** minLength: 1.
+    /** ID of the fulfillment the units were delivered in. minLength: 1.
      * @return ?string
      */
     public function getFulfillmentId(): ?string { return $this->get('fulfillment_id'); }
     public function hasFulfillmentId(): bool { return $this->has('fulfillment_id'); }
-    /** minLength: 1.
+    /** ID of the order line item being returned. minLength: 1.
      * @return string
      */
     public function getOrderLineItemId(): string { return $this->get('order_line_item_id'); }
@@ -26,12 +26,12 @@ final class CreateReturnPreviewResponseDataEligibilityEligibilitySelectionLineIt
      */
     public function getRequestedQuantity(): int { return $this->get('requested_quantity'); }
     public function hasRequestedQuantity(): bool { return $this->has('requested_quantity'); }
-    /** Value enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit".
+    /** Outcome requested for this line. Eligibility checks it against the policy's allowed resolution types. Value enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit".
      * @return ?string
      */
     public function getRequestedResolutionType(): ?string { return $this->get('requested_resolution_type'); }
     public function hasRequestedResolutionType(): bool { return $this->has('requested_resolution_type'); }
-    /** minLength: 1.
+    /** ID of the return reason for this line. The reason must be active. minLength: 1.
      * @return ?string
      */
     public function getReturnReasonId(): ?string { return $this->get('return_reason_id'); }

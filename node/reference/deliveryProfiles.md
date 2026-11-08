@@ -12,7 +12,7 @@ Signature:
 
 ```typescript
 assignToUnconfigured(delivery_profile_id: InputValue<string>,
- params: DeliveryProfilesAssignToUnconfiguredParams,
+ params?: DeliveryProfilesAssignToUnconfiguredParams,
  options?: RequestOptions<"merchant">)
 ```
 
@@ -21,7 +21,10 @@ assignToUnconfigured(delivery_profile_id: InputValue<string>,
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `delivery_profile_id` | Required | string | Flint delivery profile ID. |
-| `body` | Required | [AssignToUnconfiguredDeliveryProfileRequestInput](../models/AssignToUnconfiguredDeliveryProfileRequestInput.md#assigntounconfigureddeliveryprofilerequestinput) | The request body for: Assign unconfigured catalog entries. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `body` | Optional | [AssignToUnconfiguredDeliveryProfileRequestInput](../models/AssignToUnconfiguredDeliveryProfileRequestInput.md#assigntounconfigureddeliveryprofilerequestinput) | The request body for: Assign unconfigured catalog entries. |
 
 Body model: [AssignToUnconfiguredDeliveryProfileRequestInput](../models/AssignToUnconfiguredDeliveryProfileRequestInput.md#assigntounconfigureddeliveryprofilerequestinput).
 
@@ -44,7 +47,6 @@ Returned payload: [DeliveryProfileAssignment](../models/DeliveryProfileAssignmen
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -69,7 +71,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.deliveryProfiles.assignToUnconfigured("dprof_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey });
+const result = await client.deliveryProfiles.assignToUnconfigured("dprof_01KEZF7C0020J13FQYNY9854R0", undefined, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/deliveryProfiles-assignToUnconfigured.mjs)
@@ -86,6 +88,9 @@ Signature: `create(params: DeliveryProfilesCreateParams, options?: RequestOption
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [CreateDeliveryProfileRequestInput](../models/CreateDeliveryProfileRequest.md#createdeliveryprofilerequest) | The request body for: Create delivery profile. |
 
 Body model: [CreateDeliveryProfileRequestInput](../models/CreateDeliveryProfileRequest.md#createdeliveryprofilerequest).
@@ -112,7 +117,6 @@ Returned payload: [DeliveryProfile](../models/DeliveryProfile.md#deliveryprofile
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -156,6 +160,9 @@ Signature: `delete(delivery_profile_id: InputValue<string>, params?: DeliveryPro
 | --- | --- | --- | --- |
 | `delivery_profile_id` | Required | string | Flint delivery profile ID. |
 | `expected_version` | Optional | integer | Optional current resource version. The delete is rejected if the resource changed after this version was read. Format: `uint64`. minimum: `1`. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -170,7 +177,6 @@ Returned payload: [DeliveryProfile](../models/DeliveryProfile.md#deliveryprofile
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -193,7 +199,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.deliveryProfiles.delete("dprof_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey });
+const result = await client.deliveryProfiles.delete("dprof_01KEZF7C0020J13FQYNY9854R0", {}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/deliveryProfiles-delete.mjs)
@@ -218,6 +224,9 @@ get(delivery_profile_id: InputValue<string>,
 | --- | --- | --- | --- |
 | `delivery_profile_id` | Required | string | Flint delivery profile ID. |
 | `include_diagnostics` | Optional | boolean | Compute catalog and delivery-configuration diagnostics for this profile. Default: `false`. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -231,7 +240,6 @@ Returned payload: [DeliveryProfile](../models/DeliveryProfile.md#deliveryprofile
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -249,7 +257,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```typescript
-const result = await client.deliveryProfiles.get("dprof_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
+const result = await client.deliveryProfiles.get("dprof_01KEZF7C0020J13FQYNY9854R0", {}, {  });
 ```
 
 [Complete runnable example](../examples/deliveryProfiles-get.mjs)
@@ -267,13 +275,16 @@ Signature: `list(params?: DeliveryProfilesListParams, options?: _SdkWithoutIdemp
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `query` | Optional | string | Search across delivery_profile_id, name, and external_reference_id. Text fields match any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the start and need the type prefix, such as dprof_01. maxLength: `255`. |
 | `external_reference_id` | Optional | string | Exact-match filter on the caller-owned external reference ID. minLength: `1`. maxLength: `255`. |
-| `status` | Optional | Array of string or string | Filter by status. Repeat the parameter or send comma-separated values to match any of several. Omitted, the list leaves out archived rows; name archived to include them. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"archived"`. Values: `"active"`, `"archived"`. |
+| `status` | Optional | Array of string or string | Filter by status. Omitted, the list leaves out archived rows; name archived to include them. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"archived"`. Values: `"active"`, `"archived"`. |
 | `is_default` | Optional | boolean | Filter by whether the profile is the current physical catalog default. Accepts a single true or false value. |
-| `resolution_mode` | Optional | Array of string or string | Filter by profile resolution mode. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"quote"`, `"manual"`. Values: `"quote"`, `"manual"`. |
+| `resolution_mode` | Optional | Array of string or string | Filter by profile resolution mode. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"quote"`, `"manual"`. Values: `"quote"`, `"manual"`. |
 | `include_diagnostics` | Optional | boolean | Compute catalog and delivery-configuration diagnostics for every profile returned. Default: `false`. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -287,7 +298,6 @@ Returned payload: [DeliveryProfileListResponse](../models/DeliveryProfileListRes
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -325,6 +335,9 @@ Signature: `update(delivery_profile_id: InputValue<string>, params: DeliveryProf
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `delivery_profile_id` | Required | string | Flint delivery profile ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [UpdateDeliveryProfileRequestInput](../models/UpdateDeliveryProfileRequest.md#updatedeliveryprofilerequest) | The request body for: Update delivery profile. |
 
 Body model: [UpdateDeliveryProfileRequestInput](../models/UpdateDeliveryProfileRequest.md#updatedeliveryprofilerequest).
@@ -418,7 +431,6 @@ Returned payload: [DeliveryProfile](../models/DeliveryProfile.md#deliveryprofile
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |

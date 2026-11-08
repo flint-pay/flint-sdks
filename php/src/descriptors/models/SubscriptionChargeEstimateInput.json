@@ -1,0 +1,1 @@
+{"shared":"SubscriptionChargeEstimate","dependencies":["MoneyValue","SharedCodec73","SubscriptionChargeEstimate","SubscriptionRenewalEstimateDiscount","SubscriptionRenewalEstimateLineItem"]}

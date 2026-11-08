@@ -11,7 +11,7 @@ The money for a return: returned value, deductions, credits, replacement total, 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `collected_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Balances collected from the buyer. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `collected_money`: [field definitions](../models/ReturnFinancialSummary.md#returnfinancialsummarycollected_money). |
-| `credit_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Credits added by confirmed, non-canceled resolutions. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `credit_money`: [field definitions](../models/ReturnFinancialSummary.md#returnfinancialsummarycredit_money). |
+| `credit_adjustment_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Credits added by confirmed, non-canceled resolutions. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `credit_adjustment_money`: [field definitions](../models/ReturnFinancialSummary.md#returnfinancialsummarycredit_adjustment_money). |
 | `deduction_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Fees withheld by confirmed, non-canceled resolutions. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `deduction_money`: [field definitions](../models/ReturnFinancialSummary.md#returnfinancialsummarydeduction_money). |
 | `due_from_buyer_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Balances the buyer owes on confirmed, non-canceled resolutions whose payment has not succeeded. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `due_from_buyer_money`: [field definitions](../models/ReturnFinancialSummary.md#returnfinancialsummarydue_from_buyer_money). |
 | `due_to_buyer_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Refund amounts on confirmed, non-canceled resolutions whose Refund has not succeeded. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `due_to_buyer_money`: [field definitions](../models/ReturnFinancialSummary.md#returnfinancialsummarydue_to_buyer_money). |
@@ -28,7 +28,7 @@ Balances collected from the buyer. Monetary amount represented as integer minor 
 
 Field definitions: [shared fields](MoneyValueInput.md#moneyvalueinput).
 
-### ReturnFinancialSummary.credit_money
+### ReturnFinancialSummary.credit_adjustment_money
 
 Credits added by confirmed, non-canceled resolutions. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
 

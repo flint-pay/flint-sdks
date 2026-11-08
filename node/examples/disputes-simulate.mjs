@@ -8,7 +8,7 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.disputes.simulate(
-  "du_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "du_01KEZF7C00DEJSF1KTXRT4BBQD",
   {
     outcome: "won",
   },

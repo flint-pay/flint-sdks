@@ -16,7 +16,7 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->returnPolicies->delete('rpol_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->returnPolicies->delete('rpol_01KEZF7C00H8C042BEK6HBRANX', [], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->current_return_policy_revision_id . PHP_EOL;
 echo $result->return_policy_id . PHP_EOL;
 $client->close();

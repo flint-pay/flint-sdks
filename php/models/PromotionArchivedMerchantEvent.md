@@ -10,38 +10,51 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `api_version` | Required | string | Format: `date`. |
-| `created_at` | Required | string | Format: `date-time`. |
-| `data` | Required | [PromotionArchivedMerchantEventData](../models/PromotionArchivedMerchantEventData.md#promotionarchivedmerchanteventdata) | `data`: [field definitions](../models/PromotionArchivedMerchantEvent.md#promotionarchivedmerchanteventdata-fields-1). |
-| `event_type` | Required | string | Values: `"promotion.archived"`. |
-| `merchant_id` | Required | string |  |
-| `mode` | Required | string | Values: `"test"`, `"live"`. |
+| `api_version` | Required | string | API version used to render this delivery attempt. The older of the event version and the endpoint version when the attempt runs, with default resolved to the merchant pin. Format: `date`. |
+| `created_at` | Required | string | When Flint recorded the event. Format: `date-time`. |
+| `data` | Required | [PromotionArchivedMerchantEventData](../models/PromotionArchivedMerchantEventData.md#promotionarchivedmerchanteventdata) | The resource snapshot recorded for this event and rendered at the delivery API version. `data`: [field definitions](../models/PromotionArchivedMerchantEvent.md#promotionarchivedmerchanteventdata-fields-1). |
+| `event_source` | Required | string | The origin of the event. Selects the webhook envelope and the fields in source. Values: `"merchant"`. |
+| `event_type` | Required | string | The resource change or condition this event announces. Values: `"promotion.archived"`. |
+| `merchant_id` | Required | string | ID of the merchant this resource belongs to. |
+| `mode` | Required | string | Environment used for this resource or request. Values: `"test"`, `"live"`. |
 | `payload_version` | Required | integer | 2 for every current event. 1 only for an event queued before 2026-10-16 and delivered afterwards, which keeps its previous data shape. Values: `1`, `2`. |
-| `request` | Required | [PromotionArchivedMerchantEventRequest](../models/PromotionArchivedMerchantEventRequest.md#promotionarchivedmerchanteventrequest) or null |  |
+| `request` | Required | [PromotionArchivedMerchantEventRequest](../models/PromotionArchivedMerchantEventRequest.md#promotionarchivedmerchanteventrequest) or null | The originating request. `null` when the event has no originating request ID. |
+| `sandbox_id` | Optional | string | Public sandbox ID for this event. Present exactly when mode is test; omitted in live mode. |
 | `test` | Required | boolean | true for a synthetic event sent from the test-events endpoint, false otherwise. |
-| `webhook_event_id` | Required | string |  |
+| `webhook_event_id` | Required | string | Stable ID of the recorded webhook event, shared by its delivery attempts. |
 
 ### PromotionArchivedMerchantEvent.data fields 1
 
+The resource snapshot recorded for this event and rendered at the delivery API version.
+
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `object` | Required | object and [Promotion](../models/Promotion.md#promotion) | Promotion evaluation order: manual discounts stay, do not count toward the cap, and are ignored by combines_with. Frozen subscription-term promotions are admitted first and are exempt from exclusivity, combines_with, and the cap. Candidates include codes being applied, existing promotion discounts, and qualifying automatic promotions. Each exclusivity group keeps its highest-priority member, then the larger standalone discount, earlier created_at, and lower promotion_id. Remaining candidates rank by standalone discount, then earlier created_at and lower promotion_id; each is admitted unless max_promotions_per_order is reached or both promotions do not allow each other's discount class. Admitted promotions price line item first, then order, then service charge. A zero-value promotion is dropped and selection runs again. `object`: [field definitions](../models/PromotionArchivedMerchantEvent.md#promotionarchivedmerchanteventdata-fields-1object). |
+| `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `codes`. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `codes`. `object`: [field definitions](../models/PromotionArchivedMerchantEvent.md#promotionarchivedmerchanteventdata-fields-1object). |
+| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
 
 ### PromotionArchivedMerchantEvent.data fields 1.object
 
-Promotion evaluation order: manual discounts stay, do not count toward the cap, and are ignored by combines_with. Frozen subscription-term promotions are admitted first and are exempt from exclusivity, combines_with, and the cap. Candidates include codes being applied, existing promotion discounts, and qualifying automatic promotions. Each exclusivity group keeps its highest-priority member, then the larger standalone discount, earlier created_at, and lower promotion_id. Remaining candidates rank by standalone discount, then earlier created_at and lower promotion_id; each is admitted unless max_promotions_per_order is reached or both promotions do not allow each other's discount class. Admitted promotions price line item first, then order, then service charge. A zero-value promotion is dropped and selection runs again.
+The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `codes`.
 
 Field definitions: [shared fields](Promotion.md#promotion).
 
 ### PromotionArchivedMerchantEvent.data fields 1.object.application_method
 
-Declared alternatives: [Promotion.application_method](../models/Promotion.md#promotionapplication_method).
+Declared alternatives: [PromotionResponse.data.application_method](../models/PromotionResponse.md#promotionresponsedataapplication_method).
+
+### PromotionArchivedMerchantEvent.data fields 1.object.codes[]
+
+Field definitions: [PromotionResponse.data.codes[]](../models/PromotionResponse.md#promotionresponsedatacodes).
 
 ### PromotionArchivedMerchantEvent.data fields 1.object.eligibility_rules
 
-Declared alternatives: [Promotion.eligibility_rules](../models/Promotion.md#promotioneligibility_rules).
+Declared alternatives: [PromotionResponse.data.codes[].promotion.eligibility_rules](../models/PromotionResponse.md#promotionresponsedatacodespromotioneligibility_rules).
 
 ### PromotionArchivedMerchantEvent.data fields 1.object.metadata
 
-Field definitions: [Promotion.metadata](../models/Promotion.md#promotionmetadata).
+Field definitions: [PromotionResponse.data.codes[].promotion.metadata](../models/PromotionResponse.md#promotionresponsedatacodespromotionmetadata).
+
+### PromotionArchivedMerchantEvent.data fields 1.object.schedule
+
+Field definitions: [PromotionResponse.data.codes[].promotion.schedule](../models/PromotionResponse.md#promotionresponsedatacodespromotionschedule).
 

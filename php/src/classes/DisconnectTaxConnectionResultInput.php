@@ -8,7 +8,7 @@ namespace Flint;
 final class DisconnectTaxConnectionResultInput extends Model {
     /** @param array{'settings': SettingsInput|array<array-key, mixed>|\stdClass, 'tax_connection': TaxConnectionInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DisconnectTaxConnectionResultInput')); }
-    /** Merchant settings, as returned by GET /v1/settings. The settings for one scope (organization, merchant, location, or device), grouped by area such as checkout, tax, receipts, and tipping.
+    /** Merchant settings, as returned by GET /v1/settings. The settings for one merchant environment.
      * @return SettingsInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When settings is omitted; use hasSettings() or valueOrDefault().
      */

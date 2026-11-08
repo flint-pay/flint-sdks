@@ -9,13 +9,13 @@ namespace Flint;
 final class CreateGiftCardFundingDispositionRequestInput extends Model {
     /** @param array{'disposition'?: string, 'dispute_id': string, 'reason_message': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateGiftCardFundingDispositionRequestInput')); }
-    /** Default: "honor_value". Value enum: "honor_value".
+    /** What the merchant decided about the card's value after the funding payment lost a dispute. Default: "honor_value". Value enum: "honor_value".
      * @return string
      * @throws SdkError When disposition is omitted; use hasDisposition() or valueOrDefault().
      */
     public function getDisposition(): string { return $this->get('disposition'); }
     public function hasDisposition(): bool { return $this->has('disposition'); }
-    /** The lost dispute on the payment that funded the gift card value. minLength: 1. pattern: ^du_[0-9A-HJKMNP-TV-Z]{26}$.
+    /** The lost dispute on the payment that funded the gift card value. minLength: 1. pattern: ^du_[0-9A-HJKMNP-TV-Z]{26}$. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD".
      * @return string
      * @throws SdkError When dispute_id is omitted; use hasDisputeId() or valueOrDefault().
      */

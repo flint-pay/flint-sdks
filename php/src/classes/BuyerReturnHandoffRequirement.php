@@ -12,7 +12,7 @@ namespace Flint;
 final class BuyerReturnHandoffRequirement extends Model {
     /** @param array{'destination': mixed, 'expires_at'?: string, 'instructions'?: string, 'line_items': list<mixed>, 'shipment_count'?: int, 'status': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerReturnHandoffRequirement')); }
-    /** The destination name, address, and type shown to the buyer for returning merchandise.
+    /** Where the buyer sends the merchandise. The destination name, address, and type shown to the buyer for returning merchandise.
      * @return BuyerReturnHandoffDestination
      */
     public function getDestination(): BuyerReturnHandoffDestination { return $this->get('destination'); }
@@ -22,12 +22,12 @@ final class BuyerReturnHandoffRequirement extends Model {
      */
     public function getExpiresAt(): ?string { return $this->get('expires_at'); }
     public function hasExpiresAt(): bool { return $this->has('expires_at'); }
-    /** instructions
+    /** Instructions for the buyer on sending the merchandise.
      * @return ?string
      */
     public function getInstructions(): ?string { return $this->get('instructions'); }
     public function hasInstructions(): bool { return $this->has('instructions'); }
-    /**  [] (Value): {@see ReturnHandoffRequirementLineItem}. A return line and the quantity the buyer must hand back.
+    /** Return lines and the quantities still expected. [] (Value): {@see ReturnHandoffRequirementLineItem}. A return line and the quantity the buyer must hand back.
      * @return list<ReturnHandoffRequirementLineItem>
      */
     public function getLineItems(): array { return $this->get('line_items'); }

@@ -6,5 +6,8 @@ A return line and the quantity the buyer must hand back.
 
 Response model.
 
-Fields, types, descriptions and enum values: [ReturnHandoffRequirementLineItemInput](../models/ReturnHandoffRequirementLineItemInput.md#returnhandoffrequirementlineiteminput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
+| `return_line_item_id` | Required | string | ID of the Return line the entry is about. |
 

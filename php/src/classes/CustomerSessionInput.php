@@ -9,41 +9,42 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $refresh_token_expires_at
  * @property-read string|\DateTimeInterface $revoked_at
  * @property-read string $status
+ * @property-read list<string> $supported_actions
  * Presence-aware input; omitted fields throw when accessed. */
 final class CustomerSessionInput extends Model {
-    /** @param array{'created_at': string|\DateTimeInterface, 'customer_id': string, 'customer_session_id': string, 'expires_at': string|\DateTimeInterface, 'refresh_token_expires_at': string|\DateTimeInterface, 'revoked_at'?: string|\DateTimeInterface, 'status': string, ...}|object $values */
+    /** @param array{'created_at': string|\DateTimeInterface, 'customer_id': string, 'customer_session_id': string, 'expires_at': string|\DateTimeInterface, 'refresh_token_expires_at': string|\DateTimeInterface, 'revoked_at'?: string|\DateTimeInterface, 'status': string, 'supported_actions': list<string>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerSessionInput')); }
-    /** When the session was created. Format: date-time.
+    /** When the session was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** customer_id
+    /** ID of the customer the session acts as. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** customer_session_id
+    /** ID of this session. Use it to tell sessions apart; it is not a credential. Example: "cses_01KEZF7C00FBVRP25FZTW7KWZV".
      * @return string
      * @throws SdkError When customer_session_id is omitted; use hasCustomerSessionId() or valueOrDefault().
      */
     public function getCustomerSessionId(): string { return $this->get('customer_session_id'); }
     public function hasCustomerSessionId(): bool { return $this->has('customer_session_id'); }
-    /** When the current secret stops authenticating account calls. Format: date-time.
+    /** When the current secret stops authenticating account calls. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When expires_at is omitted; use hasExpiresAt() or valueOrDefault().
      */
     public function getExpiresAt(): string|\DateTimeInterface { return $this->get('expires_at'); }
     public function hasExpiresAt(): bool { return $this->has('expires_at'); }
-    /** When the refresh token expires. Format: date-time.
+    /** When the refresh token expires. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When refresh_token_expires_at is omitted; use hasRefreshTokenExpiresAt() or valueOrDefault().
      */
     public function getRefreshTokenExpiresAt(): string|\DateTimeInterface { return $this->get('refresh_token_expires_at'); }
     public function hasRefreshTokenExpiresAt(): bool { return $this->has('refresh_token_expires_at'); }
-    /** When the session was first revoked. Present exactly when status is revoked. Format: date-time.
+    /** When the session was first revoked. Present exactly when status is revoked. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When revoked_at is omitted; use hasRevokedAt() or valueOrDefault().
      */
@@ -55,4 +56,10 @@ final class CustomerSessionInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
+    /** Lifecycle actions Flint accepts now, independent of the caller's permissions. Contains revoke for active and revoked sessions because repeating a revocation succeeds. [] enum: "revoke". [] (Value): string.  Value enum: "revoke".
+     * @return list<string>
+     * @throws SdkError When supported_actions is omitted; use hasSupportedActions() or valueOrDefault().
+     */
+    public function getSupportedActions(): array { return $this->get('supported_actions'); }
+    public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
 }

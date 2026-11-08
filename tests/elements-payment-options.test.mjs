@@ -30,6 +30,8 @@ const envelope = {
     version: 1,
     supported_actions: [],
     last_payment_error: null,
+    statement_descriptor: null,
+    customer_presence: "present",
     payment_collection: {
       stripe: {
         account_id: "acct_synthetic",

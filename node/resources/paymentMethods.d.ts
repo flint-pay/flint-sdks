@@ -1,7 +1,7 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-5.js';
-import type { PaymentMethod } from '../declarations/types-42.js';
+import type { ClientOptions } from '../declarations/types-6.js';
 import type {
+    PaymentMethod,
     PaymentMethodListResponse,
     PaymentMethodResponse,
     PaymentMethodWithSetup,
@@ -9,10 +9,10 @@ import type {
     PaymentMethodsDeleteParams,
     PaymentMethodsGetParams,
     PaymentMethodsListParams
-} from '../declarations/types-43.js';
-import type { RequestOptions } from '../declarations/types-48.js';
-import type { SavePaymentMethodResponse } from '../declarations/types-53.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-45.js';
+import type { RequestOptions } from '../declarations/types-51.js';
+import type { SavePaymentMethodResponse } from '../declarations/types-56.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -31,25 +31,26 @@ export type {
     PaymentMethodsCreateParams,
     PaymentMethodWithSetup,
     PaymentMethodsDeleteParams,
+    PaymentMethod,
     PaymentMethodResponse,
     PaymentMethodsGetParams,
     PaymentMethodsListParams,
     PaymentMethodListResponse
-} from '../declarations/types-43.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
-export type { SavePaymentMethodResponse, SavePaymentMethodRequestInput } from '../declarations/types-53.js';
-export type { PaymentMethod } from '../declarations/types-42.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { ClientOptions } from '../declarations/types-5.js';
+} from '../declarations/types-45.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
+export type { SavePaymentMethodResponse, SavePaymentMethodRequestInput } from '../declarations/types-56.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+export type { ClientOptions } from '../declarations/types-6.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-12.js';
-export type { StripeClientSetup, StripeClientSetupStripe, StripeClientAuthority } from '../declarations/types-54.js';
-export type { NextAction, MoneyValue } from '../declarations/types-35.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
+export type { Credentials } from '../declarations/types-13.js';
+export type { StripeClientSetup, StripeClientSetupStripe, StripeClientAuthority } from '../declarations/types-57.js';
+export type { NextAction, MoneyValue } from '../declarations/types-37.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
 export type { CardDetails } from '../declarations/types-4.js';
-export type { ExpandedCustomerSummary } from '../declarations/types-21.js';
-export { makeMoneyValue } from '../declarations/types-70.js';
-export { makeSavePaymentMethodRequest } from '../declarations/types-73.js';
+export type { ExpandedCustomerSummary } from '../declarations/types-23.js';
+export type { DisputesAcceptParams } from '../declarations/types-22.js';
+export { makeMoneyValue } from '../declarations/types-75.js';
+export { makeSavePaymentMethodRequest } from '../declarations/types-78.js';
 export interface PaymentMethodsResource {
     /**
  * Initiates saving a payment method and returns the client setup payload needed to complete setup
@@ -76,7 +77,7 @@ export interface PaymentMethodsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.paymentMethods.delete("pm_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey:
+ * client.paymentMethods.delete("pm_01KEZF7C0034B248TXXE4NXYFZ", {}, { idempotencyKey:
  * idempotencyKey })
  */
     delete(payment_method_id: InputValue<string>, params?: PaymentMethodsDeleteParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<PaymentMethod, PaymentMethodResponse>>;
@@ -88,7 +89,7 @@ export interface PaymentMethodsResource {
  * @see https://developers.withflintpay.com/docs/api/payment-methods#getPaymentMethod
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.paymentMethods.get("pm_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.paymentMethods.get("pm_01KEZF7C0034B248TXXE4NXYFZ")
  */
     get(payment_method_id: InputValue<string>, params?: PaymentMethodsGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant">>): Promise<WithResponseInfo<PaymentMethod, PaymentMethodResponse>>;
     /**

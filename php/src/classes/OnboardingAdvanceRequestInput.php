@@ -15,7 +15,7 @@ final class OnboardingAdvanceRequestInput extends Model {
      */
     public function getCountry(): string { return $this->get('country'); }
     public function hasCountry(): bool { return $this->has('country'); }
-    /** Contact and website details you submit for a merchant during onboarding. Send null to clear a field.
+    /** Contact and website details to record for onboarding. Send only the fields to change. Profile changes return `409 ACTION_NOT_ALLOWED` with reason `managed_externally` while the account is being set up. Once the account is active, support contact and website details can change; changing the email address still returns this error. Contact and website details you submit for a merchant during onboarding. Send null to clear a field.
      * @return OnboardingProfileRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When profile is omitted; use hasProfile() or valueOrDefault().
      */

@@ -2,9 +2,11 @@
 
 ## TestClockReadyEventDataObject
 
-A sandbox clock that customers created on it, and their subscriptions, read as the current time.
+The affected public resource without expansions, client authority fields, or fields computed for an individual caller.
+
+The resource snapshot, without expansions. Webhooks omit no additional fields.
 
 Response model.
 
-Fields, types, descriptions and enum values: [TestClock](../models/TestClock.md#testclock).
+Fields, types, descriptions and enum values: [TestClockAdvancingEventDataObject](../models/TestClockAdvancingEventDataObject.md#testclockadvancingeventdataobject).
 

@@ -15,13 +15,13 @@ final class SubscriptionRenewalPreviewInput extends Model {
      */
     public function getMode(): string { return $this->get('mode'); }
     public function hasMode(): bool { return $this->has('mode'); }
-    /** Estimated pricing and billing time for a subscription's next renewal, including items, discounts, shipping, and tax.
+    /** Estimated pricing and billing time for a subscription renewal, including items, discounts, shipping, and tax.
      * @return SubscriptionRenewalEstimateInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When renewal is omitted; use hasRenewal() or valueOrDefault().
      */
     public function getRenewal(): mixed { return $this->get('renewal'); }
     public function hasRenewal(): bool { return $this->has('renewal'); }
-    /** subscription_id
+    /** Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
      * @return string
      * @throws SdkError When subscription_id is omitted; use hasSubscriptionId() or valueOrDefault().
      */

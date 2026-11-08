@@ -16,7 +16,7 @@ final class DevicesCreateParams extends Model {
      */
     public function getHardwareFingerprint(): string { return $this->get('hardware_fingerprint'); }
     public function hasHardwareFingerprint(): bool { return $this->has('hardware_fingerprint'); }
-    /** minLength: 1. Example: "loc_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** An active Location to assign the device to. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When location_id is omitted; use hasLocationId() or valueOrDefault().
      */
@@ -28,7 +28,7 @@ final class DevicesCreateParams extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** minLength: 1.
+    /** Name for the device, such as Front register. minLength: 1.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */

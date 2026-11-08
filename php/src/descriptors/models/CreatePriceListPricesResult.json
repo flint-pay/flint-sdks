@@ -1,0 +1,1 @@
+{"shared":"CreatePriceListPricesResult","phpRepresentation":{"kind":"record","fields":{"additions":{"kind":"list","value":{"kind":"entity","name":"PriceListPriceAddition"}},"price_list":{"kind":"entity","name":"PriceList"}}},"dependencies":["CreatePriceListPricesResult","MetadataMap","MoneyValue","PriceList","PriceListPrice","PriceListPriceAddition","QuantityPriceBreak"]}

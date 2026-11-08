@@ -15,13 +15,13 @@ final class UpdateReturnResolutionLineItemRequestInput extends Model {
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
-    /** minLength: 1.
+    /** ID of the Return line the resolution covers. minLength: 1. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
      * @return string
      * @throws SdkError When return_line_item_id is omitted; use hasReturnLineItemId() or valueOrDefault().
      */
     public function getReturnLineItemId(): string { return $this->get('return_line_item_id'); }
     public function hasReturnLineItemId(): bool { return $this->has('return_line_item_id'); }
-    /** minLength: 1.
+    /** ID of an existing resolution line to keep. Leave out to add a new line. minLength: 1. Example: "retresli_01KEZF7C00CR5NCDXRBP9W14CB".
      * @return string
      * @throws SdkError When return_resolution_line_item_id is omitted; use hasReturnResolutionLineItemId() or valueOrDefault().
      */

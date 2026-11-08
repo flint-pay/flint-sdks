@@ -17,7 +17,7 @@ $client = new Client(new ClientOptions(
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->customerDeletionRequests->create([
-  'customer_id' => 'cus_01ARZ3NDEKTSV4RRFFQ69G5FAV',
+  'customer_id' => 'cus_01KEZF7C003ACYXT6Q5EQZ78EE',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->customer_deletion_request_id . PHP_EOL;
 echo $result->customer_id . PHP_EOL;

@@ -14,7 +14,7 @@ final class CreateSubscriptionPreviewRequestNextRenewalInput extends Model {
      */
     public function getMode(): string { return $this->get('mode'); }
     public function hasMode(): bool { return $this->has('mode'); }
-    /** minLength: 1. pattern: ^sub_[0-9A-HJKMNP-TV-Z]{26}$.
+    /** minLength: 1. pattern: ^sub_[0-9A-HJKMNP-TV-Z]{26}$. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
      * @return string
      * @throws SdkError When subscription_id is omitted; use hasSubscriptionId() or valueOrDefault().
      */

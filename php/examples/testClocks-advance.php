@@ -16,7 +16,7 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->testClocks->advance('tclk_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
+$result = $client->testClocks->advance('tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ', [
   'expected_version' => 1,
   'frozen_at' => '2026-12-01T00:00:00Z',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));

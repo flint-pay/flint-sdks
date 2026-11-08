@@ -6,5 +6,5 @@ An order line item, or one bundle component of it, and the quantity covered by a
 
 Response model.
 
-Fields, types, descriptions and enum values: [DeliveryPickupAvailabilityQuantityResourceInput](../models/DeliveryPickupAvailabilityQuantityResourceInput.md#deliverypickupavailabilityquantityresourceinput).
+Fields, types, descriptions and enum values: [DeliveryPickupAvailabilityQuantityResource](../models/DeliveryPickupAvailabilityQuantityResource.md#deliverypickupavailabilityquantityresource).
 

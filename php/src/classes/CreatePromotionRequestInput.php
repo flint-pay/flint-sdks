@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read PromotionApplicationMethodRequestInput|array<array-key, mixed>|\stdClass $application_method
- * @property-read list<CreatePromotionCodeRequestInput|array<array-key, mixed>|\stdClass> $codes
+ * @property-read list<PromotionCodeRequestInput|array<array-key, mixed>|\stdClass> $codes
  * @property-read PromotionCombinesWithRequestInput|array<array-key, mixed>|\stdClass $combines_with
  * @property-read string $description
  * @property-read string $discount_class
@@ -12,6 +12,7 @@ namespace Flint;
  * @property-read PromotionExclusivityRequestInput|array<array-key, mixed>|\stdClass $exclusivity
  * @property-read string $external_reference_id
  * @property-read int $max_uses
+ * @property-read int|null $max_uses_per_customer
  * @property-read MetadataRequestInput|array<array-key, mixed>|\stdClass $metadata
  * @property-read string $name
  * @property-read string $redemption_type
@@ -19,7 +20,7 @@ namespace Flint;
  * @property-read string $status
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreatePromotionRequestInput extends Model {
-    /** @param array{'application_method': PromotionApplicationMethodRequestInput|array<array-key, mixed>|\stdClass, 'codes'?: list<CreatePromotionCodeRequestInput|array<array-key, mixed>|\stdClass>, 'combines_with'?: PromotionCombinesWithRequestInput|array<array-key, mixed>|\stdClass, 'description'?: string, 'discount_class'?: string, 'display_name'?: string, 'eligibility_rules'?: PromotionRuleGroupRequestInput|array<array-key, mixed>|\stdClass, 'exclusivity'?: PromotionExclusivityRequestInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'max_uses'?: int, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'name': string, 'redemption_type'?: string, 'schedule'?: PromotionScheduleRequestInput|array<array-key, mixed>|\stdClass, 'status'?: string}|object $values */
+    /** @param array{'application_method': PromotionApplicationMethodRequestInput|array<array-key, mixed>|\stdClass, 'codes'?: list<PromotionCodeRequestInput|array<array-key, mixed>|\stdClass>, 'combines_with'?: PromotionCombinesWithRequestInput|array<array-key, mixed>|\stdClass, 'description'?: string, 'discount_class'?: string, 'display_name'?: string, 'eligibility_rules'?: PromotionRuleGroupRequestInput|array<array-key, mixed>|\stdClass, 'exclusivity'?: PromotionExclusivityRequestInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'max_uses'?: int, 'max_uses_per_customer'?: int|null, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'name': string, 'redemption_type'?: string, 'schedule'?: PromotionScheduleRequestInput|array<array-key, mixed>|\stdClass, 'status'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreatePromotionRequestInput')); }
     /** Discount effect and how it applies to eligible items or charges. A flat application method whose type selects its effect fields.
      * @return PromotionApplicationMethodRequestInput|array<array-key, mixed>|\stdClass
@@ -27,8 +28,8 @@ final class CreatePromotionRequestInput extends Model {
      */
     public function getApplicationMethod(): mixed { return $this->get('application_method'); }
     public function hasApplicationMethod(): bool { return $this->has('application_method'); }
-    /** Codes to create with a code-gated promotion, at most 100. The create response returns them in `codes`. Add more later with `POST /v1/promotions/{promotion_id}/codes`, and manage each code through the `/v1/promotions/{promotion_id}/codes/{promotion_code_id}` routes. maxItems: 100. [] (Value): {@see CreatePromotionCodeRequestInput}. The request body for: Create promotion code.
-     * @return list<CreatePromotionCodeRequestInput|array<array-key, mixed>|\stdClass>
+    /** Codes to create with a code-gated promotion, at most 100. The create response returns them in `codes`. Add more later with `POST /v1/promotion-codes`, and manage each code through the `/v1/promotion-codes/{promotion_code_id}` routes. maxItems: 100. [] (Value): {@see PromotionCodeRequestInput}. A promotion code to create inline with its promotion. The promotion supplies its parent ID.
+     * @return list<PromotionCodeRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When codes is omitted; use hasCodes() or valueOrDefault().
      */
     public function getCodes(): array { return $this->get('codes'); }
@@ -69,7 +70,7 @@ final class CreatePromotionRequestInput extends Model {
      */
     public function getExclusivity(): mixed { return $this->get('exclusivity'); }
     public function hasExclusivity(): bool { return $this->has('exclusivity'); }
-    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -81,6 +82,12 @@ final class CreatePromotionRequestInput extends Model {
      */
     public function getMaxUses(): int { return $this->get('max_uses'); }
     public function hasMaxUses(): bool { return $this->has('max_uses'); }
+    /** Maximum reserved and redeemed uses per identified customer across every code and automatic or ID-based application. Checked atomically when payment starts. Failed, canceled, or expired attempts release their reservation; refunds do not restore uses. Counts only within the same merchant and environment; live and test mode are separate. Without an identified customer, returns 409 PROMOTION_DECLINED with reason customer_required. Omit or send null for no per-customer limit. Format: int64. minimum: 1.
+     * @return int|null
+     * @throws SdkError When max_uses_per_customer is omitted; use hasMaxUsesPerCustomer() or valueOrDefault().
+     */
+    public function getMaxUsesPerCustomer(): int|null { return $this->get('max_uses_per_customer'); }
+    public function hasMaxUsesPerCustomer(): bool { return $this->has('max_uses_per_customer'); }
     /** Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: 50.
      * @return MetadataRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().

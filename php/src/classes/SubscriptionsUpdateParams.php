@@ -6,15 +6,17 @@ namespace Flint;
  * @property-read int $billing_interval_count
  * @property-read SubscriptionBillingScheduleUpdateRequestInput|array<array-key, mixed>|\stdClass $billing_schedule
  * @property-read bool $cancel_at_period_end
- * @property-read array{'delivery_method_id': string, 'destination': array{'customer_address_id': string, 'type': string}|object|array{'address': AddressRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object, 'recipient'?: DeliverySelectionRecipientRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object $delivery
+ * @property-read SubscriptionDeliveryRequestInput|array<array-key, mixed>|\stdClass $delivery
+ * @property-read array{'cycle_count': int, 'type': string}|object|array{'end_date': string, 'timezone'?: string, 'type': string}|object|null $end_after
  * @property-read int $expected_version
  * @property-read string|null $external_reference_id
  * @property-read array<array-key, string|null>|\stdClass|null $metadata
  * @property-read string $payment_method_id
  * @property-read int $quantity
+ * @property-read null $scheduled_plan_change
  * Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionsUpdateParams extends Model {
-    /** @param array{'billing_interval'?: string, 'billing_interval_count'?: int, 'billing_schedule'?: SubscriptionBillingScheduleUpdateRequestInput|array<array-key, mixed>|\stdClass, 'cancel_at_period_end'?: bool, 'delivery'?: array{'delivery_method_id': string, 'destination': array{'customer_address_id': string, 'type': string}|object|array{'address': AddressRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object, 'recipient'?: DeliverySelectionRecipientRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object, 'expected_version'?: int, 'external_reference_id'?: string|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'payment_method_id'?: string, 'quantity'?: int}|object $values */
+    /** @param array{'billing_interval'?: string, 'billing_interval_count'?: int, 'billing_schedule'?: SubscriptionBillingScheduleUpdateRequestInput|array<array-key, mixed>|\stdClass, 'cancel_at_period_end'?: bool, 'delivery'?: SubscriptionDeliveryRequestInput|array<array-key, mixed>|\stdClass, 'end_after'?: array{'cycle_count': int, 'type': string}|object|array{'end_date': string, 'timezone'?: string, 'type': string}|object|null, 'expected_version'?: int, 'external_reference_id'?: string|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'payment_method_id'?: string, 'quantity'?: int, 'scheduled_plan_change'?: null, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionsUpdateParams')); }
     /** Value enum: "daily", "weekly", "monthly", "yearly".
      * @return string
@@ -41,18 +43,24 @@ final class SubscriptionsUpdateParams extends Model {
     public function getCancelAtPeriodEnd(): bool { return $this->get('cancel_at_period_end'); }
     public function hasCancelAtPeriodEnd(): bool { return $this->has('cancel_at_period_end'); }
     /** The delivery preference to set on a subscription: delivery method, type, destination, and recipient.
-     * @return array{'delivery_method_id': string, 'destination': array{'customer_address_id': string, 'type': string}|object|array{'address': AddressRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object, 'recipient'?: DeliverySelectionRecipientRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object
+     * @return SubscriptionDeliveryRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When delivery is omitted; use hasDelivery() or valueOrDefault().
      */
-    public function getDelivery(): array|object { return $this->get('delivery'); }
+    public function getDelivery(): mixed { return $this->get('delivery'); }
     public function hasDelivery(): bool { return $this->has('delivery'); }
-    /** Format: uint64. minimum: 1.
+    /** Replace the complete automatic end condition, or send null to clear it. Requires expected_version. Buyers cannot change this field. anyOf[1] (Value): {@see SubscriptionEndAfterRequestInput}. An automatic end condition to assign to a subscription, measured by charged billing cycles or a local calendar date. anyOf[2] (Value): null.
+     * @return array{'cycle_count': int, 'type': string}|object|array{'end_date': string, 'timezone'?: string, 'type': string}|object|null
+     * @throws SdkError When end_after is omitted; use hasEndAfter() or valueOrDefault().
+     */
+    public function getEndAfter(): mixed { return $this->get('end_after'); }
+    public function hasEndAfter(): bool { return $this->has('end_after'); }
+    /** The current subscription version. Required when end_after is present. Format: uint64. minimum: 1.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string|null
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -64,7 +72,7 @@ final class SubscriptionsUpdateParams extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** minLength: 1. Example: "pm_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** minLength: 1. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
      * @return string
      * @throws SdkError When payment_method_id is omitted; use hasPaymentMethodId() or valueOrDefault().
      */
@@ -76,4 +84,28 @@ final class SubscriptionsUpdateParams extends Model {
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
+    /** Send null to cancel a scheduled plan change and keep the current plan. Omit to leave it unchanged. Schedule or replace through change-plan.
+     * @return null
+     * @throws SdkError When scheduled_plan_change is omitted; use hasScheduledPlanChange() or valueOrDefault().
+     */
+    public function getScheduledPlanChange(): null { return $this->get('scheduled_plan_change'); }
+    public function hasScheduledPlanChange(): bool { return $this->has('scheduled_plan_change'); }
+    /** Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Merchant-Id is omitted; use hasFlintMerchantId() or valueOrDefault().
+     */
+    public function getFlintMerchantId(): string { return $this->get('Flint-Merchant-Id'); }
+    public function hasFlintMerchantId(): bool { return $this->has('Flint-Merchant-Id'); }
+    /** Mode of the request context, live or test. Optional; it must match the credential's mode. Value enum: "test", "live".
+     * @return string
+     * @throws SdkError When Flint-Mode is omitted; use hasFlintMode() or valueOrDefault().
+     */
+    public function getFlintMode(): string { return $this->get('Flint-Mode'); }
+    public function hasFlintMode(): bool { return $this->has('Flint-Mode'); }
+    /** Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Sandbox-Id is omitted; use hasFlintSandboxId() or valueOrDefault().
+     */
+    public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
+    public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
 }

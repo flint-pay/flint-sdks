@@ -11,7 +11,7 @@ The part of a tip paid through one payment intent.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `amount_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. `amount_money`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options). |
-| `payment_intent_id` | Required | string |  |
+| `payment_intent_id` | Required | string | Example: `"pi_01KEZF7C00G8H9D509YEV22P7R"`. |
 
 ### TipPaymentIntentAllocation.amount_money
 

@@ -11,17 +11,17 @@ namespace Flint;
 final class CustomerAccountSettings extends Model {
     /** @param array{'buyer_capabilities'?: mixed, 'merchant_account_url'?: string|null, 'mode'?: string, 'presentation'?: mixed, 'route_templates'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerAccountSettings')); }
-    /** Replaced as a whole: send every field you want to keep. What buyers may do to their own subscriptions in Flint's buyer account or through a customer session, in either mode. Merchant credentials are not bound by it. Buyers can always cancel. Written as a whole: an update that includes buyer_capabilities replaces the stored value, and each field it omits takes its default. Effective settings include every default. What a store lets buyers do to their own subscriptions. Send at least one field; each field you omit takes its default. minProperties: 1.
+    /** Replaced as a whole: send every field you want to keep. What buyers may do to their own subscriptions in Flint's buyer account or through a customer session, in either mode. Merchant credentials are not bound by it. Buyers can always cancel. Written as a whole: an update that includes buyer_capabilities replaces the stored value, and each field it omits takes its default. Effective settings include every default. What a store lets buyers do to their own subscriptions. minProperties: 1.
      * @return ?BuyerCapabilities
      */
     public function getBuyerCapabilities(): ?BuyerCapabilities { return $this->get('buyer_capabilities'); }
     public function hasBuyerCapabilities(): bool { return $this->has('buyer_capabilities'); }
-    /** Send null to clear it. minLength: 1.
+    /** Your customer account page's URL, when you host it. `null` when you don't host the account. minLength: 1.
      * @return string|null
      */
     public function getMerchantAccountUrl(): string|null { return $this->get('merchant_account_url'); }
     public function hasMerchantAccountUrl(): bool { return $this->has('merchant_account_url'); }
-    /** Value enum: "flint_hosted", "merchant_hosted".
+    /** Who hosts the customer account where buyers see their orders, subscriptions, returns, and invoices. Value enum: "flint_hosted", "merchant_hosted".
      * @return ?string
      */
     public function getMode(): ?string { return $this->get('mode'); }

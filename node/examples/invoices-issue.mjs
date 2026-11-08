@@ -8,10 +8,8 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.invoices.issue(
-  "inv_01ARZ3NDEKTSV4RRFFQ69G5FAV",
-  {
-    delivery_mode: "email",
-  },
+  "inv_01KEZF7C00A5GEBMWHEAJFSAR4",
+  undefined,
   { idempotencyKey: idempotencyKey },
 );
 console.log(result.invoice_id);

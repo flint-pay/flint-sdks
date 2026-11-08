@@ -8,7 +8,7 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.taxConnection.deleteRegistration(
-  "trg_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "trg_01KEZF7C008JBM8XMQB3J1FK7J",
   {},
   { idempotencyKey: idempotencyKey },
 );

@@ -3,6 +3,24 @@ declare(strict_types=1);
 namespace Flint;
 /** Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionPreviewsCreateParams extends Model {
-    /** @param array{'destination': array{'customer_address_id': string, 'type': string}|object|array{'address': AddressRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object, 'mode': string, 'subscription_id': string}|object|array{'mode': string, 'subscription': array{'billing_anchor_day'?: int, 'billing_schedule'?: SubscriptionBillingScheduleRequestInput|array<array-key, mixed>|\stdClass, 'billing_start': SubscriptionBillingStartRequestInput|array<array-key, mixed>|\stdClass, 'customer_id': string, 'delivery'?: array{'delivery_method_id': string, 'destination': array{'customer_address_id': string, 'type': string}|object|array{'address': AddressRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object, 'recipient'?: DeliverySelectionRecipientRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object, 'external_reference_id'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'payment_method_id'?: string, 'service_location'?: array{'customer_address_id': string, 'type': string}|object|array{'address': AddressRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object, 'terms': array{'billing_interval'?: string, 'billing_interval_count'?: int, 'quantity'?: int, 'subscription_plan_id': string, 'type': string}|object|array{'billing_interval': string, 'billing_interval_count': int, 'line_items': list<array{'quantity'?: int, 'subscription_offer_id': string, 'variant_id': string}|object>, 'type': string}|object}|object}|object|array{'delivery_method': mixed, 'delivery_method_id': string, 'mode': string}|object|array{'mode': string, 'subscription_id': string}|object|array{'billing_interval'?: string, 'billing_interval_count'?: int, 'billing_starts': string, 'line_items'?: list<array{'quantity': int, 'subscription_plan_line_item_id': string}|object>, 'mode': string, 'quantity'?: int, 'subscription_id': string, 'subscription_plan_id': string}|object $values */
+    /** @param mixed $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionPreviewsCreateParams')); }
+    /** Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Merchant-Id is omitted; use hasFlintMerchantId() or valueOrDefault().
+     */
+    public function getFlintMerchantId(): string { return $this->get('Flint-Merchant-Id'); }
+    public function hasFlintMerchantId(): bool { return $this->has('Flint-Merchant-Id'); }
+    /** Mode of the request context, live or test. Optional; it must match the credential's mode. Value enum: "test", "live".
+     * @return string
+     * @throws SdkError When Flint-Mode is omitted; use hasFlintMode() or valueOrDefault().
+     */
+    public function getFlintMode(): string { return $this->get('Flint-Mode'); }
+    public function hasFlintMode(): bool { return $this->has('Flint-Mode'); }
+    /** Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Sandbox-Id is omitted; use hasFlintSandboxId() or valueOrDefault().
+     */
+    public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
+    public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
 }

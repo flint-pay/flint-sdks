@@ -15,55 +15,55 @@ namespace Flint;
 final class BuyerReturnResolutionAdjustmentInput extends Model {
     /** @param array{'adjustment_type': string, 'applied_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'assessed_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'reason': string, 'reason_message'?: string, 'return_line_item_id'?: string, 'return_resolution_adjustment_id': string, 'status': string, 'value_effect': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerReturnResolutionAdjustmentInput')); }
-    /** Value enum: "return_shipping_fee", "restocking_fee", "other_fee", "goodwill_credit", "price_correction", "other".
+    /** What the fee or credit is for. Value enum: "return_shipping_fee", "restocking_fee", "other_fee", "goodwill_credit", "price_correction", "other".
      * @return string
      * @throws SdkError When adjustment_type is omitted; use hasAdjustmentType() or valueOrDefault().
      */
     public function getAdjustmentType(): string { return $this->get('adjustment_type'); }
     public function hasAdjustmentType(): bool { return $this->has('adjustment_type'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Amount that counts toward the resolution. It can't exceed `assessed_amount_money`, and is zero when the adjustment is waived. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When applied_amount_money is omitted; use hasAppliedAmountMoney() or valueOrDefault().
      */
     public function getAppliedAmountMoney(): mixed { return $this->get('applied_amount_money'); }
     public function hasAppliedAmountMoney(): bool { return $this->has('applied_amount_money'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Amount the fee or credit comes to before any waiver. Same currency as `applied_amount_money`. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When assessed_amount_money is omitted; use hasAssessedAmountMoney() or valueOrDefault().
      */
     public function getAssessedAmountMoney(): mixed { return $this->get('assessed_amount_money'); }
     public function hasAssessedAmountMoney(): bool { return $this->has('assessed_amount_money'); }
-    /** Value enum: "return_policy", "inspection_result", "return_shipping_cost", "customer_service", "manual_correction", "other".
+    /** Why the adjustment was made. Value enum: "return_policy", "inspection_result", "return_shipping_cost", "customer_service", "manual_correction", "other".
      * @return string
      * @throws SdkError When reason is omitted; use hasReason() or valueOrDefault().
      */
     public function getReason(): string { return $this->get('reason'); }
     public function hasReason(): bool { return $this->has('reason'); }
-    /** reason_message
+    /** Optional detail about `reason`, kept with the record.
      * @return string
      * @throws SdkError When reason_message is omitted; use hasReasonMessage() or valueOrDefault().
      */
     public function getReasonMessage(): string { return $this->get('reason_message'); }
     public function hasReasonMessage(): bool { return $this->has('reason_message'); }
-    /** return_line_item_id
+    /** ID of the Return line a deduction applies to. Absent when it applies to the resolution as a whole. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
      * @return string
      * @throws SdkError When return_line_item_id is omitted; use hasReturnLineItemId() or valueOrDefault().
      */
     public function getReturnLineItemId(): string { return $this->get('return_line_item_id'); }
     public function hasReturnLineItemId(): bool { return $this->has('return_line_item_id'); }
-    /** return_resolution_adjustment_id
+    /** Unique identifier for this return resolution adjustment, prefixed `retadj_`. Example: "retadj_01KEZF7C00EX1XSCX7WSCDKSZZ".
      * @return string
      * @throws SdkError When return_resolution_adjustment_id is omitted; use hasReturnResolutionAdjustmentId() or valueOrDefault().
      */
     public function getReturnResolutionAdjustmentId(): string { return $this->get('return_resolution_adjustment_id'); }
     public function hasReturnResolutionAdjustmentId(): bool { return $this->has('return_resolution_adjustment_id'); }
-    /** Value enum: "applied", "waived".
+    /** Whether the adjustment counts toward the buyer's value. A waived adjustment applies zero. Value enum: "applied", "waived".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Value enum: "deduction", "credit".
+    /** Whether the adjustment reduces or increases what the buyer receives. Value enum: "deduction", "credit".
      * @return string
      * @throws SdkError When value_effect is omitted; use hasValueEffect() or valueOrDefault().
      */

@@ -27,7 +27,7 @@ final class InventoryTransferClosedInstalledMerchantsEventDataObject extends Mod
      */
     public function getClosedAt(): ?string { return $this->get('closed_at'); }
     public function hasClosedAt(): bool { return $this->has('closed_at'); }
-    /** Value enum: "received", "canceled", "received_with_cancellation", "returned", "lost", "mixed", null.
+    /** How the transfer ended. `null` when the transfer isn't closed. Value enum: "received", "canceled", "received_with_cancellation", "returned", "lost", "mixed", null.
      * @return string|null
      */
     public function getClosedReason(): string|null { return $this->get('closed_reason'); }
@@ -42,7 +42,7 @@ final class InventoryTransferClosedInstalledMerchantsEventDataObject extends Mod
      */
     public function getDepartedAt(): ?string { return $this->get('departed_at'); }
     public function hasDepartedAt(): bool { return $this->has('departed_at'); }
-    /** destination_location_id
+    /** ID of the Location the stock goes to.
      * @return string
      */
     public function getDestinationLocationId(): string { return $this->get('destination_location_id'); }
@@ -57,22 +57,22 @@ final class InventoryTransferClosedInstalledMerchantsEventDataObject extends Mod
      */
     public function getIdempotencyKey(): ?string { return $this->get('idempotency_key'); }
     public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
-    /** inventory_transfer_id
+    /** Unique identifier for this inventory transfer, prefixed `invtr_`.
      * @return string
      */
     public function getInventoryTransferId(): string { return $this->get('inventory_transfer_id'); }
     public function hasInventoryTransferId(): bool { return $this->has('inventory_transfer_id'); }
-    /** Owned collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH replaces the full collection. [] (Value): {@see InventoryTransferLine}. One line of an inventory transfer, with the requested quantity and how much has departed, been received by condition, canceled, lost, or returned.
+    /** Owned collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH replaces the full collection. [] (Value): {@see InventoryTransferLine}. One line of an inventory transfer, with its quantities.
      * @return list<InventoryTransferLine>
      */
     public function getLines(): array { return $this->get('lines'); }
     public function hasLines(): bool { return $this->has('lines'); }
-    /** note
+    /** Free-text note about the transfer.
      * @return ?string
      */
     public function getNote(): ?string { return $this->get('note'); }
     public function hasNote(): bool { return $this->has('note'); }
-    /** origin_location_id
+    /** ID of the Location the stock leaves.
      * @return string
      */
     public function getOriginLocationId(): string { return $this->get('origin_location_id'); }
@@ -97,7 +97,7 @@ final class InventoryTransferClosedInstalledMerchantsEventDataObject extends Mod
      */
     public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** Format: uint64. minimum: 1.
+    /** Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. Format: uint64. minimum: 1.
      * @return int
      */
     public function getVersion(): int { return $this->get('version'); }

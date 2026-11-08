@@ -1,6 +1,6 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-5.js';
-import type { RequestOptions } from '../declarations/types-48.js';
+import type { ClientOptions } from '../declarations/types-6.js';
+import type { RequestOptions } from '../declarations/types-51.js';
 import type {
     RiskAttributeRegistry,
     RiskAttributeRegistryResponse,
@@ -8,13 +8,10 @@ import type {
     RiskRuleListResponse,
     RiskRuleResponse,
     RiskRulesCreateParams,
-    RiskRulesDeleteParams,
-    RiskRulesGetAttributesParams,
-    RiskRulesGetParams,
-    RiskRulesListParams,
-    RiskRulesUpdateParams
-} from '../declarations/types-52.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+    RiskRulesDeleteParams
+} from '../declarations/types-55.js';
+import type { RiskRulesGetAttributesParams, RiskRulesGetParams, RiskRulesListParams, RiskRulesUpdateParams } from '../declarations/types-56.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -34,22 +31,18 @@ export type {
     RiskRule,
     RiskRuleResponse,
     RiskRulesDeleteParams,
-    RiskRulesGetParams,
-    RiskRulesGetAttributesParams,
     RiskAttributeRegistry,
     RiskAttributeRegistryResponse,
-    RiskRulesListParams,
     RiskRuleListResponse,
-    RiskRulesUpdateParams,
-    RiskPredicateNodeInput,
-    RiskPredicateNodeAllInput,
-    RiskPredicateNodeAnyInput,
-    RiskPredicateNodeNotInput,
-    RiskPredicateNodeComparisonInput,
-    RiskPredicateNodeMoneyComparisonInput,
-    RiskPredicateNodeInInput,
-    RiskPredicateNodeInListInput,
-    RiskPredicateNodeIsMissingInput,
+    RiskPredicateNodeRequestInput,
+    RiskPredicateNodeAllRequestInput,
+    RiskPredicateNodeAnyRequestInput,
+    RiskPredicateNodeNotRequestInput,
+    RiskPredicateNodeComparisonRequestInput,
+    RiskPredicateNodeMoneyComparisonRequestInput,
+    RiskPredicateNodeInRequestInput,
+    RiskPredicateNodeInListRequestInput,
+    RiskPredicateNodeIsMissingRequestInput,
     RiskRuleIssue,
     RiskPredicateNode,
     RiskPredicateNodeAll,
@@ -61,30 +54,32 @@ export type {
     RiskPredicateNodeInList,
     RiskPredicateNodeIsMissing,
     RiskAttribute
-} from '../declarations/types-52.js';
-export type { RequestOptions, ResourceReference, ResourceType, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { ClientOptions } from '../declarations/types-5.js';
-export type { CreateRiskRuleRequestInput } from '../declarations/types-11.js';
-export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-35.js';
+} from '../declarations/types-55.js';
+export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-51.js';
+export type { RiskRulesGetParams, RiskRulesGetAttributesParams, RiskRulesListParams, RiskRulesUpdateParams } from '../declarations/types-56.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+export type { ClientOptions } from '../declarations/types-6.js';
+export type { CreateRiskRuleRequestInput } from '../declarations/types-12.js';
+export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-37.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-12.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
-export type { UpdateRiskRuleRequestInput } from '../declarations/types-60.js';
-export { makeCreateRiskRuleRequest } from '../declarations/types-65.js';
-export { makeMoneyValue } from '../declarations/types-70.js';
+export type { Credentials } from '../declarations/types-13.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
+export type { UpdateRiskRuleRequestInput } from '../declarations/types-65.js';
+export type { DisputesAcceptParams } from '../declarations/types-22.js';
+export { makeCreateRiskRuleRequest } from '../declarations/types-70.js';
+export { makeMoneyValue } from '../declarations/types-75.js';
 export {
-    makeRiskPredicateNode,
-    makeRiskPredicateNodeAll,
-    makeRiskPredicateNodeAny,
-    makeRiskPredicateNodeComparison,
-    makeRiskPredicateNodeIn,
-    makeRiskPredicateNodeInList,
-    makeRiskPredicateNodeIsMissing,
-    makeRiskPredicateNodeMoneyComparison,
-    makeRiskPredicateNodeNot
-} from '../declarations/types-73.js';
-export { makeUpdateRiskRuleRequest } from '../declarations/types-75.js';
+    makeRiskPredicateNodeAllRequest,
+    makeRiskPredicateNodeAnyRequest,
+    makeRiskPredicateNodeComparisonRequest,
+    makeRiskPredicateNodeInListRequest,
+    makeRiskPredicateNodeInRequest,
+    makeRiskPredicateNodeIsMissingRequest,
+    makeRiskPredicateNodeMoneyComparisonRequest,
+    makeRiskPredicateNodeNotRequest,
+    makeRiskPredicateNodeRequest
+} from '../declarations/types-78.js';
+export { makeUpdateRiskRuleRequest } from '../declarations/types-80.js';
 export interface RiskRulesResource {
     /**
  * Creates a rule that applies from the next payment attempt. Flint validates the predicate and
@@ -114,7 +109,7 @@ export interface RiskRulesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.riskRules.delete("rule_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey
+ * client.riskRules.delete("rule_01KEZF7C00FWGAQJXXA8CRA319", {}, { idempotencyKey: idempotencyKey
  * })
  */
     delete(risk_rule_id: InputValue<string>, params?: RiskRulesDeleteParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<RiskRule, RiskRuleResponse>>;
@@ -126,7 +121,7 @@ export interface RiskRulesResource {
  * @see https://developers.withflintpay.com/docs/api/risk-controls#getRiskRule
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.riskRules.get("rule_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.riskRules.get("rule_01KEZF7C00FWGAQJXXA8CRA319")
  */
     get(risk_rule_id: InputValue<string>, params?: RiskRulesGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<RiskRule, RiskRuleResponse>>;
     /**

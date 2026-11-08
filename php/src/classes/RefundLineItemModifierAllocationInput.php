@@ -17,31 +17,31 @@ namespace Flint;
 final class RefundLineItemModifierAllocationInput extends Model {
     /** @param array{'allocation_basis': string, 'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'modifier_group_name': string, 'name': string, 'order_line_item_modifier_id'?: string, 'quantity': int, 'refund_line_item_modifier_allocation_id': string, 'show_on_fulfillment': bool, 'show_on_receipt': bool, 'source_type': string, 'text_value'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RefundLineItemModifierAllocationInput')); }
-    /** Value enum: "quantity", "amount".
+    /** Whether the line item was refunded by quantity or by amount. Value enum: "quantity", "amount".
      * @return string
      * @throws SdkError When allocation_basis is omitted; use hasAllocationBasis() or valueOrDefault().
      */
     public function getAllocationBasis(): string { return $this->get('allocation_basis'); }
     public function hasAllocationBasis(): bool { return $this->has('allocation_basis'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Part of the line's refund that applies to this modifier. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
      */
     public function getAmountMoney(): mixed { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** modifier_group_name
+    /** Name of the modifier group the modifier belongs to.
      * @return string
      * @throws SdkError When modifier_group_name is omitted; use hasModifierGroupName() or valueOrDefault().
      */
     public function getModifierGroupName(): string { return $this->get('modifier_group_name'); }
     public function hasModifierGroupName(): bool { return $this->has('modifier_group_name'); }
-    /** name
+    /** Name of the selected modifier recorded on the order line item.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** order_line_item_modifier_id
+    /** ID of the modifier on the order line item that this part of the refund applies to. Example: "olim_01KEZF7C00YP0WSZGRAD25EB1Z".
      * @return string
      * @throws SdkError When order_line_item_modifier_id is omitted; use hasOrderLineItemModifierId() or valueOrDefault().
      */
@@ -53,31 +53,31 @@ final class RefundLineItemModifierAllocationInput extends Model {
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
-    /** refund_line_item_modifier_allocation_id
+    /** Unique identifier for this modifier's share of the refund, prefixed rlima_. Example: "rlima_01KEZF7C00SRZH0NHAKJB05NEM".
      * @return string
      * @throws SdkError When refund_line_item_modifier_allocation_id is omitted; use hasRefundLineItemModifierAllocationId() or valueOrDefault().
      */
     public function getRefundLineItemModifierAllocationId(): string { return $this->get('refund_line_item_modifier_allocation_id'); }
     public function hasRefundLineItemModifierAllocationId(): bool { return $this->has('refund_line_item_modifier_allocation_id'); }
-    /** show_on_fulfillment
+    /** Whether this selection appears in fulfillment details, recorded when selected.
      * @return bool
      * @throws SdkError When show_on_fulfillment is omitted; use hasShowOnFulfillment() or valueOrDefault().
      */
     public function getShowOnFulfillment(): bool { return $this->get('show_on_fulfillment'); }
     public function hasShowOnFulfillment(): bool { return $this->has('show_on_fulfillment'); }
-    /** show_on_receipt
+    /** Whether this selection appears on buyer receipts, recorded when selected.
      * @return bool
      * @throws SdkError When show_on_receipt is omitted; use hasShowOnReceipt() or valueOrDefault().
      */
     public function getShowOnReceipt(): bool { return $this->get('show_on_receipt'); }
     public function hasShowOnReceipt(): bool { return $this->has('show_on_receipt'); }
-    /** Value enum: "catalog_modifier", "text".
+    /** Whether the selection is a catalog list modifier or buyer-entered text. Value enum: "catalog_modifier", "text".
      * @return string
      * @throws SdkError When source_type is omitted; use hasSourceType() or valueOrDefault().
      */
     public function getSourceType(): string { return $this->get('source_type'); }
     public function hasSourceType(): bool { return $this->has('source_type'); }
-    /** text_value
+    /** Buyer-entered text recorded for a text modifier selection.
      * @return string
      * @throws SdkError When text_value is omitted; use hasTextValue() or valueOrDefault().
      */

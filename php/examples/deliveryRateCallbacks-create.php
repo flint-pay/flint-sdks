@@ -17,9 +17,12 @@ $client = new Client(new ClientOptions(
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->deliveryRateCallbacks->create([
-  'name' => 'example',
   'configuration' => (object) [
-    'url' => 'example',
+    'url' => 'https://merchant.example/delivery-rates',
+  ],
+  'name' => 'Live delivery rates',
+  'signing_methods' => [
+    'jwt',
   ],
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->current_delivery_rate_callback_revision_id . PHP_EOL;

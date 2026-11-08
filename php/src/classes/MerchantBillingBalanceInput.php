@@ -23,13 +23,13 @@ final class MerchantBillingBalanceInput extends Model {
      */
     public function getCurrency(): string { return $this->get('currency'); }
     public function hasCurrency(): bool { return $this->has('currency'); }
-    /** Stable identifier for this billing account and currency balance projection.
+    /** Stable identifier for this billing account and currency balance projection. Example: "mbbal_01KEZF7C002TWWZA70R4DRVJC9".
      * @return string
      * @throws SdkError When merchant_billing_balance_id is omitted; use hasMerchantBillingBalanceId() or valueOrDefault().
      */
     public function getMerchantBillingBalanceId(): string { return $this->get('merchant_billing_balance_id'); }
     public function hasMerchantBillingBalanceId(): bool { return $this->has('merchant_billing_balance_id'); }
-    /** RFC3339 timestamp for the balance snapshot. Format: date-time.
+    /** RFC3339 timestamp for the balance snapshot. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When observed_at is omitted; use hasObservedAt() or valueOrDefault().
      */

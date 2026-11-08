@@ -16,7 +16,7 @@ namespace Flint;
 final class SubscriptionRenewalEstimateInput extends Model {
     /** @param array{'billing_at': string|\DateTimeInterface|null, 'currency': string, 'discount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'discounts': list<SubscriptionRenewalEstimateDiscountInput|array<array-key, mixed>|\stdClass>, 'line_items': list<SubscriptionRenewalEstimateLineItemInput|array<array-key, mixed>|\stdClass>, 'shipping_money': array{'amount': string, 'currency': string}|object|null, 'subscription_cycle': int, 'subtotal_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'tax_money': array{'amount': string, 'currency': string}|object|null, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionRenewalEstimateInput')); }
-    /** Expected billing time, or null when billing is not scheduled. Format: date-time.
+    /** Expected billing time, or null when billing is not scheduled. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface|null
      * @throws SdkError When billing_at is omitted; use hasBillingAt() or valueOrDefault().
      */
@@ -64,7 +64,7 @@ final class SubscriptionRenewalEstimateInput extends Model {
      */
     public function getSubtotalMoney(): mixed { return $this->get('subtotal_money'); }
     public function hasSubtotalMoney(): bool { return $this->has('subtotal_money'); }
-    /** Estimated tax; null when no tax address is available. anyOf[1] (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
+    /** Estimated tax; null when tax can't be calculated yet. anyOf[1] (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
      * @return array{'amount': string, 'currency': string}|object|null
      * @throws SdkError When tax_money is omitted; use hasTaxMoney() or valueOrDefault().
      */

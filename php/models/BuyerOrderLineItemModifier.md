@@ -2,7 +2,7 @@
 
 ## BuyerOrderLineItemModifier
 
-A modifier on a buyer's order line item, either a catalog modifier or entered text, with its quantity and price change.
+A modifier selected on an order line item.
 
 Response model.
 
@@ -16,8 +16,12 @@ Response model.
 | `show_on_fulfillment` | Required | boolean | Whether this selection appears in fulfillment details, recorded when selected. |
 | `show_on_receipt` | Required | boolean | Whether this selection appears on buyer receipts, recorded when selected. |
 | `source_type` | Required | string | Whether the selection is a catalog list modifier or buyer-entered text. Values: `"catalog_modifier"`, `"text"`. |
-| `text` | Optional | [TextModifierRequest](../models/TextModifierRequest.md#textmodifierrequest) | Selected text group and buyer-entered value. Read an inline text group through its owning modifier set. Text a buyer entered for a text modifier group on an order line item. |
+| `text` | Optional | [TextModifierRequest](../models/TextModifierRequest.md#textmodifierrequest) | Selected text group and buyer-entered value. Read an inline text group through its owning modifier set. Text a buyer entered for a text modifier group on an order line item. `text`: [field definitions](../models/FulfillmentResponse.md#fulfillmentresponsedataline_itemsmodifierstext). |
 | `text_value` | Optional | string | Buyer-entered text recorded for a text modifier selection. |
-| `total_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Total price added by this selection. Multiplies unit_price_delta_money by the modifier quantity and, for per_item pricing, by the line item quantity. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `total_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Total price this selection adds to the line: `unit_price_delta_money` times the selection's `quantity` times the line item's `quantity`. Always 0 for text selections. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `unit_price_delta_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Amount added to the item's unit price for each unit of this selection, recorded when selected. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+
+### BuyerOrderLineItemModifier.text
+
+Field definitions: [FulfillmentResponse.data.line_items[].modifiers[].text](../models/FulfillmentResponse.md#fulfillmentresponsedataline_itemsmodifierstext).
 

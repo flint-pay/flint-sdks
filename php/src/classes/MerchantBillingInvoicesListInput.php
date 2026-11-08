@@ -11,7 +11,7 @@ namespace Flint;
 final class MerchantBillingInvoicesListInput extends Model {
     /** @param array{'status'?: list<string>|string, 'page_size'?: int, 'page_token'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MerchantBillingInvoicesListInput')); }
-    /** Filter by one or more merchant billing invoice statuses. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "open", "paid", "written_off". Value enum: "open", "paid", "written_off". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "open", "paid", "written_off". anyOf[1][] (Value): string.  Value enum: "open", "paid", "written_off". anyOf[2] (Value): string.  Value enum: "open", "paid", "written_off".
+    /** Filter by one or more merchant billing invoice statuses. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "open", "paid", "written_off". Value enum: "open", "paid", "written_off". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "open", "paid", "written_off". anyOf[1][] (Value): string.  Value enum: "open", "paid", "written_off". anyOf[2] (Value): string.  Value enum: "open", "paid", "written_off".
      * @return list<string>|string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
@@ -23,7 +23,7 @@ final class MerchantBillingInvoicesListInput extends Model {
      */
     public function getPageSize(): int { return $this->get('page_size'); }
     public function hasPageSize(): bool { return $this->has('page_size'); }
-    /** Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error.
+    /** Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error.
      * @return string
      * @throws SdkError When page_token is omitted; use hasPageToken() or valueOrDefault().
      */

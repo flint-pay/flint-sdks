@@ -16,7 +16,7 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->shipments->createPackage('shp_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
+$result = $client->shipments->createPackage('shp_01KEZF7C00Q2AFXWXHMCDR3F68', [
   'carrier' => 'ups',
   'dimensions' => (object) [
     'height' => 4,

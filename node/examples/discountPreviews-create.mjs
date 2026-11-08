@@ -6,7 +6,7 @@ const client = new Client({
 });
 const result = await client.discountPreviews.create(
   {
-    order_id: "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+    order_id: "ord_01KEZF7C0054GQKJ142A8X367A",
   }
 );
 console.log(result);

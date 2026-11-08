@@ -1,5 +1,5 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-5.js';
+import type { ClientOptions } from '../declarations/types-6.js';
 import type {
     CustomDomain,
     CustomDomainListResponse,
@@ -9,9 +9,9 @@ import type {
     CustomDomainsGetParams,
     CustomDomainsListParams,
     CustomDomainsValidateParams
-} from '../declarations/types-13.js';
-import type { RequestOptions } from '../declarations/types-48.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-14.js';
+import type { RequestOptions } from '../declarations/types-51.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -36,17 +36,18 @@ export type {
     CustomDomainListResponse,
     CustomDomainsValidateParams,
     CustomDomainDNSRecord
-} from '../declarations/types-13.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { ClientOptions } from '../declarations/types-5.js';
+} from '../declarations/types-14.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+export type { ClientOptions } from '../declarations/types-6.js';
 export type { CreateCustomDomainRequestInput } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-12.js';
-export type { NextAction, MoneyValue } from '../declarations/types-35.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
-export { makeCreateCustomDomainRequest } from '../declarations/types-63.js';
-export { makeMoneyValue } from '../declarations/types-70.js';
+export type { Credentials } from '../declarations/types-13.js';
+export type { NextAction, MoneyValue } from '../declarations/types-37.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
+export type { DisputesAcceptParams } from '../declarations/types-22.js';
+export { makeCreateCustomDomainRequest } from '../declarations/types-68.js';
+export { makeMoneyValue } from '../declarations/types-75.js';
 export interface CustomDomainsResource {
     /**
  * Configures a checkout or customer account hostname in this environment. Remove an existing
@@ -65,7 +66,7 @@ export interface CustomDomainsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.customDomains.create({type: "checkout", hostname: "example"}, { idempotencyKey:
+ * client.customDomains.create({hostname: "pay.example.com", type: "checkout"}, { idempotencyKey:
  * idempotencyKey })
  */
     create(params: CustomDomainsCreateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<CustomDomain, CustomDomainResponse>>;
@@ -80,7 +81,7 @@ export interface CustomDomainsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.customDomains.delete("cdom_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey:
+ * client.customDomains.delete("cdom_01KEZF7C00483JTTKHZVFQHKS8", {}, { idempotencyKey:
  * idempotencyKey })
  */
     delete(custom_domain_id: InputValue<string>, params?: CustomDomainsDeleteParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<CustomDomain, CustomDomainResponse>>;
@@ -92,7 +93,7 @@ export interface CustomDomainsResource {
  * @see https://developers.withflintpay.com/docs/api/custom-domains#getCustomDomain
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.customDomains.get("cdom_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.customDomains.get("cdom_01KEZF7C00483JTTKHZVFQHKS8")
  */
     get(custom_domain_id: InputValue<string>, params?: CustomDomainsGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<CustomDomain, CustomDomainResponse>>;
     /**
@@ -116,7 +117,8 @@ export interface CustomDomainsResource {
     listItems(params?: CustomDomainsListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<CustomDomain>;
     /**
  * Starts provider and DNS checks for this domain. Send no body or an empty JSON object. Checks are
- * limited to once every 60 seconds per domain; rate limited responses include Retry-After.
+ * limited to once every 60 seconds per domain; a request over that limit fails with
+ * `RATE_LIMIT_EXCEEDED`, so wait before validating again.
  *
  * `POST /v1/custom-domains/{custom_domain_id}/validate`
  * @param custom_domain_id Flint custom domain ID.
@@ -125,7 +127,7 @@ export interface CustomDomainsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.customDomains.validate("cdom_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey:
+ * client.customDomains.validate("cdom_01KEZF7C00483JTTKHZVFQHKS8", {}, { idempotencyKey:
  * idempotencyKey })
  */
     validate(custom_domain_id: InputValue<string>, params?: CustomDomainsValidateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<CustomDomain, CustomDomainResponse>>;

@@ -9,19 +9,19 @@ namespace Flint;
 final class CustomerSessionsCreateParams extends Model {
     /** @param array{'customer_id': string, 'expires_in_seconds'?: int, 'refresh_expires_in_seconds'?: int}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerSessionsCreateParams')); }
-    /** minLength: 1. Example: "cus_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** ID of the customer the session acts as. Calls made with the session's secret see only this customer's data. minLength: 1. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** Format: int64. minimum: 300. maximum: 86400.
+    /** How long the secret authenticates account calls, in seconds. Defaults to 3600 (one hour). Refreshing issues a new secret with a new window. Format: int64. minimum: 300. maximum: 86400.
      * @return int
      * @throws SdkError When expires_in_seconds is omitted; use hasExpiresInSeconds() or valueOrDefault().
      */
     public function getExpiresInSeconds(): int { return $this->get('expires_in_seconds'); }
     public function hasExpiresInSeconds(): bool { return $this->has('expires_in_seconds'); }
-    /** Format: int64. minimum: 3600. maximum: 2592000.
+    /** How long the refresh token can be exchanged for a new secret, in seconds. Defaults to 604800 (seven days). Format: int64. minimum: 3600. maximum: 2592000.
      * @return int
      * @throws SdkError When refresh_expires_in_seconds is omitted; use hasRefreshExpiresInSeconds() or valueOrDefault().
      */

@@ -9,6 +9,6 @@ Request input.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `billing_anchor_day` | Optional | integer | UTC day of the month used for monthly and yearly billing. Overrides the day inferred from a moved next_billing_at. Format: `int32`. minimum: `1`. maximum: `31`. |
-| `next_billing_at` | Required | string | Future date at which Flint attempts the next charge. Format: `date-time`. minLength: `1`. |
+| `next_billing_at` | Required | string | Future date at which Flint attempts the next charge. Format: `date-time`. minLength: `1`. Example: `"2026-08-02T16:00:00Z"`. |
 | `owner` | Required | string | Values: `"flint"`. |
 

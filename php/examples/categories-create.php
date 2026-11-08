@@ -21,5 +21,5 @@ $result = $client->categories->create([
   'name' => 'Events',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->category_id . PHP_EOL;
-echo $result->status . PHP_EOL;
+echo $result->merchant_id . PHP_EOL;
 $client->close();

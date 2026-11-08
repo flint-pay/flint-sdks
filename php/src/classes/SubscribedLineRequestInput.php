@@ -21,7 +21,7 @@ final class SubscribedLineRequestInput extends Model {
      */
     public function getBillingIntervalCount(): int { return $this->get('billing_interval_count'); }
     public function hasBillingIntervalCount(): bool { return $this->has('billing_interval_count'); }
-    /** Active subscription offer for this catalog variant. minLength: 1.
+    /** Active subscription offer for this catalog variant. minLength: 1. Example: "soffer_01KEZF7C00KAA9Y1X1KM70YFAA".
      * @return string
      * @throws SdkError When subscription_offer_id is omitted; use hasSubscriptionOfferId() or valueOrDefault().
      */

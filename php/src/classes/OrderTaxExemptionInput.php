@@ -9,19 +9,19 @@ namespace Flint;
 final class OrderTaxExemptionInput extends Model {
     /** @param array{'customer_id'?: string, 'source'?: string, 'tax_exempt': bool, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderTaxExemptionInput')); }
-    /** customer_id
+    /** ID of the customer the exemption was assessed from. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** The source of the tax exemption assessment. Omitted when the source has not been established. Value enum: "none", "customer".
+    /** The source of the tax exemption assessment. Omitted when the source has not been established. Value enum: "none", "customer", "order".
      * @return string
      * @throws SdkError When source is omitted; use hasSource() or valueOrDefault().
      */
     public function getSource(): string { return $this->get('source'); }
     public function hasSource(): bool { return $this->has('source'); }
-    /** tax_exempt
+    /** Whether the customer is tax-exempt. When `true`, every tax row has zero tax with the reason `customer_exempt`.
      * @return bool
      * @throws SdkError When tax_exempt is omitted; use hasTaxExempt() or valueOrDefault().
      */

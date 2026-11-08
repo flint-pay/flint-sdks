@@ -9,19 +9,19 @@ namespace Flint;
 final class OnboardingVerifyEmailParams extends Model {
     /** @param array{'merchant_id'?: string, 'verification_code': string, 'verification_token': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OnboardingVerifyEmailParams')); }
-    /** minLength: 1. Example: "mer_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** ID of the merchant this resource belongs to. minLength: 1. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
      * @return string
      * @throws SdkError When merchant_id is omitted; use hasMerchantId() or valueOrDefault().
      */
     public function getMerchantId(): string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** minLength: 1.
+    /** The code Flint emailed to the address you sent to `POST /v1/onboarding/start`. minLength: 1.
      * @return string
      * @throws SdkError When verification_code is omitted; use hasVerificationCode() or valueOrDefault().
      */
     public function getVerificationCode(): string { return $this->get('verification_code'); }
     public function hasVerificationCode(): bool { return $this->has('verification_code'); }
-    /** minLength: 1.
+    /** The `verification_token` that `POST /v1/onboarding/start` returned. minLength: 1.
      * @return string
      * @throws SdkError When verification_token is omitted; use hasVerificationToken() or valueOrDefault().
      */

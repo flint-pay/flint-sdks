@@ -8,7 +8,7 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.testClocks.delete(
-  "tclk_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ",
   {},
   { idempotencyKey: idempotencyKey },
 );

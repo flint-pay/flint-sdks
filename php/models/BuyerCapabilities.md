@@ -2,7 +2,7 @@
 
 ## BuyerCapabilities
 
-What a store lets buyers do to their own subscriptions. Send at least one field; each field you omit takes its default.
+What a store lets buyers do to their own subscriptions.
 
 minProperties: `1`.
 

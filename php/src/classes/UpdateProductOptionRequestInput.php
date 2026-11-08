@@ -31,7 +31,7 @@ final class UpdateProductOptionRequestInput extends Model {
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Identifier of an existing option to retain. Omit it to create a new option. minLength: 1. pattern: ^opt_[0-9A-HJKMNP-TV-Z]{26}$.
+    /** Identifier of an existing option to retain. Omit it to create a new option. minLength: 1. pattern: ^opt_[0-9A-HJKMNP-TV-Z]{26}$. Example: "opt_01KEZF7C008R5Q9BG9B4B4KQH8".
      * @return string
      * @throws SdkError When option_id is omitted; use hasOptionId() or valueOrDefault().
      */

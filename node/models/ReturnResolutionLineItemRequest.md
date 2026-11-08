@@ -11,19 +11,19 @@
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
-| `return_line_item_id` | Required | string |  |
+| `return_line_item_id` | Required | string | Example: `"retli_01KEZF7C00R813VR7ECXS062QG"`. |
 
 ### ReturnResolutionLineItemRequest variant 1
 
 anyOf variant 1: Declared schema ReturnHandoffRequirementLineItem. A return line and the quantity the buyer must hand back..
 
-No additional constraints.
+- Constraints for `return_line_item_id`: ID of the Return line the entry is about.
 
 ### ReturnResolutionLineItemRequest variant 2
 
 anyOf variant 2: Declared schema ReturnResolutionLineItemRequest. A return line and quantity to include in a return resolution..
 
-- Constraints for `return_line_item_id`: minLength: `1`.
+- Constraints for `return_line_item_id`: ID of the Return line the resolution covers. minLength: `1`.
 
 ### ReturnResolutionLineItemRequest variant 3
 

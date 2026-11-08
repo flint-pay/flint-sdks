@@ -17,7 +17,7 @@ final class PaymentReviewPaymentSummary extends Model {
      */
     public function getAmountMoney(): MoneyValue { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** Effective Flint capture deadline: the earlier of the provider capture deadline and any order resource guarantee. `null` when the payment has no authorization deadline. Format: date-time.
      * @return string|null
      */
     public function getAuthorizationExpiresAt(): string|null { return $this->get('authorization_expires_at'); }

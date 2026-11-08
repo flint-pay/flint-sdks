@@ -12,25 +12,25 @@ namespace Flint;
 final class MeListFulfillmentEventsParams extends Model {
     /** @param array{'order_id': string, 'fulfillment_id'?: string, 'shipment_id'?: string, 'package_id'?: string, 'page_size'?: int, 'page_token'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MeListFulfillmentEventsParams')); }
-    /** Required buyer-owned order ID. Example: "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Required buyer-owned order ID. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** Filter by fulfillment ID. Example: "ful_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Filter by fulfillment ID. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
      * @return string
      * @throws SdkError When fulfillment_id is omitted; use hasFulfillmentId() or valueOrDefault().
      */
     public function getFulfillmentId(): string { return $this->get('fulfillment_id'); }
     public function hasFulfillmentId(): bool { return $this->has('fulfillment_id'); }
-    /** Filter by shipment ID. Example: "shp_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Filter by shipment ID. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
      * @return string
      * @throws SdkError When shipment_id is omitted; use hasShipmentId() or valueOrDefault().
      */
     public function getShipmentId(): string { return $this->get('shipment_id'); }
     public function hasShipmentId(): bool { return $this->has('shipment_id'); }
-    /** Filter by package ID. Example: "pkg_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Filter by package ID. Example: "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R".
      * @return string
      * @throws SdkError When package_id is omitted; use hasPackageId() or valueOrDefault().
      */
@@ -42,7 +42,7 @@ final class MeListFulfillmentEventsParams extends Model {
      */
     public function getPageSize(): int { return $this->get('page_size'); }
     public function hasPageSize(): bool { return $this->has('page_size'); }
-    /** Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error.
+    /** Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error.
      * @return string
      * @throws SdkError When page_token is omitted; use hasPageToken() or valueOrDefault().
      */

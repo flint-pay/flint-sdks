@@ -9,7 +9,7 @@ namespace Flint;
 final class ResolvePaymentLinkLineItemModifierRequestInput extends Model {
     /** @param array{'modifier_id'?: string, 'quantity'?: int, 'text'?: ResolvePaymentLinkTextModifierRequestInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ResolvePaymentLinkLineItemModifierRequestInput')); }
-    /** minLength: 1.
+    /** ID of the modifier option the buyer chose. Send exactly one of `modifier_id` or `text`. minLength: 1. Example: "mod_01KEZF7C00SAWDZBQJX5H0XW1S".
      * @return string
      * @throws SdkError When modifier_id is omitted; use hasModifierId() or valueOrDefault().
      */
@@ -21,7 +21,7 @@ final class ResolvePaymentLinkLineItemModifierRequestInput extends Model {
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
-    /** The text a buyer entered for a text modifier group on a payment link line item.
+    /** The text the buyer entered for a text modifier group. Send exactly one of `modifier_id` or `text`. The text a buyer entered for a text modifier group on a payment link line item.
      * @return ResolvePaymentLinkTextModifierRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When text is omitted; use hasText() or valueOrDefault().
      */

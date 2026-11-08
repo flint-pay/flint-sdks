@@ -16,7 +16,7 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->payoutDestinations->delete('pdest_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->payoutDestinations->delete('pdest_01KEZF7C00M55HZDZXZP6YVE6B', [], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->merchant_id . PHP_EOL;
 echo $result->payout_destination_id . PHP_EOL;
 $client->close();

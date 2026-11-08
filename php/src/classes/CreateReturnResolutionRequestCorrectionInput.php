@@ -13,13 +13,13 @@ namespace Flint;
 final class CreateReturnResolutionRequestCorrectionInput extends Model {
     /** @param array{'adjustments': list<ReturnResolutionAdjustmentRequestInput|array<array-key, mixed>|\stdClass>, 'corrects_return_resolution_id': string, 'expected_return_version'?: int, 'external_reference_id'?: string, 'gift_card_refund_destination'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'resolution_type': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateReturnResolutionRequestCorrectionInput')); }
-    /** minItems: 1. [] (Value): {@see ReturnResolutionAdjustmentRequestInput}. A fee or credit to apply to a return resolution, with the assessed and applied amounts and whether it is applied or waived.
+    /** Fees and credits to apply to the resolution, at most 50. Fees and credits to apply to the resolution, at most 50. minItems: 1. [] (Value): {@see ReturnResolutionAdjustmentRequestInput}. A fee or credit to apply to a return resolution, with the assessed and applied amounts and whether it is applied or waived.
      * @return list<ReturnResolutionAdjustmentRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When adjustments is omitted; use hasAdjustments() or valueOrDefault().
      */
     public function getAdjustments(): array { return $this->get('adjustments'); }
     public function hasAdjustments(): bool { return $this->has('adjustments'); }
-    /** minLength: 1.
+    /** ID of the settled resolution to correct. Send only with `resolution_type: correction`. minLength: 1. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
      * @return string
      * @throws SdkError When corrects_return_resolution_id is omitted; use hasCorrectsReturnResolutionId() or valueOrDefault().
      */
@@ -31,7 +31,7 @@ final class CreateReturnResolutionRequestCorrectionInput extends Model {
      */
     public function getExpectedReturnVersion(): int { return $this->get('expected_return_version'); }
     public function hasExpectedReturnVersion(): bool { return $this->has('expected_return_version'); }
-    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -49,7 +49,7 @@ final class CreateReturnResolutionRequestCorrectionInput extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Value enum: "correction".
+    /** What the buyer gets for the approved quantity. Value enum: "correction".
      * @return string
      * @throws SdkError When resolution_type is omitted; use hasResolutionType() or valueOrDefault().
      */

@@ -12,9 +12,7 @@ Signature: `get(params?: MerchantGetParams, options?: _SdkWithoutIdempotency<Req
 
 #### Request fields
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `expand` | Optional | Array of string or string | Supported expansions: organization. Expansion requires merchants.profile.read plus accounts.organizations.read. Limits: at most 10 unique expand paths per request. Pass expand=organization. Items values: `"organization"`. Values: `"organization"`. |
+Field definitions: [shared fields](authContext.md#request-fields).
 
 #### Response
 
@@ -28,7 +26,6 @@ Returned payload: [Merchant](../models/Merchant.md#merchant).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -53,7 +50,7 @@ const result = await client.merchant.get({}, {  });
 
 ### merchant.update
 
-Applies a sparse update to the authenticated merchant's profile, shared across live and all sandboxes. Every mutable field requires a live-mode credential or a Dashboard session in any selected environment. Test credentials receive 403 FORBIDDEN with reason live_mode_required and one detail per supplied shared field, including nulls and metadata changes. Nothing is saved on refusal.
+Applies a sparse update to the authenticated merchant's profile, shared across live and all sandboxes. Every mutable field requires a live-mode credential or a Dashboard session in any selected environment. Test credentials fail with `FORBIDDEN` and reason `live_mode_required`, with one detail per supplied shared field, including nulls and metadata changes. Nothing is saved on refusal. A partner app install token can change only `business_name`, `icon`, and `logo`; another field returns `400 INVALID_REQUEST` with a `NOT_ALLOWED` detail whose `param` names it.
 
 `PATCH /v1/merchant`
 
@@ -63,6 +60,9 @@ Signature: `update(params: MerchantUpdateParams, options?: RequestOptions<"merch
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [UpdateMerchantRequestInput](../models/UpdateMerchantRequest.md#updatemerchantrequest) | The request body for: Update merchant. |
 
 Body model: [UpdateMerchantRequestInput](../models/UpdateMerchantRequest.md#updatemerchantrequest).
@@ -74,16 +74,17 @@ Body model: [UpdateMerchantRequestInput](../models/UpdateMerchantRequest.md#upda
 | `address` | Optional | [AddressRequestInput](../models/AddressRequest.md#addressrequest) | This field is shared across live and all sandboxes. Writing it requires a live-mode credential or a Dashboard session in any selected environment. Test credentials receive 403 FORBIDDEN with reason live_mode_required, including for nulls and metadata changes. A complete postal address. State and postal_code are required for US addresses and optional for other countries. Send null or omit line2, state, and postal_code when the address has none. |
 | `api_version` | Optional | string | Set the merchant default to any supported API version using a live-mode credential or a Dashboard session. Omit to leave it unchanged. Null is not accepted. The default is shared across live and test environments; requests with Flint-Version use that header instead. This field is shared across live and all sandboxes. Writing it requires a live-mode credential or a Dashboard session in any selected environment. Test credentials receive 403 FORBIDDEN with reason live_mode_required, including for nulls and metadata changes. minLength: `1`. |
 | `business_name` | Optional | string | Business name buyers see. Limited to 120 characters (Unicode code points) before trimming surrounding whitespace. The trimmed name must not be empty. The name cannot be cleared. This field is shared across live and all sandboxes. Writing it requires a live-mode credential or a Dashboard session in any selected environment. Test credentials receive 403 FORBIDDEN with reason live_mode_required, including for nulls and metadata changes. minLength: `1`. maxLength: `120`. |
-| `email` | Optional | string or null | Send null to clear it. This field is shared across live and all sandboxes. Writing it requires a live-mode credential or a Dashboard session in any selected environment. Test credentials receive 403 FORBIDDEN with reason live_mode_required, including for nulls and metadata changes. minLength: `1`. |
+| `email` | Optional | string or null | One bare email address with no display name or whitespace, a valid host, and at most 320 characters. Send null to clear it. This field is shared across live and all sandboxes. Writing it requires a live-mode credential or a Dashboard session in any selected environment. Test credentials receive 403 FORBIDDEN with reason live_mode_required, including for nulls and metadata changes. minLength: `1`. |
+| `expected_api_version` | Optional | string | Requires api_version in the same request. The merchant’s current API version must match this value; otherwise returns VERSION_CONFLICT with current_api_version. It guards only api_version, which is shared across live and all sandboxes. Writing api_version requires a live-mode credential or a Dashboard session in any selected environment. Test credentials receive 403 FORBIDDEN with reason live_mode_required. minLength: `1`. |
 | `expected_version` | Optional | integer | Merchant profile version last read. A different current version returns 409 VERSION_CONFLICT. Send this value when saving a logo or icon to detect concurrent profile edits. Format: `int64`. minimum: `1`. |
 | `icon` | Optional | [ImageRequestInput](../models/ImageRequest.md#imagerequest) or null | A square image, at least 128 by 128 pixels, shown where the store needs a small mark: browser tabs and compact headers. This field is shared across live and all sandboxes. Writing it requires a live-mode credential or a Dashboard session in any selected environment. Test credentials receive 403 FORBIDDEN with reason live_mode_required, including for nulls and metadata changes. |
 | `logo` | Optional | [ImageRequestInput](../models/ImageRequest.md#imagerequest) or null | This field is shared across live and all sandboxes. Writing it requires a live-mode credential or a Dashboard session in any selected environment. Test credentials receive 403 FORBIDDEN with reason live_mode_required, including for nulls and metadata changes. |
 | `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequest.md#metadatapatchrequest) or null | This field is shared across live and all sandboxes. Writing it requires a live-mode credential or a Dashboard session in any selected environment. Test credentials receive 403 FORBIDDEN with reason live_mode_required, including for nulls and metadata changes. |
 | `phone` | Optional | string or null | Send null to clear it. This field is shared across live and all sandboxes. Writing it requires a live-mode credential or a Dashboard session in any selected environment. Test credentials receive 403 FORBIDDEN with reason live_mode_required, including for nulls and metadata changes. minLength: `1`. |
-| `reporting_timezone` | Optional | string | This field is shared across live and all sandboxes. Writing it requires a live-mode credential or a Dashboard session in any selected environment. Test credentials receive 403 FORBIDDEN with reason live_mode_required, including for nulls and metadata changes. minLength: `1`. |
-| `support_email` | Optional | string or null | Send null to clear it. This field is shared across live and all sandboxes. Writing it requires a live-mode credential or a Dashboard session in any selected environment. Test credentials receive 403 FORBIDDEN with reason live_mode_required, including for nulls and metadata changes. minLength: `1`. |
+| `support_email` | Optional | string or null | One bare support email address with no display name or whitespace, a valid host, and at most 320 characters. Send null to clear it. This field is shared across live and all sandboxes. Writing it requires a live-mode credential or a Dashboard session in any selected environment. Test credentials receive 403 FORBIDDEN with reason live_mode_required, including for nulls and metadata changes. minLength: `1`. |
 | `support_phone` | Optional | string or null | Support phone in E.164 format, for example +12125551234. Send null to clear it. This field is shared across live and all sandboxes. Writing it requires a live-mode credential or a Dashboard session in any selected environment. Test credentials receive 403 FORBIDDEN with reason live_mode_required, including for nulls and metadata changes. minLength: `1`. maxLength: `16`. pattern: `^\+[1-9][0-9]{6,14}$`. |
 | `support_url` | Optional | string or null | Send null to clear it. This field is shared across live and all sandboxes. Writing it requires a live-mode credential or a Dashboard session in any selected environment. Test credentials receive 403 FORBIDDEN with reason live_mode_required, including for nulls and metadata changes. minLength: `1`. |
+| `timezone` | Optional | string | Business IANA time zone, such as America/New_York. Defaults for new invoice deadlines, locations, notifications, and reporting use this zone unless a request supplies one. Existing resources keep their saved time zone. Omit to leave unchanged; null and empty values are not accepted. This field is shared across live and all sandboxes. Writing it requires a live-mode credential or a Dashboard session in any selected environment. Test credentials receive 403 FORBIDDEN with reason live_mode_required, including for nulls and metadata changes. minLength: `1`. |
 | `website_url` | Optional | string or null | Send null to clear it. This field is shared across live and all sandboxes. Writing it requires a live-mode credential or a Dashboard session in any selected environment. Test credentials receive 403 FORBIDDEN with reason live_mode_required, including for nulls and metadata changes. minLength: `1`. |
 
 #### Response
@@ -99,7 +100,6 @@ Returned payload: [Merchant](../models/Merchant.md#merchant).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |

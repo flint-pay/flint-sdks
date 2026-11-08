@@ -16,13 +16,7 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->customers->create([
-  'email' => 'jane@example.com',
-  'metadata' => (object) [
-    'crm_id' => 'crm_123',
-  ],
-  'name' => 'Jane Doe',
-], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->customers->create(null, new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->customer_id . PHP_EOL;
-echo $result->status . PHP_EOL;
+echo $result->merchant_id . PHP_EOL;
 $client->close();

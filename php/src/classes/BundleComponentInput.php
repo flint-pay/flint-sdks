@@ -15,7 +15,7 @@ namespace Flint;
 final class BundleComponentInput extends Model {
     /** @param array{'bundle_component_id': string, 'delivery_configuration_reason'?: string, 'delivery_configuration_status': string, 'delivery_profile_id'?: string, 'position': int, 'product_id'?: string, 'quantity': int, 'variant'?: BundleComponentVariantSummaryInput|array<array-key, mixed>|\stdClass, 'variant_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BundleComponentInput')); }
-    /** Stable identifier of this component within its bundle.
+    /** Stable identifier of this component within its bundle. Example: "bunc_01KEZF7C00CQASEZGAPEANTGD1".
      * @return string
      * @throws SdkError When bundle_component_id is omitted; use hasBundleComponentId() or valueOrDefault().
      */
@@ -33,7 +33,7 @@ final class BundleComponentInput extends Model {
      */
     public function getDeliveryConfigurationStatus(): string { return $this->get('delivery_configuration_status'); }
     public function hasDeliveryConfigurationStatus(): bool { return $this->has('delivery_configuration_status'); }
-    /** Delivery profile used for this component, including any component override.
+    /** Delivery profile used for this component, including any component override. Example: "dprof_01KEZF7C0020J13FQYNY9854R0".
      * @return string
      * @throws SdkError When delivery_profile_id is omitted; use hasDeliveryProfileId() or valueOrDefault().
      */
@@ -45,7 +45,7 @@ final class BundleComponentInput extends Model {
      */
     public function getPosition(): int { return $this->get('position'); }
     public function hasPosition(): bool { return $this->has('position'); }
-    /** Identifier of the product the component's variant belongs to.
+    /** Identifier of the product the component's variant belongs to. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
      * @return string
      * @throws SdkError When product_id is omitted; use hasProductId() or valueOrDefault().
      */
@@ -63,7 +63,7 @@ final class BundleComponentInput extends Model {
      */
     public function getVariant(): mixed { return $this->get('variant'); }
     public function hasVariant(): bool { return $this->has('variant'); }
-    /** Identifier of the product variant included in the bundle.
+    /** Identifier of the product variant included in the bundle. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
      * @return string
      * @throws SdkError When variant_id is omitted; use hasVariantId() or valueOrDefault().
      */

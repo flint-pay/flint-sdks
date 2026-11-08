@@ -2,7 +2,9 @@
 
 ## DeliveryRevocationCreatedInstalledMerchantsEventDataObjectTargetDeliveryMethodRevision
 
-A typed revocation target. Each target_type accepts only its resource-specific fields.
+The parent and exact child identity permanently fenced by this revocation.
+
+Fences one immutable revision of the named delivery method.
 
 Response model.
 

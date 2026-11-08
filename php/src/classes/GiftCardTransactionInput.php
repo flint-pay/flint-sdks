@@ -14,11 +14,11 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $posted_at
  * @property-read string|null $reason
  * @property-read int $sequence
- * @property-read array{'resource_id': string, 'resource_type': ResourceTypeInput|array<array-key, mixed>|\stdClass}|object|null $source
+ * @property-read array{'resource_id': string, 'resource_type': string}|object|null $source
  * @property-read string $transaction_type
  * Presence-aware input; omitted fields throw when accessed. */
 final class GiftCardTransactionInput extends Model {
-    /** @param array{'amount_money': SignedMoneyInput|array<array-key, mixed>|\stdClass, 'balance_after_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'balance_before_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'cash_out_reference': string|null, 'gift_card_id': string, 'gift_card_transaction_id': string, 'idempotency_key': string|null, 'merchant_sequence': int, 'order_id'?: string, 'posted_at': string|\DateTimeInterface, 'reason': string|null, 'sequence': int, 'source': array{'resource_id': string, 'resource_type': ResourceTypeInput|array<array-key, mixed>|\stdClass}|object|null, 'transaction_type': string, ...}|object $values */
+    /** @param array{'amount_money': SignedMoneyInput|array<array-key, mixed>|\stdClass, 'balance_after_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'balance_before_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'cash_out_reference': string|null, 'gift_card_id': string, 'gift_card_transaction_id': string, 'idempotency_key': string|null, 'merchant_sequence': int, 'order_id'?: string, 'posted_at': string|\DateTimeInterface, 'reason': string|null, 'sequence': int, 'source': array{'resource_id': string, 'resource_type': string}|object|null, 'transaction_type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardTransactionInput')); }
     /** Signed change to the card's balance: positive amounts add value and negative amounts remove it. balance_after_money is balance_before_money plus this amount; funding_loss_accepted records a decision and moves 0. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return SignedMoneyInput|array<array-key, mixed>|\stdClass
@@ -38,25 +38,25 @@ final class GiftCardTransactionInput extends Model {
      */
     public function getBalanceBeforeMoney(): mixed { return $this->get('balance_before_money'); }
     public function hasBalanceBeforeMoney(): bool { return $this->has('balance_before_money'); }
-    /** Your reference for the cash you paid the buyer outside Flint. Set only on cash_out transactions; null for other transactions. maxLength: 255.
+    /** Your reference for the cash you paid the buyer outside Flint. `null` when the transaction is not a cash_out. maxLength: 255.
      * @return string|null
      * @throws SdkError When cash_out_reference is omitted; use hasCashOutReference() or valueOrDefault().
      */
     public function getCashOutReference(): string|null { return $this->get('cash_out_reference'); }
     public function hasCashOutReference(): bool { return $this->has('cash_out_reference'); }
-    /** Gift card whose balance this transaction changed.
+    /** Gift card whose balance this transaction changed. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
      * @return string
      * @throws SdkError When gift_card_id is omitted; use hasGiftCardId() or valueOrDefault().
      */
     public function getGiftCardId(): string { return $this->get('gift_card_id'); }
     public function hasGiftCardId(): bool { return $this->has('gift_card_id'); }
-    /** Stable identifier of the transaction.
+    /** Stable identifier of the transaction. Example: "gct_01KEZF7C006Q1VC3M2DXJ6T936".
      * @return string
      * @throws SdkError When gift_card_transaction_id is omitted; use hasGiftCardTransactionId() or valueOrDefault().
      */
     public function getGiftCardTransactionId(): string { return $this->get('gift_card_transaction_id'); }
     public function hasGiftCardTransactionId(): bool { return $this->has('gift_card_transaction_id'); }
-    /** Your Idempotency-Key for the command that created this record. null when Flint created it or no key was sent.
+    /** Your Idempotency-Key for the command that created this record. `null` when Flint created it or no key was sent.
      * @return string|null
      * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
      */
@@ -68,19 +68,19 @@ final class GiftCardTransactionInput extends Model {
      */
     public function getMerchantSequence(): int { return $this->get('merchant_sequence'); }
     public function hasMerchantSequence(): bool { return $this->has('merchant_sequence'); }
-    /** Order this transaction belongs to, when there is one.
+    /** Order this transaction belongs to, when there is one. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** When the transaction was posted to the card. Format: date-time.
+    /** When the transaction was posted to the card. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When posted_at is omitted; use hasPostedAt() or valueOrDefault().
      */
     public function getPostedAt(): string|\DateTimeInterface { return $this->get('posted_at'); }
     public function hasPostedAt(): bool { return $this->has('posted_at'); }
-    /** Your adjustment reason on adjustment transactions; customer_request on cash_out; null on all other transaction types. Value enum: "complimentary", "balance_accidentally_decreased", "support_issue", "suspicious_activity", "balance_accidentally_increased", "customer_request", null.
+    /** Your adjustment reason on adjustment transactions, and customer_request on cash_out. `null` when the transaction is any other type. Value enum: "complimentary", "balance_accidentally_decreased", "support_issue", "suspicious_activity", "balance_accidentally_increased", "customer_request", null.
      * @return string|null
      * @throws SdkError When reason is omitted; use hasReason() or valueOrDefault().
      */
@@ -92,8 +92,8 @@ final class GiftCardTransactionInput extends Model {
      */
     public function getSequence(): int { return $this->get('sequence'); }
     public function hasSequence(): bool { return $this->has('sequence'); }
-    /** The resource that caused this transaction, such as a gift_card_load, gift_card_redemption, refund, or gift_card_funding_disposition. null when the cause has no public resource. anyOf[1] (Value): {@see ResourceReferenceInput}. A reference to another resource by `resource_type` and `resource_id`. anyOf[2] (Value): null.
-     * @return array{'resource_id': string, 'resource_type': ResourceTypeInput|array<array-key, mixed>|\stdClass}|object|null
+    /** The resource that caused this transaction, such as a gift_card_load, gift_card_redemption, refund, or gift_card_funding_disposition. `null` when the cause has no public resource. anyOf[1] (Value): {@see ResourceReferenceInput}. A reference to another resource by `resource_type` and `resource_id`. anyOf[2] (Value): null.
+     * @return array{'resource_id': string, 'resource_type': string}|object|null
      * @throws SdkError When source is omitted; use hasSource() or valueOrDefault().
      */
     public function getSource(): mixed { return $this->get('source'); }

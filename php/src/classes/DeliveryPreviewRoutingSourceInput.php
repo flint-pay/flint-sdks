@@ -10,19 +10,19 @@ namespace Flint;
 final class DeliveryPreviewRoutingSourceInput extends Model {
     /** @param array{'inventory_allocation_policy_id'?: string, 'inventory_allocation_policy_revision_id'?: string, 'location_id'?: string, 'type': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPreviewRoutingSourceInput')); }
-    /** minLength: 1.
+    /** minLength: 1. Example: "invp_01KEZF7C0076BZX855WAGC5SQK".
      * @return string
      * @throws SdkError When inventory_allocation_policy_id is omitted; use hasInventoryAllocationPolicyId() or valueOrDefault().
      */
     public function getInventoryAllocationPolicyId(): string { return $this->get('inventory_allocation_policy_id'); }
     public function hasInventoryAllocationPolicyId(): bool { return $this->has('inventory_allocation_policy_id'); }
-    /** minLength: 1.
+    /** minLength: 1. Example: "invpv_01KEZF7C00JSFTTBKC1JY614JJ".
      * @return string
      * @throws SdkError When inventory_allocation_policy_revision_id is omitted; use hasInventoryAllocationPolicyRevisionId() or valueOrDefault().
      */
     public function getInventoryAllocationPolicyRevisionId(): string { return $this->get('inventory_allocation_policy_revision_id'); }
     public function hasInventoryAllocationPolicyRevisionId(): bool { return $this->has('inventory_allocation_policy_revision_id'); }
-    /** minLength: 1.
+    /** minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When location_id is omitted; use hasLocationId() or valueOrDefault().
      */

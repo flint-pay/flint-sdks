@@ -5,9 +5,9 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/riskPreviews.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import r0 from '../descriptors/resources/riskPreviews.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import settings from '../descriptors/settings.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createRiskPreview"]:r0});
 export class Client {
@@ -15,7 +15,11 @@ export class Client {
 constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.riskPreviews = Object.freeze({
-      create: async (params, options) => this.#runtime.request("createRiskPreview", _sdkRequestInput([], [], [], true, true, params, [
+      create: async (params, options) => this.#runtime.request("createRiskPreview", _sdkRequestInput([], [], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createRiskPreview", result, path))),
@@ -28,12 +32,12 @@ export { makeCreateRiskPreviewRequest } from '../models/CreateRiskPreviewRequest
 export { makeCreateRiskPreviewRequestInline } from '../models/CreateRiskPreviewRequestInline.js';
 export { makeCreateRiskPreviewRequestStoredRule } from '../models/CreateRiskPreviewRequestStoredRule.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makeRiskPredicateNode } from '../models/RiskPredicateNode.js';
-export { makeRiskPredicateNodeAll } from '../models/RiskPredicateNodeAll.js';
-export { makeRiskPredicateNodeAny } from '../models/RiskPredicateNodeAny.js';
-export { makeRiskPredicateNodeComparison } from '../models/RiskPredicateNodeComparison.js';
-export { makeRiskPredicateNodeIn } from '../models/RiskPredicateNodeIn.js';
-export { makeRiskPredicateNodeInList } from '../models/RiskPredicateNodeInList.js';
-export { makeRiskPredicateNodeIsMissing } from '../models/RiskPredicateNodeIsMissing.js';
-export { makeRiskPredicateNodeMoneyComparison } from '../models/RiskPredicateNodeMoneyComparison.js';
-export { makeRiskPredicateNodeNot } from '../models/RiskPredicateNodeNot.js';
+export { makeRiskPredicateNodeAllRequest } from '../models/RiskPredicateNodeAllRequest.js';
+export { makeRiskPredicateNodeAnyRequest } from '../models/RiskPredicateNodeAnyRequest.js';
+export { makeRiskPredicateNodeComparisonRequest } from '../models/RiskPredicateNodeComparisonRequest.js';
+export { makeRiskPredicateNodeInListRequest } from '../models/RiskPredicateNodeInListRequest.js';
+export { makeRiskPredicateNodeInRequest } from '../models/RiskPredicateNodeInRequest.js';
+export { makeRiskPredicateNodeIsMissingRequest } from '../models/RiskPredicateNodeIsMissingRequest.js';
+export { makeRiskPredicateNodeMoneyComparisonRequest } from '../models/RiskPredicateNodeMoneyComparisonRequest.js';
+export { makeRiskPredicateNodeNotRequest } from '../models/RiskPredicateNodeNotRequest.js';
+export { makeRiskPredicateNodeRequest } from '../models/RiskPredicateNodeRequest.js';

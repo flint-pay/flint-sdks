@@ -8,13 +8,13 @@ namespace Flint;
 final class PaymentReviewResolutionFailureInput extends Model {
     /** @param array{'failed_at': string|\DateTimeInterface, 'refund_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentReviewResolutionFailureInput')); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When failed_at is omitted; use hasFailedAt() or valueOrDefault().
      */
     public function getFailedAt(): string|\DateTimeInterface { return $this->get('failed_at'); }
     public function hasFailedAt(): bool { return $this->has('failed_at'); }
-    /** refund_id
+    /** Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
      * @return string
      * @throws SdkError When refund_id is omitted; use hasRefundId() or valueOrDefault().
      */

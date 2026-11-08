@@ -6,6 +6,7 @@ namespace Flint;
  * @property-read int $billing_interval_count
  * @property-read string $billing_starts
  * @property-read MoneyValue|null $credit_money
+ * @property-read string|null $effective_at
  * @property-read string $mode
  * @property-read int $quantity
  * @property-read MoneyValue $recurring_subtotal_money
@@ -14,7 +15,7 @@ namespace Flint;
  * @property-read string $subscription_plan_id
  * Presence-aware response; omitted optional fields return null. */
 final class SubscriptionPreviewResponseDataPlanChange extends Model {
-    /** @param array{'billing_interval': string, 'billing_interval_count': int, 'billing_starts': string, 'credit_money': mixed, 'mode': string, 'quantity': int, 'recurring_subtotal_money': mixed, 'renewal': mixed, 'subscription_id': string, 'subscription_plan_id': string, ...}|object $values */
+    /** @param array{'billing_interval': string, 'billing_interval_count': int, 'billing_starts': string, 'credit_money': mixed, 'effective_at': string|null, 'mode': string, 'quantity': int, 'recurring_subtotal_money': mixed, 'renewal': mixed, 'subscription_id': string, 'subscription_plan_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionPreviewResponseDataPlanChange')); }
     /** Value enum: "daily", "weekly", "monthly", "yearly".
      * @return string
@@ -26,16 +27,21 @@ final class SubscriptionPreviewResponseDataPlanChange extends Model {
      */
     public function getBillingIntervalCount(): int { return $this->get('billing_interval_count'); }
     public function hasBillingIntervalCount(): bool { return $this->has('billing_interval_count'); }
-    /** Value enum: "now", "next_renewal".
+    /** Value enum: "now", "next_renewal", "period_end", "prorated_now".
      * @return string
      */
     public function getBillingStarts(): string { return $this->get('billing_starts'); }
     public function hasBillingStarts(): bool { return $this->has('billing_starts'); }
-    /** Unused paid item time credited when billing_starts is now; null for next_renewal. anyOf[1] (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
+    /** Unused paid item time credited when billing_starts is now or prorated_now; null for next_renewal and period_end. anyOf[1] (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
      * @return MoneyValue|null
      */
     public function getCreditMoney(): MoneyValue|null { return $this->get('credit_money'); }
     public function hasCreditMoney(): bool { return $this->has('credit_money'); }
+    /** When the plan is expected to take effect. Null when no billing time is scheduled. Format: date-time.
+     * @return string|null
+     */
+    public function getEffectiveAt(): string|null { return $this->get('effective_at'); }
+    public function hasEffectiveAt(): bool { return $this->has('effective_at'); }
     /** Value enum: "plan_change".
      * @return string
      */
@@ -51,7 +57,7 @@ final class SubscriptionPreviewResponseDataPlanChange extends Model {
      */
     public function getRecurringSubtotalMoney(): MoneyValue { return $this->get('recurring_subtotal_money'); }
     public function hasRecurringSubtotalMoney(): bool { return $this->has('recurring_subtotal_money'); }
-    /** Estimated pricing and billing time for a subscription's next renewal, including items, discounts, shipping, and tax.
+    /** Estimated pricing and billing time for a subscription renewal, including items, discounts, shipping, and tax.
      * @return SubscriptionRenewalEstimate
      */
     public function getRenewal(): SubscriptionRenewalEstimate { return $this->get('renewal'); }

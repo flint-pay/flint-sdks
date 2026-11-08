@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 final class DevicesResource {
     public function __construct(private readonly Runtime $runtime) {}
-    /** Creates a device. If an active device already has the hardware_fingerprint, returns 409 ALREADY_EXISTS with reason hardware_fingerprint_already_exists and changes nothing. The details[0].current_resource field names the existing device.
+    /** Creates a device. If an active device already has the hardware_fingerprint, fails with `ALREADY_EXISTS` and reason `hardware_fingerprint_already_exists`, and changes nothing. The details[0].current_resource field names the existing device.
      * @param DevicesCreateParams|array<array-key, mixed>|Model $params Flat body fields and query/header parameters; path arguments follow URL order.
      * @return Device
      */

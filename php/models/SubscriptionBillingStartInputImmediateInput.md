@@ -8,5 +8,5 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `type` | Required | string | Values: `"immediate"`. |
+| `type` | Required | string | Starts billing now, with the plan trial when configured. Values: `"immediate"`. |
 

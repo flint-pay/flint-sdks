@@ -8,9 +8,9 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `created_at` | Optional | string | Creation timestamp. Format: `date-time`. |
+| `created_at` | Required | string | Creation timestamp. Format: `date-time`. |
 | `fulfillment_id` | Required | string | Fulfillment containing this package item. |
-| `metadata` | Optional | Map of string | Caller-owned metadata for this package item. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/PackageItem.md#packageitemmetadata). |
+| `metadata` | Optional | Map of string | Caller-owned metadata for this package item. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/PackageItemResponse.md#packageitemresponsedatametadata). |
 | `order` | Optional | [ExpandedOrderSummary](../models/ExpandedOrderSummary.md#expandedordersummary) or null | Present only when `expand` includes `order`; `null` when expanded and there is no related order. |
 | `order_id` | Required | string | Order containing the allocated line item. |
 | `order_line_item_id` | Required | string | Order line whose quantity this package item allocates. |
@@ -18,10 +18,10 @@ Response model.
 | `package_item_id` | Required | string | Unique identifier for this package allocation. |
 | `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `shipment_id` | Required | string | Shipment containing the package. |
-| `updated_at` | Optional | string | Last update timestamp. Format: `date-time`. |
+| `updated_at` | Required | string | Last update timestamp. Format: `date-time`. |
 | `version` | Required | integer | Persisted item version, independent of package shipment and capacity guards. Format: `uint64`. minimum: `1`. |
 
 ### PackageItem.metadata
 
-Value shape: Map of string. Caller-owned metadata for this package item. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. 
+Field definitions: [PackageItemResponse.data.metadata](../models/PackageItemResponse.md#packageitemresponsedatametadata).
 

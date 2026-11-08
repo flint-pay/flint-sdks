@@ -16,7 +16,7 @@ namespace Flint;
 final class InventoryAllocationPolicy extends Model {
     /** @param array{'configuration': object{'location_groups': list<mixed>, 'maximum_locations_per_assignment': int, 'splitting_behavior': string, 'within_group_order': string}, 'created_at': string, 'current_inventory_allocation_policy_revision_id': string, 'external_reference_id'?: string, 'inventory_allocation_policy_id': string, 'metadata': mixed, 'name': string, 'status': string, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryAllocationPolicy')); }
-    /** configuration
+    /** Routing rules: ranked groups of Locations, whether demand can be split, and the most Locations one assignment may use.
      * @return InventoryAllocationPolicyConfiguration
      */
     public function getConfiguration(): InventoryAllocationPolicyConfiguration { return $this->get('configuration'); }
@@ -36,22 +36,22 @@ final class InventoryAllocationPolicy extends Model {
      */
     public function getExternalReferenceId(): ?string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** inventory_allocation_policy_id
+    /** ID of the policy this revision belongs to.
      * @return string
      */
     public function getInventoryAllocationPolicyId(): string { return $this->get('inventory_allocation_policy_id'); }
     public function hasInventoryAllocationPolicyId(): bool { return $this->has('inventory_allocation_policy_id'); }
-    /** Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
+    /** Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      * @return array<array-key, string>
      */
     public function getMetadata(): array { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** name
+    /** Merchant-facing policy name.
      * @return string
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Value enum: "active", "inactive", "archived".
+    /** Current allocation policy status. Value enum: "active", "inactive", "archived".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
@@ -61,7 +61,7 @@ final class InventoryAllocationPolicy extends Model {
      */
     public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** Format: uint64. minimum: 1.
+    /** Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. Format: uint64. minimum: 1.
      * @return int
      */
     public function getVersion(): int { return $this->get('version'); }

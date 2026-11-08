@@ -17,55 +17,9 @@ $client = new Client(new ClientOptions(
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->partnerApps->create([
-  'default_requested_permissions' => [
-    'manage_orders',
-  ],
-  'name' => 'Acme Commerce Plugin',
-  'permission_manifest' => [
-    (object) [
-      'description' => 'Read and update Flint orders for installed merchants.',
-      'permission_id' => 'manage_orders',
-      'required_scopes' => [
-        'commerce.orders.read',
-        'commerce.orders.write',
-      ],
-      'title' => 'Manage orders',
-    ],
-    (object) [
-      'description' => 'Read and update customer records for installed merchants.',
-      'optional' => true,
-      'permission_id' => 'manage_customers',
-      'required_scopes' => [
-        'customers.read',
-        'customers.write',
-      ],
-      'title' => 'Manage customers',
-    ],
-    (object) [
-      'description' => 'Read product, variant, bundle, and SKU lookup catalog records.',
-      'optional' => true,
-      'permission_id' => 'read_catalog',
-      'required_scopes' => [
-        'commerce.products.read',
-        'commerce.bundles.read',
-        'commerce.catalog.read',
-      ],
-      'title' => 'Read catalog',
-    ],
-    (object) [
-      'description' => 'Create and update bundle catalog records for installed merchants.',
-      'optional' => true,
-      'permission_id' => 'manage_bundles',
-      'required_scopes' => [
-        'commerce.bundles.write',
-      ],
-      'title' => 'Manage bundles',
-    ],
-  ],
-  'redirect_uris' => [
-    'https://plugins.acme.com/flint/oauth/callback',
-    'http://localhost:3000/flint/oauth/callback',
-  ],
+  'name' => 'example',
+  'permission_manifest' => [],
+  'redirect_uris' => [],
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo json_encode($result, JSON_THROW_ON_ERROR) . PHP_EOL;
 $client->close();

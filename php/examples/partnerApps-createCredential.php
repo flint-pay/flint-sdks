@@ -16,7 +16,7 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->partnerApps->createCredential('papp_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
+$result = $client->partnerApps->createCredential('papp_01KEZF7C00Y8VMXYZ1GNPP3WHV', [
   'name' => 'Production signing key',
   'public_key' => (object) [
     'jwk' => (object) [

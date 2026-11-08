@@ -8,12 +8,12 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.orders.removeGiftCard(
-  "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV",
-  "gc_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "ord_01KEZF7C0054GQKJ142A8X367A",
+  "gc_01KEZF7C00RT1618WYBM1Y94CG",
   {
     expected_version: 1,
   },
   { idempotencyKey: idempotencyKey },
 );
+console.log(result.merchant_id);
 console.log(result.order_id);
-console.log(result.status);

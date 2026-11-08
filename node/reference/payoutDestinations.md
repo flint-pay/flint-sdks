@@ -4,7 +4,7 @@
 
 ### payoutDestinations.delete
 
-Archives the payout destination and returns it with `status: archived`. It stays readable by ID. You can't delete the active default destination. Safe to retry with the same Idempotency-Key.
+Archives the payout destination and returns it with `status: archived`. It stays readable by ID. You can't delete the active default destination; make another destination the default with PATCH /v1/payout-settings first. Safe to retry with the same idempotency key.
 
 `DELETE /v1/payout-destinations/{payout_destination_id}`
 
@@ -15,7 +15,7 @@ Signature: `delete(payout_destination_id: InputValue<string>, params?: PayoutDes
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `payout_destination_id` | Required | string | Flint payout destination ID. |
-| `expected_version` | Optional | integer | Format: `uint64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Optional payout destination version last read by the caller. Format: `uint64`. minimum: `1`. |
 
 #### Response
 
@@ -30,7 +30,6 @@ Returned payload: [PayoutDestination](../models/PayoutDestination.md#payoutdesti
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -54,7 +53,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.payoutDestinations.delete("pdest_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey });
+const result = await client.payoutDestinations.delete("pdest_01KEZF7C00M55HZDZXZP6YVE6B", {}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/payoutDestinations-delete.mjs)
@@ -78,6 +77,9 @@ get(payout_destination_id: InputValue<string>,
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `payout_destination_id` | Required | string | Flint payout destination ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -91,7 +93,6 @@ Returned payload: [PayoutDestination](../models/PayoutDestination.md#payoutdesti
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -109,14 +110,14 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```typescript
-const result = await client.payoutDestinations.get("pdest_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
+const result = await client.payoutDestinations.get("pdest_01KEZF7C00M55HZDZXZP6YVE6B", {}, {  });
 ```
 
 [Complete runnable example](../examples/payoutDestinations-get.mjs)
 
 ### payoutDestinations.list
 
-Returns a paginated list of payout destinations available to the authenticated merchant. Default order: created_at descending, then payout_destination_id descending.
+Returns a paginated list of payout destinations available to the authenticated merchant. The account owner adds a destination in the `payouts` embedded component, opened with POST /v1/merchant-account-sessions; Flint never takes bank details through the API. Default order: created_at descending, then payout_destination_id descending.
 
 `GET /v1/payout-destinations`
 
@@ -127,12 +128,15 @@ Signature: `list(params?: PayoutDestinationsListParams, options?: _SdkWithoutIde
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `currency` | Optional | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. |
-| `type` | Optional | Array of string or string | Optional payout destination type filter. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"bank_account"`, `"debit_card"`. Values: `"bank_account"`, `"debit_card"`. |
-| `status` | Optional | Array of string or string | Filter by status. Repeat the parameter or send comma-separated values to match any of several. Omitted, the list leaves out archived rows; name archived to include them. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"pending"`, `"active"`, `"verification_required"`, `"disabled"`, `"archived"`, `"failed"`. Values: `"pending"`, `"active"`, `"verification_required"`, `"disabled"`, `"archived"`, `"failed"`. |
-| `available_payout_methods` | Optional | Array of string or string | Optional available payout method filter. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"standard"`. Values: `"standard"`. |
-| `default_for_currency` | Optional | boolean | Whether to return only destinations that are the default for their currency. |
+| `type` | Optional | Array of string or string | Optional payout destination type filter. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"bank_account"`, `"debit_card"`. Values: `"bank_account"`, `"debit_card"`. |
+| `status` | Optional | Array of string or string | Filter by status. Omitted, the list leaves out archived rows; name archived to include them. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"pending"`, `"active"`, `"verification_required"`, `"disabled"`, `"archived"`, `"failed"`. Values: `"pending"`, `"active"`, `"verification_required"`, `"disabled"`, `"archived"`, `"failed"`. |
+| `available_payout_methods` | Optional | Array of string or string | Optional available payout method filter. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"standard"`. Values: `"standard"`. |
+| `is_default_for_currency` | Optional | boolean | Whether to return only destinations that are the default for their currency. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -145,7 +149,6 @@ Returned payload: [PayoutDestinationListResponse](../models/PayoutDestinationLis
 | 400 | InvalidRequestError |
 | 401 | AuthenticationError |
 | 403 | PermissionError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -172,7 +175,7 @@ const result = await client.payoutDestinations.list({}, {  });
 
 ### payoutDestinations.update
 
-Updates mutable metadata and settings for a payout destination. Safe to retry with the same Idempotency-Key.
+Updates mutable metadata and settings for a payout destination. Safe to retry with the same idempotency key.
 
 `PATCH /v1/payout-destinations/{payout_destination_id}`
 
@@ -191,7 +194,7 @@ Body model: [UpdatePayoutDestinationRequestInput](../models/UpdatePayoutDestinat
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `expected_version` | Optional | integer | Format: `uint64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Version last read from the resource returned in `data` (the primary resource for a result object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on the operation and fields being changed. Format: `uint64`. minimum: `1`. |
 | `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequest.md#metadatapatchrequest) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. |
 
 #### Response
@@ -207,7 +210,6 @@ Returned payload: [PayoutDestination](../models/PayoutDestination.md#payoutdesti
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |

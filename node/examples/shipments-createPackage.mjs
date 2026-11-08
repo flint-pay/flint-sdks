@@ -8,7 +8,7 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.shipments.createPackage(
-  "shp_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "shp_01KEZF7C00Q2AFXWXHMCDR3F68",
   {
     carrier: "ups",
     dimensions: {

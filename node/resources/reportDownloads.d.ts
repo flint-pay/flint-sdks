@@ -1,8 +1,7 @@
 import type { Result, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-5.js';
-import type { ReportDownloadsGetParams, ReportDownloadsGetResponse } from '../declarations/types-47.js';
-import type { RequestOptions } from '../declarations/types-48.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+import type { ClientOptions } from '../declarations/types-6.js';
+import type { ReportDownloadsGetParams, ReportDownloadsGetResponse, RequestOptions } from '../declarations/types-51.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -17,12 +16,11 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { ReportDownloadsGetParams, ReportDownloadsGetResponse } from '../declarations/types-47.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { RequestOptions } from '../declarations/types-48.js';
-export type { ClientOptions } from '../declarations/types-5.js';
+export type { ReportDownloadsGetParams, RequestOptions, ReportDownloadsGetResponse } from '../declarations/types-51.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+export type { ClientOptions } from '../declarations/types-6.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-12.js';
+export type { Credentials } from '../declarations/types-13.js';
 export interface ReportDownloadsResource {
     /**
  * Authorizes the stable Flint download URL and redirects to a short-lived private file URL.
@@ -32,7 +30,7 @@ export interface ReportDownloadsResource {
  * @see https://developers.withflintpay.com/docs/api/reports#getReportDownload
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.reportDownloads.get("rdl_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.reportDownloads.get("rdl_01KEZF7C003GGGDW1N5QT46JDZ")
  */
     get(report_download_id: InputValue<string>, params?: ReportDownloadsGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<Result<ReportDownloadsGetResponse>>;
 }

@@ -16,7 +16,7 @@ namespace Flint;
 final class ExpandedPaymentLinkSummary extends Model {
     /** @param array{'completed_count': int, 'created_at'?: string, 'description'?: string, 'name': string, 'payment_link_id': string, 'payment_link_type'?: string, 'status': string, 'subscription_plan_id'?: string, 'updated_at'?: string, 'url'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ExpandedPaymentLinkSummary')); }
-    /** Format: int32.
+    /** Number of paid checkout sessions started from this link. Format: int32.
      * @return int
      */
     public function getCompletedCount(): int { return $this->get('completed_count'); }
@@ -26,27 +26,27 @@ final class ExpandedPaymentLinkSummary extends Model {
      */
     public function getCreatedAt(): ?string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** description
+    /** Text about what the link sells, returned to buyers when they open it.
      * @return ?string
      */
     public function getDescription(): ?string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** name
+    /** Name of the payment link.
      * @return string
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** payment_link_id
+    /** Unique identifier for this payment link, prefixed `pl_`.
      * @return string
      */
     public function getPaymentLinkId(): string { return $this->get('payment_link_id'); }
     public function hasPaymentLinkId(): bool { return $this->has('payment_link_id'); }
-    /** Value enum: "standard", "donation", "event".
+    /** What kind of link this is. Value enum: "standard", "donation", "event".
      * @return ?string
      */
     public function getPaymentLinkType(): ?string { return $this->get('payment_link_type'); }
     public function hasPaymentLinkType(): bool { return $this->has('payment_link_type'); }
-    /** Value enum: "active", "inactive".
+    /** Whether the link can start new checkouts. Value enum: "active", "inactive".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
@@ -61,7 +61,7 @@ final class ExpandedPaymentLinkSummary extends Model {
      */
     public function getUpdatedAt(): ?string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** url
+    /** URL buyers open to use the link.
      * @return ?string
      */
     public function getUrl(): ?string { return $this->get('url'); }

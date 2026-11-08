@@ -10,6 +10,6 @@ The `method_origin` variant of `DeliveryProfileOriginPolicyInput`.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `location_id` | Optional | string | minLength: `1`. |
+| `location_id` | Optional | string | minLength: `1`. Example: `"loc_01KEZF7C00CMHRRYA3MV996JB2"`. |
 | `type` | Required | string | Values: `"method_origin"`. |
 

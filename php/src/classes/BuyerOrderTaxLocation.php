@@ -16,22 +16,22 @@ final class BuyerOrderTaxLocation extends Model {
      */
     public function getAddress(): ?Address { return $this->get('address'); }
     public function hasAddress(): bool { return $this->has('address'); }
-    /** Value enum: "provided", "fulfillment", "customer", "device", "location", "merchant".
+    /** Where the tax address came from. Value enum: "provided", "fulfillment", "customer", "location", "merchant".
      * @return string
      */
     public function getAddressSource(): string { return $this->get('address_source'); }
     public function hasAddressSource(): bool { return $this->has('address_source'); }
-    /** Value enum: "postal_code", "tax_address", "billing_address", "shipping_address", "business_address".
+    /** The kind of address Flint used to calculate tax. Value enum: "postal_code", "tax_address", "billing_address", "shipping_address", "business_address".
      * @return string
      */
     public function getAddressType(): string { return $this->get('address_type'); }
     public function hasAddressType(): bool { return $this->has('address_type'); }
-    /** customer_id
+    /** ID of the customer whose saved address Flint used, when `address_source` is `customer`.
      * @return ?string
      */
     public function getCustomerId(): ?string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** fulfillment_id
+    /** ID of the fulfillment whose shipping address Flint used. Absent when the address is the order's `delivery_destination`.
      * @return ?string
      */
     public function getFulfillmentId(): ?string { return $this->get('fulfillment_id'); }

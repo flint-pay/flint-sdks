@@ -10,6 +10,6 @@ Request input.
 | --- | --- | --- | --- |
 | `api_version` | Optional | string | API version used to produce this response. |
 | `idempotency_replayed` | Optional | boolean | Whether this response replays a stored result for the supplied Idempotency-Key. |
-| `trace_id` | Optional | string | Trace identifier to include when contacting Flint about this request. |
+| `trace_id` | Optional | string | Trace identifier to include when contacting Flint about this request. Example: `"0123456789abcdef0123456789abcdef"`. |
 | `warnings` | Optional | Array of [ResponseWarningInput](../models/ResponseWarningInput.md#responsewarninginput) | Conditions that need attention even though the request succeeded. |
 

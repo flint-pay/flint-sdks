@@ -76,7 +76,7 @@ final class PickupFulfillmentDetails extends Model {
      */
     public function getReadyAt(): ?string { return $this->get('ready_at'); }
     public function hasReadyAt(): bool { return $this->has('ready_at'); }
-    /** Timezone used to display the pickup window.
+    /** Timezone used to display the pickup window. Uses an IANA time zone name.
      * @return ?string
      */
     public function getTimezone(): ?string { return $this->get('timezone'); }

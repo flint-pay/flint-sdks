@@ -18,8 +18,8 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $updated_before
  * @property-read string|\DateTimeInterface $created_after
  * @property-read string|\DateTimeInterface $created_before
- * @property-read string|\DateTimeInterface $due_after
- * @property-read string|\DateTimeInterface $due_before
+ * @property-read string $due_date_from
+ * @property-read string $due_date_to
  * @property-read bool $is_overdue
  * @property-read bool $has_outstanding_balance
  * @property-read string $sort_by
@@ -28,7 +28,7 @@ namespace Flint;
  * @property-read list<string>|string $expand
  * Presence-aware input; omitted fields throw when accessed. */
 final class InvoicesListParams extends Model {
-    /** @param array{'page_size'?: int, 'page_token'?: string, 'status'?: list<string>|string, 'idempotency_key'?: string, 'customer_id'?: string, 'order_id'?: string, 'subscription_id'?: string, 'external_reference_id'?: string, 'invoice_number'?: string, 'collection_mode'?: list<string>|string, 'issued_after'?: string|\DateTimeInterface, 'issued_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'due_after'?: string|\DateTimeInterface, 'due_before'?: string|\DateTimeInterface, 'is_overdue'?: bool, 'has_outstanding_balance'?: bool, 'sort_by'?: string, 'sort_direction'?: string, 'query'?: string, 'expand'?: list<string>|string}|object $values */
+    /** @param array{'page_size'?: int, 'page_token'?: string, 'status'?: list<string>|string, 'idempotency_key'?: string, 'customer_id'?: string, 'order_id'?: string, 'subscription_id'?: string, 'external_reference_id'?: string, 'invoice_number'?: string, 'collection_mode'?: list<string>|string, 'issued_after'?: string|\DateTimeInterface, 'issued_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'due_date_from'?: string, 'due_date_to'?: string, 'is_overdue'?: bool, 'has_outstanding_balance'?: bool, 'sort_by'?: string, 'sort_direction'?: string, 'query'?: string, 'expand'?: list<string>|string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoicesListParams')); }
     /** Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum: 100. Default: 20.
      * @return int
@@ -36,13 +36,13 @@ final class InvoicesListParams extends Model {
      */
     public function getPageSize(): int { return $this->get('page_size'); }
     public function hasPageSize(): bool { return $this->has('page_size'); }
-    /** Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error.
+    /** Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error.
      * @return string
      * @throws SdkError When page_token is omitted; use hasPageToken() or valueOrDefault().
      */
     public function getPageToken(): string { return $this->get('page_token'); }
     public function hasPageToken(): bool { return $this->has('page_token'); }
-    /** Filter by invoice status. Repeat the parameter or pass comma-separated values to match multiple statuses. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "draft", "open", "partially_paid", "paid", "void", "uncollectible", "credited". Value enum: "draft", "open", "partially_paid", "paid", "void", "uncollectible", "credited". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "draft", "open", "partially_paid", "paid", "void", "uncollectible", "credited". anyOf[1][] (Value): string.  Value enum: "draft", "open", "partially_paid", "paid", "void", "uncollectible", "credited". anyOf[2] (Value): string.  Value enum: "draft", "open", "partially_paid", "paid", "void", "uncollectible", "credited".
+    /** Filter by invoice status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "draft", "open", "partially_paid", "paid", "voided", "uncollectible", "credited". Value enum: "draft", "open", "partially_paid", "paid", "voided", "uncollectible", "credited". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "draft", "open", "partially_paid", "paid", "voided", "uncollectible", "credited". anyOf[1][] (Value): string.  Value enum: "draft", "open", "partially_paid", "paid", "voided", "uncollectible", "credited". anyOf[2] (Value): string.  Value enum: "draft", "open", "partially_paid", "paid", "voided", "uncollectible", "credited".
      * @return list<string>|string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
@@ -54,25 +54,25 @@ final class InvoicesListParams extends Model {
      */
     public function getIdempotencyKey(): string { return $this->get('idempotency_key'); }
     public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
-    /** Filter by Flint customer ID. Example: "cus_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Filter by Flint customer ID. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** Filter by Flint order ID. Example: "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Filter by Flint order ID. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** Exact-match filter on the backing order subscription ID. Example: "sub_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Exact-match filter on the backing order subscription ID. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
      * @return string
      * @throws SdkError When subscription_id is omitted; use hasSubscriptionId() or valueOrDefault().
      */
     public function getSubscriptionId(): string { return $this->get('subscription_id'); }
     public function hasSubscriptionId(): bool { return $this->has('subscription_id'); }
-    /** Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
+    /** Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -84,7 +84,7 @@ final class InvoicesListParams extends Model {
      */
     public function getInvoiceNumber(): string { return $this->get('invoice_number'); }
     public function hasInvoiceNumber(): bool { return $this->has('invoice_number'); }
-    /** Filter by the effective collection mode. Repeat the parameter or pass comma-separated values to match multiple modes. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "buyer_initiated", "automatic", "external". Value enum: "buyer_initiated", "automatic", "external". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "buyer_initiated", "automatic", "external". anyOf[1][] (Value): string.  Value enum: "buyer_initiated", "automatic", "external". anyOf[2] (Value): string.  Value enum: "buyer_initiated", "automatic", "external".
+    /** Filter by the effective collection mode. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "buyer_initiated", "automatic", "external". Value enum: "buyer_initiated", "automatic", "external". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "buyer_initiated", "automatic", "external". anyOf[1][] (Value): string.  Value enum: "buyer_initiated", "automatic", "external". anyOf[2] (Value): string.  Value enum: "buyer_initiated", "automatic", "external".
      * @return list<string>|string
      * @throws SdkError When collection_mode is omitted; use hasCollectionMode() or valueOrDefault().
      */
@@ -126,19 +126,19 @@ final class InvoicesListParams extends Model {
      */
     public function getCreatedBefore(): string|\DateTimeInterface { return $this->get('created_before'); }
     public function hasCreatedBefore(): bool { return $this->has('created_before'); }
-    /** Inclusive lower bound on due_at. Format: date-time. Example: "2026-03-17T14:30:00Z".
-     * @return string|\DateTimeInterface
-     * @throws SdkError When due_after is omitted; use hasDueAfter() or valueOrDefault().
+    /** Inclusive lower bound on due_date, in YYYY-MM-DD format. Compares each invoice calendar date in its timezone (UTC when absent). Format: date. Example: "2026-08-02".
+     * @return string
+     * @throws SdkError When due_date_from is omitted; use hasDueDateFrom() or valueOrDefault().
      */
-    public function getDueAfter(): string|\DateTimeInterface { return $this->get('due_after'); }
-    public function hasDueAfter(): bool { return $this->has('due_after'); }
-    /** Exclusive upper bound on due_at. Format: date-time. Example: "2026-03-17T14:30:00Z".
-     * @return string|\DateTimeInterface
-     * @throws SdkError When due_before is omitted; use hasDueBefore() or valueOrDefault().
+    public function getDueDateFrom(): string { return $this->get('due_date_from'); }
+    public function hasDueDateFrom(): bool { return $this->has('due_date_from'); }
+    /** Exclusive upper bound on due_date, in YYYY-MM-DD format. Compares each invoice calendar date in its timezone (UTC when absent). Format: date. Example: "2026-08-02".
+     * @return string
+     * @throws SdkError When due_date_to is omitted; use hasDueDateTo() or valueOrDefault().
      */
-    public function getDueBefore(): string|\DateTimeInterface { return $this->get('due_before'); }
-    public function hasDueBefore(): bool { return $this->has('due_before'); }
-    /** Filter by whether the invoice is overdue.
+    public function getDueDateTo(): string { return $this->get('due_date_to'); }
+    public function hasDueDateTo(): bool { return $this->has('due_date_to'); }
+    /** Filter by whether an open or partially_paid invoice has an outstanding balance after its due date ends in its timezone (UTC when absent). With a schedule, matches when any entry is overdue.
      * @return bool
      * @throws SdkError When is_overdue is omitted; use hasIsOverdue() or valueOrDefault().
      */
@@ -150,7 +150,7 @@ final class InvoicesListParams extends Model {
      */
     public function getHasOutstandingBalance(): bool { return $this->get('has_outstanding_balance'); }
     public function hasHasOutstandingBalance(): bool { return $this->has('has_outstanding_balance'); }
-    /** Field to sort by. Defaults to created_at; ties are broken by invoice_id. Default: "created_at". Value enum: "created_at", "updated_at", "due_at", "invoice_number", "outstanding_money".
+    /** Field to sort by. Defaults to created_at; ties are broken by invoice_id. Default: "created_at". Value enum: "created_at", "updated_at", "due_date", "invoice_number", "outstanding_money".
      * @return string
      * @throws SdkError When sort_by is omitted; use hasSortBy() or valueOrDefault().
      */
@@ -168,10 +168,28 @@ final class InvoicesListParams extends Model {
      */
     public function getQuery(): string { return $this->get('query'); }
     public function hasQuery(): bool { return $this->has('query'); }
-    /** Supported expansions: customer, order. Include the requested related resources using scoped batch reads for this page. Each relationship requires its existing target read scopes. Expansion changes the representation without changing pagination tokens. Limits: at most 10 unique expand paths per request. Repeat expand, for example expand=customer&expand=order, or pass one comma-separated value. [] enum: "customer", "order". Value enum: "customer", "order". anyOf[1] (Value): Array of string.  [] enum: "customer", "order". anyOf[1][] (Value): string.  Value enum: "customer", "order". anyOf[2] (Value): string.  Value enum: "customer", "order".
+    /** Include related objects in the response. Supported expansions: customer, order. Include the requested related resources using scoped batch reads for this page. Each relationship requires its existing target read scopes. Expansion changes the representation without changing pagination tokens. Limits: at most 10 unique expand paths per request. [] enum: "customer", "order". Value enum: "customer", "order". anyOf[1] (Value): Array of string.  [] enum: "customer", "order". anyOf[1][] (Value): string.  Value enum: "customer", "order". anyOf[2] (Value): string.  Value enum: "customer", "order".
      * @return list<string>|string
      * @throws SdkError When expand is omitted; use hasExpand() or valueOrDefault().
      */
     public function getExpand(): mixed { return $this->get('expand'); }
     public function hasExpand(): bool { return $this->has('expand'); }
+    /** Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Merchant-Id is omitted; use hasFlintMerchantId() or valueOrDefault().
+     */
+    public function getFlintMerchantId(): string { return $this->get('Flint-Merchant-Id'); }
+    public function hasFlintMerchantId(): bool { return $this->has('Flint-Merchant-Id'); }
+    /** Mode of the request context, live or test. Optional; it must match the credential's mode. Value enum: "test", "live".
+     * @return string
+     * @throws SdkError When Flint-Mode is omitted; use hasFlintMode() or valueOrDefault().
+     */
+    public function getFlintMode(): string { return $this->get('Flint-Mode'); }
+    public function hasFlintMode(): bool { return $this->has('Flint-Mode'); }
+    /** Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Sandbox-Id is omitted; use hasFlintSandboxId() or valueOrDefault().
+     */
+    public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
+    public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
 }

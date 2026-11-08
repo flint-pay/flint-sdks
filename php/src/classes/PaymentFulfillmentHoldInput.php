@@ -18,13 +18,13 @@ final class PaymentFulfillmentHoldInput extends Model {
      */
     public function getReason(): string { return $this->get('reason'); }
     public function hasReason(): bool { return $this->has('reason'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When released_at is omitted; use hasReleasedAt() or valueOrDefault().
      */
     public function getReleasedAt(): string|\DateTimeInterface { return $this->get('released_at'); }
     public function hasReleasedAt(): bool { return $this->has('released_at'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When requested_at is omitted; use hasRequestedAt() or valueOrDefault().
      */
@@ -42,7 +42,7 @@ final class PaymentFulfillmentHoldInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */

@@ -7,7 +7,7 @@ import { Client, errors, makeUpdateSettingsRequest } from "../node/index.js";
 const exec = promisify(execFile);
 const expected = { customer_account: null, expected_version: 1 };
 const response =
-  '{"data":{"settings_id":"set_clear_test","tax_identity":null,"version":1},"request_id":"req_01KWM6WAHG3N9Q8T2V5XRZ7C4D"}';
+  '{"data":{"settings_id":"set_clear_test","tax_identity":null,"version":1,"merchant_id":"mer_01KEZF7C00MPP0T9S0KH5BB4CC","created_at":"2026-10-06T00:00:00Z","updated_at":"2026-10-06T00:00:00Z"},"request_id":"req_01KWM6WAHG3N9Q8T2V5XRZ7C4D"}';
 
 test("Node settings clear factory retains null and sends one request", async (t) => {
   const model = makeUpdateSettingsRequest(expected);

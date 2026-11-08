@@ -1,9 +1,9 @@
 import type { WithResponseInfo } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-5.js';
-import type { CreateReturnPreviewData, CreateReturnPreviewResponse } from '../declarations/types-10.js';
-import type { RequestOptions } from '../declarations/types-48.js';
-import type { ReturnPreviewsCreateParams } from '../declarations/types-50.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+import type { ClientOptions } from '../declarations/types-6.js';
+import type { CreateReturnPreviewData, CreateReturnPreviewResponse } from '../declarations/types-12.js';
+import type { RequestOptions } from '../declarations/types-51.js';
+import type { ReturnPreviewsCreateParams } from '../declarations/types-53.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -20,65 +20,66 @@ export type {
 } from '../runtime.js';
 export type {
     ReturnPreviewsCreateParams,
-    ReturnResolutionAdjustmentRequestInput,
-    ReturnReplacementLineItemRequestInput,
-    ReturnReplacementLineItemInputVariantInput,
-    ReturnReplacementLineItemInputBundleInput,
-    ReturnReplacementLineItemInputCustomInput,
+    ReturnPolicyAdjustmentProposal,
     ReturnReasonSummary,
-    ReturnResolutionAdjustment,
-    ReturnReplacementLineItem
-} from '../declarations/types-50.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { RequestOptions, ReturnActor, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
+    ReturnPolicyEvaluation,
+    ReturnPolicyEvaluationLineItem
+} from '../declarations/types-53.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
 export type {
     CreateReturnPreviewData,
     CreateReturnPreviewResponse,
     CreateReturnPreviewRequestInput,
-    CreateReturnEligibilityPreviewRequestInput,
+    CreateReturnResolutionPreviewRequestInput,
+    CreateReturnResolutionPreviewRequestStandardInput,
+    CreateReturnResolutionPreviewRequestCorrectionInput,
     CreateReturnPreviewRequestEligibilityInput,
     CreateReturnPreviewRequestResolutionInput,
     CreateReturnPreviewDataEligibility,
     CreateReturnPreviewDataResolution
-} from '../declarations/types-10.js';
-export type { ClientOptions } from '../declarations/types-5.js';
+} from '../declarations/types-12.js';
+export type { ClientOptions } from '../declarations/types-6.js';
+export type { CreateReturnEligibilityPreviewRequestInput } from '../declarations/types-11.js';
 export type {
-    ReturnEligibilitySelectionInput,
-    ReturnEligibilityLineItemRequestInput,
-    ReturnEligibilitySelectionAllRemainingFulfilledInput,
-    ReturnEligibilitySelectionLineItemsInput,
+    ReturnEligibilitySelectionRequestInput,
+    ReturnEligibilityLineItemRequestModelInput,
+    ReturnEligibilitySelectionAllRemainingFulfilledRequestInput,
+    ReturnEligibilitySelectionLineItemsRequestInput,
     ReturnEligibilityPreview,
     ReturnEligibilityPreviewLineItem,
     ReturnLineItemEligibility,
     ReturnLineItemDecisionProposal,
-    ReturnPolicyAdjustmentProposal,
-    ReturnPolicyEvaluation,
-    ReturnPolicyEvaluationLineItem,
     ReturnEligibilitySelection,
     ReturnEligibilityLineItemRequest,
     ReturnEligibilitySelectionAllRemainingFulfilled,
-    ReturnEligibilitySelectionLineItems
-} from '../declarations/types-49.js';
+    ReturnEligibilitySelectionLineItems,
+    ReturnActor
+} from '../declarations/types-52.js';
 export type {
-    CreateReturnResolutionPreviewRequestInput,
-    CreateReturnResolutionPreviewRequestStandardInput,
-    CreateReturnResolutionPreviewRequestCorrectionInput
-} from '../declarations/types-11.js';
-export type { MoneyValueInput, MoneyValue, MetadataMap, NextAction } from '../declarations/types-35.js';
-export type {
+    ReturnResolutionAdjustmentRequestInput,
     ReturnResolutionLineItemRequestInput,
+    ReturnReplacementLineItemRequestInput,
+    ReturnReplacementLineItemInputVariantInput,
+    ReturnReplacementLineItemInputBundleInput,
+    ReturnReplacementLineItemInputCustomInput,
     ReturnResolutionPreview,
+    ReturnResolutionAdjustment,
     ReturnResolutionLineItem,
+    ReturnReplacementLineItem,
     ReturnResolutionLineItemRequest
-} from '../declarations/types-51.js';
+} from '../declarations/types-54.js';
+export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-37.js';
+export type { LineItemFulfillmentRequestModelInput, LineItemFulfillmentOriginRequestModelInput } from '../declarations/types-34.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-12.js';
+export type { Credentials } from '../declarations/types-13.js';
 export type { BundleComponent, BundleComponentVariantSummary } from '../declarations/types-1.js';
-export type { SelectedProductOption } from '../declarations/types-53.js';
-export type { Image } from '../declarations/types-25.js';
-export type { OrderLineItemModifier } from '../declarations/types-37.js';
-export type { TextModifierRequest } from '../declarations/types-58.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
+export type { SelectedProductOption } from '../declarations/types-56.js';
+export type { Image } from '../declarations/types-27.js';
+export type { OrderLineItemModifier } from '../declarations/types-39.js';
+export type { MetadataMap } from '../declarations/types-36.js';
+export type { TextModifierRequest } from '../declarations/types-62.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
 export {
     makeCreateReturnEligibilityPreviewRequest,
     makeCreateReturnPreviewRequest,
@@ -87,21 +88,22 @@ export {
     makeCreateReturnResolutionPreviewRequest,
     makeCreateReturnResolutionPreviewRequestCorrection,
     makeCreateReturnResolutionPreviewRequestStandard
-} from '../declarations/types-65.js';
-export { makeMoneyValue } from '../declarations/types-70.js';
+} from '../declarations/types-70.js';
+export { makeLineItemFulfillmentOriginRequestModel, makeLineItemFulfillmentRequestModel } from '../declarations/types-74.js';
+export { makeMoneyValue } from '../declarations/types-75.js';
 export {
-    makeReturnEligibilityLineItemRequest,
-    makeReturnEligibilitySelection,
-    makeReturnEligibilitySelectionAllRemainingFulfilled,
-    makeReturnEligibilitySelectionLineItems,
+    makeReturnEligibilityLineItemRequestModel,
+    makeReturnEligibilitySelectionAllRemainingFulfilledRequest,
+    makeReturnEligibilitySelectionLineItemsRequest,
+    makeReturnEligibilitySelectionRequest,
     makeReturnReplacementLineItemInputBundle,
     makeReturnReplacementLineItemInputCustom,
     makeReturnReplacementLineItemInputVariant,
     makeReturnReplacementLineItemRequest,
     makeReturnResolutionAdjustmentRequest,
     makeReturnResolutionLineItemRequest
-} from '../declarations/types-72.js';
-export { makeTextModifierRequest } from '../declarations/types-74.js';
+} from '../declarations/types-77.js';
+export { makeTextModifierRequest } from '../declarations/types-79.js';
 export interface ReturnPreviewsResource {
     /**
  * Preview return eligibility or resolution amounts without creating a Return or reserving
@@ -112,7 +114,7 @@ export interface ReturnPreviewsResource {
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * client.returnPreviews.create({mode: "eligibility", eligibility: {order_id:
- * "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV", selection: {selection_type: "all_remaining_fulfilled"}}})
+ * "ord_01KEZF7C0054GQKJ142A8X367A", selection: {selection_type: "all_remaining_fulfilled"}}})
  */
     create(params: ReturnPreviewsCreateParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<CreateReturnPreviewData, CreateReturnPreviewResponse>>;
 }

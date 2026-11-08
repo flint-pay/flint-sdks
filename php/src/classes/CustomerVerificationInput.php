@@ -10,47 +10,48 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $expires_at
  * @property-read string $purpose
  * @property-read string $status
+ * @property-read list<string> $supported_actions
  * Presence-aware input; omitted fields throw when accessed. */
 final class CustomerVerificationInput extends Model {
-    /** @param array{'channel': string, 'created_at': string|\DateTimeInterface, 'customer_id': string, 'customer_verification_id': string, 'email': string, 'expires_at': string|\DateTimeInterface, 'purpose': string, 'status': string, ...}|object $values */
+    /** @param array{'channel': string, 'created_at': string|\DateTimeInterface, 'customer_id': string, 'customer_verification_id': string, 'email': string, 'expires_at': string|\DateTimeInterface, 'purpose': string, 'status': string, 'supported_actions': list<string>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerVerificationInput')); }
-    /** Value enum: "email".
+    /** How the code was delivered. Value enum: "email".
      * @return string
      * @throws SdkError When channel is omitted; use hasChannel() or valueOrDefault().
      */
     public function getChannel(): string { return $this->get('channel'); }
     public function hasChannel(): bool { return $this->has('channel'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** customer_id
+    /** ID of the customer whose email this verification proves. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** customer_verification_id
+    /** Unique identifier for this customer verification, prefixed `cver_`. Example: "cver_01KEZF7C00E7S01991S7457CVK".
      * @return string
      * @throws SdkError When customer_verification_id is omitted; use hasCustomerVerificationId() or valueOrDefault().
      */
     public function getCustomerVerificationId(): string { return $this->get('customer_verification_id'); }
     public function hasCustomerVerificationId(): bool { return $this->has('customer_verification_id'); }
-    /** email
+    /** The email address that received the code: the customer's email when the verification was created.
      * @return string
      * @throws SdkError When email is omitted; use hasEmail() or valueOrDefault().
      */
     public function getEmail(): string { return $this->get('email'); }
     public function hasEmail(): bool { return $this->has('email'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When expires_at is omitted; use hasExpiresAt() or valueOrDefault().
      */
     public function getExpiresAt(): string|\DateTimeInterface { return $this->get('expires_at'); }
     public function hasExpiresAt(): bool { return $this->has('expires_at'); }
-    /** Value enum: "link_guest_purchases".
+    /** What the verification is for. Value enum: "link_guest_purchases".
      * @return string
      * @throws SdkError When purpose is omitted; use hasPurpose() or valueOrDefault().
      */
@@ -62,4 +63,10 @@ final class CustomerVerificationInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
+    /** Lifecycle actions Flint accepts now, independent of the caller's permissions. Contains confirm while the code is pending; empty once confirmed, used, expired, or out of attempts. Expiry is evaluated when Flint serves the response. [] enum: "confirm". [] (Value): string.  Value enum: "confirm".
+     * @return list<string>
+     * @throws SdkError When supported_actions is omitted; use hasSupportedActions() or valueOrDefault().
+     */
+    public function getSupportedActions(): array { return $this->get('supported_actions'); }
+    public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
 }

@@ -14,6 +14,9 @@ Signature: `create(params: RiskListsCreateParams, options?: RequestOptions<"merc
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [CreateRiskListRequestInput](../models/CreateRiskListRequest.md#createrisklistrequest) | The request body for: Create a risk list. |
 
 Body model: [CreateRiskListRequestInput](../models/CreateRiskListRequest.md#createrisklistrequest).
@@ -35,7 +38,6 @@ Returned payload: [RiskList](../models/RiskList.md#risklist).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -60,14 +62,14 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.riskLists.create({alias: "example", name: "example", item_type: "card_fingerprint"}, { idempotencyKey: idempotencyKey });
+const result = await client.riskLists.create({alias: "flagged_emails", item_type: "email", name: "Flagged email addresses"}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/riskLists-create.mjs)
 
 ### riskLists.createItems
 
-Adds up to 500 values, each validated and normalized for the list's item_type. The additions array reports each value's outcome: values already on the list come back as existing, so a batch is safe to resend. Returns 201 when at least one value was added and 200 when none were. Payments see the change from the next attempt.
+Adds up to 500 values, each validated and normalized for the list's item_type. The additions array reports each value's outcome: values already on the list come back as existing, so a batch is safe to resend. The response is `201` when at least one value was added and `200` when none were. Payments see the change from the next attempt.
 
 `POST /v1/risk-lists/{risk_list_id}/items`
 
@@ -78,6 +80,9 @@ Signature: `createItems(risk_list_id: InputValue<string>, params: RiskListsCreat
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `risk_list_id` | Required | string | Flint risk list ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [AddRiskListItemsRequestInput](../models/AddRiskListItemsRequestInput.md#addrisklistitemsrequestinput) | Values to add to the risk list. Values are trimmed and compared exactly after item-type normalization for deduplication and membership. card_fingerprint is the 32-character hexadecimal value from PaymentMethod.fingerprint and is lowercased; case_sensitive_string preserves case and Unicode composition. string and email are lowercased, with accents preserved. email requires a bare address. email_domain is lowercased, has one final dot removed, and converts internationalized domains to ASCII. ip_address uses canonical IP form, including IPv4-mapped IPv6 conversion to IPv4. country uses uppercase ISO codes. card_bin preserves 6 through 8 digits, including leading zeros, and matches the full value. customer_id preserves the validated ID. |
 
 Body model: [AddRiskListItemsRequestInput](../models/AddRiskListItemsRequestInput.md#addrisklistitemsrequestinput).
@@ -99,7 +104,6 @@ Returned payload: [AddRiskListItemsResult](../models/AddRiskListItemsResult.md#a
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -131,7 +135,7 @@ const result = await client.riskLists.createItems("rl_01ARZ3NDEKTSV4RRFFQ69G5FAV
 
 ### riskLists.delete
 
-Archives a list you created. Fails with 409 RESOURCE_IN_USE while an active rule names it. Flint-managed lists return 409 ACTION_NOT_ALLOWED with reason managed_externally. Archived lists can't be used by rules or edited. Items can still be added to and removed from active Flint-managed lists.
+Archives a list you created. Fails with `RESOURCE_IN_USE` while an active rule names it. Flint-managed lists fail with `ACTION_NOT_ALLOWED` and reason `managed_externally`. Archived lists can't be used by rules or edited. Items can still be added to and removed from active Flint-managed lists.
 
 `DELETE /v1/risk-lists/{risk_list_id}`
 
@@ -143,6 +147,9 @@ Signature: `delete(risk_list_id: InputValue<string>, params?: RiskListsDeletePar
 | --- | --- | --- | --- |
 | `risk_list_id` | Required | string | Flint risk list ID. |
 | `expected_version` | Optional | integer | Optional risk list version last read by the caller. Format: `uint64`. minimum: `1`. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -157,7 +164,6 @@ Returned payload: [RiskList](../models/RiskList.md#risklist).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -180,7 +186,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.riskLists.delete("rl_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey });
+const result = await client.riskLists.delete("rl_01KEZF7C00VYSERA4QCTJP147A", {}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/riskLists-delete.mjs)
@@ -206,6 +212,9 @@ deleteItem(risk_list_id: InputValue<string>,
 | --- | --- | --- | --- |
 | `risk_list_id` | Required | string | Flint risk list ID. |
 | `risk_list_item_id` | Required | string | Flint risk list item ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -220,7 +229,6 @@ Returned payload: [RiskListItem](../models/RiskListItem.md#risklistitem).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -243,7 +251,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.riskLists.deleteItem("rl_01ARZ3NDEKTSV4RRFFQ69G5FAV", "rli_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey });
+const result = await client.riskLists.deleteItem("rl_01KEZF7C00VYSERA4QCTJP147A", "rli_01KEZF7C006BND1CJYPAJW9JWE", {}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/riskLists-deleteItem.mjs)
@@ -261,6 +269,9 @@ Signature: `get(risk_list_id: InputValue<string>, params?: RiskListsGetParams, o
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `risk_list_id` | Required | string | Flint risk list ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -274,7 +285,6 @@ Returned payload: [RiskList](../models/RiskList.md#risklist).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -292,7 +302,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```typescript
-const result = await client.riskLists.get("rl_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
+const result = await client.riskLists.get("rl_01KEZF7C00VYSERA4QCTJP147A", {}, {  });
 ```
 
 [Complete runnable example](../examples/riskLists-get.mjs)
@@ -314,10 +324,7 @@ getItem(risk_list_id: InputValue<string>,
 
 #### Request fields
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `risk_list_id` | Required | string | Flint risk list ID. |
-| `risk_list_item_id` | Required | string | Flint risk list item ID. |
+Field definitions: [shared fields](#request-fields-3).
 
 #### Response
 
@@ -331,7 +338,6 @@ Returned payload: [RiskListItem](../models/RiskListItem.md#risklistitem).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -349,7 +355,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```typescript
-const result = await client.riskLists.getItem("rl_01ARZ3NDEKTSV4RRFFQ69G5FAV", "rli_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
+const result = await client.riskLists.getItem("rl_01KEZF7C00VYSERA4QCTJP147A", "rli_01KEZF7C006BND1CJYPAJW9JWE", {}, {  });
 ```
 
 [Complete runnable example](../examples/riskLists-getItem.mjs)
@@ -367,9 +373,12 @@ Signature: `list(params?: RiskListsListParams, options?: _SdkWithoutIdempotency<
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `alias` | Optional | string | Exact-match filter on the lowercase list alias. No whitespace or case normalization is applied. minLength: `1`. maxLength: `128`. pattern: `^[a-z][a-z0-9_]{0,127}$`. |
-| `status` | Optional | Array of string or string | Filter by status. Repeat the parameter or send comma-separated values to match any of several. Omitted, the list leaves out archived rows; name archived to include them. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"archived"`. Values: `"active"`, `"archived"`. |
+| `status` | Optional | Array of string or string | Filter by status. Omitted, the list leaves out archived rows; name archived to include them. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"archived"`. Values: `"active"`, `"archived"`. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -383,7 +392,6 @@ Returned payload: [RiskListListResponse](../models/RiskListListResponse.md#riskl
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -429,7 +437,10 @@ listRiskListItems(risk_list_id: InputValue<string>,
 | `value` | Optional | string | Exact-match filter after normalization for the parent list's item_type. Accepts 1 through 512 Unicode characters, following the same normalization as item creation. Commas are literal. Values are trimmed and compared exactly after item-type normalization for deduplication and membership. card_fingerprint is the 32-character hexadecimal value from PaymentMethod.fingerprint and is lowercased; case_sensitive_string preserves case and Unicode composition. string and email are lowercased, with accents preserved. email requires a bare address. email_domain is lowercased, has one final dot removed, and converts internationalized domains to ASCII. ip_address uses canonical IP form, including IPv4-mapped IPv6 conversion to IPv4. country uses uppercase ISO codes. card_bin preserves 6 through 8 digits, including leading zeros, and matches the full value. customer_id preserves the validated ID. minLength: `1`. maxLength: `512`. |
 | `risk_list_id` | Required | string | Flint risk list ID. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -443,7 +454,6 @@ Returned payload: [RiskListItemListResponse](../models/RiskListItemListResponse.
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -463,14 +473,14 @@ Pagination: `listRiskListItemsItems`, `listRiskListItemsPages`. [Canonical pagin
 #### Example
 
 ```typescript
-const result = await client.riskLists.listRiskListItems("rl_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
+const result = await client.riskLists.listRiskListItems("rl_01KEZF7C00VYSERA4QCTJP147A", {}, {  });
 ```
 
 [Complete runnable example](../examples/riskLists-listRiskListItems.mjs)
 
 ### riskLists.update
 
-Renames a list you created. Flint-managed lists return 409 ACTION_NOT_ALLOWED with reason managed_externally. Items can still be added to and removed from active Flint-managed lists.
+Renames a list you created. Flint-managed lists fail with `ACTION_NOT_ALLOWED` and reason `managed_externally`. Items can still be added to and removed from active Flint-managed lists.
 
 `PATCH /v1/risk-lists/{risk_list_id}`
 
@@ -481,16 +491,16 @@ Signature: `update(risk_list_id: InputValue<string>, params: RiskListsUpdatePara
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `risk_list_id` | Required | string | Flint risk list ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [UpdateRiskListRequestInput](../models/UpdateRiskListRequest.md#updaterisklistrequest) | The request body for: Update a risk list. |
 
 Body model: [UpdateRiskListRequestInput](../models/UpdateRiskListRequest.md#updaterisklistrequest).
 
 #### riskLists.update body fields
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `expected_version` | Optional | integer | Format: `uint64`. minimum: `1`. |
-| `name` | Required | string | Name of a merchant-created risk list. It can't be cleared. minLength: `1`. |
+Field definitions: [shared fields](../models/UpdateRiskListRequest.md#updaterisklistrequest).
 
 #### Response
 
@@ -505,7 +515,6 @@ Returned payload: [RiskList](../models/RiskList.md#risklist).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |

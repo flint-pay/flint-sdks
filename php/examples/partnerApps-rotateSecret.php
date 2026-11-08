@@ -16,6 +16,6 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->partnerApps->rotateSecret('papp_01ARZ3NDEKTSV4RRFFQ69G5FAV', null, new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->partnerApps->rotateSecret('papp_01KEZF7C00Y8VMXYZ1GNPP3WHV', null, new RequestOptions(idempotencyKey: $idempotencyKey));
 echo json_encode($result, JSON_THROW_ON_ERROR) . PHP_EOL;
 $client->close();

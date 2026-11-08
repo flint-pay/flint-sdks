@@ -15,13 +15,13 @@ final class OrderPaymentIntentSelectionPaymentMethodInput extends Model {
      */
     public function getCredentialType(): string { return $this->get('credential_type'); }
     public function hasCredentialType(): bool { return $this->has('credential_type'); }
-    /** Payment intent to confirm. minLength: 1.
+    /** Payment intent to confirm. minLength: 1. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
      * @return string
      * @throws SdkError When payment_intent_id is omitted; use hasPaymentIntentId() or valueOrDefault().
      */
     public function getPaymentIntentId(): string { return $this->get('payment_intent_id'); }
     public function hasPaymentIntentId(): bool { return $this->has('payment_intent_id'); }
-    /** Saved Flint payment method ID belonging to the customer making this payment. minLength: 1.
+    /** Saved Flint payment method ID belonging to the customer making this payment. minLength: 1. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
      * @return string
      * @throws SdkError When payment_method_id is omitted; use hasPaymentMethodId() or valueOrDefault().
      */

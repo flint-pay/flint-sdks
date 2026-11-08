@@ -10,7 +10,7 @@ namespace Flint;
 final class WebhookDeliveriesResendInput extends Model {
     /** @param array{'webhook_delivery_id': string, 'body'?: array{'reason_message'?: string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WebhookDeliveriesResendInput')); }
-    /** Flint webhook delivery ID. Example: "wdel_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Flint webhook delivery ID. Example: "wdel_01KEZF7C001DWSNDCDZHCTBN0A".
      * @return string
      * @throws SdkError When webhook_delivery_id is omitted; use hasWebhookDeliveryId() or valueOrDefault().
      */

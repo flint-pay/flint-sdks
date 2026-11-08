@@ -16,7 +16,7 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->workloadIdentities->delete('wid_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->workloadIdentities->delete('wid_01KEZF7C00GKCN7Y1482VY8TWP', [], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->created_by->resource_id . PHP_EOL;
 echo $result->status . PHP_EOL;
 $client->close();

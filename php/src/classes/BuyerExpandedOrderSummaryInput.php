@@ -6,22 +6,24 @@ namespace Flint;
  * @property-read string $closed_reason
  * @property-read string|\DateTimeInterface $created_at
  * @property-read string $customer_id
+ * @property-read list<DeferredPromotionInput|array<array-key, mixed>|\stdClass> $deferred_promotions
  * @property-read string $fulfillment_status
  * @property-read string|null $governing_delivery_selection_id
  * @property-read string $order_id
  * @property-read string $order_number
+ * @property-read string|\DateTimeInterface|null $paid_at
  * @property-read list<string> $payment_intent_ids
  * @property-read string $payment_status
  * @property-read PricingAmountsInput|array<array-key, mixed>|\stdClass $pricing_amounts
  * @property-read string $refund_status
- * @property-read SettlementAmountsInput|array<array-key, mixed>|\stdClass $settlement_amounts
+ * @property-read OrderSettlementAmountsInput|array<array-key, mixed>|\stdClass $settlement_amounts
  * @property-read string $status
  * @property-read string|\DateTimeInterface $updated_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class BuyerExpandedOrderSummaryInput extends Model {
-    /** @param array{'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': SettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object $values */
+    /** @param array{'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'deferred_promotions': list<DeferredPromotionInput|array<array-key, mixed>|\stdClass>, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'paid_at': string|\DateTimeInterface|null, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': OrderSettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerExpandedOrderSummaryInput')); }
-    /** When the order closed. Present exactly when status is closed. Set once at the transition and never changed. Format: date-time.
+    /** When the order closed. Present exactly when status is closed. Set once at the transition and never changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When closed_at is omitted; use hasClosedAt() or valueOrDefault().
      */
@@ -33,31 +35,37 @@ final class BuyerExpandedOrderSummaryInput extends Model {
      */
     public function getClosedReason(): string { return $this->get('closed_reason'); }
     public function hasClosedReason(): bool { return $this->has('closed_reason'); }
-    /** When the order was created, in RFC3339 format. Format: date-time.
+    /** When the order was created, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Customer associated with the order, when one is set.
+    /** Customer associated with the order, when one is set. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
+    /** Promotions accepted at subscription signup. They attach when the subscription is provisioned and first discount its first charged cycle. They do not discount this order and are separate from discounts and order totals. Always present; empty when no promotions are deferred. [] (Value): {@see DeferredPromotionInput}. A promotion accepted at subscription signup for the subscription's first charged cycle. It does not discount the signup order.
+     * @return list<DeferredPromotionInput|array<array-key, mixed>|\stdClass>
+     * @throws SdkError When deferred_promotions is omitted; use hasDeferredPromotions() or valueOrDefault().
+     */
+    public function getDeferredPromotions(): array { return $this->get('deferred_promotions'); }
+    public function hasDeferredPromotions(): bool { return $this->has('deferred_promotions'); }
     /** Aggregate progress across the order's fulfillment quantities. Value enum: "not_fulfilled", "partially_fulfilled", "fulfilled", "canceled", "not_applicable", "closed".
      * @return string
      * @throws SdkError When fulfillment_status is omitted; use hasFulfillmentStatus() or valueOrDefault().
      */
     public function getFulfillmentStatus(): string { return $this->get('fulfillment_status'); }
     public function hasFulfillmentStatus(): bool { return $this->has('fulfillment_status'); }
-    /** ID of the delivery selection that governs this order. Null when no selection governs the order.
+    /** ID of the delivery selection that governs this order. Null when no selection governs the order. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
      * @return string|null
      * @throws SdkError When governing_delivery_selection_id is omitted; use hasGoverningDeliverySelectionId() or valueOrDefault().
      */
     public function getGoverningDeliverySelectionId(): string|null { return $this->get('governing_delivery_selection_id'); }
     public function hasGoverningDeliverySelectionId(): bool { return $this->has('governing_delivery_selection_id'); }
-    /** Stable identifier of the expanded order.
+    /** Stable identifier of the expanded order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */
@@ -69,7 +77,13 @@ final class BuyerExpandedOrderSummaryInput extends Model {
      */
     public function getOrderNumber(): string { return $this->get('order_number'); }
     public function hasOrderNumber(): bool { return $this->has('order_number'); }
-    /** Payment intents associated with the order. [] (Value): string.
+    /** When `payment_status` became `paid`, including a final capture that releases the remaining balance. Set once and never changed, including after refunds. `null` when `payment_status` isn't `paid`, including an order whose balance was written off without being paid. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * @return string|\DateTimeInterface|null
+     * @throws SdkError When paid_at is omitted; use hasPaidAt() or valueOrDefault().
+     */
+    public function getPaidAt(): string|\DateTimeInterface|null { return $this->get('paid_at'); }
+    public function hasPaidAt(): bool { return $this->has('paid_at'); }
+    /** Payment intents associated with the order. [] (Value): string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
      * @return list<string>
      * @throws SdkError When payment_intent_ids is omitted; use hasPaymentIntentIds() or valueOrDefault().
      */
@@ -93,8 +107,8 @@ final class BuyerExpandedOrderSummaryInput extends Model {
      */
     public function getRefundStatus(): string { return $this->get('refund_status'); }
     public function hasRefundStatus(): bool { return $this->has('refund_status'); }
-    /** Payments, refunds, credits, and amounts still owed for the order. How much of an order has been paid, refunded, credited, written off, and settled as tips, and what balance and outstanding amount remain.
-     * @return SettlementAmountsInput|array<array-key, mixed>|\stdClass
+    /** Payments, refunds, credits, and amounts still owed for the order. The bill settlement amounts plus order overpayments, settled tips, and debt discharged by final capture. Money collected, returned, waived, and still owed on a bill.
+     * @return OrderSettlementAmountsInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When settlement_amounts is omitted; use hasSettlementAmounts() or valueOrDefault().
      */
     public function getSettlementAmounts(): mixed { return $this->get('settlement_amounts'); }
@@ -105,7 +119,7 @@ final class BuyerExpandedOrderSummaryInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** When the order was last updated, in RFC3339 format. Format: date-time.
+    /** When the order was last updated, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */

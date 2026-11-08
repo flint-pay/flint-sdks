@@ -1,0 +1,19 @@
+import { Client } from "@flintpay/node";
+const baseUrl = process.env.FLINT_BASE_URL || undefined;
+const client = new Client({
+  baseUrl,
+  allowInsecureHttp: !!baseUrl && ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
+});
+// Persist this key with the action before sending; reuse it for every resubmission.
+const idempotencyKey = crypto.randomUUID();
+
+const result = await client.giftCards.freeze(
+  "gc_01KEZF7C00RT1618WYBM1Y94CG",
+  {
+    expected_version: 2,
+    reason: "customer_request",
+  },
+  { idempotencyKey: idempotencyKey },
+);
+console.log(result.gift_card_id);
+console.log(result.merchant_id);

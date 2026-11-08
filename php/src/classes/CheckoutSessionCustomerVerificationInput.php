@@ -10,9 +10,10 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $expires_at
  * @property-read string $phone_last_digits
  * @property-read string $purpose
+ * @property-read list<string> $supported_actions
  * Presence-aware input; omitted fields throw when accessed. */
 final class CheckoutSessionCustomerVerificationInput extends Model {
-    /** @param array{'channel': string, 'checkout_session_customer_verification_id': string, 'checkout_session_id': string, 'created_at': string|\DateTimeInterface, 'email'?: string, 'expires_at': string|\DateTimeInterface, 'phone_last_digits'?: string, 'purpose': string, ...}|object $values */
+    /** @param array{'channel': string, 'checkout_session_customer_verification_id': string, 'checkout_session_id': string, 'created_at': string|\DateTimeInterface, 'email'?: string, 'expires_at': string|\DateTimeInterface, 'phone_last_digits'?: string, 'purpose': string, 'supported_actions': list<string>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutSessionCustomerVerificationInput')); }
     /** How the code reached the buyer: email or sms. Value enum: "email", "sms".
      * @return string
@@ -20,19 +21,19 @@ final class CheckoutSessionCustomerVerificationInput extends Model {
      */
     public function getChannel(): string { return $this->get('channel'); }
     public function hasChannel(): bool { return $this->has('channel'); }
-    /** ID to confirm the code with.
+    /** ID to confirm the code with. Example: "cscv_01KEZF7C00XW14W2FCVD5PH3Z9".
      * @return string
      * @throws SdkError When checkout_session_customer_verification_id is omitted; use hasCheckoutSessionCustomerVerificationId() or valueOrDefault().
      */
     public function getCheckoutSessionCustomerVerificationId(): string { return $this->get('checkout_session_customer_verification_id'); }
     public function hasCheckoutSessionCustomerVerificationId(): bool { return $this->has('checkout_session_customer_verification_id'); }
-    /** The checkout session the code belongs to.
+    /** The checkout session the code belongs to. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
      * @return string
      * @throws SdkError When checkout_session_id is omitted; use hasCheckoutSessionId() or valueOrDefault().
      */
     public function getCheckoutSessionId(): string { return $this->get('checkout_session_id'); }
     public function hasCheckoutSessionId(): bool { return $this->has('checkout_session_id'); }
-    /** When the code was requested. Format: date-time.
+    /** When the code was requested. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
@@ -44,7 +45,7 @@ final class CheckoutSessionCustomerVerificationInput extends Model {
      */
     public function getEmail(): string { return $this->get('email'); }
     public function hasEmail(): bool { return $this->has('email'); }
-    /** When the code stops working: 15 minutes after the request for an emailed code, and 10 minutes after the text provider first sent a texted code, which a new request within them texts again. Format: date-time.
+    /** When the code stops working: 15 minutes after the request for an emailed code, and 10 minutes after the text provider first sent a texted code, which a new request within them texts again. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When expires_at is omitted; use hasExpiresAt() or valueOrDefault().
      */
@@ -62,4 +63,10 @@ final class CheckoutSessionCustomerVerificationInput extends Model {
      */
     public function getPurpose(): string { return $this->get('purpose'); }
     public function hasPurpose(): bool { return $this->has('purpose'); }
+    /** Lifecycle actions available on this code request. Contains confirm before expires_at; empty once the code expires. A wrong code is refused without revealing whether a code was sent. [] enum: "confirm". [] (Value): string.  Value enum: "confirm".
+     * @return list<string>
+     * @throws SdkError When supported_actions is omitted; use hasSupportedActions() or valueOrDefault().
+     */
+    public function getSupportedActions(): array { return $this->get('supported_actions'); }
+    public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
 }

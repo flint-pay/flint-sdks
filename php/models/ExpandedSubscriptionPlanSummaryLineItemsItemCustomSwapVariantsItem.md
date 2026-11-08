@@ -8,8 +8,9 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `image` | Optional | [ExpandedSubscriptionPlanSummaryLineItemsItemCustomSwapVariantsItemImage](../models/ExpandedSubscriptionPlanSummaryLineItemsItemCustomSwapVariantsItemImage.md#expandedsubscriptionplansummarylineitemsitemcustomswapvariantsitemimage) | An image with its `url`, `width`, and `height`, and optional `alt` text. |
+| `image` | Optional | [ExpandedSubscriptionPlanSummaryLineItemsItemCustomSwapVariantsItemImage](../models/ExpandedSubscriptionPlanSummaryLineItemsItemCustomSwapVariantsItemImage.md#expandedsubscriptionplansummarylineitemsitemcustomswapvariantsitemimage) | An image with its URL, size, and alt text. |
 | `name` | Required | string |  |
+| `product_id` | Required | string | Identifier of the product the offered swap variant belongs to. pattern: `^prod_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `selected_options` | Required | Array of ([ExpandedSubscriptionPlanSummaryLineItemsItemCustomSwapVariantsItemSelectedOptionsItem](../models/ExpandedSubscriptionPlanSummaryLineItemsItemCustomSwapVariantsItemSelectedOptionsItem.md#expandedsubscriptionplansummarylineitemsitemcustomswapvariantsitemselectedoptionsitem) and [SelectedProductOption](../models/SelectedProductOption.md#selectedproductoption)) |  |
 | `sku` | Optional | string |  |
 | `unit_price_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null |  |

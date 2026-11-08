@@ -1,0 +1,23 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/**
+ * @property-read string $order_line_item_id
+ * @property-read int $quantity
+ * Presence-aware input; omitted fields throw when accessed. */
+final class OrderEditRemovalRequestInput extends Model {
+    /** @param array{'order_line_item_id': string, 'quantity': int}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderEditRemovalRequestInput')); }
+    /** An existing line on this order. minLength: 1. pattern: ^li_[0-9A-HJKMNP-TV-Z]{26}$. Example: "li_01KEZF7C008YPRCK7VDKTGWR31".
+     * @return string
+     * @throws SdkError When order_line_item_id is omitted; use hasOrderLineItemId() or valueOrDefault().
+     */
+    public function getOrderLineItemId(): string { return $this->get('order_line_item_id'); }
+    public function hasOrderLineItemId(): bool { return $this->has('order_line_item_id'); }
+    /** Whole-number quantity; fractional quantities are not supported. Whole line units to remove, including all components of a bundle unit. Format: int64. minimum: 1.
+     * @return int
+     * @throws SdkError When quantity is omitted; use hasQuantity() or valueOrDefault().
+     */
+    public function getQuantity(): int { return $this->get('quantity'); }
+    public function hasQuantity(): bool { return $this->has('quantity'); }
+}

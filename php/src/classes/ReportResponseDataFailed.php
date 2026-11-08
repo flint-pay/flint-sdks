@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read ?string $as_of_date
  * @property-read string $created_at
  * @property-read string $currency
  * @property-read ?ReportResponseDataFailedDownload $download
@@ -14,14 +15,19 @@ namespace Flint;
  * @property-read string $timezone
  * Presence-aware response; omitted optional fields return null. */
 final class ReportResponseDataFailed extends Model {
-    /** @param array{'created_at': string, 'currency': string, 'download'?: mixed, 'failure_reason': string, 'interval_end_at': string, 'interval_start_at': string, 'report_id': string, 'report_type': string, 'status': string, 'timezone': string, ...}|object $values */
+    /** @param array{'as_of_date'?: string, 'created_at': string, 'currency': string, 'download'?: mixed, 'failure_reason': string, 'interval_end_at': string, 'interval_start_at': string, 'report_id': string, 'report_type': string, 'status': string, 'timezone': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReportResponseDataFailed')); }
+    /** Present only for receivables_aging_v1. The calendar date in timezone whose receivables are reported. Format: date.
+     * @return ?string
+     */
+    public function getAsOfDate(): ?string { return $this->get('as_of_date'); }
+    public function hasAsOfDate(): bool { return $this->has('as_of_date'); }
     /** When the report was requested. Format: date-time.
      * @return string
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Currency the report covers. A report never combines currencies. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+    /** Currency the report covers. A report never combines currencies. Uses ISO 4217 currency codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
      * @return string
      */
     public function getCurrency(): string { return $this->get('currency'); }
@@ -51,7 +57,7 @@ final class ReportResponseDataFailed extends Model {
      */
     public function getReportId(): string { return $this->get('report_id'); }
     public function hasReportId(): bool { return $this->has('report_id'); }
-    /** The report's type and column version. See the Reports guide for its columns. Value enum: "gift_card_liability_v1", "orders_itemized_v1", "orders_itemized_v2", "payments_itemized_v1", "balance_transactions_itemized_v1", "payouts_itemized_v1", "tax_itemized_v1", "tax_summarized_v1", "merchant_billing_itemized_v1", "tax_transactions_itemized_v1".
+    /** The report's type and column version. See the Reports guide for its columns. Value enum: "receivables_aging_v1", "invoices_itemized_v1", "gift_card_liability_v1", "orders_itemized_v1", "orders_itemized_v2", "payments_itemized_v1", "balance_transactions_itemized_v1", "payouts_itemized_v1", "tax_itemized_v1", "tax_summarized_v1", "merchant_billing_itemized_v1", "tax_transactions_itemized_v1", "tax_transactions_itemized_v2".
      * @return string
      */
     public function getReportType(): string { return $this->get('report_type'); }

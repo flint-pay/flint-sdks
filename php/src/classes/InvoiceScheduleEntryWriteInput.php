@@ -2,16 +2,16 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read InvoiceScheduleAmountSpecificationInput|array<array-key, mixed>|\stdClass $amount_specification
+ * @property-read InvoiceScheduleAmountSpecificationRequestInput|array<array-key, mixed>|\stdClass $amount_specification
  * @property-read InvoiceScheduleDueWriteInput|array<array-key, mixed>|\stdClass $due
  * @property-read string $invoice_schedule_entry_id
  * @property-read string $kind
  * Presence-aware input; omitted fields throw when accessed. */
 final class InvoiceScheduleEntryWriteInput extends Model {
-    /** @param array{'amount_specification': array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'percent'?: int|float, 'type': string}|object|array{'amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'percent': int|float, 'type': string}|object|array{'amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'percent'?: int|float, 'type': string}|object, 'due': array{'due_at'?: string|\DateTimeInterface, 'type': string}|object|array{'due_at': string|\DateTimeInterface, 'type': string}|object, 'invoice_schedule_entry_id'?: string, 'kind': string}|object $values */
+    /** @param array{'amount_specification': array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'percent'?: int|float, 'type': string}|object|array{'amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'percent': int|float, 'type': string}|object|array{'amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'percent'?: int|float, 'type': string}|object, 'due': array{'due_date'?: string, 'type': string}|object|array{'due_date': string, 'type': string}|object, 'invoice_schedule_entry_id'?: string, 'kind': string}|object $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceScheduleEntryWriteInput')); }
     /** How much the entry collects. Deposits and installments use fixed or percentage, and the balance uses remaining_balance. How much a payment schedule entry collects: a fixed amount, a percentage of the invoice total, or the remaining balance.
-     * @return InvoiceScheduleAmountSpecificationInput|array<array-key, mixed>|\stdClass
+     * @return InvoiceScheduleAmountSpecificationRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When amount_specification is omitted; use hasAmountSpecification() or valueOrDefault().
      */
     public function getAmountSpecification(): mixed { return $this->get('amount_specification'); }
@@ -22,7 +22,7 @@ final class InvoiceScheduleEntryWriteInput extends Model {
      */
     public function getDue(): mixed { return $this->get('due'); }
     public function hasDue(): bool { return $this->has('due'); }
-    /** An existing entry's ID, to keep that entry when you replace the schedule on PATCH. Omit it to add a new entry. minLength: 1.
+    /** An existing entry's ID, to keep that entry when you replace the schedule on PATCH. Omit it to add a new entry. minLength: 1. Example: "invse_01KEZF7C006JCPQBD8VZ0RNT6R".
      * @return string
      * @throws SdkError When invoice_schedule_entry_id is omitted; use hasInvoiceScheduleEntryId() or valueOrDefault().
      */

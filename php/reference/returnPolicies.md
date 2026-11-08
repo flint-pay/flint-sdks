@@ -14,13 +14,22 @@ Signature: `create(array|Model $params, ?RequestOptions $options = null)`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [CreateReturnPolicyRequestInput](../models/CreateReturnPolicyRequestInput.md#createreturnpolicyrequestinput) | The request body for: Create return policy. |
 
 Body model: [CreateReturnPolicyRequestInput](../models/CreateReturnPolicyRequestInput.md#createreturnpolicyrequestinput).
 
 #### returnPolicies.create body fields
 
-Field definitions: [shared fields](../models/CreateReturnPolicyRequestInput.md#createreturnpolicyrequestinput). Models: [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput), [ReturnPolicyRevisionRequestInput](../models/ReturnPolicyRevisionRequestInput.md#returnpolicyrevisionrequestinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
+| `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
+| `name` | Required | string | Name of the policy, from 1 to 255 characters. minLength: `1`. |
+| `revision` | Required | [ReturnPolicyRevisionRequestInput](../models/ReturnPolicyRevisionRequestInput.md#returnpolicyrevisionrequestinput) | The revision with the complete rules. A field you leave out doesn't carry over from the previous revision. The rules for a return policy revision: scope, eligibility, return window, approval and resolution modes, shipping, and restocking fee. |
+| `status` | Optional | string | Whether the policy applies to new Returns. Defaults to inactive. Creating an active policy checks for overlapping active policies and a usable receiving location, just like activation through PATCH. Default: `"inactive"`. Values: `"active"`, `"inactive"`. |
 
 #### Response
 
@@ -35,7 +44,6 @@ Returned payload: [ReturnPolicy](../models/ReturnPolicy.md#returnpolicy).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -70,6 +78,7 @@ $result = $client->returnPolicies->create([
     'scope' => (object) [
       'match_type' => 'all',
     ],
+    'ineligibility_reason' => 'final_sale',
   ],
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
@@ -89,6 +98,9 @@ Signature: `createRevision(string|Model $return_policy_id, array|Model $params, 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `return_policy_id` | Required | string | Flint return policy id. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [PublishReturnPolicyRevisionRequestInput](../models/PublishReturnPolicyRevisionRequestInput.md#publishreturnpolicyrevisionrequestinput) | The request body for: Publish return policy revision. |
 
 Body model: [PublishReturnPolicyRevisionRequestInput](../models/PublishReturnPolicyRevisionRequestInput.md#publishreturnpolicyrevisionrequestinput).
@@ -110,7 +122,6 @@ Returned payload: [ReturnPolicy](../models/ReturnPolicy.md#returnpolicy).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -135,7 +146,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->returnPolicies->createRevision('rpol_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
+$result = $client->returnPolicies->createRevision('rpol_01KEZF7C00H8C042BEK6HBRANX', [
   'expected_version' => 1,
   'revision' => (object) [
     'approval_mode' => 'automatic',
@@ -145,6 +156,7 @@ $result = $client->returnPolicies->createRevision('rpol_01ARZ3NDEKTSV4RRFFQ69G5F
     'scope' => (object) [
       'match_type' => 'all',
     ],
+    'ineligibility_reason' => 'final_sale',
   ],
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
@@ -153,7 +165,7 @@ $result = $client->returnPolicies->createRevision('rpol_01ARZ3NDEKTSV4RRFFQ69G5F
 
 ### returnPolicies.delete
 
-Retire a Return policy so it is no longer evaluated and no longer appears as an active choice.
+Archive a Return policy so it is no longer evaluated or offered. Archiving is permanent.
 
 `DELETE /v1/return-policies/{return_policy_id}`
 
@@ -165,6 +177,9 @@ Signature: `delete(string|Model $return_policy_id, array|Model|null $params = nu
 | --- | --- | --- | --- |
 | `return_policy_id` | Required | string | Flint return policy id. |
 | `expected_version` | Optional | integer | Optional. The policy's current version. If it changed, the archive fails with 409 VERSION_CONFLICT and nothing changes. Format: `int64`. minimum: `1`. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -179,7 +194,6 @@ Returned payload: [ReturnPolicy](../models/ReturnPolicy.md#returnpolicy).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -202,7 +216,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->returnPolicies->delete('rpol_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->returnPolicies->delete('rpol_01KEZF7C00H8C042BEK6HBRANX', [], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/returnPolicies-delete.php)
@@ -220,7 +234,10 @@ Signature: `get(string|Model $return_policy_id, array|Model|null $params = null,
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `return_policy_id` | Required | string | Flint return policy id. |
-| `expand` | Optional | Array of string or string | Supported expansions: current_revision. Expanded relationships are returned only when explicitly requested and authorized. Limits: at most 10 unique expand paths per request. Pass expand=current_revision. Items values: `"current_revision"`. Values: `"current_revision"`. |
+| `expand` | Optional | Array of string or string | Include related objects in the response. Supported expansions: current_revision. Expanded relationships are returned only when explicitly requested and authorized. Limits: at most 10 unique expand paths per request. Items values: `"current_revision"`. Values: `"current_revision"`. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -234,7 +251,6 @@ Returned payload: [ReturnPolicy](../models/ReturnPolicy.md#returnpolicy).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -252,7 +268,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```php
-$result = $client->returnPolicies->get('rpol_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
+$result = $client->returnPolicies->get('rpol_01KEZF7C00H8C042BEK6HBRANX', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/returnPolicies-get.php)
@@ -282,6 +298,9 @@ getRevision(string|
 | --- | --- | --- | --- |
 | `return_policy_id` | Required | string | Flint return policy id. |
 | `return_policy_revision_id` | Required | string | Flint return policy revision id. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -295,7 +314,6 @@ Returned payload: [ReturnPolicyRevision](../models/ReturnPolicyRevision.md#retur
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -313,7 +331,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```php
-$result = $client->returnPolicies->getRevision('rpol_01ARZ3NDEKTSV4RRFFQ69G5FAV', 'rpolv_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
+$result = $client->returnPolicies->getRevision('rpol_01KEZF7C00H8C042BEK6HBRANX', 'rpolv_01KEZF7C007AWH6P4QC14Q25TC', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/returnPolicies-getRevision.php)
@@ -332,10 +350,13 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 | --- | --- | --- | --- |
 | `external_reference_id` | Optional | string | Exact-match filter on the caller-owned external reference ID. minLength: `1`. maxLength: `255`. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. Format: `int32`. minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `query` | Optional | string | Search by return policy ID, name, or external reference ID. |
-| `status` | Optional | Array of string or string | Filter by status. Repeat the parameter or send comma-separated values to match any of several. Omitted, the list leaves out archived rows; name archived to include them. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"inactive"`, `"archived"`. Values: `"active"`, `"inactive"`, `"archived"`. |
-| `expand` | Optional | Array of string or string | Supported expansions: current_revision. Include the requested related resources using scoped batch reads for this page. Each relationship requires its existing target read scopes. Expansion changes the representation without changing pagination tokens. Limits: at most 10 unique expand paths per request. Pass expand=current_revision. Items values: `"current_revision"`. Values: `"current_revision"`. |
+| `status` | Optional | Array of string or string | Filter by status. Omitted, the list leaves out archived rows; name archived to include them. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"inactive"`, `"archived"`. Values: `"active"`, `"inactive"`, `"archived"`. |
+| `expand` | Optional | Array of string or string | Include related objects in the response. Supported expansions: current_revision. Include the requested related resources using scoped batch reads for this page. Each relationship requires its existing target read scopes. Expansion changes the representation without changing pagination tokens. Limits: at most 10 unique expand paths per request. Items values: `"current_revision"`. Values: `"current_revision"`. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -349,7 +370,6 @@ Returned payload: [ListReturnPoliciesResponse](../models/ListReturnPoliciesRespo
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -388,7 +408,10 @@ Signature: `listRevisions(string|Model $return_policy_id, array|Model|null $para
 | --- | --- | --- | --- |
 | `return_policy_id` | Required | string | Flint return policy id. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. Format: `int32`. minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -402,7 +425,6 @@ Returned payload: [ListReturnPolicyRevisionsResponse](../models/ListReturnPolicy
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -422,7 +444,7 @@ Pagination: `listRevisionsItems`, `listRevisionsPages`. [Canonical pagination ex
 #### Example
 
 ```php
-$result = $client->returnPolicies->listRevisions('rpol_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions());
+$result = $client->returnPolicies->listRevisions('rpol_01KEZF7C00H8C042BEK6HBRANX', [], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/returnPolicies-listRevisions.php)
@@ -440,13 +462,22 @@ Signature: `update(string|Model $return_policy_id, array|Model $params, ?Request
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `return_policy_id` | Required | string | Flint return policy id. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [UpdateReturnPolicyRequestInput](../models/UpdateReturnPolicyRequestInput.md#updatereturnpolicyrequestinput) | The request body for: Update return policy. |
 
 Body model: [UpdateReturnPolicyRequestInput](../models/UpdateReturnPolicyRequestInput.md#updatereturnpolicyrequestinput).
 
 #### returnPolicies.update body fields
 
-Field definitions: [shared fields](../models/UpdateReturnPolicyRequestInput.md#updatereturnpolicyrequestinput). Models: [MetadataPatchRequestInput](../models/MetadataPatchRequestInput.md#metadatapatchrequestinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `expected_version` | Optional | integer | Version last read from the resource returned in `data` (the primary resource for a result object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on the operation and fields being changed. Format: `int64`. minimum: `1`. |
+| `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. |
+| `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequestInput.md#metadatapatchrequestinput) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. |
+| `name` | Optional | string | Name of the policy, from 1 to 255 characters. minLength: `1`. |
+| `status` | Optional | string | Set `active` to evaluate the policy or `inactive` to stop. Values: `"active"`, `"inactive"`. |
 
 #### Response
 
@@ -461,7 +492,6 @@ Returned payload: [ReturnPolicy](../models/ReturnPolicy.md#returnpolicy).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |

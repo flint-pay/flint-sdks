@@ -25,7 +25,7 @@ final class InventoryTransferLineInput extends Model {
      */
     public function getCanceledQuantity(): int { return $this->get('canceled_quantity'); }
     public function hasCanceledQuantity(): bool { return $this->has('canceled_quantity'); }
-    /** Value enum: "sellable", "quality_control", "damaged", "quarantined".
+    /** Condition of the units being moved. Value enum: "sellable", "quality_control", "damaged", "quarantined".
      * @return string
      * @throws SdkError When condition is omitted; use hasCondition() or valueOrDefault().
      */
@@ -37,13 +37,13 @@ final class InventoryTransferLineInput extends Model {
      */
     public function getDepartedQuantity(): int { return $this->get('departed_quantity'); }
     public function hasDepartedQuantity(): bool { return $this->has('departed_quantity'); }
-    /** inventory_item_id
+    /** ID of the inventory item to move. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
      * @return string
      * @throws SdkError When inventory_item_id is omitted; use hasInventoryItemId() or valueOrDefault().
      */
     public function getInventoryItemId(): string { return $this->get('inventory_item_id'); }
     public function hasInventoryItemId(): bool { return $this->has('inventory_item_id'); }
-    /** inventory_transfer_line_id
+    /** Unique identifier for this inventory transfer line, prefixed `invtrln_`. Example: "invtrln_01KEZF7C00CK297J6QVV5J0PFV".
      * @return string
      * @throws SdkError When inventory_transfer_line_id is omitted; use hasInventoryTransferLineId() or valueOrDefault().
      */

@@ -18,7 +18,7 @@ final class ResourceTimelinesGetParams extends Model {
      */
     public function getResourceType(): string { return $this->get('resource_type'); }
     public function hasResourceType(): bool { return $this->has('resource_type'); }
-    /** Optional comma-separated timeline entry groups. Defaults to all four groups: requests,webhooks,attempts,image_mutations. [] enum: "requests", "webhooks", "attempts", "image_mutations". [] (Value): string.  Value enum: "requests", "webhooks", "attempts", "image_mutations".
+    /** Timeline entry groups to include. Defaults to all four: requests, webhooks, attempts, image_mutations. [] enum: "requests", "webhooks", "attempts", "image_mutations". [] (Value): string.  Value enum: "requests", "webhooks", "attempts", "image_mutations".
      * @return list<string>
      * @throws SdkError When include is omitted; use hasInclude() or valueOrDefault().
      */
@@ -30,7 +30,7 @@ final class ResourceTimelinesGetParams extends Model {
      */
     public function getPageSize(): int { return $this->get('page_size'); }
     public function hasPageSize(): bool { return $this->has('page_size'); }
-    /** Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error.
+    /** Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error.
      * @return string
      * @throws SdkError When page_token is omitted; use hasPageToken() or valueOrDefault().
      */

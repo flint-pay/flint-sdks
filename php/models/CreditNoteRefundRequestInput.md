@@ -9,6 +9,6 @@ Request input.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `amount_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Credit to refund. Omit to refund all available credit, which Flint resolves once when it accepts the request. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `reason` | Required | string | Why the refund is being made. Values: [12 declared values](CreateCreditNoteRefundRequestInput.md#createcreditnoterefundrequestinput-reason-values). |
-| `reason_message` | Optional | string | Optional note explaining the refund. minLength: `1`. |
+| `reason` | Optional | string | Why the refund is being made. Omit to record no reason. Values: [13 declared values](CreateOrderEditRequestInput.md#createordereditrequestinput-reason-values). |
+| `reason_message` | Optional | string | Optional note explaining the refund, up to 1,024 characters. minLength: `1`. maxLength: `1024`. |
 

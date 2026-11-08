@@ -8,13 +8,13 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `data` | Required | [AnalyticsOverview](../models/AnalyticsOverview.md#analyticsoverview) | Payments are selected by payment created_at and current succeeded status. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  `data`: [field definitions](../models/AnalyticsOverviewResponse.md#analyticsoverviewresponsedata). |
-| `meta` | Optional | [ResponseMeta](../models/ResponseMeta.md#responsemeta) | Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings. |
-| `request_id` | Required | string | maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `data` | Required | [AnalyticsOverview](../models/AnalyticsOverview.md#analyticsoverview) | Resource, collection, or operation result returned by this request. Payments are selected by payment created_at and current succeeded status. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  `data`: [field definitions](../models/AnalyticsOverviewResponse.md#analyticsoverviewresponsedata). |
+| `meta` | Optional | [ResponseMeta](../models/ResponseMeta.md#responsemeta) | Additional information about this response. Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings. `meta`: [field definitions](../models/DisputeResponse.md#disputeresponsemeta). |
+| `request_id` | Required | string | Identifier of this API request, used to correlate logs and support requests. maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 ### AnalyticsOverviewResponse.data
 
-Payments are selected by payment created_at and current succeeded status. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies. 
+Resource, collection, or operation result returned by this request. Payments are selected by payment created_at and current succeeded status. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies. 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
@@ -23,7 +23,11 @@ Payments are selected by payment created_at and current succeeded status. The ha
 | `gross_volume_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Sum of succeeded payment amounts selected by payment created_at in the period, in currency. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `new_customers_count` | Required | integer | Customers selected by customer created_at in the period, across all currencies. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  Format: `int64`. |
 | `payments_count` | Required | integer | Succeeded payments selected by payment created_at in the period, restricted to currency. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  Format: `int64`. |
-| `period_end_at` | Required | string | Exclusive resolved end instant. Omitted or future request ends resolve to the request time truncated to the second. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  Format: `date-time`. |
-| `period_start_at` | Required | string | Inclusive start instant. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  Format: `date-time`. |
+| `period_end_at` | Required | string | Exclusive resolved end instant. Omitted or future request ends resolve to the request time truncated to the second. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
+| `period_start_at` | Required | string | Inclusive start instant. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `refunded_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Refund amounts selected by refund created_at in the period, excluding failed and canceled refunds. Parent refunds with child executions count through the children once, regardless of payment creation time. Uses currency. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+
+### AnalyticsOverviewResponse.meta
+
+Field definitions: [DisputeResponse.meta](../models/DisputeResponse.md#disputeresponsemeta).
 

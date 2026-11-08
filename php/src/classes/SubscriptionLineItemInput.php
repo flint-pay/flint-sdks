@@ -2,12 +2,15 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read bool $allow_quantity_adjustment
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $base_subtotal_money
  * @property-read list<BundleComponentInput|array<array-key, mixed>|\stdClass> $bundle_components
  * @property-read string $bundle_id
  * @property-read list<CategoryReferenceInput|array<array-key, mixed>|\stdClass> $categories
  * @property-read string $description
  * @property-read ImageInput|array<array-key, mixed>|\stdClass $image
+ * @property-read int $max_quantity
+ * @property-read int $min_quantity
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $modifier_total_money
  * @property-read list<OrderLineItemModifierInput|array<array-key, mixed>|\stdClass> $modifiers
  * @property-read string $name
@@ -15,17 +18,23 @@ namespace Flint;
  * @property-read int $quantity
  * @property-read list<SelectedProductOptionInput|array<array-key, mixed>|\stdClass> $selected_options
  * @property-read string $sku
- * @property-read string $source_type
  * @property-read string $subscription_line_item_id
  * @property-read string $subscription_offer_id
  * @property-read string $subscription_plan_line_item_id
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $subtotal_money
+ * @property-read string $type
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $unit_price_money
  * @property-read string $variant_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionLineItemInput extends Model {
-    /** @param array{'base_subtotal_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'bundle_components'?: list<BundleComponentInput|array<array-key, mixed>|\stdClass>, 'bundle_id'?: string, 'categories'?: list<CategoryReferenceInput|array<array-key, mixed>|\stdClass>, 'description'?: string, 'image'?: ImageInput|array<array-key, mixed>|\stdClass, 'modifier_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'modifiers'?: list<OrderLineItemModifierInput|array<array-key, mixed>|\stdClass>, 'name': string, 'product_id'?: string, 'quantity': int, 'selected_options'?: list<SelectedProductOptionInput|array<array-key, mixed>|\stdClass>, 'sku'?: string, 'source_type'?: string, 'subscription_line_item_id'?: string, 'subscription_offer_id'?: string, 'subscription_plan_line_item_id'?: string, 'subtotal_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'unit_price_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id'?: string, ...}|object $values */
+    /** @param array{'allow_quantity_adjustment': bool, 'base_subtotal_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'bundle_components'?: list<BundleComponentInput|array<array-key, mixed>|\stdClass>, 'bundle_id'?: string, 'categories'?: list<CategoryReferenceInput|array<array-key, mixed>|\stdClass>, 'description'?: string, 'image'?: ImageInput|array<array-key, mixed>|\stdClass, 'max_quantity'?: int, 'min_quantity'?: int, 'modifier_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'modifiers'?: list<OrderLineItemModifierInput|array<array-key, mixed>|\stdClass>, 'name': string, 'product_id'?: string, 'quantity': int, 'selected_options'?: list<SelectedProductOptionInput|array<array-key, mixed>|\stdClass>, 'sku'?: string, 'subscription_line_item_id'?: string, 'subscription_offer_id'?: string, 'subscription_plan_line_item_id'?: string, 'subtotal_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'type': string, 'unit_price_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionLineItemInput')); }
+    /** Whether the frozen terms allow the buyer to adjust this line quantity.
+     * @return bool
+     * @throws SdkError When allow_quantity_adjustment is omitted; use hasAllowQuantityAdjustment() or valueOrDefault().
+     */
+    public function getAllowQuantityAdjustment(): bool { return $this->get('allow_quantity_adjustment'); }
+    public function hasAllowQuantityAdjustment(): bool { return $this->has('allow_quantity_adjustment'); }
     /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When base_subtotal_money is omitted; use hasBaseSubtotalMoney() or valueOrDefault().
@@ -38,7 +47,7 @@ final class SubscriptionLineItemInput extends Model {
      */
     public function getBundleComponents(): array { return $this->get('bundle_components'); }
     public function hasBundleComponents(): bool { return $this->has('bundle_components'); }
-    /** bundle_id
+    /** Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
      * @return string
      * @throws SdkError When bundle_id is omitted; use hasBundleId() or valueOrDefault().
      */
@@ -56,19 +65,31 @@ final class SubscriptionLineItemInput extends Model {
      */
     public function getDescription(): string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** An image with its `url`, `width`, and `height`, and optional `alt` text.
+    /** An image with its URL, size, and alt text.
      * @return ImageInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When image is omitted; use hasImage() or valueOrDefault().
      */
     public function getImage(): mixed { return $this->get('image'); }
     public function hasImage(): bool { return $this->has('image'); }
+    /** Maximum buyer quantity, defaulting to 9999 when no bound was recorded. Merchants may set any quantity from 1 to 9999. Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1. maximum: 9999.
+     * @return int
+     * @throws SdkError When max_quantity is omitted; use hasMaxQuantity() or valueOrDefault().
+     */
+    public function getMaxQuantity(): int { return $this->get('max_quantity'); }
+    public function hasMaxQuantity(): bool { return $this->has('max_quantity'); }
+    /** Minimum buyer quantity, defaulting to 1 when no bound was recorded. Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1. maximum: 9999.
+     * @return int
+     * @throws SdkError When min_quantity is omitted; use hasMinQuantity() or valueOrDefault().
+     */
+    public function getMinQuantity(): int { return $this->get('min_quantity'); }
+    public function hasMinQuantity(): bool { return $this->has('min_quantity'); }
     /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When modifier_total_money is omitted; use hasModifierTotalMoney() or valueOrDefault().
      */
     public function getModifierTotalMoney(): mixed { return $this->get('modifier_total_money'); }
     public function hasModifierTotalMoney(): bool { return $this->has('modifier_total_money'); }
-    /**  [] (Value): {@see OrderLineItemModifierInput}. A modifier selected on an order line item, with its quantity, price change, total, and display flags.
+    /**  [] (Value): {@see OrderLineItemModifierInput}. A modifier selected on an order line item.
      * @return list<OrderLineItemModifierInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When modifiers is omitted; use hasModifiers() or valueOrDefault().
      */
@@ -80,7 +101,7 @@ final class SubscriptionLineItemInput extends Model {
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** product_id
+    /** Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
      * @return string
      * @throws SdkError When product_id is omitted; use hasProductId() or valueOrDefault().
      */
@@ -104,25 +125,19 @@ final class SubscriptionLineItemInput extends Model {
      */
     public function getSku(): string { return $this->get('sku'); }
     public function hasSku(): bool { return $this->has('sku'); }
-    /** Value enum: "variant", "bundle".
-     * @return string
-     * @throws SdkError When source_type is omitted; use hasSourceType() or valueOrDefault().
-     */
-    public function getSourceType(): string { return $this->get('source_type'); }
-    public function hasSourceType(): bool { return $this->has('source_type'); }
-    /** subscription_line_item_id
+    /** Unique identifier for this subscription line item, prefixed `sli_`. Example: "sli_01KEZF7C00PPWVJ2N321V84ASA".
      * @return string
      * @throws SdkError When subscription_line_item_id is omitted; use hasSubscriptionLineItemId() or valueOrDefault().
      */
     public function getSubscriptionLineItemId(): string { return $this->get('subscription_line_item_id'); }
     public function hasSubscriptionLineItemId(): bool { return $this->has('subscription_line_item_id'); }
-    /** subscription_offer_id
+    /** Example: "soffer_01KEZF7C00KAA9Y1X1KM70YFAA".
      * @return string
      * @throws SdkError When subscription_offer_id is omitted; use hasSubscriptionOfferId() or valueOrDefault().
      */
     public function getSubscriptionOfferId(): string { return $this->get('subscription_offer_id'); }
     public function hasSubscriptionOfferId(): bool { return $this->has('subscription_offer_id'); }
-    /** subscription_plan_line_item_id
+    /** Example: "spli_01KEZF7C00H9FGC2KBRF82H87N".
      * @return string
      * @throws SdkError When subscription_plan_line_item_id is omitted; use hasSubscriptionPlanLineItemId() or valueOrDefault().
      */
@@ -134,13 +149,19 @@ final class SubscriptionLineItemInput extends Model {
      */
     public function getSubtotalMoney(): mixed { return $this->get('subtotal_money'); }
     public function hasSubtotalMoney(): bool { return $this->has('subtotal_money'); }
+    /** Whether the line was sold from a catalog variant, a bundle, or a custom item. Value enum: "variant", "bundle", "custom".
+     * @return string
+     * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
+     */
+    public function getType(): string { return $this->get('type'); }
+    public function hasType(): bool { return $this->has('type'); }
     /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When unit_price_money is omitted; use hasUnitPriceMoney() or valueOrDefault().
      */
     public function getUnitPriceMoney(): mixed { return $this->get('unit_price_money'); }
     public function hasUnitPriceMoney(): bool { return $this->has('unit_price_money'); }
-    /** variant_id
+    /** Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
      * @return string
      * @throws SdkError When variant_id is omitted; use hasVariantId() or valueOrDefault().
      */

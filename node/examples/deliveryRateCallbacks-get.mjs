@@ -5,7 +5,7 @@ const client = new Client({
   allowInsecureHttp: !!baseUrl && ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
 });
 const result = await client.deliveryRateCallbacks.get(
-  "dcb_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1"
 );
 console.log(result.current_delivery_rate_callback_revision_id);
 console.log(result.delivery_rate_callback_id);

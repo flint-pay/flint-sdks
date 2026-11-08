@@ -1,0 +1,1 @@
+{"shared":"CreateCheckoutSessionDiscount","dependencies":["CreateCheckoutSessionDiscount","PromotionRefInputPromotionCode","PromotionRefInputPromotionID","PromotionRefRequest"]}

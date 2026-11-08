@@ -8,15 +8,16 @@ namespace Flint;
  * @property-read ?bool $can_save_payment_method
  * @property-read ?bool $can_save_payment_method_with_phone
  * @property-read string $checkout_session_id
+ * @property-read string|null $client_reference
  * @property-read ?string $closed_reason_message
- * @property-read ?string $created_at
+ * @property-read string $created_at
+ * @property-read list<CheckoutSessionPaidInstalledMerchantsEventDataObjectCustomFieldAnswersItemText|CheckoutSessionPaidInstalledMerchantsEventDataObjectCustomFieldAnswersItemTextarea|CheckoutSessionPaidInstalledMerchantsEventDataObjectCustomFieldAnswersItemDropdown|CheckoutSessionPaidInstalledMerchantsEventDataObjectCustomFieldAnswersItemCheckbox|\stdClass> $custom_field_answers
  * @property-read ?CheckoutCustomTextConfig $custom_text
  * @property-read ExpandedCustomerSummary|null $customer
  * @property-read ?string $customer_id
  * @property-read ?CheckoutCustomerPrefill $customer_prefill
  * @property-read ?CheckoutDerivedDeliveryResource $delivery
  * @property-read list<string> $delivery_method_ids
- * @property-read ?list<CheckoutDeliveryPinnedDependency> $delivery_pinned_dependencies
  * @property-read bool $delivery_selection_required
  * @property-read ?string $expires_at
  * @property-read ?int $expires_in_seconds
@@ -27,7 +28,7 @@ namespace Flint;
  * @property-read bool $is_in_recovery
  * @property-read ?CheckoutLegalConfig $legal
  * @property-read ?Image $merchant_icon
- * @property-read ?string $merchant_id
+ * @property-read string $merchant_id
  * @property-read ?Image $merchant_logo
  * @property-read ?string $merchant_name
  * @property-read ?CheckoutMerchantSupport $merchant_support
@@ -58,18 +59,19 @@ namespace Flint;
  * @property-read ?string $subscription_plan_id
  * @property-read ?CheckoutSubscriptionTerms $subscription_terms
  * @property-read ?string $superseding_checkout_session_id
+ * @property-read list<string> $supported_actions
  * @property-read string $surface
  * @property-read ?CheckoutSessionTax $tax
  * @property-read ?string $terminal_reason
  * @property-read ?CheckoutTheme $theme
  * @property-read ?CheckoutTipConfig $tip
  * @property-read string $type
- * @property-read ?string $updated_at
+ * @property-read string $updated_at
  * @property-read ?string $url
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class CheckoutSessionPaidInstalledMerchantsEventDataObject extends Model {
-    /** @param array{'active_payment_attempt'?: mixed, 'buyer_contact'?: mixed, 'buyer_fields'?: mixed, 'can_save_payment_method'?: bool, 'can_save_payment_method_with_phone'?: bool, 'checkout_session_id': string, 'closed_reason_message'?: string, 'created_at'?: string, 'custom_text'?: mixed, 'customer'?: mixed, 'customer_id'?: string, 'customer_prefill'?: mixed, 'delivery'?: mixed, 'delivery_method_ids': list<string>, 'delivery_pinned_dependencies'?: list<mixed>, 'delivery_selection_required': bool, 'expires_at'?: string, 'expires_in_seconds'?: int, 'external_reference_id'?: string, 'gift_card_challenge'?: mixed, 'invoice'?: mixed, 'invoice_id'?: string, 'is_in_recovery': bool, 'legal'?: mixed, 'merchant_icon'?: mixed, 'merchant_id'?: string, 'merchant_logo'?: mixed, 'merchant_name'?: string, 'merchant_support'?: mixed, 'metadata'?: mixed, 'order'?: mixed, 'order_id'?: string, 'page_origin'?: string, 'payment_collection'?: mixed, 'payment_intent_ids'?: list<string>, 'payment_intents'?: list<mixed>, 'payment_link'?: mixed, 'payment_link_id'?: string, 'payment_link_image'?: mixed, 'payment_method_save'?: mixed, 'payment_return_url'?: string, 'payments'?: mixed, 'prefill'?: mixed, 'problems': list<mixed>, 'promotion_config'?: mixed, 'recovery_expires_at'?: string|null, 'recovery_payment_attempt_id'?: string, 'redirects'?: mixed, 'save_payment_method_requires_verification'?: bool, 'save_payment_method_types'?: list<string>, 'setup_collection'?: mixed, 'show_flint_mark'?: bool, 'status': string, 'subscription_plan_id'?: string, 'subscription_terms'?: mixed, 'superseding_checkout_session_id'?: string, 'surface': string, 'tax'?: mixed, 'terminal_reason'?: string, 'theme'?: mixed, 'tip'?: mixed, 'type': string, 'updated_at'?: string, 'url'?: string, 'version': int, ...}|object $values */
+    /** @param array{'active_payment_attempt'?: mixed, 'buyer_contact'?: mixed, 'buyer_fields'?: mixed, 'can_save_payment_method'?: bool, 'can_save_payment_method_with_phone'?: bool, 'checkout_session_id': string, 'client_reference': string|null, 'closed_reason_message'?: string, 'created_at': string, 'custom_field_answers': list<mixed>, 'custom_text'?: mixed, 'customer'?: mixed, 'customer_id'?: string, 'customer_prefill'?: mixed, 'delivery'?: mixed, 'delivery_method_ids': list<string>, 'delivery_selection_required': bool, 'expires_at'?: string, 'expires_in_seconds'?: int, 'external_reference_id'?: string, 'gift_card_challenge'?: mixed, 'invoice'?: mixed, 'invoice_id'?: string, 'is_in_recovery': bool, 'legal'?: mixed, 'merchant_icon'?: mixed, 'merchant_id': string, 'merchant_logo'?: mixed, 'merchant_name'?: string, 'merchant_support'?: mixed, 'metadata'?: mixed, 'order'?: mixed, 'order_id'?: string, 'page_origin'?: string, 'payment_collection'?: mixed, 'payment_intent_ids'?: list<string>, 'payment_intents'?: list<mixed>, 'payment_link'?: mixed, 'payment_link_id'?: string, 'payment_link_image'?: mixed, 'payment_method_save'?: mixed, 'payment_return_url'?: string, 'payments'?: mixed, 'prefill'?: mixed, 'problems': list<mixed>, 'promotion_config'?: mixed, 'recovery_expires_at'?: string|null, 'recovery_payment_attempt_id'?: string, 'redirects'?: mixed, 'save_payment_method_requires_verification'?: bool, 'save_payment_method_types'?: list<string>, 'setup_collection'?: mixed, 'show_flint_mark'?: bool, 'status': string, 'subscription_plan_id'?: string, 'subscription_terms'?: mixed, 'superseding_checkout_session_id'?: string, 'supported_actions': list<string>, 'surface': string, 'tax'?: mixed, 'terminal_reason'?: string, 'theme'?: mixed, 'tip'?: mixed, 'type': string, 'updated_at': string, 'url'?: string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutSessionPaidInstalledMerchantsEventDataObject')); }
     /** An attempt to pay an order.
      * @return ?OrderPaymentAttempt
@@ -96,22 +98,32 @@ final class CheckoutSessionPaidInstalledMerchantsEventDataObject extends Model {
      */
     public function getCanSavePaymentMethodWithPhone(): ?bool { return $this->get('can_save_payment_method_with_phone'); }
     public function hasCanSavePaymentMethodWithPhone(): bool { return $this->has('can_save_payment_method_with_phone'); }
-    /** checkout_session_id
+    /** Unique identifier for this checkout session, prefixed `cs_`.
      * @return string
      */
     public function getCheckoutSessionId(): string { return $this->get('checkout_session_id'); }
     public function hasCheckoutSessionId(): bool { return $this->has('checkout_session_id'); }
+    /** The reference the payment link URL or resolve request carried, such as your user ID. `null` when none was sent or checkout did not start from a payment link. Returned only to merchant credentials; omitted for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof of identity. minLength: 1. maxLength: 255.
+     * @return string|null
+     */
+    public function getClientReference(): string|null { return $this->get('client_reference'); }
+    public function hasClientReference(): bool { return $this->has('client_reference'); }
     /** The note supplied when the checkout session was closed.
      * @return ?string
      */
     public function getClosedReasonMessage(): ?string { return $this->get('closed_reason_message'); }
     public function hasClosedReasonMessage(): bool { return $this->has('closed_reason_message'); }
     /** RFC3339 timestamp. Format: date-time.
-     * @return ?string
+     * @return string
      */
-    public function getCreatedAt(): ?string { return $this->get('created_at'); }
+    public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Custom text shown in checkout: an order summary message and a shipping address label.
+    /** The buyer's answers to the payment link's custom fields, the same as the `custom_field_answers` of the session's order. Read-only. Empty when the session didn't start from a payment link, the buyer answered no custom fields, or the order was created before Flint recorded answers here. Returned only to merchant credentials; omitted for buyer credentials. maxItems: 20. [] (Value): {@see CustomFieldAnswer}. One answer to a payment link custom field, with the field as it was when checkout started. `custom_field_type` determines the type of `value`.
+     * @return list<CheckoutSessionPaidInstalledMerchantsEventDataObjectCustomFieldAnswersItemText|CheckoutSessionPaidInstalledMerchantsEventDataObjectCustomFieldAnswersItemTextarea|CheckoutSessionPaidInstalledMerchantsEventDataObjectCustomFieldAnswersItemDropdown|CheckoutSessionPaidInstalledMerchantsEventDataObjectCustomFieldAnswersItemCheckbox|\stdClass>
+     */
+    public function getCustomFieldAnswers(): array { return $this->get('custom_field_answers'); }
+    public function hasCustomFieldAnswers(): bool { return $this->has('custom_field_answers'); }
+    /** The custom text this session shows in checkout. Custom text shown in checkout: an order summary message and a shipping address label.
      * @return ?CheckoutCustomTextConfig
      */
     public function getCustomText(): ?CheckoutCustomTextConfig { return $this->get('custom_text'); }
@@ -141,11 +153,6 @@ final class CheckoutSessionPaidInstalledMerchantsEventDataObject extends Model {
      */
     public function getDeliveryMethodIds(): array { return $this->get('delivery_method_ids'); }
     public function hasDeliveryMethodIds(): bool { return $this->has('delivery_method_ids'); }
-    /** Immutable configuration lineage used to evaluate delivery quotes. [] (Value): {@see CheckoutDeliveryPinnedDependency}. A delivery dependency pinned to a checkout, such as the assigned method, eligibility, or pricing callback, with the revision it was pinned at.
-     * @return ?list<CheckoutDeliveryPinnedDependency>
-     */
-    public function getDeliveryPinnedDependencies(): ?array { return $this->get('delivery_pinned_dependencies'); }
-    public function hasDeliveryPinnedDependencies(): bool { return $this->has('delivery_pinned_dependencies'); }
     /** Whether the order has at least one remaining quote-resolved fulfillment choice that must be selected before payment.
      * @return bool
      */
@@ -176,7 +183,7 @@ final class CheckoutSessionPaidInstalledMerchantsEventDataObject extends Model {
      */
     public function getInvoice(): ExpandedInvoiceSummary|null { return $this->get('invoice'); }
     public function hasInvoice(): bool { return $this->has('invoice'); }
-    /** invoice_id
+    /** ID of the invoice a session of type `invoice` collects payment for. Absent for other types.
      * @return ?string
      */
     public function getInvoiceId(): ?string { return $this->get('invoice_id'); }
@@ -186,22 +193,22 @@ final class CheckoutSessionPaidInstalledMerchantsEventDataObject extends Model {
      */
     public function getIsInRecovery(): bool { return $this->get('is_in_recovery'); }
     public function hasIsInRecovery(): bool { return $this->has('is_in_recovery'); }
-    /** Legal settings for a checkout: whether buyers must accept terms, and links to the terms, refund policy, shipping policy, and contract.
+    /** The terms and policy links this session shows the buyer, and whether the buyer must accept the terms. Legal settings for a checkout: whether buyers must accept terms, and links to the terms, refund policy, shipping policy, and contract.
      * @return ?CheckoutLegalConfig
      */
     public function getLegal(): ?CheckoutLegalConfig { return $this->get('legal'); }
     public function hasLegal(): bool { return $this->has('legal'); }
-    /** The merchant's square icon, shown in browser tabs and compact headers. Returned by `GET /v1/checkout-sessions/{checkout_session_id}` when the merchant has one; other responses and webhooks omit it. An image with its `url`, `width`, and `height`, and optional `alt` text.
+    /** The merchant's square icon, shown in browser tabs and compact headers. Returned by `GET /v1/checkout-sessions/{checkout_session_id}` when the merchant has one; other responses and webhooks omit it. An image with its URL, size, and alt text.
      * @return ?Image
      */
     public function getMerchantIcon(): ?Image { return $this->get('merchant_icon'); }
     public function hasMerchantIcon(): bool { return $this->has('merchant_icon'); }
-    /** merchant_id
-     * @return ?string
+    /** ID of the merchant this resource belongs to.
+     * @return string
      */
-    public function getMerchantId(): ?string { return $this->get('merchant_id'); }
+    public function getMerchantId(): string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** The merchant's logo. Returned by `GET /v1/checkout-sessions/{checkout_session_id}` when the merchant has one; other responses and webhooks omit it. An image with its `url`, `width`, and `height`, and optional `alt` text.
+    /** The merchant's logo. Returned by `GET /v1/checkout-sessions/{checkout_session_id}` when the merchant has one; other responses and webhooks omit it. An image with its URL, size, and alt text.
      * @return ?Image
      */
     public function getMerchantLogo(): ?Image { return $this->get('merchant_logo'); }
@@ -216,7 +223,7 @@ final class CheckoutSessionPaidInstalledMerchantsEventDataObject extends Model {
      */
     public function getMerchantSupport(): ?CheckoutMerchantSupport { return $this->get('merchant_support'); }
     public function hasMerchantSupport(): bool { return $this->has('merchant_support'); }
-    /** Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
+    /** Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      * @return ?array<array-key, string>
      */
     public function getMetadata(): ?array { return $this->get('metadata'); }
@@ -226,7 +233,7 @@ final class CheckoutSessionPaidInstalledMerchantsEventDataObject extends Model {
      */
     public function getOrder(): ExpandedOrderSummary|null { return $this->get('order'); }
     public function hasOrder(): bool { return $this->has('order'); }
-    /** order_id
+    /** ID of the order the session collects payment for, fixed at creation. Absent when the session has no order.
      * @return ?string
      */
     public function getOrderId(): ?string { return $this->get('order_id'); }
@@ -241,12 +248,12 @@ final class CheckoutSessionPaidInstalledMerchantsEventDataObject extends Model {
      */
     public function getPaymentCollection(): ?PaymentCollection { return $this->get('payment_collection'); }
     public function hasPaymentCollection(): bool { return $this->has('payment_collection'); }
-    /**  [] (Value): string.
+    /** IDs of the payment intents for the session's order. Absent when the order has none. [] (Value): string.
      * @return ?list<string>
      */
     public function getPaymentIntentIds(): ?array { return $this->get('payment_intent_ids'); }
     public function hasPaymentIntentIds(): bool { return $this->has('payment_intent_ids'); }
-    /**  [] (Value): {@see ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status, and capture method, returned when the payment intent is expanded.
+    /** Present only when `expand` includes `payment_intents`: summaries of the payment intents in `payment_intent_ids`. [] (Value): {@see ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status, and capture method, returned when the payment intent is expanded.
      * @return ?list<ExpandedPaymentIntentSummary>
      */
     public function getPaymentIntents(): ?array { return $this->get('payment_intents'); }
@@ -256,12 +263,12 @@ final class CheckoutSessionPaidInstalledMerchantsEventDataObject extends Model {
      */
     public function getPaymentLink(): ExpandedPaymentLinkSummary|null { return $this->get('payment_link'); }
     public function hasPaymentLink(): bool { return $this->has('payment_link'); }
-    /** payment_link_id
+    /** ID of the payment link the session was started from. Absent when it was not started from a payment link.
      * @return ?string
      */
     public function getPaymentLinkId(): ?string { return $this->get('payment_link_id'); }
     public function hasPaymentLinkId(): bool { return $this->has('payment_link_id'); }
-    /** The current image of the payment link that opened this session. Returned by `GET /v1/checkout-sessions/{checkout_session_id}` when that link has an image; other responses and webhooks omit it. An image with its `url`, `width`, and `height`, and optional `alt` text.
+    /** The current image of the payment link that opened this session. Returned by `GET /v1/checkout-sessions/{checkout_session_id}` when that link has an image; other responses and webhooks omit it. An image with its URL, size, and alt text.
      * @return ?Image
      */
     public function getPaymentLinkImage(): ?Image { return $this->get('payment_link_image'); }
@@ -291,12 +298,12 @@ final class CheckoutSessionPaidInstalledMerchantsEventDataObject extends Model {
      */
     public function getProblems(): array { return $this->get('problems'); }
     public function hasProblems(): bool { return $this->has('problems'); }
-    /** Promotion settings for a checkout: whether automatic promotions apply and whether the buyer can apply promotion codes.
+    /** Whether automatic promotions apply to this session and whether the buyer can enter promotion codes. Promotion settings for a checkout: whether automatic promotions apply and whether the buyer can apply promotion codes.
      * @return ?CheckoutPromotionConfig
      */
     public function getPromotionConfig(): ?CheckoutPromotionConfig { return $this->get('promotion_config'); }
     public function hasPromotionConfig(): bool { return $this->has('promotion_config'); }
-    /** RFC3339 deadline for the restricted payment-attempt recovery window. Format: date-time.
+    /** When the restricted payment-attempt recovery window ends. `null` when the session has no recovery window. Format: date-time.
      * @return string|null
      */
     public function getRecoveryExpiresAt(): string|null { return $this->get('recovery_expires_at'); }
@@ -331,12 +338,12 @@ final class CheckoutSessionPaidInstalledMerchantsEventDataObject extends Model {
      */
     public function getShowFlintMark(): ?bool { return $this->get('show_flint_mark'); }
     public function hasShowFlintMark(): bool { return $this->has('show_flint_mark'); }
-    /** Value enum: "open", "paid", "partially_paid", "expired", "closed", "invalidated".
+    /** Where the session is in its lifecycle. Only an `open` session accepts payment. `terminal_reason` says why a session that is not open ended. Value enum: "open", "paid", "partially_paid", "expired", "closed", "invalidated".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** subscription_plan_id
+    /** ID of the subscription plan a session of type `subscription_plan` signs the buyer up for. Absent for other types.
      * @return ?string
      */
     public function getSubscriptionPlanId(): ?string { return $this->get('subscription_plan_id'); }
@@ -346,12 +353,17 @@ final class CheckoutSessionPaidInstalledMerchantsEventDataObject extends Model {
      */
     public function getSubscriptionTerms(): ?CheckoutSubscriptionTerms { return $this->get('subscription_terms'); }
     public function hasSubscriptionTerms(): bool { return $this->has('subscription_terms'); }
-    /** superseding_checkout_session_id
+    /** ID of the session that replaced this one. Present when `terminal_reason` is `superseded`.
      * @return ?string
      */
     public function getSupersedingCheckoutSessionId(): ?string { return $this->get('superseding_checkout_session_id'); }
     public function hasSupersedingCheckoutSessionId(): bool { return $this->has('superseding_checkout_session_id'); }
-    /** Value enum: "hosted", "embedded".
+    /** Lifecycle actions Flint accepts now, computed from stored checkout state without checking the caller's permissions. Contains close while open; empty after payment, closure, or expiry. [] enum: "close". [] (Value): string.  Value enum: "close".
+     * @return list<string>
+     */
+    public function getSupportedActions(): array { return $this->get('supported_actions'); }
+    public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
+    /** How the session is presented to the buyer. A hosted session has a `url` on Flint's checkout page; an embedded one is rendered on your own page. Value enum: "hosted", "embedded".
      * @return string
      */
     public function getSurface(): string { return $this->get('surface'); }
@@ -361,7 +373,7 @@ final class CheckoutSessionPaidInstalledMerchantsEventDataObject extends Model {
      */
     public function getTax(): ?CheckoutSessionTax { return $this->get('tax'); }
     public function hasTax(): bool { return $this->has('tax'); }
-    /** Why the session ended. The checkout credential can still read its own closed or expired session; every other call returns CHECKOUT_SESSION_NOT_OPEN. order_paid_elsewhere applies only to invalidated sessions when payment succeeds or partially succeeds outside the session. order_mutated applies when an edit closes or completes its order, or ends an invoice, return-resolution, or subscription-plan session. Other merchant edits keep hosted and embedded sessions open. A session already past expires_at ends with expired before the edit is applied. Value enum: "payment_succeeded", "payment_partially_succeeded", "expired", "closed_by_merchant", "order_mutated", "superseded", "order_paid_elsewhere", "invoice_paid_elsewhere", "invoice_voided", "invoice_uncollectible", "invoice_balance_changed".
+    /** Why the session ended. The checkout credential can still read its own closed or expired session; every other call is refused because the session is not open. order_paid_elsewhere applies only to invalidated sessions when payment succeeds or partially succeeds outside the session. order_mutated applies when an edit closes or completes its order, or ends an invoice, return-resolution, or subscription-plan session. Other merchant edits keep hosted and embedded sessions open. A session already past expires_at ends with expired before the edit is applied. Value enum: "payment_succeeded", "payment_partially_succeeded", "expired", "closed_by_merchant", "order_mutated", "superseded", "order_paid_elsewhere", "invoice_paid_elsewhere", "invoice_voided", "invoice_uncollectible", "invoice_balance_changed".
      * @return ?string
      */
     public function getTerminalReason(): ?string { return $this->get('terminal_reason'); }
@@ -371,7 +383,7 @@ final class CheckoutSessionPaidInstalledMerchantsEventDataObject extends Model {
      */
     public function getTheme(): ?CheckoutTheme { return $this->get('theme'); }
     public function hasTheme(): bool { return $this->has('theme'); }
-    /** Tip settings for a checkout: whether tips are enabled, the percent or fixed amount options, the default tip, and custom tips.
+    /** The tip options this session offers the buyer. Tip settings for a checkout: whether tips are enabled, the percent or fixed amount options, the default tip, and custom tips.
      * @return ?CheckoutTipConfig
      */
     public function getTip(): ?CheckoutTipConfig { return $this->get('tip'); }
@@ -382,9 +394,9 @@ final class CheckoutSessionPaidInstalledMerchantsEventDataObject extends Model {
     public function getType(): string { return $this->get('type'); }
     public function hasType(): bool { return $this->has('type'); }
     /** RFC3339 timestamp. Format: date-time.
-     * @return ?string
+     * @return string
      */
-    public function getUpdatedAt(): ?string { return $this->get('updated_at'); }
+    public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
     /** Hosted checkout URL that carries a one-time launch credential. Send the buyer here to pay. Present only for hosted sessions read with a merchant credential that can manage checkout sessions. Launch results include it for hosted sessions: create, payment-link resolve, and invoice and return-resolution checkout. Omitted for embedded sessions.
      * @return ?string

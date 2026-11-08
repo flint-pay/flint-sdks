@@ -2,20 +2,20 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read string|\DateTimeInterface $due_at
+ * @property-read string $due_date
  * @property-read string $invoice_payment_term_id
  * @property-read string $type
  * Presence-aware input; omitted fields throw when accessed. */
 final class InvoicePaymentDueInputCustomerDefaultInput extends Model {
-    /** @param array{'due_at'?: string|\DateTimeInterface, 'invoice_payment_term_id'?: string, 'type': string}|object $values */
+    /** @param array{'due_date'?: string, 'invoice_payment_term_id'?: string, 'type': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoicePaymentDueInputCustomerDefaultInput')); }
-    /** When payment is due, as an RFC 3339 timestamp. Required with date and not accepted with any other type. Format: date-time. minLength: 1.
-     * @return string|\DateTimeInterface
-     * @throws SdkError When due_at is omitted; use hasDueAt() or valueOrDefault().
+    /** Calendar due date in YYYY-MM-DD format, interpreted in the invoice timezone (UTC when absent). Required with date and not accepted with any other type. The date must be today or later when creating or updating a draft. Format: date. minLength: 1. Example: "2026-08-02".
+     * @return string
+     * @throws SdkError When due_date is omitted; use hasDueDate() or valueOrDefault().
      */
-    public function getDueAt(): string|\DateTimeInterface { return $this->get('due_at'); }
-    public function hasDueAt(): bool { return $this->has('due_at'); }
-    /** The active payment term to apply. Required with payment_terms and not accepted with any other type. minLength: 1.
+    public function getDueDate(): string { return $this->get('due_date'); }
+    public function hasDueDate(): bool { return $this->has('due_date'); }
+    /** The active payment term to apply. Required with payment_terms and not accepted with any other type. minLength: 1. Example: "ipt_01KEZF7C0064N1V301BBMQ37R4".
      * @return string
      * @throws SdkError When invoice_payment_term_id is omitted; use hasInvoicePaymentTermId() or valueOrDefault().
      */

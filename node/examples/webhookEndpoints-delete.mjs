@@ -8,7 +8,7 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.webhookEndpoints.delete(
-  "whep_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "whep_01KEZF7C006FXYTAJRZCGCBJTN",
   {},
   { idempotencyKey: idempotencyKey },
 );

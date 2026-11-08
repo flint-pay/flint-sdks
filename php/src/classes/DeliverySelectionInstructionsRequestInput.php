@@ -8,7 +8,7 @@ namespace Flint;
 final class DeliverySelectionInstructionsRequestInput extends Model {
     /** @param array{'delivery_window_id'?: string, 'instructions'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliverySelectionInstructionsRequestInput')); }
-    /** minLength: 1.
+    /** minLength: 1. Example: "fwin_f3539d59e7d8e9ea803c681d0d155ecdce9de54aa27b90aec630cae8f086b31d".
      * @return string
      * @throws SdkError When delivery_window_id is omitted; use hasDeliveryWindowId() or valueOrDefault().
      */

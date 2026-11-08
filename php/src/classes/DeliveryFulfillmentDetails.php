@@ -100,7 +100,7 @@ final class DeliveryFulfillmentDetails extends Model {
      */
     public function getServiceAreaId(): ?string { return $this->get('service_area_id'); }
     public function hasServiceAreaId(): bool { return $this->has('service_area_id'); }
-    /** Timezone used to display the local delivery window.
+    /** Timezone used to display the local delivery window. Uses an IANA time zone name.
      * @return ?string
      */
     public function getTimezone(): ?string { return $this->get('timezone'); }

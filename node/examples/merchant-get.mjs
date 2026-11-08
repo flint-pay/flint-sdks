@@ -6,4 +6,4 @@ const client = new Client({
 });
 const result = await client.merchant.get();
 console.log(result.merchant_id);
-console.log(result.organization_id);
+console.log(result.readiness.payments.status);

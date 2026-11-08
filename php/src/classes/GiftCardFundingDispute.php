@@ -28,12 +28,12 @@ final class GiftCardFundingDispute extends Model {
      */
     public function getRequiresResolution(): bool { return $this->get('requires_resolution'); }
     public function hasRequiresResolution(): bool { return $this->has('requires_resolution'); }
-    /** The funding disposition recorded for this lost dispute. `null` until you create one. anyOf[1] (Value): {@see GiftCardFundingLossResolution}. How a lost funding dispute was resolved for a gift card load, such as honoring the card's value, with a reason message. anyOf[2] (Value): null.
+    /** The funding disposition recorded for this lost dispute. `null` when you have not created one yet. anyOf[1] (Value): {@see GiftCardFundingLossResolution}. How a lost funding dispute was resolved for a gift card load, such as honoring the card's value, with a reason message. anyOf[2] (Value): null.
      * @return GiftCardFundingLossResolution|null
      */
     public function getResolution(): GiftCardFundingLossResolution|null { return $this->get('resolution'); }
     public function hasResolution(): bool { return $this->has('resolution'); }
-    /** Value enum: "open", "won", "lost".
+    /** Where the dispute on the funding payment stands. Spending of the value it funded stays restricted while it is `open` or `lost`. Value enum: "open", "won", "lost".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
@@ -43,7 +43,7 @@ final class GiftCardFundingDispute extends Model {
      */
     public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** Format: int64.
+    /** Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. Format: int64.
      * @return int
      */
     public function getVersion(): int { return $this->get('version'); }

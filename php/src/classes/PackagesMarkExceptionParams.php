@@ -1,0 +1,55 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/**
+ * @property-read string $buyer_notification_behavior
+ * @property-read int $expected_version
+ * @property-read string|\DateTimeInterface $occurred_at
+ * @property-read string $reason_message
+ * Presence-aware input; omitted fields throw when accessed. */
+final class PackagesMarkExceptionParams extends Model {
+    /** @param array{'buyer_notification_behavior'?: string, 'expected_version'?: int, 'occurred_at'?: string|\DateTimeInterface, 'reason_message'?: string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PackagesMarkExceptionParams')); }
+    /** Whether to send or suppress the buyer notification for this action. Value enum: "send", "suppress".
+     * @return string
+     * @throws SdkError When buyer_notification_behavior is omitted; use hasBuyerNotificationBehavior() or valueOrDefault().
+     */
+    public function getBuyerNotificationBehavior(): string { return $this->get('buyer_notification_behavior'); }
+    public function hasBuyerNotificationBehavior(): bool { return $this->has('buyer_notification_behavior'); }
+    /** Resource version the caller last read. Format: uint64. minimum: 1.
+     * @return int
+     * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
+     */
+    public function getExpectedVersion(): int { return $this->get('expected_version'); }
+    public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
+    /** When the carrier scan or package action occurred, as an RFC 3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     * @return string|\DateTimeInterface
+     * @throws SdkError When occurred_at is omitted; use hasOccurredAt() or valueOrDefault().
+     */
+    public function getOccurredAt(): string|\DateTimeInterface { return $this->get('occurred_at'); }
+    public function hasOccurredAt(): bool { return $this->has('occurred_at'); }
+    /** Your note explaining this transition. minLength: 1. maxLength: 500.
+     * @return string
+     * @throws SdkError When reason_message is omitted; use hasReasonMessage() or valueOrDefault().
+     */
+    public function getReasonMessage(): string { return $this->get('reason_message'); }
+    public function hasReasonMessage(): bool { return $this->has('reason_message'); }
+    /** Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Merchant-Id is omitted; use hasFlintMerchantId() or valueOrDefault().
+     */
+    public function getFlintMerchantId(): string { return $this->get('Flint-Merchant-Id'); }
+    public function hasFlintMerchantId(): bool { return $this->has('Flint-Merchant-Id'); }
+    /** Mode of the request context, live or test. Optional; it must match the credential's mode. Value enum: "test", "live".
+     * @return string
+     * @throws SdkError When Flint-Mode is omitted; use hasFlintMode() or valueOrDefault().
+     */
+    public function getFlintMode(): string { return $this->get('Flint-Mode'); }
+    public function hasFlintMode(): bool { return $this->has('Flint-Mode'); }
+    /** Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Sandbox-Id is omitted; use hasFlintSandboxId() or valueOrDefault().
+     */
+    public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
+    public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
+}

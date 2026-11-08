@@ -8,7 +8,7 @@ namespace Flint;
 final class CreateTestClockRequestInput extends Model {
     /** @param array{'frozen_at'?: string|\DateTimeInterface, 'name'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateTestClockRequestInput')); }
-    /** The time the clock starts at. Defaults to now. It can be up to 5 years ahead, and no more than an hour behind now, to allow for clock skew on your side. Fractional seconds are truncated. Format: date-time. minLength: 1.
+    /** The time the clock starts at. Defaults to now. It can be up to 5 years ahead, and no more than an hour behind now, to allow for clock skew on your side. Fractional seconds are truncated. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When frozen_at is omitted; use hasFrozenAt() or valueOrDefault().
      */

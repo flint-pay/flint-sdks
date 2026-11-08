@@ -11,27 +11,27 @@ namespace Flint;
 final class GiftCardPurchaseRefundValueHold extends Model {
     /** @param array{'purchase_refund_allocation_id': string, 'refund_id': string, 'root_gift_card_id': string, 'root_gift_card_load_id': string, 'value_money': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardPurchaseRefundValueHold')); }
-    /** purchase_refund_allocation_id
+    /** ID of the pending purchase refund entry that holds the value.
      * @return string
      */
     public function getPurchaseRefundAllocationId(): string { return $this->get('purchase_refund_allocation_id'); }
     public function hasPurchaseRefundAllocationId(): bool { return $this->has('purchase_refund_allocation_id'); }
-    /** refund_id
+    /** ID of the pending refund that holds the value.
      * @return string
      */
     public function getRefundId(): string { return $this->get('refund_id'); }
     public function hasRefundId(): bool { return $this->has('refund_id'); }
-    /** root_gift_card_id
+    /** ID of the original card whose purchase is being refunded.
      * @return string
      */
     public function getRootGiftCardId(): string { return $this->get('root_gift_card_id'); }
     public function hasRootGiftCardId(): bool { return $this->has('root_gift_card_id'); }
-    /** root_gift_card_load_id
+    /** ID of the original funding load that is being refunded.
      * @return string
      */
     public function getRootGiftCardLoadId(): string { return $this->get('root_gift_card_load_id'); }
     public function hasRootGiftCardLoadId(): bool { return $this->has('root_gift_card_load_id'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** The unspent value held. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getValueMoney(): MoneyValue { return $this->get('value_money'); }

@@ -8,7 +8,7 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.creditNotes.issue(
-  "cn_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "cn_01KEZF7C00N1TRRCVDNY8S471H",
   undefined,
   { idempotencyKey: idempotencyKey },
 );

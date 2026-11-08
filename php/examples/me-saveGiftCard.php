@@ -20,8 +20,8 @@ $client = new Client(new ClientOptions(
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->me->saveGiftCard([
+  'code' => '0123456789AB1234',
   'credential_type' => 'code',
-  'code' => 'example',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->gift_card_id . PHP_EOL;
 echo $result->merchant_id . PHP_EOL;

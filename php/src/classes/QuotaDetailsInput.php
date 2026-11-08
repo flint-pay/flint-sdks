@@ -18,7 +18,7 @@ final class QuotaDetailsInput extends Model {
      */
     public function getLimitBytes(): int { return $this->get('limit_bytes'); }
     public function hasLimitBytes(): bool { return $this->has('limit_bytes'); }
-    /** RFC 3339 time when the next ready unattached image becomes eligible for cleanup, when known. Format: date-time.
+    /** RFC 3339 time when the next ready unattached image becomes eligible for cleanup, when known. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When next_expiration_at is omitted; use hasNextExpirationAt() or valueOrDefault().
      */

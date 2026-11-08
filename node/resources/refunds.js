@@ -5,9 +5,9 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/refunds.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import r0 from '../descriptors/resources/refunds.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import settings from '../descriptors/settings.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createRefund"]:r0,["getRefund"]:r0,["listRefunds"]:r0,["updateRefund"]:r0});
 export class Client {
@@ -15,7 +15,11 @@ export class Client {
 constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.refunds = Object.freeze({
-      create: async (params, options) => this.#runtime.request("createRefund", _sdkRequestInput([], [], [], true, true, params, [
+      create: async (params, options) => this.#runtime.request("createRefund", _sdkRequestInput([], [], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
@@ -23,7 +27,10 @@ this.refunds = Object.freeze({
       get: async (refund_id, params, options) => this.#runtime.request("getRefund", _sdkRequestInput([
   "refund_id"
 ], [refund_id], [
-  "expand"
+  "expand",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -41,6 +48,7 @@ this.refunds = Object.freeze({
   "max_amount",
   "currency",
   "external_reference_id",
+  "credit_note_id",
   "return_id",
   "return_resolution_id",
   "query",
@@ -50,7 +58,10 @@ this.refunds = Object.freeze({
   "created_before",
   "updated_after",
   "updated_before",
-  "expand"
+  "expand",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -68,6 +79,7 @@ this.refunds = Object.freeze({
   "max_amount",
   "currency",
   "external_reference_id",
+  "credit_note_id",
   "return_id",
   "return_resolution_id",
   "query",
@@ -77,7 +89,10 @@ this.refunds = Object.freeze({
   "created_before",
   "updated_after",
   "updated_before",
-  "expand"
+  "expand",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -95,6 +110,7 @@ this.refunds = Object.freeze({
   "max_amount",
   "currency",
   "external_reference_id",
+  "credit_note_id",
   "return_id",
   "return_resolution_id",
   "query",
@@ -104,14 +120,21 @@ this.refunds = Object.freeze({
   "created_before",
   "updated_after",
   "updated_before",
-  "expand"
+  "expand",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
 ]), options),
       update: async (refund_id, params, options) => this.#runtime.request("updateRefund", _sdkRequestInput([
   "refund_id"
-], [refund_id], [], true, true, params, [
+], [refund_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
@@ -123,6 +146,7 @@ close() { return this.#runtime.close(); }
 }
 export { makeCreateRefundRequest } from '../models/CreateRefundRequest.js';
 export { makeCreateRefundRequestAmount } from '../models/CreateRefundRequestAmount.js';
+export { makeCreateRefundRequestCreditNote } from '../models/CreateRefundRequestCreditNote.js';
 export { makeCreateRefundRequestFull } from '../models/CreateRefundRequestFull.js';
 export { makeCreateRefundRequestTargets } from '../models/CreateRefundRequestTargets.js';
 export { makeMetadataPatchRequest } from '../models/MetadataPatchRequest.js';

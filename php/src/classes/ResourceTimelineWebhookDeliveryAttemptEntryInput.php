@@ -27,55 +27,55 @@ namespace Flint;
 final class ResourceTimelineWebhookDeliveryAttemptEntryInput extends Model {
     /** @param array{'api_request_log_id'?: string, 'attempt_number': int, 'completed_at'?: string|\DateTimeInterface, 'delivery_trigger': string, 'duration_milliseconds'?: int, 'entry_type': string, 'error_category'?: string, 'error_summary'?: string, 'occurred_at': string|\DateTimeInterface, 'reason_message'?: string, 'recommended_action'?: string, 'request_id'?: string, 'resource_timeline_entry_id': string, 'retryable'?: bool, 'started_at'?: string|\DateTimeInterface, 'status': string, 'status_code'?: int, 'webhook_delivery_attempt_id': string, 'webhook_delivery_id': string, 'webhook_endpoint_id': string, 'webhook_event_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ResourceTimelineWebhookDeliveryAttemptEntryInput')); }
-    /** api_request_log_id
+    /** ID of the API request log associated with this attempt. Omitted when no request log is associated. Example: "rlog_01KEZF7C008XJCH6BHA224X46F".
      * @return string
      * @throws SdkError When api_request_log_id is omitted; use hasApiRequestLogId() or valueOrDefault().
      */
     public function getApiRequestLogId(): string { return $this->get('api_request_log_id'); }
     public function hasApiRequestLogId(): bool { return $this->has('api_request_log_id'); }
-    /** Format: int32.
+    /** Which attempt this is for the delivery, starting at 1. Format: int32.
      * @return int
      * @throws SdkError When attempt_number is omitted; use hasAttemptNumber() or valueOrDefault().
      */
     public function getAttemptNumber(): int { return $this->get('attempt_number'); }
     public function hasAttemptNumber(): bool { return $this->has('attempt_number'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When completed_at is omitted; use hasCompletedAt() or valueOrDefault().
      */
     public function getCompletedAt(): string|\DateTimeInterface { return $this->get('completed_at'); }
     public function hasCompletedAt(): bool { return $this->has('completed_at'); }
-    /** Value enum: "automatic_delivery", "automatic_retry", "manual_resend", "manual_delivery".
+    /** What caused this attempt. Value enum: "automatic_delivery", "automatic_retry", "manual_resend", "manual_delivery".
      * @return string
      * @throws SdkError When delivery_trigger is omitted; use hasDeliveryTrigger() or valueOrDefault().
      */
     public function getDeliveryTrigger(): string { return $this->get('delivery_trigger'); }
     public function hasDeliveryTrigger(): bool { return $this->has('delivery_trigger'); }
-    /** Format: int64.
+    /** How long the attempt took, in milliseconds. Format: int64.
      * @return int
      * @throws SdkError When duration_milliseconds is omitted; use hasDurationMilliseconds() or valueOrDefault().
      */
     public function getDurationMilliseconds(): int { return $this->get('duration_milliseconds'); }
     public function hasDurationMilliseconds(): bool { return $this->has('duration_milliseconds'); }
-    /** Value enum: "webhook_delivery_attempt".
+    /** Always `webhook_delivery_attempt` for this kind of entry. Value enum: "webhook_delivery_attempt".
      * @return string
      * @throws SdkError When entry_type is omitted; use hasEntryType() or valueOrDefault().
      */
     public function getEntryType(): string { return $this->get('entry_type'); }
     public function hasEntryType(): bool { return $this->has('entry_type'); }
-    /** The kind of failure on the most recent failed attempt. Absent before any attempt, and when delivered or suppressed. Value enum: "webhook_timeout", "webhook_dns", "webhook_tls", "webhook_connection", "webhook_blocked_target", "webhook_request", "webhook_redirect", "webhook_http_4xx", "webhook_http_5xx", "webhook_payload_render", "webhook_delivery".
+    /** The kind of failure for this attempt. Present only when this attempt's `status` is `failed`. Value enum: "webhook_timeout", "webhook_dns", "webhook_tls", "webhook_connection", "webhook_blocked_target", "webhook_request", "webhook_redirect", "webhook_http_4xx", "webhook_http_5xx", "webhook_payload_render", "webhook_delivery".
      * @return string
      * @throws SdkError When error_category is omitted; use hasErrorCategory() or valueOrDefault().
      */
     public function getErrorCategory(): string { return $this->get('error_category'); }
     public function hasErrorCategory(): bool { return $this->has('error_category'); }
-    /** A concise explanation of the failed attempt. Absent before any attempt, and when delivered or suppressed.
+    /** A concise explanation of the failure for this attempt. Present only when this attempt's `status` is `failed`.
      * @return string
      * @throws SdkError When error_summary is omitted; use hasErrorSummary() or valueOrDefault().
      */
     public function getErrorSummary(): string { return $this->get('error_summary'); }
     public function hasErrorSummary(): bool { return $this->has('error_summary'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When occurred_at is omitted; use hasOccurredAt() or valueOrDefault().
      */
@@ -87,7 +87,7 @@ final class ResourceTimelineWebhookDeliveryAttemptEntryInput extends Model {
      */
     public function getReasonMessage(): string { return $this->get('reason_message'); }
     public function hasReasonMessage(): bool { return $this->has('reason_message'); }
-    /** The next step to resolve the failed delivery attempt.
+    /** The next step to resolve this attempt's failure. Present only when this attempt's `status` is `failed`.
      * @return string
      * @throws SdkError When recommended_action is omitted; use hasRecommendedAction() or valueOrDefault().
      */
@@ -99,55 +99,55 @@ final class ResourceTimelineWebhookDeliveryAttemptEntryInput extends Model {
      */
     public function getRequestId(): string { return $this->get('request_id'); }
     public function hasRequestId(): bool { return $this->has('request_id'); }
-    /** resource_timeline_entry_id
+    /** ID of this timeline entry. Example: "watt_01KEZF7C00RG6XMCAFJB8HH55R".
      * @return string
      * @throws SdkError When resource_timeline_entry_id is omitted; use hasResourceTimelineEntryId() or valueOrDefault().
      */
     public function getResourceTimelineEntryId(): string { return $this->get('resource_timeline_entry_id'); }
     public function hasResourceTimelineEntryId(): bool { return $this->has('resource_timeline_entry_id'); }
-    /** Whether sending this delivery again without changing your endpoint is likely to succeed. While the delivery is pending, Flint retries automatically either way.
+    /** Whether sending this delivery again without changing your endpoint is likely to succeed. Present only when this attempt's `status` is `failed`. While the delivery is pending, Flint retries automatically either way.
      * @return bool
      * @throws SdkError When retryable is omitted; use hasRetryable() or valueOrDefault().
      */
     public function getRetryable(): bool { return $this->get('retryable'); }
     public function hasRetryable(): bool { return $this->has('retryable'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When started_at is omitted; use hasStartedAt() or valueOrDefault().
      */
     public function getStartedAt(): string|\DateTimeInterface { return $this->get('started_at'); }
     public function hasStartedAt(): bool { return $this->has('started_at'); }
-    /** Value enum: "delivered", "failed", "pending", "queued", "sending".
+    /** Outcome of this individual delivery attempt. Value enum: "pending", "delivered", "failed".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Format: int32.
+    /** HTTP status code the endpoint returned. Format: int32.
      * @return int
      * @throws SdkError When status_code is omitted; use hasStatusCode() or valueOrDefault().
      */
     public function getStatusCode(): int { return $this->get('status_code'); }
     public function hasStatusCode(): bool { return $this->has('status_code'); }
-    /** webhook_delivery_attempt_id
+    /** ID of the delivery attempt. Example: "watt_01KEZF7C00RG6XMCAFJB8HH55R".
      * @return string
      * @throws SdkError When webhook_delivery_attempt_id is omitted; use hasWebhookDeliveryAttemptId() or valueOrDefault().
      */
     public function getWebhookDeliveryAttemptId(): string { return $this->get('webhook_delivery_attempt_id'); }
     public function hasWebhookDeliveryAttemptId(): bool { return $this->has('webhook_delivery_attempt_id'); }
-    /** webhook_delivery_id
+    /** ID of the delivery the attempt belongs to. Example: "wdel_01KEZF7C001DWSNDCDZHCTBN0A".
      * @return string
      * @throws SdkError When webhook_delivery_id is omitted; use hasWebhookDeliveryId() or valueOrDefault().
      */
     public function getWebhookDeliveryId(): string { return $this->get('webhook_delivery_id'); }
     public function hasWebhookDeliveryId(): bool { return $this->has('webhook_delivery_id'); }
-    /** webhook_endpoint_id
+    /** ID of the endpoint the delivery goes to. Example: "whep_01KEZF7C006FXYTAJRZCGCBJTN".
      * @return string
      * @throws SdkError When webhook_endpoint_id is omitted; use hasWebhookEndpointId() or valueOrDefault().
      */
     public function getWebhookEndpointId(): string { return $this->get('webhook_endpoint_id'); }
     public function hasWebhookEndpointId(): bool { return $this->has('webhook_endpoint_id'); }
-    /** webhook_event_id
+    /** ID of the event being delivered. Example: "whev_01KEZF7C00362MS3HV970TRZGS".
      * @return string
      * @throws SdkError When webhook_event_id is omitted; use hasWebhookEventId() or valueOrDefault().
      */

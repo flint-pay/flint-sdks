@@ -11,13 +11,13 @@ namespace Flint;
 final class DeliveryInventoryReservationSummaryInput extends Model {
     /** @param array{'expires_at': string|\DateTimeInterface, 'inventory_reservation_id': string, 'owner_type': string, 'required_next_action'?: string, 'status': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryInventoryReservationSummaryInput')); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When expires_at is omitted; use hasExpiresAt() or valueOrDefault().
      */
     public function getExpiresAt(): string|\DateTimeInterface { return $this->get('expires_at'); }
     public function hasExpiresAt(): bool { return $this->has('expires_at'); }
-    /** inventory_reservation_id
+    /** Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
      * @return string
      * @throws SdkError When inventory_reservation_id is omitted; use hasInventoryReservationId() or valueOrDefault().
      */

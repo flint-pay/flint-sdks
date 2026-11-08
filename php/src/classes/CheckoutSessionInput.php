@@ -8,21 +8,22 @@ namespace Flint;
  * @property-read bool $can_save_payment_method
  * @property-read bool $can_save_payment_method_with_phone
  * @property-read string $checkout_session_id
+ * @property-read string|null $client_reference
  * @property-read string $closed_reason_message
  * @property-read string|\DateTimeInterface $created_at
+ * @property-read list<CustomFieldAnswerInput|array<array-key, mixed>|\stdClass> $custom_field_answers
  * @property-read CheckoutCustomTextConfigInput|array<array-key, mixed>|\stdClass $custom_text
  * @property-read array{'created_at'?: string|\DateTimeInterface, 'customer_id': string, 'email': string|null, 'name': string|null, 'phone': string|null, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null $customer
  * @property-read string $customer_id
  * @property-read CheckoutCustomerPrefillInput|array<array-key, mixed>|\stdClass $customer_prefill
  * @property-read CheckoutDerivedDeliveryResourceInput|array<array-key, mixed>|\stdClass $delivery
  * @property-read list<string> $delivery_method_ids
- * @property-read list<CheckoutDeliveryPinnedDependencyInput|array<array-key, mixed>|\stdClass> $delivery_pinned_dependencies
  * @property-read bool $delivery_selection_required
  * @property-read string|\DateTimeInterface $expires_at
  * @property-read int $expires_in_seconds
  * @property-read string $external_reference_id
  * @property-read CheckoutGiftCardChallengeInput|array<array-key, mixed>|\stdClass $gift_card_challenge
- * @property-read array{'collection_block_status'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'due_at'?: string|\DateTimeInterface, 'invoice_id': string, 'invoice_number'?: string, 'is_overdue': bool, 'order_id'?: string, 'outstanding_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'paid_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'refund_status'?: string, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'updated_at'?: string|\DateTimeInterface, ...}|object|null $invoice
+ * @property-read array{'collection_block_status'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'due_date'?: string, 'invoice_id': string, 'invoice_number'?: string, 'is_overdue': bool, 'order_id'?: string, 'outstanding_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'paid_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'refund_status'?: string, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'supported_actions': list<string>, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'updated_at'?: string|\DateTimeInterface, ...}|object|null $invoice
  * @property-read string $invoice_id
  * @property-read bool $is_in_recovery
  * @property-read CheckoutLegalConfigInput|array<array-key, mixed>|\stdClass $legal
@@ -32,7 +33,7 @@ namespace Flint;
  * @property-read string $merchant_name
  * @property-read CheckoutMerchantSupportInput|array<array-key, mixed>|\stdClass $merchant_support
  * @property-read MetadataMapInput|array<array-key, mixed>|\stdClass $metadata
- * @property-read array{'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': SettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null $order
+ * @property-read array{'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'deferred_promotions': list<DeferredPromotionInput|array<array-key, mixed>|\stdClass>, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'paid_at': string|\DateTimeInterface|null, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': OrderSettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'supported_actions': list<string>, 'updated_at'?: string|\DateTimeInterface, ...}|object|null $order
  * @property-read string $order_id
  * @property-read string $page_origin
  * @property-read PaymentCollectionInput|array<array-key, mixed>|\stdClass $payment_collection
@@ -58,6 +59,7 @@ namespace Flint;
  * @property-read string $subscription_plan_id
  * @property-read CheckoutSubscriptionTermsInput|array<array-key, mixed>|\stdClass $subscription_terms
  * @property-read string $superseding_checkout_session_id
+ * @property-read list<string> $supported_actions
  * @property-read string $surface
  * @property-read CheckoutSessionTaxInput|array<array-key, mixed>|\stdClass $tax
  * @property-read string $terminal_reason
@@ -69,7 +71,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class CheckoutSessionInput extends Model {
-    /** @param array{'active_payment_attempt'?: OrderPaymentAttemptInput|array<array-key, mixed>|\stdClass, 'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'buyer_fields'?: CheckoutBuyerFieldsInput|array<array-key, mixed>|\stdClass, 'can_save_payment_method'?: bool, 'can_save_payment_method_with_phone'?: bool, 'checkout_session_id': string, 'closed_reason_message'?: string, 'created_at'?: string|\DateTimeInterface, 'custom_text'?: CheckoutCustomTextConfigInput|array<array-key, mixed>|\stdClass, 'customer'?: array{'created_at'?: string|\DateTimeInterface, 'customer_id': string, 'email': string|null, 'name': string|null, 'phone': string|null, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'customer_id'?: string, 'customer_prefill'?: CheckoutCustomerPrefillInput|array<array-key, mixed>|\stdClass, 'delivery'?: CheckoutDerivedDeliveryResourceInput|array<array-key, mixed>|\stdClass, 'delivery_method_ids': list<string>, 'delivery_pinned_dependencies'?: list<CheckoutDeliveryPinnedDependencyInput|array<array-key, mixed>|\stdClass>, 'delivery_selection_required': bool, 'expires_at'?: string|\DateTimeInterface, 'expires_in_seconds'?: int, 'external_reference_id'?: string, 'gift_card_challenge'?: CheckoutGiftCardChallengeInput|array<array-key, mixed>|\stdClass, 'invoice'?: array{'collection_block_status'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'due_at'?: string|\DateTimeInterface, 'invoice_id': string, 'invoice_number'?: string, 'is_overdue': bool, 'order_id'?: string, 'outstanding_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'paid_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'refund_status'?: string, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'invoice_id'?: string, 'is_in_recovery': bool, 'legal'?: CheckoutLegalConfigInput|array<array-key, mixed>|\stdClass, 'merchant_icon'?: ImageInput|array<array-key, mixed>|\stdClass, 'merchant_id'?: string, 'merchant_logo'?: ImageInput|array<array-key, mixed>|\stdClass, 'merchant_name'?: string, 'merchant_support'?: CheckoutMerchantSupportInput|array<array-key, mixed>|\stdClass, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'order'?: array{'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': SettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'order_id'?: string, 'page_origin'?: string, 'payment_collection'?: PaymentCollectionInput|array<array-key, mixed>|\stdClass, 'payment_intent_ids'?: list<string>, 'payment_intents'?: list<ExpandedPaymentIntentSummaryInput|array<array-key, mixed>|\stdClass>, 'payment_link'?: array{'completed_count': int, 'created_at'?: string|\DateTimeInterface, 'description'?: string, 'name': string, 'payment_link_id': string, 'payment_link_type'?: string, 'status': string, 'subscription_plan_id'?: string, 'updated_at'?: string|\DateTimeInterface, 'url'?: string, ...}|object|null, 'payment_link_id'?: string, 'payment_link_image'?: ImageInput|array<array-key, mixed>|\stdClass, 'payment_method_save'?: CheckoutPaymentMethodSaveInput|array<array-key, mixed>|\stdClass, 'payment_return_url'?: string, 'payments'?: CheckoutPaymentConfigInput|array<array-key, mixed>|\stdClass, 'prefill'?: CheckoutPrefillInput|array<array-key, mixed>|\stdClass, 'problems': list<CheckoutProblemResourceInput|array<array-key, mixed>|\stdClass>, 'promotion_config'?: CheckoutPromotionConfigInput|array<array-key, mixed>|\stdClass, 'recovery_expires_at'?: string|\DateTimeInterface|null, 'recovery_payment_attempt_id'?: string, 'redirects'?: CheckoutRedirectsInput|array<array-key, mixed>|\stdClass, 'save_payment_method_requires_verification'?: bool, 'save_payment_method_types'?: list<string>, 'setup_collection'?: PaymentCollectionInput|array<array-key, mixed>|\stdClass, 'show_flint_mark'?: bool, 'status': string, 'subscription_plan_id'?: string, 'subscription_terms'?: CheckoutSubscriptionTermsInput|array<array-key, mixed>|\stdClass, 'superseding_checkout_session_id'?: string, 'surface': string, 'tax'?: CheckoutSessionTaxInput|array<array-key, mixed>|\stdClass, 'terminal_reason'?: string, 'theme'?: CheckoutThemeInput|array<array-key, mixed>|\stdClass, 'tip'?: CheckoutTipConfigInput|array<array-key, mixed>|\stdClass, 'type': string, 'updated_at'?: string|\DateTimeInterface, 'url'?: string, 'version': int, ...}|object $values */
+    /** @param array{'active_payment_attempt'?: OrderPaymentAttemptInput|array<array-key, mixed>|\stdClass, 'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'buyer_fields'?: CheckoutBuyerFieldsInput|array<array-key, mixed>|\stdClass, 'can_save_payment_method'?: bool, 'can_save_payment_method_with_phone'?: bool, 'checkout_session_id': string, 'client_reference': string|null, 'closed_reason_message'?: string, 'created_at': string|\DateTimeInterface, 'custom_field_answers': list<CustomFieldAnswerInput|array<array-key, mixed>|\stdClass>, 'custom_text'?: CheckoutCustomTextConfigInput|array<array-key, mixed>|\stdClass, 'customer'?: array{'created_at'?: string|\DateTimeInterface, 'customer_id': string, 'email': string|null, 'name': string|null, 'phone': string|null, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'customer_id'?: string, 'customer_prefill'?: CheckoutCustomerPrefillInput|array<array-key, mixed>|\stdClass, 'delivery'?: CheckoutDerivedDeliveryResourceInput|array<array-key, mixed>|\stdClass, 'delivery_method_ids': list<string>, 'delivery_selection_required': bool, 'expires_at'?: string|\DateTimeInterface, 'expires_in_seconds'?: int, 'external_reference_id'?: string, 'gift_card_challenge'?: CheckoutGiftCardChallengeInput|array<array-key, mixed>|\stdClass, 'invoice'?: array{'collection_block_status'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'due_date'?: string, 'invoice_id': string, 'invoice_number'?: string, 'is_overdue': bool, 'order_id'?: string, 'outstanding_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'paid_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'refund_status'?: string, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'supported_actions': list<string>, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'invoice_id'?: string, 'is_in_recovery': bool, 'legal'?: CheckoutLegalConfigInput|array<array-key, mixed>|\stdClass, 'merchant_icon'?: ImageInput|array<array-key, mixed>|\stdClass, 'merchant_id': string, 'merchant_logo'?: ImageInput|array<array-key, mixed>|\stdClass, 'merchant_name'?: string, 'merchant_support'?: CheckoutMerchantSupportInput|array<array-key, mixed>|\stdClass, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'order'?: array{'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'deferred_promotions': list<DeferredPromotionInput|array<array-key, mixed>|\stdClass>, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'paid_at': string|\DateTimeInterface|null, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': OrderSettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'supported_actions': list<string>, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'order_id'?: string, 'page_origin'?: string, 'payment_collection'?: PaymentCollectionInput|array<array-key, mixed>|\stdClass, 'payment_intent_ids'?: list<string>, 'payment_intents'?: list<ExpandedPaymentIntentSummaryInput|array<array-key, mixed>|\stdClass>, 'payment_link'?: array{'completed_count': int, 'created_at'?: string|\DateTimeInterface, 'description'?: string, 'name': string, 'payment_link_id': string, 'payment_link_type'?: string, 'status': string, 'subscription_plan_id'?: string, 'updated_at'?: string|\DateTimeInterface, 'url'?: string, ...}|object|null, 'payment_link_id'?: string, 'payment_link_image'?: ImageInput|array<array-key, mixed>|\stdClass, 'payment_method_save'?: CheckoutPaymentMethodSaveInput|array<array-key, mixed>|\stdClass, 'payment_return_url'?: string, 'payments'?: CheckoutPaymentConfigInput|array<array-key, mixed>|\stdClass, 'prefill'?: CheckoutPrefillInput|array<array-key, mixed>|\stdClass, 'problems': list<CheckoutProblemResourceInput|array<array-key, mixed>|\stdClass>, 'promotion_config'?: CheckoutPromotionConfigInput|array<array-key, mixed>|\stdClass, 'recovery_expires_at'?: string|\DateTimeInterface|null, 'recovery_payment_attempt_id'?: string, 'redirects'?: CheckoutRedirectsInput|array<array-key, mixed>|\stdClass, 'save_payment_method_requires_verification'?: bool, 'save_payment_method_types'?: list<string>, 'setup_collection'?: PaymentCollectionInput|array<array-key, mixed>|\stdClass, 'show_flint_mark'?: bool, 'status': string, 'subscription_plan_id'?: string, 'subscription_terms'?: CheckoutSubscriptionTermsInput|array<array-key, mixed>|\stdClass, 'superseding_checkout_session_id'?: string, 'supported_actions': list<string>, 'surface': string, 'tax'?: CheckoutSessionTaxInput|array<array-key, mixed>|\stdClass, 'terminal_reason'?: string, 'theme'?: CheckoutThemeInput|array<array-key, mixed>|\stdClass, 'tip'?: CheckoutTipConfigInput|array<array-key, mixed>|\stdClass, 'type': string, 'updated_at': string|\DateTimeInterface, 'url'?: string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutSessionInput')); }
     /** An attempt to pay an order.
      * @return OrderPaymentAttemptInput|array<array-key, mixed>|\stdClass
@@ -101,25 +103,37 @@ final class CheckoutSessionInput extends Model {
      */
     public function getCanSavePaymentMethodWithPhone(): bool { return $this->get('can_save_payment_method_with_phone'); }
     public function hasCanSavePaymentMethodWithPhone(): bool { return $this->has('can_save_payment_method_with_phone'); }
-    /** checkout_session_id
+    /** Unique identifier for this checkout session, prefixed `cs_`. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
      * @return string
      * @throws SdkError When checkout_session_id is omitted; use hasCheckoutSessionId() or valueOrDefault().
      */
     public function getCheckoutSessionId(): string { return $this->get('checkout_session_id'); }
     public function hasCheckoutSessionId(): bool { return $this->has('checkout_session_id'); }
+    /** The reference the payment link URL or resolve request carried, such as your user ID. `null` when none was sent or checkout did not start from a payment link. Returned only to merchant credentials; omitted for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof of identity. minLength: 1. maxLength: 255.
+     * @return string|null
+     * @throws SdkError When client_reference is omitted; use hasClientReference() or valueOrDefault().
+     */
+    public function getClientReference(): string|null { return $this->get('client_reference'); }
+    public function hasClientReference(): bool { return $this->has('client_reference'); }
     /** The note supplied when the checkout session was closed.
      * @return string
      * @throws SdkError When closed_reason_message is omitted; use hasClosedReasonMessage() or valueOrDefault().
      */
     public function getClosedReasonMessage(): string { return $this->get('closed_reason_message'); }
     public function hasClosedReasonMessage(): bool { return $this->has('closed_reason_message'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Custom text shown in checkout: an order summary message and a shipping address label.
+    /** The buyer's answers to the payment link's custom fields, the same as the `custom_field_answers` of the session's order. Read-only. Empty when the session didn't start from a payment link, the buyer answered no custom fields, or the order was created before Flint recorded answers here. Returned only to merchant credentials; omitted for buyer credentials. maxItems: 20. [] (Value): {@see CustomFieldAnswerInput}. One answer to a payment link custom field, with the field as it was when checkout started. `custom_field_type` determines the type of `value`.
+     * @return list<CustomFieldAnswerInput|array<array-key, mixed>|\stdClass>
+     * @throws SdkError When custom_field_answers is omitted; use hasCustomFieldAnswers() or valueOrDefault().
+     */
+    public function getCustomFieldAnswers(): array { return $this->get('custom_field_answers'); }
+    public function hasCustomFieldAnswers(): bool { return $this->has('custom_field_answers'); }
+    /** The custom text this session shows in checkout. Custom text shown in checkout: an order summary message and a shipping address label.
      * @return CheckoutCustomTextConfigInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When custom_text is omitted; use hasCustomText() or valueOrDefault().
      */
@@ -131,7 +145,7 @@ final class CheckoutSessionInput extends Model {
      */
     public function getCustomer(): mixed { return $this->get('customer'); }
     public function hasCustomer(): bool { return $this->has('customer'); }
-    /** The customer of the session's order. Omitted when the order has none. A checkout credential issued for this session acts for this customer. Add expand=customer to include the customer.
+    /** The customer of the session's order. Omitted when the order has none. A checkout credential issued for this session acts for this customer. Add expand=customer to include the customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */
@@ -149,25 +163,19 @@ final class CheckoutSessionInput extends Model {
      */
     public function getDelivery(): mixed { return $this->get('delivery'); }
     public function hasDelivery(): bool { return $this->has('delivery'); }
-    /** Immutable delivery method assignment captured when the checkout was created. [] (Value): string.
+    /** Immutable delivery method assignment captured when the checkout was created. [] (Value): string. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
      * @return list<string>
      * @throws SdkError When delivery_method_ids is omitted; use hasDeliveryMethodIds() or valueOrDefault().
      */
     public function getDeliveryMethodIds(): array { return $this->get('delivery_method_ids'); }
     public function hasDeliveryMethodIds(): bool { return $this->has('delivery_method_ids'); }
-    /** Immutable configuration lineage used to evaluate delivery quotes. [] (Value): {@see CheckoutDeliveryPinnedDependencyInput}. A delivery dependency pinned to a checkout, such as the assigned method, eligibility, or pricing callback, with the revision it was pinned at.
-     * @return list<CheckoutDeliveryPinnedDependencyInput|array<array-key, mixed>|\stdClass>
-     * @throws SdkError When delivery_pinned_dependencies is omitted; use hasDeliveryPinnedDependencies() or valueOrDefault().
-     */
-    public function getDeliveryPinnedDependencies(): array { return $this->get('delivery_pinned_dependencies'); }
-    public function hasDeliveryPinnedDependencies(): bool { return $this->has('delivery_pinned_dependencies'); }
     /** Whether the order has at least one remaining quote-resolved fulfillment choice that must be selected before payment.
      * @return bool
      * @throws SdkError When delivery_selection_required is omitted; use hasDeliverySelectionRequired() or valueOrDefault().
      */
     public function getDeliverySelectionRequired(): bool { return $this->get('delivery_selection_required'); }
     public function hasDeliverySelectionRequired(): bool { return $this->has('delivery_selection_required'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When expires_at is omitted; use hasExpiresAt() or valueOrDefault().
      */
@@ -179,7 +187,7 @@ final class CheckoutSessionInput extends Model {
      */
     public function getExpiresInSeconds(): int { return $this->get('expires_in_seconds'); }
     public function hasExpiresInSeconds(): bool { return $this->has('expires_in_seconds'); }
-    /** Caller-owned identifier for this resource in an external system. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -192,12 +200,12 @@ final class CheckoutSessionInput extends Model {
     public function getGiftCardChallenge(): mixed { return $this->get('gift_card_challenge'); }
     public function hasGiftCardChallenge(): bool { return $this->has('gift_card_challenge'); }
     /** Present only when `expand` includes `invoice`; `null` when expanded and there is no related invoice. anyOf[1] (Value): {@see ExpandedInvoiceSummaryInput}. An invoice's summary fields, including status, due date, and paid, outstanding, and refunded amounts, returned when the invoice is expanded. anyOf[2] (Value): null.
-     * @return array{'collection_block_status'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'due_at'?: string|\DateTimeInterface, 'invoice_id': string, 'invoice_number'?: string, 'is_overdue': bool, 'order_id'?: string, 'outstanding_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'paid_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'refund_status'?: string, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'updated_at'?: string|\DateTimeInterface, ...}|object|null
+     * @return array{'collection_block_status'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'due_date'?: string, 'invoice_id': string, 'invoice_number'?: string, 'is_overdue': bool, 'order_id'?: string, 'outstanding_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'paid_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'refund_status'?: string, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'supported_actions': list<string>, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'updated_at'?: string|\DateTimeInterface, ...}|object|null
      * @throws SdkError When invoice is omitted; use hasInvoice() or valueOrDefault().
      */
     public function getInvoice(): mixed { return $this->get('invoice'); }
     public function hasInvoice(): bool { return $this->has('invoice'); }
-    /** invoice_id
+    /** ID of the invoice a session of type `invoice` collects payment for. Absent for other types. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
      * @return string
      * @throws SdkError When invoice_id is omitted; use hasInvoiceId() or valueOrDefault().
      */
@@ -209,25 +217,25 @@ final class CheckoutSessionInput extends Model {
      */
     public function getIsInRecovery(): bool { return $this->get('is_in_recovery'); }
     public function hasIsInRecovery(): bool { return $this->has('is_in_recovery'); }
-    /** Legal settings for a checkout: whether buyers must accept terms, and links to the terms, refund policy, shipping policy, and contract.
+    /** The terms and policy links this session shows the buyer, and whether the buyer must accept the terms. Legal settings for a checkout: whether buyers must accept terms, and links to the terms, refund policy, shipping policy, and contract.
      * @return CheckoutLegalConfigInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When legal is omitted; use hasLegal() or valueOrDefault().
      */
     public function getLegal(): mixed { return $this->get('legal'); }
     public function hasLegal(): bool { return $this->has('legal'); }
-    /** The merchant's square icon, shown in browser tabs and compact headers. Returned by `GET /v1/checkout-sessions/{checkout_session_id}` when the merchant has one; other responses and webhooks omit it. An image with its `url`, `width`, and `height`, and optional `alt` text.
+    /** The merchant's square icon, shown in browser tabs and compact headers. Returned by `GET /v1/checkout-sessions/{checkout_session_id}` when the merchant has one; other responses and webhooks omit it. An image with its URL, size, and alt text.
      * @return ImageInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When merchant_icon is omitted; use hasMerchantIcon() or valueOrDefault().
      */
     public function getMerchantIcon(): mixed { return $this->get('merchant_icon'); }
     public function hasMerchantIcon(): bool { return $this->has('merchant_icon'); }
-    /** merchant_id
+    /** ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
      * @return string
      * @throws SdkError When merchant_id is omitted; use hasMerchantId() or valueOrDefault().
      */
     public function getMerchantId(): string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** The merchant's logo. Returned by `GET /v1/checkout-sessions/{checkout_session_id}` when the merchant has one; other responses and webhooks omit it. An image with its `url`, `width`, and `height`, and optional `alt` text.
+    /** The merchant's logo. Returned by `GET /v1/checkout-sessions/{checkout_session_id}` when the merchant has one; other responses and webhooks omit it. An image with its URL, size, and alt text.
      * @return ImageInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When merchant_logo is omitted; use hasMerchantLogo() or valueOrDefault().
      */
@@ -245,19 +253,19 @@ final class CheckoutSessionInput extends Model {
      */
     public function getMerchantSupport(): mixed { return $this->get('merchant_support'); }
     public function hasMerchantSupport(): bool { return $this->has('merchant_support'); }
-    /** Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
+    /** Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      * @return MetadataMapInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1] (Value): {@see ExpandedOrderSummaryInput}. An order's summary fields, including status, payment and refund status, and pricing and settlement amounts, returned when the order is expanded. anyOf[2] (Value): null.
-     * @return array{'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': SettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null
+     * @return array{'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'deferred_promotions': list<DeferredPromotionInput|array<array-key, mixed>|\stdClass>, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'paid_at': string|\DateTimeInterface|null, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': OrderSettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'supported_actions': list<string>, 'updated_at'?: string|\DateTimeInterface, ...}|object|null
      * @throws SdkError When order is omitted; use hasOrder() or valueOrDefault().
      */
     public function getOrder(): mixed { return $this->get('order'); }
     public function hasOrder(): bool { return $this->has('order'); }
-    /** order_id
+    /** ID of the order the session collects payment for, fixed at creation. Absent when the session has no order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */
@@ -275,13 +283,13 @@ final class CheckoutSessionInput extends Model {
      */
     public function getPaymentCollection(): mixed { return $this->get('payment_collection'); }
     public function hasPaymentCollection(): bool { return $this->has('payment_collection'); }
-    /**  [] (Value): string.
+    /** IDs of the payment intents for the session's order. Absent when the order has none. [] (Value): string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
      * @return list<string>
      * @throws SdkError When payment_intent_ids is omitted; use hasPaymentIntentIds() or valueOrDefault().
      */
     public function getPaymentIntentIds(): array { return $this->get('payment_intent_ids'); }
     public function hasPaymentIntentIds(): bool { return $this->has('payment_intent_ids'); }
-    /**  [] (Value): {@see ExpandedPaymentIntentSummaryInput}. A payment intent's summary fields, including amount, status, and capture method, returned when the payment intent is expanded.
+    /** Present only when `expand` includes `payment_intents`: summaries of the payment intents in `payment_intent_ids`. [] (Value): {@see ExpandedPaymentIntentSummaryInput}. A payment intent's summary fields, including amount, status, and capture method, returned when the payment intent is expanded.
      * @return list<ExpandedPaymentIntentSummaryInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When payment_intents is omitted; use hasPaymentIntents() or valueOrDefault().
      */
@@ -293,13 +301,13 @@ final class CheckoutSessionInput extends Model {
      */
     public function getPaymentLink(): mixed { return $this->get('payment_link'); }
     public function hasPaymentLink(): bool { return $this->has('payment_link'); }
-    /** payment_link_id
+    /** ID of the payment link the session was started from. Absent when it was not started from a payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
      * @return string
      * @throws SdkError When payment_link_id is omitted; use hasPaymentLinkId() or valueOrDefault().
      */
     public function getPaymentLinkId(): string { return $this->get('payment_link_id'); }
     public function hasPaymentLinkId(): bool { return $this->has('payment_link_id'); }
-    /** The current image of the payment link that opened this session. Returned by `GET /v1/checkout-sessions/{checkout_session_id}` when that link has an image; other responses and webhooks omit it. An image with its `url`, `width`, and `height`, and optional `alt` text.
+    /** The current image of the payment link that opened this session. Returned by `GET /v1/checkout-sessions/{checkout_session_id}` when that link has an image; other responses and webhooks omit it. An image with its URL, size, and alt text.
      * @return ImageInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When payment_link_image is omitted; use hasPaymentLinkImage() or valueOrDefault().
      */
@@ -311,7 +319,7 @@ final class CheckoutSessionInput extends Model {
      */
     public function getPaymentMethodSave(): mixed { return $this->get('payment_method_save'); }
     public function hasPaymentMethodSave(): bool { return $this->has('payment_method_save'); }
-    /** Embedded sessions only. Absolute HTTPS URL on your site where Flint sends the buyer after a redirect payment such as Affirm, whatever the outcome; read the session there to show the result. Required when the session offers affirm. It can't contain credentials, a query string, or a fragment. Test mode also accepts http loopback URLs. Up to 2,048 characters. Format: uri. maxLength: 2048.
+    /** Embedded sessions only. Absolute HTTPS URL on your site where Flint sends the buyer after a redirect payment such as Affirm, whatever the outcome; read the session there to show the result. Required when the session offers affirm. It can't contain credentials, a query string, or a fragment. Test mode also accepts http loopback URLs. Up to 2,048 characters. Format: uri. maxLength: 2048. Example: "https://example.com/receipt".
      * @return string
      * @throws SdkError When payment_return_url is omitted; use hasPaymentReturnUrl() or valueOrDefault().
      */
@@ -335,19 +343,19 @@ final class CheckoutSessionInput extends Model {
      */
     public function getProblems(): array { return $this->get('problems'); }
     public function hasProblems(): bool { return $this->has('problems'); }
-    /** Promotion settings for a checkout: whether automatic promotions apply and whether the buyer can apply promotion codes.
+    /** Whether automatic promotions apply to this session and whether the buyer can enter promotion codes. Promotion settings for a checkout: whether automatic promotions apply and whether the buyer can apply promotion codes.
      * @return CheckoutPromotionConfigInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When promotion_config is omitted; use hasPromotionConfig() or valueOrDefault().
      */
     public function getPromotionConfig(): mixed { return $this->get('promotion_config'); }
     public function hasPromotionConfig(): bool { return $this->has('promotion_config'); }
-    /** RFC3339 deadline for the restricted payment-attempt recovery window. Format: date-time.
+    /** When the restricted payment-attempt recovery window ends. `null` when the session has no recovery window. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface|null
      * @throws SdkError When recovery_expires_at is omitted; use hasRecoveryExpiresAt() or valueOrDefault().
      */
     public function getRecoveryExpiresAt(): string|\DateTimeInterface|null { return $this->get('recovery_expires_at'); }
     public function hasRecoveryExpiresAt(): bool { return $this->has('recovery_expires_at'); }
-    /** Payment attempt that this checkout credential may recover while is_in_recovery is true.
+    /** Payment attempt that this checkout credential may recover while is_in_recovery is true. Example: "opat_01KEZF7C00B5PW9F2R8A4YSH5D".
      * @return string
      * @throws SdkError When recovery_payment_attempt_id is omitted; use hasRecoveryPaymentAttemptId() or valueOrDefault().
      */
@@ -383,13 +391,13 @@ final class CheckoutSessionInput extends Model {
      */
     public function getShowFlintMark(): bool { return $this->get('show_flint_mark'); }
     public function hasShowFlintMark(): bool { return $this->has('show_flint_mark'); }
-    /** Value enum: "open", "paid", "partially_paid", "expired", "closed", "invalidated".
+    /** Where the session is in its lifecycle. Only an `open` session accepts payment. `terminal_reason` says why a session that is not open ended. Value enum: "open", "paid", "partially_paid", "expired", "closed", "invalidated".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** subscription_plan_id
+    /** ID of the subscription plan a session of type `subscription_plan` signs the buyer up for. Absent for other types. Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
      * @return string
      * @throws SdkError When subscription_plan_id is omitted; use hasSubscriptionPlanId() or valueOrDefault().
      */
@@ -401,13 +409,19 @@ final class CheckoutSessionInput extends Model {
      */
     public function getSubscriptionTerms(): mixed { return $this->get('subscription_terms'); }
     public function hasSubscriptionTerms(): bool { return $this->has('subscription_terms'); }
-    /** superseding_checkout_session_id
+    /** ID of the session that replaced this one. Present when `terminal_reason` is `superseded`. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
      * @return string
      * @throws SdkError When superseding_checkout_session_id is omitted; use hasSupersedingCheckoutSessionId() or valueOrDefault().
      */
     public function getSupersedingCheckoutSessionId(): string { return $this->get('superseding_checkout_session_id'); }
     public function hasSupersedingCheckoutSessionId(): bool { return $this->has('superseding_checkout_session_id'); }
-    /** Value enum: "hosted", "embedded".
+    /** Lifecycle actions Flint accepts now, computed from stored checkout state without checking the caller's permissions. Contains close while open; empty after payment, closure, or expiry. [] enum: "close". [] (Value): string.  Value enum: "close".
+     * @return list<string>
+     * @throws SdkError When supported_actions is omitted; use hasSupportedActions() or valueOrDefault().
+     */
+    public function getSupportedActions(): array { return $this->get('supported_actions'); }
+    public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
+    /** How the session is presented to the buyer. A hosted session has a `url` on Flint's checkout page; an embedded one is rendered on your own page. Value enum: "hosted", "embedded".
      * @return string
      * @throws SdkError When surface is omitted; use hasSurface() or valueOrDefault().
      */
@@ -419,7 +433,7 @@ final class CheckoutSessionInput extends Model {
      */
     public function getTax(): mixed { return $this->get('tax'); }
     public function hasTax(): bool { return $this->has('tax'); }
-    /** Why the session ended. The checkout credential can still read its own closed or expired session; every other call returns CHECKOUT_SESSION_NOT_OPEN. order_paid_elsewhere applies only to invalidated sessions when payment succeeds or partially succeeds outside the session. order_mutated applies when an edit closes or completes its order, or ends an invoice, return-resolution, or subscription-plan session. Other merchant edits keep hosted and embedded sessions open. A session already past expires_at ends with expired before the edit is applied. Value enum: "payment_succeeded", "payment_partially_succeeded", "expired", "closed_by_merchant", "order_mutated", "superseded", "order_paid_elsewhere", "invoice_paid_elsewhere", "invoice_voided", "invoice_uncollectible", "invoice_balance_changed".
+    /** Why the session ended. The checkout credential can still read its own closed or expired session; every other call is refused because the session is not open. order_paid_elsewhere applies only to invalidated sessions when payment succeeds or partially succeeds outside the session. order_mutated applies when an edit closes or completes its order, or ends an invoice, return-resolution, or subscription-plan session. Other merchant edits keep hosted and embedded sessions open. A session already past expires_at ends with expired before the edit is applied. Value enum: "payment_succeeded", "payment_partially_succeeded", "expired", "closed_by_merchant", "order_mutated", "superseded", "order_paid_elsewhere", "invoice_paid_elsewhere", "invoice_voided", "invoice_uncollectible", "invoice_balance_changed".
      * @return string
      * @throws SdkError When terminal_reason is omitted; use hasTerminalReason() or valueOrDefault().
      */
@@ -431,7 +445,7 @@ final class CheckoutSessionInput extends Model {
      */
     public function getTheme(): mixed { return $this->get('theme'); }
     public function hasTheme(): bool { return $this->has('theme'); }
-    /** Tip settings for a checkout: whether tips are enabled, the percent or fixed amount options, the default tip, and custom tips.
+    /** The tip options this session offers the buyer. Tip settings for a checkout: whether tips are enabled, the percent or fixed amount options, the default tip, and custom tips.
      * @return CheckoutTipConfigInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When tip is omitted; use hasTip() or valueOrDefault().
      */
@@ -443,7 +457,7 @@ final class CheckoutSessionInput extends Model {
      */
     public function getType(): string { return $this->get('type'); }
     public function hasType(): bool { return $this->has('type'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */

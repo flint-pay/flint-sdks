@@ -1,1 +1,1 @@
-{"shared":"UpdateInventoryCountRequest","dependencies":["InventoryCountObservationRequest","InventorySourceSystemRequest","SharedCodec230","SharedCodec231","SharedCodec232","SharedCodec233","SharedCodec628","SharedCodec629","SharedCodec630","UpdateInventoryCountRequest"]}
+{"shared":"UpdateInventoryCountRequest","dependencies":["InventoryCountObservationRequest","InventorySourceSystemRequest","SharedCodec267","SharedCodec268","SharedCodec269","SharedCodec270","SharedCodec732","SharedCodec733","SharedCodec734","UpdateInventoryCountRequest"]}

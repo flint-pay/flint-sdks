@@ -17,7 +17,8 @@ $client = new Client(new ClientOptions(
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->customerVerifications->create([
-  'customer_id' => 'cus_01ARZ3NDEKTSV4RRFFQ69G5FAV',
+  'channel' => 'email',
+  'customer_id' => 'cus_01KEZF7C003ACYXT6Q5EQZ78EE',
   'purpose' => 'link_guest_purchases',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->customer_id . PHP_EOL;

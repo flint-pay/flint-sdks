@@ -2,7 +2,9 @@
 
 ## DeliveryProfileActivatedMerchantEventDataObject
 
-Reusable delivery rules assigned to catalog items.
+The affected public resource without expansions, client authority fields, or fields computed for an individual caller.
+
+The resource snapshot, without expansions. Webhooks omit these fields: `diagnostics`.
 
 Response model.
 

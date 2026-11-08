@@ -40,17 +40,17 @@ final class CheckoutSettings extends Model {
      */
     public function getRecoveryEmail(): ?CheckoutRecoveryEmailSettings { return $this->get('recovery_email'); }
     public function hasRecoveryEmail(): bool { return $this->has('recovery_email'); }
-    /** require_billing_address
+    /** Whether hosted checkout requires the buyer's billing address before payment. A checkout session or payment link can override it with `buyer_fields`.
      * @return ?bool
      */
     public function getRequireBillingAddress(): ?bool { return $this->get('require_billing_address'); }
     public function hasRequireBillingAddress(): bool { return $this->has('require_billing_address'); }
-    /** require_email
+    /** Whether hosted checkout requires the buyer's email address before payment. A checkout session or payment link can override it with `buyer_fields`.
      * @return ?bool
      */
     public function getRequireEmail(): ?bool { return $this->get('require_email'); }
     public function hasRequireEmail(): bool { return $this->has('require_email'); }
-    /** require_phone
+    /** Whether hosted checkout requires the buyer's phone number before payment. A checkout session or payment link can override it with `buyer_fields`.
      * @return ?bool
      */
     public function getRequirePhone(): ?bool { return $this->get('require_phone'); }

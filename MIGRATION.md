@@ -15,6 +15,23 @@ What changed, most common first:
 - [Credentials](#credentials): a credential option passed empty throws instead of falling back to the environment.
 - [Type names](#type-names), [examples](#examples-and-the-default-host), [packaging](#packaging) and [API contract changes](#api-contract-changes-in-800).
 
+## Unreleased changes after 8.0.0-beta.2
+
+`main` pins Flint `main` at `a29702bf` (API date still `2026-09-07`). The API changes below already apply to every supported API version, so upgrade your calls with the SDK. Field-level request and response changes are listed in the [API changelog](https://developers.withflintpay.com/changelog).
+
+Partner apps:
+- Partner refresh tokens are gone. The code exchange returns a merchant-bound partner app token (900 seconds, no refresh token), and partner apps mint new tokens with `grant_type=client_credentials`. Mint them with `partnerAppTokens(client, { clientAssertion, mode }).forMerchant(merchantId)` (PHP `new Flint\Partner\PartnerAppTokens(...)`); see the [partner OAuth guide](node/guides/partner-oauth.md). `oauth.exchangeToken` with `grant_type=refresh_token` now returns `unauthorized_client` for partner clients; flint-cli keeps its refresh tokens.
+
+Removed methods:
+- `organizations.list`, `create`, `get`, `update`, `delete`, `listMemberships`, `grantMembership` and `removeMembership`: the API removed the public organizations routes.
+- `creditNotes.listRefunds` and `creditNotes.createRefund`: refund a credit note with `refunds.create` and `refund_type: "credit_note"`, and list its refunds with `refunds.list` and `credit_note_id`.
+- The `transition` methods on `fulfillments`, `giftCards`, `inventoryCounts`, `inventoryReservations`, `inventoryTransfers` and `packages`: each action is its own method, such as `fulfillments.accept`, `fulfillments.markPacked`, `giftCards.freeze`, `inventoryCounts.apply`, `inventoryReservations.commit`, `inventoryTransfers.receive` and `packages.markShipped`.
+- The old `deliveryRevocations.create` operation (`revokeDeliveryDependency`) is replaced by a new `deliveryRevocations.create` (`createDeliveryRevocation`) with its own request body.
+
+Moved methods:
+- `giftCards.createLoad(giftCardId, params)` becomes `giftCardLoads.create(params)`, with `gift_card_id` in the body.
+- `promotions.createCode`, `getCode`, `updateCode` and `deleteCode` become `promotionCodes.create`, `get`, `update` and `delete`, addressed by the promotion code ID alone.
+
 ## Method and namespace names
 
 The namespace is now the first path segment after `/v1`, in lowerCamelCase. The method is the operation ID without the namespace noun. Of 610 methods, 98 change: 45 move to another namespace and 53 keep their namespace under a new name. The `Pages` and `Items` helpers follow their method's new name. The generated `REFERENCE.md` lists every method.

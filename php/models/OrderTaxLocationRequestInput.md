@@ -8,9 +8,9 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `address` | Required | Varies by condition |  |
+| `address` | Required | Varies by condition | The address to calculate tax from. |
 | `address_source` | Optional | string | Where the tax address comes from. The only accepted value is provided, which is the default. Default: `"provided"`. Values: `"provided"`. |
-| `address_type` | Required | string |  |
+| `address_type` | Required | string | The kind of address you are sending. |
 
 ### OrderTaxLocationRequestInput variant 1: `address_source` = `"provided"`, `address_type` = `"postal_code"`
 

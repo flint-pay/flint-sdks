@@ -1,1 +1,1 @@
-{"shared":"UpdateInventoryAllocationPolicyRequest","dependencies":["InventoryAllocationConfigurationValue","InventoryAllocationPolicyLocation","SharedCodec1368","SharedCodec1371","SharedCodec1378","UpdateInventoryAllocationPolicyRequest"]}
+{"shared":"UpdateInventoryAllocationPolicyRequest","dependencies":["InventoryAllocationPolicyConfigurationRequest","InventoryAllocationPolicyLocation","SharedCodec1563","SharedCodec1566","SharedCodec1574","UpdateInventoryAllocationPolicyRequest"]}

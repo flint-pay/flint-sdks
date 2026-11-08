@@ -8,8 +8,8 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.invoices.cancelPaymentAttempt(
-  "inv_01ARZ3NDEKTSV4RRFFQ69G5FAV",
-  "invpa_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "inv_01KEZF7C00A5GEBMWHEAJFSAR4",
+  "invpa_01KEZF7C00PMWEDPAYYEKDTPBX",
   {},
   { idempotencyKey: idempotencyKey },
 );

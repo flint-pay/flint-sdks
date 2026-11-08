@@ -16,7 +16,7 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->invoices->waiveLateFee('inv_01ARZ3NDEKTSV4RRFFQ69G5FAV', 'inlf_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
+$result = $client->invoices->waiveLateFee('inv_01KEZF7C00A5GEBMWHEAJFSAR4', 'inlf_01KEZF7C00NVR97MBH5AHR4W1X', [
   'reason_message' => 'Courtesy waiver',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->invoice_id . PHP_EOL;

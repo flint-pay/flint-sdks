@@ -3,13 +3,19 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read TaxConnectionUpdatedEventDataObject $object
+ * @property-read ?array<array-key, mixed> $previous_attributes
  * Presence-aware response; omitted optional fields return null. */
 final class TaxConnectionUpdatedEventData extends Model {
-    /** @param array{'object': \stdClass, ...}|object $values */
+    /** @param array{'object': object{'coverage': list<mixed>, 'created_at'?: string, 'disclosure': mixed, 'legal_address': mixed, 'legal_business_name'?: string, 'seller_attestation': mixed, 'status': string, 'status_reason': string|null, 'supported_actions': list<string>, 'tax_connection_id'?: string, 'updated_at'?: string, 'version'?: int}, 'previous_attributes'?: \stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('TaxConnectionUpdatedEventData')); }
-    /** The environment's automatic sales tax connection. Before a record exists, identity, version and timestamps are omitted. Read-time business-detail changes and provider pauses do not advance version or send webhooks. Status_reason and supported_actions can also change with the clock as registrations end, without a version change or webhook.
+    /** The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields.
      * @return TaxConnectionUpdatedEventDataObject
      */
     public function getObject(): TaxConnectionUpdatedEventDataObject { return $this->get('object'); }
     public function hasObject(): bool { return $this->has('object'); }
+    /** Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
+     * @return ?array<array-key, mixed>
+     */
+    public function getPreviousAttributes(): ?array { return $this->get('previous_attributes'); }
+    public function hasPreviousAttributes(): bool { return $this->has('previous_attributes'); }
 }

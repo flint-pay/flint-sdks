@@ -14,7 +14,7 @@ final class BuyerErrorRemediationInput extends Model {
      */
     public function getNextSteps(): string { return $this->get('next_steps'); }
     public function hasNextSteps(): bool { return $this->has('next_steps'); }
-    /** How to recover: same_request resends the identical request with the same Idempotency-Key; after_refresh re-reads the resource and rebuilds the request with a new key; none requires correcting the request or following next_steps or next_actions. Value enum: "same_request", "after_refresh", "none".
+    /** Whether sending this request again can succeed, and how. It depends only on code and details[0].reason; the errors reference lists the value for each. Value enum: "same_request", "after_refresh", "none".
      * @return string
      * @throws SdkError When retry is omitted; use hasRetry() or valueOrDefault().
      */

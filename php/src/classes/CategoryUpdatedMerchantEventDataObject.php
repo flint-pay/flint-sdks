@@ -9,7 +9,7 @@ namespace Flint;
  * @property-read ?string $description
  * @property-read ?string $external_reference_id
  * @property-read string $handle
- * @property-read ?string $merchant_id
+ * @property-read string $merchant_id
  * @property-read ?array<array-key, string> $metadata
  * @property-read string $name
  * @property-read string $status
@@ -18,7 +18,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class CategoryUpdatedMerchantEventDataObject extends Model {
-    /** @param array{'assigned_bundle_count': int, 'assigned_product_count': int, 'category_id': string, 'created_at': string, 'description'?: string, 'external_reference_id'?: string, 'handle': string, 'merchant_id'?: string, 'metadata'?: mixed, 'name': string, 'status': string, 'targeting_reference_count': int, 'updated_at': string, 'version': int, ...}|object $values */
+    /** @param array{'assigned_bundle_count': int, 'assigned_product_count': int, 'category_id': string, 'created_at': string, 'description'?: string, 'external_reference_id'?: string, 'handle': string, 'merchant_id': string, 'metadata'?: mixed, 'name': string, 'status': string, 'targeting_reference_count': int, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CategoryUpdatedMerchantEventDataObject')); }
     /** Number of bundles currently assigned to the category. Format: int64.
      * @return int
@@ -56,9 +56,9 @@ final class CategoryUpdatedMerchantEventDataObject extends Model {
     public function getHandle(): string { return $this->get('handle'); }
     public function hasHandle(): bool { return $this->has('handle'); }
     /** Identifier of the merchant that owns this resource.
-     * @return ?string
+     * @return string
      */
-    public function getMerchantId(): ?string { return $this->get('merchant_id'); }
+    public function getMerchantId(): string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
     /** Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      * @return ?array<array-key, string>

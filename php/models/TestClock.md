@@ -6,5 +6,5 @@ A sandbox clock that customers created on it, and their subscriptions, read as t
 
 Response model.
 
-Fields, types, descriptions and enum values: [TestClockInput](../models/TestClockInput.md#testclockinput).
+Fields, types, descriptions and enum values: [TestClockAdvancingEventDataObject](../models/TestClockAdvancingEventDataObject.md#testclockadvancingeventdataobject).
 

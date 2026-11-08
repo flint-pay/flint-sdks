@@ -19,19 +19,19 @@ final class InventoryAdjustmentLineInput extends Model {
      */
     public function getDamagedQuantityDelta(): int { return $this->get('damaged_quantity_delta'); }
     public function hasDamagedQuantityDelta(): bool { return $this->has('damaged_quantity_delta'); }
-    /** inventory_item_id
+    /** ID of the inventory item the stock is for. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
      * @return string
      * @throws SdkError When inventory_item_id is omitted; use hasInventoryItemId() or valueOrDefault().
      */
     public function getInventoryItemId(): string { return $this->get('inventory_item_id'); }
     public function hasInventoryItemId(): bool { return $this->has('inventory_item_id'); }
-    /** Movement this line wrote, or `null` when the line changed nothing.
+    /** Movement this line wrote. `null` when the line changed nothing. Example: "invm_01KEZF7C00DYPFT9PS0NZY805Z".
      * @return string|null
      * @throws SdkError When inventory_movement_id is omitted; use hasInventoryMovementId() or valueOrDefault().
      */
     public function getInventoryMovementId(): string|null { return $this->get('inventory_movement_id'); }
     public function hasInventoryMovementId(): bool { return $this->has('inventory_movement_id'); }
-    /** location_id
+    /** ID of the Location that holds the stock. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When location_id is omitted; use hasLocationId() or valueOrDefault().
      */

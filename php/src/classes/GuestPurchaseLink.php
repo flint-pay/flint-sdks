@@ -10,12 +10,12 @@ namespace Flint;
 final class GuestPurchaseLink extends Model {
     /** @param array{'customer_id': string, 'email': string, 'linked_at': string, 'linked_order_count': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GuestPurchaseLink')); }
-    /** customer_id
+    /** ID of the customer the guest purchases now belong to.
      * @return string
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** email
+    /** The verified email address whose guest purchases were linked.
      * @return string
      */
     public function getEmail(): string { return $this->get('email'); }
@@ -25,7 +25,7 @@ final class GuestPurchaseLink extends Model {
      */
     public function getLinkedAt(): string { return $this->get('linked_at'); }
     public function hasLinkedAt(): bool { return $this->has('linked_at'); }
-    /** Format: int64.
+    /** Number of guest orders linked to the customer by this request. Format: int64.
      * @return int
      */
     public function getLinkedOrderCount(): int { return $this->get('linked_order_count'); }

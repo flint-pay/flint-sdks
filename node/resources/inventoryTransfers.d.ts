@@ -1,19 +1,23 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-5.js';
+import type { ClientOptions } from '../declarations/types-6.js';
+import type { InventoryTransfer } from '../declarations/types-29.js';
 import type {
-    InventoryTransfer,
     InventoryTransferListResponse,
     InventoryTransferResponse,
     InventoryTransferResult,
     InventoryTransferResultResponse,
+    InventoryTransfersCancelParams,
     InventoryTransfersCreateParams,
+    InventoryTransfersDepartParams,
     InventoryTransfersGetParams,
     InventoryTransfersListParams,
-    InventoryTransfersTransitionParams,
+    InventoryTransfersReceiveParams,
+    InventoryTransfersReportLossParams,
+    InventoryTransfersReturnToOriginParams,
     InventoryTransfersUpdateParams
-} from '../declarations/types-28.js';
-import type { RequestOptions } from '../declarations/types-48.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-30.js';
+import type { RequestOptions } from '../declarations/types-51.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -29,59 +33,91 @@ export type {
     WorkloadIdentitySource
 } from '../runtime.js';
 export type {
+    InventoryTransfersCancelParams,
+    InventoryTransferResult,
+    InventoryTransferResultResponse,
     InventoryTransfersCreateParams,
-    InventoryTransfer,
     InventoryTransferResponse,
+    InventoryTransfersDepartParams,
     InventoryTransfersGetParams,
     InventoryTransfersListParams,
     InventoryTransferListResponse,
-    InventoryTransfersTransitionParams,
-    InventoryTransferResult,
-    InventoryTransferResultResponse,
-    InventoryTransfersUpdateParams,
-    InventoryTransferLineRequestInput,
-    InventoryTransferLine,
-    InventoryTransferTransitionRequestInput,
-    InventoryTransferTransitionRequestDepartInput,
+    InventoryTransfersReceiveParams,
+    InventoryTransfersReportLossParams,
+    InventoryTransfersReturnToOriginParams,
+    InventoryTransfersUpdateParams
+} from '../declarations/types-30.js';
+export type {
+    RequestOptions,
+    ResponseMeta,
+    ResponseWarning,
+    ResourceReference,
+    ReportInventoryTransferLossRequestInput
+} from '../declarations/types-51.js';
+export type {
+    InventoryTransfer,
     InventorySourceSystemRequestInput,
-    InventoryTransferTransitionRequestReceiveInput,
-    InventoryTransferTransitionRequestReturnToOriginInput,
-    InventoryTransferTransitionRequestReportLossInput,
-    InventoryTransferTransitionRequestCancelInput
-} from '../declarations/types-28.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { ClientOptions } from '../declarations/types-5.js';
-export type { CreateInventoryTransferRequestInput } from '../declarations/types-8.js';
+    InventoryTransferLineRequestInput,
+    InventoryTransferLine
+} from '../declarations/types-29.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+export type { ClientOptions } from '../declarations/types-6.js';
+export type { CancelInventoryTransferRequestInput } from '../declarations/types-4.js';
+export type { InventoryProvenanceRequestInput, InventoryLevel, InventoryItem } from '../declarations/types-28.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-12.js';
-export type { NextAction, MoneyValue, MetadataMap } from '../declarations/types-35.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
-export type { InventoryProvenanceRequestInput, InventoryLevel, InventoryItem } from '../declarations/types-26.js';
-export type { UpdateInventoryTransferRequestInput } from '../declarations/types-59.js';
-export { makeCreateInventoryTransferRequest } from '../declarations/types-64.js';
+export type { Credentials } from '../declarations/types-13.js';
+export type { BackorderPolicy } from '../declarations/types-1.js';
+export type { MetadataMap } from '../declarations/types-36.js';
+export type { NextAction, MoneyValue } from '../declarations/types-37.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
+export type { CreateInventoryTransferRequestInput } from '../declarations/types-9.js';
+export type { DepartInventoryTransferRequestInput, DisputesAcceptParams } from '../declarations/types-22.js';
+export type { ReceiveInventoryTransferRequestInput } from '../declarations/types-50.js';
+export type { ReturnInventoryTransferToOriginRequestInput } from '../declarations/types-52.js';
+export type { UpdateInventoryTransferRequestInput } from '../declarations/types-63.js';
+export { makeCancelInventoryTransferRequest } from '../declarations/types-67.js';
+export { makeCreateInventoryTransferRequest } from '../declarations/types-69.js';
+export { makeDepartInventoryTransferRequest } from '../declarations/types-72.js';
 export {
     makeInventoryProvenanceRequest,
     makeInventorySourceSystemRequest,
-    makeInventoryTransferLineRequest,
-    makeInventoryTransferTransitionRequest,
-    makeInventoryTransferTransitionRequestCancel
-} from '../declarations/types-68.js';
+    makeInventoryTransferLineRequest
+} from '../declarations/types-73.js';
+export { makeMoneyValue } from '../declarations/types-75.js';
 export {
-    makeInventoryTransferTransitionRequestDepart,
-    makeInventoryTransferTransitionRequestReceive,
-    makeInventoryTransferTransitionRequestReportLoss,
-    makeInventoryTransferTransitionRequestReturnToOrigin
-} from '../declarations/types-69.js';
-export { makeMoneyValue } from '../declarations/types-70.js';
-export { makeUpdateInventoryTransferRequest } from '../declarations/types-74.js';
+    makeReceiveInventoryTransferRequest,
+    makeReportInventoryTransferLossRequest,
+    makeReturnInventoryTransferToOriginRequest
+} from '../declarations/types-77.js';
+export { makeUpdateInventoryTransferRequest } from '../declarations/types-79.js';
 export interface InventoryTransfersResource {
     /**
- * Create a planned stock transfer between two Locations. Creates a draft and moves no stock, so
- * the Idempotency-Key is optional: each request without a key creates a separate draft. With a
- * key, idempotency is scoped to the authenticated merchant, environment, and endpoint, and the
- * fingerprint includes the canonical request body. To recover a keyed create after a lost
- * response, list inventory transfers with idempotency_key.
+ * Cancels requested quantity that hasn't departed. Call it only when cancel is in
+ * supported_actions. Lines carry cumulative targets, not deltas. Returns a result with
+ * inventory_transfer as its primary resource and inventory_levels for the levels changed.
+ * Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its fingerprint
+ * includes the canonical request body. To recover the command's effects after a lost response,
+ * read the inventory transfer by ID.
+ *
+ * `POST /v1/inventory-transfers/{inventory_transfer_id}/cancel`
+ * @param inventory_transfer_id Flint inventory transfer ID.
+ * @see https://developers.withflintpay.com/docs/api/inventory#cancelInventoryTransfer
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
+ * @example
+ * // Persist this key with the action before sending; reuse it for every resubmission.
+ * const idempotencyKey = crypto.randomUUID();
+ * client.inventoryTransfers.cancel("invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP", {expected_version: 2,
+ * lines: [{inventory_transfer_line_id: "invtrln_01K0P7W6A4N9F3J2T8Q5R1C6XM",
+ * target_canceled_quantity: 4}], provenance: {source_system: {type: "manual"}}}, { idempotencyKey:
+ * idempotencyKey })
+ */
+    cancel(inventory_transfer_id: InputValue<string>, params: InventoryTransfersCancelParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<InventoryTransferResult, InventoryTransferResultResponse>>;
+    /**
+ * Create a planned stock transfer between two Locations. Creates a draft and moves no stock, so an
+ * idempotency key is optional: each request without a key creates a separate draft. With a key, a
+ * retry must send the same request body, and idempotency is scoped to the authenticated merchant,
+ * environment, and endpoint. To recover a keyed create after a lost response, list inventory
+ * transfers with idempotency_key.
  *
  * `POST /v1/inventory-transfers`
  * @see https://developers.withflintpay.com/docs/api/inventory#createInventoryTransfer
@@ -95,6 +131,27 @@ export interface InventoryTransfersResource {
  */
     create(params: InventoryTransfersCreateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<InventoryTransfer, InventoryTransferResponse>>;
     /**
+ * Takes stock off the origin location and puts it in transit. Call it only when depart is in
+ * supported_actions. Lines carry cumulative targets, not deltas. Returns a result with
+ * inventory_transfer as its primary resource and inventory_levels for the levels changed.
+ * Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its fingerprint
+ * includes the canonical request body. To recover the command's effects after a lost response,
+ * read the inventory transfer by ID.
+ *
+ * `POST /v1/inventory-transfers/{inventory_transfer_id}/depart`
+ * @param inventory_transfer_id Flint inventory transfer ID.
+ * @see https://developers.withflintpay.com/docs/api/inventory#departInventoryTransfer
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
+ * @example
+ * // Persist this key with the action before sending; reuse it for every resubmission.
+ * const idempotencyKey = crypto.randomUUID();
+ * client.inventoryTransfers.depart("invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP", {expected_version: 2,
+ * lines: [{inventory_transfer_line_id: "invtrln_01K0P7W6A4N9F3J2T8Q5R1C6XM",
+ * target_departed_quantity: 4}], provenance: {source_system: {type: "manual"}}}, { idempotencyKey:
+ * idempotencyKey })
+ */
+    depart(inventory_transfer_id: InputValue<string>, params: InventoryTransfersDepartParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<InventoryTransferResult, InventoryTransferResultResponse>>;
+    /**
  * Retrieve an inventory transfer, its lines, and supported_actions by ID.
  *
  * `GET /v1/inventory-transfers/{inventory_transfer_id}`
@@ -102,7 +159,7 @@ export interface InventoryTransfersResource {
  * @see https://developers.withflintpay.com/docs/api/inventory#getInventoryTransfer
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.inventoryTransfers.get("invtr_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.inventoryTransfers.get("invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP")
  */
     get(inventory_transfer_id: InputValue<string>, params?: InventoryTransfersGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<InventoryTransfer, InventoryTransferResponse>>;
     /**
@@ -125,27 +182,66 @@ export interface InventoryTransfersResource {
      */
     listItems(params?: InventoryTransfersListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<InventoryTransfer>;
     /**
- * Run one action from supported_actions using cumulative line targets. Send expected_version to
- * reject the request if the transfer changed after you read it. The response includes the updated
- * transfer and its inventory effects. Stock-moving transitions return a result with
+ * Adds in-transit stock to the destination location. Optional condition targets split the received
+ * quantity by condition. Call it only when receive is in supported_actions. Lines carry cumulative
+ * targets, not deltas. Returns a result with inventory_transfer as its primary resource and
+ * inventory_levels for the levels changed. Idempotency is scoped to the authenticated merchant,
+ * environment, and endpoint. Its fingerprint includes the canonical request body. To recover the
+ * command's effects after a lost response, read the inventory transfer by ID.
+ *
+ * `POST /v1/inventory-transfers/{inventory_transfer_id}/receive`
+ * @param inventory_transfer_id Flint inventory transfer ID.
+ * @see https://developers.withflintpay.com/docs/api/inventory#receiveInventoryTransfer
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
+ * @example
+ * // Persist this key with the action before sending; reuse it for every resubmission.
+ * const idempotencyKey = crypto.randomUUID();
+ * client.inventoryTransfers.receive("invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP", {expected_version: 2,
+ * lines: [{inventory_transfer_line_id: "invtrln_01K0P7W6A4N9F3J2T8Q5R1C6XM",
+ * target_received_quantity: 4}], provenance: {source_system: {type: "manual"}}}, { idempotencyKey:
+ * idempotencyKey })
+ */
+    receive(inventory_transfer_id: InputValue<string>, params: InventoryTransfersReceiveParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<InventoryTransferResult, InventoryTransferResultResponse>>;
+    /**
+ * Records in-transit stock as lost. Call it only when report_loss is in supported_actions. Lines
+ * carry cumulative targets, not deltas. Returns a result with inventory_transfer as its primary
+ * resource and inventory_levels for the levels changed. Idempotency is scoped to the authenticated
+ * merchant, environment, and endpoint. Its fingerprint includes the canonical request body. To
+ * recover the command's effects after a lost response, read the inventory transfer by ID.
+ *
+ * `POST /v1/inventory-transfers/{inventory_transfer_id}/report-loss`
+ * @param inventory_transfer_id Flint inventory transfer ID.
+ * @see https://developers.withflintpay.com/docs/api/inventory#reportInventoryTransferLoss
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
+ * @example
+ * // Persist this key with the action before sending; reuse it for every resubmission.
+ * const idempotencyKey = crypto.randomUUID();
+ * client.inventoryTransfers.reportLoss("invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP", {expected_version: 2,
+ * lines: [{inventory_transfer_line_id: "invtrln_01K0P7W6A4N9F3J2T8Q5R1C6XM", target_lost_quantity:
+ * 4}], provenance: {source_system: {type: "manual"}}}, { idempotencyKey: idempotencyKey })
+ */
+    reportLoss(inventory_transfer_id: InputValue<string>, params: InventoryTransfersReportLossParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<InventoryTransferResult, InventoryTransferResultResponse>>;
+    /**
+ * Puts in-transit stock back at the origin location. Call it only when return_to_origin is in
+ * supported_actions. Lines carry cumulative targets, not deltas. Returns a result with
  * inventory_transfer as its primary resource and inventory_levels for the levels changed.
  * Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its fingerprint
  * includes the canonical request body. To recover the command's effects after a lost response,
  * read the inventory transfer by ID.
  *
- * `POST /v1/inventory-transfers/{inventory_transfer_id}/transitions`
+ * `POST /v1/inventory-transfers/{inventory_transfer_id}/return-to-origin`
  * @param inventory_transfer_id Flint inventory transfer ID.
- * @see https://developers.withflintpay.com/docs/api/inventory#transitionInventoryTransfer
+ * @see https://developers.withflintpay.com/docs/api/inventory#returnInventoryTransferToOrigin
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.inventoryTransfers.transition("invtr_01ARZ3NDEKTSV4RRFFQ69G5FAV", {action: "depart",
- * expected_version: 2, lines: [{inventory_transfer_line_id: "invtrln_01K0P7W6A4N9F3J2T8Q5R1C6XM",
- * target_departed_quantity: 4}], provenance: {source_system: {type: "manual"}}}, { idempotencyKey:
+ * client.inventoryTransfers.returnToOrigin("invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP", {expected_version:
+ * 2, lines: [{inventory_transfer_line_id: "invtrln_01K0P7W6A4N9F3J2T8Q5R1C6XM",
+ * target_returned_quantity: 4}], provenance: {source_system: {type: "manual"}}}, { idempotencyKey:
  * idempotencyKey })
  */
-    transition(inventory_transfer_id: InputValue<string>, params: InventoryTransfersTransitionParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<InventoryTransferResult, InventoryTransferResultResponse>>;
+    returnToOrigin(inventory_transfer_id: InputValue<string>, params: InventoryTransfersReturnToOriginParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<InventoryTransferResult, InventoryTransferResultResponse>>;
     /**
  * Update an open transfer's planning details. Sending lines replaces the owned collection
  * atomically and requires expected_version. For metadata-only edits, expected_version is optional

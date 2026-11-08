@@ -16,7 +16,7 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->riskLists->delete('rl_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->riskLists->delete('rl_01KEZF7C00VYSERA4QCTJP147A', [], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->risk_list_id . PHP_EOL;
 echo $result->status . PHP_EOL;
 $client->close();

@@ -6,5 +6,7 @@ The payment method setup that needs buyer authentication in a pending payment ac
 
 Response model.
 
-Fields, types, descriptions and enum values: [PendingPaymentActionSetupPaymentSourceSubjectInput](../models/PendingPaymentActionSetupPaymentSourceSubjectInput.md#pendingpaymentactionsetuppaymentsourcesubjectinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `payment_method_id` | Required | string |  |
 

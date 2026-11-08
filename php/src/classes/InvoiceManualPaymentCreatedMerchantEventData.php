@@ -3,13 +3,19 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read InvoiceManualPaymentCreatedMerchantEventDataObject $object
+ * @property-read ?array<array-key, mixed> $previous_attributes
  * Presence-aware response; omitted optional fields return null. */
 final class InvoiceManualPaymentCreatedMerchantEventData extends Model {
-    /** @param array{'object': \stdClass, ...}|object $values */
+    /** @param array{'object': object{'amount_money': mixed, 'invoice_id': string, 'invoice_manual_payment_id': string, 'note'?: string, 'payment_reference'?: string, 'received_at': string, 'reversal_note'?: string, 'reversed_at'?: string, 'status': string, 'supported_actions': list<string>}, 'previous_attributes'?: \stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceManualPaymentCreatedMerchantEventData')); }
-    /** A recorded offline payment against an invoice. Its amount contributes to invoice paid_money while recorded; reversing it returns its full amount to outstanding_money. A payment can cover principal and late fees. Manual payments are separate from online payment attempts.
+    /** The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields.
      * @return InvoiceManualPaymentCreatedMerchantEventDataObject
      */
     public function getObject(): InvoiceManualPaymentCreatedMerchantEventDataObject { return $this->get('object'); }
     public function hasObject(): bool { return $this->has('object'); }
+    /** Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
+     * @return ?array<array-key, mixed>
+     */
+    public function getPreviousAttributes(): ?array { return $this->get('previous_attributes'); }
+    public function hasPreviousAttributes(): bool { return $this->has('previous_attributes'); }
 }

@@ -10,8 +10,9 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `available_for_sale` | Required | boolean | Whether the component's variant and its product are both active. |
+| `is_available_for_sale` | Required | boolean | Whether the component's variant and its product are both active. |
 | `name` | Optional | string | Name of the component's variant, when set. |
+| `product_id` | Required | string | Identifier of the product this component variant belongs to. |
 | `product_name` | Optional | string | Name of the product the variant belongs to. |
 | `selected_options` | Optional | Array of ([BuyerReturnPreviewResponseDataResolutionEligibilityLineItemsItemBundleComponentsItemVariantSelectedOptionsItem](../models/BuyerReturnPreviewResponseDataResolutionEligibilityLineItemsItemBundleComponentsItemVariantSelectedOptionsItem.md#buyerreturnpreviewresponsedataresolutioneligibilitylineitemsitembundlecomponentsitemvariantselectedoptionsitem) and [SelectedProductOption](../models/SelectedProductOption.md#selectedproductoption)) | Option names and values selected by the component's variant. |
 | `sku` | Optional | string | Stock keeping unit assigned to the component's variant, when set. |

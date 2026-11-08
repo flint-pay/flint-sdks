@@ -19,7 +19,7 @@ final class UpdatePaymentIntentRequestInput extends Model {
      */
     public function getAmountMoney(): mixed { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** Customer linked to this payment intent. Can change only while status is requires_payment_method. Cannot be cleared. minLength: 1.
+    /** Customer linked to this payment intent. Can change only while status is requires_payment_method. Cannot be cleared. minLength: 1. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */
@@ -31,7 +31,7 @@ final class UpdatePaymentIntentRequestInput extends Model {
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** Caller-owned identifier for this resource in an external system. Send null to clear it. Omit it to keep the current value. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. Send null to clear it. Omit it to keep the current value. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string|null
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -43,7 +43,7 @@ final class UpdatePaymentIntentRequestInput extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Send null to clear it. Omit it to keep the current value. Format: email. minLength: 1. maxLength: 255.
+    /** Send null to clear it. Omit it to keep the current value. Format: email. minLength: 1. maxLength: 255. Example: "buyer@example.com".
      * @return string|null
      * @throws SdkError When receipt_email is omitted; use hasReceiptEmail() or valueOrDefault().
      */

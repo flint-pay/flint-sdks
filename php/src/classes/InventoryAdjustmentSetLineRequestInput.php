@@ -26,13 +26,13 @@ final class InventoryAdjustmentSetLineRequestInput extends Model {
      */
     public function getExpectedPhysicalVersion(): int { return $this->get('expected_physical_version'); }
     public function hasExpectedPhysicalVersion(): bool { return $this->has('expected_physical_version'); }
-    /** minLength: 1.
+    /** ID of the inventory item the stock is for. minLength: 1. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
      * @return string
      * @throws SdkError When inventory_item_id is omitted; use hasInventoryItemId() or valueOrDefault().
      */
     public function getInventoryItemId(): string { return $this->get('inventory_item_id'); }
     public function hasInventoryItemId(): bool { return $this->has('inventory_item_id'); }
-    /** minLength: 1.
+    /** ID of the Location that holds the stock. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When location_id is omitted; use hasLocationId() or valueOrDefault().
      */

@@ -8,7 +8,7 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.riskRules.delete(
-  "rule_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "rule_01KEZF7C00FWGAQJXXA8CRA319",
   {},
   { idempotencyKey: idempotencyKey },
 );

@@ -2,7 +2,7 @@
 
 ## WebhookEventSourceInput
 
-The source of a partner webhook event, selected by type.
+The merchant and partner app install the event concerns. Environment fields are present for installed-merchant events.
 
 Request input.
 

@@ -15,9 +15,9 @@ Response model.
 
 A pickup location shown on a delivery option: its name, address, instructions, and timezone.
 
-Field definitions: [shared fields](DeliveryLocationSummaryResource.md#deliverylocationsummaryresource).
+Field definitions: [shared fields](DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueAvailableOptionPickup.md#deliveryquotechoicegroupresourcecandidateoutcomesvalueavailableoptionpickuplocation-fields-1).
 
 ### DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueUnavailableOptionPickup.location fields 1.address
 
-Field definitions: [DeliveryPreviewResponse.data variant 1.buyer_location.address](../models/DeliveryPreviewResponse.md#deliverypreviewresponsedata-variant-1buyer_locationaddress).
+Field definitions: [OrderResponse.data.delivery_destination.address](../models/OrderResponse.md#orderresponsedatadelivery_destinationaddress).
 

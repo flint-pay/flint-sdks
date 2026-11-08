@@ -7,7 +7,7 @@ namespace Flint;
 final class CustomersLinkGuestPurchasesParams extends Model {
     /** @param array{'customer_verification_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomersLinkGuestPurchasesParams')); }
-    /** minLength: 1. Example: "cver_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** ID of a confirmed customer verification with purpose `link_guest_purchases`. Linking uses it up. minLength: 1. Example: "cver_01KEZF7C00E7S01991S7457CVK".
      * @return string
      * @throws SdkError When customer_verification_id is omitted; use hasCustomerVerificationId() or valueOrDefault().
      */

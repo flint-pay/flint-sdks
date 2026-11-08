@@ -14,49 +14,49 @@ namespace Flint;
 final class BuyerGiftCardTransactionInput extends Model {
     /** @param array{'amount_money': SignedMoneyInput|array<array-key, mixed>|\stdClass, 'balance_after_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'balance_before_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'gift_card_id': string, 'gift_card_transaction_id': string, 'posted_at': string|\DateTimeInterface, 'sequence': int, 'transaction_type': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerGiftCardTransactionInput')); }
-    /** Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Signed change to the card's balance: positive amounts add value and negative amounts remove it. `funding_loss_accepted` records a decision and moves 0. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return SignedMoneyInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
      */
     public function getAmountMoney(): mixed { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** The card's balance immediately after this transaction. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When balance_after_money is omitted; use hasBalanceAfterMoney() or valueOrDefault().
      */
     public function getBalanceAfterMoney(): mixed { return $this->get('balance_after_money'); }
     public function hasBalanceAfterMoney(): bool { return $this->has('balance_after_money'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** The card's balance immediately before this transaction. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When balance_before_money is omitted; use hasBalanceBeforeMoney() or valueOrDefault().
      */
     public function getBalanceBeforeMoney(): mixed { return $this->get('balance_before_money'); }
     public function hasBalanceBeforeMoney(): bool { return $this->has('balance_before_money'); }
-    /** gift_card_id
+    /** ID of the gift card whose balance this transaction changed. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
      * @return string
      * @throws SdkError When gift_card_id is omitted; use hasGiftCardId() or valueOrDefault().
      */
     public function getGiftCardId(): string { return $this->get('gift_card_id'); }
     public function hasGiftCardId(): bool { return $this->has('gift_card_id'); }
-    /** gift_card_transaction_id
+    /** Unique identifier for this gift card transaction, prefixed `gct_`. Example: "gct_01KEZF7C006Q1VC3M2DXJ6T936".
      * @return string
      * @throws SdkError When gift_card_transaction_id is omitted; use hasGiftCardTransactionId() or valueOrDefault().
      */
     public function getGiftCardTransactionId(): string { return $this->get('gift_card_transaction_id'); }
     public function hasGiftCardTransactionId(): bool { return $this->has('gift_card_transaction_id'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When posted_at is omitted; use hasPostedAt() or valueOrDefault().
      */
     public function getPostedAt(): string|\DateTimeInterface { return $this->get('posted_at'); }
     public function hasPostedAt(): bool { return $this->has('posted_at'); }
-    /** Format: int64.
+    /** Position of this transaction in the card's history. It increases by one with each transaction posted to the card. Format: int64.
      * @return int
      * @throws SdkError When sequence is omitted; use hasSequence() or valueOrDefault().
      */
     public function getSequence(): int { return $this->get('sequence'); }
     public function hasSequence(): bool { return $this->has('sequence'); }
-    /** Value enum: "load", "import", "redeem", "refund", "refund_transfer", "adjustment", "cash_out", "purchase_reversal", "funding_loss_accepted", "purchase_refund_recovery", "purchase_refund_recovery_transfer".
+    /** Kind of movement, such as load, redeem, refund, adjustment, or cash_out. Value enum: "load", "import", "redeem", "refund", "refund_transfer", "adjustment", "cash_out", "purchase_reversal", "funding_loss_accepted", "purchase_refund_recovery", "purchase_refund_recovery_transfer".
      * @return string
      * @throws SdkError When transaction_type is omitted; use hasTransactionType() or valueOrDefault().
      */

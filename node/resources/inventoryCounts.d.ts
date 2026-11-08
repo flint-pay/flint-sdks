@@ -1,19 +1,19 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-5.js';
+import type { ClientOptions } from '../declarations/types-6.js';
+import type { InventoryCount, InventoryCountListResponse } from '../declarations/types-27.js';
 import type {
-    InventoryCount,
-    InventoryCountListResponse,
     InventoryCountResponse,
     InventoryCountResult,
     InventoryCountResultResponse,
+    InventoryCountsApplyParams,
+    InventoryCountsCancelParams,
     InventoryCountsCreateParams,
     InventoryCountsGetParams,
     InventoryCountsListParams,
-    InventoryCountsTransitionParams,
     InventoryCountsUpdateParams
-} from '../declarations/types-26.js';
-import type { RequestOptions } from '../declarations/types-48.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-28.js';
+import type { RequestOptions } from '../declarations/types-51.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -29,47 +29,87 @@ export type {
     WorkloadIdentitySource
 } from '../runtime.js';
 export type {
+    InventoryCountsApplyParams,
+    InventoryCountResult,
+    InventoryCountResultResponse,
+    InventoryCountsCancelParams,
     InventoryCountsCreateParams,
-    InventoryCount,
     InventoryCountResponse,
     InventoryCountsGetParams,
     InventoryCountsListParams,
-    InventoryCountListResponse,
-    InventoryCountsTransitionParams,
-    InventoryCountResult,
-    InventoryCountResultResponse,
     InventoryCountsUpdateParams,
-    InventoryCountLine,
-    InventoryCountObservationProvenance,
-    InventoryCountTransitionRequestInput,
-    InventoryCountTransitionRequestApplyInput,
-    InventoryCountTransitionRequestCancelInput,
     InventoryLevel,
     InventoryItem,
     InventoryCountObservationRequestInput,
     InventoryCountObservationRequest
-} from '../declarations/types-26.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { ClientOptions } from '../declarations/types-5.js';
-export type { CreateInventoryCountRequestInput, CreateInventoryCountRequest } from '../declarations/types-8.js';
-export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-12.js';
-export type { InventorySourceSystem, InventorySourceSystemRequestInput } from '../declarations/types-28.js';
-export type { NextAction, MoneyValue, MetadataMap } from '../declarations/types-35.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
-export type { UpdateInventoryCountRequestInput } from '../declarations/types-59.js';
-export { makeCreateInventoryCountRequest } from '../declarations/types-64.js';
-export {
-    makeInventoryCountObservationRequest,
-    makeInventoryCountTransitionRequest,
-    makeInventoryCountTransitionRequestApply,
-    makeInventoryCountTransitionRequestCancel,
-    makeInventorySourceSystemRequest
-} from '../declarations/types-68.js';
-export { makeMoneyValue } from '../declarations/types-70.js';
-export { makeUpdateInventoryCountRequest } from '../declarations/types-74.js';
+} from '../declarations/types-28.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
+export type {
+    InventoryCount,
+    InventoryCountListResponse,
+    InventoryCountLine,
+    InventoryCountObservationProvenance
+} from '../declarations/types-27.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+export type { ClientOptions } from '../declarations/types-6.js';
+export type { ApplyInventoryCountRequestInput, AuthMode } from '../declarations/types-0.js';
+export type { Credentials } from '../declarations/types-13.js';
+export type { BackorderPolicy } from '../declarations/types-1.js';
+export type { MetadataMap } from '../declarations/types-36.js';
+export type { NextAction, MoneyValue } from '../declarations/types-37.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
+export type { CancelInventoryCountRequestInput } from '../declarations/types-4.js';
+export type { CreateInventoryCountRequestInput, CreateInventoryCountRequest } from '../declarations/types-9.js';
+export type { InventorySourceSystem, InventorySourceSystemRequestInput } from '../declarations/types-29.js';
+export type { UpdateInventoryCountRequestInput } from '../declarations/types-63.js';
+export type { DisputesAcceptParams } from '../declarations/types-22.js';
+export { makeApplyInventoryCountRequest, makeCancelInventoryCountRequest } from '../declarations/types-67.js';
+export { makeCreateInventoryCountRequest } from '../declarations/types-69.js';
+export { makeInventoryCountObservationRequest, makeInventorySourceSystemRequest } from '../declarations/types-73.js';
+export { makeMoneyValue } from '../declarations/types-75.js';
+export { makeUpdateInventoryCountRequest } from '../declarations/types-79.js';
 export interface InventoryCountsResource {
+    /**
+ * Sets inventory levels to the counted quantities of an open physical count. Every line needs an
+ * observation. VERSION_CONFLICT also covers a stale saved physical observation with no
+ * corresponding field in this request; these details omit param. Recount affected items and save
+ * the complete observations before applying again. Physical changes after observation require
+ * recounts, including at a trading location; holds and commitments alone do not invalidate
+ * observations. Call it only when apply is in supported_actions. Returns a result with
+ * inventory_count as its primary resource and inventory_levels for the levels changed. Idempotency
+ * is scoped to the authenticated merchant, environment, and endpoint. Its fingerprint includes the
+ * canonical request body. To recover the command's effects after a lost response, read the
+ * inventory count by ID.
+ *
+ * `POST /v1/inventory-counts/{inventory_count_id}/apply`
+ * @param inventory_count_id Flint inventory count ID.
+ * @see https://developers.withflintpay.com/docs/api/inventory#applyInventoryCount
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
+ * @example
+ * // Persist this key with the action before sending; reuse it for every resubmission.
+ * const idempotencyKey = crypto.randomUUID();
+ * client.inventoryCounts.apply("invc_01KEZF7C00B47NXRE3ET37QQ59", undefined, { idempotencyKey:
+ * idempotencyKey })
+ */
+    apply(inventory_count_id: InputValue<string>, params?: InventoryCountsApplyParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<InventoryCountResult, InventoryCountResultResponse>>;
+    /**
+ * Closes an open physical count without changing stock. Call it only when cancel is in
+ * supported_actions. Returns a result with inventory_count as its primary resource and
+ * inventory_levels for the levels changed. Idempotency is scoped to the authenticated merchant,
+ * environment, and endpoint. Its fingerprint includes the canonical request body. To recover the
+ * command's effects after a lost response, read the inventory count by ID.
+ *
+ * `POST /v1/inventory-counts/{inventory_count_id}/cancel`
+ * @param inventory_count_id Flint inventory count ID.
+ * @see https://developers.withflintpay.com/docs/api/inventory#cancelInventoryCount
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
+ * @example
+ * // Persist this key with the action before sending; reuse it for every resubmission.
+ * const idempotencyKey = crypto.randomUUID();
+ * client.inventoryCounts.cancel("invc_01KEZF7C00B47NXRE3ET37QQ59", undefined, { idempotencyKey:
+ * idempotencyKey })
+ */
+    cancel(inventory_count_id: InputValue<string>, params?: InventoryCountsCancelParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<InventoryCountResult, InventoryCountResultResponse>>;
     /**
  * Open a physical count for selected inventory items at one Location. Idempotency is scoped to the
  * authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical
@@ -94,7 +134,7 @@ export interface InventoryCountsResource {
  * @see https://developers.withflintpay.com/docs/api/inventory#getInventoryCount
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.inventoryCounts.get("invc_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.inventoryCounts.get("invc_01KEZF7C00B47NXRE3ET37QQ59")
  */
     get(inventory_count_id: InputValue<string>, params?: InventoryCountsGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<InventoryCount, InventoryCountResponse>>;
     /**
@@ -116,30 +156,6 @@ export interface InventoryCountsResource {
      * @see https://developers.withflintpay.com/docs/api/inventory#listInventoryCounts
      */
     listItems(params?: InventoryCountsListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<InventoryCount>;
-    /**
- * Set action to apply or cancel an open physical count. The apply action sets inventory levels to
- * the counted quantities and needs an observation on every line. The cancel action closes the
- * count without changing stock. VERSION_CONFLICT on apply also covers a stale saved physical
- * observation with no corresponding field in this request; these details omit param. Recount
- * affected items and save the complete observations before applying again. Physical changes after
- * observation require recounts, including at a trading location; holds and commitments alone do
- * not invalidate observations. Stock-moving transitions return a result with inventory_count as
- * its primary resource and inventory_levels for the levels changed. Idempotency is scoped to the
- * authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical
- * request body. To recover the command's effects after a lost response, read the inventory count
- * by ID.
- *
- * `POST /v1/inventory-counts/{inventory_count_id}/transitions`
- * @param inventory_count_id Flint inventory count ID.
- * @see https://developers.withflintpay.com/docs/api/inventory#transitionInventoryCount
- * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
- * @example
- * // Persist this key with the action before sending; reuse it for every resubmission.
- * const idempotencyKey = crypto.randomUUID();
- * client.inventoryCounts.transition("invc_01ARZ3NDEKTSV4RRFFQ69G5FAV", {action: "apply",
- * expected_version: 2}, { idempotencyKey: idempotencyKey })
- */
-    transition(inventory_count_id: InputValue<string>, params: InventoryCountsTransitionParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<InventoryCountResult, InventoryCountResultResponse>>;
     /**
  * Replace a count's complete observation set atomically. expected_version is required when
  * replacing observations. Send every item exactly once with the count's current expected_version

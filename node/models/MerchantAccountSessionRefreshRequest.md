@@ -10,5 +10,5 @@ Refreshes a merchant account session from its signed launch token. No create fie
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `launch_token` | Required | string | minLength: `1`. |
+| `launch_token` | Required | string | The `launch_token` of the session to refresh. The response carries a new token to use for the next refresh. minLength: `1`. |
 

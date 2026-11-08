@@ -16,7 +16,7 @@ namespace Flint;
 final class PartnerAppCredentialInput extends Model {
     /** @param array{'created_at': string|\DateTimeInterface, 'jwks_url'?: PartnerAppCredentialJWKSURLInput|array<array-key, mixed>|\stdClass, 'last_used_at': string|\DateTimeInterface|null, 'name': string|null, 'partner_app_credential_id': string, 'partner_app_id': string, 'public_key'?: PartnerAppCredentialPublicKeyInput|array<array-key, mixed>|\stdClass, 'status': string, 'type': string, 'workload_identity'?: PartnerAppCredentialWorkloadIdentityInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PartnerAppCredentialInput')); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
@@ -28,7 +28,7 @@ final class PartnerAppCredentialInput extends Model {
      */
     public function getJwksUrl(): mixed { return $this->get('jwks_url'); }
     public function hasJwksUrl(): bool { return $this->has('jwks_url'); }
-    /** When the credential last authenticated the app. Updated at most once an hour, so it can lag the latest use by up to an hour. `null` when the credential has never been used. Format: date-time.
+    /** When the credential last authenticated the app. Updated at most once an hour, so it can lag the latest use by up to an hour. `null` when the credential has never been used. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface|null
      * @throws SdkError When last_used_at is omitted; use hasLastUsedAt() or valueOrDefault().
      */
@@ -40,13 +40,13 @@ final class PartnerAppCredentialInput extends Model {
      */
     public function getName(): string|null { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** partner_app_credential_id
+    /** Unique identifier for this partner app credential, prefixed `pacr_`. Example: "pacr_01KEZF7C005RDK44XFG5WF94BB".
      * @return string
      * @throws SdkError When partner_app_credential_id is omitted; use hasPartnerAppCredentialId() or valueOrDefault().
      */
     public function getPartnerAppCredentialId(): string { return $this->get('partner_app_credential_id'); }
     public function hasPartnerAppCredentialId(): bool { return $this->has('partner_app_credential_id'); }
-    /** partner_app_id
+    /** Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
      * @return string
      * @throws SdkError When partner_app_id is omitted; use hasPartnerAppId() or valueOrDefault().
      */

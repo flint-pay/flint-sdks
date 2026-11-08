@@ -19,7 +19,7 @@ namespace Flint;
  * @property-read string $page_token
  * Presence-aware input; omitted fields throw when accessed. */
 final class PayoutsListParams extends Model {
-    /** @param array{'idempotency_key'?: string, 'currency'?: string, 'expand'?: list<string>|string, 'method'?: list<string>|string, 'balance_source_type'?: list<string>|string, 'payout_destination_id'?: string, 'external_reference_id'?: string, 'query'?: string, 'status'?: list<string>|string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'arrival_date_from'?: string, 'arrival_date_to'?: string, 'page_size'?: int, 'page_token'?: string}|object $values */
+    /** @param array{'idempotency_key'?: string, 'currency'?: string, 'expand'?: list<string>|string, 'method'?: list<string>|string, 'balance_source_type'?: list<string>|string, 'payout_destination_id'?: string, 'external_reference_id'?: string, 'query'?: string, 'status'?: list<string>|string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'arrival_date_from'?: string, 'arrival_date_to'?: string, 'page_size'?: int, 'page_token'?: string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PayoutsListParams')); }
     /** Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength: 255.
      * @return string
@@ -33,31 +33,31 @@ final class PayoutsListParams extends Model {
      */
     public function getCurrency(): string { return $this->get('currency'); }
     public function hasCurrency(): bool { return $this->has('currency'); }
-    /** Supported expansions: original_payout, payout_destination, reversed_by_payout. Include the requested related resources using scoped batch reads for this page. Each relationship requires its existing target read scopes. Expansion changes the representation without changing pagination tokens. Limits: at most 10 unique expand paths per request. Repeat expand, for example expand=original_payout&expand=payout_destination, or pass one comma-separated value. [] enum: "original_payout", "payout_destination", "reversed_by_payout". Value enum: "original_payout", "payout_destination", "reversed_by_payout". anyOf[1] (Value): Array of string.  [] enum: "original_payout", "payout_destination", "reversed_by_payout". anyOf[1][] (Value): string.  Value enum: "original_payout", "payout_destination", "reversed_by_payout". anyOf[2] (Value): string.  Value enum: "original_payout", "payout_destination", "reversed_by_payout".
+    /** Include related objects in the response. Supported expansions: original_payout, payout_destination, reversed_by_payout. Include the requested related resources using scoped batch reads for this page. Each relationship requires its existing target read scopes. Expansion changes the representation without changing pagination tokens. Limits: at most 10 unique expand paths per request. [] enum: "original_payout", "payout_destination", "reversed_by_payout". Value enum: "original_payout", "payout_destination", "reversed_by_payout". anyOf[1] (Value): Array of string.  [] enum: "original_payout", "payout_destination", "reversed_by_payout". anyOf[1][] (Value): string.  Value enum: "original_payout", "payout_destination", "reversed_by_payout". anyOf[2] (Value): string.  Value enum: "original_payout", "payout_destination", "reversed_by_payout".
      * @return list<string>|string
      * @throws SdkError When expand is omitted; use hasExpand() or valueOrDefault().
      */
     public function getExpand(): mixed { return $this->get('expand'); }
     public function hasExpand(): bool { return $this->has('expand'); }
-    /** Optional payout method filter. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "standard", "instant", "other". Value enum: "standard", "instant", "other". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "standard", "instant", "other". anyOf[1][] (Value): string.  Value enum: "standard", "instant", "other". anyOf[2] (Value): string.  Value enum: "standard", "instant", "other".
+    /** Filter recorded payouts by method. Flint sends only standard payouts. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "standard", "instant", "other". Value enum: "standard", "instant", "other". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "standard", "instant", "other". anyOf[1][] (Value): string.  Value enum: "standard", "instant", "other". anyOf[2] (Value): string.  Value enum: "standard", "instant", "other".
      * @return list<string>|string
      * @throws SdkError When method is omitted; use hasMethod() or valueOrDefault().
      */
     public function getMethod(): mixed { return $this->get('method'); }
     public function hasMethod(): bool { return $this->has('method'); }
-    /** Optional Flint balance source type filter. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "card", "bank_account". Value enum: "card", "bank_account". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "card", "bank_account". anyOf[1][] (Value): string.  Value enum: "card", "bank_account". anyOf[2] (Value): string.  Value enum: "card", "bank_account".
+    /** Optional Flint balance source type filter. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "card", "bank_account". Value enum: "card", "bank_account". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "card", "bank_account". anyOf[1][] (Value): string.  Value enum: "card", "bank_account". anyOf[2] (Value): string.  Value enum: "card", "bank_account".
      * @return list<string>|string
      * @throws SdkError When balance_source_type is omitted; use hasBalanceSourceType() or valueOrDefault().
      */
     public function getBalanceSourceType(): mixed { return $this->get('balance_source_type'); }
     public function hasBalanceSourceType(): bool { return $this->has('balance_source_type'); }
-    /** Optional payout destination ID filter. Example: "pdest_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Optional payout destination ID filter. Example: "pdest_01KEZF7C00M55HZDZXZP6YVE6B".
      * @return string
      * @throws SdkError When payout_destination_id is omitted; use hasPayoutDestinationId() or valueOrDefault().
      */
     public function getPayoutDestinationId(): string { return $this->get('payout_destination_id'); }
     public function hasPayoutDestinationId(): bool { return $this->has('payout_destination_id'); }
-    /** Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
+    /** Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -69,7 +69,7 @@ final class PayoutsListParams extends Model {
      */
     public function getQuery(): string { return $this->get('query'); }
     public function hasQuery(): bool { return $this->has('query'); }
-    /** Optional payout status filter. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "pending", "in_transit", "paid", "failed", "canceled". Value enum: "pending", "in_transit", "paid", "failed", "canceled". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "pending", "in_transit", "paid", "failed", "canceled". anyOf[1][] (Value): string.  Value enum: "pending", "in_transit", "paid", "failed", "canceled". anyOf[2] (Value): string.  Value enum: "pending", "in_transit", "paid", "failed", "canceled".
+    /** Optional payout status filter. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "pending", "in_transit", "succeeded", "failed", "canceled". Value enum: "pending", "in_transit", "succeeded", "failed", "canceled". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "pending", "in_transit", "succeeded", "failed", "canceled". anyOf[1][] (Value): string.  Value enum: "pending", "in_transit", "succeeded", "failed", "canceled". anyOf[2] (Value): string.  Value enum: "pending", "in_transit", "succeeded", "failed", "canceled".
      * @return list<string>|string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
@@ -87,13 +87,13 @@ final class PayoutsListParams extends Model {
      */
     public function getCreatedBefore(): string|\DateTimeInterface { return $this->get('created_before'); }
     public function hasCreatedBefore(): bool { return $this->has('created_before'); }
-    /** Inclusive lower bound on arrival_date at midnight UTC. Use YYYY-MM-DD. Format: date.
+    /** Inclusive lower bound on arrival_date at midnight UTC. Use YYYY-MM-DD. Format: date. Example: "2026-08-02".
      * @return string
      * @throws SdkError When arrival_date_from is omitted; use hasArrivalDateFrom() or valueOrDefault().
      */
     public function getArrivalDateFrom(): string { return $this->get('arrival_date_from'); }
     public function hasArrivalDateFrom(): bool { return $this->has('arrival_date_from'); }
-    /** Exclusive upper bound on arrival_date at midnight UTC. Use YYYY-MM-DD. Format: date.
+    /** Exclusive upper bound on arrival_date at midnight UTC. Use YYYY-MM-DD. Format: date. Example: "2026-08-02".
      * @return string
      * @throws SdkError When arrival_date_to is omitted; use hasArrivalDateTo() or valueOrDefault().
      */
@@ -105,10 +105,28 @@ final class PayoutsListParams extends Model {
      */
     public function getPageSize(): int { return $this->get('page_size'); }
     public function hasPageSize(): bool { return $this->has('page_size'); }
-    /** Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error.
+    /** Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error.
      * @return string
      * @throws SdkError When page_token is omitted; use hasPageToken() or valueOrDefault().
      */
     public function getPageToken(): string { return $this->get('page_token'); }
     public function hasPageToken(): bool { return $this->has('page_token'); }
+    /** Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Merchant-Id is omitted; use hasFlintMerchantId() or valueOrDefault().
+     */
+    public function getFlintMerchantId(): string { return $this->get('Flint-Merchant-Id'); }
+    public function hasFlintMerchantId(): bool { return $this->has('Flint-Merchant-Id'); }
+    /** Mode of the request context, live or test. Optional; it must match the credential's mode. Value enum: "test", "live".
+     * @return string
+     * @throws SdkError When Flint-Mode is omitted; use hasFlintMode() or valueOrDefault().
+     */
+    public function getFlintMode(): string { return $this->get('Flint-Mode'); }
+    public function hasFlintMode(): bool { return $this->has('Flint-Mode'); }
+    /** Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Sandbox-Id is omitted; use hasFlintSandboxId() or valueOrDefault().
+     */
+    public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
+    public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
 }

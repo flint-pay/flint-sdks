@@ -19,7 +19,7 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->me->renewSubscription('sub_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->me->renewSubscription('sub_01KEZF7C00BVRE8YDBXQB74BBM', null, new RequestOptions(idempotencyKey: $idempotencyKey));
+echo $result->order->merchant_id . PHP_EOL;
 echo $result->order->order_id . PHP_EOL;
-echo $result->order->status . PHP_EOL;
 $client->close();

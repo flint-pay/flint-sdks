@@ -8,7 +8,7 @@ namespace Flint;
 final class InventoryAdjustmentResultInput extends Model {
     /** @param array{'inventory_adjustment': InventoryAdjustmentInput|array<array-key, mixed>|\stdClass, 'inventory_levels': list<InventoryLevelInput|array<array-key, mixed>|\stdClass>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryAdjustmentResultInput')); }
-    /** A recorded stock change with its reason and the quantity changes Flint computed.
+    /** The recorded adjustment. A recorded stock change with its reason and the quantity changes Flint computed.
      * @return InventoryAdjustmentInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When inventory_adjustment is omitted; use hasInventoryAdjustment() or valueOrDefault().
      */

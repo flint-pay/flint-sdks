@@ -6,23 +6,25 @@ namespace Flint;
  * @property-read ?string $api_version_changed_at
  * @property-read ?string $api_version_previous
  * @property-read ?string $api_version_rollback_expires_at
- * @property-read ?string $created_at
+ * @property-read string $created_at
+ * @property-read ?ResourceReference $created_by
  * @property-read ?string $description
  * @property-read list<string> $enabled_events
  * @property-read ?list<string> $event_sources
  * @property-read ?list<string> $installed_merchant_modes
  * @property-read ?string $partner_app_id
+ * @property-read string|null $partner_app_install_id
  * @property-read ?string $previous_secret_expires_at
  * @property-read list<string> $signing_methods
  * @property-read string $status
- * @property-read ?string $updated_at
+ * @property-read string $updated_at
  * @property-read string $url
  * @property-read int $version
  * @property-read string $webhook_endpoint_id
  * @property-read ?string $secret
  * Presence-aware response; omitted optional fields return null. */
 final class WebhookEndpointWithSecret extends Model {
-    /** @param array{'api_version': string, 'api_version_changed_at'?: string, 'api_version_previous'?: string, 'api_version_rollback_expires_at'?: string, 'created_at'?: string, 'description'?: string, 'enabled_events': list<string>, 'event_sources'?: list<string>, 'installed_merchant_modes'?: list<string>, 'partner_app_id'?: string, 'previous_secret_expires_at'?: string, 'signing_methods': list<string>, 'status': string, 'updated_at'?: string, 'url': string, 'version': int, 'webhook_endpoint_id': string, 'secret'?: string, ...}|object $values */
+    /** @param array{'api_version': string, 'api_version_changed_at'?: string, 'api_version_previous'?: string, 'api_version_rollback_expires_at'?: string, 'created_at': string, 'created_by'?: mixed, 'description'?: string, 'enabled_events': list<string>, 'event_sources'?: list<string>, 'installed_merchant_modes'?: list<string>, 'partner_app_id'?: string, 'partner_app_install_id': string|null, 'previous_secret_expires_at'?: string, 'signing_methods': list<string>, 'status': string, 'updated_at': string, 'url': string, 'version': int, 'webhook_endpoint_id': string, 'secret'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WebhookEndpointWithSecret')); }
     /** A dated API version pins this endpoint. The value default follows the endpoint owner's merchant default at delivery time, including retries. Deliveries never use a newer version than the event's recorded version.
      * @return string
@@ -45,11 +47,16 @@ final class WebhookEndpointWithSecret extends Model {
     public function getApiVersionRollbackExpiresAt(): ?string { return $this->get('api_version_rollback_expires_at'); }
     public function hasApiVersionRollbackExpiresAt(): bool { return $this->has('api_version_rollback_expires_at'); }
     /** RFC3339 timestamp. Format: date-time.
-     * @return ?string
+     * @return string
      */
-    public function getCreatedAt(): ?string { return $this->get('created_at'); }
+    public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** description
+    /** The API key, user, partner app, or workload identity that created this endpoint. An API key creator can belong to another mode, such as a live key that creates a sandbox endpoint. Absent when the creator is unavailable, including endpoints created before attribution was recorded. A reference to another resource by `resource_type` and `resource_id`.
+     * @return ?ResourceReference
+     */
+    public function getCreatedBy(): ?ResourceReference { return $this->get('created_by'); }
+    public function hasCreatedBy(): bool { return $this->has('created_by'); }
+    /** Your description of this endpoint. Omitted when none is set.
      * @return ?string
      */
     public function getDescription(): ?string { return $this->get('description'); }
@@ -74,12 +81,17 @@ final class WebhookEndpointWithSecret extends Model {
      */
     public function getPartnerAppId(): ?string { return $this->get('partner_app_id'); }
     public function hasPartnerAppId(): bool { return $this->has('partner_app_id'); }
+    /** The connected app install this endpoint is linked to. The endpoint is deleted when that install is revoked or loses its grant for this endpoint's environment. Null when the endpoint is not linked to a connected app. Never changes. pattern: ^pinst_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string|null
+     */
+    public function getPartnerAppInstallId(): string|null { return $this->get('partner_app_install_id'); }
+    public function hasPartnerAppInstallId(): bool { return $this->has('partner_app_install_id'); }
     /** When the replaced signing secret stops signing deliveries. Present only during a rotation overlap. Until then each delivery carries a signature from both secrets. Format: date-time.
      * @return ?string
      */
     public function getPreviousSecretExpiresAt(): ?string { return $this->get('previous_secret_expires_at'); }
     public function hasPreviousSecretExpiresAt(): bool { return $this->has('previous_secret_expires_at'); }
-    /** minItems: 1. uniqueItems: true. [] enum: "jwt", "hmac". [] (Value): string. jwt uses Flint's public JWKS. hmac uses a shared secret and Standard Webhooks v1. Value enum: "jwt", "hmac".
+    /** Methods Flint uses to sign deliveries to this endpoint. minItems: 1. uniqueItems: true. [] enum: "jwt", "hmac". [] (Value): string. How Flint signs requests to this endpoint. Value enum: "jwt", "hmac".
      * @return list<string>
      */
     public function getSigningMethods(): array { return $this->get('signing_methods'); }
@@ -90,26 +102,26 @@ final class WebhookEndpointWithSecret extends Model {
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
     /** RFC3339 timestamp. Format: date-time.
-     * @return ?string
+     * @return string
      */
-    public function getUpdatedAt(): ?string { return $this->get('updated_at'); }
+    public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** url
+    /** Public HTTPS URL that receives webhook deliveries.
      * @return string
      */
     public function getUrl(): string { return $this->get('url'); }
     public function hasUrl(): bool { return $this->has('url'); }
-    /** Format: uint64. minimum: 1.
+    /** Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. Format: uint64. minimum: 1.
      * @return int
      */
     public function getVersion(): int { return $this->get('version'); }
     public function hasVersion(): bool { return $this->has('version'); }
-    /** webhook_endpoint_id
+    /** Unique identifier for this webhook endpoint, prefixed `whep_`.
      * @return string
      */
     public function getWebhookEndpointId(): string { return $this->get('webhook_endpoint_id'); }
     public function hasWebhookEndpointId(): bool { return $this->has('webhook_endpoint_id'); }
-    /** One-time signing secret. Present on create only when hmac is enabled, and on rotation; omitted on an idempotent replay after the secret retention period.
+    /** One-time signing secret. Present on create when hmac is enabled, on PATCH when hmac is first enabled, and on rotation; omitted on an idempotent replay after the secret retention period.
      * @return ?string
      */
     public function getSecret(): ?string { return $this->get('secret'); }

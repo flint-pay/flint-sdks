@@ -24,7 +24,7 @@ final class ReturnReasonInput extends Model {
      */
     public function getCategoryHandles(): array { return $this->get('category_handles'); }
     public function hasCategoryHandles(): bool { return $this->has('category_handles'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** When the reason was created. Built-in Flint reasons use their release time, 2026-07-27T00:00:00Z. Their updated_at is the merchant availability change time, or the same release time if unchanged. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
@@ -36,7 +36,7 @@ final class ReturnReasonInput extends Model {
      */
     public function getDescription(): string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** Caller-owned identifier for this resource in an external system. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -60,13 +60,13 @@ final class ReturnReasonInput extends Model {
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Flint's ID for the reason. Send it as return_reason_id on a Return line.
+    /** Flint's ID for the reason. Send it as return_reason_id on a Return line. Example: "rrsn_01KEZF7C00SEE2T4EYP1NXAH3E".
      * @return string
      * @throws SdkError When return_reason_id is omitted; use hasReturnReasonId() or valueOrDefault().
      */
     public function getReturnReasonId(): string { return $this->get('return_reason_id'); }
     public function hasReturnReasonId(): bool { return $this->has('return_reason_id'); }
-    /** Value enum: "flint", "merchant".
+    /** Whether Flint provides the reason or you created it. Value enum: "flint", "merchant".
      * @return string
      * @throws SdkError When source is omitted; use hasSource() or valueOrDefault().
      */
@@ -78,7 +78,7 @@ final class ReturnReasonInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */

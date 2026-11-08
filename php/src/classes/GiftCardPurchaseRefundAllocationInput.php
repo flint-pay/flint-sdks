@@ -17,49 +17,49 @@ namespace Flint;
 final class GiftCardPurchaseRefundAllocationInput extends Model {
     /** @param array{'consideration_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'created_at': string|\DateTimeInterface, 'order_manual_reversal_id'?: string, 'purchase_refund_allocation_id': string, 'recovery'?: GiftCardPurchaseRefundRecoveryInput|array<array-key, mixed>|\stdClass, 'refund_id': string|null, 'status': string, 'updated_at': string|\DateTimeInterface, 'value_allocations'?: list<GiftCardPurchaseRefundValueAllocationInput|array<array-key, mixed>|\stdClass>, 'value_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardPurchaseRefundAllocationInput')); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** The part of the amount the buyer paid that this refund or reversal returns. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When consideration_money is omitted; use hasConsiderationMoney() or valueOrDefault().
      */
     public function getConsiderationMoney(): mixed { return $this->get('consideration_money'); }
     public function hasConsiderationMoney(): bool { return $this->has('consideration_money'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** order_manual_reversal_id
+    /** ID of the manual payment reversal. Set when this entry reverses a manual payment instead of refunding a payment. Example: "omp_01KEZF7C007J18203RBJKB9TYE".
      * @return string
      * @throws SdkError When order_manual_reversal_id is omitted; use hasOrderManualReversalId() or valueOrDefault().
      */
     public function getOrderManualReversalId(): string { return $this->get('order_manual_reversal_id'); }
     public function hasOrderManualReversalId(): bool { return $this->has('order_manual_reversal_id'); }
-    /** purchase_refund_allocation_id
+    /** ID of this entry in the load's purchase refunds. Example: "gcpra_01KEZF7C00HJZ2YP6AENMZK5KA".
      * @return string
      * @throws SdkError When purchase_refund_allocation_id is omitted; use hasPurchaseRefundAllocationId() or valueOrDefault().
      */
     public function getPurchaseRefundAllocationId(): string { return $this->get('purchase_refund_allocation_id'); }
     public function hasPurchaseRefundAllocationId(): bool { return $this->has('purchase_refund_allocation_id'); }
-    /** Records how value was recovered for a gift card purchase refund, on the original or a replacement card, with the destinations that received it.
+    /** How the value was restored after the refund failed. `null` when no recovery happened. Records how value was recovered for a gift card purchase refund, on the original or a replacement card, with the destinations that received it.
      * @return GiftCardPurchaseRefundRecoveryInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When recovery is omitted; use hasRecovery() or valueOrDefault().
      */
     public function getRecovery(): mixed { return $this->get('recovery'); }
     public function hasRecovery(): bool { return $this->has('recovery'); }
-    /** refund_id
+    /** ID of the refund. `null` when the entry reverses a manual payment, which has no refund. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
      * @return string|null
      * @throws SdkError When refund_id is omitted; use hasRefundId() or valueOrDefault().
      */
     public function getRefundId(): string|null { return $this->get('refund_id'); }
     public function hasRefundId(): bool { return $this->has('refund_id'); }
-    /** Value enum: "pending", "succeeded", "failed".
+    /** Whether the refund has succeeded, failed, or is still pending. Value enum: "pending", "succeeded", "failed".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */
@@ -71,13 +71,13 @@ final class GiftCardPurchaseRefundAllocationInput extends Model {
      */
     public function getValueAllocations(): array { return $this->get('value_allocations'); }
     public function hasValueAllocations(): bool { return $this->has('value_allocations'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** The unspent face value this entry removes from the load. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When value_money is omitted; use hasValueMoney() or valueOrDefault().
      */
     public function getValueMoney(): mixed { return $this->get('value_money'); }
     public function hasValueMoney(): bool { return $this->has('value_money'); }
-    /** Format: int64.
+    /** Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. Format: int64.
      * @return int
      * @throws SdkError When version is omitted; use hasVersion() or valueOrDefault().
      */

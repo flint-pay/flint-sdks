@@ -11,9 +11,9 @@ A hold on fulfillment tied to a payment, with the reason, the action required, a
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `reason` | Required | string | Values: `"external_payment_hold"`, `"external_payment_hold_released"`. |
-| `released_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `requested_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
+| `released_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
+| `requested_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `required_action` | Required | string | Values: `"pause_fulfillment"`, `"reevaluate_fulfillment"`. |
 | `status` | Required | string | Values: `"active"`, `"released"`. |
-| `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
+| `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 

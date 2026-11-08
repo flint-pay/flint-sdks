@@ -9,7 +9,7 @@ const idempotencyKey = crypto.randomUUID();
 
 const result = await client.customerDeletionRequests.create(
   {
-    customer_id: "cus_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+    customer_id: "cus_01KEZF7C003ACYXT6Q5EQZ78EE",
   },
   { idempotencyKey: idempotencyKey },
 );

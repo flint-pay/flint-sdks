@@ -14,7 +14,7 @@ final class SubscriptionPreviewResponseDataNextRenewal extends Model {
      */
     public function getMode(): string { return $this->get('mode'); }
     public function hasMode(): bool { return $this->has('mode'); }
-    /** Estimated pricing and billing time for a subscription's next renewal, including items, discounts, shipping, and tax.
+    /** Estimated pricing and billing time for a subscription renewal, including items, discounts, shipping, and tax.
      * @return SubscriptionRenewalEstimate
      */
     public function getRenewal(): SubscriptionRenewalEstimate { return $this->get('renewal'); }

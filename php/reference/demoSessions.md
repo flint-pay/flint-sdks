@@ -15,7 +15,7 @@ Signature: `create(array|Model $params, ?RequestOptions $options = null)`
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `Flint-Challenge-Token` | Required | string | Challenge token from Flint's hosted bot check on the page that offers the demo. Flint identifies the demo client by its IP address. |
-| `body` | Required | [CreateDemoSessionRequestInput](../models/CreateDemoSessionRequestInput.md#createdemosessionrequestinput) | The request body for: Create demo session. |
+| `body` | Optional | [CreateDemoSessionRequestInput](../models/CreateDemoSessionRequestInput.md#createdemosessionrequestinput) | The request body for: Create demo session. |
 
 Body model: [CreateDemoSessionRequestInput](../models/CreateDemoSessionRequestInput.md#createdemosessionrequestinput).
 
@@ -34,9 +34,7 @@ Returned payload: [DemoSession](../models/DemoSession.md#demosession).
 | Status | Error class |
 | --- | --- |
 | 400 | InvalidRequestError |
-| 401 | AuthenticationError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -62,7 +60,6 @@ Authentication modes: none (anonymous). [Credential setup](../RUNTIME.md#authent
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->demoSessions->create([
-  'template' => 'quickstart',
   'Flint-Challenge-Token' => 'example',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
@@ -71,7 +68,7 @@ $result = $client->demoSessions->create([
 
 ### demoSessions.reset
 
-Ends the active or provisioning demo session identified by demo_session_id for this client and provisions a fresh one. A client that lost its create response gets the current session ID from current_resource.resource_id on ALREADY_EXISTS. A retry with the same Idempotency-Key and body replays the replacement before checking the current session, including its secret during the secret delivery window. After that window, the retry returns ALREADY_EXISTS with the current session reference. The daily cap applies only to fresh executions. Omit template to use quickstart; an explicit empty or unsupported value is invalid.
+Ends the active or provisioning demo session identified by demo_session_id for this client and provisions a fresh one. A client that lost its create response gets the current session ID from current_resource.resource_id on ALREADY_EXISTS. A retry with the same idempotency key and body replays the replacement before checking the current session, including its secret during the secret delivery window. After that window, the retry returns ALREADY_EXISTS with the current session reference. The daily cap applies only to fresh executions. Omit template to use quickstart; an explicit empty or unsupported value is invalid.
 
 `POST /v1/demo-sessions/{demo_session_id}/reset`
 
@@ -83,7 +80,7 @@ Signature: `reset(string|Model $demo_session_id, array|Model $params, ?RequestOp
 | --- | --- | --- | --- |
 | `demo_session_id` | Required | string | The active or provisioning demo session to reset for this client. |
 | `Flint-Challenge-Token` | Required | string | Challenge token from Flint's hosted bot check on the page that offers the demo. Flint identifies the demo client by its IP address. |
-| `body` | Required | [ResetDemoSessionRequestInput](../models/CreateDemoSessionRequestInput.md#createdemosessionrequestinput) | The request body for: Reset demo session. |
+| `body` | Optional | [ResetDemoSessionRequestInput](../models/CreateDemoSessionRequestInput.md#createdemosessionrequestinput) | The request body for: Reset demo session. |
 
 Body model: [ResetDemoSessionRequestInput](../models/CreateDemoSessionRequestInput.md#createdemosessionrequestinput).
 
@@ -102,10 +99,8 @@ Returned payload: [DemoSession](../models/DemoSession.md#demosession).
 | Status | Error class |
 | --- | --- |
 | 400 | InvalidRequestError |
-| 401 | AuthenticationError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -130,8 +125,7 @@ Authentication modes: none (anonymous). [Credential setup](../RUNTIME.md#authent
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->demoSessions->reset('demo_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
-  'template' => 'quickstart',
+$result = $client->demoSessions->reset('demo_01KEZF7C001S0675NAS5BPBS0V', [
   'Flint-Challenge-Token' => 'example',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```

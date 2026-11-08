@@ -17,19 +17,19 @@ namespace Flint;
 final class CreateReturnDispositionRequestReceiptLineInput extends Model {
     /** @param array{'disposition_type': string, 'external_reference_id'?: string, 'inventory_location_id'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'occurred_at': string|\DateTimeInterface, 'quantity': int, 'reason': string, 'reason_message'?: string, 'replaces_return_disposition_id'?: string, 'return_inspection_line_item_id'?: string, 'return_receipt_line_item_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateReturnDispositionRequestReceiptLineInput')); }
-    /** Value enum: "sellable", "quality_control", "damaged", "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer", "lost".
+    /** What happens to the received units. Value enum: "sellable", "quality_control", "damaged", "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer", "lost".
      * @return string
      * @throws SdkError When disposition_type is omitted; use hasDispositionType() or valueOrDefault().
      */
     public function getDispositionType(): string { return $this->get('disposition_type'); }
     public function hasDispositionType(): bool { return $this->has('disposition_type'); }
-    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** minLength: 1.
+    /** ID of the Location whose stock the disposition changes. Required for `sellable`, `quality_control`, `damaged`, `quarantined`, and `lost`; rejected for the other types. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When inventory_location_id is omitted; use hasInventoryLocationId() or valueOrDefault().
      */
@@ -41,7 +41,7 @@ final class CreateReturnDispositionRequestReceiptLineInput extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** RFC3339 timestamp. Format: date-time. minLength: 1.
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When occurred_at is omitted; use hasOccurredAt() or valueOrDefault().
      */
@@ -53,31 +53,31 @@ final class CreateReturnDispositionRequestReceiptLineInput extends Model {
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
-    /** Value enum: "inspection_result", "return_policy", "warehouse_override", "safety_requirement", "other".
+    /** Why the disposition was made. Value enum: "inspection_result", "return_policy", "warehouse_override", "safety_requirement", "other".
      * @return string
      * @throws SdkError When reason is omitted; use hasReason() or valueOrDefault().
      */
     public function getReason(): string { return $this->get('reason'); }
     public function hasReason(): bool { return $this->has('reason'); }
-    /** minLength: 1.
+    /** Optional detail about `reason`, kept with the record. minLength: 1.
      * @return string
      * @throws SdkError When reason_message is omitted; use hasReasonMessage() or valueOrDefault().
      */
     public function getReasonMessage(): string { return $this->get('reason_message'); }
     public function hasReasonMessage(): bool { return $this->has('reason_message'); }
-    /** minLength: 1.
+    /** ID of the `failed` or `canceled` disposition this one replaces. It takes over that disposition's unused capacity. minLength: 1. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
      * @return string
      * @throws SdkError When replaces_return_disposition_id is omitted; use hasReplacesReturnDispositionId() or valueOrDefault().
      */
     public function getReplacesReturnDispositionId(): string { return $this->get('replaces_return_disposition_id'); }
     public function hasReplacesReturnDispositionId(): bool { return $this->has('replaces_return_disposition_id'); }
-    /** minLength: 1.
+    /** ID of the inspection line the disposition covers. Absent when it covers a receipt line. minLength: 1. Example: "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4".
      * @return string
      * @throws SdkError When return_inspection_line_item_id is omitted; use hasReturnInspectionLineItemId() or valueOrDefault().
      */
     public function getReturnInspectionLineItemId(): string { return $this->get('return_inspection_line_item_id'); }
     public function hasReturnInspectionLineItemId(): bool { return $this->has('return_inspection_line_item_id'); }
-    /** minLength: 1.
+    /** ID of the receipt line the disposition covers. Absent when it covers an inspection line. minLength: 1. Example: "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE".
      * @return string
      * @throws SdkError When return_receipt_line_item_id is omitted; use hasReturnReceiptLineItemId() or valueOrDefault().
      */

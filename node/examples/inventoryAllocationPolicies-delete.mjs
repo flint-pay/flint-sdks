@@ -8,7 +8,7 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.inventoryAllocationPolicies.delete(
-  "invp_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "invp_01KEZF7C0076BZX855WAGC5SQK",
   {},
   { idempotencyKey: idempotencyKey },
 );

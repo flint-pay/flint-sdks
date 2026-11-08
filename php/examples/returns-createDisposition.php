@@ -16,12 +16,13 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->returns->createDisposition('ret_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
+$result = $client->returns->createDisposition('ret_01KEZF7C00PG93650ZKVQNGF7X', [
   'disposition_type' => 'sellable',
-  'occurred_at' => '2026-01-01T00:00:00Z',
+  'inventory_location_id' => 'loc_01K1P6G4M7H2N8Q9R3S5T6V7WX',
+  'occurred_at' => '2026-09-08T14:20:00Z',
   'quantity' => 1,
-  'reason' => 'inspection_result',
-  'return_receipt_line_item_id' => 'retrcli_01ARZ3NDEKTSV4RRFFQ69G5FAV',
+  'reason' => 'return_policy',
+  'return_receipt_line_item_id' => 'retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->return_disposition_id . PHP_EOL;
 echo $result->return_id . PHP_EOL;

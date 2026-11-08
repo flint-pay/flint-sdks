@@ -4,7 +4,7 @@
 
 ### deliveryRevocations.create
 
-Permanently fences one exact method, endpoint, signing key, revision, or Location geography version. Issued quotes are revoked immediately. Current selections are released the next time they are read. Stable method and callback-endpoint targets require expected_version so a concurrent publication cannot broaden the revocation.
+Permanently fences one exact delivery method revision, rate callback revision, callback HMAC signing key, or recorded Location geography version. Name both the parent and the exact child. Unknown targets return RESOURCE_NOT_FOUND without effects; a duplicate returns ALREADY_EXISTS with the existing revocation. Issued quotes are revoked immediately. Provisional selections are released before they can be used again.
 
 `POST /v1/delivery-revocations`
 
@@ -14,18 +14,20 @@ Signature: `create(params: DeliveryRevocationsCreateParams, options?: RequestOpt
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `body` | Required | [RevokeDeliveryDependencyRequestInput](../models/RevokeDeliveryDependencyRequest.md#revokedeliverydependencyrequest) | The request body for: Revoke delivery dependency. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `body` | Required | [CreateDeliveryRevocationRequestInput](../models/CreateDeliveryRevocationRequest.md#createdeliveryrevocationrequest) | Creates a permanent fence for one exact delivery dependency in this merchant and environment. |
 
-Body model: [RevokeDeliveryDependencyRequestInput](../models/RevokeDeliveryDependencyRequest.md#revokedeliverydependencyrequest).
+Body model: [CreateDeliveryRevocationRequestInput](../models/CreateDeliveryRevocationRequest.md#createdeliveryrevocationrequest).
 
 #### deliveryRevocations.create body fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `expected_version` | Optional | integer | Required when target.target_type is delivery_method or delivery_rate_callback. The version of the stable resource whose current revision will be revoked. Omit it for exact revision, geography, and signing-key targets. Format: `uint64`. minimum: `1`. |
-| `merchant_note` | Optional | string | minLength: `1`. maxLength: `2048`. |
-| `reason` | Required | string | Values: `"unsafe_configuration"`, `"location_unavailable"`, `"credential_compromise"`, `"legal_requirement"`, `"other"`. |
-| `target` | Required | [RevokeDeliveryDependencyTargetInput](../models/RevokeDeliveryDependencyTarget.md#revokedeliverydependencytarget) | A typed revocation target. Each target_type accepts only its resource-specific fields. |
+| `merchant_note` | Optional | string | Optional incident context retained with this revocation. minLength: `1`. maxLength: `2048`. |
+| `reason` | Required | string | Why this dependency must no longer be used. Values: `"unsafe_configuration"`, `"location_unavailable"`, `"credential_compromise"`, `"legal_requirement"`, `"other"`. |
+| `target` | Required | [CreateDeliveryRevocationTargetInput](../models/CreateDeliveryRevocationTargetInput.md#createdeliveryrevocationtargetinput) | The parent and exact child identity to fence. Each target_type accepts only its own IDs. The parent and exact child identity to fence. Targets never resolve an alias to a current revision. |
 
 #### Response
 
@@ -40,7 +42,6 @@ Returned payload: [DeliveryRevocation](../models/DeliveryRevocation.md#deliveryr
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -89,6 +90,9 @@ get(delivery_revocation_id: InputValue<string>,
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `delivery_revocation_id` | Required | string | Flint delivery revocation ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -102,7 +106,6 @@ Returned payload: [DeliveryRevocation](../models/DeliveryRevocation.md#deliveryr
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -120,7 +123,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```typescript
-const result = await client.deliveryRevocations.get("drev_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
+const result = await client.deliveryRevocations.get("drev_01KEZF7C007Q141XJ28YAAC87B", {}, {  });
 ```
 
 [Complete runnable example](../examples/deliveryRevocations-get.mjs)
@@ -138,29 +141,14 @@ Signature: `list(params?: DeliveryRevocationsListParams, options?: _SdkWithoutId
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
-| `target_type` | Optional | Array of string or string | Filter by revocation target type. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [6 declared values](#deliveryrevocationslist-input-target_type--values). Values: [6 declared values](#deliveryrevocationslist-input-target_type-values). |
-| `reason` | Optional | Array of string or string | Filter by revocation reason. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"unsafe_configuration"`, `"location_unavailable"`, `"credential_compromise"`, `"legal_requirement"`, `"other"`. Values: `"unsafe_configuration"`, `"location_unavailable"`, `"credential_compromise"`, `"legal_requirement"`, `"other"`. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
+| `target_type` | Optional | Array of string or string | Filter by revocation target type. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"location_geography"`, `"delivery_rate_callback_signing_key"`, `"delivery_rate_callback_revision"`, `"delivery_method_revision"`. Values: `"location_geography"`, `"delivery_rate_callback_signing_key"`, `"delivery_rate_callback_revision"`, `"delivery_method_revision"`. |
+| `reason` | Optional | Array of string or string | Filter by revocation reason. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"unsafe_configuration"`, `"location_unavailable"`, `"credential_compromise"`, `"legal_requirement"`, `"other"`. Values: `"unsafe_configuration"`, `"location_unavailable"`, `"credential_compromise"`, `"legal_requirement"`, `"other"`. |
 | `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
 | `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
-
-#### deliveryRevocations.list input target_type [] values
-
-- `"location_geography"`
-- `"delivery_rate_callback_signing_key"`
-- `"delivery_rate_callback"`
-- `"delivery_rate_callback_revision"`
-- `"delivery_method"`
-- `"delivery_method_revision"`
-
-#### deliveryRevocations.list input target_type values
-
-- `"location_geography"`
-- `"delivery_rate_callback_signing_key"`
-- `"delivery_rate_callback"`
-- `"delivery_rate_callback_revision"`
-- `"delivery_method"`
-- `"delivery_method_revision"`
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -173,7 +161,6 @@ Returned payload: [DeliveryRevocationListResponse](../models/DeliveryRevocationL
 | 400 | InvalidRequestError |
 | 401 | AuthenticationError |
 | 403 | PermissionError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |

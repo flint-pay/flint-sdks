@@ -11,7 +11,7 @@ namespace Flint;
  * @property-read ?string $cancellation_reason
  * @property-read ?string $confirmed_at
  * @property-read string $created_at
- * @property-read MoneyValue $credit_money
+ * @property-read MoneyValue $credit_adjustment_money
  * @property-read MoneyValue $deduction_money
  * @property-read list<BuyerReturnResolutionExecutionBlocker> $execution_blockers
  * @property-read ?string $failure_code
@@ -33,29 +33,29 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class BuyerReturnResolution extends Model {
-    /** @param array{'action_reason'?: string, 'action_required_by'?: string, 'adjustments': list<mixed>, 'buyer_payment_amount_money': mixed, 'buyer_refund_amount_money': mixed, 'canceled_at'?: string, 'cancellation_reason'?: string, 'confirmed_at'?: string, 'created_at': string, 'credit_money': mixed, 'deduction_money': mixed, 'execution_blockers': list<mixed>, 'failure_code'?: string, 'failure_message'?: string, 'fulfilled_at'?: string, 'gift_card_refund_destination'?: string, 'line_items': list<mixed>, 'metadata': \stdClass, 'pricing_basis'?: string, 'replacement_line_items': list<mixed>, 'replacement_total_money': mixed, 'resolution_type': string, 'return_id': string, 'return_resolution_id': string, 'returned_total_money': mixed, 'status': string, 'supported_actions': list<string>, 'updated_at': string, 'version': int, ...}|object $values */
+    /** @param array{'action_reason'?: string, 'action_required_by'?: string, 'adjustments': list<mixed>, 'buyer_payment_amount_money': mixed, 'buyer_refund_amount_money': mixed, 'canceled_at'?: string, 'cancellation_reason'?: string, 'confirmed_at'?: string, 'created_at': string, 'credit_adjustment_money': mixed, 'deduction_money': mixed, 'execution_blockers': list<mixed>, 'failure_code'?: string, 'failure_message'?: string, 'fulfilled_at'?: string, 'gift_card_refund_destination'?: string, 'line_items': list<mixed>, 'metadata': \stdClass, 'pricing_basis'?: string, 'replacement_line_items': list<mixed>, 'replacement_total_money': mixed, 'resolution_type': string, 'return_id': string, 'return_resolution_id': string, 'returned_total_money': mixed, 'status': string, 'supported_actions': list<string>, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerReturnResolution')); }
-    /** Value enum: "buyer_payment", "buyer_selection", "merchant_review", "manual_release", "linked_effect_retry", "other".
+    /** Why a requires_action resolution is waiting. buyer_payment means the buyer must pay the exchange balance; manual_release means the merchant must release the resolution. Value enum: "buyer_payment", "manual_release".
      * @return ?string
      */
     public function getActionReason(): ?string { return $this->get('action_reason'); }
     public function hasActionReason(): bool { return $this->has('action_reason'); }
-    /** Value enum: "buyer", "merchant".
+    /** Who has to act while the resolution's status is `requires_action`. Value enum: "buyer", "merchant".
      * @return ?string
      */
     public function getActionRequiredBy(): ?string { return $this->get('action_required_by'); }
     public function hasActionRequiredBy(): bool { return $this->has('action_required_by'); }
-    /**  [] (Value): {@see BuyerReturnResolutionAdjustment}. An adjustment to a Return resolution shown to the buyer, with its assessed amount, applied amount, status, and reason.
+    /** Fees and credits applied to the resolution's amounts. [] (Value): {@see BuyerReturnResolutionAdjustment}. An adjustment to a Return resolution shown to the buyer, with its assessed amount, applied amount, status, and reason.
      * @return list<BuyerReturnResolutionAdjustment>
      */
     public function getAdjustments(): array { return $this->get('adjustments'); }
     public function hasAdjustments(): bool { return $this->has('adjustments'); }
-    /** Amount the buyer owes when deduction_money and replacement_total_money exceed returned_total_money plus credit_money. Zero when the buyer is owed a refund and for no_monetary_action. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Amount the buyer owes when deduction_money and replacement_total_money exceed returned_total_money plus credit_adjustment_money. Zero when the buyer is owed a refund and for no_monetary_action. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getBuyerPaymentAmountMoney(): MoneyValue { return $this->get('buyer_payment_amount_money'); }
     public function hasBuyerPaymentAmountMoney(): bool { return $this->has('buyer_payment_amount_money'); }
-    /** Value returned to the buyer: returned_total_money plus credit_money, minus deduction_money and replacement_total_money, when that balance is zero or more. For store_credit, the value issued on new gift cards. Zero for no_monetary_action. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Value returned to the buyer: returned_total_money plus credit_adjustment_money, minus deduction_money and replacement_total_money, when that balance is zero or more. For store_credit, the value issued on new gift cards. Zero for no_monetary_action. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getBuyerRefundAmountMoney(): MoneyValue { return $this->get('buyer_refund_amount_money'); }
@@ -65,7 +65,7 @@ final class BuyerReturnResolution extends Model {
      */
     public function getCanceledAt(): ?string { return $this->get('canceled_at'); }
     public function hasCanceledAt(): bool { return $this->has('canceled_at'); }
-    /** Value enum: "buyer_request", "merchant_request", "duplicate", "expired", "created_in_error", "other".
+    /** Why the resolution was canceled. Value enum: "buyer_request", "merchant_request", "duplicate", "expired", "created_in_error", "other".
      * @return ?string
      */
     public function getCancellationReason(): ?string { return $this->get('cancellation_reason'); }
@@ -83,14 +83,14 @@ final class BuyerReturnResolution extends Model {
     /** Credits added by the resolution's adjustments. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
-    public function getCreditMoney(): MoneyValue { return $this->get('credit_money'); }
-    public function hasCreditMoney(): bool { return $this->has('credit_money'); }
+    public function getCreditAdjustmentMoney(): MoneyValue { return $this->get('credit_adjustment_money'); }
+    public function hasCreditAdjustmentMoney(): bool { return $this->has('credit_adjustment_money'); }
     /** Deductions taken by the resolution's adjustments, such as a restocking fee. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getDeductionMoney(): MoneyValue { return $this->get('deduction_money'); }
     public function hasDeductionMoney(): bool { return $this->has('deduction_money'); }
-    /**  [] (Value): {@see BuyerReturnResolutionExecutionBlocker}. Work that must complete before a Return resolution can finish.
+    /** What a confirmed resolution is still waiting for. Empty when nothing is. [] (Value): {@see BuyerReturnResolutionExecutionBlocker}. Work that must complete before a Return resolution can finish.
      * @return list<BuyerReturnResolutionExecutionBlocker>
      */
     public function getExecutionBlockers(): array { return $this->get('execution_blockers'); }
@@ -115,7 +115,7 @@ final class BuyerReturnResolution extends Model {
      */
     public function getGiftCardRefundDestination(): ?string { return $this->get('gift_card_refund_destination'); }
     public function hasGiftCardRefundDestination(): bool { return $this->has('gift_card_refund_destination'); }
-    /**  [] (Value): {@see ReturnResolutionLineItem}. A return line included in a resolution, with its quantity and returned total.
+    /** Return lines and quantities the resolution covers. Absent on a correction. [] (Value): {@see ReturnResolutionLineItem}. A return line included in a resolution, with its quantity and returned total.
      * @return list<ReturnResolutionLineItem>
      */
     public function getLineItems(): array { return $this->get('line_items'); }
@@ -125,12 +125,12 @@ final class BuyerReturnResolution extends Model {
      */
     public function getMetadata(): array { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Value enum: "original_price", "current_price", "merchant_agreed_price".
+    /** How replacement lines are priced. Present on exchanges and replacements. Value enum: "original_price", "current_price", "merchant_agreed_price".
      * @return ?string
      */
     public function getPricingBasis(): ?string { return $this->get('pricing_basis'); }
     public function hasPricingBasis(): bool { return $this->has('pricing_basis'); }
-    /**  [] (Value): {@see ReturnReplacementLineItem}. A replacement item added to a return resolution, with its quantity and price totals.
+    /** Merchandise the buyer receives instead, for an exchange or replacement. [] (Value): {@see ReturnReplacementLineItem}. A replacement item added to a return resolution, with its quantity and price totals.
      * @return list<ReturnReplacementLineItem>
      */
     public function getReplacementLineItems(): array { return $this->get('replacement_line_items'); }
@@ -140,17 +140,17 @@ final class BuyerReturnResolution extends Model {
      */
     public function getReplacementTotalMoney(): MoneyValue { return $this->get('replacement_total_money'); }
     public function hasReplacementTotalMoney(): bool { return $this->has('replacement_total_money'); }
-    /** Value enum: "refund", "exchange", "replacement", "store_credit", "no_monetary_action", "correction".
+    /** What the buyer gets for the approved quantity. Value enum: "refund", "exchange", "replacement", "store_credit", "no_monetary_action", "correction".
      * @return string
      */
     public function getResolutionType(): string { return $this->get('resolution_type'); }
     public function hasResolutionType(): bool { return $this->has('resolution_type'); }
-    /** return_id
+    /** ID of the Return the resolution belongs to.
      * @return string
      */
     public function getReturnId(): string { return $this->get('return_id'); }
     public function hasReturnId(): bool { return $this->has('return_id'); }
-    /** return_resolution_id
+    /** Unique identifier for this return resolution, prefixed `retres_`.
      * @return string
      */
     public function getReturnResolutionId(): string { return $this->get('return_resolution_id'); }
@@ -175,7 +175,7 @@ final class BuyerReturnResolution extends Model {
      */
     public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** Format: int64. minimum: 0.
+    /** Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. Format: int64. minimum: 0.
      * @return int
      */
     public function getVersion(): int { return $this->get('version'); }

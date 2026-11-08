@@ -57,25 +57,25 @@ final class DeliveryOptionProjectionInput extends Model {
      */
     public function getChargeTaxCategory(): string { return $this->get('charge_tax_category'); }
     public function hasChargeTaxCategory(): bool { return $this->has('charge_tax_category'); }
-    /** consumed_by_delivery_selection_id
+    /** Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
      * @return string
      * @throws SdkError When consumed_by_delivery_selection_id is omitted; use hasConsumedByDeliverySelectionId() or valueOrDefault().
      */
     public function getConsumedByDeliverySelectionId(): string { return $this->get('consumed_by_delivery_selection_id'); }
     public function hasConsumedByDeliverySelectionId(): bool { return $this->has('consumed_by_delivery_selection_id'); }
-    /** delivery_method_id
+    /** Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
      * @return string
      * @throws SdkError When delivery_method_id is omitted; use hasDeliveryMethodId() or valueOrDefault().
      */
     public function getDeliveryMethodId(): string { return $this->get('delivery_method_id'); }
     public function hasDeliveryMethodId(): bool { return $this->has('delivery_method_id'); }
-    /** delivery_method_revision_id
+    /** Example: "dmetr_01KEZF7C001ZF9D92DY1G51GV9".
      * @return string
      * @throws SdkError When delivery_method_revision_id is omitted; use hasDeliveryMethodRevisionId() or valueOrDefault().
      */
     public function getDeliveryMethodRevisionId(): string { return $this->get('delivery_method_revision_id'); }
     public function hasDeliveryMethodRevisionId(): bool { return $this->has('delivery_method_revision_id'); }
-    /** delivery_option_id
+    /** Example: "dopt_01KEZF7C00JM9TDZQZ5KQJ6923".
      * @return string
      * @throws SdkError When delivery_option_id is omitted; use hasDeliveryOptionId() or valueOrDefault().
      */
@@ -105,7 +105,7 @@ final class DeliveryOptionProjectionInput extends Model {
      */
     public function getExecutionLegs(): array { return $this->get('execution_legs'); }
     public function hasExecutionLegs(): bool { return $this->has('execution_legs'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When expires_at is omitted; use hasExpiresAt() or valueOrDefault().
      */
@@ -171,7 +171,7 @@ final class DeliveryOptionProjectionInput extends Model {
      */
     public function getType(): string { return $this->get('type'); }
     public function hasType(): bool { return $this->has('type'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When window_end_at is omitted; use hasWindowEndAt() or valueOrDefault().
      */
@@ -189,7 +189,7 @@ final class DeliveryOptionProjectionInput extends Model {
      */
     public function getWindowSelection(): string { return $this->get('window_selection'); }
     public function hasWindowSelection(): bool { return $this->has('window_selection'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When window_start_at is omitted; use hasWindowStartAt() or valueOrDefault().
      */

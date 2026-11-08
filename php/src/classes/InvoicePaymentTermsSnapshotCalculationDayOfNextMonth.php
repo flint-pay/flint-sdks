@@ -14,12 +14,12 @@ final class InvoicePaymentTermsSnapshotCalculationDayOfNextMonth extends Model {
      */
     public function getDay(): int { return $this->get('day'); }
     public function hasDay(): bool { return $this->has('day'); }
-    /** Format: int32. minimum: 0. maximum: 365.
+    /** Calendar days after issue for net_days, or after the issue month's last day for days_after_month_end. Required only for those types. Format: int32. minimum: 0. maximum: 365.
      * @return ?int
      */
     public function getDays(): ?int { return $this->get('days'); }
     public function hasDays(): bool { return $this->has('days'); }
-    /** Value enum: "day_of_next_month".
+    /** How issue calculates the invoice's due date in the invoice timezone. Value enum: "day_of_next_month".
      * @return string
      */
     public function getType(): string { return $this->get('type'); }

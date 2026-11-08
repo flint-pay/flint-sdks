@@ -2,9 +2,15 @@
 
 ## GiftCardNotificationCreatedMerchantEventDataObject
 
-A message sent to a gift card recipient.
+The affected public resource without expansions, client authority fields, or fields computed for an individual caller.
+
+The resource snapshot, without expansions. Webhooks omit no additional fields.
 
 Response model.
 
-Fields, types, descriptions and enum values: [GiftCardNotification](../models/GiftCardNotification.md#giftcardnotification).
+Field definitions: [shared fields](GiftCardNotification.md#giftcardnotification).
+
+### GiftCardNotificationCreatedMerchantEventDataObject.recipient
+
+Field definitions: [GiftCardNotificationResponse.data.recipient](../models/GiftCardNotificationResponse.md#giftcardnotificationresponsedatarecipient).
 

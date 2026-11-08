@@ -8,5 +8,5 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `attributes` | Required | Array of [RiskAttributeInput](../models/RiskAttributeInput.md#riskattributeinput) |  |
+| `attributes` | Required | Array of [RiskAttributeInput](../models/RiskAttributeInput.md#riskattributeinput) | The attributes a risk rule can test. |
 

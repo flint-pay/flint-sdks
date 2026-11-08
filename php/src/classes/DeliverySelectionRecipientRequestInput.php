@@ -9,7 +9,7 @@ namespace Flint;
 final class DeliverySelectionRecipientRequestInput extends Model {
     /** @param array{'email'?: string|null, 'name'?: string|null, 'phone'?: string|null}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliverySelectionRecipientRequestInput')); }
-    /** Recipient email address. Limited to 254 characters (Unicode code points), counted before surrounding whitespace is trimmed. When the selected delivery option requires it, payment needs it: send it with this selection or a later one. Send null to clear it. Format: email. minLength: 1. maxLength: 254.
+    /** Recipient email address. Limited to 254 characters (Unicode code points), counted before surrounding whitespace is trimmed. When the selected delivery option requires it, payment needs it: send it with this selection or a later one. Send null to clear it. Format: email. minLength: 1. maxLength: 254. Example: "buyer@example.com".
      * @return string|null
      * @throws SdkError When email is omitted; use hasEmail() or valueOrDefault().
      */

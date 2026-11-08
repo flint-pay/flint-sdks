@@ -8,15 +8,15 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order` | Required | [BuyerOrder](../models/BuyerOrder.md#buyerorder) | A customer's purchase and its payment and fulfillment progress. `order`: [field definitions](../models/BuyerOrderResponse.md#buyerorderresponsedata). |
+| `order` | Required | [BuyerOrder](../models/BuyerOrder.md#buyerorder) | A customer's purchase and its payment and fulfillment progress. `order`: [field definitions](../models/BuyerOrderListResponse.md#buyerorderlistresponsedata). |
 | `order_payment_attempt` | Required | [BuyerOrderPaymentAttempt](../models/BuyerOrderPaymentAttempt.md#buyerorderpaymentattempt) or null |  |
-| `subscription` | Required | [BuyerSubscription](../models/BuyerSubscription.md#buyersubscription) | A customer's recurring purchase. `subscription`: [field definitions](../models/BuyerSubscriptionResponse.md#buyersubscriptionresponsedata). |
+| `subscription` | Required | [BuyerSubscription](../models/BuyerSubscription.md#buyersubscription) | A customer's recurring purchase. `subscription`: [field definitions](../models/BuyerSubscriptionListResponse.md#buyersubscriptionlistresponsedata). |
 
 ### BuyerSubscriptionRenewalResult.order
 
-Field definitions: [BuyerOrderResponse.data](../models/BuyerOrderResponse.md#buyerorderresponsedata).
+Field definitions: [BuyerOrderListResponse.data[]](../models/BuyerOrderListResponse.md#buyerorderlistresponsedata).
 
 ### BuyerSubscriptionRenewalResult.subscription
 
-Field definitions: [BuyerSubscriptionResponse.data](../models/BuyerSubscriptionResponse.md#buyersubscriptionresponsedata).
+Field definitions: [BuyerSubscriptionListResponse.data[]](../models/BuyerSubscriptionListResponse.md#buyersubscriptionlistresponsedata).
 

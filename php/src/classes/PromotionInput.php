@@ -15,6 +15,7 @@ namespace Flint;
  * @property-read PromotionExclusivityInput|array<array-key, mixed>|\stdClass $exclusivity
  * @property-read string $external_reference_id
  * @property-read int $max_uses
+ * @property-read int|null $max_uses_per_customer
  * @property-read string $merchant_id
  * @property-read MetadataMapInput|array<array-key, mixed>|\stdClass $metadata
  * @property-read string $name
@@ -28,7 +29,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class PromotionInput extends Model {
-    /** @param array{'application_method': PromotionApplicationMethodInput|array<array-key, mixed>|\stdClass, 'available': bool, 'codes'?: list<PromotionCodeInput|array<array-key, mixed>|\stdClass>, 'codes_summary'?: PromotionCodesSummaryInput|array<array-key, mixed>|\stdClass, 'combines_with': PromotionCombinesWithInput|array<array-key, mixed>|\stdClass, 'created_at'?: string|\DateTimeInterface, 'description'?: string, 'discount_class': string, 'display_name': string, 'eligibility_rules'?: PromotionRuleGroupInput|array<array-key, mixed>|\stdClass, 'exclusivity'?: PromotionExclusivityInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'max_uses'?: int, 'merchant_id'?: string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'name': string, 'promotion_id': string, 'redemption_type': string, 'schedule'?: PromotionScheduleInput|array<array-key, mixed>|\stdClass, 'status': string, 'unavailable_reason'?: string, 'updated_at'?: string|\DateTimeInterface, 'uses_count': int, 'version': int, ...}|object $values */
+    /** @param array{'application_method': PromotionApplicationMethodInput|array<array-key, mixed>|\stdClass, 'available': bool, 'codes'?: list<PromotionCodeInput|array<array-key, mixed>|\stdClass>, 'codes_summary'?: PromotionCodesSummaryInput|array<array-key, mixed>|\stdClass, 'combines_with': PromotionCombinesWithInput|array<array-key, mixed>|\stdClass, 'created_at'?: string|\DateTimeInterface, 'description'?: string, 'discount_class': string, 'display_name': string, 'eligibility_rules'?: PromotionRuleGroupInput|array<array-key, mixed>|\stdClass, 'exclusivity'?: PromotionExclusivityInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'max_uses'?: int, 'max_uses_per_customer': int|null, 'merchant_id'?: string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'name': string, 'promotion_id': string, 'redemption_type': string, 'schedule'?: PromotionScheduleInput|array<array-key, mixed>|\stdClass, 'status': string, 'unavailable_reason'?: string, 'updated_at'?: string|\DateTimeInterface, 'uses_count': int, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PromotionInput')); }
     /** Discount effect and how it applies to eligible items or charges. A flat application method whose type selects its effect fields.
      * @return PromotionApplicationMethodInput|array<array-key, mixed>|\stdClass
@@ -60,7 +61,7 @@ final class PromotionInput extends Model {
      */
     public function getCombinesWith(): mixed { return $this->get('combines_with'); }
     public function hasCombinesWith(): bool { return $this->has('combines_with'); }
-    /** When the promotion was created, as an RFC3339 timestamp. Format: date-time.
+    /** When the promotion was created, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
@@ -96,7 +97,7 @@ final class PromotionInput extends Model {
      */
     public function getExclusivity(): mixed { return $this->get('exclusivity'); }
     public function hasExclusivity(): bool { return $this->has('exclusivity'); }
-    /** Caller-owned identifier for this resource in an external system. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -108,7 +109,13 @@ final class PromotionInput extends Model {
      */
     public function getMaxUses(): int { return $this->get('max_uses'); }
     public function hasMaxUses(): bool { return $this->has('max_uses'); }
-    /** Identifier of the merchant that owns the promotion.
+    /** Maximum reserved and redeemed uses per identified customer across every code and automatic or ID-based application. Checked atomically when payment starts. Failed, canceled, or expired attempts release their reservation; refunds do not restore uses. Counts only within the same merchant and environment; live and test mode are separate. Without an identified customer, returns 409 PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer limit. Format: int64. minimum: 1.
+     * @return int|null
+     * @throws SdkError When max_uses_per_customer is omitted; use hasMaxUsesPerCustomer() or valueOrDefault().
+     */
+    public function getMaxUsesPerCustomer(): int|null { return $this->get('max_uses_per_customer'); }
+    public function hasMaxUsesPerCustomer(): bool { return $this->has('max_uses_per_customer'); }
+    /** Identifier of the merchant that owns the promotion. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
      * @return string
      * @throws SdkError When merchant_id is omitted; use hasMerchantId() or valueOrDefault().
      */
@@ -126,7 +133,7 @@ final class PromotionInput extends Model {
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Unique identifier for the promotion.
+    /** Unique identifier for the promotion. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
      * @return string
      * @throws SdkError When promotion_id is omitted; use hasPromotionId() or valueOrDefault().
      */
@@ -156,7 +163,7 @@ final class PromotionInput extends Model {
      */
     public function getUnavailableReason(): string { return $this->get('unavailable_reason'); }
     public function hasUnavailableReason(): bool { return $this->has('unavailable_reason'); }
-    /** When the promotion was last updated, as an RFC3339 timestamp. Format: date-time.
+    /** When the promotion was last updated, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */

@@ -30,7 +30,7 @@ final class MerchantBillingEntry extends Model {
      */
     public function getBalanceTransactionId(): ?string { return $this->get('balance_transaction_id'); }
     public function hasBalanceTransactionId(): bool { return $this->has('balance_transaction_id'); }
-    /** When Flint recorded the entry. Use created_after to pick up new entries, including late arrivals. Format: date-time.
+    /** When Flint inserted the entry. Never changes and is never backdated from occurred_at. Overlap created_after passes by a few minutes and deduplicate by merchant_billing_entry_id to pick up late commits. Format: date-time.
      * @return string
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
@@ -45,7 +45,7 @@ final class MerchantBillingEntry extends Model {
      */
     public function getDisputeId(): ?string { return $this->get('dispute_id'); }
     public function hasDisputeId(): bool { return $this->has('dispute_id'); }
-    /** Event fee category. Present only for event_fee entries. card_dispute applies only when Flint paid the processor's dispute fee; a fee already deducted from your balance is recorded on the dispute balance transaction instead. Value enum: "bank_verification", "failed_ach_payment", "ach_dispute", "card_dispute".
+    /** Event fee category. Present only for event_fee entries. card_dispute applies only when Flint paid the processor's dispute fee; a fee already deducted from your balance is recorded on the dispute balance transaction instead. Value enum: "bank_verification", "failed_ach_payment", "ach_dispute", "card_dispute", "external_paid_order_overage".
      * @return ?string
      */
     public function getEventFeeType(): ?string { return $this->get('event_fee_type'); }

@@ -24,25 +24,25 @@ final class ReturnResolutionLineItemInput extends Model {
      */
     public function getReleaseTiming(): string { return $this->get('release_timing'); }
     public function hasReleaseTiming(): bool { return $this->has('release_timing'); }
-    /** return_line_item_id
+    /** ID of the Return line the resolution covers. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
      * @return string
      * @throws SdkError When return_line_item_id is omitted; use hasReturnLineItemId() or valueOrDefault().
      */
     public function getReturnLineItemId(): string { return $this->get('return_line_item_id'); }
     public function hasReturnLineItemId(): bool { return $this->has('return_line_item_id'); }
-    /** return_resolution_id
+    /** ID of the resolution the line belongs to. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
      * @return string
      * @throws SdkError When return_resolution_id is omitted; use hasReturnResolutionId() or valueOrDefault().
      */
     public function getReturnResolutionId(): string { return $this->get('return_resolution_id'); }
     public function hasReturnResolutionId(): bool { return $this->has('return_resolution_id'); }
-    /** return_resolution_line_item_id
+    /** ID of an existing resolution line to keep. Leave out to add a new line. Example: "retresli_01KEZF7C00CR5NCDXRBP9W14CB".
      * @return string
      * @throws SdkError When return_resolution_line_item_id is omitted; use hasReturnResolutionLineItemId() or valueOrDefault().
      */
     public function getReturnResolutionLineItemId(): string { return $this->get('return_resolution_line_item_id'); }
     public function hasReturnResolutionLineItemId(): bool { return $this->has('return_resolution_line_item_id'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Value of the returned units this line covers. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When returned_total_money is omitted; use hasReturnedTotalMoney() or valueOrDefault().
      */

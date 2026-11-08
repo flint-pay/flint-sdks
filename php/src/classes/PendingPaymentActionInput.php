@@ -22,7 +22,7 @@ final class PendingPaymentActionInput extends Model {
      */
     public function getClientAction(): mixed { return $this->get('client_action'); }
     public function hasClientAction(): bool { return $this->has('client_action'); }
-    /** Stable Flint action ID. Use this to deduplicate a repeated action projection while resuming an attempt.
+    /** Stable Flint action ID. Use this to deduplicate a repeated action projection while resuming an attempt. Example: "pendact_01KEZF7C00SVMRXWKVZX6R9822".
      * @return string
      * @throws SdkError When pending_action_id is omitted; use hasPendingActionId() or valueOrDefault().
      */

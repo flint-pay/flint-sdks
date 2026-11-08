@@ -7,7 +7,7 @@ namespace Flint;
 final class ReturnShippingPolicyInput extends Model {
     /** @param array{'payer': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnShippingPolicyInput')); }
-    /** Value enum: "merchant", "buyer".
+    /** Who pays for shipping the goods back. This states your policy and charges nothing. Value enum: "merchant", "buyer".
      * @return string
      * @throws SdkError When payer is omitted; use hasPayer() or valueOrDefault().
      */

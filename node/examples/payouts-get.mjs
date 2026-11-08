@@ -5,7 +5,7 @@ const client = new Client({
   allowInsecureHttp: !!baseUrl && ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
 });
 const result = await client.payouts.get(
-  "po_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "po_01KEZF7C00PXK8XREWJA6K4FGV"
 );
 console.log(result.merchant_id);
 console.log(result.payout_id);

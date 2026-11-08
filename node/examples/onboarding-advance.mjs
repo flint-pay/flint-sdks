@@ -8,14 +8,7 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.onboarding.advance(
-  {
-    country: "US",
-    profile: {
-      support_email: "help@example.com",
-      website_url: "https://withflintpay.com",
-    },
-    requested_capabilities: ["accept_card_payments", "receive_payouts"],
-  },
+  undefined,
   { idempotencyKey: idempotencyKey },
 );
 console.log(result.merchant_id);

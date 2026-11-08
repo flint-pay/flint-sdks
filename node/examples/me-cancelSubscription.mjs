@@ -11,12 +11,9 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.me.cancelSubscription(
-  "sub_01ARZ3NDEKTSV4RRFFQ69G5FAV",
-  {
-    cancel_immediately: false,
-    cancellation_reason_code: "too_expensive",
-  },
+  "sub_01KEZF7C00BVRE8YDBXQB74BBM",
+  undefined,
   { idempotencyKey: idempotencyKey },
 );
 console.log(result.customer_id);
-console.log(result.payment_method_id);
+console.log(result.merchant_id);

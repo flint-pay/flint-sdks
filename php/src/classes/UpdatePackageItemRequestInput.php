@@ -9,7 +9,7 @@ namespace Flint;
 final class UpdatePackageItemRequestInput extends Model {
     /** @param array{'expected_version'?: int, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'quantity'?: int}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdatePackageItemRequestInput')); }
-    /** Format: uint64. minimum: 1.
+    /** Version last read from the resource returned in `data` (the primary resource for a result object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on the operation and fields being changed. Format: uint64. minimum: 1.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */

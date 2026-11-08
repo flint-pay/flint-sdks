@@ -15,13 +15,13 @@ final class CustomerReceivableBalanceInput extends Model {
      */
     public function getCurrency(): string { return $this->get('currency'); }
     public function hasCurrency(): bool { return $this->has('currency'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Total still owed across the customer's invoices in this currency: invoice totals minus payments applied and balance reductions. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When outstanding_money is omitted; use hasOutstandingMoney() or valueOrDefault().
      */
     public function getOutstandingMoney(): mixed { return $this->get('outstanding_money'); }
     public function hasOutstandingMoney(): bool { return $this->has('outstanding_money'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Part of the outstanding amount that is past its due date at `observed_at`. Invoices with a payment schedule count only their past-due installments. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When overdue_money is omitted; use hasOverdueMoney() or valueOrDefault().
      */

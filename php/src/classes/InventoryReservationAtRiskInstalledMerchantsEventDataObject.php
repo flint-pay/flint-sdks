@@ -21,7 +21,7 @@ namespace Flint;
 final class InventoryReservationAtRiskInstalledMerchantsEventDataObject extends Model {
     /** @param array{'closed_reason'?: string|null, 'created_at': string, 'expires_at': string|null, 'idempotency_key'?: string, 'inventory_action_required'?: mixed, 'inventory_reservation_id': string, 'inventory_routing_source': mixed, 'lines': list<mixed>, 'owner': mixed, 'replacement_inventory_reservation_id'?: string, 'source_inventory_reservation_id'?: string, 'status': string, 'supported_actions': list<string>, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryReservationAtRiskInstalledMerchantsEventDataObject')); }
-    /** How the reservation ended. mixed when more than one terminal outcome applied. Value enum: "consumed", "released", "expired", "reallocated", "mixed", null.
+    /** How the reservation ended. mixed when more than one terminal outcome applied. `null` when the reservation isn't closed. Value enum: "consumed", "released", "expired", "reallocated", "mixed", null.
      * @return string|null
      */
     public function getClosedReason(): string|null { return $this->get('closed_reason'); }
@@ -31,7 +31,7 @@ final class InventoryReservationAtRiskInstalledMerchantsEventDataObject extends 
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** When held quantity is released if it isn't committed first. null once no line holds quantity. Committed and consumed quantity never expire. Format: date-time.
+    /** When held quantity is released if it isn't committed first. Backordered quantity that payment hasn't confirmed yet carries the same deadline. Committed and consumed quantity never expire. `null` when no line holds quantity or has unconfirmed backordered quantity. Format: date-time.
      * @return string|null
      */
     public function getExpiresAt(): string|null { return $this->get('expires_at'); }
@@ -46,22 +46,22 @@ final class InventoryReservationAtRiskInstalledMerchantsEventDataObject extends 
      */
     public function getInventoryActionRequired(): ?InventoryActionRequired { return $this->get('inventory_action_required'); }
     public function hasInventoryActionRequired(): bool { return $this->has('inventory_action_required'); }
-    /** inventory_reservation_id
+    /** Unique identifier for this inventory reservation, prefixed `invr_`.
      * @return string
      */
     public function getInventoryReservationId(): string { return $this->get('inventory_reservation_id'); }
     public function hasInventoryReservationId(): bool { return $this->has('inventory_reservation_id'); }
-    /** Where an order, payment link, or reservation routes inventory from: a fixed Location, an inventory allocation policy, or one policy revision.
+    /** How Flint chooses the Locations that serve the reservation: one fixed Location, an allocation policy, or a specific policy revision. Where an order, payment link, or reservation routes inventory from: a fixed Location, an inventory allocation policy, or one policy revision.
      * @return InventoryRoutingSource
      */
     public function getInventoryRoutingSource(): InventoryRoutingSource { return $this->get('inventory_routing_source'); }
     public function hasInventoryRoutingSource(): bool { return $this->has('inventory_routing_source'); }
-    /**  [] (Value): {@see InventoryReservationLine}. One item's location allocation within a reservation.
+    /** Allocations of the reserved stock, one for each item and Location. [] (Value): {@see InventoryReservationLine}. One item's location allocation within a reservation.
      * @return list<InventoryReservationLine>
      */
     public function getLines(): array { return $this->get('lines'); }
     public function hasLines(): bool { return $this->has('lines'); }
-    /** Who holds an inventory reservation: either a merchant claim identified by your `key`, or an order.
+    /** Who holds the reservation: a `key` you choose, or an order Flint holds the stock for. Who holds an inventory reservation: either a merchant claim identified by your `key`, or an order.
      * @return InventoryReservationAtRiskInstalledMerchantsEventDataObjectOwnerMerchant|InventoryReservationAtRiskInstalledMerchantsEventDataObjectOwnerOrder|\stdClass
      */
     public function getOwner(): InventoryReservationAtRiskInstalledMerchantsEventDataObjectOwnerMerchant|InventoryReservationAtRiskInstalledMerchantsEventDataObjectOwnerOrder|\stdClass { return $this->get('owner'); }
@@ -76,7 +76,7 @@ final class InventoryReservationAtRiskInstalledMerchantsEventDataObject extends 
      */
     public function getSourceInventoryReservationId(): ?string { return $this->get('source_inventory_reservation_id'); }
     public function hasSourceInventoryReservationId(): bool { return $this->has('source_inventory_reservation_id'); }
-    /** active while any held or committed quantity remains; closed once none does. Value enum: "active", "closed".
+    /** active while any held, committed, or backordered quantity remains; closed once none does. Value enum: "active", "closed".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }

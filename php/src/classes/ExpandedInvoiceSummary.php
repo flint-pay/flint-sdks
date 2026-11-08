@@ -5,7 +5,7 @@ namespace Flint;
  * @property-read ?string $collection_block_status
  * @property-read ?string $created_at
  * @property-read ?string $customer_id
- * @property-read ?string $due_at
+ * @property-read ?string $due_date
  * @property-read string $invoice_id
  * @property-read ?string $invoice_number
  * @property-read bool $is_overdue
@@ -15,11 +15,12 @@ namespace Flint;
  * @property-read ?string $refund_status
  * @property-read MoneyValue $refunded_money
  * @property-read string $status
+ * @property-read list<string> $supported_actions
  * @property-read MoneyValue $total_money
  * @property-read ?string $updated_at
  * Presence-aware response; omitted optional fields return null. */
 final class ExpandedInvoiceSummary extends Model {
-    /** @param array{'collection_block_status'?: string, 'created_at'?: string, 'customer_id'?: string, 'due_at'?: string, 'invoice_id': string, 'invoice_number'?: string, 'is_overdue': bool, 'order_id'?: string, 'outstanding_money': mixed, 'paid_money': mixed, 'refund_status'?: string, 'refunded_money': mixed, 'status': string, 'total_money': mixed, 'updated_at'?: string, ...}|object $values */
+    /** @param array{'collection_block_status'?: string, 'created_at'?: string, 'customer_id'?: string, 'due_date'?: string, 'invoice_id': string, 'invoice_number'?: string, 'is_overdue': bool, 'order_id'?: string, 'outstanding_money': mixed, 'paid_money': mixed, 'refund_status'?: string, 'refunded_money': mixed, 'status': string, 'supported_actions': list<string>, 'total_money': mixed, 'updated_at'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ExpandedInvoiceSummary')); }
     /** Whether collection is blocked. While it is inventory_blocked, collection attempts return 409 ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum: "none", "inventory_blocked", "resolved".
      * @return ?string
@@ -36,11 +37,11 @@ final class ExpandedInvoiceSummary extends Model {
      */
     public function getCustomerId(): ?string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** When payment is due. With payment terms, issue sets it from issued_at and the terms, counted in the invoice's timezone. Absent when the invoice has no due date. Format: date-time.
+    /** Calendar due date in YYYY-MM-DD format, interpreted in timezone (UTC when absent). The outstanding balance becomes overdue only after this date ends. Automatic collection runs at the later of issue and the start of this date. With payment terms, issue computes this date from issued_at. Absent when there is no due date. Format: date.
      * @return ?string
      */
-    public function getDueAt(): ?string { return $this->get('due_at'); }
-    public function hasDueAt(): bool { return $this->has('due_at'); }
+    public function getDueDate(): ?string { return $this->get('due_date'); }
+    public function hasDueDate(): bool { return $this->has('due_date'); }
     /** Flint invoice ID.
      * @return string
      */
@@ -61,7 +62,7 @@ final class ExpandedInvoiceSummary extends Model {
      */
     public function getOrderId(): ?string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** What is still owed, as outstanding_money on the full Invoice reports it: never below zero, 0 on paid, credited, uncollectible, and void invoices, and equal to total_money on a draft. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** What is still owed, as outstanding_money on the full Invoice reports it: never below zero, 0 on paid, credited, uncollectible, and voided invoices, and equal to total_money on a draft. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getOutstandingMoney(): MoneyValue { return $this->get('outstanding_money'); }
@@ -81,11 +82,16 @@ final class ExpandedInvoiceSummary extends Model {
      */
     public function getRefundedMoney(): MoneyValue { return $this->get('refunded_money'); }
     public function hasRefundedMoney(): bool { return $this->has('refunded_money'); }
-    /** Current invoice status. paid and credited close the current balance and can reopen to open or partially_paid after a payment or credit allocation reversal; invoice.reopened reports that change. void and uncollectible are final. Refunds change refund_status without reopening the balance. Value enum: "draft", "open", "partially_paid", "paid", "void", "uncollectible", "credited".
+    /** Current invoice status. paid and credited close the current balance and can reopen to open or partially_paid after a payment or credit allocation reversal; invoice.reopened reports that change. An uncollectible invoice accepts manual recovery payments and becomes paid when fully recovered; reversals restore the write-off. voided is final. Refunds change refund_status without reopening the balance. Value enum: "draft", "open", "partially_paid", "paid", "voided", "uncollectible", "credited".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
+    /** Lifecycle actions Flint accepts for this resource now, based on stored state. Independent of the caller's permissions; each action still requires its route's scope. Always [] when no action is available. [] enum: "collect", "issue", "mark_uncollectible", "void". [] (Value): string.  Value enum: "collect", "issue", "mark_uncollectible", "void".
+     * @return list<string>
+     */
+    public function getSupportedActions(): array { return $this->get('supported_actions'); }
+    public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
     /** The invoice document total, equal to snapshot.pricing_amounts.total_money. Fixed at issue; a draft previews the backing order total. Late fees are in late_fee_money on the full invoice. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */

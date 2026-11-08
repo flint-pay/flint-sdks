@@ -10,12 +10,12 @@ namespace Flint;
  * @property-read int $get_quantity
  * @property-read int $max_applications_per_order
  * @property-read PromotionRuleGroupRequestInput|array<array-key, mixed>|\stdClass $qualifying_item_rules
- * @property-read PromotionRecurrenceInput|array<array-key, mixed>|\stdClass $recurrence
+ * @property-read PromotionRecurrenceRequestInput|array<array-key, mixed>|\stdClass $recurrence
  * @property-read string $reward_selection
  * @property-read string $type
  * Presence-aware input; omitted fields throw when accessed. */
 final class PromotionBuyXGetYMethodRequestInput extends Model {
-    /** @param array{'allocation'?: string, 'buy_min_quantity': int, 'calculation_basis'?: string, 'discounted_item_rules': PromotionRuleGroupRequestInput|array<array-key, mixed>|\stdClass, 'get_percent_off': int|float, 'get_quantity': int, 'max_applications_per_order'?: int, 'qualifying_item_rules': PromotionRuleGroupRequestInput|array<array-key, mixed>|\stdClass, 'recurrence'?: PromotionRecurrenceInput|array<array-key, mixed>|\stdClass, 'reward_selection'?: string, 'type': string}|object $values */
+    /** @param array{'allocation'?: string, 'buy_min_quantity': int, 'calculation_basis'?: string, 'discounted_item_rules': PromotionRuleGroupRequestInput|array<array-key, mixed>|\stdClass, 'get_percent_off': int|float, 'get_quantity': int, 'max_applications_per_order'?: int, 'qualifying_item_rules': PromotionRuleGroupRequestInput|array<array-key, mixed>|\stdClass, 'recurrence'?: PromotionRecurrenceRequestInput|array<array-key, mixed>|\stdClass, 'reward_selection'?: string, 'type': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PromotionBuyXGetYMethodRequestInput')); }
     /** How the effect is applied across the matched items or charges. each applies the effect to every matched item independently: a fixed amount_off is charged per item (10 USD off 3 items discounts 30 USD, each capped at the item price), and a percent_off is taken from each item. across applies the effect once to the matched set as a whole: a fixed amount_off is the whole amount one time (10 USD off the group total, not prorated per item), and a percent_off is taken from the combined subtotal. For percent_off the two produce the same total and differ only in how the discount is attributed to individual line items; for amount_off they differ by the number of matched items, so set it deliberately. Defaults to each for line_item and service_charge promotions and across for order promotions. max_discounted_quantity requires each. Value enum: "each", "across".
      * @return string
@@ -29,13 +29,13 @@ final class PromotionBuyXGetYMethodRequestInput extends Model {
      */
     public function getBuyMinQuantity(): int { return $this->get('buy_min_quantity'); }
     public function hasBuyMinQuantity(): bool { return $this->has('buy_min_quantity'); }
-    /** Basis for merchandise promotion calculations. Omit for service_charge promotions because service-charge discounts are calculated from the targeted charges. Value enum: "subtotal_pre_tax", "subtotal_post_tax".
+    /** What a merchandise discount is calculated from. Omitted means `subtotal_pre_tax`. Not used by service_charge promotions; sending it there returns `400 INVALID_REQUEST`. Value enum: "subtotal_pre_tax", "subtotal_post_tax".
      * @return string
      * @throws SdkError When calculation_basis is omitted; use hasCalculationBasis() or valueOrDefault().
      */
     public function getCalculationBasis(): string { return $this->get('calculation_basis'); }
     public function hasCalculationBasis(): bool { return $this->has('calculation_basis'); }
-    /** Which line items receive the discount. Required for service_charge promotions, and for line_item promotions whose eligibility_rules include any non-line-item condition (for example order.subtotal or a customer condition). It is optional only when eligibility_rules consist entirely of line_item.* conditions (plus matched_items.subtotal), in which case the matched items are used as the target. Omitting it otherwise returns DISCOUNTED_ITEM_RULES_REQUIRED. A rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no rules, or send null where the field is clearable. Responses list rules before nested groups. Under any, a nested group containing only one rule reads back as that rule. Under all, nested groups keep their boundaries to preserve matched_items.subtotal scope. These deterministic normalizations stabilize after one round trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the same all group, including its nested groups.
+    /** Which line items receive the discount. Required for service_charge promotions, and for line_item promotions whose eligibility_rules include any non-line-item condition (for example order.subtotal or a customer condition). It is optional only when eligibility_rules consist entirely of line_item.* conditions (plus matched_items.subtotal), in which case the matched items are used as the target. Omitting it otherwise returns `400 INVALID_REQUEST` with `param` naming this field. A rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no rules, or send null where the field is clearable. Responses list rules before nested groups. Under any, a nested group containing only one rule reads back as that rule. Under all, nested groups keep their boundaries to preserve matched_items.subtotal scope. These deterministic normalizations stabilize after one round trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the same all group, including its nested groups.
      * @return PromotionRuleGroupRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When discounted_item_rules is omitted; use hasDiscountedItemRules() or valueOrDefault().
      */
@@ -66,7 +66,7 @@ final class PromotionBuyXGetYMethodRequestInput extends Model {
     public function getQualifyingItemRules(): mixed { return $this->get('qualifying_item_rules'); }
     public function hasQualifyingItemRules(): bool { return $this->has('qualifying_item_rules'); }
     /** Optional recurrence for subscription payments: once applies to the first charged payment, repeating applies for period_count charged payments, and forever applies to every payment. One-time orders apply the promotion once. How often a promotion's discount repeats on a subscription: once, for a number of charged payments, or forever.
-     * @return PromotionRecurrenceInput|array<array-key, mixed>|\stdClass
+     * @return PromotionRecurrenceRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When recurrence is omitted; use hasRecurrence() or valueOrDefault().
      */
     public function getRecurrence(): mixed { return $this->get('recurrence'); }

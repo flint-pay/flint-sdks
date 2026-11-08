@@ -30,17 +30,17 @@ final class InventoryAdjustment extends Model {
      */
     public function getIdempotencyKey(): ?string { return $this->get('idempotency_key'); }
     public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
-    /** inventory_adjustment_id
+    /** Unique identifier for this inventory adjustment, prefixed `invadj_`.
      * @return string
      */
     public function getInventoryAdjustmentId(): string { return $this->get('inventory_adjustment_id'); }
     public function hasInventoryAdjustmentId(): bool { return $this->has('inventory_adjustment_id'); }
-    /**  [] (Value): {@see InventoryAdjustmentLine}. One line of an inventory adjustment, with the item, Location, movement written, and the change in on-hand and each non-sellable quantity.
+    /** Stock changes, one for each inventory item and Location, from 1 to 100 lines. [] (Value): {@see InventoryAdjustmentLine}. One line of an inventory adjustment, with the item, Location, movement written, and the change in on-hand and each non-sellable quantity.
      * @return list<InventoryAdjustmentLine>
      */
     public function getLines(): array { return $this->get('lines'); }
     public function hasLines(): bool { return $this->has('lines'); }
-    /** note
+    /** Free-text note explaining the change. Required when `reason` is `correction`.
      * @return ?string
      */
     public function getNote(): ?string { return $this->get('note'); }
@@ -50,12 +50,12 @@ final class InventoryAdjustment extends Model {
      */
     public function getOccurredAt(): string { return $this->get('occurred_at'); }
     public function hasOccurredAt(): bool { return $this->has('occurred_at'); }
-    /** Value enum: "received", "returned", "sold", "theft", "loss", "condition_changed", "counted", "correction".
+    /** Why the stock changed. It decides which fields each line takes. Value enum: "received", "returned", "sold", "theft", "loss", "condition_changed", "counted", "correction".
      * @return string
      */
     public function getReason(): string { return $this->get('reason'); }
     public function hasReason(): bool { return $this->has('reason'); }
-    /**  anyOf[1] (Value): {@see InventorySourceSystem}. The system an inventory event came from, such as manual entry, a point of sale, a warehouse system, or Flint, with your source identifier when it applies. anyOf[2] (Value): null.
+    /** System the change came from, such as a point-of-sale or warehouse system. `null` when the request named no source system. anyOf[1] (Value): {@see InventorySourceSystem}. The system an inventory event came from, such as manual entry, a point of sale, a warehouse system, or Flint, with your source identifier when it applies. anyOf[2] (Value): null.
      * @return InventorySourceSystem|null
      */
     public function getSourceSystem(): InventorySourceSystem|null { return $this->get('source_system'); }

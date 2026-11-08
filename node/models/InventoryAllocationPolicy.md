@@ -10,18 +10,20 @@ Named, version-fenced rules that decide which Locations serve demand and in what
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `configuration` | Required | object | `configuration`: [field definitions](../models/InventoryAllocationPolicy.md#inventoryallocationpolicyconfiguration). |
-| `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
-| `current_inventory_allocation_policy_revision_id` | Required | string | The immutable revision containing this policy's current routing configuration. Replacing configuration publishes a new revision; other policy edits keep this ID. |
-| `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
-| `inventory_allocation_policy_id` | Required | string |  |
-| `metadata` | Required | [MetadataMap](../models/MetadataMap.md#metadatamap) | Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/BuyerRefund.md#buyerrefundmetadata). |
-| `name` | Required | string |  |
-| `status` | Required | string | Values: `"active"`, `"inactive"`, `"archived"`. |
-| `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
-| `version` | Required | integer | Format: `uint64`. minimum: `1`. |
+| `configuration` | Required | object | Routing rules: ranked groups of Locations, whether demand can be split, and the most Locations one assignment may use. `configuration`: [field definitions](../models/InventoryAllocationPolicy.md#inventoryallocationpolicyconfiguration). |
+| `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
+| `current_inventory_allocation_policy_revision_id` | Required | string | The immutable revision containing this policy's current routing configuration. Replacing configuration publishes a new revision; other policy edits keep this ID. Example: `"invpv_01KEZF7C00JSFTTBKC1JY614JJ"`. |
+| `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. Example: `"warehouse-1842"`. |
+| `inventory_allocation_policy_id` | Required | string | ID of the policy this revision belongs to. Example: `"invp_01KEZF7C0076BZX855WAGC5SQK"`. |
+| `metadata` | Required | [MetadataMap](../models/MetadataMap.md#metadatamap) | Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/CheckoutSession.md#checkoutsessionmetadata). |
+| `name` | Required | string | Merchant-facing policy name. |
+| `status` | Required | string | Current allocation policy status. Values: `"active"`, `"inactive"`, `"archived"`. |
+| `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
+| `version` | Required | integer | Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. Format: `uint64`. minimum: `1`. |
 
 ### InventoryAllocationPolicy.configuration
+
+Routing rules: ranked groups of Locations, whether demand can be split, and the most Locations one assignment may use.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
@@ -32,5 +34,5 @@ Named, version-fenced rules that decide which Locations serve demand and in what
 
 ### InventoryAllocationPolicy.metadata
 
-Field definitions: [BuyerRefund.metadata](../models/BuyerRefund.md#buyerrefundmetadata).
+Field definitions: [CheckoutSession.metadata](../models/CheckoutSession.md#checkoutsessionmetadata).
 

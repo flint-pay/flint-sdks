@@ -10,13 +10,13 @@ namespace Flint;
 final class ApiKeysRevokeInput extends Model {
     /** @param array{'api_key_id': string, 'body'?: array{'expected_version'?: int}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ApiKeysRevokeInput')); }
-    /** Flint API key ID. Example: "key_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Flint API key ID. Example: "key_01KEZF7C008CTC2G5V6J08M6S7".
      * @return string
      * @throws SdkError When api_key_id is omitted; use hasApiKeyId() or valueOrDefault().
      */
     public function getApiKeyId(): string { return $this->get('api_key_id'); }
     public function hasApiKeyId(): bool { return $this->has('api_key_id'); }
-    /** The request body for: Revoke an API key.
+    /** The request body for: Revoke an API key. Example: {"expected_version":1}.
      * @return array{'expected_version'?: int}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

@@ -10,8 +10,8 @@ The `code` variant of `SaveMeGiftCardRequest`.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `code` | Required | string | minLength: `1`. |
-| `credential_type` | Required | string | Values: `"code"`. |
-| `grant_id` | Optional | string | minLength: `1`. |
-| `recipient_access_token` | Optional | string | minLength: `1`. |
+| `code` | Required | string | The gift card's code. Spaces and hyphens are ignored. minLength: `1`. |
+| `credential_type` | Required | string | The proof that the buyer can use the card: its code, or the private recipient link they received. Values: `"code"`. |
+| `grant_id` | Optional | string | ID of the recipient access grant, from the path of the private recipient link. minLength: `1`. Example: `"gcg_01KEZF7C00BTDW4CJQTB38Q828"`. |
+| `recipient_access_token` | Optional | string | Token from the fragment of the private recipient link. minLength: `1`. |
 

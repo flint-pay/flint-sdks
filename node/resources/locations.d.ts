@@ -1,5 +1,5 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-5.js';
+import type { ClientOptions } from '../declarations/types-6.js';
 import type {
     Location,
     LocationListResponse,
@@ -9,9 +9,9 @@ import type {
     LocationsGetParams,
     LocationsListParams,
     LocationsUpdateParams
-} from '../declarations/types-33.js';
-import type { RequestOptions } from '../declarations/types-48.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-34.js';
+import type { RequestOptions } from '../declarations/types-51.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -37,29 +37,24 @@ export type {
     LocationsUpdateParams,
     LocationCoordinateRequestInput,
     LocationCoordinate
-} from '../declarations/types-33.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { ClientOptions } from '../declarations/types-5.js';
-export type { CreateLocationRequestInput } from '../declarations/types-9.js';
+} from '../declarations/types-34.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+export type { ClientOptions } from '../declarations/types-6.js';
+export type { CreateLocationRequestInput } from '../declarations/types-10.js';
 export type { AddressRequestInput, AuthMode, Address, AddressRequest } from '../declarations/types-0.js';
-export type {
-    MetadataRequestInput,
-    MetadataMap,
-    NextAction,
-    MoneyValue,
-    MetadataPatchRequestInput,
-    MetadataPatchRequest
-} from '../declarations/types-35.js';
-export type { Credentials } from '../declarations/types-12.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
-export type { UpdateLocationRequestInput } from '../declarations/types-59.js';
-export type { InventoryAllocationPoliciesDeleteParams } from '../declarations/types-25.js';
-export { makeAddressRequest } from '../declarations/types-62.js';
-export { makeCreateLocationRequest } from '../declarations/types-64.js';
-export { makeLocationCoordinateRequest, makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-69.js';
-export { makeMoneyValue } from '../declarations/types-70.js';
-export { makeUpdateLocationRequest } from '../declarations/types-74.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-36.js';
+export type { Credentials } from '../declarations/types-13.js';
+export type { NextAction, MoneyValue } from '../declarations/types-37.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
+export type { UpdateLocationRequestInput } from '../declarations/types-63.js';
+export type { InventoryAllocationPoliciesDeleteParams } from '../declarations/types-27.js';
+export type { DisputesAcceptParams } from '../declarations/types-22.js';
+export { makeAddressRequest } from '../declarations/types-66.js';
+export { makeCreateLocationRequest } from '../declarations/types-69.js';
+export { makeLocationCoordinateRequest, makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-74.js';
+export { makeMoneyValue } from '../declarations/types-75.js';
+export { makeUpdateLocationRequest } from '../declarations/types-79.js';
 export interface LocationsResource {
     /**
  * Create a Location. Sending inventory_allocation_enabled also requires
@@ -79,7 +74,9 @@ export interface LocationsResource {
  */
     create(params: LocationsCreateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Location, LocationResponse>>;
     /**
- * Retire a Location. Preserves the archived resource for direct reads.
+ * Retire a Location. Preserves the archived resource for direct reads. Repeating DELETE returns
+ * the archived Location without changing its version or timestamps. An explicitly supplied
+ * expected_version must still match.
  *
  * `DELETE /v1/locations/{location_id}`
  * @param location_id Flint Location ID.
@@ -88,18 +85,19 @@ export interface LocationsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.locations.delete("loc_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey })
+ * client.locations.delete("loc_01KEZF7C00CMHRRYA3MV996JB2", {}, { idempotencyKey: idempotencyKey })
  */
     delete(location_id: InputValue<string>, params?: LocationsDeleteParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Location, LocationResponse>>;
     /**
- * Get location.
+ * Returns one location by ID, with its address, timezone, status, and whether it accepts inventory
+ * allocation. Archived locations remain readable by ID.
  *
  * `GET /v1/locations/{location_id}`
  * @param location_id Flint Location ID.
  * @see https://developers.withflintpay.com/docs/api/locations#getLocation
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.locations.get("loc_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.locations.get("loc_01KEZF7C00CMHRRYA3MV996JB2")
  */
     get(location_id: InputValue<string>, params?: LocationsGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<Location, LocationResponse>>;
     /**
@@ -127,7 +125,8 @@ export interface LocationsResource {
  * Sending inventory_allocation_enabled also requires commerce.inventory.allocation.write. The
  * version advances on every change. expected_version is optional and compared with version when
  * sent. Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its
- * fingerprint includes the canonical request body.
+ * fingerprint includes the canonical request body. An archived Location cannot be changed: the
+ * request returns 409 ACTION_NOT_ALLOWED with reason archived and current_status archived.
  *
  * `PATCH /v1/locations/{location_id}`
  * @param location_id Flint Location ID.

@@ -8,7 +8,7 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.paymentIntents.sendReceipt(
-  "pi_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "pi_01KEZF7C00G8H9D509YEV22P7R",
   undefined,
   { idempotencyKey: idempotencyKey },
 );

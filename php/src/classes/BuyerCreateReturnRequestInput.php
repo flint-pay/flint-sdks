@@ -8,13 +8,13 @@ namespace Flint;
 final class BuyerCreateReturnRequestInput extends Model {
     /** @param array{'line_items': list<ReturnLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'order_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerCreateReturnRequestInput')); }
-    /** minItems: 1. maxItems: 100. [] (Value): {@see ReturnLineItemRequestInput}. An order line item to return, with the quantity, return reason, and optionally a note and the resolution the buyer wants.
+    /** The lines to check or return, each naming an order line item. minItems: 1. maxItems: 100. [] (Value): {@see ReturnLineItemRequestInput}. An order line item to return, with the quantity, return reason, and optionally a note and the resolution the buyer wants.
      * @return list<ReturnLineItemRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When line_items is omitted; use hasLineItems() or valueOrDefault().
      */
     public function getLineItems(): array { return $this->get('line_items'); }
     public function hasLineItems(): bool { return $this->has('line_items'); }
-    /** minLength: 1.
+    /** ID of the Order to return items from. minLength: 1. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */

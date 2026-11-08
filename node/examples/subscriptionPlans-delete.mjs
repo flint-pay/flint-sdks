@@ -8,9 +8,9 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.subscriptionPlans.delete(
-  "plan_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "plan_01KEZF7C004CY5ZR33XST2AASV",
   {},
   { idempotencyKey: idempotencyKey },
 );
+console.log(result.merchant_id);
 console.log(result.status);
-console.log(result.subscription_plan_id);

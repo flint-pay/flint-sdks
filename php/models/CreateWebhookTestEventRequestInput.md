@@ -8,7 +8,7 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `event_type` | Required | string | Current event type to send. merchant delivers merchant events; partner_app delivers partner lifecycle events; installed_merchants delivers merchant events permitted by the install read scopes. The event catalog lists event_sources for each type. Values: [251 declared values](#createwebhooktesteventrequestinput-event_type-values). |
+| `event_type` | Required | string | Current event type to send. merchant delivers merchant events; partner_app delivers partner lifecycle events; installed_merchants delivers merchant events permitted by the install read scopes. The event catalog lists event_sources for each type. Values: [275 declared values](#createwebhooktesteventrequestinput-event_type-values). |
 
 #### CreateWebhookTestEventRequestInput event_type values
 
@@ -27,6 +27,7 @@ Request input.
 - `"checkout_session.invalidated"`
 - `"checkout_session.paid"`
 - `"checkout_session.partially_paid"`
+- `"checkout_session.updated"`
 - `"credit_note.created"`
 - `"credit_note.issued"`
 - `"credit_note.updated"`
@@ -43,6 +44,7 @@ Request input.
 - `"customer_deletion_request.failed"`
 - `"customer_deletion_request.processing"`
 - `"customer_deletion_request.rejected"`
+- `"customer_email_preferences.updated"`
 - `"delivery_location_set.activated"`
 - `"delivery_location_set.archived"`
 - `"delivery_location_set.created"`
@@ -163,12 +165,18 @@ Request input.
 - `"order.partially_refunded"`
 - `"order.refunded"`
 - `"order.updated"`
+- `"order_edit.created"`
 - `"package.created"`
 - `"package.updated"`
+- `"partner_app.platform_approved"`
+- `"partner_app.platform_limited"`
+- `"partner_app.platform_rejected"`
+- `"partner_app.updated"`
 - `"partner_app_install.created"`
 - `"partner_app_install.permissions_updated"`
 - `"partner_app_install.revoked"`
 - `"partner_app_install.updated"`
+- `"payment_intent.authorization_expiring"`
 - `"payment_intent.canceled"`
 - `"payment_intent.created"`
 - `"payment_intent.expired"`
@@ -184,20 +192,24 @@ Request input.
 - `"payment_method.activated"`
 - `"payment_method.archived"`
 - `"payment_method.failed"`
+- `"payment_method.updated"`
 - `"payment_review.closed"`
 - `"payment_review.opened"`
 - `"payment_review.reopened"`
 - `"payout.canceled"`
 - `"payout.created"`
 - `"payout.failed"`
-- `"payout.paid"`
 - `"payout.reversed"`
+- `"payout.succeeded"`
 - `"payout.updated"`
 - `"payout_destination.archived"`
 - `"payout_destination.created"`
 - `"payout_destination.disabled"`
 - `"payout_destination.updated"`
 - `"payout_settings.updated"`
+- `"price_list.archived"`
+- `"price_list.created"`
+- `"price_list.updated"`
 - `"product.archived"`
 - `"product.created"`
 - `"product.updated"`
@@ -244,9 +256,12 @@ Request input.
 - `"subscription.delivery_pause_upcoming"`
 - `"subscription.delivery_updated"`
 - `"subscription.dunning_exhausted"`
+- `"subscription.end_upcoming"`
 - `"subscription.past_due"`
 - `"subscription.paused"`
 - `"subscription.payment_succeeded"`
+- `"subscription.plan_change_canceled"`
+- `"subscription.plan_change_scheduled"`
 - `"subscription.plan_changed"`
 - `"subscription.reactivated"`
 - `"subscription.renewal_upcoming"`
@@ -257,10 +272,19 @@ Request input.
 - `"subscription_payment_retry.created"`
 - `"subscription_payment_retry.failed"`
 - `"subscription_payment_retry.succeeded"`
+- `"tax_calculation_callback.activated"`
+- `"tax_calculation_callback.archived"`
+- `"tax_calculation_callback.created"`
+- `"tax_calculation_callback.deactivated"`
+- `"tax_calculation_callback.updated"`
 - `"tax_connection.updated"`
 - `"test_clock.advancing"`
 - `"test_clock.archived"`
 - `"test_clock.created"`
 - `"test_clock.failed"`
 - `"test_clock.ready"`
+- `"ticket.checked_in"`
+- `"ticket.created"`
+- `"ticket.updated"`
+- `"ticket.voided"`
 

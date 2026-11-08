@@ -10,6 +10,6 @@ Inventory adjustment and the levels it changed. inventory_adjustment is the prim
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `inventory_adjustment` | Required | [InventoryAdjustment](../models/InventoryAdjustment.md#inventoryadjustment) | A recorded stock change with its reason and the quantity changes Flint computed. |
+| `inventory_adjustment` | Required | [InventoryAdjustment](../models/InventoryAdjustment.md#inventoryadjustment) | The recorded adjustment. A recorded stock change with its reason and the quantity changes Flint computed. |
 | `inventory_levels` | Required | Array of [InventoryLevel](../models/InventoryLevel.md#inventorylevel) | Post-commit state of every level this command touched, one entry per level. A replay returns the levels the original command produced. Empty when no levels changed. |
 

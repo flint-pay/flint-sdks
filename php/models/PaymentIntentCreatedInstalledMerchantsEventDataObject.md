@@ -2,9 +2,11 @@
 
 ## PaymentIntentCreatedInstalledMerchantsEventDataObject
 
-One payment from a buyer, standalone or as a leg of an order. amount_money is the amount requested. Once the payment is authorized, authorized_money equals amount_money and splits into captured_money (collected), capturable_money (still on hold), and released_money (returned without being charged), so authorized_money always equals the sum of those three. Reconcile revenue from captured_money.
+The affected public resource without expansions, client authority fields, or fields computed for an individual caller.
+
+The resource snapshot, without expansions. Webhooks omit these fields: `processing_fee_money`, `add_on_fees`, `merchant_net_money`.
 
 Response model.
 
-Fields, types, descriptions and enum values: [PaymentIntent](../models/PaymentIntent.md#paymentintent).
+Fields, types, descriptions and enum values: [PaymentIntentAuthorizationExpiringMerchantEventDataObject](../models/PaymentIntentAuthorizationExpiringMerchantEventDataObject.md#paymentintentauthorizationexpiringmerchanteventdataobject).
 

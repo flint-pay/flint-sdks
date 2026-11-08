@@ -1,18 +1,18 @@
 import type { Result, WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-5.js';
+import type { ClientOptions } from '../declarations/types-6.js';
 import type {
     CreditNote,
     CreditNoteAllocation,
     CreditNoteAllocationListResponse,
     CreditNoteAllocationResponse,
     CreditNoteAllocationResult,
-    CreditNoteAllocationResultResponse,
+    CreditNoteAllocationResultResponse
+} from '../declarations/types-13.js';
+import type {
     CreditNoteListResponse,
-    CreditNoteRefundListResponse,
     CreditNoteResponse,
     CreditNotesCreateAllocationParams,
     CreditNotesCreateParams,
-    CreditNotesCreateRefundParams,
     CreditNotesGetAllocationParams,
     CreditNotesGetPDFParams,
     CreditNotesGetPDFResponse,
@@ -20,16 +20,13 @@ import type {
     CreditNotesIssueParams,
     CreditNotesListAllocationsParams,
     CreditNotesListParams,
-    CreditNotesListRefundsParams,
     CreditNotesReverseAllocationParams,
     CreditNotesUpdateParams,
     CreditNotesVoidParams
-} from '../declarations/types-12.js';
-import type { IssueCreditNoteResponse, IssueCreditNoteResult } from '../declarations/types-32.js';
-import type { Refund } from '../declarations/types-46.js';
-import type { RefundListResponse, RefundResponse } from '../declarations/types-47.js';
-import type { RequestOptions } from '../declarations/types-48.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-14.js';
+import type { IssueCreditNoteResponse, IssueCreditNoteResult } from '../declarations/types-34.js';
+import type { RequestOptions } from '../declarations/types-51.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-66.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -46,92 +43,73 @@ export type {
 } from '../runtime.js';
 export type {
     CreditNotesCreateParams,
-    CreditNote,
     CreditNoteResponse,
     CreditNotesCreateAllocationParams,
-    CreditNoteAllocationResult,
-    CreditNoteAllocationResultResponse,
-    CreditNotesCreateRefundParams,
     CreditNotesGetParams,
     CreditNotesGetAllocationParams,
-    CreditNoteAllocation,
-    CreditNoteAllocationResponse,
     CreditNotesGetPDFParams,
     CreditNotesGetPDFResponse,
     CreditNotesIssueParams,
     CreditNotesListAllocationsParams,
-    CreditNoteAllocationListResponse,
-    CreditNotesListRefundsParams,
-    CreditNoteRefundListResponse,
     CreditNotesListParams,
     CreditNoteListResponse,
     CreditNotesReverseAllocationParams,
     CreditNotesUpdateParams,
     CreditNotesVoidParams,
+    CreditNoteRefundRequestInput
+} from '../declarations/types-14.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference, ResourceVersionRequestInput } from '../declarations/types-51.js';
+export type {
+    CreditNote,
+    CreditNoteAllocationResult,
+    CreditNoteAllocationResultResponse,
+    CreditNoteAllocation,
+    CreditNoteAllocationResponse,
+    CreditNoteAllocationListResponse,
     CreditNoteLineItemRequestInput,
-    CreditNoteCorrectionRequestInput,
-    CreditNoteCorrectionRequestQuantityInput,
-    CreditNoteCorrectionRequestAmountInput,
+    CreditNoteCorrectionRequestModelInput,
+    CreditNoteCorrectionRequestQuantityRequestInput,
+    CreditNoteCorrectionRequestAmountRequestInput,
     Credentials,
     CreditNoteLineItem,
     CreditNoteCorrectionRequest,
     CreditNoteCorrectionRequestQuantity,
     CreditNoteCorrectionRequestAmount,
-    CreditNoteIssueAllocationRequestInput,
-    CreditNoteRefundRequestInput
-} from '../declarations/types-12.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceVersionRequestInput } from '../declarations/types-48.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { Refund, ReadinessMerchantAccountSession, RefundAdjustmentReason } from '../declarations/types-46.js';
-export type {
-    RefundResponse,
-    RefundListResponse,
-    RefundLineItemAllocation,
-    RefundLineItemAdjustmentRefund,
-    RefundLineItemAdjustment,
-    RefundLineItemAutomaticRefund,
-    RefundLineItemModifierAllocation,
-    RefundTaxBreakdownRefund,
-    RefundTenderAllocation,
-    RefundUnissuedGiftCardRecovery
-} from '../declarations/types-47.js';
-export type {
-    IssueCreditNoteResult,
-    IssueCreditNoteResponse,
-    InvoiceSnapshot,
-    InvoiceTip,
-    IssueCreditNoteRequestInput,
-    InvoicesMarkUncollectibleParams
-} from '../declarations/types-32.js';
-export type { ClientOptions } from '../declarations/types-5.js';
+    CreditNoteIssueAllocationRequestInput
+} from '../declarations/types-13.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-66.js';
+export type { IssueCreditNoteResult, IssueCreditNoteResponse, IssueCreditNoteRequestInput } from '../declarations/types-34.js';
+export type { ClientOptions } from '../declarations/types-6.js';
 export type {
     CreateCreditNoteRequestInput,
     CreateCreditNoteAllocationRequestInput,
-    CreateCreditNoteRefundRequestInput
+    ConfirmReturnResolutionRequestInput
 } from '../declarations/types-7.js';
-export type { MoneyValueInput, MoneyValue, NextAction, MetadataMap } from '../declarations/types-35.js';
+export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-37.js';
 export type { AuthMode, Address } from '../declarations/types-0.js';
-export type { TaxIdentity, TaxBreakdown, TaxJurisdiction, TaxBreakdownPercentage, TaxBreakdownFlatAmount } from '../declarations/types-57.js';
+export type {
+    TaxIdentity,
+    TaxCurrencyConversion,
+    TaxBreakdown,
+    TaxJurisdiction,
+    TaxBreakdownPercentage,
+    TaxBreakdownFlatAmount
+} from '../declarations/types-61.js';
 export type {
     DocumentTaxID,
     ExpandedInvoiceSummary,
     ExpandedCustomerSummary,
     ExpandedOrderSummary,
     ExpandedPaymentIntentSummary
-} from '../declarations/types-21.js';
-export type { Invoice } from '../declarations/types-28.js';
+} from '../declarations/types-23.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
 export type {
+    Invoice,
     InvoiceCollection,
     InvoiceCollectionBuyerInitiated,
     InvoiceCollectionAutomatic,
-    InvoiceCollectionExternal,
-    InvoiceLateFee,
-    InvoiceLateFeePolicy,
-    InvoiceLateFeePolicyFixed,
-    InvoiceLateFeePolicyPercentage,
-    InvoiceDiscount,
-    InvoiceLineItem
-} from '../declarations/types-29.js';
+    InvoiceCollectionExternal
+} from '../declarations/types-30.js';
 export type {
     InvoicePaymentPolicy,
     InvoicePaymentOptionLimit,
@@ -139,70 +117,80 @@ export type {
     InvoicePaymentDueNone,
     InvoicePaymentDueDate,
     InvoicePaymentDuePaymentTerms,
-    InvoicePaymentTermCalculation
-} from '../declarations/types-30.js';
-export type { CheckoutBuyerContact, CategoryReference } from '../declarations/types-4.js';
-export type { PricingAmounts } from '../declarations/types-44.js';
-export type { SettlementAmounts, SelectedProductOption } from '../declarations/types-53.js';
-export type {
     InvoicePaymentTermsSnapshot,
+    InvoicePaymentTermCalculation,
     InvoicePaymentTermCalculationOnReceipt,
     InvoicePaymentTermCalculationNetDays,
     InvoicePaymentTermCalculationDaysAfterMonthEnd,
     InvoicePaymentTermCalculationDayOfMonth,
     InvoicePaymentTermCalculationDayOfNextMonth,
-    InvoiceScheduleEntry,
     InvoiceScheduleAmountSpecification,
-    InvoiceScheduleAmountSpecificationFixed,
+    InvoiceScheduleAmountSpecificationFixed
+} from '../declarations/types-32.js';
+export type {
+    InvoiceLateFee,
+    InvoiceLateFeePolicy,
+    InvoiceLateFeePolicyFixed,
+    InvoiceLateFeePolicyPercentage,
+    InvoiceDiscount,
+    InvoiceLineItem
+} from '../declarations/types-31.js';
+export type { MetadataMap } from '../declarations/types-36.js';
+export type { CheckoutBuyerContact, CategoryReference } from '../declarations/types-5.js';
+export type { DeferredPromotion } from '../declarations/types-16.js';
+export type { PricingAmounts } from '../declarations/types-47.js';
+export type { OrderSettlementAmounts } from '../declarations/types-40.js';
+export type { SettlementAmounts, SelectedProductOption } from '../declarations/types-56.js';
+export type {
+    InvoiceScheduleEntry,
     InvoiceScheduleAmountSpecificationPercentage,
     InvoiceScheduleAmountSpecificationRemainingBalance,
     InvoiceScheduleDue,
     InvoiceScheduleDueAtIssue,
     InvoiceScheduleDueDate,
-    InvoiceScheduleDueInvoiceDueDate
-} from '../declarations/types-31.js';
-export type { OrderCharge, OrderCalculatedChargeTax } from '../declarations/types-36.js';
+    InvoiceScheduleDueInvoiceDueDate,
+    InvoiceSnapshot,
+    InvoiceTip,
+    InvoicesMarkUncollectibleParams
+} from '../declarations/types-33.js';
+export type { OrderCharge, OrderCalculatedChargeTax } from '../declarations/types-38.js';
 export type { BundleComponent, BundleComponentVariantSummary } from '../declarations/types-1.js';
-export type { Image } from '../declarations/types-25.js';
-export type { OrderLineItemModifier, OrderGiftCardAllocation } from '../declarations/types-37.js';
-export type { TextModifierRequest, UpdateCreditNoteRequestInput } from '../declarations/types-58.js';
-export type { PaymentSourceSummary, PaymentSourceAchDebitSummary, PaymentSourceCardSummary, PaymentRefund } from '../declarations/types-43.js';
-export type { ConfirmReturnResolutionRequestInput } from '../declarations/types-6.js';
+export type { Image } from '../declarations/types-27.js';
+export type { OrderLineItemModifier, OrderGiftCardAllocation } from '../declarations/types-39.js';
+export type { TextModifierRequest } from '../declarations/types-62.js';
+export type {
+    Refund,
+    RefundLineItemAllocation,
+    RefundLineItemAdjustmentRefund,
+    RefundLineItemAdjustment,
+    RefundAdjustmentReason,
+    RefundLineItemAutomaticRefund,
+    RefundLineItemModifierAllocation,
+    RefundTaxBreakdownRefund,
+    RefundTenderAllocation,
+    RefundUnissuedGiftCardRecovery
+} from '../declarations/types-50.js';
+export type { PaymentSourceSummary } from '../declarations/types-46.js';
+export type { PaymentSourceAchDebitSummary, PaymentSourceCardSummary, PaymentRefund } from '../declarations/types-45.js';
+export type { UpdateCreditNoteRequestInput } from '../declarations/types-63.js';
+export type { DisputesAcceptParams } from '../declarations/types-22.js';
 export {
     makeConfirmReturnResolutionRequest,
     makeCreateCreditNoteAllocationRequest,
-    makeCreateCreditNoteRefundRequest,
     makeCreateCreditNoteRequest
-} from '../declarations/types-63.js';
+} from '../declarations/types-68.js';
 export {
-    makeCreditNoteCorrectionRequest,
-    makeCreditNoteCorrectionRequestAmount,
-    makeCreditNoteCorrectionRequestQuantity,
+    makeCreditNoteCorrectionRequestAmountRequest,
+    makeCreditNoteCorrectionRequestModel,
+    makeCreditNoteCorrectionRequestQuantityRequest,
     makeCreditNoteIssueAllocationRequest,
     makeCreditNoteLineItemRequest,
     makeCreditNoteRefundRequest
-} from '../declarations/types-66.js';
-export {
-    makeInvoiceLateFeePolicy,
-    makeInvoiceLateFeePolicyFixed,
-    makeInvoiceLateFeePolicyPercentage,
-    makeInvoicePaymentOptionLimit,
-    makeInvoicePaymentPolicy,
-    makeInvoicePaymentTermCalculation,
-    makeInvoicePaymentTermCalculationDayOfMonth,
-    makeInvoicePaymentTermCalculationDayOfNextMonth,
-    makeInvoicePaymentTermCalculationDaysAfterMonthEnd,
-    makeInvoicePaymentTermCalculationNetDays,
-    makeInvoicePaymentTermCalculationOnReceipt,
-    makeInvoiceScheduleAmountSpecification,
-    makeInvoiceScheduleAmountSpecificationFixed,
-    makeInvoiceScheduleAmountSpecificationPercentage,
-    makeInvoiceScheduleAmountSpecificationRemainingBalance,
-    makeIssueCreditNoteRequest
-} from '../declarations/types-69.js';
-export { makeMoneyValue, makeOrderCalculatedChargeTax } from '../declarations/types-70.js';
-export { makeResourceVersionRequest } from '../declarations/types-72.js';
-export { makeTaxJurisdiction, makeTextModifierRequest, makeUpdateCreditNoteRequest } from '../declarations/types-74.js';
+} from '../declarations/types-71.js';
+export { makeIssueCreditNoteRequest } from '../declarations/types-74.js';
+export { makeMoneyValue } from '../declarations/types-75.js';
+export { makeResourceVersionRequest } from '../declarations/types-77.js';
+export { makeTextModifierRequest, makeUpdateCreditNoteRequest } from '../declarations/types-79.js';
 export interface CreditNotesResource {
     /**
  * Creates a draft credit note against an invoice that has been issued and not voided. Include
@@ -216,7 +204,7 @@ export interface CreditNotesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.creditNotes.create({invoice_id: "inv_01ARZ3NDEKTSV4RRFFQ69G5FAV", reason:
+ * client.creditNotes.create({invoice_id: "inv_01KEZF7C00A5GEBMWHEAJFSAR4", reason:
  * "returned_goods"}, { idempotencyKey: idempotencyKey })
  */
     create(params: CreditNotesCreateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<CreditNote, CreditNoteResponse>>;
@@ -240,25 +228,6 @@ export interface CreditNotesResource {
  */
     createAllocation(credit_note_id: InputValue<string>, params: CreditNotesCreateAllocationParams, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<CreditNoteAllocationResult, CreditNoteAllocationResultResponse>>;
     /**
- * Creates a refund against an issued credit note on a paid invoice. Omit amount_money to refund
- * all available credit. Refunds use the source invoice's original payments and do not reopen its
- * balance. Idempotency-Key is required and retained for the lifetime of the refund command, scoped
- * to merchant, environment, credit note, and key. Reusing it with another request conflicts.
- * Recover a lost response by listing this note's refunds with idempotency_key. A failed remainder
- * can be requested with a new key after its outcome is definitive.
- *
- * `POST /v1/credit-notes/{credit_note_id}/refunds`
- * @param credit_note_id Flint credit note ID.
- * @see https://developers.withflintpay.com/docs/api/credit-notes#createCreditNoteRefund
- * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
- * @example
- * // Persist this key with the action before sending; reuse it for every resubmission.
- * const idempotencyKey = crypto.randomUUID();
- * client.creditNotes.createRefund("cn_01ARZ3NDEKTSV4RRFFQ69G5FAV", {reason: "duplicate"}, {
- * idempotencyKey: idempotencyKey })
- */
-    createRefund(credit_note_id: InputValue<string>, params: CreditNotesCreateRefundParams, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<Refund, RefundResponse>>;
-    /**
  * Returns one credit note with its lines, total, and the credit still available to allocate.
  *
  * `GET /v1/credit-notes/{credit_note_id}`
@@ -266,7 +235,7 @@ export interface CreditNotesResource {
  * @see https://developers.withflintpay.com/docs/api/credit-notes#getCreditNote
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.creditNotes.get("cn_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.creditNotes.get("cn_01KEZF7C00N1TRRCVDNY8S471H")
  */
     get(credit_note_id: InputValue<string>, params?: CreditNotesGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<CreditNote, CreditNoteResponse>>;
     /**
@@ -279,8 +248,8 @@ export interface CreditNotesResource {
  * @see https://developers.withflintpay.com/docs/api/credit-notes#getCreditNoteAllocation
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.creditNotes.getAllocation("cn_01ARZ3NDEKTSV4RRFFQ69G5FAV",
- * "cna_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.creditNotes.getAllocation("cn_01KEZF7C00N1TRRCVDNY8S471H",
+ * "cna_01KEZF7C00EH6DMS9BD8F72CMA")
  */
     getAllocation(credit_note_id: InputValue<string>, credit_note_allocation_id: InputValue<string>, params?: CreditNotesGetAllocationParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<CreditNoteAllocation, CreditNoteAllocationResponse>>;
     /**
@@ -293,7 +262,7 @@ export interface CreditNotesResource {
  * @see https://developers.withflintpay.com/docs/api/credit-notes#getCreditNotePDF
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.creditNotes.getPDF("cn_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.creditNotes.getPDF("cn_01KEZF7C00N1TRRCVDNY8S471H")
  */
     getPDF(credit_note_id: InputValue<string>, params?: CreditNotesGetPDFParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<Result<CreditNotesGetPDFResponse>>;
     /**
@@ -305,16 +274,16 @@ export interface CreditNotesResource {
  * includes credit_note_allocation when allocation is requested. Idempotency-Key is required and is
  * retained for as long as the issue's effects exist, scoped to merchant, environment, credit note,
  * and key. Reuse the key with the identical request to recover the original credit note and
- * allocation. Recover an allocation after a lost response by listing this note's allocations with
- * idempotency_key=issue:<issue key>. For refunds, list this note's refunds filtered by the
- * original idempotency_key. A pending refund is accepted but has not completed. Without allocation
- * or refund, issuance leaves the invoice balance unchanged. Issue validates the stored preview
- * against current shared creditable pools. A fitting correction whose preview changed returns
- * CONCURRENT_MODIFICATION with reason credit_note_creditable_value_changed: replace its existing
- * corrections with PATCH using the current expected_version, review the recalculated amounts, and
- * issue again. A stored correction exceeding the remaining pool returns ACTION_NOT_ALLOWED with
- * reason not_offered. Update the draft lines before issuing again. Affected historical tax
- * allocations return ACTION_NOT_ALLOWED with reason credit_note_tax_reconciliation_required.
+ * allocation. After a lost response, list this note's allocations or refunds filtered by the issue
+ * request's idempotency_key. A pending refund is accepted but has not completed. Without
+ * allocation or refund, issuance leaves the invoice balance unchanged. Issue validates the stored
+ * preview against current shared creditable pools. A fitting correction whose preview changed
+ * fails with `VERSION_CONFLICT`, which includes the credit note and `current_version`: replace its
+ * existing corrections with PATCH using the current expected_version, review the recalculated
+ * amounts, and issue again. A stored correction exceeding the remaining pool fails with
+ * `ACTION_NOT_ALLOWED` and reason `not_offered`. Update the draft lines before issuing again.
+ * Affected historical tax allocations fail with `ACTION_NOT_ALLOWED` and reason
+ * `credit_note_tax_reconciliation_required`.
  *
  * `POST /v1/credit-notes/{credit_note_id}/issue`
  * @param credit_note_id Flint credit note ID.
@@ -323,7 +292,7 @@ export interface CreditNotesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.creditNotes.issue("cn_01ARZ3NDEKTSV4RRFFQ69G5FAV", undefined, { idempotencyKey:
+ * client.creditNotes.issue("cn_01KEZF7C00N1TRRCVDNY8S471H", undefined, { idempotencyKey:
  * idempotencyKey })
  */
     issue(credit_note_id: InputValue<string>, params: CreditNotesIssueParams | undefined, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<IssueCreditNoteResult, IssueCreditNoteResponse>>;
@@ -337,7 +306,7 @@ export interface CreditNotesResource {
  * @see https://developers.withflintpay.com/docs/api/credit-notes#listCreditNoteAllocations
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.creditNotes.listAllocations("cn_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.creditNotes.listAllocations("cn_01KEZF7C00N1TRRCVDNY8S471H")
  */
     listAllocations(credit_note_id: InputValue<string>, params?: CreditNotesListAllocationsParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<CreditNoteAllocationListResponse, CreditNoteAllocationListResponse>>;
     /** Iterate pages lazily.
@@ -348,27 +317,6 @@ export interface CreditNotesResource {
      * @see https://developers.withflintpay.com/docs/api/credit-notes#listCreditNoteAllocations
      */
     listAllocationsItems(credit_note_id: InputValue<string>, params?: CreditNotesListAllocationsParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<CreditNoteAllocation>;
-    /**
- * Lists linked refunds, including failed attempts, newest first. Filter by idempotency_key to
- * recover a refund after a lost response. Default order: time each refund was applied to the
- * credit note (descending), then refund_id descending.
- *
- * `GET /v1/credit-notes/{credit_note_id}/refunds`
- * @param credit_note_id Flint credit note ID.
- * @see https://developers.withflintpay.com/docs/api/credit-notes#listCreditNoteRefunds
- * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
- * @example
- * client.creditNotes.listRefunds("cn_01ARZ3NDEKTSV4RRFFQ69G5FAV")
- */
-    listRefunds(credit_note_id: InputValue<string>, params?: CreditNotesListRefundsParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<RefundListResponse, CreditNoteRefundListResponse>>;
-    /** Iterate pages lazily.
-     * @see https://developers.withflintpay.com/docs/api/credit-notes#listCreditNoteRefunds
-     */
-    listRefundsPages(credit_note_id: InputValue<string>, params?: CreditNotesListRefundsParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<WithResponseInfo<RefundListResponse, CreditNoteRefundListResponse>>;
-    /** Iterate items lazily.
-     * @see https://developers.withflintpay.com/docs/api/credit-notes#listCreditNoteRefunds
-     */
-    listRefundsItems(credit_note_id: InputValue<string>, params?: CreditNotesListRefundsParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<Refund>;
     /**
  * Returns credit notes for the authenticated merchant, newest first. Filter by invoice_id to see
  * everything credited against one invoice. Default order: created_at descending, then
@@ -403,8 +351,8 @@ export interface CreditNotesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.creditNotes.reverseAllocation("cn_01ARZ3NDEKTSV4RRFFQ69G5FAV",
- * "cna_01ARZ3NDEKTSV4RRFFQ69G5FAV", undefined, { idempotencyKey: idempotencyKey })
+ * client.creditNotes.reverseAllocation("cn_01KEZF7C00N1TRRCVDNY8S471H",
+ * "cna_01KEZF7C00EH6DMS9BD8F72CMA", undefined, { idempotencyKey: idempotencyKey })
  */
     reverseAllocation(credit_note_id: InputValue<string>, credit_note_allocation_id: InputValue<string>, params?: CreditNotesReverseAllocationParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<CreditNoteAllocationResult, CreditNoteAllocationResultResponse>>;
     /**
@@ -426,8 +374,8 @@ export interface CreditNotesResource {
     update(credit_note_id: InputValue<string>, params: CreditNotesUpdateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<CreditNote, CreditNoteResponse>>;
     /**
  * Voids an issued credit note. Reverse every allocation first. A credit note with a pending or
- * succeeded refund can't be voided. Blockers return 409 RESOURCE_IN_USE with
- * details[0].blocking_resources listing the allocations and refunds. Void is terminal, and an
+ * succeeded refund can't be voided. Blockers fail with `RESOURCE_IN_USE`, and
+ * `details[0].blocking_resources` lists the allocations and refunds. Void is terminal, and an
  * invoice cannot be voided while an issued credit note stands against it.
  *
  * `POST /v1/credit-notes/{credit_note_id}/void`
@@ -437,7 +385,7 @@ export interface CreditNotesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.creditNotes.void("cn_01ARZ3NDEKTSV4RRFFQ69G5FAV", undefined, { idempotencyKey:
+ * client.creditNotes.void("cn_01KEZF7C00N1TRRCVDNY8S471H", undefined, { idempotencyKey:
  * idempotencyKey })
  */
     void(credit_note_id: InputValue<string>, params?: CreditNotesVoidParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<CreditNote, CreditNoteResponse>>;

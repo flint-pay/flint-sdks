@@ -13,6 +13,7 @@ namespace Flint;
  * @property-read string $key
  * @property-read string $product_id
  * @property-read list<PaymentLinkProductOptionInput|array<array-key, mixed>|\stdClass> $product_options
+ * @property-read list<QuantityPriceBreakInput|array<array-key, mixed>|\stdClass> $quantity_price_breaks
  * @property-read string $resolved_description
  * @property-read string $resolved_name
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $resolved_unit_price_money
@@ -20,9 +21,9 @@ namespace Flint;
  * @property-read string $variant_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class PublicResolvedLineItemInfoInput extends Model {
-    /** @param array{'available_modifiers'?: list<PublicResolvedModifierGroupInput|array<array-key, mixed>|\stdClass>, 'available_variants'?: list<PaymentLinkAvailableVariantInput|array<array-key, mixed>|\stdClass>, 'bundle_components'?: list<PublicResolvedBundleComponentInput|array<array-key, mixed>|\stdClass>, 'bundle_id'?: string, 'catalog_object_type'?: string, 'image'?: ImageInput|array<array-key, mixed>|\stdClass, 'is_inventory_tracked'?: bool, 'is_sold_out': bool, 'key': string, 'product_id'?: string, 'product_options'?: list<PaymentLinkProductOptionInput|array<array-key, mixed>|\stdClass>, 'resolved_description'?: string, 'resolved_name'?: string, 'resolved_unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'selected_options'?: list<SelectedProductOptionInput|array<array-key, mixed>|\stdClass>, 'variant_id'?: string, ...}|object $values */
+    /** @param array{'available_modifiers'?: list<PublicResolvedModifierGroupInput|array<array-key, mixed>|\stdClass>, 'available_variants'?: list<PaymentLinkAvailableVariantInput|array<array-key, mixed>|\stdClass>, 'bundle_components'?: list<PublicResolvedBundleComponentInput|array<array-key, mixed>|\stdClass>, 'bundle_id'?: string, 'catalog_object_type'?: string, 'image'?: ImageInput|array<array-key, mixed>|\stdClass, 'is_inventory_tracked'?: bool, 'is_sold_out': bool, 'key': string, 'product_id'?: string, 'product_options'?: list<PaymentLinkProductOptionInput|array<array-key, mixed>|\stdClass>, 'quantity_price_breaks': list<QuantityPriceBreakInput|array<array-key, mixed>|\stdClass>, 'resolved_description'?: string, 'resolved_name'?: string, 'resolved_unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'selected_options'?: list<SelectedProductOptionInput|array<array-key, mixed>|\stdClass>, 'variant_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PublicResolvedLineItemInfoInput')); }
-    /**  [] (Value): {@see PublicResolvedModifierGroupInput}. A modifier group as resolved for a payment link line item, with its selection limits, display flags, and options or text settings.
+    /** Modifier groups the buyer can choose from for this item. [] (Value): {@see PublicResolvedModifierGroupInput}. A modifier group as resolved for a payment link line item, with its selection limits, display flags, and options or text settings.
      * @return list<PublicResolvedModifierGroupInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When available_modifiers is omitted; use hasAvailableModifiers() or valueOrDefault().
      */
@@ -34,31 +35,31 @@ final class PublicResolvedLineItemInfoInput extends Model {
      */
     public function getAvailableVariants(): array { return $this->get('available_variants'); }
     public function hasAvailableVariants(): bool { return $this->has('available_variants'); }
-    /**  [] (Value): {@see PublicResolvedBundleComponentInput}. One component of a bundle on a resolved payment link line item, with its variant and quantity.
+    /** The components of the bundle. Present for a bundle line item. [] (Value): {@see PublicResolvedBundleComponentInput}. One component of a bundle on a resolved payment link line item, with its variant and quantity.
      * @return list<PublicResolvedBundleComponentInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When bundle_components is omitted; use hasBundleComponents() or valueOrDefault().
      */
     public function getBundleComponents(): array { return $this->get('bundle_components'); }
     public function hasBundleComponents(): bool { return $this->has('bundle_components'); }
-    /** bundle_id
+    /** ID of the bundle this line item sells. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
      * @return string
      * @throws SdkError When bundle_id is omitted; use hasBundleId() or valueOrDefault().
      */
     public function getBundleId(): string { return $this->get('bundle_id'); }
     public function hasBundleId(): bool { return $this->has('bundle_id'); }
-    /** Value enum: "variant", "bundle".
+    /** What the line item sells. Value enum: "variant", "bundle".
      * @return string
      * @throws SdkError When catalog_object_type is omitted; use hasCatalogObjectType() or valueOrDefault().
      */
     public function getCatalogObjectType(): string { return $this->get('catalog_object_type'); }
     public function hasCatalogObjectType(): bool { return $this->has('catalog_object_type'); }
-    /** An image with its `url`, `width`, and `height`, and optional `alt` text.
+    /** Image of the variant or bundle. An image with its URL, size, and alt text.
      * @return ImageInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When image is omitted; use hasImage() or valueOrDefault().
      */
     public function getImage(): mixed { return $this->get('image'); }
     public function hasImage(): bool { return $this->has('image'); }
-    /** is_inventory_tracked
+    /** Whether Flint tracks stock for the item.
      * @return bool
      * @throws SdkError When is_inventory_tracked is omitted; use hasIsInventoryTracked() or valueOrDefault().
      */
@@ -70,13 +71,13 @@ final class PublicResolvedLineItemInfoInput extends Model {
      */
     public function getIsSoldOut(): bool { return $this->get('is_sold_out'); }
     public function hasIsSoldOut(): bool { return $this->has('is_sold_out'); }
-    /** key
+    /** Key of the payment link line item this entry describes.
      * @return string
      * @throws SdkError When key is omitted; use hasKey() or valueOrDefault().
      */
     public function getKey(): string { return $this->get('key'); }
     public function hasKey(): bool { return $this->has('key'); }
-    /** product_id
+    /** ID of the product the variant belongs to. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
      * @return string
      * @throws SdkError When product_id is omitted; use hasProductId() or valueOrDefault().
      */
@@ -88,31 +89,37 @@ final class PublicResolvedLineItemInfoInput extends Model {
      */
     public function getProductOptions(): array { return $this->get('product_options'); }
     public function hasProductOptions(): bool { return $this->has('product_options'); }
-    /** resolved_description
+    /** Default quantity breaks for a fixed variant. Empty for bundles, variant choice lines, and ad hoc lines. Each offered variant on a variant choice line has its own schedule in available_variants. [] (Value): {@see QuantityPriceBreakInput}. A net unit price that applies when one catalog line reaches minimum_quantity.
+     * @return list<QuantityPriceBreakInput|array<array-key, mixed>|\stdClass>
+     * @throws SdkError When quantity_price_breaks is omitted; use hasQuantityPriceBreaks() or valueOrDefault().
+     */
+    public function getQuantityPriceBreaks(): array { return $this->get('quantity_price_breaks'); }
+    public function hasQuantityPriceBreaks(): bool { return $this->has('quantity_price_breaks'); }
+    /** Current catalog description of the variant or bundle, as of this read.
      * @return string
      * @throws SdkError When resolved_description is omitted; use hasResolvedDescription() or valueOrDefault().
      */
     public function getResolvedDescription(): string { return $this->get('resolved_description'); }
     public function hasResolvedDescription(): bool { return $this->has('resolved_description'); }
-    /** resolved_name
+    /** Current catalog name of the variant or bundle, as of this read.
      * @return string
      * @throws SdkError When resolved_name is omitted; use hasResolvedName() or valueOrDefault().
      */
     public function getResolvedName(): string { return $this->get('resolved_name'); }
     public function hasResolvedName(): bool { return $this->has('resolved_name'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Current catalog unit price of the variant or bundle, as of this read. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When resolved_unit_price_money is omitted; use hasResolvedUnitPriceMoney() or valueOrDefault().
      */
     public function getResolvedUnitPriceMoney(): mixed { return $this->get('resolved_unit_price_money'); }
     public function hasResolvedUnitPriceMoney(): bool { return $this->has('resolved_unit_price_money'); }
-    /**  [] (Value): {@see SelectedProductOptionInput}. An option and value chosen for a product variant, such as size Large.
+    /** The product options the variant selects, such as size or color. [] (Value): {@see SelectedProductOptionInput}. An option and value chosen for a product variant, such as size Large.
      * @return list<SelectedProductOptionInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When selected_options is omitted; use hasSelectedOptions() or valueOrDefault().
      */
     public function getSelectedOptions(): array { return $this->get('selected_options'); }
     public function hasSelectedOptions(): bool { return $this->has('selected_options'); }
-    /** variant_id
+    /** ID of the variant this line item sells. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
      * @return string
      * @throws SdkError When variant_id is omitted; use hasVariantId() or valueOrDefault().
      */

@@ -2,27 +2,27 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read list<array{'adjustment_type': string, 'applied_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'assessed_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'reason': string, 'reason_message'?: string, 'return_line_item_id'?: string, 'status'?: string, 'value_effect': string, 'waiver_reason'?: string, 'waiver_reason_message'?: string}|object> $adjustments
+ * @property-read list<ReturnResolutionAdjustmentRequestInput|array<array-key, mixed>|\stdClass> $adjustments
  * @property-read string $corrects_return_resolution_id
  * @property-read int $expected_return_version
  * @property-read string $external_reference_id
  * @property-read string $gift_card_refund_destination
- * @property-read list<array{'quantity': int, 'return_line_item_id': string}|object> $line_items
+ * @property-read list<ReturnResolutionLineItemRequestInput|array<array-key, mixed>|\stdClass> $line_items
  * @property-read MetadataRequestInput|array<array-key, mixed>|\stdClass $metadata
  * @property-read string $pricing_basis
- * @property-read list<array{'bundle_id'?: string, 'description'?: string, 'name'?: string, 'quantity': int, 'sku'?: string, 'type': string, 'unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id': string}|object|array{'bundle_id': string, 'description'?: string, 'name'?: string, 'quantity': int, 'sku'?: string, 'type': string, 'unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id'?: string}|object|array{'bundle_id'?: string, 'description'?: string, 'name': string, 'quantity': int, 'sku'?: string, 'type': string, 'unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id'?: string}|object> $replacement_line_items
+ * @property-read list<ReturnReplacementLineItemRequestInput|array<array-key, mixed>|\stdClass> $replacement_line_items
  * @property-read string $resolution_type
  * Presence-aware input; omitted fields throw when accessed. */
 final class ReturnsCreateResolutionParams extends Model {
-    /** @param array{'adjustments'?: list<array{'adjustment_type': string, 'applied_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'assessed_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'reason': string, 'reason_message'?: string, 'return_line_item_id'?: string, 'status'?: string, 'value_effect': string, 'waiver_reason'?: string, 'waiver_reason_message'?: string}|object>, 'expected_return_version'?: int, 'external_reference_id'?: string, 'gift_card_refund_destination'?: string, 'line_items': list<array{'quantity': int, 'return_line_item_id': string}|object>, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'pricing_basis'?: string, 'replacement_line_items'?: list<array{'bundle_id'?: string, 'description'?: string, 'name'?: string, 'quantity': int, 'sku'?: string, 'type': string, 'unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id': string}|object|array{'bundle_id': string, 'description'?: string, 'name'?: string, 'quantity': int, 'sku'?: string, 'type': string, 'unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id'?: string}|object|array{'bundle_id'?: string, 'description'?: string, 'name': string, 'quantity': int, 'sku'?: string, 'type': string, 'unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id'?: string}|object>, 'resolution_type': string}|object|array{'adjustments': list<array{'adjustment_type': string, 'applied_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'assessed_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'reason': string, 'reason_message'?: string, 'return_line_item_id'?: string, 'status'?: string, 'value_effect': string, 'waiver_reason'?: string, 'waiver_reason_message'?: string}|object>, 'corrects_return_resolution_id': string, 'expected_return_version'?: int, 'external_reference_id'?: string, 'gift_card_refund_destination'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'resolution_type': string}|object $values */
+    /** @param array{'adjustments'?: list<ReturnResolutionAdjustmentRequestInput|array<array-key, mixed>|\stdClass>, 'expected_return_version'?: int, 'external_reference_id'?: string, 'gift_card_refund_destination'?: string, 'line_items': list<ReturnResolutionLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'pricing_basis'?: string, 'replacement_line_items'?: list<ReturnReplacementLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'resolution_type': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object|array{'adjustments': list<ReturnResolutionAdjustmentRequestInput|array<array-key, mixed>|\stdClass>, 'corrects_return_resolution_id': string, 'expected_return_version'?: int, 'external_reference_id'?: string, 'gift_card_refund_destination'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'resolution_type': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnsCreateResolutionParams')); }
-    /**  [] (Value): {@see ReturnResolutionAdjustmentRequestInput}. A fee or credit to apply to a return resolution, with the assessed and applied amounts and whether it is applied or waived.
-     * @return list<array{'adjustment_type': string, 'applied_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'assessed_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'reason': string, 'reason_message'?: string, 'return_line_item_id'?: string, 'status'?: string, 'value_effect': string, 'waiver_reason'?: string, 'waiver_reason_message'?: string}|object>
+    /** Fees and credits to apply to the resolution, at most 50. [] (Value): {@see ReturnResolutionAdjustmentRequestInput}. A fee or credit to apply to a return resolution, with the assessed and applied amounts and whether it is applied or waived.
+     * @return list<ReturnResolutionAdjustmentRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When adjustments is omitted; use hasAdjustments() or valueOrDefault().
      */
     public function getAdjustments(): array { return $this->get('adjustments'); }
     public function hasAdjustments(): bool { return $this->has('adjustments'); }
-    /** minLength: 1.
+    /** ID of the settled resolution to correct. Send only with `resolution_type: correction`. minLength: 1. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
      * @return string
      * @throws SdkError When corrects_return_resolution_id is omitted; use hasCorrectsReturnResolutionId() or valueOrDefault().
      */
@@ -34,7 +34,7 @@ final class ReturnsCreateResolutionParams extends Model {
      */
     public function getExpectedReturnVersion(): int { return $this->get('expected_return_version'); }
     public function hasExpectedReturnVersion(): bool { return $this->has('expected_return_version'); }
-    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -46,8 +46,8 @@ final class ReturnsCreateResolutionParams extends Model {
      */
     public function getGiftCardRefundDestination(): string { return $this->get('gift_card_refund_destination'); }
     public function hasGiftCardRefundDestination(): bool { return $this->has('gift_card_refund_destination'); }
-    /**  [] (Value): {@see ReturnResolutionLineItemRequestInput}. A return line and quantity to include in a return resolution.
-     * @return list<array{'quantity': int, 'return_line_item_id': string}|object>
+    /** Return lines and quantities to cover, up to 100. Not allowed on a correction. [] (Value): {@see ReturnResolutionLineItemRequestInput}. A return line and quantity to include in a return resolution.
+     * @return list<ReturnResolutionLineItemRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When line_items is omitted; use hasLineItems() or valueOrDefault().
      */
     public function getLineItems(): array { return $this->get('line_items'); }
@@ -58,22 +58,40 @@ final class ReturnsCreateResolutionParams extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Value enum: "original_price", "current_price", "merchant_agreed_price".
+    /** Required for merchant exchange and replacement requests. original_price preserves the selected units' net paid amounts using refund allocation; current_price uses catalog prices; merchant_agreed_price uses each supplied unit_price_money. Buyer requests must omit pricing_basis: replacements use original_price; exchanges use original_price when every replacement matches selected returned merchandise by variant, bundle, or product, otherwise current_price. Value enum: "original_price", "current_price", "merchant_agreed_price".
      * @return string
      * @throws SdkError When pricing_basis is omitted; use hasPricingBasis() or valueOrDefault().
      */
     public function getPricingBasis(): string { return $this->get('pricing_basis'); }
     public function hasPricingBasis(): bool { return $this->has('pricing_basis'); }
-    /**  [] (Value): {@see ReturnReplacementLineItemRequestInput}. A replacement item to include in a return resolution, from a variant, a bundle, or a custom name and price.
-     * @return list<array{'bundle_id'?: string, 'description'?: string, 'name'?: string, 'quantity': int, 'sku'?: string, 'type': string, 'unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id': string}|object|array{'bundle_id': string, 'description'?: string, 'name'?: string, 'quantity': int, 'sku'?: string, 'type': string, 'unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id'?: string}|object|array{'bundle_id'?: string, 'description'?: string, 'name': string, 'quantity': int, 'sku'?: string, 'type': string, 'unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id'?: string}|object>
+    /** Merchandise the buyer receives instead, up to 100. Send with `exchange` or `replacement`. [] (Value): {@see ReturnReplacementLineItemRequestInput}. A replacement item to include in a return resolution, from a variant, a bundle, or a custom name and price.
+     * @return list<ReturnReplacementLineItemRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When replacement_line_items is omitted; use hasReplacementLineItems() or valueOrDefault().
      */
     public function getReplacementLineItems(): array { return $this->get('replacement_line_items'); }
     public function hasReplacementLineItems(): bool { return $this->has('replacement_line_items'); }
-    /** Value enum: "refund", "exchange", "replacement", "store_credit", "no_monetary_action", "correction".
+    /** What the buyer gets for the approved quantity. Value enum: "refund", "exchange", "replacement", "store_credit", "no_monetary_action", "correction".
      * @return string
      * @throws SdkError When resolution_type is omitted; use hasResolutionType() or valueOrDefault().
      */
     public function getResolutionType(): string { return $this->get('resolution_type'); }
     public function hasResolutionType(): bool { return $this->has('resolution_type'); }
+    /** Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Merchant-Id is omitted; use hasFlintMerchantId() or valueOrDefault().
+     */
+    public function getFlintMerchantId(): string { return $this->get('Flint-Merchant-Id'); }
+    public function hasFlintMerchantId(): bool { return $this->has('Flint-Merchant-Id'); }
+    /** Mode of the request context, live or test. Optional; it must match the credential's mode. Value enum: "test", "live".
+     * @return string
+     * @throws SdkError When Flint-Mode is omitted; use hasFlintMode() or valueOrDefault().
+     */
+    public function getFlintMode(): string { return $this->get('Flint-Mode'); }
+    public function hasFlintMode(): bool { return $this->has('Flint-Mode'); }
+    /** Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Sandbox-Id is omitted; use hasFlintSandboxId() or valueOrDefault().
+     */
+    public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
+    public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
 }

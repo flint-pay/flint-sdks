@@ -10,7 +10,7 @@ Merchandise received in a return that does not match an expected return line, de
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `description` | Optional | string | minLength: `1`. |
-| `name` | Required | string | minLength: `1`. |
-| `sku` | Optional | string | minLength: `1`. |
+| `description` | Optional | string | Description of the unidentified item. minLength: `1`. |
+| `name` | Required | string | Name of the unidentified item. minLength: `1`. |
+| `sku` | Optional | string | SKU of the unidentified item. minLength: `1`. |
 

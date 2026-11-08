@@ -13,6 +13,6 @@ Response metadata for money movement lists, including request and trace IDs, war
 | `api_version` | Optional | string | API version used to produce this response. |
 | `history` | Optional | [MoneyMovementHistoryMeta](../models/MoneyMovementHistoryMeta.md#moneymovementhistorymeta) | How complete Flint's history for this list is. history is omitted when Flint's history for this list is complete. How complete the history in a money movement list is and when it was last reconciled. |
 | `idempotency_replayed` | Optional | boolean | Whether this response replays a stored result for the supplied Idempotency-Key. |
-| `trace_id` | Optional | string | Trace identifier to include when contacting Flint about this request. |
+| `trace_id` | Optional | string | Trace identifier to include when contacting Flint about this request. Example: `"0123456789abcdef0123456789abcdef"`. |
 | `warnings` | Optional | Array of [ResponseWarning](../models/ResponseWarning.md#responsewarning) | Conditions that need attention even though the request succeeded. |
 

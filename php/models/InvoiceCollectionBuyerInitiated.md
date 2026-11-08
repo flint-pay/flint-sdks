@@ -20,7 +20,7 @@ Response model.
 
 anyOf variant 1.
 
-- Value shape: (string or null). The saved card Flint charges. Present only with automatic. On a draft, null means Flint charges the customer's default card, selected at issue. After issue it is the selected card. 
+- Value shape: (string or null). The saved card Flint charges. Present only with automatic. `null` when the draft will use the customer's default card, selected at issue. After issue it is the selected card. 
 
 ### InvoiceCollectionBuyerInitiated.payment_method_id variant 2
 

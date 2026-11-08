@@ -13,7 +13,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   allowInsecureHttp: $baseUrl !== null && in_array(parse_url($baseUrl, PHP_URL_HOST), ['localhost', '127.0.0.1'], true) && parse_url($baseUrl, PHP_URL_SCHEME) === 'http',
 ));
-$result = $client->giftCardFundingDispositions->get('gfd_01ARZ3NDEKTSV4RRFFQ69G5FAV');
+$result = $client->giftCardFundingDispositions->get('gfd_01KEZF7C0077Q8RK3Q4FD2DTW8');
 echo $result->dispute_id . PHP_EOL;
 echo $result->gift_card_funding_disposition_id . PHP_EOL;
 $client->close();

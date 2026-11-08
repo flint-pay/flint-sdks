@@ -21,7 +21,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $updated_before
  * Presence-aware input; omitted fields throw when accessed. */
 final class InventoryReservationsListParams extends Model {
-    /** @param array{'page_size'?: int, 'page_token'?: string, 'inventory_item_id'?: string, 'location_id'?: string, 'order_id'?: string, 'status'?: list<string>|string, 'owner_type'?: list<string>|string, 'owner_key'?: string, 'idempotency_key'?: string, 'has_at_risk_quantity'?: bool, 'closed_reason'?: list<string>|string, 'expires_after'?: string|\DateTimeInterface, 'expires_before'?: string|\DateTimeInterface, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface}|object $values */
+    /** @param array{'page_size'?: int, 'page_token'?: string, 'inventory_item_id'?: string, 'location_id'?: string, 'order_id'?: string, 'status'?: list<string>|string, 'owner_type'?: list<string>|string, 'owner_key'?: string, 'idempotency_key'?: string, 'has_at_risk_quantity'?: bool, 'closed_reason'?: list<string>|string, 'expires_after'?: string|\DateTimeInterface, 'expires_before'?: string|\DateTimeInterface, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryReservationsListParams')); }
     /** Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum: 100. Default: 20.
      * @return int
@@ -29,37 +29,37 @@ final class InventoryReservationsListParams extends Model {
      */
     public function getPageSize(): int { return $this->get('page_size'); }
     public function hasPageSize(): bool { return $this->has('page_size'); }
-    /** Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error.
+    /** Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error.
      * @return string
      * @throws SdkError When page_token is omitted; use hasPageToken() or valueOrDefault().
      */
     public function getPageToken(): string { return $this->get('page_token'); }
     public function hasPageToken(): bool { return $this->has('page_token'); }
-    /** Filter by an inventory item on a reservation line. Example: "invi_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Filter by an inventory item on a reservation line. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
      * @return string
      * @throws SdkError When inventory_item_id is omitted; use hasInventoryItemId() or valueOrDefault().
      */
     public function getInventoryItemId(): string { return $this->get('inventory_item_id'); }
     public function hasInventoryItemId(): bool { return $this->has('inventory_item_id'); }
-    /** Filter by a location on a reservation line. Combined with inventory_item_id, the same line must match both. Example: "loc_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Filter by a location on a reservation line. Combined with inventory_item_id, the same line must match both. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When location_id is omitted; use hasLocationId() or valueOrDefault().
      */
     public function getLocationId(): string { return $this->get('location_id'); }
     public function hasLocationId(): bool { return $this->has('location_id'); }
-    /** Filter by the reservation's resolved owner order. Example: "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Filter by the reservation's resolved owner order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** Filter by reservation status. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "active", "closed". Value enum: "active", "closed". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "active", "closed". anyOf[1][] (Value): string.  Value enum: "active", "closed". anyOf[2] (Value): string.  Value enum: "active", "closed".
+    /** Filter by reservation status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "active", "closed". Value enum: "active", "closed". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "active", "closed". anyOf[1][] (Value): string.  Value enum: "active", "closed". anyOf[2] (Value): string.  Value enum: "active", "closed".
      * @return list<string>|string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
     public function getStatus(): mixed { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Filter by merchant or order ownership. Omit to return every owner type. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "merchant", "order". Value enum: "merchant", "order". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "merchant", "order". anyOf[1][] (Value): string.  Value enum: "merchant", "order". anyOf[2] (Value): string.  Value enum: "merchant", "order".
+    /** Filter by merchant or order ownership. Omit to return every owner type. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "merchant", "order". Value enum: "merchant", "order". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "merchant", "order". anyOf[1][] (Value): string.  Value enum: "merchant", "order". anyOf[2] (Value): string.  Value enum: "merchant", "order".
      * @return list<string>|string
      * @throws SdkError When owner_type is omitted; use hasOwnerType() or valueOrDefault().
      */
@@ -83,7 +83,7 @@ final class InventoryReservationsListParams extends Model {
      */
     public function getHasAtRiskQuantity(): bool { return $this->get('has_at_risk_quantity'); }
     public function hasHasAtRiskQuantity(): bool { return $this->has('has_at_risk_quantity'); }
-    /** Filter by how the reservation ended. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "consumed", "released", "expired", "reallocated", "mixed". Value enum: "consumed", "released", "expired", "reallocated", "mixed". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "consumed", "released", "expired", "reallocated", "mixed". anyOf[1][] (Value): string.  Value enum: "consumed", "released", "expired", "reallocated", "mixed". anyOf[2] (Value): string.  Value enum: "consumed", "released", "expired", "reallocated", "mixed".
+    /** Filter by how the reservation ended. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "consumed", "released", "expired", "reallocated", "mixed". Value enum: "consumed", "released", "expired", "reallocated", "mixed". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "consumed", "released", "expired", "reallocated", "mixed". anyOf[1][] (Value): string.  Value enum: "consumed", "released", "expired", "reallocated", "mixed". anyOf[2] (Value): string.  Value enum: "consumed", "released", "expired", "reallocated", "mixed".
      * @return list<string>|string
      * @throws SdkError When closed_reason is omitted; use hasClosedReason() or valueOrDefault().
      */
@@ -125,4 +125,22 @@ final class InventoryReservationsListParams extends Model {
      */
     public function getUpdatedBefore(): string|\DateTimeInterface { return $this->get('updated_before'); }
     public function hasUpdatedBefore(): bool { return $this->has('updated_before'); }
+    /** Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Merchant-Id is omitted; use hasFlintMerchantId() or valueOrDefault().
+     */
+    public function getFlintMerchantId(): string { return $this->get('Flint-Merchant-Id'); }
+    public function hasFlintMerchantId(): bool { return $this->has('Flint-Merchant-Id'); }
+    /** Mode of the request context, live or test. Optional; it must match the credential's mode. Value enum: "test", "live".
+     * @return string
+     * @throws SdkError When Flint-Mode is omitted; use hasFlintMode() or valueOrDefault().
+     */
+    public function getFlintMode(): string { return $this->get('Flint-Mode'); }
+    public function hasFlintMode(): bool { return $this->has('Flint-Mode'); }
+    /** Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Sandbox-Id is omitted; use hasFlintSandboxId() or valueOrDefault().
+     */
+    public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
+    public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
 }

@@ -27,6 +27,6 @@ $result = $client->orders->createCharge('ord_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
     'type' => 'service_fee',
   ],
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
+echo $result->merchant_id . PHP_EOL;
 echo $result->order_id . PHP_EOL;
-echo $result->status . PHP_EOL;
 $client->close();

@@ -8,9 +8,10 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.returns.reopen(
-  "ret_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "ret_01KEZF7C00PG93650ZKVQNGF7X",
   {
-    reason: "linked_effect_changed",
+    expected_version: 5,
+    reason: "additional_merchandise_received",
   },
   { idempotencyKey: idempotencyKey },
 );

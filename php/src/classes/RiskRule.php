@@ -21,22 +21,22 @@ namespace Flint;
 final class RiskRule extends Model {
     /** @param array{'action': string, 'applicability': string, 'archived_at': string|null, 'attributes_used': list<string>, 'created_at': string, 'created_by': mixed, 'description': string, 'issues': list<mixed>, 'origin': string, 'predicate': mixed, 'risk_rule_id': string, 'stage': string, 'status': string, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RiskRule')); }
-    /** Value enum: "allow", "block", "review", "require_3ds".
+    /** What Flint does with a payment the rule matches. Value enum: "allow", "block", "review", "require_3ds".
      * @return string
      */
     public function getAction(): string { return $this->get('action'); }
     public function hasAction(): bool { return $this->has('action'); }
-    /** Value enum: "all_payments", "on_session_only".
+    /** Which payments the rule applies to. Value enum: "all_payments", "on_session_only".
      * @return string
      */
     public function getApplicability(): string { return $this->get('applicability'); }
     public function hasApplicability(): bool { return $this->has('applicability'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. `null` when the resource isn't archived. Format: date-time.
      * @return string|null
      */
     public function getArchivedAt(): string|null { return $this->get('archived_at'); }
     public function hasArchivedAt(): bool { return $this->has('archived_at'); }
-    /**  [] (Value): string.
+    /** Names of the payment attributes the rule reads. [] (Value): string.
      * @return list<string>
      */
     public function getAttributesUsed(): array { return $this->get('attributes_used'); }
@@ -61,27 +61,27 @@ final class RiskRule extends Model {
      */
     public function getIssues(): array { return $this->get('issues'); }
     public function hasIssues(): bool { return $this->has('issues'); }
-    /** Value enum: "system_default", "merchant".
+    /** Whether Flint manages the rule or you created it. Value enum: "system_default", "merchant".
      * @return string
      */
     public function getOrigin(): string { return $this->get('origin'); }
     public function hasOrigin(): bool { return $this->has('origin'); }
-    /** A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not` group of other nodes.
+    /** The condition a payment must meet for the rule to match. A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not` group of other nodes.
      * @return mixed
      */
     public function getPredicate(): mixed { return $this->get('predicate'); }
     public function hasPredicate(): bool { return $this->has('predicate'); }
-    /** risk_rule_id
+    /** ID of the saved rule to check.
      * @return string
      */
     public function getRiskRuleId(): string { return $this->get('risk_rule_id'); }
     public function hasRiskRuleId(): bool { return $this->has('risk_rule_id'); }
-    /** Value enum: "pre_authorization", "post_authorization".
+    /** When Flint evaluates the rule for a payment. Value enum: "pre_authorization", "post_authorization".
      * @return string
      */
     public function getStage(): string { return $this->get('stage'); }
     public function hasStage(): bool { return $this->has('stage'); }
-    /** Value enum: "active", "inactive", "archived".
+    /** Whether the rule runs. Value enum: "active", "inactive", "archived".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }

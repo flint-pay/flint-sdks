@@ -4,7 +4,7 @@
 
 ### workloadIdentities.create
 
-Creates an active identity in the authenticated environment and validates issuer discovery. Dashboard callers creating live identities need fresh identity verification. Machine callers may grant only scopes they hold in this environment.
+Creates an active identity in the authenticated environment and validates issuer discovery. Dashboard callers creating live identities, or granting accounts.api_keys.write, accounts.workload_identities.write or commerce.gift_cards.secrets.write in any mode, need fresh identity verification. Other callers may grant only scopes they hold in this environment, and only a full-access key can grant those three.
 
 `POST /v1/workload-identities`
 
@@ -26,7 +26,7 @@ Body model: [CreateWorkloadIdentityRequestInput](../models/CreateWorkloadIdentit
 | `claim_conditions` | Optional | Array of [WorkloadIdentityClaimConditionRequestInput](../models/WorkloadIdentityClaimConditionRequest.md#workloadidentityclaimconditionrequest) | Bounded value array, at most 10. Defaults to []. Any glob requires an exact claim condition; shared issuers require tenant pinning. maxItems: `10`. uniqueItems: `true`. |
 | `issuer` | Required | string | Immutable public HTTPS issuer with a DNS host, optional port 443, and no userinfo, query, or fragment. Compared exactly. minLength: `1`. maxLength: `255`. |
 | `name` | Required | string | minLength: `1`. maxLength: `100`. |
-| `scopes` | Required | Array of string | Complete scope set to grant. Machine callers may grant only scopes they hold in the same environment. Items values: [96 declared values](../models/APIKey.md#apikey-scopes--values). |
+| `scopes` | Required | Array of string | Complete scope set to grant. API keys, CLI login tokens and workload tokens may grant only scopes they hold in the same environment. Only a full-access key or a freshly verified user session can grant accounts.api_keys.write, accounts.workload_identities.write or commerce.gift_cards.secrets.write, in every mode. Items values: [96 declared values](../models/APIKey.md#apikey-scopes--values). |
 | `subject` | Required | string | minLength: `1`. maxLength: `1024`. |
 | `subject_match` | Optional | string | Default: `"exact"`. Values: `"exact"`, `"glob"`. |
 
@@ -42,7 +42,6 @@ Returned payload: [WorkloadIdentity](../models/WorkloadIdentity.md#workloadident
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -101,7 +100,6 @@ Returned payload: [WorkloadIdentity](../models/WorkloadIdentity.md#workloadident
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -124,7 +122,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.workloadIdentities.delete("wid_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey });
+const result = await client.workloadIdentities.delete("wid_01KEZF7C00GKCN7Y1482VY8TWP", {}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/workloadIdentities-delete.mjs)
@@ -161,7 +159,6 @@ Returned payload: [WorkloadIdentity](../models/WorkloadIdentity.md#workloadident
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -179,7 +176,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```typescript
-const result = await client.workloadIdentities.get("wid_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
+const result = await client.workloadIdentities.get("wid_01KEZF7C00GKCN7Y1482VY8TWP", {}, {  });
 ```
 
 [Complete runnable example](../examples/workloadIdentities-get.mjs)
@@ -196,9 +193,9 @@ Signature: `list(params?: WorkloadIdentitiesListParams, options?: _SdkWithoutIde
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `status` | Optional | Array of string or string | Filter by status. Repeat the parameter or send comma-separated values to match any of several. Omitted, the list leaves out archived rows; name archived to include them. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"inactive"`, `"archived"`. Values: `"active"`, `"inactive"`, `"archived"`. |
+| `status` | Optional | Array of string or string | Filter by status. Omitted, the list leaves out archived rows; name archived to include them. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"inactive"`, `"archived"`. Values: `"active"`, `"inactive"`, `"archived"`. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `sort_by` | Optional | string | Field to sort by. Defaults to created_at; ties are broken by workload_identity_id. Default: `"created_at"`. Values: `"created_at"`, `"last_used_at"`, `"name"`. |
 | `sort_direction` | Optional | string | Sort direction. Defaults to desc. Default: `"desc"`. Values: `"asc"`, `"desc"`. |
 | `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
@@ -217,7 +214,6 @@ Returned payload: [WorkloadIdentityListResponse](../models/WorkloadIdentityListR
 | 400 | InvalidRequestError |
 | 401 | AuthenticationError |
 | 403 | PermissionError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -266,7 +262,7 @@ Body model: [UpdateWorkloadIdentityRequestInput](../models/UpdateWorkloadIdentit
 | `claim_conditions` | Optional | Array of [WorkloadIdentityClaimConditionRequestInput](../models/WorkloadIdentityClaimConditionRequest.md#workloadidentityclaimconditionrequest) | Bounded value array, at most 10. Defaults to []. Any glob requires an exact claim condition; shared issuers require tenant pinning. maxItems: `10`. uniqueItems: `true`. |
 | `expected_version` | Optional | integer | Version most recently read. Required when claim_conditions or scopes is supplied; optional for scalar updates. Format: `int64`. minimum: `1`. |
 | `name` | Optional | string | minLength: `1`. maxLength: `100`. |
-| `scopes` | Optional | Array of string | Complete scope set to grant. Machine callers may grant only scopes they hold in the same environment. Items values: [96 declared values](../models/APIKey.md#apikey-scopes--values). |
+| `scopes` | Optional | Array of string | Complete scope set to grant. API keys, CLI login tokens and workload tokens may grant only scopes they hold in the same environment. Only a full-access key or a freshly verified user session can grant accounts.api_keys.write, accounts.workload_identities.write or commerce.gift_cards.secrets.write, in every mode. Items values: [96 declared values](../models/APIKey.md#apikey-scopes--values). |
 | `status` | Optional | string | Values: `"active"`, `"inactive"`. |
 | `subject` | Optional | string | minLength: `1`. maxLength: `1024`. |
 | `subject_match` | Optional | string | Default: `"exact"`. Values: `"exact"`, `"glob"`. |
@@ -284,7 +280,6 @@ Returned payload: [WorkloadIdentity](../models/WorkloadIdentity.md#workloadident
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |

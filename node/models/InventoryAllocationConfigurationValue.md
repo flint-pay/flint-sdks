@@ -2,7 +2,7 @@
 
 ## InventoryAllocationConfigurationValue
 
-Routing rules for an inventory allocation policy: ranked groups of Locations, whether demand can be split, and how many Locations one assignment may use.
+
 
 
 
@@ -14,4 +14,16 @@ Routing rules for an inventory allocation policy: ranked groups of Locations, wh
 | `maximum_locations_per_assignment` | Optional | integer | Upper bound on how many Locations one assignment may use. Defaults to 1 for single_location and 10 for split_when_required. single_location requires 1 when sent. Format: `int32`. minimum: `1`. maximum: `10`. |
 | `splitting_behavior` | Required | string | single_location fails rather than splitting demand across Locations; split_when_required allows a split when no single Location can serve the whole request. Values: `"single_location"`, `"split_when_required"`. |
 | `within_group_order` | Optional | string | Tie-break inside a priority group. Ascending location ID keeps assignments reproducible. Default: `"location_id_ascending"`. Values: `"location_id_ascending"`. |
+
+### InventoryAllocationConfigurationValue variant 1: `within_group_order` = `"location_id_ascending"`
+
+anyOf variant 1: Declared schema InventoryAllocationConfigurationValue. Routing rules for an inventory allocation policy: ranked groups of Locations, whether demand can be split, and how many Locations one assignment may use..
+
+No additional constraints.
+
+### InventoryAllocationConfigurationValue variant 2: `within_group_order` = `"location_id_ascending"`
+
+anyOf variant 2: Declared schema InventoryAllocationPolicyConfigurationRequest. Routing rules for an inventory allocation policy: ranked groups of Locations, whether demand can be split, and how many Locations one assignment may use..
+
+No additional constraints.
 

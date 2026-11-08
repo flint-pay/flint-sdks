@@ -9,9 +9,9 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $received_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class InvoicesCreateManualPaymentParams extends Model {
-    /** @param array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'expected_version'?: int, 'note'?: string, 'payment_reference'?: string, 'received_at'?: string|\DateTimeInterface}|object $values */
+    /** @param array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'expected_version'?: int, 'note'?: string, 'payment_reference'?: string, 'received_at'?: string|\DateTimeInterface, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoicesCreateManualPaymentParams')); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Positive amount received outside Flint, in the invoice currency, no more than outstanding_money for an open invoice or written_off_money for an uncollectible invoice. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
      */
@@ -23,7 +23,7 @@ final class InvoicesCreateManualPaymentParams extends Model {
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** minLength: 1. maxLength: 4096.
+    /** Note about the offline payment, up to 4096 characters. minLength: 1. maxLength: 4096.
      * @return string
      * @throws SdkError When note is omitted; use hasNote() or valueOrDefault().
      */
@@ -35,10 +35,28 @@ final class InvoicesCreateManualPaymentParams extends Model {
      */
     public function getPaymentReference(): string { return $this->get('payment_reference'); }
     public function hasPaymentReference(): bool { return $this->has('payment_reference'); }
-    /** When the payment was received. Defaults to now. Format: date-time. minLength: 1.
+    /** When the payment was received. Defaults to now. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When received_at is omitted; use hasReceivedAt() or valueOrDefault().
      */
     public function getReceivedAt(): string|\DateTimeInterface { return $this->get('received_at'); }
     public function hasReceivedAt(): bool { return $this->has('received_at'); }
+    /** Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Merchant-Id is omitted; use hasFlintMerchantId() or valueOrDefault().
+     */
+    public function getFlintMerchantId(): string { return $this->get('Flint-Merchant-Id'); }
+    public function hasFlintMerchantId(): bool { return $this->has('Flint-Merchant-Id'); }
+    /** Mode of the request context, live or test. Optional; it must match the credential's mode. Value enum: "test", "live".
+     * @return string
+     * @throws SdkError When Flint-Mode is omitted; use hasFlintMode() or valueOrDefault().
+     */
+    public function getFlintMode(): string { return $this->get('Flint-Mode'); }
+    public function hasFlintMode(): bool { return $this->has('Flint-Mode'); }
+    /** Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Sandbox-Id is omitted; use hasFlintSandboxId() or valueOrDefault().
+     */
+    public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
+    public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
 }

@@ -16,7 +16,7 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->locations->delete('loc_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->locations->delete('loc_01KEZF7C00CMHRRYA3MV996JB2', [], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->location_id . PHP_EOL;
 echo $result->status . PHP_EOL;
 $client->close();

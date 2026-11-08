@@ -9,7 +9,7 @@ namespace Flint;
 final class CustomerSessionsRefreshInput extends Model {
     /** @param array{'body': array{'refresh_token': string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerSessionsRefreshInput')); }
-    /** The request body for: Refresh a customer session.
+    /** The request body for: Refresh a customer session. Example: {"refresh_token":"flint_cref_YmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmJiYmI"}.
      * @return array{'refresh_token': string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

@@ -6,5 +6,10 @@ A delivery event for a gift card notification email, such as accepted, delivered
 
 Response model.
 
-Fields, types, descriptions and enum values: [GiftCardNotificationDeliveryEventInput](../models/GiftCardNotificationDeliveryEventInput.md#giftcardnotificationdeliveryeventinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `delivery_attempt_id` | Required | string | ID of the delivery attempt the event belongs to. |
+| `occurred_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
+| `received_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
+| `type` | Required | string | accepted means Flint's email service accepted the message for delivery; delivered means it reached the recipient's mail server; bounced means delivery failed; dropped means the message was not sent. Values: `"accepted"`, `"delivered"`, `"bounced"`, `"dropped"`. |
 

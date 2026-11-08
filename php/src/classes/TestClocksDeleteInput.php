@@ -10,13 +10,13 @@ namespace Flint;
 final class TestClocksDeleteInput extends Model {
     /** @param array{'test_clock_id': string, 'expected_version'?: int}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('TestClocksDeleteInput')); }
-    /** ID of the test clock. Example: "tclk_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** ID of the test clock. Example: "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
      * @return string
      * @throws SdkError When test_clock_id is omitted; use hasTestClockId() or valueOrDefault().
      */
     public function getTestClockId(): string { return $this->get('test_clock_id'); }
     public function hasTestClockId(): bool { return $this->has('test_clock_id'); }
-    /** Optional version most recently read. A stale value returns 409 VERSION_CONFLICT with the current version. Format: int64. minimum: 1.
+    /** Optional version most recently read. A stale value fails with `VERSION_CONFLICT` and the current version. Format: int64. minimum: 1.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */

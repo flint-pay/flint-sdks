@@ -17,7 +17,7 @@ namespace Flint;
 final class GiftCardPurchaseRefundAllocation extends Model {
     /** @param array{'consideration_money': mixed, 'created_at': string, 'order_manual_reversal_id'?: string, 'purchase_refund_allocation_id': string, 'recovery'?: mixed, 'refund_id': string|null, 'status': string, 'updated_at': string, 'value_allocations'?: list<mixed>, 'value_money': mixed, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardPurchaseRefundAllocation')); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** The part of the amount the buyer paid that this refund or reversal returns. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getConsiderationMoney(): MoneyValue { return $this->get('consideration_money'); }
@@ -27,27 +27,27 @@ final class GiftCardPurchaseRefundAllocation extends Model {
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** order_manual_reversal_id
+    /** ID of the manual payment reversal. Set when this entry reverses a manual payment instead of refunding a payment.
      * @return ?string
      */
     public function getOrderManualReversalId(): ?string { return $this->get('order_manual_reversal_id'); }
     public function hasOrderManualReversalId(): bool { return $this->has('order_manual_reversal_id'); }
-    /** purchase_refund_allocation_id
+    /** ID of this entry in the load's purchase refunds.
      * @return string
      */
     public function getPurchaseRefundAllocationId(): string { return $this->get('purchase_refund_allocation_id'); }
     public function hasPurchaseRefundAllocationId(): bool { return $this->has('purchase_refund_allocation_id'); }
-    /** Records how value was recovered for a gift card purchase refund, on the original or a replacement card, with the destinations that received it.
+    /** How the value was restored after the refund failed. `null` when no recovery happened. Records how value was recovered for a gift card purchase refund, on the original or a replacement card, with the destinations that received it.
      * @return ?GiftCardPurchaseRefundRecovery
      */
     public function getRecovery(): ?GiftCardPurchaseRefundRecovery { return $this->get('recovery'); }
     public function hasRecovery(): bool { return $this->has('recovery'); }
-    /** refund_id
+    /** ID of the refund. `null` when the entry reverses a manual payment, which has no refund.
      * @return string|null
      */
     public function getRefundId(): string|null { return $this->get('refund_id'); }
     public function hasRefundId(): bool { return $this->has('refund_id'); }
-    /** Value enum: "pending", "succeeded", "failed".
+    /** Whether the refund has succeeded, failed, or is still pending. Value enum: "pending", "succeeded", "failed".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
@@ -62,12 +62,12 @@ final class GiftCardPurchaseRefundAllocation extends Model {
      */
     public function getValueAllocations(): ?array { return $this->get('value_allocations'); }
     public function hasValueAllocations(): bool { return $this->has('value_allocations'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** The unspent face value this entry removes from the load. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getValueMoney(): MoneyValue { return $this->get('value_money'); }
     public function hasValueMoney(): bool { return $this->has('value_money'); }
-    /** Format: int64.
+    /** Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. Format: int64.
      * @return int
      */
     public function getVersion(): int { return $this->get('version'); }

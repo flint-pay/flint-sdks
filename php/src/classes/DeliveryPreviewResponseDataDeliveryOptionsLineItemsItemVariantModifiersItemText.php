@@ -12,7 +12,7 @@ namespace Flint;
 final class DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantModifiersItemText extends Model {
     /** @param array{'metadata'?: mixed, 'modifier_id'?: string, 'order_line_item_modifier_id'?: string, 'quantity'?: int, 'text': mixed, 'type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantModifiersItemText')); }
-    /** Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: 50. * (Value): string. minLength: 1. maxLength: 4096.
+    /** Caller-owned metadata for this selection, returned on the order line item's modifier. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: 50. * (Value): string. minLength: 1. maxLength: 4096.
      * @return ?array<array-key, string>
      */
     public function getMetadata(): ?array { return $this->get('metadata'); }
@@ -32,7 +32,7 @@ final class DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantModifi
      */
     public function getQuantity(): ?int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
-    /** Text a buyer entered for a text modifier group on an order line item.
+    /** The text to use. Send it with a `text` modifier. Text a buyer entered for a text modifier group on an order line item.
      * @return DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantModifiersItemTextText
      */
     public function getText(): DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantModifiersItemTextText { return $this->get('text'); }

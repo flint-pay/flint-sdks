@@ -10,13 +10,13 @@ namespace Flint;
 final class OrderGiftCardSelectionInput extends Model {
     /** @param array{'available_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'gift_card_id': string, 'last4': string, 'requires_authorization': bool, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderGiftCardSelectionInput')); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** The card's available balance. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When available_money is omitted; use hasAvailableMoney() or valueOrDefault().
      */
     public function getAvailableMoney(): mixed { return $this->get('available_money'); }
     public function hasAvailableMoney(): bool { return $this->has('available_money'); }
-    /** gift_card_id
+    /** ID of the gift card selected for the order. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
      * @return string
      * @throws SdkError When gift_card_id is omitted; use hasGiftCardId() or valueOrDefault().
      */
@@ -28,7 +28,7 @@ final class OrderGiftCardSelectionInput extends Model {
      */
     public function getLast4(): string { return $this->get('last4'); }
     public function hasLast4(): bool { return $this->has('last4'); }
-    /** requires_authorization
+    /** Whether the card's current code must be applied again before the order can use it.
      * @return bool
      * @throws SdkError When requires_authorization is omitted; use hasRequiresAuthorization() or valueOrDefault().
      */

@@ -28,7 +28,7 @@ final class ExpandedPaymentMethodSummary extends Model {
      */
     public function getCustomerId(): ?string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** payment_method_id
+    /** Unique identifier for this payment method, prefixed `pm_`.
      * @return string
      */
     public function getPaymentMethodId(): string { return $this->get('payment_method_id'); }

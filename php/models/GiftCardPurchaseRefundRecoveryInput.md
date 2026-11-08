@@ -8,7 +8,7 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
-| `destination` | Required | string | Values: `"original"`, `"replacement"`. |
-| `destinations` | Required | Array of [GiftCardPurchaseRefundRecoveryDestinationInput](../models/GiftCardPurchaseRefundRecoveryDestinationInput.md#giftcardpurchaserefundrecoverydestinationinput) |  |
+| `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
+| `destination` | Required | string | Where the restored value went. Values: `"original"`, `"replacement"`. |
+| `destinations` | Required | Array of [GiftCardPurchaseRefundRecoveryDestinationInput](../models/GiftCardPurchaseRefundRecoveryDestinationInput.md#giftcardpurchaserefundrecoverydestinationinput) | The cards and loads that received the restored value. |
 

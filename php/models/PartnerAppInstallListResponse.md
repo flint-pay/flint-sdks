@@ -8,8 +8,22 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `data` | Required | Array of [PartnerAppInstall](../models/PartnerAppInstall.md#partnerappinstall) |  |
-| `meta` | Optional | [ResponseMeta](../models/ResponseMeta.md#responsemeta) | Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings. |
-| `next_page_token` | Optional | string |  |
-| `request_id` | Required | string | maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `data` | Required | Array of [PartnerAppInstall](../models/PartnerAppInstall.md#partnerappinstall) | Resource, collection, or operation result returned by this request. `data[]`: [field definitions](../models/PartnerAppInstallListResponse.md#partnerappinstalllistresponsedata). |
+| `meta` | Optional | [ResponseMeta](../models/ResponseMeta.md#responsemeta) | Additional information about this response. Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings. `meta`: [field definitions](../models/DisputeResponse.md#disputeresponsemeta). |
+| `next_page_token` | Optional | string | Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no next page. |
+| `request_id` | Required | string | Identifier of this API request, used to correlate logs and support requests. maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. |
+
+### PartnerAppInstallListResponse.data[]
+
+A merchant's authorization of a partner application.
+
+Field definitions: [shared fields](PartnerAppInstallResponse.md#partnerappinstallresponsedata).
+
+### PartnerAppInstallListResponse.data[].environment_grants[]
+
+Field definitions: [PartnerAppInstallResponse.data.environment_grants[]](../models/PartnerAppInstallResponse.md#partnerappinstallresponsedataenvironment_grants).
+
+### PartnerAppInstallListResponse.meta
+
+Field definitions: [DisputeResponse.meta](../models/DisputeResponse.md#disputeresponsemeta).
 

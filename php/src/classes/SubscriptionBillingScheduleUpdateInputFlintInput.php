@@ -15,7 +15,7 @@ final class SubscriptionBillingScheduleUpdateInputFlintInput extends Model {
      */
     public function getBillingAnchorDay(): int { return $this->get('billing_anchor_day'); }
     public function hasBillingAnchorDay(): bool { return $this->has('billing_anchor_day'); }
-    /** Future date at which Flint attempts the next charge. Format: date-time. minLength: 1.
+    /** Future date at which Flint attempts the next charge. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When next_billing_at is omitted; use hasNextBillingAt() or valueOrDefault().
      */

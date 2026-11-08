@@ -9,14 +9,14 @@ Response model.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `amount_money` | Required | [DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueInputRequiredOptionAmountMoney](../models/DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueInputRequiredOptionAmountMoney.md#deliverypreviewchoicegroupresourcecandidateoutcomesvalueinputrequiredoptionamountmoney) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `arrival_estimate` | Optional | [DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueInputRequiredOptionArrivalEstimate](../models/DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueInputRequiredOptionArrivalEstimate.md#deliverypreviewchoicegroupresourcecandidateoutcomesvalueinputrequiredoptionarrivalestimate) | The estimated arrival date range for a delivery option, as calendar dates in the option's timezone. |
+| `arrival_estimate` | Optional | [DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueInputRequiredOptionArrivalEstimate](../models/DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueInputRequiredOptionArrivalEstimate.md#deliverypreviewchoicegroupresourcecandidateoutcomesvalueinputrequiredoptionarrivalestimate) | The estimated arrival date range for a delivery option, as calendar dates in the option's timezone. `arrival_estimate`: [field definitions](../models/DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueInputRequiredOption.md#deliverypreviewchoicegroupresourcecandidateoutcomesvalueinputrequiredoptionarrival_estimate). |
 | `buyer_instructions` | Required | [DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueInputRequiredOptionBuyerInstructions](../models/DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueInputRequiredOptionBuyerInstructions.md#deliverypreviewchoicegroupresourcecandidateoutcomesvalueinputrequiredoptionbuyerinstructions) | Controls buyer instructions for a delivery option. Omit it from a method configuration to disable instruction collection. |
 | `charge_tax_category` | Optional | string | Flint charge tax category. Values: `"service_fee"`, `"shipping"`, `"delivery"`, `"handling"`, `"surcharge"`. |
 | `consumed_by_delivery_selection_id` | Optional | string |  |
 | `delivery_method_id` | Required | string |  |
 | `delivery_method_revision_id` | Optional | string |  |
 | `delivery_option_id` | Optional | string |  |
-| `delivery_plan` | Required | [DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueInputRequiredOptionDeliveryPlan](../models/DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueInputRequiredOptionDeliveryPlan.md#deliverypreviewchoicegroupresourcecandidateoutcomesvalueinputrequiredoptiondeliveryplan) | Whether a delivery option is fulfilled in one delivery or several, with the first arrival time, completion time, and delivery count. |
+| `delivery_plan` | Required | [DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueInputRequiredOptionDeliveryPlan](../models/DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueInputRequiredOptionDeliveryPlan.md#deliverypreviewchoicegroupresourcecandidateoutcomesvalueinputrequiredoptiondeliveryplan) | Whether a delivery option is fulfilled in one delivery or several, with the first arrival time, completion time, and delivery count. `delivery_plan`: [field definitions](../models/DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueInputRequiredOption.md#deliverypreviewchoicegroupresourcecandidateoutcomesvalueinputrequiredoptiondelivery_plan). |
 | `description` | Optional | string |  |
 | `display_position` | Required | integer | Format: `int32`. |
 | `execution_legs` | Optional | Array of ([DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueInputRequiredOptionExecutionLegsItem](../models/DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueInputRequiredOptionExecutionLegsItem.md#deliverypreviewchoicegroupresourcecandidateoutcomesvalueinputrequiredoptionexecutionlegsitem) and [DeliveryQuoteExecutionLegResource](../models/DeliveryQuoteExecutionLegResource.md#deliveryquoteexecutionlegresource)) | Where this option's items leave from, one leg per origin Location. Under method_origin routing each method uses its own origin, so a pickup option leaves from the chosen store while a shipment option can leave from a warehouse. Selecting the option makes these legs the selection's execution legs. |
@@ -36,9 +36,25 @@ Response model.
 | `window_selection` | Required | string | Values: `"none"`, `"offered"`. |
 | `window_start_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 
+### DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueInputRequiredOption.arrival_estimate
+
+The estimated arrival date range for a delivery option, as calendar dates in the option's timezone.
+
+Field definitions: [shared fields](DeliveryArrivalEstimateInput.md#deliveryarrivalestimateinput).
+
+### DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueInputRequiredOption.delivery_plan
+
+Whether a delivery option is fulfilled in one delivery or several, with the first arrival time, completion time, and delivery count.
+
+Field definitions: [shared fields](DeliveryPlanInput.md#deliveryplaninput).
+
 ### DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueInputRequiredOption.pickup fields 1
 
 Pickup details of a delivery option: the pickup mode and the pickup location.
 
 Field definitions: [shared fields](DeliveryPickupDetails.md#deliverypickupdetails).
+
+### DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueInputRequiredOption.pickup fields 1.location
+
+Field definitions: [DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueAvailableOption.pickup fields 1.location](../models/DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueAvailableOption.md#deliveryquotechoicegroupresourcecandidateoutcomesvalueavailableoptionpickup-fields-1location).
 

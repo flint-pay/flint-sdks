@@ -4,7 +4,7 @@ namespace Flint;
 /**
  * @property-read ?list<FulfillmentChargeLink> $charges
  * @property-read ?string $completed_at
- * @property-read ?string $created_at
+ * @property-read string $created_at
  * @property-read ?string $customer_id
  * @property-read ?DigitalFulfillmentDetails $digital_details
  * @property-read ?string $dispatched_at
@@ -22,16 +22,15 @@ namespace Flint;
  * @property-read string|null $scheduled_start_at
  * @property-read ?ServiceFulfillmentDetails $service_details
  * @property-read ?ShipmentFulfillmentDetails $shipment_details
- * @property-read ?list<ExpandedShipmentSummary> $shipments
+ * @property-read ?list<BuyerExpandedShipmentSummary> $shipments
  * @property-read string $status
- * @property-read list<string> $supported_actions
  * @property-read ?string $terminal_at
  * @property-read string $type
- * @property-read ?string $updated_at
+ * @property-read string $updated_at
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class BuyerFulfillment extends Model {
-    /** @param array{'charges'?: list<mixed>, 'completed_at'?: string, 'created_at'?: string, 'customer_id'?: string, 'digital_details'?: mixed, 'dispatched_at'?: string, 'fulfillment_id': string, 'line_items': list<mixed>, 'local_delivery_details'?: mixed, 'order_id': string, 'order_number'?: string, 'outcome'?: mixed, 'packages'?: list<mixed>, 'packed_at'?: string, 'picked_at'?: string, 'pickup_details'?: mixed, 'recipient'?: mixed, 'scheduled_start_at': string|null, 'service_details'?: mixed, 'shipment_details'?: mixed, 'shipments'?: list<mixed>, 'status': string, 'supported_actions': list<string>, 'terminal_at'?: string, 'type': string, 'updated_at'?: string, 'version': int, ...}|object $values */
+    /** @param array{'charges'?: list<mixed>, 'completed_at'?: string, 'created_at': string, 'customer_id'?: string, 'digital_details'?: mixed, 'dispatched_at'?: string, 'fulfillment_id': string, 'line_items': list<mixed>, 'local_delivery_details'?: mixed, 'order_id': string, 'order_number'?: string, 'outcome'?: mixed, 'packages'?: list<mixed>, 'packed_at'?: string, 'picked_at'?: string, 'pickup_details'?: mixed, 'recipient'?: mixed, 'scheduled_start_at': string|null, 'service_details'?: mixed, 'shipment_details'?: mixed, 'shipments'?: list<mixed>, 'status': string, 'terminal_at'?: string, 'type': string, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerFulfillment')); }
     /** Order charges associated with this fulfillment. [] (Value): {@see FulfillmentChargeLink}. Links a fulfillment to an order charge by `order_charge_id`.
      * @return ?list<FulfillmentChargeLink>
@@ -44,9 +43,9 @@ final class BuyerFulfillment extends Model {
     public function getCompletedAt(): ?string { return $this->get('completed_at'); }
     public function hasCompletedAt(): bool { return $this->has('completed_at'); }
     /** When the fulfillment was created, in RFC3339 format. Format: date-time.
-     * @return ?string
+     * @return string
      */
-    public function getCreatedAt(): ?string { return $this->get('created_at'); }
+    public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
     /** Customer receiving this fulfillment, when one is set.
      * @return ?string
@@ -133,8 +132,8 @@ final class BuyerFulfillment extends Model {
      */
     public function getShipmentDetails(): ?ShipmentFulfillmentDetails { return $this->get('shipment_details'); }
     public function hasShipmentDetails(): bool { return $this->has('shipment_details'); }
-    /** Shipments associated with this fulfillment. [] (Value): {@see ExpandedShipmentSummary}. A shipment's summary fields, including direction, status, and package count, returned when the shipment is expanded.
-     * @return ?list<ExpandedShipmentSummary>
+    /** Shipments associated with this fulfillment. [] (Value): {@see BuyerExpandedShipmentSummary}. A buyer-visible shipment summary, with its direction, status, and package count.
+     * @return ?list<BuyerExpandedShipmentSummary>
      */
     public function getShipments(): ?array { return $this->get('shipments'); }
     public function hasShipments(): bool { return $this->has('shipments'); }
@@ -143,25 +142,20 @@ final class BuyerFulfillment extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Always empty for buyer credentials. maxItems: 0. [] enum: "complete", "cancel", "hold", "start", "mark_ready", "fail", "schedule", "accept", "mark_preparing", "mark_picked", "mark_packed", "dispatch", "mark_no_show", "release_hold". [] (Value): string.  Value enum: "complete", "cancel", "hold", "start", "mark_ready", "fail", "schedule", "accept", "mark_preparing", "mark_picked", "mark_packed", "dispatch", "mark_no_show", "release_hold".
-     * @return list<string>
-     */
-    public function getSupportedActions(): array { return $this->get('supported_actions'); }
-    public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
     /** When the fulfillment entered a terminal state: completed, canceled, failed, or no_show. This records the state transition; completed_at records completion evidence supplied for the fulfillment. Format: date-time.
      * @return ?string
      */
     public function getTerminalAt(): ?string { return $this->get('terminal_at'); }
     public function hasTerminalAt(): bool { return $this->has('terminal_at'); }
-    /** Value enum: "shipment", "pickup", "local_delivery", "digital", "service".
+    /** How the items are delivered: shipment, pickup, local delivery, digital delivery, or service. Value enum: "shipment", "pickup", "local_delivery", "digital", "service".
      * @return string
      */
     public function getType(): string { return $this->get('type'); }
     public function hasType(): bool { return $this->has('type'); }
     /** When the fulfillment was last updated, in RFC3339 format. Format: date-time.
-     * @return ?string
+     * @return string
      */
-    public function getUpdatedAt(): ?string { return $this->get('updated_at'); }
+    public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
     /** Monotonic fulfillment version for expected_version checks. Format: uint64. minimum: 1.
      * @return int

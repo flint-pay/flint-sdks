@@ -9,7 +9,7 @@ namespace Flint;
 final class ErrorRemediation extends Model {
     /** @param array{'next_actions'?: list<mixed>, 'next_steps'?: string, 'retry': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ErrorRemediation')); }
-    /** Suggested actions for resolving the error, including the target resource and any required input. [] (Value): {@see NextAction}. A suggested next step for resolving an error, warning, or blocked state, such as the API operation to call or the scope it needs.
+    /** Suggested actions for resolving the error, including the target resource and any required input. [] (Value): {@see NextAction}. A follow-up action. When target_resource is present, send its resource_id in the target request field named {resource_type}_id.
      * @return ?list<NextAction>
      */
     public function getNextActions(): ?array { return $this->get('next_actions'); }
@@ -19,7 +19,7 @@ final class ErrorRemediation extends Model {
      */
     public function getNextSteps(): ?string { return $this->get('next_steps'); }
     public function hasNextSteps(): bool { return $this->has('next_steps'); }
-    /** How to recover: same_request resends the identical request with the same Idempotency-Key; after_refresh re-reads the resource and rebuilds the request with a new key; none requires correcting the request or following next_steps or next_actions. Value enum: "same_request", "after_refresh", "none".
+    /** Whether sending this request again can succeed, and how. It depends only on code and details[0].reason; the errors reference lists the value for each. Value enum: "same_request", "after_refresh", "none".
      * @return string
      */
     public function getRetry(): string { return $this->get('retry'); }

@@ -8,9 +8,9 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.categories.delete(
-  "ctg_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "ctg_01KEZF7C001T4WWBPVGWRZD88Q",
   {},
   { idempotencyKey: idempotencyKey },
 );
 console.log(result.category_id);
-console.log(result.status);
+console.log(result.merchant_id);

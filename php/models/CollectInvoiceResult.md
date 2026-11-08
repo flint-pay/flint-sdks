@@ -8,6 +8,10 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `invoice` | Required | [Invoice](../models/Invoice.md#invoice) | A bill issued to a customer. |
+| `invoice` | Required | [Invoice](../models/Invoice.md#invoice) | A bill issued to a customer. `invoice`: [field definitions](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoice). |
 | `invoice_payment_attempt` | Required | [InvoicePaymentAttempt](../models/InvoicePaymentAttempt.md#invoicepaymentattempt) or null |  |
+
+### CollectInvoiceResult.invoice
+
+Field definitions: [CollectInvoiceResponse.data.invoice](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoice).
 

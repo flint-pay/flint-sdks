@@ -14,7 +14,7 @@ final class ReturnShipmentLineItemAllocationRequestInput extends Model {
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
-    /** Return line whose quantity is allocated to the shipment or package. minLength: 1.
+    /** Return line whose quantity is allocated to the shipment or package. minLength: 1. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
      * @return string
      * @throws SdkError When return_line_item_id is omitted; use hasReturnLineItemId() or valueOrDefault().
      */

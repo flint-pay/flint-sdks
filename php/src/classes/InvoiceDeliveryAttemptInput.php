@@ -15,7 +15,7 @@ namespace Flint;
  * @property-read string|null $to_email
  * Presence-aware input; omitted fields throw when accessed. */
 final class InvoiceDeliveryAttemptInput extends Model {
-    /** @param array{'cc_emails'?: list<string>, 'channel': string, 'created_at'?: string|\DateTimeInterface, 'delivery_type': string, 'failure_reason'?: string, 'invoice_delivery_attempt_id': string, 'invoice_id': string, 'sent_at'?: string|\DateTimeInterface, 'status': string, 'suppression_reason'?: string, 'to_email': string|null, ...}|object $values */
+    /** @param array{'cc_emails'?: list<string>, 'channel': string, 'created_at': string|\DateTimeInterface, 'delivery_type': string, 'failure_reason'?: string, 'invoice_delivery_attempt_id': string, 'invoice_id': string, 'sent_at'?: string|\DateTimeInterface, 'status': string, 'suppression_reason'?: string, 'to_email': string|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceDeliveryAttemptInput')); }
     /** Addresses copied on this email. Absent when none were copied. [] (Value): string.
      * @return list<string>
@@ -29,7 +29,7 @@ final class InvoiceDeliveryAttemptInput extends Model {
      */
     public function getChannel(): string { return $this->get('channel'); }
     public function hasChannel(): bool { return $this->has('channel'); }
-    /** When the attempt was created. Format: date-time.
+    /** When the attempt was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
@@ -47,19 +47,19 @@ final class InvoiceDeliveryAttemptInput extends Model {
      */
     public function getFailureReason(): string { return $this->get('failure_reason'); }
     public function hasFailureReason(): bool { return $this->has('failure_reason'); }
-    /** Flint invoice delivery attempt ID.
+    /** Flint invoice delivery attempt ID. Example: "indel_01KEZF7C001BBS41T0ZVY8VMEQ".
      * @return string
      * @throws SdkError When invoice_delivery_attempt_id is omitted; use hasInvoiceDeliveryAttemptId() or valueOrDefault().
      */
     public function getInvoiceDeliveryAttemptId(): string { return $this->get('invoice_delivery_attempt_id'); }
     public function hasInvoiceDeliveryAttemptId(): bool { return $this->has('invoice_delivery_attempt_id'); }
-    /** ID of the invoice this delivery attempt belongs to.
+    /** ID of the invoice this delivery attempt belongs to. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
      * @return string
      * @throws SdkError When invoice_id is omitted; use hasInvoiceId() or valueOrDefault().
      */
     public function getInvoiceId(): string { return $this->get('invoice_id'); }
     public function hasInvoiceId(): bool { return $this->has('invoice_id'); }
-    /** When the email service accepted the message. Absent until it does. Format: date-time.
+    /** When the email service accepted the message. Absent until it does. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When sent_at is omitted; use hasSentAt() or valueOrDefault().
      */
@@ -71,13 +71,13 @@ final class InvoiceDeliveryAttemptInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Present only when status is suppressed. Value enum: "merchant_managed_email", "recipient_unsubscribed".
+    /** Present only when status is suppressed. Value enum: "merchant_managed_email", "recipient_unsubscribed", "sandbox_daily_limit_reached".
      * @return string
      * @throws SdkError When suppression_reason is omitted; use hasSuppressionReason() or valueOrDefault().
      */
     public function getSuppressionReason(): string { return $this->get('suppression_reason'); }
     public function hasSuppressionReason(): bool { return $this->has('suppression_reason'); }
-    /** Address the invoice was sent to. `null` after the customer was deleted.
+    /** Address the invoice was sent to. `null` when the customer was deleted.
      * @return string|null
      * @throws SdkError When to_email is omitted; use hasToEmail() or valueOrDefault().
      */

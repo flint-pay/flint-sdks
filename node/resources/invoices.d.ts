@@ -1,25 +1,24 @@
 import type { Result, WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-5.js';
-import type { CollectInvoiceResponse, CollectInvoiceResult } from '../declarations/types-6.js';
-import type { Invoice, InvoiceActivity, InvoiceActivityListResponse } from '../declarations/types-28.js';
+import type { ClientOptions, CollectInvoiceResponse, CollectInvoiceResult } from '../declarations/types-6.js';
 import type {
+    Invoice,
+    InvoiceActivity,
+    InvoiceActivityListResponse,
     InvoiceCheckoutSessionResponse,
     InvoiceCheckoutSessionResult,
     InvoiceDeliveryAttempt,
-    InvoiceDeliveryAttemptListResponse,
-    InvoiceListResponse
-} from '../declarations/types-29.js';
+    InvoiceDeliveryAttemptListResponse
+} from '../declarations/types-30.js';
 import type {
+    InvoiceListResponse,
     InvoiceManualPayment,
     InvoiceManualPaymentListResponse,
     InvoiceManualPaymentResponse,
     InvoiceManualPaymentResult,
     InvoiceManualPaymentResultResponse,
-    InvoicePaymentAttempt,
-    InvoicePaymentAttemptListResponse,
-    InvoicePaymentAttemptResponse
-} from '../declarations/types-30.js';
-import type { InvoiceResponse } from '../declarations/types-31.js';
+    InvoicePaymentAttempt
+} from '../declarations/types-31.js';
+import type { InvoicePaymentAttemptListResponse, InvoicePaymentAttemptResponse, InvoiceResponse } from '../declarations/types-32.js';
 import type {
     InvoicesCancelPaymentAttemptParams,
     InvoicesCollectParams,
@@ -45,9 +44,9 @@ import type {
     InvoicesUpdateParams,
     InvoicesVoidParams,
     InvoicesWaiveLateFeeParams
-} from '../declarations/types-32.js';
-import type { RequestOptions } from '../declarations/types-48.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-33.js';
+import type { RequestOptions } from '../declarations/types-51.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-66.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -87,32 +86,50 @@ export type {
     InvoicesUpdateParams,
     InvoicesVoidParams,
     InvoicesWaiveLateFeeParams,
-    LineItemFulfillmentRequestInput,
-    LineItemFulfillmentOriginRequestInput,
+    InvoiceScheduleEntryWriteInput,
+    InvoiceScheduleAmountSpecificationRequestInput,
+    InvoiceScheduleAmountSpecificationFixedRequestInput,
+    InvoiceScheduleAmountSpecificationPercentageRequestInput,
+    InvoiceScheduleAmountSpecificationRemainingBalanceRequestInput,
+    InvoiceScheduleDueWriteInput,
+    InvoiceScheduleDueWriteAtIssueInput,
+    InvoiceScheduleDueWriteDateInput,
+    InvoiceScheduleDueWriteInvoiceDueDateInput,
+    InvoiceScheduleEntryWriteDepositInput,
+    InvoiceScheduleEntryWriteInstallmentInput,
+    InvoiceScheduleEntryWriteBalanceInput,
+    InvoiceScheduleEntry,
+    InvoiceScheduleAmountSpecificationPercentage,
+    InvoiceScheduleAmountSpecificationRemainingBalance,
+    InvoiceScheduleDue,
+    InvoiceScheduleDueAtIssue,
+    InvoiceScheduleDueDate,
+    InvoiceScheduleDueInvoiceDueDate,
     InvoiceSnapshot,
-    InvoiceTip,
-    LegalSettings,
-    IssueInvoiceRequestInput
-} from '../declarations/types-32.js';
-export type {
-    RequestOptions,
-    ResponseMeta,
-    ResponseWarning,
-    ResourceReference,
-    ResourceType,
-    ResourceVersionRequestInput
-} from '../declarations/types-48.js';
+    InvoiceTip
+} from '../declarations/types-33.js';
+export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning, ResourceVersionRequestInput } from '../declarations/types-51.js';
 export type {
     InvoicePaymentAttempt,
-    InvoicePaymentAttemptResponse,
     InvoiceManualPaymentResult,
     InvoiceManualPaymentResultResponse,
     InvoiceManualPayment,
     InvoiceManualPaymentResponse,
     InvoiceManualPaymentListResponse,
+    InvoiceListResponse,
+    InvoiceLateFee,
+    InvoiceLateFeePolicy,
+    InvoiceLateFeePolicyFixed,
+    InvoiceLateFeePolicyPercentage,
+    InvoiceDiscount,
+    InvoiceLineItem
+} from '../declarations/types-31.js';
+export type {
+    InvoicePaymentAttemptResponse,
+    InvoiceResponse,
     InvoicePaymentAttemptListResponse,
-    InvoicePaymentPolicyInput,
-    InvoicePaymentOptionLimitInput,
+    InvoicePaymentPolicyRequestInput,
+    InvoicePaymentOptionLimitRequestInput,
     InvoicePaymentDueRequestInput,
     InvoicePaymentDueInputNoneInput,
     InvoicePaymentDueInputDateInput,
@@ -125,53 +142,38 @@ export type {
     InvoicePaymentDueNone,
     InvoicePaymentDueDate,
     InvoicePaymentDuePaymentTerms,
-    InvoicePaymentTermCalculation
-} from '../declarations/types-30.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency, WeightInput } from '../declarations/types-62.js';
-export type {
-    CollectInvoiceResult,
-    CollectInvoiceResponse,
-    CollectInvoiceRequestInput,
-    CollectInvoiceRequest,
-    ConfirmReturnResolutionRequestInput
-} from '../declarations/types-6.js';
-export type { Invoice, InvoiceActivityListResponse, InvoiceActivity, InvoiceCheckoutSessionRequestInput } from '../declarations/types-28.js';
-export type {
-    InvoiceResponse,
-    InvoiceScheduleEntryWriteInput,
-    InvoiceScheduleAmountSpecificationInput,
-    InvoiceScheduleAmountSpecificationFixedInput,
-    InvoiceScheduleAmountSpecificationPercentageInput,
-    InvoiceScheduleAmountSpecificationRemainingBalanceInput,
-    InvoiceScheduleDueWriteInput,
-    InvoiceScheduleDueWriteAtIssueInput,
-    InvoiceScheduleDueWriteDateInput,
-    InvoiceScheduleDueWriteInvoiceDueDateInput,
-    InvoiceScheduleEntryWriteDepositInput,
-    InvoiceScheduleEntryWriteInstallmentInput,
-    InvoiceScheduleEntryWriteBalanceInput,
     InvoicePaymentTermsSnapshot,
+    InvoicePaymentTermCalculation,
     InvoicePaymentTermCalculationOnReceipt,
     InvoicePaymentTermCalculationNetDays,
     InvoicePaymentTermCalculationDaysAfterMonthEnd,
     InvoicePaymentTermCalculationDayOfMonth,
     InvoicePaymentTermCalculationDayOfNextMonth,
-    InvoiceScheduleEntry,
     InvoiceScheduleAmountSpecification,
-    InvoiceScheduleAmountSpecificationFixed,
-    InvoiceScheduleAmountSpecificationPercentage,
-    InvoiceScheduleAmountSpecificationRemainingBalance,
-    InvoiceScheduleDue,
-    InvoiceScheduleDueAtIssue,
-    InvoiceScheduleDueDate,
-    InvoiceScheduleDueInvoiceDueDate
-} from '../declarations/types-31.js';
+    InvoiceScheduleAmountSpecificationFixed
+} from '../declarations/types-32.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency, WeightRequestInput } from '../declarations/types-66.js';
 export type {
+    CollectInvoiceResult,
+    CollectInvoiceResponse,
+    ClientOptions,
+    CollectInvoiceRequestInput,
+    CheckoutSubscriptionTerms,
+    CheckoutSubscriptionRecurringShipping,
+    CheckoutSessionTax,
+    CheckoutTheme,
+    CheckoutTipConfig,
+    CheckoutSessionsListDeliverySelectionsParams,
+    CollectInvoiceRequest
+} from '../declarations/types-6.js';
+export type {
+    Invoice,
     InvoiceCheckoutSessionResult,
     InvoiceCheckoutSessionResponse,
+    InvoiceActivityListResponse,
+    InvoiceActivity,
     InvoiceDeliveryAttemptListResponse,
     InvoiceDeliveryAttempt,
-    InvoiceListResponse,
     InvoiceCollectionRequestInput,
     InvoiceCollectionInputMerchantDefaultInput,
     InvoiceCollectionInputBuyerInitiatedInput,
@@ -181,25 +183,8 @@ export type {
     InvoiceCollectionBuyerInitiated,
     InvoiceCollectionAutomatic,
     InvoiceCollectionExternal,
-    InvoiceLateFee,
-    InvoiceLateFeePolicy,
-    InvoiceLateFeePolicyFixed,
-    InvoiceLateFeePolicyPercentage,
-    InvoiceDiscount,
-    InvoiceLineItem
-} from '../declarations/types-29.js';
-export type {
-    ClientOptions,
-    CheckoutRedirectsRequestInput,
-    CheckoutSession,
-    CheckoutRedirects,
-    CheckoutSubscriptionTerms,
-    CheckoutSubscriptionRecurringShipping,
-    CheckoutSessionTax,
-    CheckoutTheme,
-    CheckoutTipConfig,
-    CheckoutSessionsListDeliverySelectionsParams
-} from '../declarations/types-5.js';
+    InvoiceCheckoutSessionRequestInput
+} from '../declarations/types-30.js';
 export type {
     AuthMode,
     AddressRequestInput,
@@ -208,23 +193,17 @@ export type {
     AddressRequest,
     AssessInvoiceLateFeeRequest
 } from '../declarations/types-0.js';
-export type { Credentials, CreditNotesListAllocationsParams } from '../declarations/types-12.js';
-export type {
-    MoneyValue,
-    NextAction,
-    MoneyValueInput,
-    MetadataRequestInput,
-    MetadataMap,
-    MetadataPatchRequestInput,
-    MetadataPatchRequest
-} from '../declarations/types-35.js';
+export type { Credentials } from '../declarations/types-13.js';
+export type { MoneyValue, NextAction, MoneyValueInput } from '../declarations/types-37.js';
 export type {
     PaymentErrorSummary,
+    PaymentAttemptGiftCardRedemption,
+    PaymentAttemptPaymentIntent,
     PaymentClientAction,
     PaymentCollection,
     PaymentCollectionStripe,
     PaymentCollectionStripeElements
-} from '../declarations/types-41.js';
+} from '../declarations/types-43.js';
 export type {
     ErrorRemediation,
     ExpandedCustomerSummary,
@@ -233,38 +212,15 @@ export type {
     ExpandedInvoiceSummary,
     ExpandedPaymentIntentSummary,
     ExpandedPaymentLinkSummary
-} from '../declarations/types-21.js';
+} from '../declarations/types-23.js';
 export type {
     ReadinessMerchantAccountSession,
     PromotionRefRequestInput,
     PromotionRefInputPromotionIDInput,
     PromotionRefInputPromotionCodeInput
-} from '../declarations/types-46.js';
+} from '../declarations/types-49.js';
 export type {
     CreateInvoiceRequestInput,
-    CreateInvoiceIssueRequestInput,
-    CreateInvoiceQuickPayRequestInput,
-    CreateInvoiceRequestOrderInput,
-    CreateInvoiceManualPaymentRequestInput
-} from '../declarations/types-8.js';
-export type {
-    OrderDeliveryDestinationRequestInput,
-    OrderDeliveryDestinationRecipientRequestInput,
-    OrderInventoryRoutingSourceRequestInput,
-    OrderDraftLineItemInventoryDemandRequestInput,
-    OrderLineItemModifierRequestInput,
-    OrderLineItemModifierInputCatalogInput,
-    OrderLineItemModifierInputTextInput,
-    OrderDraftLineItemTaxRequestInput,
-    OrderDraftLineItemTaxCalculationRequestInput,
-    OrderDraftTaxComponentRequestInput,
-    OrderDraftTaxJurisdictionRequestInput,
-    OrderLineItemModifier,
-    OrderPaymentAttempt,
-    OrderPaymentAttemptPaymentMethodSave,
-    OrderDraftLineItemInventoryDemandRequest
-} from '../declarations/types-37.js';
-export type {
     CreateOrderDiscountInput,
     CreateOrderDiscountPromotionInput,
     CreateOrderDiscountManualInput,
@@ -275,14 +231,54 @@ export type {
     CreateOrderTipInput,
     CreateOrderTipAmountInput,
     CreateOrderTipPercentInput,
+    CreateInvoiceRequestOrderInput,
     CreateInvoiceRequestQuickPayInput
+} from '../declarations/types-10.js';
+export type {
+    CreateInvoiceIssueRequestInput,
+    CreateInvoiceQuickPayRequestInput,
+    CreateInvoiceManualPaymentRequestInput
 } from '../declarations/types-9.js';
-export type { ManualDiscountRequestInput } from '../declarations/types-33.js';
-export type { GiftCardPurchaseDetailsRequestInput, GiftCardPurchaseRecipientRequestInput } from '../declarations/types-24.js';
-export type { ImageReferenceRequestInput, Image, ImageReferenceRequest } from '../declarations/types-25.js';
-export type { TextModifierRequestInput, TextModifierRequest } from '../declarations/types-58.js';
-export type { SubscribedLineRequestInput, StripePaymentClientAction, StripeSetupIntentClientAction } from '../declarations/types-54.js';
-export type { DimensionsInput } from '../declarations/types-20.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-36.js';
+export type {
+    OrderDeliveryDestinationRequestInput,
+    OrderDeliveryDestinationRecipientRequestInput,
+    OrderDraftLineItemInventoryDemandRequestInput,
+    OrderCharge,
+    OrderCalculatedChargeTax,
+    OrderDeliveryDestinationRecipientRequest,
+    OrderDraftLineItemInventoryDemandRequest
+} from '../declarations/types-38.js';
+export type {
+    ManualDiscountRequestInput,
+    LineItemFulfillmentRequestModelInput,
+    LineItemFulfillmentOriginRequestModelInput,
+    LegalSettings,
+    IssueInvoiceRequestInput
+} from '../declarations/types-34.js';
+export type {
+    InventoryRoutingSourceRequestInput,
+    InventoryRoutingSourceInputFixedLocationInput,
+    InventoryRoutingSourceInputPolicyInput,
+    InventoryRoutingSourceInputPolicyRevisionInput
+} from '../declarations/types-29.js';
+export type { GiftCardPurchaseDetailsRequestInput, GiftCardPurchaseRecipientRequestInput } from '../declarations/types-26.js';
+export type { ImageReferenceRequestInput, Image, ImageReferenceRequest } from '../declarations/types-27.js';
+export type {
+    OrderLineItemModifierRequestModelInput,
+    OrderLineItemModifierInputCatalogRequestInput,
+    OrderLineItemModifierInputTextRequestInput,
+    OrderDraftLineItemTaxRequestModelInput,
+    OrderDraftLineItemTaxCalculationRequestModelInput,
+    OrderDraftTaxComponentRequestModelInput,
+    OrderDraftTaxJurisdictionRequestModelInput,
+    OrderLineItemModifier,
+    OrderPaymentAttempt,
+    OrderPaymentAttemptPaymentMethodSave
+} from '../declarations/types-39.js';
+export type { TextModifierRequestInput, TextModifierRequest } from '../declarations/types-62.js';
+export type { SubscribedLineRequestModelInput, StripePaymentClientAction, StripeSetupIntentClientAction } from '../declarations/types-57.js';
+export type { DimensionsRequestInput, DisputesAcceptParams } from '../declarations/types-22.js';
 export type {
     OrderTaxRequestInput,
     OrderTaxCalculationRequestInput,
@@ -294,68 +290,90 @@ export type {
     OrderTaxLocationInputPostalCodeInput,
     OrderTaxLocationPostalAddressRequestInput,
     OrderTaxLocationInputFullAddressInput,
-    OrderTaxLocationFullAddressRequestInput
-} from '../declarations/types-38.js';
+    OrderTaxLocationFullAddressRequestInput,
+    OrderSettlementAmounts,
+    OrderTaxLocationPostalAddressRequest,
+    OrderTaxLocationFullAddressRequest
+} from '../declarations/types-40.js';
+export type {
+    DeliveryChargeTaxCalculationRequestModelInput,
+    DeferredPromotion,
+    DeliveryAddressAdvisoryResource,
+    DeliveryCandidateOutcomeResource,
+    DeliveryInputRequirement,
+    DeliveryInputConstraint,
+    DeliveryArrivalEstimate,
+    DeliveryCandidateOutcomeResourceAvailable,
+    DeliveryCandidateOutcomeResourceUnavailable,
+    DeliveryCandidateOutcomeResourceInputRequired,
+    DeliveryCandidateOutcomeResourceCannotCalculate,
+    DeliveryCandidateOutcomeResourceRequiresCheckoutContext,
+    DeliveryEligibilityMismatch
+} from '../declarations/types-16.js';
+export type {
+    TaxComponentRequestModelInput,
+    TaxJurisdictionRequestModelInput,
+    TaxIdentity,
+    TaxBreakdown,
+    TaxJurisdiction,
+    TaxBreakdownPercentage,
+    TaxBreakdownFlatAmount,
+    TaxCurrencyConversion
+} from '../declarations/types-61.js';
 export type {
     CheckoutBuyerContact,
     CategoryReference,
+    CheckoutRedirectsRequestInput,
+    CheckoutSession,
     CheckoutBuyerFields,
     CheckoutCustomTextConfig,
     CheckoutCustomerPrefill,
     CheckoutDerivedDeliveryResource,
-    CheckoutDeliveryPinnedDependency,
     CheckoutGiftCardChallenge,
     CheckoutMerchantSupport,
     CheckoutPaymentMethodSave,
     CheckoutPaymentConfig,
     CheckoutPrefill,
     CheckoutProblemResource,
-    CheckoutPromotionConfig
-} from '../declarations/types-4.js';
-export type {
-    PricingAmounts,
-    PendingPaymentAction,
-    PendingPaymentActionSubject,
-    PendingPaymentActionPaymentIntentSubject,
-    PendingPaymentActionSetupPaymentSourceSubject
-} from '../declarations/types-44.js';
-export type { SettlementAmounts, SelectedProductOption, SelectableOrderPaymentIntent } from '../declarations/types-53.js';
-export type { TaxIdentity, TaxBreakdown, TaxJurisdiction, TaxBreakdownPercentage, TaxBreakdownFlatAmount } from '../declarations/types-57.js';
-export type { OrderCharge, OrderCalculatedChargeTax, OrderDeliveryDestinationRecipientRequest } from '../declarations/types-36.js';
+    CheckoutPromotionConfig,
+    CheckoutRedirects
+} from '../declarations/types-5.js';
+export type { PricingAmounts, PendingPaymentActionSubject } from '../declarations/types-47.js';
+export type { SettlementAmounts, SelectedProductOption, SelectableOrderPaymentIntent } from '../declarations/types-56.js';
 export type { BundleComponent, BundleComponentVariantSummary } from '../declarations/types-1.js';
-export type { PaymentAttemptGiftCardRedemption, PaymentAttemptPaymentIntent } from '../declarations/types-40.js';
+export type {
+    PendingPaymentAction,
+    PendingPaymentActionPaymentIntentSubject,
+    PendingPaymentActionSetupPaymentSourceSubject,
+    PaymentSourceSummary
+} from '../declarations/types-46.js';
+export type {
+    CustomFieldAnswer,
+    CustomFieldAnswerText,
+    CustomFieldAnswerTextarea,
+    CustomFieldAnswerDropdown,
+    CustomFieldAnswerCheckbox,
+    CreditNotesListAllocationsParams
+} from '../declarations/types-14.js';
 export type {
     DeliveryQuoteChoiceGroupResource,
     DeliveryQuoteExecutionLegResource,
     DeliveryQuoteLineItemResource
-} from '../declarations/types-18.js';
-export type {
-    DeliveryAddressAdvisoryResource,
-    DeliveryCandidateOutcomeResource,
-    DeliveryArrivalEstimate,
-    DeliveryCandidateOutcomeResourceAvailable,
-    DeliveryCandidateOutcomeResourceUnavailable,
-    DeliveryCandidateOutcomeResourceInputRequired,
-    DeliveryCandidateOutcomeResourceCannotCalculate,
-    DeliveryCandidateOutcomeResourceRequiresCheckoutContext
-} from '../declarations/types-14.js';
-export type {
-    DeliveryInputRequirement,
-    DeliveryInputConstraint,
-    DeliveryLocationSummaryResource,
-    DeliveryMerchantDiagnostic,
-    DeliveryEligibilityMismatch
-} from '../declarations/types-15.js';
-export type { DeliveryWindowRequest, DeliveryShipmentDetails, DeliveryRecipientRequirement } from '../declarations/types-19.js';
-export type { DeliveryOptionProjection, DeliveryPlan, DeliveryPickupDetails, DeliveryPreviewRoutingSourceInput } from '../declarations/types-16.js';
+} from '../declarations/types-19.js';
+export type { DeliveryWindowRequest, DeliveryShipmentDetails } from '../declarations/types-21.js';
+export type { DeliveryOptionProjection, DeliveryPlan, DeliveryPickupDetails } from '../declarations/types-18.js';
 export type { BuyerInstructionsConfig } from '../declarations/types-2.js';
-export type { PaymentSourceSummary, PaymentSourceAchDebitSummary, PaymentSourceCardSummary } from '../declarations/types-43.js';
-export type { SubscriptionIntervalOption } from '../declarations/types-55.js';
-export type { ReverseInvoiceManualPaymentRequestInput } from '../declarations/types-51.js';
-export type { UpdateInvoiceRequestInput } from '../declarations/types-59.js';
-export type { WaiveInvoiceLateFeeRequestInput, WaiveInvoiceLateFeeRequest } from '../declarations/types-61.js';
-export { makeAddressRequest, makeAssessInvoiceLateFeeRequest } from '../declarations/types-62.js';
-export { makeCheckoutRedirectsRequest, makeCollectInvoiceRequest, makeConfirmReturnResolutionRequest } from '../declarations/types-63.js';
+export type { DeliveryLocationSummaryResource, DeliveryMerchantDiagnostic } from '../declarations/types-17.js';
+export type { DeliveryRecipientRequirement } from '../declarations/types-20.js';
+export type { PaymentSourceAchDebitSummary, PaymentSourceCardSummary } from '../declarations/types-45.js';
+export type { SubscriptionIntervalOption } from '../declarations/types-58.js';
+export type { ReverseInvoiceManualPaymentRequestInput } from '../declarations/types-55.js';
+export type { UpdateInvoiceRequestInput } from '../declarations/types-63.js';
+export type { WaiveInvoiceLateFeeRequestInput, WaiveInvoiceLateFeeRequest } from '../declarations/types-65.js';
+export type { ConfirmReturnResolutionRequestInput } from '../declarations/types-7.js';
+export { makeAddressRequest } from '../declarations/types-66.js';
+export { makeAssessInvoiceLateFeeRequest, makeCheckoutRedirectsRequest } from '../declarations/types-67.js';
+export { makeCollectInvoiceRequest, makeConfirmReturnResolutionRequest } from '../declarations/types-68.js';
 export {
     makeCreateInvoiceIssueRequest,
     makeCreateInvoiceManualPaymentRequest,
@@ -367,7 +385,7 @@ export {
     makeCreateOrderDiscountManual,
     makeCreateOrderDiscountPromotion,
     makeCreateOrderLineItemInputBundle
-} from '../declarations/types-64.js';
+} from '../declarations/types-69.js';
 export {
     makeCreateOrderLineItemInputCustom,
     makeCreateOrderLineItemInputVariant,
@@ -375,46 +393,37 @@ export {
     makeCreateOrderTip,
     makeCreateOrderTipAmount,
     makeCreateOrderTipPercent
-} from '../declarations/types-65.js';
-export {
-    makeDeliveryPreviewRoutingSource,
-    makeDeliveryRecipientRequirement,
-    makeDeliveryWindowRequest,
-    makeDimensions
-} from '../declarations/types-67.js';
+} from '../declarations/types-70.js';
+export { makeDeliveryChargeTaxCalculationRequestModel } from '../declarations/types-71.js';
+export { makeDeliveryWindowRequest, makeDimensionsRequest } from '../declarations/types-72.js';
 export {
     makeGiftCardPurchaseDetailsRequest,
     makeGiftCardPurchaseRecipientRequest,
-    makeImageReferenceRequest
-} from '../declarations/types-68.js';
-export {
+    makeImageReferenceRequest,
+    makeInventoryRoutingSourceInputFixedLocation,
+    makeInventoryRoutingSourceInputPolicy,
+    makeInventoryRoutingSourceInputPolicyRevision,
+    makeInventoryRoutingSourceRequest,
     makeInvoiceCheckoutSessionRequest,
     makeInvoiceCollectionInputAutomatic,
     makeInvoiceCollectionInputBuyerInitiated,
     makeInvoiceCollectionInputExternal,
     makeInvoiceCollectionInputMerchantDefault,
-    makeInvoiceCollectionRequest,
-    makeInvoiceLateFeePolicy,
-    makeInvoiceLateFeePolicyFixed,
-    makeInvoiceLateFeePolicyPercentage,
+    makeInvoiceCollectionRequest
+} from '../declarations/types-73.js';
+export {
     makeInvoicePaymentDueInputCustomerDefault,
     makeInvoicePaymentDueInputDate,
     makeInvoicePaymentDueInputMerchantDefault,
     makeInvoicePaymentDueInputNone,
     makeInvoicePaymentDueInputPaymentTerms,
     makeInvoicePaymentDueRequest,
-    makeInvoicePaymentOptionLimit,
-    makeInvoicePaymentPolicy,
-    makeInvoicePaymentTermCalculation,
-    makeInvoicePaymentTermCalculationDayOfMonth,
-    makeInvoicePaymentTermCalculationDayOfNextMonth,
-    makeInvoicePaymentTermCalculationDaysAfterMonthEnd,
-    makeInvoicePaymentTermCalculationNetDays,
-    makeInvoicePaymentTermCalculationOnReceipt,
-    makeInvoiceScheduleAmountSpecification,
-    makeInvoiceScheduleAmountSpecificationFixed,
-    makeInvoiceScheduleAmountSpecificationPercentage,
-    makeInvoiceScheduleAmountSpecificationRemainingBalance,
+    makeInvoicePaymentOptionLimitRequest,
+    makeInvoicePaymentPolicyRequest,
+    makeInvoiceScheduleAmountSpecificationFixedRequest,
+    makeInvoiceScheduleAmountSpecificationPercentageRequest,
+    makeInvoiceScheduleAmountSpecificationRemainingBalanceRequest,
+    makeInvoiceScheduleAmountSpecificationRequest,
     makeInvoiceScheduleDueWrite,
     makeInvoiceScheduleDueWriteAtIssue,
     makeInvoiceScheduleDueWriteDate,
@@ -424,26 +433,24 @@ export {
     makeInvoiceScheduleEntryWriteDeposit,
     makeInvoiceScheduleEntryWriteInstallment,
     makeIssueInvoiceRequest,
-    makeLineItemFulfillmentOriginRequest,
-    makeLineItemFulfillmentRequest,
+    makeLineItemFulfillmentOriginRequestModel,
+    makeLineItemFulfillmentRequestModel,
     makeManualDiscountRequest,
     makeMetadataPatchRequest,
     makeMetadataRequest
-} from '../declarations/types-69.js';
+} from '../declarations/types-74.js';
 export {
     makeMoneyValue,
-    makeOrderCalculatedChargeTax,
     makeOrderDeliveryDestinationRecipientRequest,
     makeOrderDeliveryDestinationRequest,
     makeOrderDraftLineItemInventoryDemandRequest,
-    makeOrderDraftLineItemTaxCalculationRequest,
-    makeOrderDraftLineItemTaxRequest,
-    makeOrderDraftTaxComponentRequest,
-    makeOrderDraftTaxJurisdictionRequest,
-    makeOrderInventoryRoutingSourceRequest,
-    makeOrderLineItemModifierInputCatalog,
-    makeOrderLineItemModifierInputText,
-    makeOrderLineItemModifierRequest,
+    makeOrderDraftLineItemTaxCalculationRequestModel,
+    makeOrderDraftLineItemTaxRequestModel,
+    makeOrderDraftTaxComponentRequestModel,
+    makeOrderDraftTaxJurisdictionRequestModel,
+    makeOrderLineItemModifierInputCatalogRequest,
+    makeOrderLineItemModifierInputTextRequest,
+    makeOrderLineItemModifierRequestModel,
     makeOrderTaxCalculationInputAutomatic,
     makeOrderTaxCalculationInputExternal,
     makeOrderTaxCalculationRequest,
@@ -455,18 +462,23 @@ export {
     makeOrderTaxLocationPostalAddressRequest,
     makeOrderTaxLocationRequest,
     makeOrderTaxRequest
-} from '../declarations/types-70.js';
-export { makePromotionRefInputPromotionCode, makePromotionRefInputPromotionID, makePromotionRefRequest } from '../declarations/types-71.js';
-export { makeResourceVersionRequest, makeReverseInvoiceManualPaymentRequest } from '../declarations/types-72.js';
-export { makeSubscribedLineRequest, makeSubscriptionIntervalOption } from '../declarations/types-73.js';
-export { makeTaxJurisdiction, makeTextModifierRequest, makeUpdateInvoiceRequest } from '../declarations/types-74.js';
-export { makeWaiveInvoiceLateFeeRequest, makeWeight } from '../declarations/types-75.js';
+} from '../declarations/types-75.js';
+export { makePromotionRefInputPromotionCode, makePromotionRefInputPromotionID, makePromotionRefRequest } from '../declarations/types-76.js';
+export { makeResourceVersionRequest } from '../declarations/types-77.js';
+export { makeReverseInvoiceManualPaymentRequest, makeSubscribedLineRequestModel } from '../declarations/types-78.js';
+export {
+    makeTaxComponentRequestModel,
+    makeTaxJurisdictionRequestModel,
+    makeTextModifierRequest,
+    makeUpdateInvoiceRequest
+} from '../declarations/types-79.js';
+export { makeWaiveInvoiceLateFeeRequest, makeWeightRequest } from '../declarations/types-80.js';
 export interface InvoicesResource {
     /**
  * Cancels an active invoice payment attempt and its payment intent. A processing ACH debit can be
  * canceled only until the payment processor sends it to the bank; after that the request returns
  * 409 ACTION_NOT_ALLOWED with reason in_progress and the attempt stays processing. Safe to retry
- * with the same Idempotency-Key. Accepts an empty body or {}.
+ * with the same idempotency key. Accepts an empty body or {}.
  *
  * `POST /v1/invoices/{invoice_id}/payment-attempts/{invoice_payment_attempt_id}/cancel`
  * @param invoice_id Flint invoice ID.
@@ -476,14 +488,13 @@ export interface InvoicesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.invoices.cancelPaymentAttempt("inv_01ARZ3NDEKTSV4RRFFQ69G5FAV",
- * "invpa_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey })
+ * client.invoices.cancelPaymentAttempt("inv_01KEZF7C00A5GEBMWHEAJFSAR4",
+ * "invpa_01KEZF7C00PMWEDPAYYEKDTPBX", {}, { idempotencyKey: idempotencyKey })
  */
     cancelPaymentAttempt(invoice_id: InputValue<string>, invoice_payment_attempt_id: InputValue<string>, params?: InvoicesCancelPaymentAttemptParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<InvoicePaymentAttempt, InvoicePaymentAttemptResponse>>;
     /**
- * Charges the invoice's saved payment method or the supplied saved payment method. This command
- * requires a caller-chosen Idempotency-Key that is reused for retries of the same collection
- * request.
+ * Charges the invoice's saved payment method or the supplied saved payment method. Send a
+ * caller-chosen idempotency key, and reuse it when you retry the same collection.
  *
  * `POST /v1/invoices/{invoice_id}/collect`
  * @param invoice_id Flint invoice ID.
@@ -492,18 +503,20 @@ export interface InvoicesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.invoices.collect("inv_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey })
+ * client.invoices.collect("inv_01KEZF7C00A5GEBMWHEAJFSAR4", undefined, { idempotencyKey:
+ * idempotencyKey })
  */
-    collect(invoice_id: InputValue<string>, params: InvoicesCollectParams, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<CollectInvoiceResult, CollectInvoiceResponse>>;
+    collect(invoice_id: InputValue<string>, params: InvoicesCollectParams | undefined, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<CollectInvoiceResult, CollectInvoiceResponse>>;
     /**
  * Creates an invoice draft from exactly one source: order_id for an order-backed invoice, or
  * quick_pay for an invoice with a new backing order. Include issue to issue it immediately, using
- * merchant_default delivery when issue is empty. Idempotency-Key is required for every request
+ * merchant_default delivery when issue is empty. An idempotency key is required for every request
  * because issuing an automatic-collection invoice can charge the buyer. Replays preserve the
  * original invoice result and recover its current public_url only within 24 hours of the original
  * request; later replays omit public_url. Use `client.invoices.get` for the current invoice. If
- * Flint returns IDEMPOTENCY_RECOVERY_REQUIRED, contact Flint support with the original
- * Idempotency-Key and request ID. Never retry with a new key.
+ * Flint returns IDEMPOTENCY_RECOVERY_REQUIRED, look up the original with GET
+ * /v1/invoices?idempotency_key={key}. Send the create again under a new key only after confirming
+ * it created no invoice, and contact Flint support with the request_id if you can't tell.
  *
  * `POST /v1/invoices`
  * @see https://developers.withflintpay.com/docs/api/invoices#createInvoice
@@ -511,7 +524,7 @@ export interface InvoicesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.invoices.create({type: "order", order_id: "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV"}, {
+ * client.invoices.create({type: "order", order_id: "ord_01KEZF7C0054GQKJ142A8X367A"}, {
  * idempotencyKey: idempotencyKey })
  */
     create(params: InvoicesCreateParams, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<Invoice, InvoiceResponse>>;
@@ -522,7 +535,7 @@ export interface InvoicesResource {
  * regardless of remaining lifetime; active payment work returns a resolving conflict instead of
  * creating competing collection. When the invoice's order has items to deliver, a new session
  * offers the delivery methods in settings.checkout.default_delivery_method_ids, and the request
- * returns 409 ACTION_NOT_ALLOWED with reason configuration_required when those methods cannot
+ * fails with `ACTION_NOT_ALLOWED` and reason `configuration_required` when those methods cannot
  * deliver every item. return_url sets where the checkout sends the buyer after paying. A reused
  * session takes a new return_url only until a payment starts on it, and keeps the one it has after
  * that.
@@ -534,7 +547,7 @@ export interface InvoicesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.invoices.createCheckoutSession("inv_01ARZ3NDEKTSV4RRFFQ69G5FAV", undefined, {
+ * client.invoices.createCheckoutSession("inv_01KEZF7C00A5GEBMWHEAJFSAR4", undefined, {
  * idempotencyKey: idempotencyKey })
  */
     createCheckoutSession(invoice_id: InputValue<string>, params?: InvoicesCreateCheckoutSessionParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<InvoiceCheckoutSessionResult, InvoiceCheckoutSessionResponse>>;
@@ -549,15 +562,18 @@ export interface InvoicesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.invoices.createLateFee("inv_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey:
+ * client.invoices.createLateFee("inv_01KEZF7C00A5GEBMWHEAJFSAR4", undefined, { idempotencyKey:
  * idempotencyKey })
  */
-    createLateFee(invoice_id: InputValue<string>, params: InvoicesCreateLateFeeParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Invoice, InvoiceResponse>>;
+    createLateFee(invoice_id: InputValue<string>, params?: InvoicesCreateLateFeeParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Invoice, InvoiceResponse>>;
     /**
- * Applies an offline/manual payment to an issued invoice. Recording is rejected with
- * OPERATION_IN_PROGRESS while an online payment is still resolving; an idle open checkout does not
- * block. A payment that clears the balance invalidates the open checkout session. Safe to retry
- * with the same Idempotency-Key.
+ * Applies an offline/manual payment to an issued invoice. The monthly allowance for orders paid
+ * outside Flint never prevents recording a payment. When the order is above its current allowance,
+ * meta.warnings includes external_paid_orders_over_allowance with the order resource_id and the
+ * original usage period's resets_at. A replay preserves that original reset time. Recording is
+ * rejected with OPERATION_IN_PROGRESS while an online payment is still resolving; an idle open
+ * checkout does not block. A payment that clears the balance invalidates the open checkout
+ * session. Safe to retry with the same idempotency key.
  *
  * `POST /v1/invoices/{invoice_id}/manual-payments`
  * @param invoice_id Flint invoice ID.
@@ -578,7 +594,7 @@ export interface InvoicesResource {
  * @see https://developers.withflintpay.com/docs/api/invoices#getInvoice
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.invoices.get("inv_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.invoices.get("inv_01KEZF7C00A5GEBMWHEAJFSAR4")
  */
     get(invoice_id: InputValue<string>, params?: InvoicesGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<Invoice, InvoiceResponse>>;
     /**
@@ -590,8 +606,8 @@ export interface InvoicesResource {
  * @see https://developers.withflintpay.com/docs/api/invoices#getInvoiceManualPayment
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.invoices.getManualPayment("inv_01ARZ3NDEKTSV4RRFFQ69G5FAV",
- * "omp_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.invoices.getManualPayment("inv_01KEZF7C00A5GEBMWHEAJFSAR4",
+ * "omp_01KEZF7C007J18203RBJKB9TYE")
  */
     getManualPayment(invoice_id: InputValue<string>, invoice_manual_payment_id: InputValue<string>, params?: InvoicesGetManualPaymentParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<InvoiceManualPayment, InvoiceManualPaymentResponse>>;
     /**
@@ -603,8 +619,8 @@ export interface InvoicesResource {
  * @see https://developers.withflintpay.com/docs/api/invoices#getInvoicePaymentAttempt
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.invoices.getPaymentAttempt("inv_01ARZ3NDEKTSV4RRFFQ69G5FAV",
- * "invpa_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.invoices.getPaymentAttempt("inv_01KEZF7C00A5GEBMWHEAJFSAR4",
+ * "invpa_01KEZF7C00PMWEDPAYYEKDTPBX")
  */
     getPaymentAttempt(invoice_id: InputValue<string>, invoice_payment_attempt_id: InputValue<string>, params?: InvoicesGetPaymentAttemptParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<InvoicePaymentAttempt, InvoicePaymentAttemptResponse>>;
     /**
@@ -615,12 +631,12 @@ export interface InvoicesResource {
  * @see https://developers.withflintpay.com/docs/api/invoices#getInvoicePDF
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.invoices.getPDF("inv_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.invoices.getPDF("inv_01KEZF7C00A5GEBMWHEAJFSAR4")
  */
     getPDF(invoice_id: InputValue<string>, params?: InvoicesGetPDFParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<Result<InvoicesGetPDFResponse>>;
     /**
  * Issues the invoice, creates the buyer-access link, and uses the selected delivery mode. Safe to
- * retry with the same Idempotency-Key.
+ * retry with the same idempotency key.
  *
  * `POST /v1/invoices/{invoice_id}/issue`
  * @param invoice_id Flint invoice ID.
@@ -629,10 +645,10 @@ export interface InvoicesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.invoices.issue("inv_01ARZ3NDEKTSV4RRFFQ69G5FAV", {delivery_mode: "email"}, {
- * idempotencyKey: idempotencyKey })
+ * client.invoices.issue("inv_01KEZF7C00A5GEBMWHEAJFSAR4", undefined, { idempotencyKey:
+ * idempotencyKey })
  */
-    issue(invoice_id: InputValue<string>, params: InvoicesIssueParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Invoice, InvoiceResponse>>;
+    issue(invoice_id: InputValue<string>, params: InvoicesIssueParams | undefined, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<Invoice, InvoiceResponse>>;
     /**
  * Returns a read-only history of an invoice for timelines and debugging, newest first. Use
  * sort_direction=asc for chronological order. Read the invoice and the resources each row
@@ -644,7 +660,7 @@ export interface InvoicesResource {
  * @see https://developers.withflintpay.com/docs/api/invoices#listInvoiceActivities
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.invoices.listActivities("inv_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.invoices.listActivities("inv_01KEZF7C00A5GEBMWHEAJFSAR4")
  */
     listActivities(invoice_id: InputValue<string>, params?: InvoicesListActivitiesParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<InvoiceActivityListResponse, InvoiceActivityListResponse>>;
     /** Iterate pages lazily.
@@ -664,7 +680,7 @@ export interface InvoicesResource {
  * @see https://developers.withflintpay.com/docs/api/invoices#listInvoiceDeliveryAttempts
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.invoices.listDeliveryAttempts("inv_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.invoices.listDeliveryAttempts("inv_01KEZF7C00A5GEBMWHEAJFSAR4")
  */
     listDeliveryAttempts(invoice_id: InputValue<string>, params?: InvoicesListDeliveryAttemptsParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<InvoiceDeliveryAttemptListResponse, InvoiceDeliveryAttemptListResponse>>;
     /** Iterate pages lazily.
@@ -684,7 +700,7 @@ export interface InvoicesResource {
  * @see https://developers.withflintpay.com/docs/api/invoices#listInvoiceManualPayments
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.invoices.listManualPayments("inv_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.invoices.listManualPayments("inv_01KEZF7C00A5GEBMWHEAJFSAR4")
  */
     listManualPayments(invoice_id: InputValue<string>, params?: InvoicesListManualPaymentsParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<InvoiceManualPaymentListResponse, InvoiceManualPaymentListResponse>>;
     /** Iterate pages lazily.
@@ -704,7 +720,7 @@ export interface InvoicesResource {
  * @see https://developers.withflintpay.com/docs/api/invoices#listInvoicePaymentAttempts
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.invoices.listPaymentAttempts("inv_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.invoices.listPaymentAttempts("inv_01KEZF7C00A5GEBMWHEAJFSAR4")
  */
     listPaymentAttempts(invoice_id: InputValue<string>, params?: InvoicesListPaymentAttemptsParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<InvoicePaymentAttemptListResponse, InvoicePaymentAttemptListResponse>>;
     /** Iterate pages lazily.
@@ -736,7 +752,7 @@ export interface InvoicesResource {
     listItems(params?: InvoicesListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<Invoice>;
     /**
  * Closes the outstanding balance as a write-off and releases the order's invoice collection
- * authority. Safe to retry with the same Idempotency-Key.
+ * authority. Safe to retry with the same idempotency key.
  *
  * `POST /v1/invoices/{invoice_id}/mark-uncollectible`
  * @param invoice_id Flint invoice ID.
@@ -745,15 +761,15 @@ export interface InvoicesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.invoices.markUncollectible("inv_01ARZ3NDEKTSV4RRFFQ69G5FAV", undefined, { idempotencyKey:
+ * client.invoices.markUncollectible("inv_01KEZF7C00A5GEBMWHEAJFSAR4", undefined, { idempotencyKey:
  * idempotencyKey })
  */
     markUncollectible(invoice_id: InputValue<string>, params?: InvoicesMarkUncollectibleParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Invoice, InvoiceResponse>>;
     /**
  * Revokes the current buyer-access link and all checkout credentials derived from it, then returns
- * a new public_url. The current checkout session and its payment lineage are preserved. Returns
- * 409 ACTION_NOT_ALLOWED with details[0].reason in_progress when the invoice's customer is being
- * deleted or has been deleted. Safe to retry with the same Idempotency-Key.
+ * a new public_url. The current checkout session and its payment lineage are preserved. Fails with
+ * `ACTION_NOT_ALLOWED` and reason `in_progress` when the invoice's customer is being deleted or
+ * has been deleted. Safe to retry with the same idempotency key.
  *
  * `POST /v1/invoices/{invoice_id}/regenerate-public-link`
  * @param invoice_id Flint invoice ID.
@@ -762,14 +778,14 @@ export interface InvoicesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.invoices.regeneratePublicLink("inv_01ARZ3NDEKTSV4RRFFQ69G5FAV", undefined, {
+ * client.invoices.regeneratePublicLink("inv_01KEZF7C00A5GEBMWHEAJFSAR4", undefined, {
  * idempotencyKey: idempotencyKey })
  */
     regeneratePublicLink(invoice_id: InputValue<string>, params?: InvoicesRegeneratePublicLinkParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Invoice, InvoiceResponse>>;
     /**
  * Reverses the named manual payment in full and returns its amount to the invoice balance. To
- * correct an amount, reverse the payment and record the correct payment. Retries with the same
- * Idempotency-Key replay the result; retries without a key return 409 once the payment is
+ * correct an amount, reverse the payment and record the correct payment. A retry with the same
+ * idempotency key replays the result; a retry without a key fails once the payment is already
  * reversed.
  *
  * `POST /v1/invoices/{invoice_id}/manual-payments/{invoice_manual_payment_id}/reverse`
@@ -780,14 +796,13 @@ export interface InvoicesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.invoices.reverseManualPayment("inv_01ARZ3NDEKTSV4RRFFQ69G5FAV",
- * "omp_01ARZ3NDEKTSV4RRFFQ69G5FAV", {reversal_note: "Payment returned by bank"}, { idempotencyKey:
- * idempotencyKey })
+ * client.invoices.reverseManualPayment("inv_01KEZF7C00A5GEBMWHEAJFSAR4",
+ * "omp_01KEZF7C007J18203RBJKB9TYE", undefined, { idempotencyKey: idempotencyKey })
  */
-    reverseManualPayment(invoice_id: InputValue<string>, invoice_manual_payment_id: InputValue<string>, params: InvoicesReverseManualPaymentParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<InvoiceManualPaymentResult, InvoiceManualPaymentResultResponse>>;
+    reverseManualPayment(invoice_id: InputValue<string>, invoice_manual_payment_id: InputValue<string>, params?: InvoicesReverseManualPaymentParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<InvoiceManualPaymentResult, InvoiceManualPaymentResultResponse>>;
     /**
  * Attempts a reminder email for an already issued collectible invoice. Safe to retry with the same
- * Idempotency-Key. Accepts an empty body or {}.
+ * idempotency key. Accepts an empty body or {}.
  *
  * `POST /v1/invoices/{invoice_id}/send-reminder`
  * @param invoice_id Flint invoice ID.
@@ -796,7 +811,7 @@ export interface InvoicesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.invoices.sendReminder("inv_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey:
+ * client.invoices.sendReminder("inv_01KEZF7C00A5GEBMWHEAJFSAR4", {}, { idempotencyKey:
  * idempotencyKey })
  */
     sendReminder(invoice_id: InputValue<string>, params?: InvoicesSendReminderParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Invoice, InvoiceResponse>>;
@@ -829,7 +844,7 @@ export interface InvoicesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.invoices.void("inv_01ARZ3NDEKTSV4RRFFQ69G5FAV", undefined, { idempotencyKey:
+ * client.invoices.void("inv_01KEZF7C00A5GEBMWHEAJFSAR4", undefined, { idempotencyKey:
  * idempotencyKey })
  */
     void(invoice_id: InputValue<string>, params?: InvoicesVoidParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Invoice, InvoiceResponse>>;
@@ -845,8 +860,8 @@ export interface InvoicesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.invoices.waiveLateFee("inv_01ARZ3NDEKTSV4RRFFQ69G5FAV",
- * "inlf_01ARZ3NDEKTSV4RRFFQ69G5FAV", {reason_message: "Courtesy waiver"}, { idempotencyKey:
+ * client.invoices.waiveLateFee("inv_01KEZF7C00A5GEBMWHEAJFSAR4",
+ * "inlf_01KEZF7C00NVR97MBH5AHR4W1X", {reason_message: "Courtesy waiver"}, { idempotencyKey:
  * idempotencyKey })
  */
     waiveLateFee(invoice_id: InputValue<string>, invoice_late_fee_id: InputValue<string>, params: InvoicesWaiveLateFeeParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Invoice, InvoiceResponse>>;

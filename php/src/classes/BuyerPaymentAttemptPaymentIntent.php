@@ -19,7 +19,7 @@ final class BuyerPaymentAttemptPaymentIntent extends Model {
      */
     public function getAmountMoney(): MoneyValue { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** Capture is unavailable at or after this time, even if the payment still has requires_capture status. Format: date-time.
+    /** Effective Flint capture deadline, equal to the earlier of the provider capture deadline and this attempt's sealed resource guarantee. Capture is refused at or after this time, even while status is requires_capture. Omitted until a hold is placed. Format: date-time.
      * @return ?string
      */
     public function getAuthorizationExpiresAt(): ?string { return $this->get('authorization_expires_at'); }

@@ -15,5 +15,5 @@ const result = await client.orders.updateLineItem(
   },
   { idempotencyKey: idempotencyKey },
 );
+console.log(result.merchant_id);
 console.log(result.order_id);
-console.log(result.status);

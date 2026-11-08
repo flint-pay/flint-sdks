@@ -2,23 +2,29 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read ?string $created_at
+ * @property-read string $created_at
+ * @property-read string $initial_onboarding
  * @property-read bool $is_default
  * @property-read string $name
  * @property-read ?string $replaced_by_sandbox_id
  * @property-read ?string $replaces_sandbox_id
  * @property-read string $sandbox_id
  * @property-read string $status
- * @property-read ?string $updated_at
+ * @property-read string $updated_at
  * Presence-aware response; omitted optional fields return null. */
 final class Sandbox extends Model {
-    /** @param array{'created_at'?: string, 'is_default': bool, 'name': string, 'replaced_by_sandbox_id'?: string, 'replaces_sandbox_id'?: string, 'sandbox_id': string, 'status': string, 'updated_at'?: string, ...}|object $values */
+    /** @param array{'created_at': string, 'initial_onboarding': string, 'is_default': bool, 'name': string, 'replaced_by_sandbox_id'?: string, 'replaces_sandbox_id'?: string, 'sandbox_id': string, 'status': string, 'updated_at': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('Sandbox')); }
     /** RFC3339 timestamp. Format: date-time.
-     * @return ?string
+     * @return string
      */
-    public function getCreatedAt(): ?string { return $this->get('created_at'); }
+    public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
+    /** The onboarding state the sandbox starts in, and returns to when you reset it. `complete` prefills a verified test identity; `not_started` leaves requirements due so you can rehearse onboarding. Value enum: "complete", "not_started".
+     * @return string
+     */
+    public function getInitialOnboarding(): string { return $this->get('initial_onboarding'); }
+    public function hasInitialOnboarding(): bool { return $this->has('initial_onboarding'); }
     /** is_default
      * @return bool
      */
@@ -39,7 +45,7 @@ final class Sandbox extends Model {
      */
     public function getReplacesSandboxId(): ?string { return $this->get('replaces_sandbox_id'); }
     public function hasReplacesSandboxId(): bool { return $this->has('replaces_sandbox_id'); }
-    /** sandbox_id
+    /** Unique identifier for this sandbox, prefixed `test_`.
      * @return string
      */
     public function getSandboxId(): string { return $this->get('sandbox_id'); }
@@ -50,8 +56,8 @@ final class Sandbox extends Model {
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
     /** RFC3339 timestamp. Format: date-time.
-     * @return ?string
+     * @return string
      */
-    public function getUpdatedAt(): ?string { return $this->get('updated_at'); }
+    public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
 }

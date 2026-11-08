@@ -13,12 +13,13 @@ namespace Flint;
  * @property-read string $revoked_by
  * @property-read string $revoked_by_user_id
  * @property-read string $status
+ * @property-read list<string> $supported_actions
  * @property-read string|\DateTimeInterface $updated_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class PartnerAppInstallInput extends Model {
-    /** @param array{'created_at'?: string|\DateTimeInterface, 'environment_grants'?: list<PartnerEnvironmentGrantInput|array<array-key, mixed>|\stdClass>, 'installed_by_user_id'?: string, 'merchant_id': string, 'partner_app_id': string, 'partner_app_install_id': string, 'partner_app_name': string, 'revoked_at'?: string|\DateTimeInterface, 'revoked_by'?: string, 'revoked_by_user_id'?: string, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object $values */
+    /** @param array{'created_at': string|\DateTimeInterface, 'environment_grants'?: list<PartnerEnvironmentGrantInput|array<array-key, mixed>|\stdClass>, 'installed_by_user_id'?: string, 'merchant_id': string, 'partner_app_id': string, 'partner_app_install_id': string, 'partner_app_name': string, 'revoked_at'?: string|\DateTimeInterface, 'revoked_by'?: string, 'revoked_by_user_id'?: string, 'status': string, 'supported_actions': list<string>, 'updated_at': string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PartnerAppInstallInput')); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
@@ -30,25 +31,25 @@ final class PartnerAppInstallInput extends Model {
      */
     public function getEnvironmentGrants(): array { return $this->get('environment_grants'); }
     public function hasEnvironmentGrants(): bool { return $this->has('environment_grants'); }
-    /** installed_by_user_id
+    /** Example: "usr_01KEZF7C00YC8757ZYP9727JM0".
      * @return string
      * @throws SdkError When installed_by_user_id is omitted; use hasInstalledByUserId() or valueOrDefault().
      */
     public function getInstalledByUserId(): string { return $this->get('installed_by_user_id'); }
     public function hasInstalledByUserId(): bool { return $this->has('installed_by_user_id'); }
-    /** merchant_id
+    /** ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
      * @return string
      * @throws SdkError When merchant_id is omitted; use hasMerchantId() or valueOrDefault().
      */
     public function getMerchantId(): string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** partner_app_id
+    /** Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
      * @return string
      * @throws SdkError When partner_app_id is omitted; use hasPartnerAppId() or valueOrDefault().
      */
     public function getPartnerAppId(): string { return $this->get('partner_app_id'); }
     public function hasPartnerAppId(): bool { return $this->has('partner_app_id'); }
-    /** partner_app_install_id
+    /** Unique identifier for this partner app install, prefixed `pinst_`. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
      * @return string
      * @throws SdkError When partner_app_install_id is omitted; use hasPartnerAppInstallId() or valueOrDefault().
      */
@@ -60,7 +61,7 @@ final class PartnerAppInstallInput extends Model {
      */
     public function getPartnerAppName(): string { return $this->get('partner_app_name'); }
     public function hasPartnerAppName(): bool { return $this->has('partner_app_name'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When revoked_at is omitted; use hasRevokedAt() or valueOrDefault().
      */
@@ -72,7 +73,7 @@ final class PartnerAppInstallInput extends Model {
      */
     public function getRevokedBy(): string { return $this->get('revoked_by'); }
     public function hasRevokedBy(): bool { return $this->has('revoked_by'); }
-    /** revoked_by_user_id
+    /** Example: "usr_01KEZF7C00YC8757ZYP9727JM0".
      * @return string
      * @throws SdkError When revoked_by_user_id is omitted; use hasRevokedByUserId() or valueOrDefault().
      */
@@ -84,7 +85,13 @@ final class PartnerAppInstallInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** Lifecycle actions Flint accepts now. Revoke is accepted for pending and active installations and returns the current installation when it is already revoked. [] enum: "revoke". [] (Value): string.  Value enum: "revoke".
+     * @return list<string>
+     * @throws SdkError When supported_actions is omitted; use hasSupportedActions() or valueOrDefault().
+     */
+    public function getSupportedActions(): array { return $this->get('supported_actions'); }
+    public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */

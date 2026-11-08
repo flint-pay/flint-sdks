@@ -11,5 +11,5 @@ The response for: List authorized CLI contexts.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `contexts` | Required | Array of [ContextSummary](../models/ContextSummary.md#contextsummary) | maxItems: `100`. |
-| `oauth_session_id` | Required | string |  |
+| `oauth_session_id` | Required | string | Example: `"session_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"`. |
 

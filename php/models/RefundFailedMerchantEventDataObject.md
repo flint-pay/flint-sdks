@@ -2,9 +2,11 @@
 
 ## RefundFailedMerchantEventDataObject
 
-Money returned against a collected payment.
+The affected public resource without expansions, client authority fields, or fields computed for an individual caller.
+
+The resource snapshot, without expansions. Webhooks omit no additional fields.
 
 Response model.
 
-Fields, types, descriptions and enum values: [Refund](../models/Refund.md#refund).
+Fields, types, descriptions and enum values: [RefundCreatedMerchantEventDataObject](../models/RefundCreatedMerchantEventDataObject.md#refundcreatedmerchanteventdataobject).
 

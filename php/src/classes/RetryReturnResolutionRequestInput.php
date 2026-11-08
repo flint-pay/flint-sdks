@@ -10,7 +10,7 @@ namespace Flint;
 final class RetryReturnResolutionRequestInput extends Model {
     /** @param array{'expected_version'?: int, 'gift_card_refund_destination'?: string, 'reason': string, 'reason_message'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RetryReturnResolutionRequestInput')); }
-    /** Format: int64. minimum: 1.
+    /** Version last read from the resource returned in `data` (the primary resource for a result object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on the operation and fields being changed. Format: int64. minimum: 1.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */
@@ -22,13 +22,13 @@ final class RetryReturnResolutionRequestInput extends Model {
      */
     public function getGiftCardRefundDestination(): string { return $this->get('gift_card_refund_destination'); }
     public function hasGiftCardRefundDestination(): bool { return $this->has('gift_card_refund_destination'); }
-    /** Value enum: "dependency_recovered", "payment_method_updated", "operator_retry", "other".
+    /** Why the resolution is being run again. Value enum: "dependency_recovered", "payment_method_updated", "operator_retry", "other".
      * @return string
      * @throws SdkError When reason is omitted; use hasReason() or valueOrDefault().
      */
     public function getReason(): string { return $this->get('reason'); }
     public function hasReason(): bool { return $this->has('reason'); }
-    /** minLength: 1.
+    /** Optional detail about `reason`, kept with the record. minLength: 1.
      * @return string
      * @throws SdkError When reason_message is omitted; use hasReasonMessage() or valueOrDefault().
      */

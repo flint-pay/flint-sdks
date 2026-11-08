@@ -13,7 +13,7 @@ $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   allowInsecureHttp: $baseUrl !== null && in_array(parse_url($baseUrl, PHP_URL_HOST), ['localhost', '127.0.0.1'], true) && parse_url($baseUrl, PHP_URL_SCHEME) === 'http',
 ));
-$result = $client->giftCards->get('gc_01ARZ3NDEKTSV4RRFFQ69G5FAV');
+$result = $client->giftCards->get('gc_01KEZF7C00RT1618WYBM1Y94CG');
 echo $result->gift_card_id . PHP_EOL;
 echo $result->merchant_id . PHP_EOL;
 $client->close();

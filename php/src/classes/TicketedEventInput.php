@@ -24,7 +24,7 @@ final class TicketedEventInput extends Model {
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** When the event starts. RFC 3339 timestamp. Format: date-time.
+    /** When the event starts. RFC 3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When starts_at is omitted; use hasStartsAt() or valueOrDefault().
      */
@@ -36,7 +36,7 @@ final class TicketedEventInput extends Model {
      */
     public function getTicketNumbers(): array { return $this->get('ticket_numbers'); }
     public function hasTicketNumbers(): bool { return $this->has('ticket_numbers'); }
-    /** Value enum: "pending", "issued", "void".
+    /** Whether the order's tickets are issued. Value enum: "pending", "issued", "voided".
      * @return string
      * @throws SdkError When ticket_status is omitted; use hasTicketStatus() or valueOrDefault().
      */

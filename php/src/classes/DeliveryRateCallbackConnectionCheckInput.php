@@ -14,19 +14,19 @@ namespace Flint;
 final class DeliveryRateCallbackConnectionCheckInput extends Model {
     /** @param array{'checked_at': string|\DateTimeInterface, 'delivery_rate_callback_id': string, 'delivery_rate_callback_revision_id': string, 'failure_category'?: string, 'http_status_code'?: int, 'key_id': string, 'latency_milliseconds': int, 'status': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryRateCallbackConnectionCheckInput')); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When checked_at is omitted; use hasCheckedAt() or valueOrDefault().
      */
     public function getCheckedAt(): string|\DateTimeInterface { return $this->get('checked_at'); }
     public function hasCheckedAt(): bool { return $this->has('checked_at'); }
-    /** delivery_rate_callback_id
+    /** Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
      * @return string
      * @throws SdkError When delivery_rate_callback_id is omitted; use hasDeliveryRateCallbackId() or valueOrDefault().
      */
     public function getDeliveryRateCallbackId(): string { return $this->get('delivery_rate_callback_id'); }
     public function hasDeliveryRateCallbackId(): bool { return $this->has('delivery_rate_callback_id'); }
-    /** delivery_rate_callback_revision_id
+    /** Example: "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
      * @return string
      * @throws SdkError When delivery_rate_callback_revision_id is omitted; use hasDeliveryRateCallbackRevisionId() or valueOrDefault().
      */
@@ -44,7 +44,7 @@ final class DeliveryRateCallbackConnectionCheckInput extends Model {
      */
     public function getHttpStatusCode(): int { return $this->get('http_status_code'); }
     public function hasHttpStatusCode(): bool { return $this->has('http_status_code'); }
-    /** ID of the HMAC signing key that signed this request. Empty for a JWT-only callback, which has no shared secret.
+    /** ID of the HMAC signing key that signed this request. Empty for a JWT-only callback, which has no shared secret. Example: "cbkey_00112233445566778899aabb".
      * @return string
      * @throws SdkError When key_id is omitted; use hasKeyId() or valueOrDefault().
      */

@@ -22,27 +22,27 @@ Response model.
 
 Delivery pricing calculated from a base fee, distance, weight, and per-item handling, with minimum and maximum fees, by currency.
 
-Field definitions: [shared fields](DeliveryMethodConfigurationPricingCalculated.md#deliverymethodconfigurationpricingcalculatedcalculated-fields-1).
+Field definitions: [shared fields](DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationpricingcalculated).
 
 ### DeliveryMethodConfigurationPricingRateTable.calculated fields 1.distance
 
-Field definitions: [DeliveryMethodConfigurationPricingCalculated.calculated fields 1.distance](../models/DeliveryMethodConfigurationPricingCalculated.md#deliverymethodconfigurationpricingcalculatedcalculated-fields-1distance).
+Field definitions: [DeliveryMethodResponse.data.configuration.pricing.calculated.distance](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationpricingcalculateddistance).
 
 ### DeliveryMethodConfigurationPricingRateTable.calculated fields 1.weight
 
-Field definitions: [DeliveryMethodConfigurationPricingCalculated.calculated fields 1.weight](../models/DeliveryMethodConfigurationPricingCalculated.md#deliverymethodconfigurationpricingcalculatedcalculated-fields-1weight).
+Field definitions: [DeliveryMethodResponse.data.configuration.pricing.calculated.weight](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationpricingcalculatedweight).
 
 ### DeliveryMethodConfigurationPricingRateTable.callback fields 1
 
 Delivery pricing that comes from outside Flint, from a delivery rate callback or the caller, bounded by minimum and maximum fees by currency.
 
-Field definitions: [shared fields](DeliveryMethodConfigurationPricingCalculated.md#deliverymethodconfigurationpricingcalculatedcallback-fields-1).
+Field definitions: [shared fields](DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationpricingcallback).
 
 ### DeliveryMethodConfigurationPricingRateTable.caller_supplied
 
 Delivery pricing that comes from outside Flint, from a delivery rate callback or the caller, bounded by minimum and maximum fees by currency.
 
-Field definitions: [shared fields](DeliveryMethodConfigurationPricingCalculated.md#deliverymethodconfigurationpricingcalculatedcallback-fields-1).
+Field definitions: [shared fields](DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationpricingcallback).
 
 ### DeliveryMethodConfigurationPricingRateTable.fixed fields 1
 
@@ -56,11 +56,11 @@ A fixed delivery price, by currency.
 
 Pricing strategy that charges the price of the first matching rate in a list of prioritized rates. `unmatched_behavior` says what happens when none match.
 
-Field definitions: [shared fields](DeliveryMethodConfigurationPricingCalculated.md#deliverymethodconfigurationpricingcalculatedrate_table).
+Field definitions: [shared fields](DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationpricingrate_table).
 
 ### DeliveryMethodConfigurationPricingRateTable.rate_table.rates[]
 
-Field definitions: [DeliveryMethodConfigurationPricingCalculated.rate_table.rates[]](../models/DeliveryMethodConfigurationPricingCalculated.md#deliverymethodconfigurationpricingcalculatedrate_tablerates).
+Field definitions: [DeliveryMethodResponse.data.configuration.pricing.rate_table.rates[]](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationpricingrate_tablerates).
 
 ### DeliveryMethodConfigurationPricingRateTable.tiered
 

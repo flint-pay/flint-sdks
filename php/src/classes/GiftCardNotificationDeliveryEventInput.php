@@ -10,19 +10,19 @@ namespace Flint;
 final class GiftCardNotificationDeliveryEventInput extends Model {
     /** @param array{'delivery_attempt_id': string, 'occurred_at': string|\DateTimeInterface, 'received_at': string|\DateTimeInterface, 'type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardNotificationDeliveryEventInput')); }
-    /** delivery_attempt_id
+    /** ID of the delivery attempt the event belongs to. Example: "edat_01KEZF7C00AX45366QP3FMY6VH".
      * @return string
      * @throws SdkError When delivery_attempt_id is omitted; use hasDeliveryAttemptId() or valueOrDefault().
      */
     public function getDeliveryAttemptId(): string { return $this->get('delivery_attempt_id'); }
     public function hasDeliveryAttemptId(): bool { return $this->has('delivery_attempt_id'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When occurred_at is omitted; use hasOccurredAt() or valueOrDefault().
      */
     public function getOccurredAt(): string|\DateTimeInterface { return $this->get('occurred_at'); }
     public function hasOccurredAt(): bool { return $this->has('occurred_at'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When received_at is omitted; use hasReceivedAt() or valueOrDefault().
      */

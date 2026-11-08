@@ -6,5 +6,7 @@ Links a fulfillment to an order charge by `order_charge_id`.
 
 Response model.
 
-Fields, types, descriptions and enum values: [FulfillmentChargeLinkInput](../models/FulfillmentChargeLinkInput.md#fulfillmentchargelinkinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `order_charge_id` | Required | string | Order charge associated with this fulfillment. |
 

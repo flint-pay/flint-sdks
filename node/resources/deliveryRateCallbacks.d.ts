@@ -1,5 +1,5 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/types-5.js';
+import type { ClientOptions } from '../declarations/types-6.js';
 import type {
     DeliveryRateCallback,
     DeliveryRateCallbackConnectionCheck,
@@ -16,11 +16,11 @@ import type {
     DeliveryRateCallbacksDeleteParams,
     DeliveryRateCallbacksGetParams,
     DeliveryRateCallbacksListParams,
-    DeliveryRateCallbacksRotateSecretParams
-} from '../declarations/types-18.js';
-import type { DeliveryRateCallbacksUpdateParams } from '../declarations/types-19.js';
-import type { RequestOptions } from '../declarations/types-48.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+    DeliveryRateCallbacksRotateSecretParams,
+    DeliveryRateCallbacksUpdateParams
+} from '../declarations/types-20.js';
+import type { RequestOptions } from '../declarations/types-51.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -52,27 +52,27 @@ export type {
     DeliveryRateCallbacksRotateSecretParams,
     DeliveryRateCallbackSigningKeyRotation,
     DeliveryRateCallbackSigningKeyRotationResponse,
-    DeliveryRateCallbackConfigurationInput,
+    DeliveryRateCallbacksUpdateParams,
+    DeliveryRateCallbackConfigurationRequestInput,
     DeliveryRateCallbackConfiguration,
     DeliveryRateCallbackConfigurationPatchRequestInput
-} from '../declarations/types-18.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { DeliveryRateCallbacksUpdateParams } from '../declarations/types-19.js';
-export type { ClientOptions } from '../declarations/types-5.js';
+} from '../declarations/types-20.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
+export type { _SdkWithoutIdempotency, WebhookSigningMethodInput } from '../declarations/types-66.js';
+export type { ClientOptions } from '../declarations/types-6.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-12.js';
-export type { NextAction, MoneyValue } from '../declarations/types-35.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
-export type { CreateDeliveryRateCallbackRequestInput } from '../declarations/types-7.js';
-export type { WebhookSigningMethodInput } from '../declarations/types-61.js';
-export type { UpdateDeliveryRateCallbackRequestInput } from '../declarations/types-58.js';
-export type { DeliveryLocationSetsDeleteParams } from '../declarations/types-15.js';
-export { makeCreateDeliveryRateCallbackRequest } from '../declarations/types-64.js';
-export { makeDeliveryRateCallbackConfiguration, makeDeliveryRateCallbackConfigurationPatchRequest } from '../declarations/types-67.js';
-export { makeMoneyValue } from '../declarations/types-70.js';
-export { makeUpdateDeliveryRateCallbackRequest } from '../declarations/types-74.js';
-export { makeWebhookSigningMethod } from '../declarations/types-75.js';
+export type { Credentials } from '../declarations/types-13.js';
+export type { NextAction, MoneyValue } from '../declarations/types-37.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
+export type { CreateDeliveryRateCallbackRequestInput } from '../declarations/types-8.js';
+export type { UpdateDeliveryRateCallbackRequestInput } from '../declarations/types-63.js';
+export type { DisputesAcceptParams } from '../declarations/types-22.js';
+export type { DeliveryLocationSetsDeleteParams } from '../declarations/types-17.js';
+export { makeCreateDeliveryRateCallbackRequest } from '../declarations/types-68.js';
+export { makeDeliveryRateCallbackConfigurationPatchRequest, makeDeliveryRateCallbackConfigurationRequest } from '../declarations/types-72.js';
+export { makeMoneyValue } from '../declarations/types-75.js';
+export { makeUpdateDeliveryRateCallbackRequest } from '../declarations/types-79.js';
+export { makeWebhookSigningMethod } from '../declarations/types-80.js';
 export interface DeliveryRateCallbacksResource {
     /**
  * Sends a minimal signed probe to verify endpoint reachability and callback credentials without
@@ -88,7 +88,7 @@ export interface DeliveryRateCallbacksResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.deliveryRateCallbacks.checkConnection("dcb_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {
+ * client.deliveryRateCallbacks.checkConnection("dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1", {}, {
  * idempotencyKey: idempotencyKey })
  */
     checkConnection(delivery_rate_callback_id: InputValue<string>, params?: DeliveryRateCallbacksCheckConnectionParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<DeliveryRateCallbackConnectionCheck, DeliveryRateCallbackConnectionCheckResponse>>;
@@ -108,8 +108,9 @@ export interface DeliveryRateCallbacksResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.deliveryRateCallbacks.create({name: "example", configuration: {url: "example"}}, {
- * idempotencyKey: idempotencyKey })
+ * client.deliveryRateCallbacks.create({configuration: {url:
+ * "https://merchant.example/delivery-rates"}, name: "Live delivery rates", signing_methods:
+ * ["jwt"]}, { idempotencyKey: idempotencyKey })
  */
     create(params: DeliveryRateCallbacksCreateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<DeliveryRateCallback, DeliveryRateCallbackResponse>>;
     /**
@@ -125,7 +126,7 @@ export interface DeliveryRateCallbacksResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.deliveryRateCallbacks.createTestDelivery("dcb_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {
+ * client.deliveryRateCallbacks.createTestDelivery("dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1", {}, {
  * idempotencyKey: idempotencyKey })
  */
     createTestDelivery(delivery_rate_callback_id: InputValue<string>, params?: DeliveryRateCallbacksCreateTestDeliveryParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<DeliveryRateCallbackTestDelivery, DeliveryRateCallbackTestDeliveryResponse>>;
@@ -142,7 +143,7 @@ export interface DeliveryRateCallbacksResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.deliveryRateCallbacks.delete("dcb_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey:
+ * client.deliveryRateCallbacks.delete("dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1", {}, { idempotencyKey:
  * idempotencyKey })
  */
     delete(delivery_rate_callback_id: InputValue<string>, params?: DeliveryRateCallbacksDeleteParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<DeliveryRateCallback, DeliveryRateCallbackResponse>>;
@@ -154,7 +155,7 @@ export interface DeliveryRateCallbacksResource {
  * @see https://developers.withflintpay.com/docs/api/delivery-configuration#getDeliveryRateCallback
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.deliveryRateCallbacks.get("dcb_01ARZ3NDEKTSV4RRFFQ69G5FAV")
+ * client.deliveryRateCallbacks.get("dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1")
  */
     get(delivery_rate_callback_id: InputValue<string>, params?: DeliveryRateCallbacksGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<DeliveryRateCallback, DeliveryRateCallbackResponse>>;
     /**
@@ -193,7 +194,7 @@ export interface DeliveryRateCallbacksResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.deliveryRateCallbacks.rotateSecret("dcb_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {
+ * client.deliveryRateCallbacks.rotateSecret("dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1", {}, {
  * idempotencyKey: idempotencyKey })
  */
     rotateSecret(delivery_rate_callback_id: InputValue<string>, params?: DeliveryRateCallbacksRotateSecretParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<DeliveryRateCallbackSigningKeyRotation, DeliveryRateCallbackSigningKeyRotationResponse>>;

@@ -2,9 +2,11 @@
 
 ## InventoryLevelUpdatedMerchantEventDataObject
 
-The quantity state of one inventory item at one Location.
+The affected public resource without expansions, client authority fields, or fields computed for an individual caller.
+
+The resource snapshot, without expansions. Webhooks omit no additional fields.
 
 Response model.
 
-Fields, types, descriptions and enum values: [InventoryLevel](../models/InventoryLevel.md#inventorylevel).
+Fields, types, descriptions and enum values: [InventoryLevelShortageDetectedMerchantEventDataObject](../models/InventoryLevelShortageDetectedMerchantEventDataObject.md#inventorylevelshortagedetectedmerchanteventdataobject).
 

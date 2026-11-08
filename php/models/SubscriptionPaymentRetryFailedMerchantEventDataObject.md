@@ -2,9 +2,11 @@
 
 ## SubscriptionPaymentRetryFailedMerchantEventDataObject
 
-An attempt to collect a subscription's overdue payment.
+The affected public resource without expansions, client authority fields, or fields computed for an individual caller.
+
+The resource snapshot, without expansions. Webhooks omit no additional fields.
 
 Response model.
 
-Fields, types, descriptions and enum values: [SubscriptionPaymentRetry](../models/SubscriptionPaymentRetry.md#subscriptionpaymentretry).
+Fields, types, descriptions and enum values: [SubscriptionPaymentRetryCreatedMerchantEventDataObject](../models/SubscriptionPaymentRetryCreatedMerchantEventDataObject.md#subscriptionpaymentretrycreatedmerchanteventdataobject).
 

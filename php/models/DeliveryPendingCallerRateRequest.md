@@ -6,5 +6,9 @@ A delivery method and choice group still waiting for a caller-supplied rate on a
 
 Response model.
 
-Fields, types, descriptions and enum values: [DeliveryPendingCallerRateRequestInput](../models/DeliveryPendingCallerRateRequestInput.md#deliverypendingcallerraterequestinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `delivery_choice_group_id` | Required | string |  |
+| `delivery_method_id` | Required | string |  |
+| `delivery_method_revision_id` | Required | string |  |
 

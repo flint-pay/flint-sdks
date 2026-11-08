@@ -8,7 +8,7 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.partnerApps.rotateSecret(
-  "papp_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV",
   undefined,
   { idempotencyKey: idempotencyKey },
 );

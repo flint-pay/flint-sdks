@@ -8,9 +8,9 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
-| `delivery_selection_id` | Required | string |  |
-| `delivery_selection_lifecycle_event_id` | Required | string |  |
+| `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
+| `delivery_selection_id` | Required | string | Example: `"dsel_01KEZF7C00QC35XBXVXQSCEB2D"`. |
+| `delivery_selection_lifecycle_event_id` | Required | string | Example: `"dsle_01KEZF7C00FR4QPRPMM4T248FD"`. |
 | `reason` | Required | string | Values: [17 declared values](#deliveryselectionlifecycleeventresourceinput-reason-values). |
 | `status` | Required | string | Values: `"selected"`, `"locked_for_payment"`, `"committed"`, `"superseded"`, `"expired"`, `"released"`. |
 

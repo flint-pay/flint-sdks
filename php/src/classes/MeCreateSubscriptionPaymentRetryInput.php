@@ -10,7 +10,7 @@ namespace Flint;
 final class MeCreateSubscriptionPaymentRetryInput extends Model {
     /** @param array{'subscription_id': string, 'body'?: array{}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MeCreateSubscriptionPaymentRetryInput')); }
-    /** Flint subscription ID. Example: "sub_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Flint subscription ID. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
      * @return string
      * @throws SdkError When subscription_id is omitted; use hasSubscriptionId() or valueOrDefault().
      */

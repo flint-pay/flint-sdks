@@ -4,7 +4,7 @@
 
 ### disputes.accept
 
-Accepts a chargeback: you won't contest it, and the disputed amount stays with the buyer. The dispute becomes `lost`, and Flint sends `dispute.lost`. You can accept while `status` is `needs_response` and `is_action_required` is `true`. An inquiry can't be accepted; refund the payment or respond with evidence instead. Accepting can't be undone. Requires `payments.disputes.write`. Send no body or `{}`. If you don't receive a response, retry with the same `Idempotency-Key`, or read the dispute: `status: lost` means it was accepted.
+Accepts a chargeback: you won't contest it, and the disputed amount stays with the buyer. The dispute becomes `lost`, and Flint sends `dispute.lost`. You can accept while `status` is `needs_response` and `is_action_required` is `true`. An inquiry can't be accepted; refund the payment or respond with evidence instead. Accepting can't be undone. Requires `payments.disputes.write`. Send no body or `{}`. If you don't receive a response, retry with the same idempotency key, or read the dispute: `status: lost` means it was accepted.
 
 `POST /v1/disputes/{dispute_id}/accept`
 
@@ -15,6 +15,9 @@ Signature: `accept(dispute_id: InputValue<string>, params?: DisputesAcceptParams
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `dispute_id` | Required | string | Flint dispute ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -29,7 +32,6 @@ Returned payload: [Dispute](../models/Dispute.md#dispute).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -52,7 +54,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.disputes.accept("du_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey });
+const result = await client.disputes.accept("du_01KEZF7C00DEJSF1KTXRT4BBQD", {}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/disputes-accept.mjs)
@@ -67,9 +69,7 @@ Signature: `createResponseSession(dispute_id: InputValue<string>, params?: Dispu
 
 #### Request fields
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `dispute_id` | Required | string | Flint dispute ID. |
+Field definitions: [shared fields](#request-fields).
 
 #### Response
 
@@ -84,7 +84,6 @@ Returned payload: [DisputeResponseSession](../models/DisputeResponseSession.md#d
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -108,7 +107,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.disputes.createResponseSession("du_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey });
+const result = await client.disputes.createResponseSession("du_01KEZF7C00DEJSF1KTXRT4BBQD", {}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/disputes-createResponseSession.mjs)
@@ -126,7 +125,10 @@ Signature: `get(dispute_id: InputValue<string>, params?: DisputesGetParams, opti
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `dispute_id` | Required | string | Flint dispute ID. |
-| `expand` | Optional | Array of string or string | Supported expansions: customer, order, payment_intent. Expansion requires payments.disputes.read plus the read scope for each expanded resource. Limits: at most 10 unique expand paths per request. Repeat expand, for example expand=customer&expand=order, or pass one comma-separated value. Items values: `"customer"`, `"order"`, `"payment_intent"`. Values: `"customer"`, `"order"`, `"payment_intent"`. |
+| `expand` | Optional | Array of string or string | Include related objects in the response. Supported expansions: customer, order, payment_intent. Expansion requires payments.disputes.read plus the read scope for each expanded resource. Limits: at most 10 unique expand paths per request. Items values: `"customer"`, `"order"`, `"payment_intent"`. Values: `"customer"`, `"order"`, `"payment_intent"`. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -141,7 +143,6 @@ Returned payload: [Dispute](../models/Dispute.md#dispute).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -159,7 +160,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```typescript
-const result = await client.disputes.get("du_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
+const result = await client.disputes.get("du_01KEZF7C00DEJSF1KTXRT4BBQD", {}, {  });
 ```
 
 [Complete runnable example](../examples/disputes-get.mjs)
@@ -181,9 +182,9 @@ Signature: `list(params?: DisputesListParams, options?: _SdkWithoutIdempotency<R
 | `payment_intent_id` | Optional | string | Optional Flint payment intent ID filter. |
 | `order_id` | Optional | string | Optional Flint order ID filter. |
 | `customer_id` | Optional | string | Optional Flint customer ID filter. |
-| `status` | Optional | Array of string or string | Optional dispute status filter. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"inquiry_needs_response"`, `"inquiry_under_review"`, `"inquiry_closed"`, `"needs_response"`, `"under_review"`, `"won"`, `"lost"`, `"prevented"`, `"other"`. Values: `"inquiry_needs_response"`, `"inquiry_under_review"`, `"inquiry_closed"`, `"needs_response"`, `"under_review"`, `"won"`, `"lost"`, `"prevented"`, `"other"`. |
-| `reason` | Optional | Array of string or string | Optional normalized dispute reason filter. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [12 declared values](../models/Dispute.md#dispute-reason-values). Values: [12 declared values](../models/Dispute.md#dispute-reason-values). |
-| `case_type` | Optional | Array of string or string | Optional dispute case type filter. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"inquiry"`, `"chargeback"`, `"compliance"`, `"resolution"`, `"block"`, `"other"`, `"bank_return"`. Values: `"inquiry"`, `"chargeback"`, `"compliance"`, `"resolution"`, `"block"`, `"other"`, `"bank_return"`. |
+| `status` | Optional | Array of string or string | Optional dispute status filter. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"inquiry_needs_response"`, `"inquiry_under_review"`, `"inquiry_closed"`, `"needs_response"`, `"under_review"`, `"won"`, `"lost"`, `"prevented"`, `"other"`. Values: `"inquiry_needs_response"`, `"inquiry_under_review"`, `"inquiry_closed"`, `"needs_response"`, `"under_review"`, `"won"`, `"lost"`, `"prevented"`, `"other"`. |
+| `reason` | Optional | Array of string or string | Optional normalized dispute reason filter. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [12 declared values](../models/Dispute.md#dispute-reason-values). Values: [12 declared values](../models/Dispute.md#dispute-reason-values). |
+| `case_type` | Optional | Array of string or string | Optional dispute case type filter. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"inquiry"`, `"chargeback"`, `"compliance"`, `"resolution"`, `"block"`, `"other"`, `"bank_return"`. Values: `"inquiry"`, `"chargeback"`, `"compliance"`, `"resolution"`, `"block"`, `"other"`, `"bank_return"`. |
 | `is_action_required` | Optional | boolean | Filter by whether a merchant response is needed now. True includes needs_response and inquiry_needs_response disputes that allow evidence and whose evidence deadline has not passed; false includes the remaining disputes. |
 | `sort_by` | Optional | string | Field to sort by. Defaults to created_at; ties are broken by dispute_id. Default: `"created_at"`. Values: `"created_at"`, `"evidence_due_at"`, `"amount_money"`. |
 | `sort_direction` | Optional | string | Sort direction. Defaults to desc. Default: `"desc"`. Values: `"asc"`, `"desc"`. |
@@ -192,8 +193,11 @@ Signature: `list(params?: DisputesListParams, options?: _SdkWithoutIdempotency<R
 | `evidence_due_after` | Optional | string | Inclusive lower bound on evidence_due_at. Format: `date-time`. |
 | `evidence_due_before` | Optional | string | Exclusive upper bound on evidence_due_at. Format: `date-time`. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
-| `expand` | Optional | Array of string or string | Supported expansions: customer, order, payment_intent. Include the requested related resources using scoped batch reads for this page. Each relationship requires its existing target read scopes. Expansion changes the representation without changing pagination tokens. Limits: at most 10 unique expand paths per request. Repeat expand, for example expand=customer&expand=order, or pass one comma-separated value. Items values: `"customer"`, `"order"`, `"payment_intent"`. Values: `"customer"`, `"order"`, `"payment_intent"`. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
+| `expand` | Optional | Array of string or string | Include related objects in the response. Supported expansions: customer, order, payment_intent. Include the requested related resources using scoped batch reads for this page. Each relationship requires its existing target read scopes. Expansion changes the representation without changing pagination tokens. Limits: at most 10 unique expand paths per request. Items values: `"customer"`, `"order"`, `"payment_intent"`. Values: `"customer"`, `"order"`, `"payment_intent"`. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -208,7 +212,6 @@ Returned payload: [DisputeListResponse](../models/DisputeListResponse.md#dispute
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -235,7 +238,7 @@ const result = await client.disputes.list({}, {  });
 
 ### disputes.simulate
 
-Sandbox only. Simulates the card network's ruling on a dispute that needs a response. Flint submits Stripe's test evidence for the `outcome`, and the ruling arrives through the dispute's usual webhook events, as a real one would. Send `won` or `lost` for a chargeback in `needs_response`, and `inquiry_closed` or `escalated` for an inquiry in `inquiry_needs_response`. The response is the dispute after the evidence is submitted, usually `under_review` or `inquiry_under_review`. Stripe decides shortly after, with no fixed timing. Requires `payments.disputes.write`. If you don't receive a response, retry with the same `Idempotency-Key`, or read the dispute.
+Sandbox only. Simulates the card network's ruling on a dispute that needs a response. Flint submits Stripe's test evidence for the `outcome`, and the ruling arrives through the dispute's usual webhook events, as a real one would. Send `won` or `lost` for a chargeback in `needs_response`, and `inquiry_closed` or `escalated` for an inquiry in `inquiry_needs_response`. The response is the dispute after the evidence is submitted, usually `under_review` or `inquiry_under_review`. Stripe decides shortly after, with no fixed timing. Requires `payments.disputes.write`. If you don't receive a response, retry with the same idempotency key, or read the dispute.
 
 `POST /v1/disputes/{dispute_id}/simulate`
 
@@ -246,6 +249,9 @@ Signature: `simulate(dispute_id: InputValue<string>, params: DisputesSimulatePar
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `dispute_id` | Required | string | Flint dispute ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `body` | Required | [SimulateDisputeRequestInput](../models/SimulateDisputeRequest.md#simulatedisputerequest) | The request body for: Simulate a dispute outcome. |
 
 Body model: [SimulateDisputeRequestInput](../models/SimulateDisputeRequest.md#simulatedisputerequest).
@@ -267,7 +273,6 @@ Returned payload: [Dispute](../models/Dispute.md#dispute).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -293,7 +298,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.disputes.simulate("du_01ARZ3NDEKTSV4RRFFQ69G5FAV", {outcome: "won"}, { idempotencyKey: idempotencyKey });
+const result = await client.disputes.simulate("du_01KEZF7C00DEJSF1KTXRT4BBQD", {outcome: "won"}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/disputes-simulate.mjs)

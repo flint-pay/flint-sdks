@@ -19,19 +19,11 @@ Response model.
 
 A distance rate for calculated delivery pricing: a price by currency for each `unit_quantity` of `unit`.
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `currency_options` | Required | Map of [MoneyValue](../models/MoneyValue.md#moneyvalue) |  |
-| `unit` | Required | string | Distance unit used by unit_quantity. Values: `"meter"`, `"kilometer"`, `"mile"`. |
-| `unit_quantity` | Required | integer | Whole-number quantity of the selected unit charged at each configured currency price; fractional quantities are not supported. Format: `int64`. minimum: `1`. |
+Field definitions: [shared fields](DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationpricingcalculateddistance).
 
 ### DeliveryMethodConfigurationPricingCalculatedCalculated.weight fields 1
 
 Price per unit of weight for calculated pricing: a price per currency for each `unit_quantity` of the chosen weight `unit`.
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `currency_options` | Required | Map of [MoneyValue](../models/MoneyValue.md#moneyvalue) |  |
-| `unit` | Required | string | Weight unit used by unit_quantity. Values: `"gram"`, `"kilogram"`, `"ounce"`, `"pound"`. |
-| `unit_quantity` | Required | integer | Whole-number quantity of the selected unit charged at each configured currency price; fractional quantities are not supported. Format: `int64`. minimum: `1`. |
+Field definitions: [shared fields](DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationpricingcalculatedweight).
 

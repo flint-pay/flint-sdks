@@ -10,39 +10,43 @@ Fields shared by partner webhook payloads.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `api_version` | Required | string | Format: `date`. |
-| `created_at` | Required | string | Format: `date-time`. |
-| `data` | Required | object | `data`: [field definitions](../models/FraudWarningCreatedInstalledMerchantsEvent.md#fraudwarningcreatedinstalledmerchantseventdata). |
-| `event_type` | Required | string | Values: `"fraud_warning.created"`. |
-| `partner_app_id` | Required | string |  |
+| `api_version` | Required | string | API version used to render this delivery attempt. The older of the event version and the endpoint version when the attempt runs, with default resolved to the merchant pin. Format: `date`. Example: `"2026-08-02"`. |
+| `created_at` | Required | string | When Flint recorded the event. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
+| `data` | Required | object | The resource snapshot recorded for this event and rendered at the delivery API version. `data`: [field definitions](../models/FraudWarningCreatedInstalledMerchantsEvent.md#fraudwarningcreatedinstalledmerchantseventdata). |
+| `event_source` | Required | string | The origin of the event. Selects the webhook envelope and the fields in source. Values: `"installed_merchants"`. |
+| `event_type` | Required | string | The resource change or condition this event announces. Values: `"fraud_warning.created"`. |
+| `partner_app_id` | Required | string | ID of the partner app that owns the receiving endpoint. Example: `"papp_01KEZF7C00Y8VMXYZ1GNPP3WHV"`. |
 | `payload_version` | Required | integer | 2 for every current event. 1 only for an event queued before 2026-10-16 and delivered afterwards, which keeps its previous data shape. Values: `1`, `2`. |
-| `source` | Required | [WebhookEventSource](../models/WebhookEventSource.md#webhookeventsource) and object | The source of a partner webhook event, selected by type. `source`: [declared alternatives](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventsource). |
+| `source` | Required | [WebhookEventSource](../models/WebhookEventSource.md#webhookeventsource) and object | The merchant and partner app install this event concerns, with environment details for installed-merchant events. The merchant and partner app install the event concerns. Environment fields are present for installed-merchant events. `source`: [field definitions](../models/BalanceTransactionCreatedInstalledMerchantsEvent.md#balancetransactioncreatedinstalledmerchantseventsource). |
 | `test` | Required | boolean | true for a synthetic event sent from the test-events endpoint, false otherwise. |
-| `webhook_event_id` | Required | string |  |
+| `webhook_event_id` | Required | string | Stable ID of the recorded webhook event, shared by its delivery attempts. Example: `"whev_01KEZF7C00362MS3HV970TRZGS"`. |
 
 ### FraudWarningCreatedInstalledMerchantsEvent.data
 
+The resource snapshot recorded for this event and rendered at the delivery API version.
+
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `object` | Required | object and [FraudWarning](../models/FraudWarning.md#fraudwarning) | A notice that a payment may be fraudulent. `object`: [field definitions](../models/FraudWarningCreatedInstalledMerchantsEvent.md#fraudwarningcreatedinstalledmerchantseventdataobject). |
+| `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. `object`: [field definitions](../models/FraudWarningCreatedInstalledMerchantsEvent.md#fraudwarningcreatedinstalledmerchantseventdataobject). |
+| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
 
 ### FraudWarningCreatedInstalledMerchantsEvent.data.object
 
-A notice that a payment may be fraudulent.
+The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
+| `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `dispute` | Optional | [Dispute](../models/Dispute.md#dispute) or null | Present only when `expand` includes `dispute`; `null` when expanded and there is no related dispute. |
-| `dispute_id` | Required | string or null | The dispute that opened on this payment after the warning. `null` until one opens. |
-| `fraud_type` | Required | string | Values: [7 declared values](#fraudwarningcreatedinstalledmerchantseventdataobject-fraud_type-values). |
-| `fraud_warning_id` | Required | string |  |
+| `dispute_id` | Required | string or null | The dispute that opened on this payment after the warning. `null` when no dispute has opened. Example: `"du_01KEZF7C00DEJSF1KTXRT4BBQD"`. |
+| `fraud_type` | Required | string | The kind of fraud the card network reported. Values: [7 declared values](#fraudwarningcreatedinstalledmerchantseventdataobject-fraud_type-values). |
+| `fraud_warning_id` | Required | string | Unique identifier for this fraud warning, prefixed `frw_`. Example: `"frw_01KEZF7C00WD6W4TAFS0FH851W"`. |
 | `is_actionable` | Required | boolean | true until the payment is refunded in full, a dispute opens on it, or the card network marks the warning resolved; after that it stays false. A partial refund doesn't change it. |
 | `payment_intent` | Optional | [ExpandedPaymentIntentSummary](../models/ExpandedPaymentIntentSummary.md#expandedpaymentintentsummary) or null | Present only when `expand` includes `payment_intent`; `null` when expanded and there is no related payment intent. |
-| `payment_intent_id` | Required | string |  |
-| `payment_summary` | Required | [FraudWarningPaymentSummary](../models/FraudWarningPaymentSummary.md#fraudwarningpaymentsummary) | Payment details shown on a public fraud warning: amount, buyer email, card brand, and last four digits. |
-| `reported_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
-| `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
+| `payment_intent_id` | Required | string | ID of the payment the warning is about. Example: `"pi_01KEZF7C00G8H9D509YEV22P7R"`. |
+| `payment_summary` | Required | [FraudWarningPaymentSummary](../models/FraudWarningPaymentSummary.md#fraudwarningpaymentsummary) | The payment's amount, buyer email, and card, for recognizing it. Payment details shown on a public fraud warning: amount, buyer email, card brand, and last four digits. |
+| `reported_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
+| `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 
 #### FraudWarningCreatedInstalledMerchantsEvent.data.object fraud_type values
 
@@ -56,5 +60,5 @@ A notice that a payment may be fraudulent.
 
 ### FraudWarningCreatedInstalledMerchantsEvent.source
 
-Declared alternatives: [BundleArchivedInstalledMerchantsEvent.source](../models/BundleArchivedInstalledMerchantsEvent.md#bundlearchivedinstalledmerchantseventsource).
+Field definitions: [BalanceTransactionCreatedInstalledMerchantsEvent.source](../models/BalanceTransactionCreatedInstalledMerchantsEvent.md#balancetransactioncreatedinstalledmerchantseventsource).
 

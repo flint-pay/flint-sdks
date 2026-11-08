@@ -10,7 +10,7 @@ namespace Flint;
 final class StripePaymentClientActionInput extends Model {
     /** @param array{'account_id': string, 'payment_intent'?: StripePaymentIntentClientActionInput|array<array-key, mixed>|\stdClass, 'publishable_key': string, 'setup_intent'?: StripeSetupIntentClientActionInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('StripePaymentClientActionInput')); }
-    /** Stripe connected account ID to pass as stripeAccount when initializing Stripe.js.
+    /** Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. Example: "acct_1234567890".
      * @return string
      * @throws SdkError When account_id is omitted; use hasAccountId() or valueOrDefault().
      */

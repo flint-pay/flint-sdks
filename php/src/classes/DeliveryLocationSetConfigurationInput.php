@@ -7,7 +7,7 @@ namespace Flint;
 final class DeliveryLocationSetConfigurationInput extends Model {
     /** @param array{'location_ids': list<string>}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryLocationSetConfigurationInput')); }
-    /**  [] (Value): string. minLength: 1.
+    /**  [] (Value): string. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return list<string>
      * @throws SdkError When location_ids is omitted; use hasLocationIds() or valueOrDefault().
      */

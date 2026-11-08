@@ -8,12 +8,12 @@ namespace Flint;
 final class OrderGiftCardAllocation extends Model {
     /** @param array{'amount_money': mixed, 'gift_card_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderGiftCardAllocation')); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** The amount this gift card covers. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getAmountMoney(): MoneyValue { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** gift_card_id
+    /** ID of the gift card the amount is taken from.
      * @return string
      */
     public function getGiftCardId(): string { return $this->get('gift_card_id'); }

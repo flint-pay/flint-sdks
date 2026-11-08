@@ -22,37 +22,37 @@ namespace Flint;
 final class InventoryTransferInput extends Model {
     /** @param array{'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string|null, 'created_at': string|\DateTimeInterface, 'departed_at'?: string|\DateTimeInterface, 'destination_location_id': string, 'external_reference_id'?: string, 'idempotency_key'?: string, 'inventory_transfer_id': string, 'lines': list<InventoryTransferLineInput|array<array-key, mixed>|\stdClass>, 'note'?: string, 'origin_location_id': string, 'received_at'?: string|\DateTimeInterface, 'status': string, 'supported_actions': list<string>, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryTransferInput')); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When closed_at is omitted; use hasClosedAt() or valueOrDefault().
      */
     public function getClosedAt(): string|\DateTimeInterface { return $this->get('closed_at'); }
     public function hasClosedAt(): bool { return $this->has('closed_at'); }
-    /** Value enum: "received", "canceled", "received_with_cancellation", "returned", "lost", "mixed", null.
+    /** How the transfer ended. `null` when the transfer isn't closed. Value enum: "received", "canceled", "received_with_cancellation", "returned", "lost", "mixed", null.
      * @return string|null
      * @throws SdkError When closed_reason is omitted; use hasClosedReason() or valueOrDefault().
      */
     public function getClosedReason(): string|null { return $this->get('closed_reason'); }
     public function hasClosedReason(): bool { return $this->has('closed_reason'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When departed_at is omitted; use hasDepartedAt() or valueOrDefault().
      */
     public function getDepartedAt(): string|\DateTimeInterface { return $this->get('departed_at'); }
     public function hasDepartedAt(): bool { return $this->has('departed_at'); }
-    /** destination_location_id
+    /** ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When destination_location_id is omitted; use hasDestinationLocationId() or valueOrDefault().
      */
     public function getDestinationLocationId(): string { return $this->get('destination_location_id'); }
     public function hasDestinationLocationId(): bool { return $this->has('destination_location_id'); }
-    /** Caller-owned identifier for this resource in an external system. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -64,31 +64,31 @@ final class InventoryTransferInput extends Model {
      */
     public function getIdempotencyKey(): string { return $this->get('idempotency_key'); }
     public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
-    /** inventory_transfer_id
+    /** Unique identifier for this inventory transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
      * @return string
      * @throws SdkError When inventory_transfer_id is omitted; use hasInventoryTransferId() or valueOrDefault().
      */
     public function getInventoryTransferId(): string { return $this->get('inventory_transfer_id'); }
     public function hasInventoryTransferId(): bool { return $this->has('inventory_transfer_id'); }
-    /** Owned collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH replaces the full collection. [] (Value): {@see InventoryTransferLineInput}. One line of an inventory transfer, with the requested quantity and how much has departed, been received by condition, canceled, lost, or returned.
+    /** Owned collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH replaces the full collection. [] (Value): {@see InventoryTransferLineInput}. One line of an inventory transfer, with its quantities.
      * @return list<InventoryTransferLineInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When lines is omitted; use hasLines() or valueOrDefault().
      */
     public function getLines(): array { return $this->get('lines'); }
     public function hasLines(): bool { return $this->has('lines'); }
-    /** note
+    /** Free-text note about the transfer.
      * @return string
      * @throws SdkError When note is omitted; use hasNote() or valueOrDefault().
      */
     public function getNote(): string { return $this->get('note'); }
     public function hasNote(): bool { return $this->has('note'); }
-    /** origin_location_id
+    /** ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When origin_location_id is omitted; use hasOriginLocationId() or valueOrDefault().
      */
     public function getOriginLocationId(): string { return $this->get('origin_location_id'); }
     public function hasOriginLocationId(): bool { return $this->has('origin_location_id'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When received_at is omitted; use hasReceivedAt() or valueOrDefault().
      */
@@ -106,13 +106,13 @@ final class InventoryTransferInput extends Model {
      */
     public function getSupportedActions(): array { return $this->get('supported_actions'); }
     public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */
     public function getUpdatedAt(): string|\DateTimeInterface { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** Format: uint64. minimum: 1.
+    /** Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. Format: uint64. minimum: 1.
      * @return int
      * @throws SdkError When version is omitted; use hasVersion() or valueOrDefault().
      */

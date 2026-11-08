@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read ?string $carrier
- * @property-read ?string $created_at
+ * @property-read string $created_at
  * @property-read ?string $delivered_at
  * @property-read ?Dimensions $dimensions
  * @property-read string|null $expected_delivery_at
@@ -17,15 +17,14 @@ namespace Flint;
  * @property-read string $shipment_id
  * @property-read ?string $shipped_at
  * @property-read string $status
- * @property-read list<string> $supported_actions
  * @property-read ?string $tracking_number
  * @property-read ?string $tracking_url
- * @property-read ?string $updated_at
+ * @property-read string $updated_at
  * @property-read int $version
  * @property-read ?Weight $weight
  * Presence-aware response; omitted optional fields return null. */
 final class BuyerPackage extends Model {
-    /** @param array{'carrier'?: string, 'created_at'?: string, 'delivered_at'?: string, 'dimensions'?: mixed, 'expected_delivery_at'?: string|null, 'fulfillment_id': string, 'label_url'?: string, 'order_id': string, 'package_id': string, 'return_id'?: string, 'return_line_items'?: list<mixed>, 'service_code'?: string, 'shipment_id': string, 'shipped_at'?: string, 'status': string, 'supported_actions': list<string>, 'tracking_number'?: string, 'tracking_url'?: string, 'updated_at'?: string, 'version': int, 'weight'?: mixed, ...}|object $values */
+    /** @param array{'carrier'?: string, 'created_at': string, 'delivered_at'?: string, 'dimensions'?: mixed, 'expected_delivery_at'?: string|null, 'fulfillment_id': string, 'label_url'?: string, 'order_id': string, 'package_id': string, 'return_id'?: string, 'return_line_items'?: list<mixed>, 'service_code'?: string, 'shipment_id': string, 'shipped_at'?: string, 'status': string, 'tracking_number'?: string, 'tracking_url'?: string, 'updated_at': string, 'version': int, 'weight'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerPackage')); }
     /** Carrier transporting the package.
      * @return ?string
@@ -33,9 +32,9 @@ final class BuyerPackage extends Model {
     public function getCarrier(): ?string { return $this->get('carrier'); }
     public function hasCarrier(): bool { return $this->has('carrier'); }
     /** Creation timestamp. Format: date-time.
-     * @return ?string
+     * @return string
      */
-    public function getCreatedAt(): ?string { return $this->get('created_at'); }
+    public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
     /** Package delivery timestamp. Format: date-time.
      * @return ?string
@@ -102,11 +101,6 @@ final class BuyerPackage extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Always empty for buyer credentials. maxItems: 0. [] enum: "mark_delivered", "mark_delivery_attempted", "mark_exception", "mark_in_transit", "mark_out_for_delivery", "mark_packed", "mark_returned", "mark_shipped". [] (Value): string.  Value enum: "mark_delivered", "mark_delivery_attempted", "mark_exception", "mark_in_transit", "mark_out_for_delivery", "mark_packed", "mark_returned", "mark_shipped".
-     * @return list<string>
-     */
-    public function getSupportedActions(): array { return $this->get('supported_actions'); }
-    public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
     /** Omitted for a checkout session credential that doesn't act for the customer the buyer verified.
      * @return ?string
      */
@@ -118,9 +112,9 @@ final class BuyerPackage extends Model {
     public function getTrackingUrl(): ?string { return $this->get('tracking_url'); }
     public function hasTrackingUrl(): bool { return $this->has('tracking_url'); }
     /** Last update timestamp. Format: date-time.
-     * @return ?string
+     * @return string
      */
-    public function getUpdatedAt(): ?string { return $this->get('updated_at'); }
+    public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
     /** Monotonic package version for expected_version checks. Format: uint64. minimum: 1.
      * @return int

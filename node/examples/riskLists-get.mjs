@@ -5,7 +5,7 @@ const client = new Client({
   allowInsecureHttp: !!baseUrl && ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
 });
 const result = await client.riskLists.get(
-  "rl_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "rl_01KEZF7C00VYSERA4QCTJP147A"
 );
 console.log(result.risk_list_id);
 console.log(result.status);

@@ -1,0 +1,1 @@
+{"codec":{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec4916"},"dependencies":["SharedCodec1563","SharedCodec1566","SharedCodec1640","SharedCodec4313","SharedCodec4916","SharedCodec4917"]}

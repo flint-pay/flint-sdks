@@ -16,4 +16,4 @@ const result = await client.me.updateEmailPreferences(
   },
   { idempotencyKey: idempotencyKey },
 );
-console.log(result.customer_id);
+console.log(result);

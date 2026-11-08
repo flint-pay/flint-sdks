@@ -2,7 +2,7 @@
 
 ## CreateReturnPreviewResponseDataResolutionEligibilityPolicyEvaluationLineItemsItemModifiersItemTotalMoney
 
-Total price added by this selection. Multiplies unit_price_delta_money by the modifier quantity and, for per_item pricing, by the line item quantity.
+Total price this selection adds to the line: `unit_price_delta_money` times the selection's `quantity` times the line item's `quantity`. Always 0 for text selections.
 
 Monetary amount represented as integer minor units plus an ISO 4217 currency code.
 

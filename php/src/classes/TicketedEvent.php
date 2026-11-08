@@ -32,7 +32,7 @@ final class TicketedEvent extends Model {
      */
     public function getTicketNumbers(): array { return $this->get('ticket_numbers'); }
     public function hasTicketNumbers(): bool { return $this->has('ticket_numbers'); }
-    /** Value enum: "pending", "issued", "void".
+    /** Whether the order's tickets are issued. Value enum: "pending", "issued", "voided".
      * @return string
      */
     public function getTicketStatus(): string { return $this->get('ticket_status'); }

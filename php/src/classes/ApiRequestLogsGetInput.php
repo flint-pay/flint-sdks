@@ -9,7 +9,7 @@ namespace Flint;
 final class ApiRequestLogsGetInput extends Model {
     /** @param array{'api_request_log_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ApiRequestLogsGetInput')); }
-    /** Flint API request log ID. Example: "rlog_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Flint API request log ID. Example: "rlog_01KEZF7C008XJCH6BHA224X46F".
      * @return string
      * @throws SdkError When api_request_log_id is omitted; use hasApiRequestLogId() or valueOrDefault().
      */

@@ -29,19 +29,19 @@ final class MeListSubscriptionsParams extends Model {
      */
     public function getPageSize(): int { return $this->get('page_size'); }
     public function hasPageSize(): bool { return $this->has('page_size'); }
-    /** Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error.
+    /** Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error.
      * @return string
      * @throws SdkError When page_token is omitted; use hasPageToken() or valueOrDefault().
      */
     public function getPageToken(): string { return $this->get('page_token'); }
     public function hasPageToken(): bool { return $this->has('page_token'); }
-    /** Filter by subscription status. Repeat the parameter or pass comma-separated values to match multiple statuses. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete", "scheduled". Value enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete", "scheduled". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete", "scheduled". anyOf[1][] (Value): string.  Value enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete", "scheduled". anyOf[2] (Value): string.  Value enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete", "scheduled".
+    /** Filter by subscription status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete", "scheduled". Value enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete", "scheduled". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete", "scheduled". anyOf[1][] (Value): string.  Value enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete", "scheduled". anyOf[2] (Value): string.  Value enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete", "scheduled".
      * @return list<string>|string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
     public function getStatus(): mixed { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Separate subscriptions scheduled by Flint (flint) from those whose billing dates the store supplies (external). Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "flint", "external". Value enum: "flint", "external". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "flint", "external". anyOf[1][] (Value): string.  Value enum: "flint", "external". anyOf[2] (Value): string.  Value enum: "flint", "external".
+    /** Separate subscriptions scheduled by Flint (flint) from those whose billing dates the store supplies (external). Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "flint", "external". Value enum: "flint", "external". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "flint", "external". anyOf[1][] (Value): string.  Value enum: "flint", "external". anyOf[2] (Value): string.  Value enum: "flint", "external".
      * @return list<string>|string
      * @throws SdkError When billing_schedule_owner is omitted; use hasBillingScheduleOwner() or valueOrDefault().
      */
@@ -53,19 +53,19 @@ final class MeListSubscriptionsParams extends Model {
      */
     public function getCancelAtPeriodEnd(): bool { return $this->get('cancel_at_period_end'); }
     public function hasCancelAtPeriodEnd(): bool { return $this->has('cancel_at_period_end'); }
-    /** Filter by the subscription's selected delivery method. Example: "dmet_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Filter by the subscription's selected delivery method. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
      * @return string
      * @throws SdkError When delivery_method_id is omitted; use hasDeliveryMethodId() or valueOrDefault().
      */
     public function getDeliveryMethodId(): string { return $this->get('delivery_method_id'); }
     public function hasDeliveryMethodId(): bool { return $this->has('delivery_method_id'); }
-    /** Find subscriptions needing a new delivery method, address, or rate by the current delivery_hold reason. Does not match upcoming delivery issues. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "method_unavailable", "destination_not_served", "rate_unavailable". Value enum: "method_unavailable", "destination_not_served", "rate_unavailable". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "method_unavailable", "destination_not_served", "rate_unavailable". anyOf[1][] (Value): string.  Value enum: "method_unavailable", "destination_not_served", "rate_unavailable". anyOf[2] (Value): string.  Value enum: "method_unavailable", "destination_not_served", "rate_unavailable".
+    /** Find subscriptions needing a new delivery method, address, or rate by the current delivery_hold reason. Does not match upcoming delivery issues. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "method_unavailable", "destination_not_served", "rate_unavailable". Value enum: "method_unavailable", "destination_not_served", "rate_unavailable". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "method_unavailable", "destination_not_served", "rate_unavailable". anyOf[1][] (Value): string.  Value enum: "method_unavailable", "destination_not_served", "rate_unavailable". anyOf[2] (Value): string.  Value enum: "method_unavailable", "destination_not_served", "rate_unavailable".
      * @return list<string>|string
      * @throws SdkError When hold_reason is omitted; use hasHoldReason() or valueOrDefault().
      */
     public function getHoldReason(): mixed { return $this->get('hold_reason'); }
     public function hasHoldReason(): bool { return $this->has('hold_reason'); }
-    /** Filter by Flint subscription plan ID. Example: "plan_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Filter by Flint subscription plan ID. Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
      * @return string
      * @throws SdkError When subscription_plan_id is omitted; use hasSubscriptionPlanId() or valueOrDefault().
      */

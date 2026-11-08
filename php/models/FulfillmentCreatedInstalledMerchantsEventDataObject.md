@@ -2,9 +2,11 @@
 
 ## FulfillmentCreatedInstalledMerchantsEventDataObject
 
-Work required to deliver an order's items.
+The affected public resource without expansions, client authority fields, or fields computed for an individual caller.
+
+The resource snapshot, without expansions. Webhooks omit no additional fields.
 
 Response model.
 
-Fields, types, descriptions and enum values: [Fulfillment](../models/Fulfillment.md#fulfillment).
+Fields, types, descriptions and enum values: [FulfillmentCanceledMerchantEventDataObject](../models/FulfillmentCanceledMerchantEventDataObject.md#fulfillmentcanceledmerchanteventdataobject).
 

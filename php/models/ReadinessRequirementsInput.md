@@ -8,13 +8,13 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `current_deadline_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `currently_due` | Required | Array of string | Flint requirement codes. New codes can appear; treat an unknown code as additional_account_information. Items values: [32 declared values](MerchantAccountSessionCreateRequestInput.md#merchantaccountsessioncreaterequestinput-targeted_requirements--values). |
-| `disabled_reason` | Optional | string | Values: [7 declared values](#readinessrequirementsinput-disabled_reason-values). |
+| `disabled_reason` | Optional | string | Why the account is disabled. Omitted when it isn't. Values: [7 declared values](#readinessrequirementsinput-disabled_reason-values). |
+| `due_at` | Optional | string | Time by which the merchant must submit currently due onboarding requirements, as an RFC 3339 UTC timestamp. Omitted when no submission deadline is set. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `eventually_due` | Required | Array of string | Flint requirement codes. New codes can appear; treat an unknown code as additional_account_information. Items values: [32 declared values](MerchantAccountSessionCreateRequestInput.md#merchantaccountsessioncreaterequestinput-targeted_requirements--values). |
 | `past_due` | Required | Array of string | Flint requirement codes. New codes can appear; treat an unknown code as additional_account_information. Items values: [32 declared values](MerchantAccountSessionCreateRequestInput.md#merchantaccountsessioncreaterequestinput-targeted_requirements--values). |
 | `pending_verification` | Required | Array of string | Flint requirement codes. New codes can appear; treat an unknown code as additional_account_information. Items values: [32 declared values](MerchantAccountSessionCreateRequestInput.md#merchantaccountsessioncreaterequestinput-targeted_requirements--values). |
-| `rejected_by` | Optional | string | Values: `"flint"`, `"payment_processor"`. |
+| `rejected_by` | Optional | string | Who rejected the account. Present only when `disabled_reason` is `account_rejected`. Values: `"flint"`, `"payment_processor"`. |
 
 #### ReadinessRequirementsInput disabled_reason values
 

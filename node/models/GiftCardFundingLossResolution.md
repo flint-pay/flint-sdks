@@ -10,8 +10,8 @@ How a lost funding dispute was resolved for a gift card load, such as honoring t
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
-| `disposition` | Required | string | Values: `"honor_value"`. |
-| `gift_card_funding_disposition_id` | Required | string |  |
-| `reason_message` | Required | string |  |
+| `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
+| `disposition` | Required | string | What the merchant decided about the card's value after the funding payment lost a dispute. Values: `"honor_value"`. |
+| `gift_card_funding_disposition_id` | Required | string | ID of the funding disposition recorded for the lost dispute. Example: `"gfd_01KEZF7C0077Q8RK3Q4FD2DTW8"`. |
+| `reason_message` | Required | string | The note you gave when you created the disposition. |
 

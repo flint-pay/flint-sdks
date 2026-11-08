@@ -5,7 +5,7 @@ const client = new Client({
   allowInsecureHttp: !!baseUrl && ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
 });
 const result = await client.bundles.get(
-  "bun_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "bun_01KEZF7C00TQ6S76Z6CVQF5SVN"
 );
 console.log(result.bundle_id);
 console.log(result.status);

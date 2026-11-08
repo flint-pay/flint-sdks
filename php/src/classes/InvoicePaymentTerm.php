@@ -16,7 +16,7 @@ namespace Flint;
 final class InvoicePaymentTerm extends Model {
     /** @param array{'calculation': mixed, 'created_at': string, 'external_reference_id'?: string, 'invoice_payment_term_id': string, 'late_fee_policy'?: mixed, 'merchant_id': string, 'name': string, 'status': string, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoicePaymentTerm')); }
-    /** How an invoice due date is calculated from payment terms, such as on receipt, net days, or a day of the month.
+    /** Rule used to calculate the invoice's due date when it is issued. How an invoice due date is calculated from payment terms, such as on receipt, net days, or a day of the month.
      * @return InvoicePaymentTermCalculationOnReceipt|InvoicePaymentTermCalculationNetDays|InvoicePaymentTermCalculationDaysAfterMonthEnd|InvoicePaymentTermCalculationDayOfMonth|InvoicePaymentTermCalculationDayOfNextMonth|\stdClass
      */
     public function getCalculation(): InvoicePaymentTermCalculationOnReceipt|InvoicePaymentTermCalculationNetDays|InvoicePaymentTermCalculationDaysAfterMonthEnd|InvoicePaymentTermCalculationDayOfMonth|InvoicePaymentTermCalculationDayOfNextMonth|\stdClass { return $this->get('calculation'); }
@@ -31,27 +31,27 @@ final class InvoicePaymentTerm extends Model {
      */
     public function getExternalReferenceId(): ?string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** invoice_payment_term_id
+    /** ID of the payment term captured on this invoice.
      * @return string
      */
     public function getInvoicePaymentTermId(): string { return $this->get('invoice_payment_term_id'); }
     public function hasInvoicePaymentTermId(): bool { return $this->has('invoice_payment_term_id'); }
-    /** A late fee for overdue invoices: a fixed amount or a percentage, a grace period in days, and whether Flint applies it automatically.
+    /** One-time late fee policy captured with this term. Absent when no late fee policy applies. A late fee for overdue invoices: a fixed amount or a percentage, a grace period in days, and whether Flint applies it automatically.
      * @return InvoicePaymentTermLateFeePolicyFixed|InvoicePaymentTermLateFeePolicyPercentage|\stdClass|null
      */
     public function getLateFeePolicy(): InvoicePaymentTermLateFeePolicyFixed|InvoicePaymentTermLateFeePolicyPercentage|\stdClass|null { return $this->get('late_fee_policy'); }
     public function hasLateFeePolicy(): bool { return $this->has('late_fee_policy'); }
-    /** merchant_id
+    /** ID of the merchant this resource belongs to.
      * @return string
      */
     public function getMerchantId(): string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** name
+    /** Name of the payment term shown on invoices.
      * @return string
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Value enum: "active", "archived".
+    /** Whether the term can be selected for new invoices. Archiving preserves terms captured on existing invoices. Value enum: "active", "archived".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
@@ -61,7 +61,7 @@ final class InvoicePaymentTerm extends Model {
      */
     public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** Format: int32.
+    /** Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. Format: int32.
      * @return int
      */
     public function getVersion(): int { return $this->get('version'); }

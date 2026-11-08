@@ -22,13 +22,13 @@ final class BuyerReturnLineItemModifierInput extends Model {
      */
     public function getMetadata(): array|object { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** modifier_group_name
+    /** Name of the modifier group recorded when this selection was added to the order line item.
      * @return string
      * @throws SdkError When modifier_group_name is omitted; use hasModifierGroupName() or valueOrDefault().
      */
     public function getModifierGroupName(): string { return $this->get('modifier_group_name'); }
     public function hasModifierGroupName(): bool { return $this->has('modifier_group_name'); }
-    /** name
+    /** Name of the selected modifier recorded on the order line item.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
@@ -46,31 +46,31 @@ final class BuyerReturnLineItemModifierInput extends Model {
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
-    /** show_on_fulfillment
+    /** Whether this selection appears in fulfillment details, recorded when selected.
      * @return bool
      * @throws SdkError When show_on_fulfillment is omitted; use hasShowOnFulfillment() or valueOrDefault().
      */
     public function getShowOnFulfillment(): bool { return $this->get('show_on_fulfillment'); }
     public function hasShowOnFulfillment(): bool { return $this->has('show_on_fulfillment'); }
-    /** show_on_receipt
+    /** Whether this selection appears on buyer receipts, recorded when selected.
      * @return bool
      * @throws SdkError When show_on_receipt is omitted; use hasShowOnReceipt() or valueOrDefault().
      */
     public function getShowOnReceipt(): bool { return $this->get('show_on_receipt'); }
     public function hasShowOnReceipt(): bool { return $this->has('show_on_receipt'); }
-    /** text_value
+    /** Buyer-entered text recorded for a text modifier selection.
      * @return string
      * @throws SdkError When text_value is omitted; use hasTextValue() or valueOrDefault().
      */
     public function getTextValue(): string { return $this->get('text_value'); }
     public function hasTextValue(): bool { return $this->has('text_value'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Total price this selection adds to the line. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When total_money is omitted; use hasTotalMoney() or valueOrDefault().
      */
     public function getTotalMoney(): mixed { return $this->get('total_money'); }
     public function hasTotalMoney(): bool { return $this->has('total_money'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Amount added to the item's unit price for each unit of this selection, recorded when selected. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When unit_price_delta_money is omitted; use hasUnitPriceDeltaMoney() or valueOrDefault().
      */

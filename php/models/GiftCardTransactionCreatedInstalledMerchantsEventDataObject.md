@@ -2,9 +2,11 @@
 
 ## GiftCardTransactionCreatedInstalledMerchantsEventDataObject
 
-Immutable posted financial movement with signed amount, per-card sequence, merchant sequence and balance snapshots. Corrections create new transactions.
+The affected public resource without expansions, client authority fields, or fields computed for an individual caller.
+
+The resource snapshot, without expansions. Webhooks omit no additional fields.
 
 Response model.
 
-Fields, types, descriptions and enum values: [GiftCardTransaction](../models/GiftCardTransaction.md#giftcardtransaction).
+Fields, types, descriptions and enum values: [GiftCardTransactionCreatedMerchantEventDataObject](../models/GiftCardTransactionCreatedMerchantEventDataObject.md#giftcardtransactioncreatedmerchanteventdataobject).
 

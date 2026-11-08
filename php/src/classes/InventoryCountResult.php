@@ -8,7 +8,7 @@ namespace Flint;
 final class InventoryCountResult extends Model {
     /** @param array{'inventory_count': mixed, 'inventory_levels': list<mixed>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryCountResult')); }
-    /** A physical count used to reconcile stock.
+    /** The inventory count. A physical count used to reconcile stock.
      * @return InventoryCount
      */
     public function getInventoryCount(): InventoryCount { return $this->get('inventory_count'); }

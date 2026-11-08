@@ -19,7 +19,7 @@ final class MeUpdateAddressParams extends Model {
      */
     public function getAddress(): mixed { return $this->get('address'); }
     public function hasAddress(): bool { return $this->has('address'); }
-    /** Format: uint64. minimum: 1.
+    /** The `version` of the saved address you last read. The update fails with a conflict if the address has changed since. Format: uint64. minimum: 1.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */

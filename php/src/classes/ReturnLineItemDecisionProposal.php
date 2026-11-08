@@ -13,7 +13,7 @@ namespace Flint;
 final class ReturnLineItemDecisionProposal extends Model {
     /** @param array{'allowed_resolution_types': list<string>, 'automatic_resolution_type'?: string, 'based_on_quantity': int, 'is_inspection_required': bool, 'receiving_location_id'?: string, 'release_timing'?: string, 'return_required_quantity': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnLineItemDecisionProposal')); }
-    /** [] enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit". [] (Value): string.  Value enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit".
+    /** Resolution types the proposal allows. [] enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit". [] (Value): string.  Value enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit".
      * @return list<string>
      */
     public function getAllowedResolutionTypes(): array { return $this->get('allowed_resolution_types'); }
@@ -28,12 +28,12 @@ final class ReturnLineItemDecisionProposal extends Model {
      */
     public function getBasedOnQuantity(): int { return $this->get('based_on_quantity'); }
     public function hasBasedOnQuantity(): bool { return $this->has('based_on_quantity'); }
-    /** is_inspection_required
+    /** Whether the proposal requires inspection of the returned units.
      * @return bool
      */
     public function getIsInspectionRequired(): bool { return $this->get('is_inspection_required'); }
     public function hasIsInspectionRequired(): bool { return $this->has('is_inspection_required'); }
-    /** receiving_location_id
+    /** ID of the Location the proposal sends returned merchandise to.
      * @return ?string
      */
     public function getReceivingLocationId(): ?string { return $this->get('receiving_location_id'); }

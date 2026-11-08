@@ -2,9 +2,19 @@
 
 ## CustomerCreatedMerchantEventDataObject
 
-A merchant's customer profile.
+The affected public resource without expansions, client authority fields, or fields computed for an individual caller.
+
+The resource snapshot, without expansions. Webhooks omit no additional fields.
 
 Response model.
 
-Fields, types, descriptions and enum values: [Customer](../models/Customer.md#customer).
+Field definitions: [shared fields](Customer.md#customer).
+
+### CustomerCreatedMerchantEventDataObject.metadata
+
+Field definitions: [OrderResponse.data.charges[].metadata](../models/OrderResponse.md#orderresponsedatachargesmetadata).
+
+### CustomerCreatedMerchantEventDataObject.receivables
+
+Field definitions: [CustomerResponse.data.receivables](../models/CustomerResponse.md#customerresponsedatareceivables).
 

@@ -15,13 +15,13 @@ namespace Flint;
 final class RiskAttributeInput extends Model {
     /** @param array{'available_from': string, 'enum_values'?: list<string>, 'is_available': bool, 'is_nullable': bool, 'missing_value_behavior': string, 'name': string, 'operators': list<string>, 'unavailable_reason'?: string, 'value_type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RiskAttributeInput')); }
-    /** Value enum: "pre_authorization", "post_authorization".
+    /** The stage from which the attribute's value is known. Value enum: "pre_authorization", "post_authorization".
      * @return string
      * @throws SdkError When available_from is omitted; use hasAvailableFrom() or valueOrDefault().
      */
     public function getAvailableFrom(): string { return $this->get('available_from'); }
     public function hasAvailableFrom(): bool { return $this->has('available_from'); }
-    /**  [] (Value): string.
+    /** The values the attribute can take. Present for `enum` attributes. [] (Value): string.
      * @return list<string>
      * @throws SdkError When enum_values is omitted; use hasEnumValues() or valueOrDefault().
      */
@@ -39,13 +39,13 @@ final class RiskAttributeInput extends Model {
      */
     public function getIsNullable(): bool { return $this->get('is_nullable'); }
     public function hasIsNullable(): bool { return $this->has('is_nullable'); }
-    /** Value enum: "not_applicable_except_is_missing".
+    /** How a comparison treats a payment that has no value for the attribute. Value enum: "not_applicable_except_is_missing".
      * @return string
      * @throws SdkError When missing_value_behavior is omitted; use hasMissingValueBehavior() or valueOrDefault().
      */
     public function getMissingValueBehavior(): string { return $this->get('missing_value_behavior'); }
     public function hasMissingValueBehavior(): bool { return $this->has('missing_value_behavior'); }
-    /** name
+    /** Name of the attribute, as a rule's `attribute` field uses it.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
@@ -57,13 +57,13 @@ final class RiskAttributeInput extends Model {
      */
     public function getOperators(): array { return $this->get('operators'); }
     public function hasOperators(): bool { return $this->has('operators'); }
-    /** Value enum: "risk_scoring_not_enabled", "ip_geolocation_not_enabled".
+    /** Why the attribute can't be used in rules. Present when `is_available` is `false`. Value enum: "risk_scoring_not_enabled", "ip_geolocation_not_enabled".
      * @return string
      * @throws SdkError When unavailable_reason is omitted; use hasUnavailableReason() or valueOrDefault().
      */
     public function getUnavailableReason(): string { return $this->get('unavailable_reason'); }
     public function hasUnavailableReason(): bool { return $this->has('unavailable_reason'); }
-    /** Value enum: "money", "currency", "string", "enum", "country", "email", "ip_address", "boolean", "integer".
+    /** The kind of value the attribute holds. Value enum: "money", "currency", "string", "enum", "country", "email", "ip_address", "boolean", "integer".
      * @return string
      * @throws SdkError When value_type is omitted; use hasValueType() or valueOrDefault().
      */

@@ -27,12 +27,12 @@ namespace Flint;
 final class ResourceTimelineEntriesItemWebhookDeliveryAttempt extends Model {
     /** @param array{'api_request_log_id'?: string, 'attempt_number': int, 'completed_at'?: string, 'delivery_trigger': string, 'duration_milliseconds'?: int, 'entry_type': string, 'error_category'?: string, 'error_summary'?: string, 'occurred_at': string, 'reason_message'?: string, 'recommended_action'?: string, 'request_id'?: string, 'resource_timeline_entry_id': string, 'retryable'?: bool, 'started_at'?: string, 'status': string, 'status_code'?: int, 'webhook_delivery_attempt_id': string, 'webhook_delivery_id': string, 'webhook_endpoint_id': string, 'webhook_event_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ResourceTimelineEntriesItemWebhookDeliveryAttempt')); }
-    /** api_request_log_id
+    /** ID of the API request log associated with this attempt. Omitted when no request log is associated.
      * @return ?string
      */
     public function getApiRequestLogId(): ?string { return $this->get('api_request_log_id'); }
     public function hasApiRequestLogId(): bool { return $this->has('api_request_log_id'); }
-    /** Format: int32.
+    /** Which attempt this is for the delivery, starting at 1. Format: int32.
      * @return int
      */
     public function getAttemptNumber(): int { return $this->get('attempt_number'); }
@@ -42,27 +42,27 @@ final class ResourceTimelineEntriesItemWebhookDeliveryAttempt extends Model {
      */
     public function getCompletedAt(): ?string { return $this->get('completed_at'); }
     public function hasCompletedAt(): bool { return $this->has('completed_at'); }
-    /** Value enum: "automatic_delivery", "automatic_retry", "manual_resend", "manual_delivery".
+    /** What caused this attempt. Value enum: "automatic_delivery", "automatic_retry", "manual_resend", "manual_delivery".
      * @return string
      */
     public function getDeliveryTrigger(): string { return $this->get('delivery_trigger'); }
     public function hasDeliveryTrigger(): bool { return $this->has('delivery_trigger'); }
-    /** Format: int64.
+    /** How long the attempt took, in milliseconds. Format: int64.
      * @return ?int
      */
     public function getDurationMilliseconds(): ?int { return $this->get('duration_milliseconds'); }
     public function hasDurationMilliseconds(): bool { return $this->has('duration_milliseconds'); }
-    /** Value enum: "webhook_delivery_attempt".
+    /** Always `webhook_delivery_attempt` for this kind of entry. Value enum: "webhook_delivery_attempt".
      * @return string
      */
     public function getEntryType(): string { return $this->get('entry_type'); }
     public function hasEntryType(): bool { return $this->has('entry_type'); }
-    /** The kind of failure on the most recent failed attempt. Absent before any attempt, and when delivered or suppressed. Value enum: "webhook_timeout", "webhook_dns", "webhook_tls", "webhook_connection", "webhook_blocked_target", "webhook_request", "webhook_redirect", "webhook_http_4xx", "webhook_http_5xx", "webhook_payload_render", "webhook_delivery".
+    /** The kind of failure for this attempt. Present only when this attempt's `status` is `failed`. Value enum: "webhook_timeout", "webhook_dns", "webhook_tls", "webhook_connection", "webhook_blocked_target", "webhook_request", "webhook_redirect", "webhook_http_4xx", "webhook_http_5xx", "webhook_payload_render", "webhook_delivery".
      * @return ?string
      */
     public function getErrorCategory(): ?string { return $this->get('error_category'); }
     public function hasErrorCategory(): bool { return $this->has('error_category'); }
-    /** A concise explanation of the failed attempt. Absent before any attempt, and when delivered or suppressed.
+    /** A concise explanation of the failure for this attempt. Present only when this attempt's `status` is `failed`.
      * @return ?string
      */
     public function getErrorSummary(): ?string { return $this->get('error_summary'); }
@@ -77,7 +77,7 @@ final class ResourceTimelineEntriesItemWebhookDeliveryAttempt extends Model {
      */
     public function getReasonMessage(): ?string { return $this->get('reason_message'); }
     public function hasReasonMessage(): bool { return $this->has('reason_message'); }
-    /** The next step to resolve the failed delivery attempt.
+    /** The next step to resolve this attempt's failure. Present only when this attempt's `status` is `failed`.
      * @return ?string
      */
     public function getRecommendedAction(): ?string { return $this->get('recommended_action'); }
@@ -87,12 +87,12 @@ final class ResourceTimelineEntriesItemWebhookDeliveryAttempt extends Model {
      */
     public function getRequestId(): ?string { return $this->get('request_id'); }
     public function hasRequestId(): bool { return $this->has('request_id'); }
-    /** resource_timeline_entry_id
+    /** ID of this timeline entry.
      * @return string
      */
     public function getResourceTimelineEntryId(): string { return $this->get('resource_timeline_entry_id'); }
     public function hasResourceTimelineEntryId(): bool { return $this->has('resource_timeline_entry_id'); }
-    /** Whether sending this delivery again without changing your endpoint is likely to succeed. While the delivery is pending, Flint retries automatically either way.
+    /** Whether sending this delivery again without changing your endpoint is likely to succeed. Present only when this attempt's `status` is `failed`. While the delivery is pending, Flint retries automatically either way.
      * @return ?bool
      */
     public function getRetryable(): ?bool { return $this->get('retryable'); }
@@ -102,32 +102,32 @@ final class ResourceTimelineEntriesItemWebhookDeliveryAttempt extends Model {
      */
     public function getStartedAt(): ?string { return $this->get('started_at'); }
     public function hasStartedAt(): bool { return $this->has('started_at'); }
-    /** Value enum: "delivered", "failed", "pending", "queued", "sending".
+    /** Outcome of this individual delivery attempt. Value enum: "pending", "delivered", "failed".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Format: int32.
+    /** HTTP status code the endpoint returned. Format: int32.
      * @return ?int
      */
     public function getStatusCode(): ?int { return $this->get('status_code'); }
     public function hasStatusCode(): bool { return $this->has('status_code'); }
-    /** webhook_delivery_attempt_id
+    /** ID of the delivery attempt.
      * @return string
      */
     public function getWebhookDeliveryAttemptId(): string { return $this->get('webhook_delivery_attempt_id'); }
     public function hasWebhookDeliveryAttemptId(): bool { return $this->has('webhook_delivery_attempt_id'); }
-    /** webhook_delivery_id
+    /** ID of the delivery the attempt belongs to.
      * @return string
      */
     public function getWebhookDeliveryId(): string { return $this->get('webhook_delivery_id'); }
     public function hasWebhookDeliveryId(): bool { return $this->has('webhook_delivery_id'); }
-    /** webhook_endpoint_id
+    /** ID of the endpoint the delivery goes to.
      * @return string
      */
     public function getWebhookEndpointId(): string { return $this->get('webhook_endpoint_id'); }
     public function hasWebhookEndpointId(): bool { return $this->has('webhook_endpoint_id'); }
-    /** webhook_event_id
+    /** ID of the event being delivered.
      * @return string
      */
     public function getWebhookEventId(): string { return $this->get('webhook_event_id'); }

@@ -1,0 +1,1 @@
+{"shared":"SubscriptionEndAfterCyclesRequest","phpRepresentation":{"kind":"record","fields":{"cycle_count":{"kind":"value","type":"int"},"type":{"kind":"value","type":"string"}}},"dependencies":["SubscriptionEndAfterCyclesRequest"]}

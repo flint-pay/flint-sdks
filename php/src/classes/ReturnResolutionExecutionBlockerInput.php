@@ -15,13 +15,13 @@ final class ReturnResolutionExecutionBlockerInput extends Model {
      */
     public function getCode(): string { return $this->get('code'); }
     public function hasCode(): bool { return $this->has('code'); }
-    /** A reference to another resource by `resource_type` and `resource_id`.
+    /** The resource the blocker waits on, such as a Refund or the replacement Order. A reference to another resource by `resource_type` and `resource_id`.
      * @return ResourceReferenceInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When linked_resource is omitted; use hasLinkedResource() or valueOrDefault().
      */
     public function getLinkedResource(): mixed { return $this->get('linked_resource'); }
     public function hasLinkedResource(): bool { return $this->has('linked_resource'); }
-    /** return_line_item_id
+    /** ID of the Return line the blocker gates. Absent when it applies to the whole resolution. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
      * @return string
      * @throws SdkError When return_line_item_id is omitted; use hasReturnLineItemId() or valueOrDefault().
      */

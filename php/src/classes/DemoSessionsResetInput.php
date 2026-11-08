@@ -8,9 +8,9 @@ namespace Flint;
  * @property-read array{'template'?: string}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class DemoSessionsResetInput extends Model {
-    /** @param array{'demo_session_id': string, 'Flint-Challenge-Token': string, 'body': array{'template'?: string}|object}|object $values */
+    /** @param array{'demo_session_id': string, 'Flint-Challenge-Token': string, 'body'?: array{'template'?: string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DemoSessionsResetInput')); }
-    /** The active or provisioning demo session to reset for this client. Example: "demo_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** The active or provisioning demo session to reset for this client. Example: "demo_01KEZF7C001S0675NAS5BPBS0V".
      * @return string
      * @throws SdkError When demo_session_id is omitted; use hasDemoSessionId() or valueOrDefault().
      */

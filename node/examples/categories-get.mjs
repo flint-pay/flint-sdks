@@ -5,7 +5,7 @@ const client = new Client({
   allowInsecureHttp: !!baseUrl && ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
 });
 const result = await client.categories.get(
-  "ctg_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "ctg_01KEZF7C001T4WWBPVGWRZD88Q"
 );
 console.log(result.category_id);
-console.log(result.status);
+console.log(result.merchant_id);

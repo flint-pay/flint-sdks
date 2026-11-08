@@ -18,22 +18,22 @@ final class TippingSettings extends Model {
      */
     public function getCustomTipEnabled(): ?bool { return $this->get('custom_tip_enabled'); }
     public function hasCustomTipEnabled(): bool { return $this->has('custom_tip_enabled'); }
-    /** default_enabled
+    /** Whether hosted checkout offers tips when a checkout session or payment link doesn't set its own `tip`. Defaults to false.
      * @return ?bool
      */
     public function getDefaultEnabled(): ?bool { return $this->get('default_enabled'); }
     public function hasDefaultEnabled(): bool { return $this->has('default_enabled'); }
-    /** Replaced as a whole: send every field you want to keep. The preselected fixed tip. Its amount and currency must match one of the effective smart_tip_money_options. Null means no preselection is set; effective settings use Flint's default. anyOf[1] (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[1].amount (Required): integer string. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1. Amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 0. anyOf[1].currency (Required): string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. anyOf[2] (Value): null.
+    /** Replaced as a whole: send every field you want to keep. The preselected fixed tip. Its amount and currency must match one of the effective smart_tip_money_options. `null` when no preselection is set; effective settings use Flint's default. anyOf[1] (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[1].amount (Required): integer string. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1. Amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 0. anyOf[1].currency (Required): string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getDefaultSmartTipMoney(): mixed { return $this->get('default_smart_tip_money'); }
     public function hasDefaultSmartTipMoney(): bool { return $this->has('default_smart_tip_money'); }
-    /** The preselected tip percent, from 1 through 100 with at most four decimal places. It must match one of the effective tip_percent_options. Null means no preselection is set; effective settings use Flint's default. minimum: 1. maximum: 100. multipleOf: 0.0001.
+    /** The preselected tip percent, from 1 through 100 with at most four decimal places. It must match one of the effective tip_percent_options. `null` when no preselection is set; effective settings use Flint's default. minimum: 1. maximum: 100. multipleOf: 0.0001.
      * @return float|null
      */
     public function getDefaultTipPercent(): float|null { return $this->get('default_tip_percent'); }
     public function hasDefaultTipPercent(): bool { return $this->has('default_tip_percent'); }
-    /** minItems: 3. maxItems: 3. [] (Value): {@see TippingSettingsSmartTipMoneyOptionsItem}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Three fixed tip amounts to offer. minItems: 3. maxItems: 3. [] (Value): {@see TippingSettingsSmartTipMoneyOptionsItem}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return ?list<TippingSettingsSmartTipMoneyOptionsItem>
      */
     public function getSmartTipMoneyOptions(): ?array { return $this->get('smart_tip_money_options'); }

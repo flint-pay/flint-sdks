@@ -22,5 +22,9 @@ Response model.
 
 Summary of the component's variant and its selected options. A summary of the variant that fills a bundle component: its names, SKU, selected options, and whether it is available for sale.
 
-Field definitions: [shared fields](BundleComponentVariantSummary.md#bundlecomponentvariantsummary).
+Field definitions: [shared fields](OrderResponse.md#orderresponsedataline_itemsbundle_componentsvariant).
+
+### BuyerReturnPreviewResponseDataResolutionEligibilityPolicyEvaluationLineItemsItemBundleComponentsItem.variant fields 1.selected_options[]
+
+Field definitions: [OrderResponse.data.line_items[].bundle_components[].variant.selected_options[]](../models/OrderResponse.md#orderresponsedataline_itemsbundle_componentsvariantselected_options).
 

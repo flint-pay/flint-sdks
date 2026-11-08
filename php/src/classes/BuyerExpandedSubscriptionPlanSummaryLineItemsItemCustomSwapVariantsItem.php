@@ -4,15 +4,16 @@ namespace Flint;
 /**
  * @property-read ?BuyerExpandedSubscriptionPlanSummaryLineItemsItemCustomSwapVariantsItemImage $image
  * @property-read string $name
+ * @property-read string $product_id
  * @property-read list<BuyerExpandedSubscriptionPlanSummaryLineItemsItemCustomSwapVariantsItemSelectedOptionsItem> $selected_options
  * @property-read ?string $sku
  * @property-read MoneyValue|null $unit_price_money
  * @property-read string $variant_id
  * Presence-aware response; omitted optional fields return null. */
 final class BuyerExpandedSubscriptionPlanSummaryLineItemsItemCustomSwapVariantsItem extends Model {
-    /** @param array{'image'?: mixed, 'name': string, 'selected_options': list<mixed>, 'sku'?: string, 'unit_price_money': mixed, 'variant_id': string, ...}|object $values */
+    /** @param array{'image'?: mixed, 'name': string, 'product_id': string, 'selected_options': list<mixed>, 'sku'?: string, 'unit_price_money': mixed, 'variant_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerExpandedSubscriptionPlanSummaryLineItemsItemCustomSwapVariantsItem')); }
-    /** An image with its `url`, `width`, and `height`, and optional `alt` text.
+    /** An image with its URL, size, and alt text.
      * @return ?BuyerExpandedSubscriptionPlanSummaryLineItemsItemCustomSwapVariantsItemImage
      */
     public function getImage(): ?BuyerExpandedSubscriptionPlanSummaryLineItemsItemCustomSwapVariantsItemImage { return $this->get('image'); }
@@ -22,6 +23,11 @@ final class BuyerExpandedSubscriptionPlanSummaryLineItemsItemCustomSwapVariantsI
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
+    /** Identifier of the product the offered swap variant belongs to. pattern: ^prod_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     */
+    public function getProductId(): string { return $this->get('product_id'); }
+    public function hasProductId(): bool { return $this->has('product_id'); }
     /**  [] (Value): {@see BuyerExpandedSubscriptionPlanSummaryLineItemsItemCustomSwapVariantsItemSelectedOptionsItem}. An option and value chosen for a product variant, such as size Large.
      * @return list<BuyerExpandedSubscriptionPlanSummaryLineItemsItemCustomSwapVariantsItemSelectedOptionsItem>
      */

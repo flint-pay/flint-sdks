@@ -10,17 +10,14 @@ The buyer's proposed resolution type, returned quantities, and replacement items
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `line_items` | Required | Array of [ReturnResolutionLineItemRequest](../models/ReturnResolutionLineItemRequest.md#returnresolutionlineitemrequest) | minItems: `1`. `line_items[]`: [field definitions](../models/BuyerCreateReturnResolutionPreviewRequest.md#buyercreatereturnresolutionpreviewrequestline_items). |
-| `replacement_line_items` | Optional | Array of [BuyerReturnReplacementLineItemRequest](../models/BuyerReturnReplacementLineItemRequest.md#buyerreturnreplacementlineitemrequest) |  |
+| `line_items` | Required | Array of [ReturnResolutionLineItemRequest](../models/ReturnResolutionLineItemRequest.md#returnresolutionlineitemrequest) | Return lines and quantities to cover, up to 100. Not allowed on a correction. minItems: `1`. `line_items[]`: [field definitions](../models/BuyerCreateReturnResolutionPreviewRequest.md#buyercreatereturnresolutionpreviewrequestline_items). |
+| `replacement_line_items` | Optional | Array of [BuyerReturnReplacementLineItemRequest](../models/BuyerReturnReplacementLineItemRequest.md#buyerreturnreplacementlineitemrequest) | Merchandise the buyer receives instead, up to 100. Send with `exchange` or `replacement`. |
 | `resolution_type` | Required | string | The proposed resolution type. For store_credit, send a nonempty line_items list and omit replacement_line_items. Values: `"refund"`, `"exchange"`, `"replacement"`, `"no_monetary_action"`, `"store_credit"`. |
-| `return_id` | Required | string | minLength: `1`. |
+| `return_id` | Required | string | ID of the Return the resolution is for. minLength: `1`. Example: `"ret_01KEZF7C00PG93650ZKVQNGF7X"`. |
 
 ### BuyerCreateReturnResolutionPreviewRequest.line_items[]
 
 A return line and quantity to include in a return resolution.
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
-| `return_line_item_id` | Required | string | minLength: `1`. |
+Field definitions: [shared fields](ReturnResolutionLineItemRequestInput.md#returnresolutionlineitemrequestinput).
 

@@ -13,7 +13,7 @@ final class DisputeResponseSessionClientSession extends Model {
      */
     public function getExpiresAt(): string { return $this->get('expires_at'); }
     public function hasExpiresAt(): bool { return $this->has('expires_at'); }
-    /** Stripe details for the embedded dispute response component: the publishable key, an account session, and the components to render.
+    /** What the browser needs to load Stripe's embedded dispute component. Stripe details for the embedded dispute response component: the publishable key, an account session, and the components to render.
      * @return DisputeResponseSessionStripe
      */
     public function getStripe(): DisputeResponseSessionStripe { return $this->get('stripe'); }

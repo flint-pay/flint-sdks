@@ -8,6 +8,6 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `delivered_at` | Optional | string | When the digital goods were delivered, in RFC3339 format. Format: `date-time`. |
+| `delivered_at` | Optional | string | When the digital goods were delivered, in RFC3339 format. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `delivery_url` | Optional | string | URL where the recipient can access the delivered digital goods. |
 

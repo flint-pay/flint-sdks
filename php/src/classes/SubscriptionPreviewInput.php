@@ -6,13 +6,11 @@ namespace Flint;
  * @property-read string $currency
  * @property-read list<SubscriptionDeliveryOptionInput|array<array-key, mixed>|\stdClass> $delivery_methods
  * @property-read AddressInput|array<array-key, mixed>|\stdClass $destination_address
- * @property-read list<SubscriptionPreviewErrorInput|array<array-key, mixed>|\stdClass> $errors
- * @property-read bool $is_valid
  * @property-read string $mode
  * @property-read string $subscription_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionPreviewInput extends Model {
-    /** @param array{'address_verification'?: SubscriptionAddressVerificationInput|array<array-key, mixed>|\stdClass, 'currency'?: string, 'delivery_methods'?: list<SubscriptionDeliveryOptionInput|array<array-key, mixed>|\stdClass>, 'destination_address'?: AddressInput|array<array-key, mixed>|\stdClass, 'errors'?: list<SubscriptionPreviewErrorInput|array<array-key, mixed>|\stdClass>, 'is_valid'?: bool, 'mode': string, 'subscription_id'?: string, ...}|object $values */
+    /** @param array{'address_verification'?: SubscriptionAddressVerificationInput|array<array-key, mixed>|\stdClass, 'currency'?: string, 'delivery_methods': list<SubscriptionDeliveryOptionInput|array<array-key, mixed>|\stdClass>, 'destination_address'?: AddressInput|array<array-key, mixed>|\stdClass, 'mode': string, 'subscription_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionPreviewInput')); }
     /** The verification state of a subscription's delivery address: `verified`, `unverified`, `needs_review`, or `unverifiable`.
      * @return SubscriptionAddressVerificationInput|array<array-key, mixed>|\stdClass
@@ -26,7 +24,7 @@ final class SubscriptionPreviewInput extends Model {
      */
     public function getCurrency(): string { return $this->get('currency'); }
     public function hasCurrency(): bool { return $this->has('currency'); }
-    /** Present in delivery_options mode ([] when no method applies); absent in create mode. [] (Value): {@see SubscriptionDeliveryOptionInput}. A delivery method offered for a subscription, with its availability, price, and the reason it is unavailable if it is.
+    /** Delivery methods available for the proposed destination. [] (Value): {@see SubscriptionDeliveryOptionInput}. A delivery method offered for a subscription, with its availability, price, and the reason it is unavailable if it is.
      * @return list<SubscriptionDeliveryOptionInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When delivery_methods is omitted; use hasDeliveryMethods() or valueOrDefault().
      */
@@ -38,25 +36,13 @@ final class SubscriptionPreviewInput extends Model {
      */
     public function getDestinationAddress(): mixed { return $this->get('destination_address'); }
     public function hasDestinationAddress(): bool { return $this->has('destination_address'); }
-    /** Present in create mode ([] when the subscription is valid); absent in delivery_options mode. [] (Value): {@see SubscriptionPreviewErrorInput}. An error found while previewing a subscription, with a `code`, message, and the parameter at fault.
-     * @return list<SubscriptionPreviewErrorInput|array<array-key, mixed>|\stdClass>
-     * @throws SdkError When errors is omitted; use hasErrors() or valueOrDefault().
-     */
-    public function getErrors(): array { return $this->get('errors'); }
-    public function hasErrors(): bool { return $this->has('errors'); }
-    /** Present in create mode; absent in delivery_options mode.
-     * @return bool
-     * @throws SdkError When is_valid is omitted; use hasIsValid() or valueOrDefault().
-     */
-    public function getIsValid(): bool { return $this->get('is_valid'); }
-    public function hasIsValid(): bool { return $this->has('is_valid'); }
-    /** Value enum: "create", "delivery_options".
+    /** Value enum: "delivery_options".
      * @return string
      * @throws SdkError When mode is omitted; use hasMode() or valueOrDefault().
      */
     public function getMode(): string { return $this->get('mode'); }
     public function hasMode(): bool { return $this->has('mode'); }
-    /** subscription_id
+    /** Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
      * @return string
      * @throws SdkError When subscription_id is omitted; use hasSubscriptionId() or valueOrDefault().
      */

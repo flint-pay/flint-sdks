@@ -2,7 +2,7 @@
 
 ## InventoryReservationResult
 
-inventory_reservation is the primary resource and expected_version target. Stock-moving transitions return this result instead of a resource alone.
+inventory_reservation is the primary resource and expected_version target. Stock-moving actions return this result instead of a resource alone.
 
 
 
@@ -11,5 +11,5 @@ inventory_reservation is the primary resource and expected_version target. Stock
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `inventory_levels` | Required | Array of [InventoryLevel](../models/InventoryLevel.md#inventorylevel) | Post-commit state of every level this command touched, so no follow-up read is needed. A replay returns the levels the original command produced. |
-| `inventory_reservation` | Required | [InventoryReservation](../models/InventoryReservation.md#inventoryreservation) | A claim on stock. Quantity moves from held to committed to consumed, and can be released or reallocated. |
+| `inventory_reservation` | Required | [InventoryReservation](../models/InventoryReservation.md#inventoryreservation) | The inventory reservation. A claim on stock. Quantity moves from held to committed to consumed, and can be released or reallocated. |
 

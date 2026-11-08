@@ -8,7 +8,7 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.invoicePaymentTerms.delete(
-  "ipt_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "ipt_01KEZF7C0064N1V301BBMQ37R4",
   {},
   { idempotencyKey: idempotencyKey },
 );

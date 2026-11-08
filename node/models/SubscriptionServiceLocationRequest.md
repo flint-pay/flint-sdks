@@ -10,7 +10,7 @@
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `customer_address_id` | Conditional | string |  |
+| `customer_address_id` | Conditional | string | Example: `"caddr_01KEZF7C00K2Q127FBJAXWB0FP"`. |
 | `type` | Required | string |  |
 | `address` | Conditional | [AddressRequest](../models/AddressRequest.md#addressrequest) | A complete postal address. State and postal_code are required for US addresses and optional for other countries. Send null or omit line2, state, and postal_code when the address has none. |
 

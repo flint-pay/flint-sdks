@@ -2,6 +2,69 @@
 
 # partnerApps
 
+### partnerApps.acceptPlatformTerms
+
+Records that the authenticated credential accepted the current version of Flint's platform terms for the app: the signed-in user for a Dashboard session, or the API key. Flint also records the time, IP address and user agent. supported_actions lists accept_platform_terms while the current version isn't accepted. Accepting a version the app already accepted returns 409 ACTION_NOT_ALLOWED with reason already_applied. When this meets the app's last platform requirement, platform.status becomes pending_review in the same write and Flint sends partner_app.updated.
+
+`POST /v1/partner-apps/{partner_app_id}/accept-platform-terms`
+
+Signature: `acceptPlatformTerms(partner_app_id: InputValue<string>, params: PartnerAppsAcceptPlatformTermsParams, options?: RequestOptions<"merchant">)`
+
+#### Request fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `partner_app_id` | Required | string | Flint partner app ID. |
+| `body` | Required | [AcceptPartnerAppPlatformTermsRequestInput](../models/AcceptPartnerAppPlatformTermsRequest.md#acceptpartnerappplatformtermsrequest) | The request body for: Accept platform terms. |
+
+Body model: [AcceptPartnerAppPlatformTermsRequestInput](../models/AcceptPartnerAppPlatformTermsRequest.md#acceptpartnerappplatformtermsrequest).
+
+#### partnerApps.acceptPlatformTerms body fields
+
+Field definitions: [shared fields](../models/AcceptPartnerAppPlatformTermsRequest.md#acceptpartnerappplatformtermsrequest).
+
+#### Response
+
+Returned payload: [PartnerApp](../models/PartnerApp.md#partnerapp).
+
+#### Errors
+
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
+
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
+
+#### Example
+
+```typescript
+// Persist this key with the action before sending; reuse it for every resubmission.
+const idempotencyKey = crypto.randomUUID();
+
+const result = await client.partnerApps.acceptPlatformTerms("papp_01KEZF7C00Y8VMXYZ1GNPP3WHV", {expected_version: 1, platform_terms_version: "2026-11-01"}, { idempotencyKey: idempotencyKey });
+```
+
+[Complete runnable example](../examples/partnerApps-acceptPlatformTerms.mjs)
+
 ### partnerApps.create
 
 Creates a partner app owned by the authenticated merchant. A live API key or a live dashboard session is required.
@@ -27,6 +90,7 @@ Body model: [CreatePartnerAppRequestInput](../models/CreatePartnerAppRequest.md#
 | `default_requested_permissions` | Optional | Array of string | IDs of the permissions requested when an authorization request sends no scope. Each must be in permission_manifest. Defaults to every permission that isn't optional. Items: minLength: `1`. |
 | `name` | Required | string | The app's name, shown to merchants on the consent screen. minLength: `1`. |
 | `permission_manifest` | Required | Array of [PartnerAppPermissionManifestEntryRequestInput](../models/PartnerAppPermissionManifestEntryRequestInput.md#partnerapppermissionmanifestentryrequestinput) | Permissions the app can request from merchants. At least one is required. Each lists the Flint scopes it grants. |
+| `platform_profile` | Optional | [PartnerAppPlatformProfileRequestInput](../models/PartnerAppPlatformProfileRequestInput.md#partnerappplatformprofilerequestinput) | The platform profile Flint reviews before it approves the app as a platform. Optional; set it now or later with PATCH. The whole platform profile. Every field is required except support_phone, and a write replaces the profile whole. |
 | `redirect_uris` | Required | Array of string | Redirect URIs the app can use after authorization. Each must be an absolute HTTPS URL, or HTTP on localhost or a loopback address, with no fragment. At least one is required. Items: minLength: `1`. |
 
 #### Response
@@ -42,7 +106,6 @@ Returned payload: [PartnerAppWithSecret](../models/PartnerAppWithSecret.md#partn
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -67,7 +130,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.partnerApps.create({default_requested_permissions: ["manage_orders"], name: "Acme Commerce Plugin", permission_manifest: [{description: "Read and update Flint orders for installed merchants.", permission_id: "manage_orders", required_scopes: ["commerce.orders.read", "commerce.orders.write"], title: "Manage orders"}, {description: "Read and update customer records for installed merchants.", optional: true, permission_id: "manage_customers", required_scopes: ["customers.read", "customers.write"], title: "Manage customers"}, {description: "Read product, variant, bundle, and SKU lookup catalog records.", optional: true, permission_id: "read_catalog", required_scopes: ["commerce.products.read", "commerce.bundles.read", "commerce.catalog.read"], title: "Read catalog"}, {description: "Create and update bundle catalog records for installed merchants.", optional: true, permission_id: "manage_bundles", required_scopes: ["commerce.bundles.write"], title: "Manage bundles"}], redirect_uris: ["https://plugins.acme.com/flint/oauth/callback", "http://localhost:3000/flint/oauth/callback"]}, { idempotencyKey: idempotencyKey });
+const result = await client.partnerApps.create({name: "example", permission_manifest: [], redirect_uris: []}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/partnerApps-create.mjs)
@@ -120,7 +183,6 @@ Returned payload: [PartnerAppCredential](../models/PartnerAppCredential.md#partn
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -146,7 +208,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.partnerApps.createCredential("papp_01ARZ3NDEKTSV4RRFFQ69G5FAV", {name: "Production signing key", public_key: {jwk: {crv: "P-256", kid: "production-key", kty: "EC", x: "axfR8uEsQkf4vOblY6RA8ncDfYEt6zOg9KE5RdiYwpY", y: "T-NC4v4af5uO5-tKfA-eFivOM1drMV7Oy7ZAaDe_UfU"}}, type: "public_key"}, { idempotencyKey: idempotencyKey });
+const result = await client.partnerApps.createCredential("papp_01KEZF7C00Y8VMXYZ1GNPP3WHV", {name: "Production signing key", public_key: {jwk: {crv: "P-256", kid: "production-key", kty: "EC", x: "axfR8uEsQkf4vOblY6RA8ncDfYEt6zOg9KE5RdiYwpY", y: "T-NC4v4af5uO5-tKfA-eFivOM1drMV7Oy7ZAaDe_UfU"}}, type: "public_key"}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/partnerApps-createCredential.mjs)
@@ -179,7 +241,6 @@ Returned payload: [PartnerApp](../models/PartnerApp.md#partnerapp).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -202,7 +263,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.partnerApps.delete("papp_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey });
+const result = await client.partnerApps.delete("papp_01KEZF7C00Y8VMXYZ1GNPP3WHV", {}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/partnerApps-delete.mjs)
@@ -242,7 +303,6 @@ Returned payload: [PartnerAppCredential](../models/PartnerAppCredential.md#partn
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -265,7 +325,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.partnerApps.deleteCredential("papp_01ARZ3NDEKTSV4RRFFQ69G5FAV", "pacr_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey });
+const result = await client.partnerApps.deleteCredential("papp_01KEZF7C00Y8VMXYZ1GNPP3WHV", "pacr_01KEZF7C005RDK44XFG5WF94BB", {}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/partnerApps-deleteCredential.mjs)
@@ -296,7 +356,6 @@ Returned payload: [PartnerApp](../models/PartnerApp.md#partnerapp).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -314,7 +373,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```typescript
-const result = await client.partnerApps.get("papp_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
+const result = await client.partnerApps.get("papp_01KEZF7C00Y8VMXYZ1GNPP3WHV", {}, {  });
 ```
 
 [Complete runnable example](../examples/partnerApps-get.mjs)
@@ -353,7 +412,6 @@ Returned payload: [PartnerAppCredential](../models/PartnerAppCredential.md#partn
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -371,14 +429,14 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```typescript
-const result = await client.partnerApps.getCredential("papp_01ARZ3NDEKTSV4RRFFQ69G5FAV", "pacr_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
+const result = await client.partnerApps.getCredential("papp_01KEZF7C00Y8VMXYZ1GNPP3WHV", "pacr_01KEZF7C005RDK44XFG5WF94BB", {}, {  });
 ```
 
 [Complete runnable example](../examples/partnerApps-getCredential.mjs)
 
 ### partnerApps.getInstall
 
-Returns a single install for the installing merchant or the partner app owner.
+Returns a single install for the installing merchant or the partner app owner. For the app’s owner, each active grant that can read the merchant profile carries `merchant_readiness`, the installed merchant’s payments and payouts readiness in that environment.
 
 `GET /v1/partner-apps/{partner_app_id}/installs/{partner_app_install_id}`
 
@@ -410,7 +468,6 @@ Returned payload: [PartnerAppInstall](../models/PartnerAppInstall.md#partnerappi
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -428,7 +485,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```typescript
-const result = await client.partnerApps.getInstall("papp_01ARZ3NDEKTSV4RRFFQ69G5FAV", "pinst_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
+const result = await client.partnerApps.getInstall("papp_01KEZF7C00Y8VMXYZ1GNPP3WHV", "pinst_01KEZF7C003HVKZR3GZAW6AFAZ", {}, {  });
 ```
 
 [Complete runnable example](../examples/partnerApps-getInstall.mjs)
@@ -446,8 +503,8 @@ Signature: `list(params?: PartnerAppsListParams, options?: _SdkWithoutIdempotenc
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
-| `status` | Optional | Array of string or string | Filter by status. Repeat the parameter or send comma-separated values to match any of several. Omitted, the list leaves out archived rows; name archived to include them. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"archived"`. Values: `"active"`, `"archived"`. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
+| `status` | Optional | Array of string or string | Filter by status. Omitted, the list leaves out archived rows; name archived to include them. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"archived"`. Values: `"active"`, `"archived"`. |
 
 #### Response
 
@@ -461,7 +518,6 @@ Returned payload: [PartnerAppListResponse](../models/PartnerAppListResponse.md#p
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -506,7 +562,7 @@ listCredentials(partner_app_id: InputValue<string>,
 | --- | --- | --- | --- |
 | `partner_app_id` | Required | string | Flint partner app ID. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 
 #### Response
 
@@ -520,7 +576,6 @@ Returned payload: [PartnerAppCredentialListResponse](../models/PartnerAppCredent
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -540,14 +595,14 @@ Pagination: `listCredentialsItems`, `listCredentialsPages`. [Canonical paginatio
 #### Example
 
 ```typescript
-const result = await client.partnerApps.listCredentials("papp_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
+const result = await client.partnerApps.listCredentials("papp_01KEZF7C00Y8VMXYZ1GNPP3WHV", {}, {  });
 ```
 
 [Complete runnable example](../examples/partnerApps-listCredentials.mjs)
 
 ### partnerApps.listInstalls
 
-Returns installs for a partner app owned by the authenticated merchant. Default order: partner_app_install_id ascending; this key uniquely orders the results.
+Returns installs for a partner app owned by the authenticated merchant. Each active grant that can read the merchant profile carries `merchant_readiness`: whether the installed merchant can take payments and receive payouts in that environment, and how many requirements are due. Use it to find merchants who still need to finish onboarding without exchanging each install’s token. Default order: partner_app_install_id ascending; this key uniquely orders the results.
 
 `GET /v1/partner-apps/{partner_app_id}/installs`
 
@@ -565,9 +620,9 @@ listInstalls(partner_app_id: InputValue<string>,
 | --- | --- | --- | --- |
 | `partner_app_id` | Required | string | Flint partner app ID. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `merchant_id` | Optional | string | Filter by installed merchant ID. |
-| `status` | Optional | Array of string or string | Filter by install status. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"pending_exchange"`, `"active"`, `"revoked"`. Values: `"pending_exchange"`, `"active"`, `"revoked"`. |
+| `status` | Optional | Array of string or string | Filter by install status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"pending_exchange"`, `"active"`, `"revoked"`. Values: `"pending_exchange"`, `"active"`, `"revoked"`. |
 
 #### Response
 
@@ -581,7 +636,6 @@ Returned payload: [PartnerAppInstallListResponse](../models/PartnerAppInstallLis
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -601,14 +655,14 @@ Pagination: `listInstallsItems`, `listInstallsPages`. [Canonical pagination exam
 #### Example
 
 ```typescript
-const result = await client.partnerApps.listInstalls("papp_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
+const result = await client.partnerApps.listInstalls("papp_01KEZF7C00Y8VMXYZ1GNPP3WHV", {}, {  });
 ```
 
 [Complete runnable example](../examples/partnerApps-listInstalls.mjs)
 
 ### partnerApps.revokeEnvironmentGrant
 
-The installing merchant or partner app owner can revoke a single test or live environment grant for an install.
+The installing merchant or partner app owner can revoke a single test or live environment grant for an install. This revokes linked API keys and deletes linked webhook endpoints in that environment. Revoking the last grant also revokes the install and ends its remaining links. Unlinked keys and endpoints keep working.
 
 `POST /v1/partner-apps/{partner_app_id}/installs/{partner_app_install_id}/environment-grants/{environment_grant_id}/revoke`
 
@@ -632,7 +686,7 @@ revokeEnvironmentGrant(partner_app_id: InputValue<string>,
 
 #### Response
 
-Returned payload: [PartnerAppInstall](../models/PartnerAppInstall.md#partnerappinstall).
+Returned payload: [PartnerAppInstallWithEndedAccess](../models/PartnerAppInstallWithEndedAccess.md#partnerappinstallwithendedaccess).
 
 #### Errors
 
@@ -643,7 +697,6 @@ Returned payload: [PartnerAppInstall](../models/PartnerAppInstall.md#partnerappi
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -666,14 +719,14 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.partnerApps.revokeEnvironmentGrant("papp_01ARZ3NDEKTSV4RRFFQ69G5FAV", "pinst_01ARZ3NDEKTSV4RRFFQ69G5FAV", "egrt_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey });
+const result = await client.partnerApps.revokeEnvironmentGrant("papp_01KEZF7C00Y8VMXYZ1GNPP3WHV", "pinst_01KEZF7C003HVKZR3GZAW6AFAZ", "egrt_01KEZF7C00MQQDDB7YWGXV3MXY", {}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/partnerApps-revokeEnvironmentGrant.mjs)
 
 ### partnerApps.revokeInstall
 
-The installing merchant or partner app owner can revoke an install and all of its environment grants.
+The installing merchant or partner app owner can revoke an install and all of its environment grants. This also revokes linked API keys and deletes linked webhook endpoints. Unlinked keys and endpoints keep working. Reinstalling does not restore ended access.
 
 `POST /v1/partner-apps/{partner_app_id}/installs/{partner_app_install_id}/revoke`
 
@@ -695,7 +748,7 @@ revokeInstall(partner_app_id: InputValue<string>,
 
 #### Response
 
-Returned payload: [PartnerAppInstall](../models/PartnerAppInstall.md#partnerappinstall).
+Returned payload: [PartnerAppInstallWithEndedAccess](../models/PartnerAppInstallWithEndedAccess.md#partnerappinstallwithendedaccess).
 
 #### Errors
 
@@ -706,7 +759,6 @@ Returned payload: [PartnerAppInstall](../models/PartnerAppInstall.md#partnerappi
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -729,14 +781,14 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.partnerApps.revokeInstall("papp_01ARZ3NDEKTSV4RRFFQ69G5FAV", "pinst_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey });
+const result = await client.partnerApps.revokeInstall("papp_01KEZF7C00Y8VMXYZ1GNPP3WHV", "pinst_01KEZF7C003HVKZR3GZAW6AFAZ", {}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/partnerApps-revokeInstall.mjs)
 
 ### partnerApps.rotateSecret
 
-Issues a new client secret, returned once. The previous secret keeps working until previous_secret_expires_at: 24 hours by default, or the time in expire_previous_secret_at, up to 7 days. Send a time at or before now to stop the previous secret immediately, for example when it leaked. Rotating again during an overlap ends the older secret at once.
+Rotates an existing client secret, returned once. An app without a secret returns 409 ACTION_NOT_ALLOWED with reason secret_not_issued. Issue its first secret with PATCH /v1/partner-apps/{partner_app_id} and client_secret_enabled: true. The previous secret keeps working until previous_secret_expires_at: 24 hours by default, or the time in expire_previous_secret_at, up to 7 days. Send a time at or before now to stop the previous secret immediately, for example when it leaked. Rotating again during an overlap ends the older secret at once.
 
 `POST /v1/partner-apps/{partner_app_id}/rotate-secret`
 
@@ -753,7 +805,10 @@ Body model: [RotatePartnerAppSecretRequestInput](../models/RotatePartnerAppSecre
 
 #### partnerApps.rotateSecret body fields
 
-Field definitions: [shared fields](../models/RotatePartnerAppSecretRequestInput.md#rotatepartnerappsecretrequestinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `expected_version` | Optional | integer | Rotate only if this matches the app's current version. A mismatch returns HTTP 409 VERSION_CONFLICT. Format: `uint64`. minimum: `1`. |
+| `expire_previous_secret_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. minLength: `1`. |
 
 #### Response
 
@@ -768,7 +823,6 @@ Returned payload: [PartnerAppWithRotatedSecret](../models/PartnerAppWithRotatedS
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -793,14 +847,14 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.partnerApps.rotateSecret("papp_01ARZ3NDEKTSV4RRFFQ69G5FAV", undefined, { idempotencyKey: idempotencyKey });
+const result = await client.partnerApps.rotateSecret("papp_01KEZF7C00Y8VMXYZ1GNPP3WHV", undefined, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/partnerApps-rotateSecret.mjs)
 
 ### partnerApps.update
 
-Updates a partner app owned by the authenticated merchant. Send only the fields to change. permission_manifest replaces the whole manifest and requires expected_version. An existing permission can drop scopes but not gain them; removing or narrowing a permission narrows existing environment grants immediately, and tokens issued with the removed scopes stop working. Adding a permission changes no install until the merchant authorizes again.
+Updates a partner app owned by the authenticated merchant. Send only the fields to change. permission_manifest replaces the whole manifest and requires expected_version. An existing permission can drop scopes but not gain them; removing or narrowing a permission narrows existing environment grants immediately, and tokens issued with the removed scopes stop working. Adding a permission changes no install until the merchant authorizes again. Setting client_secret_enabled to true issues a first secret when secret authentication is disabled; only this response and its same-credential idempotent replay return that secret. Setting false ends current and previous secrets immediately. A Dashboard session needs fresh identity verification to enable secret authentication, including on replay.
 
 `PATCH /v1/partner-apps/{partner_app_id}`
 
@@ -820,12 +874,13 @@ Body model: [UpdatePartnerAppRequestInput](../models/UpdatePartnerAppRequest.md#
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `api_version` | Optional | string | minLength: `1`. |
-| `client_secret_enabled` | Optional | boolean |  |
+| `client_secret_enabled` | Optional | boolean | Set true to issue a client secret when secret authentication is disabled. The response returns the secret once; setting true when already enabled does not rotate or reveal it. Set false to end current and previous secrets immediately. |
 | `default_requested_permissions` | Optional | Array of string | Replaces the default requested permission IDs. Each ID must exist in the manifest. Items: minLength: `1`. |
 | `expected_api_version` | Optional | string | Apply api_version only if this matches the resource's current api_version. A mismatch returns HTTP 409. Requires api_version; null is not accepted. minLength: `1`. |
 | `expected_version` | Optional | integer | Apply only if this matches the app’s current version. Required with permission_manifest; a mismatch returns HTTP 409 VERSION_CONFLICT. Format: `uint64`. minimum: `1`. |
 | `name` | Optional | string | minLength: `1`. |
 | `permission_manifest` | Optional | Array of [PartnerAppPermissionManifestEntryRequestInput](../models/PartnerAppPermissionManifestEntryRequestInput.md#partnerapppermissionmanifestentryrequestinput) | Replaces the whole manifest. Existing permissions can drop scopes but cannot gain them; existing grants narrow immediately. Requires expected_version. |
+| `platform_profile` | Optional | [PartnerAppPlatformProfileRequestInput](../models/PartnerAppPlatformProfileRequestInput.md#partnerappplatformprofilerequestinput) or null | Replaces the whole platform profile, which Flint reviews before it approves the app as a platform. Every field is validated together. Send null to remove it while platform.status is not_started; afterwards null returns 400 INVALID_REQUEST with detail NOT_ALLOWED, and edits are recorded for Flint's review without changing platform.status. An unchanged profile changes nothing. |
 | `redirect_uris` | Optional | Array of string | Replaces the entire list of registered redirect URIs. Items: minLength: `1`. |
 
 Fields: [partnerApps.update body fields](#partnerappsupdate-body-fields).
@@ -837,12 +892,13 @@ Fields: [partnerApps.update body fields](#partnerappsupdate-body-fields).
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `api_version` | Optional | string | minLength: `1`. |
-| `client_secret_enabled` | Required | boolean |  |
+| `client_secret_enabled` | Required | boolean | Set true to issue a client secret when secret authentication is disabled. The response returns the secret once; setting true when already enabled does not rotate or reveal it. Set false to end current and previous secrets immediately. |
 | `default_requested_permissions` | Optional | Array of string | Replaces the default requested permission IDs. Each ID must exist in the manifest. Items: minLength: `1`. |
 | `expected_api_version` | Optional | string | Apply api_version only if this matches the resource's current api_version. A mismatch returns HTTP 409. Requires api_version; null is not accepted. minLength: `1`. |
 | `expected_version` | Optional | integer | Apply only if this matches the app’s current version. Required with permission_manifest; a mismatch returns HTTP 409 VERSION_CONFLICT. Format: `uint64`. minimum: `1`. |
 | `name` | Optional | string | minLength: `1`. |
 | `permission_manifest` | Optional | Array of [PartnerAppPermissionManifestEntryRequestInput](../models/PartnerAppPermissionManifestEntryRequestInput.md#partnerapppermissionmanifestentryrequestinput) | Replaces the whole manifest. Existing permissions can drop scopes but cannot gain them; existing grants narrow immediately. Requires expected_version. |
+| `platform_profile` | Optional | [PartnerAppPlatformProfileRequestInput](../models/PartnerAppPlatformProfileRequestInput.md#partnerappplatformprofilerequestinput) or null | Replaces the whole platform profile, which Flint reviews before it approves the app as a platform. Every field is validated together. Send null to remove it while platform.status is not_started; afterwards null returns 400 INVALID_REQUEST with detail NOT_ALLOWED, and edits are recorded for Flint's review without changing platform.status. An unchanged profile changes nothing. |
 | `redirect_uris` | Optional | Array of string | Replaces the entire list of registered redirect URIs. Items: minLength: `1`. |
 
 #### partnerApps.update: variant 2
@@ -852,12 +908,13 @@ Fields: [partnerApps.update body fields](#partnerappsupdate-body-fields).
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `api_version` | Optional | string | minLength: `1`. |
-| `client_secret_enabled` | Optional | boolean |  |
+| `client_secret_enabled` | Optional | boolean | Set true to issue a client secret when secret authentication is disabled. The response returns the secret once; setting true when already enabled does not rotate or reveal it. Set false to end current and previous secrets immediately. |
 | `default_requested_permissions` | Optional | Array of string | Replaces the default requested permission IDs. Each ID must exist in the manifest. Items: minLength: `1`. |
 | `expected_api_version` | Optional | string | Apply api_version only if this matches the resource's current api_version. A mismatch returns HTTP 409. Requires api_version; null is not accepted. minLength: `1`. |
 | `expected_version` | Optional | integer | Apply only if this matches the app’s current version. Required with permission_manifest; a mismatch returns HTTP 409 VERSION_CONFLICT. Format: `uint64`. minimum: `1`. |
 | `name` | Required | string | minLength: `1`. |
 | `permission_manifest` | Optional | Array of [PartnerAppPermissionManifestEntryRequestInput](../models/PartnerAppPermissionManifestEntryRequestInput.md#partnerapppermissionmanifestentryrequestinput) | Replaces the whole manifest. Existing permissions can drop scopes but cannot gain them; existing grants narrow immediately. Requires expected_version. |
+| `platform_profile` | Optional | [PartnerAppPlatformProfileRequestInput](../models/PartnerAppPlatformProfileRequestInput.md#partnerappplatformprofilerequestinput) or null | Replaces the whole platform profile, which Flint reviews before it approves the app as a platform. Every field is validated together. Send null to remove it while platform.status is not_started; afterwards null returns 400 INVALID_REQUEST with detail NOT_ALLOWED, and edits are recorded for Flint's review without changing platform.status. An unchanged profile changes nothing. |
 | `redirect_uris` | Optional | Array of string | Replaces the entire list of registered redirect URIs. Items: minLength: `1`. |
 
 #### partnerApps.update: variant 3
@@ -867,12 +924,13 @@ Fields: [partnerApps.update body fields](#partnerappsupdate-body-fields).
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `api_version` | Optional | string | minLength: `1`. |
-| `client_secret_enabled` | Optional | boolean |  |
+| `client_secret_enabled` | Optional | boolean | Set true to issue a client secret when secret authentication is disabled. The response returns the secret once; setting true when already enabled does not rotate or reveal it. Set false to end current and previous secrets immediately. |
 | `default_requested_permissions` | Optional | Array of string | Replaces the default requested permission IDs. Each ID must exist in the manifest. Items: minLength: `1`. |
 | `expected_api_version` | Optional | string | Apply api_version only if this matches the resource's current api_version. A mismatch returns HTTP 409. Requires api_version; null is not accepted. minLength: `1`. |
 | `expected_version` | Optional | integer | Apply only if this matches the app’s current version. Required with permission_manifest; a mismatch returns HTTP 409 VERSION_CONFLICT. Format: `uint64`. minimum: `1`. |
 | `name` | Optional | string | minLength: `1`. |
 | `permission_manifest` | Optional | Array of [PartnerAppPermissionManifestEntryRequestInput](../models/PartnerAppPermissionManifestEntryRequestInput.md#partnerapppermissionmanifestentryrequestinput) | Replaces the whole manifest. Existing permissions can drop scopes but cannot gain them; existing grants narrow immediately. Requires expected_version. |
+| `platform_profile` | Optional | [PartnerAppPlatformProfileRequestInput](../models/PartnerAppPlatformProfileRequestInput.md#partnerappplatformprofilerequestinput) or null | Replaces the whole platform profile, which Flint reviews before it approves the app as a platform. Every field is validated together. Send null to remove it while platform.status is not_started; afterwards null returns 400 INVALID_REQUEST with detail NOT_ALLOWED, and edits are recorded for Flint's review without changing platform.status. An unchanged profile changes nothing. |
 | `redirect_uris` | Required | Array of string | Replaces the entire list of registered redirect URIs. Items: minLength: `1`. |
 
 #### partnerApps.update: variant 4
@@ -882,12 +940,13 @@ Fields: [partnerApps.update body fields](#partnerappsupdate-body-fields).
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `api_version` | Optional | string | minLength: `1`. |
-| `client_secret_enabled` | Optional | boolean |  |
+| `client_secret_enabled` | Optional | boolean | Set true to issue a client secret when secret authentication is disabled. The response returns the secret once; setting true when already enabled does not rotate or reveal it. Set false to end current and previous secrets immediately. |
 | `default_requested_permissions` | Optional | Array of string | Replaces the default requested permission IDs. Each ID must exist in the manifest. Items: minLength: `1`. |
 | `expected_api_version` | Optional | string | Apply api_version only if this matches the resource's current api_version. A mismatch returns HTTP 409. Requires api_version; null is not accepted. minLength: `1`. |
 | `expected_version` | Optional | integer | Apply only if this matches the app’s current version. Required with permission_manifest; a mismatch returns HTTP 409 VERSION_CONFLICT. Format: `uint64`. minimum: `1`. |
 | `name` | Optional | string | minLength: `1`. |
 | `permission_manifest` | Required | Array of [PartnerAppPermissionManifestEntryRequestInput](../models/PartnerAppPermissionManifestEntryRequestInput.md#partnerapppermissionmanifestentryrequestinput) | Replaces the whole manifest. Existing permissions can drop scopes but cannot gain them; existing grants narrow immediately. Requires expected_version. |
+| `platform_profile` | Optional | [PartnerAppPlatformProfileRequestInput](../models/PartnerAppPlatformProfileRequestInput.md#partnerappplatformprofilerequestinput) or null | Replaces the whole platform profile, which Flint reviews before it approves the app as a platform. Every field is validated together. Send null to remove it while platform.status is not_started; afterwards null returns 400 INVALID_REQUEST with detail NOT_ALLOWED, and edits are recorded for Flint's review without changing platform.status. An unchanged profile changes nothing. |
 | `redirect_uris` | Optional | Array of string | Replaces the entire list of registered redirect URIs. Items: minLength: `1`. |
 
 #### partnerApps.update: variant 5
@@ -897,12 +956,13 @@ Fields: [partnerApps.update body fields](#partnerappsupdate-body-fields).
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `api_version` | Optional | string | minLength: `1`. |
-| `client_secret_enabled` | Optional | boolean |  |
+| `client_secret_enabled` | Optional | boolean | Set true to issue a client secret when secret authentication is disabled. The response returns the secret once; setting true when already enabled does not rotate or reveal it. Set false to end current and previous secrets immediately. |
 | `default_requested_permissions` | Required | Array of string | Replaces the default requested permission IDs. Each ID must exist in the manifest. Items: minLength: `1`. |
 | `expected_api_version` | Optional | string | Apply api_version only if this matches the resource's current api_version. A mismatch returns HTTP 409. Requires api_version; null is not accepted. minLength: `1`. |
 | `expected_version` | Optional | integer | Apply only if this matches the app’s current version. Required with permission_manifest; a mismatch returns HTTP 409 VERSION_CONFLICT. Format: `uint64`. minimum: `1`. |
 | `name` | Optional | string | minLength: `1`. |
 | `permission_manifest` | Optional | Array of [PartnerAppPermissionManifestEntryRequestInput](../models/PartnerAppPermissionManifestEntryRequestInput.md#partnerapppermissionmanifestentryrequestinput) | Replaces the whole manifest. Existing permissions can drop scopes but cannot gain them; existing grants narrow immediately. Requires expected_version. |
+| `platform_profile` | Optional | [PartnerAppPlatformProfileRequestInput](../models/PartnerAppPlatformProfileRequestInput.md#partnerappplatformprofilerequestinput) or null | Replaces the whole platform profile, which Flint reviews before it approves the app as a platform. Every field is validated together. Send null to remove it while platform.status is not_started; afterwards null returns 400 INVALID_REQUEST with detail NOT_ALLOWED, and edits are recorded for Flint's review without changing platform.status. An unchanged profile changes nothing. |
 | `redirect_uris` | Optional | Array of string | Replaces the entire list of registered redirect URIs. Items: minLength: `1`. |
 
 #### partnerApps.update: variant 6
@@ -912,17 +972,34 @@ Fields: [partnerApps.update body fields](#partnerappsupdate-body-fields).
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `api_version` | Required | string | minLength: `1`. |
-| `client_secret_enabled` | Optional | boolean |  |
+| `client_secret_enabled` | Optional | boolean | Set true to issue a client secret when secret authentication is disabled. The response returns the secret once; setting true when already enabled does not rotate or reveal it. Set false to end current and previous secrets immediately. |
 | `default_requested_permissions` | Optional | Array of string | Replaces the default requested permission IDs. Each ID must exist in the manifest. Items: minLength: `1`. |
 | `expected_api_version` | Optional | string | Apply api_version only if this matches the resource's current api_version. A mismatch returns HTTP 409. Requires api_version; null is not accepted. minLength: `1`. |
 | `expected_version` | Optional | integer | Apply only if this matches the app’s current version. Required with permission_manifest; a mismatch returns HTTP 409 VERSION_CONFLICT. Format: `uint64`. minimum: `1`. |
 | `name` | Optional | string | minLength: `1`. |
 | `permission_manifest` | Optional | Array of [PartnerAppPermissionManifestEntryRequestInput](../models/PartnerAppPermissionManifestEntryRequestInput.md#partnerapppermissionmanifestentryrequestinput) | Replaces the whole manifest. Existing permissions can drop scopes but cannot gain them; existing grants narrow immediately. Requires expected_version. |
+| `platform_profile` | Optional | [PartnerAppPlatformProfileRequestInput](../models/PartnerAppPlatformProfileRequestInput.md#partnerappplatformprofilerequestinput) or null | Replaces the whole platform profile, which Flint reviews before it approves the app as a platform. Every field is validated together. Send null to remove it while platform.status is not_started; afterwards null returns 400 INVALID_REQUEST with detail NOT_ALLOWED, and edits are recorded for Flint's review without changing platform.status. An unchanged profile changes nothing. |
+| `redirect_uris` | Optional | Array of string | Replaces the entire list of registered redirect URIs. Items: minLength: `1`. |
+
+#### partnerApps.update: variant 7
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `api_version` | Optional | string | minLength: `1`. |
+| `client_secret_enabled` | Optional | boolean | Set true to issue a client secret when secret authentication is disabled. The response returns the secret once; setting true when already enabled does not rotate or reveal it. Set false to end current and previous secrets immediately. |
+| `default_requested_permissions` | Optional | Array of string | Replaces the default requested permission IDs. Each ID must exist in the manifest. Items: minLength: `1`. |
+| `expected_api_version` | Optional | string | Apply api_version only if this matches the resource's current api_version. A mismatch returns HTTP 409. Requires api_version; null is not accepted. minLength: `1`. |
+| `expected_version` | Optional | integer | Apply only if this matches the app’s current version. Required with permission_manifest; a mismatch returns HTTP 409 VERSION_CONFLICT. Format: `uint64`. minimum: `1`. |
+| `name` | Optional | string | minLength: `1`. |
+| `permission_manifest` | Optional | Array of [PartnerAppPermissionManifestEntryRequestInput](../models/PartnerAppPermissionManifestEntryRequestInput.md#partnerapppermissionmanifestentryrequestinput) | Replaces the whole manifest. Existing permissions can drop scopes but cannot gain them; existing grants narrow immediately. Requires expected_version. |
+| `platform_profile` | Required | [PartnerAppPlatformProfileRequestInput](../models/PartnerAppPlatformProfileRequestInput.md#partnerappplatformprofilerequestinput) or null | Replaces the whole platform profile, which Flint reviews before it approves the app as a platform. Every field is validated together. Send null to remove it while platform.status is not_started; afterwards null returns 400 INVALID_REQUEST with detail NOT_ALLOWED, and edits are recorded for Flint's review without changing platform.status. An unchanged profile changes nothing. |
 | `redirect_uris` | Optional | Array of string | Replaces the entire list of registered redirect URIs. Items: minLength: `1`. |
 
 #### Response
 
-Returned payload: [PartnerApp](../models/PartnerApp.md#partnerapp).
+Returned payload: [PartnerAppWithSecret](../models/PartnerAppWithSecret.md#partnerappwithsecret).
 
 #### Errors
 
@@ -933,7 +1010,6 @@ Returned payload: [PartnerApp](../models/PartnerApp.md#partnerapp).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |

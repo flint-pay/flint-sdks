@@ -9,7 +9,7 @@ namespace Flint;
 final class PartnerAppInstallsRevokeInput extends Model {
     /** @param array{'partner_app_install_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PartnerAppInstallsRevokeInput')); }
-    /** Flint partner app install ID. Example: "pinst_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Flint partner app install ID. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
      * @return string
      * @throws SdkError When partner_app_install_id is omitted; use hasPartnerAppInstallId() or valueOrDefault().
      */

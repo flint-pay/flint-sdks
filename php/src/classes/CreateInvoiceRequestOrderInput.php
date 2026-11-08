@@ -13,7 +13,7 @@ namespace Flint;
  * @property-read InvoicePaymentDueRequestInput|array<array-key, mixed>|\stdClass $payment_due
  * @property-read string $po_number
  * @property-read CreateInvoiceQuickPayRequestInput|array<array-key, mixed>|\stdClass $quick_pay
- * @property-read string $recipient_email
+ * @property-read string|null $recipient_email
  * @property-read string $reference
  * @property-read AddressRequestInput|array<array-key, mixed>|\stdClass $remit_to_address
  * @property-read list<InvoiceScheduleEntryWriteInput|array<array-key, mixed>|\stdClass> $schedule_entries
@@ -22,7 +22,7 @@ namespace Flint;
  * @property-read string $type
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateInvoiceRequestOrderInput extends Model {
-    /** @param array{'cc_emails'?: list<string>, 'collection'?: InvoiceCollectionRequestInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'footer'?: string, 'issue'?: CreateInvoiceIssueRequestInput|array<array-key, mixed>|\stdClass, 'memo'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'order_id': string, 'payment_due'?: InvoicePaymentDueRequestInput|array<array-key, mixed>|\stdClass, 'po_number'?: string, 'quick_pay'?: CreateInvoiceQuickPayRequestInput|array<array-key, mixed>|\stdClass, 'recipient_email'?: string, 'reference'?: string, 'remit_to_address'?: AddressRequestInput|array<array-key, mixed>|\stdClass, 'schedule_entries'?: list<InvoiceScheduleEntryWriteInput|array<array-key, mixed>|\stdClass>, 'scheduled_issue_at'?: string|\DateTimeInterface|null, 'service_date'?: string, 'type': string}|object $values */
+    /** @param array{'cc_emails'?: list<string>, 'collection'?: InvoiceCollectionRequestInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'footer'?: string, 'issue'?: CreateInvoiceIssueRequestInput|array<array-key, mixed>|\stdClass, 'memo'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'order_id': string, 'payment_due'?: InvoicePaymentDueRequestInput|array<array-key, mixed>|\stdClass, 'po_number'?: string, 'quick_pay'?: CreateInvoiceQuickPayRequestInput|array<array-key, mixed>|\stdClass, 'recipient_email'?: string|null, 'reference'?: string, 'remit_to_address'?: AddressRequestInput|array<array-key, mixed>|\stdClass, 'schedule_entries'?: list<InvoiceScheduleEntryWriteInput|array<array-key, mixed>|\stdClass>, 'scheduled_issue_at'?: string|\DateTimeInterface|null, 'service_date'?: string, 'type': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateInvoiceRequestOrderInput')); }
     /** Additional addresses copied on the invoice email and every reminder. [] (Value): string. minLength: 1.
      * @return list<string>
@@ -36,7 +36,7 @@ final class CreateInvoiceRequestOrderInput extends Model {
      */
     public function getCollection(): mixed { return $this->get('collection'); }
     public function hasCollection(): bool { return $this->has('collection'); }
-    /** Caller-owned identifier for this resource in an external system. Use it as your sync key: it isn't printed on the invoice, and GET /v1/invoices filters on it by exact match. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. Use it as your sync key: it isn't printed on the invoice, and GET /v1/invoices filters on it by exact match. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
@@ -66,13 +66,13 @@ final class CreateInvoiceRequestOrderInput extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** The open order to bill. It must have no payments, refunds, or other active invoice. Send exactly one of order_id or quick_pay. minLength: 1.
+    /** The open order to bill. It must have no payments, refunds, or other active invoice. Send exactly one of order_id or quick_pay. minLength: 1. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** When the invoice is due. Omit it to use merchant_default. The invoice's payment_due object returns the resolved type, and you can send it back unchanged on update. Default: {"type":"merchant_default"}. When an invoice is due, used when creating or updating an invoice: no due date, a fixed time, payment terms, or a default.
+    /** When the invoice is due. Omit it to use merchant_default. The invoice's payment_due object returns the resolved type, and you can send it back unchanged on update. Default: {"type":"merchant_default"}. When an invoice is due, used when creating or updating an invoice: no due date, a calendar date, payment terms, or a default.
      * @return InvoicePaymentDueRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When payment_due is omitted; use hasPaymentDue() or valueOrDefault().
      */
@@ -90,11 +90,11 @@ final class CreateInvoiceRequestOrderInput extends Model {
      */
     public function getQuickPay(): mixed { return $this->get('quick_pay'); }
     public function hasQuickPay(): bool { return $this->has('quick_pay'); }
-    /** Where Flint emails the invoice and its reminders. Required at issue when delivery resolves to email, and when you schedule the issue. minLength: 1.
-     * @return string
+    /** Where Flint emails the invoice and its reminders. Defaults to the linked customer's email when omitted at creation. Send null to leave it unset at creation; PATCH null clears it. Required at issue when delivery resolves to email, and when you schedule the issue. minLength: 1.
+     * @return string|null
      * @throws SdkError When recipient_email is omitted; use hasRecipientEmail() or valueOrDefault().
      */
-    public function getRecipientEmail(): string { return $this->get('recipient_email'); }
+    public function getRecipientEmail(): string|null { return $this->get('recipient_email'); }
     public function hasRecipientEmail(): bool { return $this->has('recipient_email'); }
     /** Your reference for the invoice, printed on the invoice and PDF. Put the buyer's purchase order number in po_number instead. minLength: 1.
      * @return string
@@ -114,13 +114,13 @@ final class CreateInvoiceRequestOrderInput extends Model {
      */
     public function getScheduleEntries(): array { return $this->get('schedule_entries'); }
     public function hasScheduleEntries(): bool { return $this->has('schedule_entries'); }
-    /** When Flint issues and delivers this draft, as an RFC 3339 timestamp in the future. A scheduled issue delivers by email, so the draft needs recipient_email. Cannot be combined with issue. null is the same as omitting it. Format: date-time. minLength: 1.
+    /** When Flint issues and delivers this draft, as an RFC 3339 timestamp in the future. A scheduled issue delivers by email, so the draft needs recipient_email. Cannot be combined with issue. null is the same as omitting it. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface|null
      * @throws SdkError When scheduled_issue_at is omitted; use hasScheduledIssueAt() or valueOrDefault().
      */
     public function getScheduledIssueAt(): string|\DateTimeInterface|null { return $this->get('scheduled_issue_at'); }
     public function hasScheduledIssueAt(): bool { return $this->has('scheduled_issue_at'); }
-    /** The calendar date of the billed service, in YYYY-MM-DD format. The invoice and PDF print it as written, without timezone conversion. Format: date. minLength: 1.
+    /** The calendar date of the billed service, in YYYY-MM-DD format. The invoice and PDF print it as written, without timezone conversion. Format: date. minLength: 1. Example: "2026-08-02".
      * @return string
      * @throws SdkError When service_date is omitted; use hasServiceDate() or valueOrDefault().
      */

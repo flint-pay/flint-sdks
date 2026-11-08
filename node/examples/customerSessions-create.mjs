@@ -9,7 +9,9 @@ const idempotencyKey = crypto.randomUUID();
 
 const result = await client.customerSessions.create(
   {
-    customer_id: "cus_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+    customer_id: "cus_01KEZF7C003ACYXT6Q5EQZ78EE",
+    expires_in_seconds: 3600,
+    refresh_expires_in_seconds: 604800,
   },
   { idempotencyKey: idempotencyKey },
 );

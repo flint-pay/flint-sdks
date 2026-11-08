@@ -19,7 +19,7 @@ final class BuyerSubscriptionCancellationDetails extends Model {
      */
     public function getRequestedAt(): string { return $this->get('requested_at'); }
     public function hasRequestedAt(): bool { return $this->has('requested_at'); }
-    /** buyer: the buyer, in Flint's buyer account or with a customer session. merchant: a merchant credential, such as an API key or the dashboard. Value enum: "buyer", "merchant".
+    /** Who asked to cancel: buyer, merchant, or integration. Merchant credentials can set the attribution with initiated_by; customer sessions always record buyer. Value enum: "buyer", "merchant", "integration".
      * @return string
      */
     public function getRequestedBy(): string { return $this->get('requested_by'); }

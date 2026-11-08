@@ -28,13 +28,13 @@ final class WebhookDeliveryInput extends Model {
      */
     public function getAutomaticAttemptCount(): int { return $this->get('automatic_attempt_count'); }
     public function hasAutomaticAttemptCount(): bool { return $this->has('automatic_attempt_count'); }
-    /** When the delivery was created: when Flint prepared the event, or when you created it. Format: date-time.
+    /** When the delivery was created: when Flint prepared the event, or when you created it. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When delivered_at is omitted; use hasDeliveredAt() or valueOrDefault().
      */
@@ -52,7 +52,7 @@ final class WebhookDeliveryInput extends Model {
      */
     public function getErrorSummary(): string { return $this->get('error_summary'); }
     public function hasErrorSummary(): bool { return $this->has('error_summary'); }
-    /** Format: int32.
+    /** HTTP status returned by the receiver on the latest recorded attempt. Omitted when no HTTP response was received. Format: int32.
      * @return int
      * @throws SdkError When last_response_code is omitted; use hasLastResponseCode() or valueOrDefault().
      */
@@ -64,7 +64,7 @@ final class WebhookDeliveryInput extends Model {
      */
     public function getMaxAttempts(): int { return $this->get('max_attempts'); }
     public function hasMaxAttempts(): bool { return $this->has('max_attempts'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When next_retry_at is omitted; use hasNextRetryAt() or valueOrDefault().
      */
@@ -82,37 +82,37 @@ final class WebhookDeliveryInput extends Model {
      */
     public function getRetryable(): bool { return $this->get('retryable'); }
     public function hasRetryable(): bool { return $this->has('retryable'); }
-    /** Value enum: "pending", "delivered", "failed", "suppressed".
+    /** Current state of this endpoint delivery and its automatic retry schedule. Value enum: "pending", "delivered", "failed", "suppressed".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Why this delivery was suppressed. Present exactly when status is suppressed. Suppressed deliveries have no failure explanation. Value enum: "endpoint_inactive", "endpoint_deleted", "authorization_revoked", "scope_missing", "event_not_allowed".
+    /** Why this delivery was suppressed. Present exactly when status is suppressed. Suppressed deliveries have no failure explanation. Value enum: "endpoint_inactive", "endpoint_deleted", "authorization_revoked", "scope_missing", "event_not_allowed", "partner_app_install_revoked".
      * @return string
      * @throws SdkError When suppression_reason is omitted; use hasSuppressionReason() or valueOrDefault().
      */
     public function getSuppressionReason(): string { return $this->get('suppression_reason'); }
     public function hasSuppressionReason(): bool { return $this->has('suppression_reason'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */
     public function getUpdatedAt(): string|\DateTimeInterface { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** webhook_delivery_id
+    /** Unique identifier for this webhook delivery, prefixed `wdel_`. Example: "wdel_01KEZF7C001DWSNDCDZHCTBN0A".
      * @return string
      * @throws SdkError When webhook_delivery_id is omitted; use hasWebhookDeliveryId() or valueOrDefault().
      */
     public function getWebhookDeliveryId(): string { return $this->get('webhook_delivery_id'); }
     public function hasWebhookDeliveryId(): bool { return $this->has('webhook_delivery_id'); }
-    /** webhook_endpoint_id
+    /** ID of the receiving endpoint, retained even after the endpoint is deleted. Example: "whep_01KEZF7C006FXYTAJRZCGCBJTN".
      * @return string
      * @throws SdkError When webhook_endpoint_id is omitted; use hasWebhookEndpointId() or valueOrDefault().
      */
     public function getWebhookEndpointId(): string { return $this->get('webhook_endpoint_id'); }
     public function hasWebhookEndpointId(): bool { return $this->has('webhook_endpoint_id'); }
-    /** webhook_event_id
+    /** ID of the event this delivery sends. Example: "whev_01KEZF7C00362MS3HV970TRZGS".
      * @return string
      * @throws SdkError When webhook_event_id is omitted; use hasWebhookEventId() or valueOrDefault().
      */

@@ -11,27 +11,27 @@ namespace Flint;
 final class GiftCardPurchaseRestoration extends Model {
     /** @param array{'order_line_item_id': string, 'original_gift_card_id': string, 'original_gift_card_load_id': string, 'purchase_refund_allocation_id': string, 'unit_ordinal': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardPurchaseRestoration')); }
-    /** order_line_item_id
+    /** ID of the order line item that sold the gift card.
      * @return string
      */
     public function getOrderLineItemId(): string { return $this->get('order_line_item_id'); }
     public function hasOrderLineItemId(): bool { return $this->has('order_line_item_id'); }
-    /** original_gift_card_id
+    /** ID of the gift card the purchase first issued, whose value a purchase refund or reversal removed.
      * @return string
      */
     public function getOriginalGiftCardId(): string { return $this->get('original_gift_card_id'); }
     public function hasOriginalGiftCardId(): bool { return $this->has('original_gift_card_id'); }
-    /** original_gift_card_load_id
+    /** ID of the load on the original card that the refund or reversal removed value from.
      * @return string
      */
     public function getOriginalGiftCardLoadId(): string { return $this->get('original_gift_card_load_id'); }
     public function hasOriginalGiftCardLoadId(): bool { return $this->has('original_gift_card_load_id'); }
-    /** purchase_refund_allocation_id
+    /** ID of the purchase refund entry on the original load whose removed value this load restores.
      * @return string
      */
     public function getPurchaseRefundAllocationId(): string { return $this->get('purchase_refund_allocation_id'); }
     public function hasPurchaseRefundAllocationId(): bool { return $this->has('purchase_refund_allocation_id'); }
-    /** Format: int64.
+    /** Which unit of the line item's quantity the card was issued for, starting at 1. Format: int64.
      * @return int
      */
     public function getUnitOrdinal(): int { return $this->get('unit_ordinal'); }

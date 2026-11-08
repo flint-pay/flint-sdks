@@ -5,7 +5,7 @@ const client = new Client({
   allowInsecureHttp: !!baseUrl && ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
 });
 const result = await client.returnInspections.get(
-  "retins_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+  "retins_01KEZF7C00WPB0BR4WTT7CMSB8"
 );
 console.log(result.inspection_location_id);
 console.log(result.return_id);

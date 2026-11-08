@@ -1,13 +1,12 @@
-import { d4312 as c0 } from '../descriptors/data/181.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d1245 as c1 } from '../descriptors/data/58.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d6607 as c2 } from '../descriptors/data/311.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d6608 as c3, d6609 as c4, d6610 as c5, d6615 as c6, d6616 as c7, d6617 as c8, d6618 as c9, d6619 as c10, d6620 as c11, d6621 as c12, d6624 as c13 } from '../descriptors/data/312.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d6625 as c14, d6626 as c15, d6627 as c16 } from '../descriptors/data/313.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
-import { d1245 as d1245 } from '../descriptors/data/58.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import { d5556 as c0 } from '../descriptors/data/241.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d1305 as c1 } from '../descriptors/data/60.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d7914 as c2, d7916 as c3, d7918 as c4, d7920 as c5 } from '../descriptors/data/378.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d7925 as c6, d7926 as c7, d7927 as c8, d7928 as c9, d7929 as c10, d7930 as c11, d7931 as c12, d7934 as c13, d7935 as c14, d7936 as c15, d7937 as c16 } from '../descriptors/data/379.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d1305 as d1305 } from '../descriptors/data/60.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1245;
+const read = d1305;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["ReturnPolicyRevisionInputReturnable"]:c1(),["ReturnPolicyScope"]:c2(),["ReturnRestockingFeePolicy"]:c3(),["ReturnShippingPolicy"]:c4(),["ReturnWindow"]:c5(),["SharedCodec1195"]:c6(),["SharedCodec1196"]:c7(),["SharedCodec1197"]:c8(),["SharedCodec1198"]:c9(),["SharedCodec1199"]:c10(),["SharedCodec1200"]:c11(),["SharedCodec1201"]:c12(),["SharedCodec1204"]:c13(),["SharedCodec1205"]:c14(),["SharedCodec1206"]:c15(),["SharedCodec1207"]:c16()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["ReturnPolicyRevisionInputReturnable"]:c1(),["ReturnPolicyScopeRequest"]:c2(),["ReturnRestockingFeePolicyRequest"]:c3(),["ReturnShippingPolicyRequest"]:c4(),["ReturnWindowRequest"]:c5(),["SharedCodec1370"]:c6(),["SharedCodec1371"]:c7(),["SharedCodec1372"]:c8(),["SharedCodec1373"]:c9(),["SharedCodec1374"]:c10(),["SharedCodec1375"]:c11(),["SharedCodec1376"]:c12(),["SharedCodec1379"]:c13(),["SharedCodec1380"]:c14(),["SharedCodec1381"]:c15(),["SharedCodec1382"]:c16()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeReturnPolicyRevisionInputReturnable(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

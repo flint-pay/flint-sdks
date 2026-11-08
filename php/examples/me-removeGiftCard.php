@@ -19,7 +19,7 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->me->removeGiftCard('gc_01ARZ3NDEKTSV4RRFFQ69G5FAV', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->me->removeGiftCard('gc_01KEZF7C00RT1618WYBM1Y94CG', [], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->gift_card_id . PHP_EOL;
 echo $result->merchant_id . PHP_EOL;
 $client->close();

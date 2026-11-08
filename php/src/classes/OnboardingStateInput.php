@@ -14,37 +14,37 @@ namespace Flint;
 final class OnboardingStateInput extends Model {
     /** @param array{'can_issue_api_key': bool, 'country'?: string, 'default_sandbox_id'?: string, 'merchant_id': string, 'next_step'?: ReadinessActionInput|array<array-key, mixed>|\stdClass, 'profile': OnboardingProfileInput|array<array-key, mixed>|\stdClass, 'requested_capabilities'?: list<string>, 'status': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OnboardingStateInput')); }
-    /** can_issue_api_key
+    /** Whether you can issue the merchant's first API key with `POST /v1/onboarding/api-key`. True while the merchant has no external API key and a default sandbox exists.
      * @return bool
      * @throws SdkError When can_issue_api_key is omitted; use hasCanIssueApiKey() or valueOrDefault().
      */
     public function getCanIssueApiKey(): bool { return $this->get('can_issue_api_key'); }
     public function hasCanIssueApiKey(): bool { return $this->has('can_issue_api_key'); }
-    /** Immutable business country for the selected stable provider-account target. Omitted until the target has selected an effective country. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example: "US". Value enum: "US".
+    /** Immutable business country for the selected stable provider-account target. Omitted until the target has selected an effective country. Uses ISO 3166-1 alpha-2 country codes. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example: "US". Value enum: "US".
      * @return string
      * @throws SdkError When country is omitted; use hasCountry() or valueOrDefault().
      */
     public function getCountry(): string { return $this->get('country'); }
     public function hasCountry(): bool { return $this->has('country'); }
-    /** default_sandbox_id
+    /** ID of the merchant's default sandbox. Omitted when the merchant has no default sandbox. Example: "test_01KEZF7C00JC77HTMTB2XHNPE0".
      * @return string
      * @throws SdkError When default_sandbox_id is omitted; use hasDefaultSandboxId() or valueOrDefault().
      */
     public function getDefaultSandboxId(): string { return $this->get('default_sandbox_id'); }
     public function hasDefaultSandboxId(): bool { return $this->has('default_sandbox_id'); }
-    /** merchant_id
+    /** ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
      * @return string
      * @throws SdkError When merchant_id is omitted; use hasMerchantId() or valueOrDefault().
      */
     public function getMerchantId(): string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** A step that moves a merchant capability or readiness axis forward, with the party that must do it (`owner`) and any required fields.
+    /** The step to take next. Omitted when no step is pending, such as while Flint prepares the sandbox. A step that moves a merchant capability or readiness axis forward, with the party that must do it (`owner`) and any required fields.
      * @return ReadinessActionInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When next_step is omitted; use hasNextStep() or valueOrDefault().
      */
     public function getNextStep(): mixed { return $this->get('next_step'); }
     public function hasNextStep(): bool { return $this->has('next_step'); }
-    /** Contact and website details recorded for a merchant during onboarding.
+    /** Contact and website details recorded for onboarding. Contact and website details recorded for a merchant during onboarding.
      * @return OnboardingProfileInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When profile is omitted; use hasProfile() or valueOrDefault().
      */

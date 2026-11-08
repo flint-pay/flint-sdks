@@ -11,9 +11,10 @@ namespace Flint;
  * @property-read ?string $reversal_note
  * @property-read ?string $reversed_at
  * @property-read string $status
+ * @property-read list<string> $supported_actions
  * Presence-aware response; omitted optional fields return null. */
 final class InvoiceManualPaymentCreatedInstalledMerchantsEventDataObject extends Model {
-    /** @param array{'amount_money': mixed, 'invoice_id': string, 'invoice_manual_payment_id': string, 'note'?: string, 'payment_reference'?: string, 'received_at': string, 'reversal_note'?: string, 'reversed_at'?: string, 'status': string, ...}|object $values */
+    /** @param array{'amount_money': mixed, 'invoice_id': string, 'invoice_manual_payment_id': string, 'note'?: string, 'payment_reference'?: string, 'received_at': string, 'reversal_note'?: string, 'reversed_at'?: string, 'status': string, 'supported_actions': list<string>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceManualPaymentCreatedInstalledMerchantsEventDataObject')); }
     /** Full amount received, including any principal and late fees covered. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
@@ -30,7 +31,7 @@ final class InvoiceManualPaymentCreatedInstalledMerchantsEventDataObject extends
      */
     public function getInvoiceManualPaymentId(): string { return $this->get('invoice_manual_payment_id'); }
     public function hasInvoiceManualPaymentId(): bool { return $this->has('invoice_manual_payment_id'); }
-    /** minLength: 1. maxLength: 4096.
+    /** Note about the offline payment, up to 4096 characters. minLength: 1. maxLength: 4096.
      * @return ?string
      */
     public function getNote(): ?string { return $this->get('note'); }
@@ -60,4 +61,9 @@ final class InvoiceManualPaymentCreatedInstalledMerchantsEventDataObject extends
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
+    /** Lifecycle actions Flint accepts for this resource now, based on stored state. Independent of the caller's permissions; each action still requires its route's scope. Always [] when no action is available. [] enum: "reverse". [] (Value): string.  Value enum: "reverse".
+     * @return list<string>
+     */
+    public function getSupportedActions(): array { return $this->get('supported_actions'); }
+    public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
 }

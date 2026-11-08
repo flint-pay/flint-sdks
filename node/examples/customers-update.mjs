@@ -15,4 +15,4 @@ const result = await client.customers.update(
   { idempotencyKey: idempotencyKey },
 );
 console.log(result.customer_id);
-console.log(result.status);
+console.log(result.merchant_id);

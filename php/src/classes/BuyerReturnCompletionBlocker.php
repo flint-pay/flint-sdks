@@ -15,17 +15,17 @@ final class BuyerReturnCompletionBlocker extends Model {
      */
     public function getCode(): string { return $this->get('code'); }
     public function hasCode(): bool { return $this->has('code'); }
-    /** message
+    /** Explanation of what is still owed.
      * @return string
      */
     public function getMessage(): string { return $this->get('message'); }
     public function hasMessage(): bool { return $this->has('message'); }
-    /** return_line_item_id
+    /** ID of the Return line the entry is about.
      * @return ?string
      */
     public function getReturnLineItemId(): ?string { return $this->get('return_line_item_id'); }
     public function hasReturnLineItemId(): bool { return $this->has('return_line_item_id'); }
-    /** return_resolution_id
+    /** ID of the resolution holding this blocker up.
      * @return ?string
      */
     public function getReturnResolutionId(): ?string { return $this->get('return_resolution_id'); }

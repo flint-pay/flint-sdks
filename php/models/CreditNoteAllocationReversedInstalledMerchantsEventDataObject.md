@@ -2,9 +2,11 @@
 
 ## CreditNoteAllocationReversedInstalledMerchantsEventDataObject
 
-One application of credit to the invoice. Allocations are append-only: a reversal sets reversed_at rather than removing the row.
+The affected public resource without expansions, client authority fields, or fields computed for an individual caller.
+
+The resource snapshot, without expansions. Webhooks omit no additional fields.
 
 Response model.
 
-Fields, types, descriptions and enum values: [CreditNoteAllocation](../models/CreditNoteAllocation.md#creditnoteallocation).
+Fields, types, descriptions and enum values: [CreditNoteAllocationCreatedMerchantEventDataObject](../models/CreditNoteAllocationCreatedMerchantEventDataObject.md#creditnoteallocationcreatedmerchanteventdataobject).
 

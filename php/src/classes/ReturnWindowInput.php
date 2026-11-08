@@ -8,13 +8,13 @@ namespace Flint;
 final class ReturnWindowInput extends Model {
     /** @param array{'duration_seconds': int, 'starts_at_event': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnWindowInput')); }
-    /** Format: int64.
+    /** Length of the window in seconds, above 0 and at most 158,112,000 (1,830 days). Format: int64.
      * @return int
      * @throws SdkError When duration_seconds is omitted; use hasDurationSeconds() or valueOrDefault().
      */
     public function getDurationSeconds(): int { return $this->get('duration_seconds'); }
     public function hasDurationSeconds(): bool { return $this->has('duration_seconds'); }
-    /** Value enum: "fulfilled", "delivered", "picked_up", "service_completed".
+    /** The fulfillment event the window counts from. Value enum: "fulfilled", "delivered", "picked_up", "service_completed".
      * @return string
      * @throws SdkError When starts_at_event is omitted; use hasStartsAtEvent() or valueOrDefault().
      */

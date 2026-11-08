@@ -8,9 +8,9 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.apiKeys.revoke(
-  "key_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  "key_01KEZF7C008CTC2G5V6J08M6S7",
   undefined,
   { idempotencyKey: idempotencyKey },
 );
 console.log(result.api_key_id);
-console.log(result.status);
+console.log(result.merchant_id);

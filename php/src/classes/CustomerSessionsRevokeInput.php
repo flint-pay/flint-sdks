@@ -9,7 +9,7 @@ namespace Flint;
 final class CustomerSessionsRevokeInput extends Model {
     /** @param array{'customer_session_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerSessionsRevokeInput')); }
-    /** Flint customer session ID. Example: "cses_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+    /** Flint customer session ID. Example: "cses_01KEZF7C00FBVRP25FZTW7KWZV".
      * @return string
      * @throws SdkError When customer_session_id is omitted; use hasCustomerSessionId() or valueOrDefault().
      */

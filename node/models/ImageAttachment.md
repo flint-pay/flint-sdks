@@ -11,7 +11,7 @@ An image attached to a resource, with its display properties and attachment meta
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `alt` | Optional | string | Alternative text describing the image for accessibility. |
-| `file_id` | Optional | string | Identifier of the file attached as this image. |
+| `file_id` | Optional | string | Identifier of the file attached as this image. Example: `"file_01KEZF7C00BZ179303GY9R0P03"`. |
 | `height` | Required | integer | Image height in pixels, when known. Format: `int32`. |
 | `source_reference` | Optional | string | Caller-owned reference identifying this attachment within its gallery. minLength: `1`. maxLength: `255`. |
 | `url` | Required | string | URL of the image. |

@@ -9,13 +9,13 @@ namespace Flint;
 final class CallerSuppliedDeliveryMethodResultRequestInput extends Model {
     /** @param array{'delivery_choice_group_id': string, 'delivery_method_revision_id': string, 'outcome': CallerSuppliedDeliveryOutcomeRequestInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CallerSuppliedDeliveryMethodResultRequestInput')); }
-    /** minLength: 1.
+    /** minLength: 1. Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
      * @return string
      * @throws SdkError When delivery_choice_group_id is omitted; use hasDeliveryChoiceGroupId() or valueOrDefault().
      */
     public function getDeliveryChoiceGroupId(): string { return $this->get('delivery_choice_group_id'); }
     public function hasDeliveryChoiceGroupId(): bool { return $this->has('delivery_choice_group_id'); }
-    /** minLength: 1.
+    /** minLength: 1. Example: "dmetr_01KEZF7C001ZF9D92DY1G51GV9".
      * @return string
      * @throws SdkError When delivery_method_revision_id is omitted; use hasDeliveryMethodRevisionId() or valueOrDefault().
      */

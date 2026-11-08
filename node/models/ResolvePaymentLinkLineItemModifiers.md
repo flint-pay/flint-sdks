@@ -10,5 +10,5 @@ The modifier selections for one payment link line item when resolving a payment 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `modifiers` | Optional | Array of [ResolvePaymentLinkLineItemModifierRequest](../models/ResolvePaymentLinkLineItemModifierRequest.md#resolvepaymentlinklineitemmodifierrequest) |  |
+| `modifiers` | Optional | Array of [ResolvePaymentLinkLineItemModifierRequest](../models/ResolvePaymentLinkLineItemModifierRequest.md#resolvepaymentlinklineitemmodifierrequest) | The buyer's modifier selections for the line item. Required, and `null` is not accepted. Send an empty array when the buyer chose none. |
 

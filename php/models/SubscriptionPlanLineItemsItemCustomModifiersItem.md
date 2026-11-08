@@ -2,7 +2,7 @@
 
 ## SubscriptionPlanLineItemsItemCustomModifiersItem
 
-A modifier selected on an order line item, with its quantity, price change, total, and display flags.
+A modifier selected on an order line item.
 
 Response model.
 
@@ -17,12 +17,18 @@ Response model.
 | `show_on_fulfillment` | Required | boolean | Whether this selection appears in fulfillment details, recorded when selected. |
 | `show_on_receipt` | Required | boolean | Whether this selection appears on buyer receipts, recorded when selected. |
 | `source_type` | Required | string | Whether the selection is a catalog list modifier or buyer-entered text. Values: `"catalog_modifier"`, `"text"`. |
-| `text` | Optional | [SubscriptionPlanLineItemsItemCustomModifiersItemText](../models/SubscriptionPlanLineItemsItemCustomModifiersItemText.md#subscriptionplanlineitemsitemcustommodifiersitemtext) | Selected text group and buyer-entered value. Read an inline text group through its owning modifier set. Text a buyer entered for a text modifier group on an order line item. |
+| `text` | Optional | [SubscriptionPlanLineItemsItemCustomModifiersItemText](../models/SubscriptionPlanLineItemsItemCustomModifiersItemText.md#subscriptionplanlineitemsitemcustommodifiersitemtext) | Selected text group and buyer-entered value. Read an inline text group through its owning modifier set. Text a buyer entered for a text modifier group on an order line item. `text`: [field definitions](../models/SubscriptionPlanLineItemsItemCustomModifiersItem.md#subscriptionplanlineitemsitemcustommodifiersitemtext-fields-1). |
 | `text_value` | Optional | string | Buyer-entered text recorded for a text modifier selection. |
-| `total_money` | Required | [SubscriptionPlanLineItemsItemCustomModifiersItemTotalMoney](../models/SubscriptionPlanLineItemsItemCustomModifiersItemTotalMoney.md#subscriptionplanlineitemsitemcustommodifiersitemtotalmoney) | Total price added by this selection. Multiplies unit_price_delta_money by the modifier quantity and, for per_item pricing, by the line item quantity. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `total_money` | Required | [SubscriptionPlanLineItemsItemCustomModifiersItemTotalMoney](../models/SubscriptionPlanLineItemsItemCustomModifiersItemTotalMoney.md#subscriptionplanlineitemsitemcustommodifiersitemtotalmoney) | Total price this selection adds to the line: `unit_price_delta_money` times the selection's `quantity` times the line item's `quantity`. Always 0 for text selections. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `unit_price_delta_money` | Required | [SubscriptionPlanLineItemsItemCustomModifiersItemUnitPriceDeltaMoney](../models/SubscriptionPlanLineItemsItemCustomModifiersItemUnitPriceDeltaMoney.md#subscriptionplanlineitemsitemcustommodifiersitemunitpricedeltamoney) | Amount added to the item's unit price for each unit of this selection, recorded when selected. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 
 ### SubscriptionPlanLineItemsItemCustomModifiersItem.metadata
 
 Field definitions: [ExpandedSubscriptionPlanSummaryLineItemsItemVariantModifiersItem.metadata](../models/ExpandedSubscriptionPlanSummaryLineItemsItemVariantModifiersItem.md#expandedsubscriptionplansummarylineitemsitemvariantmodifiersitemmetadata).
+
+### SubscriptionPlanLineItemsItemCustomModifiersItem.text fields 1
+
+Selected text group and buyer-entered value. Read an inline text group through its owning modifier set. Text a buyer entered for a text modifier group on an order line item.
+
+Field definitions: [shared fields](TextModifierRequestInput.md#textmodifierrequestinput).
 

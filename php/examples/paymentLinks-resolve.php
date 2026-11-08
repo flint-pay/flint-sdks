@@ -16,7 +16,7 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->paymentLinks->resolve('pl_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
+$result = $client->paymentLinks->resolve('pl_01KEZF7C007WDMA5P9BPZ8J2AM', [
   'resolution_context' => 'example',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo json_encode($result, JSON_THROW_ON_ERROR) . PHP_EOL;

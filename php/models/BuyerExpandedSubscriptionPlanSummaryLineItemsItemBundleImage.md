@@ -2,7 +2,7 @@
 
 ## BuyerExpandedSubscriptionPlanSummaryLineItemsItemBundleImage
 
-An image with its `url`, `width`, and `height`, and optional `alt` text.
+An image with its URL, size, and alt text.
 
 Response model.
 

@@ -2,7 +2,7 @@
 
 ## PromotionRecurrenceRepeating
 
-The `repeating` variant of `PromotionRecurrence`.
+
 
 
 
@@ -12,4 +12,16 @@ The `repeating` variant of `PromotionRecurrence`.
 | --- | --- | --- | --- |
 | `period_count` | Required | integer | Number of charged payments for repeating recurrence. Omit for once and forever. minimum: `1`. |
 | `type` | Required | string | Use once for the first charged payment, repeating for a fixed number of charged payments, or forever for every payment. period_count is required only for repeating. Apply the promotion to period_count charged subscription payments. Use once for the first charged payment, repeating for a fixed number of charged payments, or forever for every payment. period_count is required only for repeating. Apply the promotion to period_count charged subscription payments. Values: `"repeating"`. |
+
+### PromotionRecurrenceRepeating variant 1: `type` = `"repeating"`
+
+anyOf PromotionRecurrenceRepeating: Declared schema PromotionRecurrenceRepeating. The `repeating` variant of `PromotionRecurrence`..
+
+No additional constraints.
+
+### PromotionRecurrenceRepeating variant 2: `type` = `"repeating"`
+
+anyOf PromotionRecurrenceRepeating: Declared schema PromotionRecurrenceRepeatingRequest. The `repeating` variant of `PromotionRecurrence`..
+
+No additional constraints.
 

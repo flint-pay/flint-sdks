@@ -2,9 +2,11 @@
 
 ## GiftCardLoadCreatedInstalledMerchantsEventDataObject
 
-Independent funding resource. Value and consideration are separate. External funding and import provenance are merchant-attested; no payment is collected by recording them. Replacement refund lots retain original funding provenance and do not represent new paid funding.
+The affected public resource without expansions, client authority fields, or fields computed for an individual caller.
+
+The resource snapshot, without expansions. Webhooks omit no additional fields.
 
 Response model.
 
-Fields, types, descriptions and enum values: [GiftCardLoad](../models/GiftCardLoad.md#giftcardload).
+Fields, types, descriptions and enum values: [GiftCardLoadCreatedMerchantEventDataObject](../models/GiftCardLoadCreatedMerchantEventDataObject.md#giftcardloadcreatedmerchanteventdataobject).
 

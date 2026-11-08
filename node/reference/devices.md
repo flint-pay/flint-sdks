@@ -4,7 +4,7 @@
 
 ### devices.create
 
-Creates a device. If an active device already has the hardware_fingerprint, returns 409 ALREADY_EXISTS with reason hardware_fingerprint_already_exists and changes nothing. The details[0].current_resource field names the existing device.
+Creates a device. If an active device already has the hardware_fingerprint, fails with `ALREADY_EXISTS` and reason `hardware_fingerprint_already_exists`, and changes nothing. The details[0].current_resource field names the existing device.
 
 `POST /v1/devices`
 
@@ -23,9 +23,9 @@ Body model: [CreateDeviceRequestInput](../models/CreateDeviceRequest.md#createde
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `hardware_fingerprint` | Optional | string | Stable hardware identity. Must have no leading or trailing whitespace and is compared exactly, including case and accents. Only one active device in this merchant and environment can hold it. minLength: `1`. maxLength: `255`. |
-| `location_id` | Optional | string | minLength: `1`. |
+| `location_id` | Optional | string | An active Location to assign the device to. minLength: `1`. |
 | `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
-| `name` | Required | string | minLength: `1`. |
+| `name` | Required | string | Name for the device, such as Front register. minLength: `1`. |
 
 #### Response
 
@@ -40,7 +40,6 @@ Returned payload: [Device](../models/Device.md#device).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
@@ -98,7 +97,6 @@ Returned payload: [Device](../models/Device.md#device).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -121,7 +119,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.devices.delete("dev_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, { idempotencyKey: idempotencyKey });
+const result = await client.devices.delete("dev_01KEZF7C0051ZP8MZSGHP989F6", {}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/devices-delete.mjs)
@@ -152,7 +150,6 @@ Returned payload: [Device](../models/Device.md#device).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -170,7 +167,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 #### Example
 
 ```typescript
-const result = await client.devices.get("dev_01ARZ3NDEKTSV4RRFFQ69G5FAV", {}, {  });
+const result = await client.devices.get("dev_01KEZF7C0051ZP8MZSGHP989F6", {}, {  });
 ```
 
 [Complete runnable example](../examples/devices-get.mjs)
@@ -188,8 +185,8 @@ Signature: `list(params?: DevicesListParams, options?: _SdkWithoutIdempotency<Re
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string | Opaque next_page_token from the previous response. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns a validation error. |
-| `status` | Optional | Array of string or string | Filter by status. Repeat the parameter or send comma-separated values to match any of several. Omitted, the list leaves out archived rows; name archived to include them. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"archived"`. Values: `"active"`, `"archived"`. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
+| `status` | Optional | Array of string or string | Filter by status. Omitted, the list leaves out archived rows; name archived to include them. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"archived"`. Values: `"active"`, `"archived"`. |
 | `location_id` | Optional | string | Filter by assigned Flint location ID. |
 | `hardware_fingerprint` | Optional | string | Exact, case-sensitive match. Archived devices release their fingerprint, so this finds at most the one active device that holds it. minLength: `1`. maxLength: `255`. |
 | `sort_by` | Optional | string | Field to sort by. Defaults to created_at; ties are broken by device_id. Default: `"created_at"`. Values: `"name"`, `"created_at"`, `"updated_at"`. |
@@ -206,7 +203,6 @@ Returned payload: [DeviceListResponse](../models/DeviceListResponse.md#devicelis
 | 400 | InvalidRequestError |
 | 401 | AuthenticationError |
 | 403 | PermissionError |
-| 410 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -252,10 +248,10 @@ Body model: [UpdateDeviceRequestInput](../models/UpdateDeviceRequest.md#updatede
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `expected_version` | Optional | integer | Format: `uint64`. minimum: `1`. |
+| `expected_version` | Optional | integer | The device version you last read. A different current version returns `409 VERSION_CONFLICT`. Format: `uint64`. minimum: `1`. |
 | `location_id` | Optional | string or null | Send null to clear it. minLength: `1`. |
 | `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequest.md#metadatapatchrequest) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. This operation also limits the metadata object you send, before merging: at most 50 keys, counting null deletions, each key 1 to 256 Unicode code points, and at most 32768 UTF-8 bytes of keys plus values. |
-| `name` | Optional | string | minLength: `1`. |
+| `name` | Optional | string | New name for the device. minLength: `1`. |
 
 #### Response
 
@@ -270,7 +266,6 @@ Returned payload: [Device](../models/Device.md#device).
 | 403 | PermissionError |
 | 404 | NotFoundError |
 | 409 | ConflictError |
-| 410 | ApiError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |
