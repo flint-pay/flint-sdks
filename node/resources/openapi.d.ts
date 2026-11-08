@@ -1,8 +1,8 @@
 import type { Result } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-5.js';
 import type { OpenapiGetSpecParams, OpenapiGetSpecResponse } from '../declarations/types-36.js';
-import type { RequestOptions } from '../declarations/types-47.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { RequestOptions } from '../declarations/types-48.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -18,8 +18,8 @@ export type {
     WorkloadIdentitySource
 } from '../runtime.js';
 export type { OpenapiGetSpecParams, OpenapiGetSpecResponse } from '../declarations/types-36.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
-export type { RequestOptions } from '../declarations/types-47.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+export type { RequestOptions } from '../declarations/types-48.js';
 export type { ClientOptions } from '../declarations/types-5.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-12.js';

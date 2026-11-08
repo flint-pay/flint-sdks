@@ -1,7 +1,16 @@
 [Model index](../MODELS.md)
 
-# InventoryCountTransitionRequestApplyInput to InventoryTransferResponse
+# InventoryCountObservationProvenance to InventoryTransferDepartedMerchantEvent
 
+- [InventoryCountObservationProvenance](InventoryCountObservationProvenance.md)
+- [InventoryCountObservationRequest](InventoryCountObservationRequest.md)
+- [InventoryCountObservationRequestInput](InventoryCountObservationRequestInput.md)
+- [InventoryCountResponse](InventoryCountResponse.md)
+- [InventoryCountResult](InventoryCountResult.md)
+- [InventoryCountResultResponse](InventoryCountResultResponse.md)
+- [InventoryCountTransitionRequest](InventoryCountTransitionRequest.md)
+- [InventoryCountTransitionRequestInput](InventoryCountTransitionRequestInput.md)
+- [InventoryCountTransitionRequestApply](InventoryCountTransitionRequestApply.md)
 - [InventoryCountTransitionRequestApplyInput](InventoryCountTransitionRequestApplyInput.md)
 - [InventoryCountTransitionRequestCancel](InventoryCountTransitionRequestCancel.md)
 - [InventoryCountTransitionRequestCancelInput](InventoryCountTransitionRequestCancelInput.md)
@@ -93,13 +102,4 @@
 - [InventoryTransferClosedMerchantEvent](InventoryTransferClosedMerchantEvent.md)
 - [InventoryTransferDepartedInstalledMerchantsEvent](InventoryTransferDepartedInstalledMerchantsEvent.md)
 - [InventoryTransferDepartedMerchantEvent](InventoryTransferDepartedMerchantEvent.md)
-- [InventoryTransferLine](InventoryTransferLine.md)
-- [InventoryTransferLineRequest](InventoryTransferLineRequest.md)
-- [InventoryTransferLineRequestInput](InventoryTransferLineRequestInput.md)
-- [InventoryTransferListResponse](InventoryTransferListResponse.md)
-- [InventoryTransferLostInstalledMerchantsEvent](InventoryTransferLostInstalledMerchantsEvent.md)
-- [InventoryTransferLostMerchantEvent](InventoryTransferLostMerchantEvent.md)
-- [InventoryTransferReceivedInstalledMerchantsEvent](InventoryTransferReceivedInstalledMerchantsEvent.md)
-- [InventoryTransferReceivedMerchantEvent](InventoryTransferReceivedMerchantEvent.md)
-- [InventoryTransferResponse](InventoryTransferResponse.md)
 

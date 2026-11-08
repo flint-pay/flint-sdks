@@ -10,8 +10,8 @@ import type {
     DeliveryZonesListParams,
     DeliveryZonesUpdateParams
 } from '../declarations/types-20.js';
-import type { RequestOptions } from '../declarations/types-47.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { RequestOptions } from '../declarations/types-48.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -33,20 +33,21 @@ export type {
     DeliveryZonesGetParams,
     DeliveryZonesListParams,
     DeliveryZoneListResponse,
-    DeliveryZonesUpdateParams
-} from '../declarations/types-20.js';
-export type { RequestOptions } from '../declarations/types-47.js';
-export type {
-    DeliveryZone,
+    DeliveryZonesUpdateParams,
     DeliveryZoneConfigurationInput,
-    DeliveryStateConditionInput,
-    DeliveryZoneConfiguration,
-    DeliveryStateCondition
-} from '../declarations/types-19.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+    DeliveryZoneConfiguration
+} from '../declarations/types-20.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
+export type { DeliveryZone, DeliveryStateConditionInput, DeliveryStateCondition } from '../declarations/types-19.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { ClientOptions } from '../declarations/types-5.js';
 export type { CreateDeliveryZoneRequestInput } from '../declarations/types-7.js';
-export type { DeliveryCountryConditionInput, DeliveryDistanceInput, DeliveryDistance } from '../declarations/types-14.js';
+export type {
+    DeliveryCountryConditionInput,
+    DeliveryDistanceInput,
+    DeliveryDistance,
+    DeliveryLocationSetsDeleteParams
+} from '../declarations/types-15.js';
 export type {
     DeliveryPostalCodeConditionInput,
     DeliveryPostalCodeValueInput,
@@ -59,26 +60,34 @@ export type {
     DeliveryRadiusCondition,
     DeliveryRadiusOrigin
 } from '../declarations/types-18.js';
-export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-34.js';
+export type {
+    MetadataRequestInput,
+    MetadataMap,
+    NextAction,
+    MoneyValue,
+    MetadataPatchRequestInput,
+    MetadataPatchRequest
+} from '../declarations/types-35.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-12.js';
-export type { ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
-export type { NextAction, MoneyValue } from '../declarations/types-35.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
-export type { UpdateDeliveryZoneRequestInput } from '../declarations/types-58.js';
-export type { DeliveryLocationSetsDeleteParams } from '../declarations/types-15.js';
-export { makeCreateDeliveryZoneRequest } from '../declarations/types-63.js';
+export type { UpdateDeliveryZoneRequestInput } from '../declarations/types-59.js';
+export { makeCreateDeliveryZoneRequest } from '../declarations/types-64.js';
 export {
     makeDeliveryCountryCondition,
     makeDeliveryDistance,
     makeDeliveryPostalCodeCondition,
-    makeDeliveryPostalCodeValue,
-    makeDeliveryRadiusCondition,
-    makeDeliveryRadiusOrigin
+    makeDeliveryPostalCodeValue
 } from '../declarations/types-66.js';
-export { makeDeliveryStateCondition, makeDeliveryZoneConfiguration } from '../declarations/types-67.js';
-export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-69.js';
-export { makeUpdateDeliveryZoneRequest } from '../declarations/types-73.js';
+export {
+    makeDeliveryRadiusCondition,
+    makeDeliveryRadiusOrigin,
+    makeDeliveryStateCondition,
+    makeDeliveryZoneConfiguration
+} from '../declarations/types-67.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-69.js';
+export { makeMoneyValue } from '../declarations/types-70.js';
+export { makeUpdateDeliveryZoneRequest } from '../declarations/types-74.js';
 export interface DeliveryZonesResource {
     /**
  * Delivery zones define versioned geographic eligibility. Creation publishes immutable revision 1.

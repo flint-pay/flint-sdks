@@ -27,6 +27,10 @@ import type {
     Parameter
 } from './contract.js';
 import { CODEC_FORMAT, type CodecPlan } from './codec-plan.js';
+/** Request media types whose bodies both runtimes encode as JSON. */
+export declare const JSON_REQUEST_MEDIA: readonly string[];
+/** Flat objects of scalar fields, encoded like exploded form-style query parameters. */
+export declare const FORM_REQUEST_MEDIA = "application/x-www-form-urlencoded";
 /** Declared success statuses; default remains a runtime fallback, never an implicit redirect. */
 export declare function successStatus(status: string): boolean;
 export interface RuntimeContract {

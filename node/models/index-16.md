@@ -1,7 +1,16 @@
 [Model index](../MODELS.md)
 
-# InventoryTransferResult to InvoicePaymentAttemptFailedInstalledMerchantsEvent
+# InventoryTransferLine to InvoicePartiallyPaidInstalledMerchantsEvent
 
+- [InventoryTransferLine](InventoryTransferLine.md)
+- [InventoryTransferLineRequest](InventoryTransferLineRequest.md)
+- [InventoryTransferLineRequestInput](InventoryTransferLineRequestInput.md)
+- [InventoryTransferListResponse](InventoryTransferListResponse.md)
+- [InventoryTransferLostInstalledMerchantsEvent](InventoryTransferLostInstalledMerchantsEvent.md)
+- [InventoryTransferLostMerchantEvent](InventoryTransferLostMerchantEvent.md)
+- [InventoryTransferReceivedInstalledMerchantsEvent](InventoryTransferReceivedInstalledMerchantsEvent.md)
+- [InventoryTransferReceivedMerchantEvent](InventoryTransferReceivedMerchantEvent.md)
+- [InventoryTransferResponse](InventoryTransferResponse.md)
 - [InventoryTransferResult](InventoryTransferResult.md)
 - [InventoryTransferResultResponse](InventoryTransferResultResponse.md)
 - [InventoryTransferReturnedInstalledMerchantsEvent](InventoryTransferReturnedInstalledMerchantsEvent.md)
@@ -93,13 +102,4 @@
 - [InvoicePaidInstalledMerchantsEvent](InvoicePaidInstalledMerchantsEvent.md)
 - [InvoicePaidMerchantEvent](InvoicePaidMerchantEvent.md)
 - [InvoicePartiallyPaidInstalledMerchantsEvent](InvoicePartiallyPaidInstalledMerchantsEvent.md)
-- [InvoicePartiallyPaidMerchantEvent](InvoicePartiallyPaidMerchantEvent.md)
-- [InvoicePartiallyRefundedInstalledMerchantsEvent](InvoicePartiallyRefundedInstalledMerchantsEvent.md)
-- [InvoicePartiallyRefundedMerchantEvent](InvoicePartiallyRefundedMerchantEvent.md)
-- [InvoicePaymentAttempt](InvoicePaymentAttempt.md)
-- [InvoicePaymentAttemptCanceledInstalledMerchantsEvent](InvoicePaymentAttemptCanceledInstalledMerchantsEvent.md)
-- [InvoicePaymentAttemptCanceledMerchantEvent](InvoicePaymentAttemptCanceledMerchantEvent.md)
-- [InvoicePaymentAttemptExpiredInstalledMerchantsEvent](InvoicePaymentAttemptExpiredInstalledMerchantsEvent.md)
-- [InvoicePaymentAttemptExpiredMerchantEvent](InvoicePaymentAttemptExpiredMerchantEvent.md)
-- [InvoicePaymentAttemptFailedInstalledMerchantsEvent](InvoicePaymentAttemptFailedInstalledMerchantsEvent.md)
 

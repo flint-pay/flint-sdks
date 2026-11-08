@@ -1,7 +1,13 @@
 [Model index](../MODELS.md)
 
-# DeliveryPricingStrategyCreateInputCalculatedInput to DeliverySelectionCommittedMerchantEventInput
+# DeliveryPricingRateCreateRequestInput to DeliveryRevocationTargetLocationGeographyInput
 
+- [DeliveryPricingRateCreateRequestInput](DeliveryPricingRateCreateRequestInput.md)
+- [DeliveryPricingRateRequestInput](DeliveryPricingRateRequestInput.md)
+- [DeliveryPricingStrategyInput](DeliveryPricingStrategyInput.md)
+- [DeliveryPricingStrategyCalculatedInput](DeliveryPricingStrategyCalculatedInput.md)
+- [DeliveryPricingStrategyCallbackInput](DeliveryPricingStrategyCallbackInput.md)
+- [DeliveryPricingStrategyCallerSuppliedInput](DeliveryPricingStrategyCallerSuppliedInput.md)
 - [DeliveryPricingStrategyCreateInputCalculatedInput](DeliveryPricingStrategyCreateInputCalculatedInput.md)
 - [DeliveryPricingStrategyCreateInputCallbackInput](DeliveryPricingStrategyCreateInputCallbackInput.md)
 - [DeliveryPricingStrategyCreateInputCallerSuppliedInput](DeliveryPricingStrategyCreateInputCallerSuppliedInput.md)
@@ -96,10 +102,4 @@
 - [DeliveryRevocationTargetDeliveryRateCallbackRevisionInput](DeliveryRevocationTargetDeliveryRateCallbackRevisionInput.md)
 - [DeliveryRevocationTargetDeliveryRateCallbackSigningKeyInput](DeliveryRevocationTargetDeliveryRateCallbackSigningKeyInput.md)
 - [DeliveryRevocationTargetLocationGeographyInput](DeliveryRevocationTargetLocationGeographyInput.md)
-- [DeliveryScheduleWindowRuleInput](DeliveryScheduleWindowRuleInput.md)
-- [DeliveryScheduleWindowRuleRequestInput](DeliveryScheduleWindowRuleRequestInput.md)
-- [DeliverySelectionInput](DeliverySelectionInput.md)
-- [DeliverySelectionChoiceResourceInput](DeliverySelectionChoiceResourceInput.md)
-- [DeliverySelectionCommittedInstalledMerchantsEventInput](DeliverySelectionCommittedInstalledMerchantsEventInput.md)
-- [DeliverySelectionCommittedMerchantEventInput](DeliverySelectionCommittedMerchantEventInput.md)
 

@@ -1,12 +1,12 @@
-import { d4281 as c0 } from '../descriptors/data/180.js?sdk=d1fbdc9ae03748db4df89d58da8fba32d0ff2e9fa5c15cee69be90b031712c30';
-import { d6422 as c1 } from '../descriptors/data/301.js?sdk=d1fbdc9ae03748db4df89d58da8fba32d0ff2e9fa5c15cee69be90b031712c30';
-import { d5861 as c2, d5862 as c11, d5863 as c12, d5864 as c13, d5865 as c14, d5866 as c15 } from '../descriptors/data/269.js?sdk=d1fbdc9ae03748db4df89d58da8fba32d0ff2e9fa5c15cee69be90b031712c30';
-import { d6426 as c3, d6427 as c4, d6428 as c5, d6431 as c6, d6432 as c7, d6433 as c8, d6434 as c9, d6435 as c10, d6438 as c16, d6439 as c17, d6440 as c18, d6443 as c19, d6444 as c20, d6445 as c21, d6446 as c22 } from '../descriptors/data/302.js?sdk=d1fbdc9ae03748db4df89d58da8fba32d0ff2e9fa5c15cee69be90b031712c30';
-import { d6422 as d6422 } from '../descriptors/data/301.js?sdk=d1fbdc9ae03748db4df89d58da8fba32d0ff2e9fa5c15cee69be90b031712c30';
+import { d4312 as c0 } from '../descriptors/data/181.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import { d6481 as c1, d6485 as c3, d6486 as c4, d6487 as c5, d6490 as c6, d6491 as c7, d6492 as c8, d6493 as c9, d6494 as c10 } from '../descriptors/data/304.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import { d5892 as c2, d5893 as c11, d5894 as c12, d5895 as c13, d5896 as c14, d5897 as c15 } from '../descriptors/data/270.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import { d6497 as c16, d6498 as c17, d6499 as c18, d6502 as c19, d6503 as c20, d6504 as c21, d6505 as c22 } from '../descriptors/data/305.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import { d6481 as d6481 } from '../descriptors/data/304.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d6422;
+const read = d6481;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["PromotionApplicationMethodRequest"]:c1(),["PromotionRecurrence"]:c2(),["PromotionRuleGroupRequest"]:c3(),["PromotionRuleRequest"]:c4(),["PromotionRuleValueRequest"]:c5(),["SharedCodec1067"]:c6(),["SharedCodec1068"]:c7(),["SharedCodec1069"]:c8(),["SharedCodec1070"]:c9(),["SharedCodec1071"]:c10(),["SharedCodec1074"]:c11(),["SharedCodec1075"]:c12(),["SharedCodec1076"]:c13(),["SharedCodec1077"]:c14(),["SharedCodec1078"]:c15(),["SharedCodec1079"]:c16(),["SharedCodec1080"]:c17(),["SharedCodec1081"]:c18(),["SharedCodec1104"]:c19(),["SharedCodec1105"]:c20(),["SharedCodec1106"]:c21(),["SharedCodec1107"]:c22()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["PromotionApplicationMethodRequest"]:c1(),["PromotionRecurrence"]:c2(),["PromotionRuleGroupRequest"]:c3(),["PromotionRuleRequest"]:c4(),["PromotionRuleValueRequest"]:c5(),["SharedCodec1085"]:c6(),["SharedCodec1086"]:c7(),["SharedCodec1087"]:c8(),["SharedCodec1088"]:c9(),["SharedCodec1089"]:c10(),["SharedCodec1092"]:c11(),["SharedCodec1093"]:c12(),["SharedCodec1094"]:c13(),["SharedCodec1095"]:c14(),["SharedCodec1096"]:c15(),["SharedCodec1097"]:c16(),["SharedCodec1098"]:c17(),["SharedCodec1099"]:c18(),["SharedCodec1122"]:c19(),["SharedCodec1123"]:c20(),["SharedCodec1124"]:c21(),["SharedCodec1125"]:c22()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makePromotionApplicationMethodRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

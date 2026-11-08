@@ -1,14 +1,14 @@
-import { d221 as c0 } from '../descriptors/data/11.js?sdk=d1fbdc9ae03748db4df89d58da8fba32d0ff2e9fa5c15cee69be90b031712c30';
-import { d5334 as c1, d5315 as c16, d5316 as c17, d5317 as c18, d5318 as c19, d5319 as c20, d5320 as c21, d5321 as c22, d5322 as c23 } from '../descriptors/data/239.js?sdk=d1fbdc9ae03748db4df89d58da8fba32d0ff2e9fa5c15cee69be90b031712c30';
-import { d4281 as c2 } from '../descriptors/data/180.js?sdk=d1fbdc9ae03748db4df89d58da8fba32d0ff2e9fa5c15cee69be90b031712c30';
-import { d5372 as c3, d5373 as c4, d5374 as c5, d5377 as c25, d5378 as c26, d5379 as c27, d5380 as c28, d5381 as c29 } from '../descriptors/data/241.js?sdk=d1fbdc9ae03748db4df89d58da8fba32d0ff2e9fa5c15cee69be90b031712c30';
-import { d5305 as c6, d5306 as c7, d5307 as c8, d5308 as c9, d5309 as c10, d5310 as c11, d5311 as c12, d5312 as c13, d5313 as c14, d5314 as c15 } from '../descriptors/data/238.js?sdk=d1fbdc9ae03748db4df89d58da8fba32d0ff2e9fa5c15cee69be90b031712c30';
-import { d5350 as c24 } from '../descriptors/data/240.js?sdk=d1fbdc9ae03748db4df89d58da8fba32d0ff2e9fa5c15cee69be90b031712c30';
-import { d221 as d221 } from '../descriptors/data/11.js?sdk=d1fbdc9ae03748db4df89d58da8fba32d0ff2e9fa5c15cee69be90b031712c30';
+import { d226 as c0 } from '../descriptors/data/11.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import { d5365 as c1, d5346 as c16, d5347 as c17, d5348 as c18, d5349 as c19, d5350 as c20, d5351 as c21, d5352 as c22, d5353 as c23 } from '../descriptors/data/240.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import { d4312 as c2 } from '../descriptors/data/181.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import { d5403 as c3, d5404 as c4, d5405 as c5, d5408 as c25, d5409 as c26, d5410 as c27, d5411 as c28, d5412 as c29 } from '../descriptors/data/242.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import { d5336 as c6, d5337 as c7, d5338 as c8, d5339 as c9, d5340 as c10, d5341 as c11, d5342 as c12, d5343 as c13, d5344 as c14, d5345 as c15 } from '../descriptors/data/239.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import { d5381 as c24 } from '../descriptors/data/241.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import { d226 as d226 } from '../descriptors/data/11.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d221;
+const read = d226;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["CreateGiftCardRequest"]:c0(),["GiftCardNotificationRecipient"]:c1(),["MoneyValue"]:c2(),["SharedCodec198"]:c3(),["SharedCodec199"]:c4(),["SharedCodec200"]:c5(),["SharedCodec201"]:c6(),["SharedCodec202"]:c7(),["SharedCodec203"]:c8(),["SharedCodec204"]:c9(),["SharedCodec205"]:c10(),["SharedCodec206"]:c11(),["SharedCodec207"]:c12(),["SharedCodec208"]:c13(),["SharedCodec209"]:c14(),["SharedCodec210"]:c15(),["SharedCodec211"]:c16(),["SharedCodec212"]:c17(),["SharedCodec213"]:c18(),["SharedCodec214"]:c19(),["SharedCodec215"]:c20(),["SharedCodec216"]:c21(),["SharedCodec217"]:c22(),["SharedCodec218"]:c23(),["SharedCodec219"]:c24(),["SharedCodec220"]:c25(),["SharedCodec221"]:c26(),["SharedCodec222"]:c27(),["SharedCodec226"]:c28(),["SharedCodec227"]:c29()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["CreateGiftCardRequest"]:c0(),["GiftCardNotificationRecipient"]:c1(),["MoneyValue"]:c2(),["SharedCodec200"]:c3(),["SharedCodec201"]:c4(),["SharedCodec202"]:c5(),["SharedCodec203"]:c6(),["SharedCodec204"]:c7(),["SharedCodec205"]:c8(),["SharedCodec206"]:c9(),["SharedCodec207"]:c10(),["SharedCodec208"]:c11(),["SharedCodec209"]:c12(),["SharedCodec210"]:c13(),["SharedCodec211"]:c14(),["SharedCodec212"]:c15(),["SharedCodec213"]:c16(),["SharedCodec214"]:c17(),["SharedCodec215"]:c18(),["SharedCodec216"]:c19(),["SharedCodec217"]:c20(),["SharedCodec218"]:c21(),["SharedCodec219"]:c22(),["SharedCodec220"]:c23(),["SharedCodec221"]:c24(),["SharedCodec222"]:c25(),["SharedCodec223"]:c26(),["SharedCodec224"]:c27(),["SharedCodec228"]:c28(),["SharedCodec229"]:c29()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeCreateGiftCardRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

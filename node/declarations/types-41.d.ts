@@ -1,7 +1,17 @@
-import type { PartnerWebhookEnvelope, PaymentIntent, PaymentCollection } from './types-40.js';
-import type { MerchantWebhookEnvelope, MetadataMap } from './types-34.js';
+import type { StripePaymentClientAction } from './types-54.js';
+import type { MoneyValue, MetadataMap, MerchantWebhookEnvelope } from './types-35.js';
+import type { SelectableOrderPaymentIntent, SendPaymentIntentReceiptRequestInput, SelectedProductOption } from './types-53.js';
+import type {
+    ErrorRemediation,
+    ExpandedCustomerSummary,
+    ExpandedInvoiceSummary,
+    ExpandedOrderSummary,
+    ExpandedSubscriptionPlanSummary
+} from './types-21.js';
+import type { PaymentAddOnFee, PartnerWebhookEnvelope } from './types-40.js';
+import type { PaymentRisk, PaymentSourceSummary } from './types-43.js';
 import type { ResponseMeta } from './types-48.js';
-import type { PendingPaymentAction } from './types-43.js';
+import type { PendingPaymentAction } from './types-44.js';
 import type { InputValue } from '../runtime.js';
 import type { CancelPaymentIntentRequestInput } from './types-3.js';
 import type {
@@ -9,25 +19,1193 @@ import type {
     CheckoutBuyerFields,
     CheckoutCustomTextConfig,
     CheckoutPaymentConfig,
-    CheckoutPromotionConfig,
-    CheckoutRedirects
+    CheckoutPromotionConfig
 } from './types-4.js';
 import type { ConfirmPaymentIntentRequestInput } from './types-6.js';
 import type { CreatePaymentIntentRequestInput } from './types-9.js';
 import type { OrdersCreatePaymentIntentResponse } from './types-38.js';
-import type { SendPaymentIntentReceiptRequestInput, SelectedProductOption } from './types-53.js';
 import type { UpdatePaymentIntentRequestInput } from './types-59.js';
-import type { MoneyValue, MoneyValueInput } from './types-35.js';
-import type { CheckoutTaxConfig, CheckoutTipConfig } from './types-5.js';
-import type { ExpandedSubscriptionPlanSummary } from './types-21.js';
+import type { CheckoutRedirects, CheckoutTaxConfig, CheckoutTipConfig } from './types-5.js';
 import type { ImageAttachment, Image } from './types-25.js';
-import type { InventoryRoutingSource } from './types-27.js';
+import type { InventoryRoutingSource } from './types-28.js';
 import type { LegalSettings } from './types-32.js';
-import type { PaymentLinkSalesSummary, PaymentLinkLineItemVariant } from './types-42.js';
-import type { ThemeConfig } from './types-57.js';
+import type { PaymentLinkEventConfig, PaymentLinkLineItem, PaymentLinkSalesSummary } from './types-42.js';
+import type { ThemeConfig } from './types-58.js';
 import type { PublicResolvedModifierGroup } from './types-46.js';
-import type { OrderLineItemTax, OrderLineItemTaxInput } from './types-37.js';
-import type { ProductPriceRange } from './types-44.js';
+/**
+ * Typed provider-specific browser action payload. Execute the selected provider action before
+ * continuing the owning payment through Flint.
+ */
+export type PaymentClientAction = {
+    /**
+     * Stripe.js initialization context plus one flow-specific authority object. Exactly one of
+     * payment_intent or setup_intent is present.
+     */
+    "stripe": StripePaymentClientAction;
+};
+/**
+ * Client-side details for collecting payment from the buyer, such as the Stripe settings to
+ * initialize Stripe.js.
+ */
+export type PaymentCollection = {
+    /**
+     * Client configuration for collecting the payment through Stripe. Stripe details for
+     * collecting payment in the browser: account ID, publishable key, return URL, and Elements
+     * options.
+     */
+    "stripe"?: PaymentCollectionStripe;
+};
+/**
+ * Stripe details for collecting payment in the browser: account ID, publishable key, return URL,
+ * and Elements options.
+ */
+export type PaymentCollectionStripe = {
+    /** Stripe account to use when initializing the payment client. */
+    "account_id"?: string;
+    /**
+     * Stripe Elements configuration for the available payment methods and amounts. Stripe Elements
+     * collection guidance. Follow next_step in the browser, then submit the result to submit_to
+     * through Flint.
+     */
+    "elements"?: PaymentCollectionStripeElements;
+    /** Publishable Stripe key for initializing the payment client. */
+    "publishable_key"?: string;
+    /** URL the buyer returns to after a redirect payment step. */
+    "return_url"?: string;
+};
+/**
+ * Stripe Elements collection guidance. Follow next_step in the browser, then submit the result to
+ * submit_to through Flint.
+ */
+export type PaymentCollectionStripeElements = {
+    /**
+     * Amount and currency used to initialize the payment form. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "amount_money"?: MoneyValue;
+    /** Digital wallets that the payment form can offer. [] (Value): string. */
+    "digital_wallets"?: Array<string>;
+    /**
+     * Whether Elements is collecting a payment source for an immediate payment or a setup source
+     * for future use. Value enum: "payment", "setup".
+     */
+    "mode": "payment" | "setup" | (string & {});
+    /**
+     * Browser collection operation to perform before calling submit_to. Value enum:
+     * "collect_payment_source", "collect_setup_payment_source", "create_confirmation_token".
+     */
+    "next_step": "collect_payment_source"
+        | "collect_setup_payment_source"
+        | "create_confirmation_token"
+        | (string & {});
+    /**
+     * Stripe Elements payment method creation mode. Follow next_step: standalone PaymentIntents
+     * and checkout-authenticated order collection create a ConfirmationToken, while
+     * merchant-authenticated order collection and setup collection create a PaymentMethod. Value
+     * enum: "manual".
+     */
+    "payment_method_creation": "manual" | (string & {});
+    /** Payment method settings passed to the payment form. */
+    "payment_method_options"?: {
+        [key: string]: unknown;
+    };
+    /** Payment method types that the payment form can offer. [] (Value): string. */
+    "payment_method_types": Array<string>;
+    /**
+     * Order payment intents that the buyer can select for collection. [] (Value): {@link
+     * SelectableOrderPaymentIntent}. A payment intent on an order the caller can pick, with its
+     * amount, status, and last payment error.
+     */
+    "selectable_payment_intents"?: Array<SelectableOrderPaymentIntent>;
+    /**
+     * Flint operation that accepts the result of next_step. Value enum: "pay_order",
+     * "confirm_payment_intent".
+     */
+    "submit_to": "pay_order" | "confirm_payment_intent" | (string & {});
+};
+/**
+ * A summary of why a payment attempt failed, with a normalized error code, a message, the failure
+ * time, and remediation.
+ */
+export type PaymentErrorSummary = {
+    /**
+     * Flint-normalized payment failure code. Unknown provider values are returned as
+     * payment_failed. Value enum: "card_declined", "insufficient_funds", "bank_account_closed",
+     * "bank_account_not_found", "bank_debit_not_authorized", "bank_account_restricted",
+     * "bank_debit_limit_exceeded", "authentication_required", "payment_blocked", "expired_card",
+     * "incorrect_cvc", "lost_card", "stolen_card", "do_not_honor", "fraudulent",
+     * "processing_error", "payment_method_unavailable", "payment_method_declined",
+     * "payment_not_completed", "payment_action_expired", "payment_method_temporarily_unavailable",
+     * "payment_failed".
+     */
+    "code": "card_declined"
+        | "insufficient_funds"
+        | "bank_account_closed"
+        | "bank_account_not_found"
+        | "bank_debit_not_authorized"
+        | "bank_account_restricted"
+        | "bank_debit_limit_exceeded"
+        | "authentication_required"
+        | "payment_blocked"
+        | "expired_card"
+        | "incorrect_cvc"
+        | "lost_card"
+        | "stolen_card"
+        | "do_not_honor"
+        | "fraudulent"
+        | "processing_error"
+        | "payment_method_unavailable"
+        | "payment_method_declined"
+        | "payment_not_completed"
+        | "payment_action_expired"
+        | "payment_method_temporarily_unavailable"
+        | "payment_failed"
+        | (string & {});
+    /** Time the payment attempt concluded in failure. Format: date-time. */
+    "failed_at": string;
+    /**
+     * Flint-authored merchant-facing payment failure message. This is stable explanatory text, not
+     * raw provider copy.
+     */
+    "message": string;
+    /**
+     * Guidance for resolving the payment failure before trying to collect again. anyOf[1] (Value):
+     * {@link ErrorRemediation}. Recovery guidance for an error: whether and how to `retry`, plus
+     * next steps and suggested actions. anyOf[2] (Value): null.
+     */
+    "remediation": ((ErrorRemediation) | (null));
+};
+/**
+ * A hold on fulfillment tied to a payment, with the reason, the action required, and whether the
+ * hold is active or released.
+ */
+export type PaymentFulfillmentHold = {
+    /** Value enum: "external_payment_hold", "external_payment_hold_released". */
+    "reason": "external_payment_hold" | "external_payment_hold_released" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. */
+    "released_at"?: string;
+    /** RFC3339 timestamp. Format: date-time. */
+    "requested_at": string;
+    /** Value enum: "pause_fulfillment", "reevaluate_fulfillment". */
+    "required_action": "pause_fulfillment" | "reevaluate_fulfillment" | (string & {});
+    /** Value enum: "active", "released". */
+    "status": "active" | "released" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. */
+    "updated_at": string;
+};
+/**
+ * One payment from a buyer, standalone or as a leg of an order. amount_money is the amount
+ * requested. Once the payment is authorized, authorized_money equals amount_money and splits into
+ * captured_money (collected), capturable_money (still on hold), and released_money (returned
+ * without being charged), so authorized_money always equals the sum of those three. Reconcile
+ * revenue from captured_money.
+ */
+export type PaymentIntent = {
+    /**
+     * Itemized invoice, subscription, and automatic tax fees collected with this payment.
+     * Available to the merchant only. Empty until fees settle or when no add-ons apply. Refunds do
+     * not return or revise these fees. Absent until Flint has determined and verified the fee. If
+     * Flint can't verify it when you read the payment intent, the field is omitted rather than
+     * shown unverified; read the payment intent again later. [] (Value): {@link PaymentAddOnFee}.
+     * A Flint fee added to a payment intent, with the fee type and amount.
+     */
+    "add_on_fees"?: Array<PaymentAddOnFee>;
+    /**
+     * The amount requested from the buyer, including any tip_money. Capturing doesn't change it:
+     * after a partial capture it still shows the requested amount, and captured_money shows what
+     * was collected. On a standalone payment intent, PATCH can change it only before the first
+     * confirmation attempt. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "amount_money": MoneyValue;
+    /**
+     * Deadline to capture a manual-capture hold. The authorization lapses at this time, and a
+     * capture attempted after it fails even if status is still requires_capture. Set when the hold
+     * is placed. Format: date-time.
+     */
+    "authorization_expires_at"?: string;
+    /** When the processor authorized the payment. Absent until then. Format: date-time. */
+    "authorized_at"?: string;
+    /**
+     * The amount the processor authorized. It always equals amount_money and doesn't change once
+     * set. Absent until the payment is authorized, and on payments canceled before authorization.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "authorized_money"?: MoneyValue;
+    /**
+     * Flint-normalized reason the payment intent was canceled. Present only while status is
+     * canceled. Unknown processor values are returned as payment_canceled. Value enum:
+     * "requested_by_customer", "duplicate", "fraudulent", "abandoned", "invoice_payment_failed",
+     * "invoice_voided", "order_closed", "payment_canceled".
+     */
+    "cancellation_reason"?: "requested_by_customer"
+        | "duplicate"
+        | "fraudulent"
+        | "abandoned"
+        | "invoice_payment_failed"
+        | "invoice_voided"
+        | "order_closed"
+        | "payment_canceled"
+        | (string & {});
+    /**
+     * The part of the authorization you can still capture. Positive only while status is
+     * requires_capture, and zero after you capture or cancel or the authorization expires. The
+     * authorization lapses at authorization_expires_at, and a capture attempted after that fails
+     * even if this is positive. Absent until the payment is authorized. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "capturable_money"?: MoneyValue;
+    /** When money is collected. Defaults to automatic. Value enum: "automatic", "manual". */
+    "capture_method"?: "automatic" | "manual" | (string & {});
+    /**
+     * When money was captured. For automatic capture, this is when the payment succeeded. Absent
+     * until capture. Format: date-time.
+     */
+    "captured_at"?: string;
+    /**
+     * The amount collected from the buyer. Reconcile revenue and print receipts from this amount,
+     * not amount_money. Zero while a hold is open, and positive whenever status is succeeded.
+     * processing_fee_money, merchant_net_money, and refunds are based on it. Absent until the
+     * payment is authorized. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "captured_money"?: MoneyValue;
+    /** Flint checkout session ID associated with this payment, when present. */
+    "checkout_session_id"?: string;
+    /** RFC3339 timestamp. Format: date-time. */
+    "created_at"?: string;
+    /**
+     * The linked customer. Returned only with expand=customer. Present only when `expand` includes
+     * `customer`; `null` when expanded and there is no related customer. anyOf[1] (Value): {@link
+     * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer ID
+     * when the customer is expanded. anyOf[2] (Value): null.
+     */
+    "customer"?: ((ExpandedCustomerSummary) | (null));
+    /** Customer linked to this payment intent. */
+    "customer_id"?: string;
+    /**
+     * Dispute state of this payment. none means no dispute or inquiry is open or recorded. The
+     * inquiry_ values track an issuer inquiry or early warning that isn't a chargeback. Read the
+     * dispute with GET /v1/disputes for its deadline and evidence. Value enum: "none",
+     * "inquiry_needs_response", "inquiry_under_review", "inquiry_closed", "needs_response",
+     * "under_review", "won", "lost", "prevented", "other".
+     */
+    "dispute_status"?: "none"
+        | "inquiry_needs_response"
+        | "inquiry_under_review"
+        | "inquiry_closed"
+        | "needs_response"
+        | "under_review"
+        | "won"
+        | "lost"
+        | "prevented"
+        | "other"
+        | (string & {});
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255.
+     */
+    "external_reference_id"?: string | null;
+    /**
+     * Present when a payment provider asked Flint to pause fulfillment for this payment. While its
+     * status is active, open fulfillments on the order are on hold with reason payment_review.
+     * payment_intent.fulfillment_hold_updated is sent when the hold starts and when it lifts. A
+     * hold on fulfillment tied to a payment, with the reason, the action required, and whether the
+     * hold is active or released.
+     */
+    "fulfillment_hold"?: PaymentFulfillmentHold;
+    /**
+     * The linked invoice. Returned only with expand=invoice. Present only when `expand` includes
+     * `invoice`; `null` when expanded and there is no related invoice. anyOf[1] (Value): {@link
+     * ExpandedInvoiceSummary}. An invoice's summary fields, including status, due date, and paid,
+     * outstanding, and refunded amounts, returned when the invoice is expanded. anyOf[2] (Value):
+     * null.
+     */
+    "invoice"?: ((ExpandedInvoiceSummary) | (null));
+    /** Invoice this payment intent collects, when it pays an invoice. */
+    "invoice_id"?: string;
+    /**
+     * Most recent payment error. Null when no payment error is recorded. anyOf[1] (Value): {@link
+     * PaymentErrorSummary}. A summary of why a payment attempt failed, with a normalized error
+     * code, a message, the failure time, and remediation. anyOf[2] (Value): null.
+     */
+    "last_payment_error": ((PaymentErrorSummary) | (null));
+    /** Merchant that owns this payment intent. */
+    "merchant_id"?: string;
+    /**
+     * Captured amount minus processing_fee_money and every amount in add_on_fees. Later merchant
+     * assessments and credits are separate balance effects. Absent until Flint has determined and
+     * verified the fee. If Flint can't verify it when you read the payment intent, the field is
+     * omitted rather than shown unverified; read the payment intent again later. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "merchant_net_money"?: MoneyValue;
+    /**
+     * Caller-owned metadata. Keys starting with flint_ are reserved for Flint and aren't returned.
+     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
+     * Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them.
+     */
+    "metadata": MetadataMap;
+    /**
+     * The linked order. Returned only with expand=order. Present only when `expand` includes
+     * `order`; `null` when expanded and there is no related order. anyOf[1] (Value): {@link
+     * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
+     * status, and pricing and settlement amounts, returned when the order is expanded. anyOf[2]
+     * (Value): null.
+     */
+    "order"?: ((ExpandedOrderSummary) | (null));
+    /**
+     * Order this payment intent belongs to. Create it through the order and confirm it with POST
+     * /v1/orders/{order_id}/pay. Capture and cancel use POST
+     * /v1/payment-intents/{payment_intent_id}/capture or /cancel for every payment intent.
+     * Order-owned intents accept PATCH for metadata and external_reference_id.
+     */
+    "order_id"?: string;
+    /**
+     * How the payment was started. Fixed when the payment intent is created. Value enum:
+     * "checkout", "payment_link", "invoice", "subscription_initial", "subscription_renewal",
+     * "virtual_terminal", "api".
+     */
+    "payment_flow": "checkout"
+        | "payment_link"
+        | "invoice"
+        | "subscription_initial"
+        | "subscription_renewal"
+        | "virtual_terminal"
+        | "api"
+        | (string & {});
+    /** Flint payment intent ID. */
+    "payment_intent_id": string;
+    /**
+     * Payment options the buyer can use for this payment. [] enum: "card", "apple_pay",
+     * "google_pay", "affirm", "ach_debit". [] (Value): string. Value enum: "card", "apple_pay",
+     * "google_pay", "affirm", "ach_debit".
+     */
+    "payment_options": Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | (string & {})>;
+    /**
+     * Summary of the card or bank account used for the payment. Absent until a payment source is
+     * attached. A summary of the payment source used for a payment, by funding-method family, with
+     * card or bank account display details.
+     */
+    "payment_source"?: PaymentSourceSummary;
+    /**
+     * Flint's all-in processing fee for this payment. It is the complete price Flint charges to
+     * process the payment, never a provider cost passed through. The fee is final once the card
+     * payment is captured or the ACH payment succeeds; canceled payments and failures before
+     * success have none. Invoice, subscription, and automatic tax fees are itemized separately in
+     * add_on_fees. Your net for the payment is captured_money minus this fee and the add-on fees.
+     * Refunds do not return or revise it. Absent until Flint has determined and verified the fee.
+     * If Flint can't verify it when you read the payment intent, the field is omitted rather than
+     * shown unverified; read the payment intent again later. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "processing_fee_money"?: MoneyValue;
+    /**
+     * Email address for this payment's receipt. When it isn't set, Flint uses the customer's
+     * email. Format: email. maxLength: 255.
+     */
+    "receipt_email"?: string | null;
+    /**
+     * How much of captured_money has been refunded, including value issued as store credit, based
+     * on refunded_money. Value enum: "none", "partially_refunded", "refunded".
+     */
+    "refund_status"?: "none" | "partially_refunded" | "refunded" | (string & {});
+    /**
+     * Total refunded against captured_money, including value issued as store credit and processor
+     * refunds still pending. Failed and canceled refunds aren't counted. Zero when nothing has
+     * been refunded. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "refunded_money"?: MoneyValue;
+    /**
+     * The part of the authorization returned to the buyer without being charged: the uncaptured
+     * remainder after a partial capture, or the whole authorization after a cancellation or
+     * expiry. It was never collected, so it needs no refund and can't be captured later. Absent
+     * until the payment is authorized. Monetary amount represented as integer minor units plus an
+     * ISO 4217 currency code.
+     */
+    "released_money"?: MoneyValue;
+    /** Flint return ID associated with this payment, when present. */
+    "return_id"?: string;
+    /**
+     * Risk assessment. Always present with merchant credentials; null when no risk assessment is
+     * available. Omitted with the checkout credential. anyOf[1] (Value): {@link PaymentRisk}. The
+     * risk assessment for a payment intent, with its risk level, score, outcome, and any matched
+     * rule or review. anyOf[2] (Value): null.
+     */
+    "risk"?: ((PaymentRisk) | (null));
+    /**
+     * The payment option the most recent confirmation used. Absent until the payment intent is
+     * first confirmed.
+     */
+    "selected_payment_option"?: string;
+    /**
+     * Lifecycle status. requires_payment_method covers both a new payment intent and one whose
+     * last attempt failed, so read last_payment_error with it. succeeded, canceled, and expired
+     * are final. Refunds and disputes never change status. Value enum: "requires_payment_method",
+     * "requires_confirmation", "requires_action", "processing", "requires_capture", "canceled",
+     * "succeeded", "expired".
+     */
+    "status": "requires_payment_method"
+        | "requires_confirmation"
+        | "requires_action"
+        | "processing"
+        | "requires_capture"
+        | "canceled"
+        | "succeeded"
+        | "expired"
+        | (string & {});
+    /** Opaque payment reference to share with merchant support. Do not parse its format. */
+    "support_reference": string;
+    /**
+     * Actions the payment intent's current state accepts, each a POST to
+     * /v1/payment-intents/{payment_intent_id}/{action}. An action that isn't listed returns 409
+     * ACTION_NOT_ALLOWED. A listed action can still be refused because of something outside the
+     * payment intent: an open risk review, an order payment attempt that is using this payment, a
+     * closed order, or the merchant's account. An order-owned payment intent never lists confirm;
+     * pay it with POST /v1/orders/{order_id}/pay. The list changes only when the payment intent
+     * changes. Always empty for buyer credentials. New actions may be added. [] enum: "confirm",
+     * "capture", "cancel". [] (Value): string. Value enum: "confirm", "capture", "cancel".
+     */
+    "supported_actions": Array<"confirm" | "capture" | "cancel" | (string & {})>;
+    /**
+     * Portion of amount_money that is a tip. Uses amount_money's currency and is at most
+     * amount_money. anyOf[1] (Value): {@link MoneyValue}. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
+     */
+    "tip_money"?: ((MoneyValue) | (null));
+    /**
+     * Why a bank debit is taken. Set only when payment_options includes ach_debit, and fixed once
+     * the payment intent exists. Value enum: "goods", "services", "other".
+     */
+    "transaction_purpose"?: "goods" | "services" | "other" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. */
+    "updated_at"?: string;
+    /**
+     * Persisted version of this resource's owned state. Expanded resources and external
+     * observations can change independently. Format: uint64. minimum: 1.
+     */
+    "version": number;
+};
+/**
+ * A read-only entry in a payment intent's human-readable history. Read the referenced resource for
+ * authoritative state.
+ */
+export type PaymentIntentActivity = {
+    /**
+     * Value enum: "other", "created", "updated", "status_changed", "failed", "canceled",
+     * "expired", "refund_created", "refund_status_changed", "dispute_status_changed",
+     * "receipt_sent".
+     */
+    "activity_type": "other"
+        | "created"
+        | "updated"
+        | "status_changed"
+        | "failed"
+        | "canceled"
+        | "expired"
+        | "refund_created"
+        | "refund_status_changed"
+        | "dispute_status_changed"
+        | "receipt_sent"
+        | (string & {});
+    "checkout_session_id"?: string;
+    /** RFC3339 timestamp. Format: date-time. */
+    "created_at": string;
+    "description": string;
+    "dispute_id"?: string;
+    /**
+     * Value enum: "none", "inquiry_needs_response", "inquiry_under_review", "inquiry_closed",
+     * "needs_response", "under_review", "won", "lost", "prevented", "other".
+     */
+    "from_dispute_status"?: "none"
+        | "inquiry_needs_response"
+        | "inquiry_under_review"
+        | "inquiry_closed"
+        | "needs_response"
+        | "under_review"
+        | "won"
+        | "lost"
+        | "prevented"
+        | "other"
+        | (string & {});
+    /**
+     * Value enum: "requires_payment_method", "requires_confirmation", "requires_action",
+     * "processing", "requires_capture", "canceled", "succeeded", "expired".
+     */
+    "from_status"?: "requires_payment_method"
+        | "requires_confirmation"
+        | "requires_action"
+        | "processing"
+        | "requires_capture"
+        | "canceled"
+        | "succeeded"
+        | "expired"
+        | (string & {});
+    "order_id"?: string;
+    "payment_intent_activity_id": string;
+    "refund_id"?: string;
+    /**
+     * Value enum: "none", "inquiry_needs_response", "inquiry_under_review", "inquiry_closed",
+     * "needs_response", "under_review", "won", "lost", "prevented", "other".
+     */
+    "to_dispute_status"?: "none"
+        | "inquiry_needs_response"
+        | "inquiry_under_review"
+        | "inquiry_closed"
+        | "needs_response"
+        | "under_review"
+        | "won"
+        | "lost"
+        | "prevented"
+        | "other"
+        | (string & {});
+    /**
+     * Value enum: "requires_payment_method", "requires_confirmation", "requires_action",
+     * "processing", "requires_capture", "canceled", "succeeded", "expired".
+     */
+    "to_status"?: "requires_payment_method"
+        | "requires_confirmation"
+        | "requires_action"
+        | "processing"
+        | "requires_capture"
+        | "canceled"
+        | "succeeded"
+        | "expired"
+        | (string & {});
+};
+/** A page of `PaymentIntentActivity` objects. */
+export type PaymentIntentActivityListResponse = {
+    /**
+     *  [] (Value): {@link PaymentIntentActivity}. A read-only entry in a payment intent's
+     * human-readable history. Read the referenced resource for authoritative state.
+     */
+    "data": Array<PaymentIntentActivity>;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    "next_page_token"?: string;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type PaymentIntentCanceledEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": PaymentIntent;
+    };
+    "event_type"?: "payment_intent.canceled";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": PaymentIntent;
+    };
+    "event_type"?: "payment_intent.canceled";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "payment_intent.canceled";
+});
+/**
+ * The `payment_intent.canceled` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type PaymentIntentCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link PaymentIntent}. One payment from a buyer, standalone or as a leg
+     * of an order. amount_money is the amount requested. Once the payment is authorized,
+     * authorized_money equals amount_money and splits into captured_money (collected),
+     * capturable_money (still on hold), and released_money (returned without being charged), so
+     * authorized_money always equals the sum of those three. Reconcile revenue from
+     * captured_money.
+     */
+    "data"?: {
+        /**
+         * One payment from a buyer, standalone or as a leg of an order. amount_money is the amount
+         * requested. Once the payment is authorized, authorized_money equals amount_money and
+         * splits into captured_money (collected), capturable_money (still on hold), and
+         * released_money (returned without being charged), so authorized_money always equals the
+         * sum of those three. Reconcile revenue from captured_money.
+         */
+        "object": PaymentIntent;
+    };
+    /** Value enum: "payment_intent.canceled". */
+    "event_type"?: "payment_intent.canceled";
+    /**
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `payment_intent.canceled` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type PaymentIntentCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link PaymentIntent}. One payment from a buyer, standalone or as a leg
+     * of an order. amount_money is the amount requested. Once the payment is authorized,
+     * authorized_money equals amount_money and splits into captured_money (collected),
+     * capturable_money (still on hold), and released_money (returned without being charged), so
+     * authorized_money always equals the sum of those three. Reconcile revenue from
+     * captured_money.
+     */
+    "data"?: {
+        /**
+         * One payment from a buyer, standalone or as a leg of an order. amount_money is the amount
+         * requested. Once the payment is authorized, authorized_money equals amount_money and
+         * splits into captured_money (collected), capturable_money (still on hold), and
+         * released_money (returned without being charged), so authorized_money always equals the
+         * sum of those three. Reconcile revenue from captured_money.
+         */
+        "object": PaymentIntent;
+    };
+    /** Value enum: "payment_intent.canceled". */
+    "event_type"?: "payment_intent.canceled";
+});
+export type PaymentIntentCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": PaymentIntent;
+    };
+    "event_type"?: "payment_intent.created";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": PaymentIntent;
+    };
+    "event_type"?: "payment_intent.created";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "payment_intent.created";
+});
+/**
+ * The `payment_intent.created` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type PaymentIntentCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link PaymentIntent}. One payment from a buyer, standalone or as a leg
+     * of an order. amount_money is the amount requested. Once the payment is authorized,
+     * authorized_money equals amount_money and splits into captured_money (collected),
+     * capturable_money (still on hold), and released_money (returned without being charged), so
+     * authorized_money always equals the sum of those three. Reconcile revenue from
+     * captured_money.
+     */
+    "data"?: {
+        /**
+         * One payment from a buyer, standalone or as a leg of an order. amount_money is the amount
+         * requested. Once the payment is authorized, authorized_money equals amount_money and
+         * splits into captured_money (collected), capturable_money (still on hold), and
+         * released_money (returned without being charged), so authorized_money always equals the
+         * sum of those three. Reconcile revenue from captured_money.
+         */
+        "object": PaymentIntent;
+    };
+    /** Value enum: "payment_intent.created". */
+    "event_type"?: "payment_intent.created";
+    /**
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `payment_intent.created` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type PaymentIntentCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link PaymentIntent}. One payment from a buyer, standalone or as a leg
+     * of an order. amount_money is the amount requested. Once the payment is authorized,
+     * authorized_money equals amount_money and splits into captured_money (collected),
+     * capturable_money (still on hold), and released_money (returned without being charged), so
+     * authorized_money always equals the sum of those three. Reconcile revenue from
+     * captured_money.
+     */
+    "data"?: {
+        /**
+         * One payment from a buyer, standalone or as a leg of an order. amount_money is the amount
+         * requested. Once the payment is authorized, authorized_money equals amount_money and
+         * splits into captured_money (collected), capturable_money (still on hold), and
+         * released_money (returned without being charged), so authorized_money always equals the
+         * sum of those three. Reconcile revenue from captured_money.
+         */
+        "object": PaymentIntent;
+    };
+    /** Value enum: "payment_intent.created". */
+    "event_type"?: "payment_intent.created";
+});
+export type PaymentIntentExpiredEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": PaymentIntent;
+    };
+    "event_type"?: "payment_intent.expired";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": PaymentIntent;
+    };
+    "event_type"?: "payment_intent.expired";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "payment_intent.expired";
+});
+/**
+ * The `payment_intent.expired` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type PaymentIntentExpiredInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link PaymentIntent}. One payment from a buyer, standalone or as a leg
+     * of an order. amount_money is the amount requested. Once the payment is authorized,
+     * authorized_money equals amount_money and splits into captured_money (collected),
+     * capturable_money (still on hold), and released_money (returned without being charged), so
+     * authorized_money always equals the sum of those three. Reconcile revenue from
+     * captured_money.
+     */
+    "data"?: {
+        /**
+         * One payment from a buyer, standalone or as a leg of an order. amount_money is the amount
+         * requested. Once the payment is authorized, authorized_money equals amount_money and
+         * splits into captured_money (collected), capturable_money (still on hold), and
+         * released_money (returned without being charged), so authorized_money always equals the
+         * sum of those three. Reconcile revenue from captured_money.
+         */
+        "object": PaymentIntent;
+    };
+    /** Value enum: "payment_intent.expired". */
+    "event_type"?: "payment_intent.expired";
+    /**
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `payment_intent.expired` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type PaymentIntentExpiredMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link PaymentIntent}. One payment from a buyer, standalone or as a leg
+     * of an order. amount_money is the amount requested. Once the payment is authorized,
+     * authorized_money equals amount_money and splits into captured_money (collected),
+     * capturable_money (still on hold), and released_money (returned without being charged), so
+     * authorized_money always equals the sum of those three. Reconcile revenue from
+     * captured_money.
+     */
+    "data"?: {
+        /**
+         * One payment from a buyer, standalone or as a leg of an order. amount_money is the amount
+         * requested. Once the payment is authorized, authorized_money equals amount_money and
+         * splits into captured_money (collected), capturable_money (still on hold), and
+         * released_money (returned without being charged), so authorized_money always equals the
+         * sum of those three. Reconcile revenue from captured_money.
+         */
+        "object": PaymentIntent;
+    };
+    /** Value enum: "payment_intent.expired". */
+    "event_type"?: "payment_intent.expired";
+});
+export type PaymentIntentFulfillmentHoldUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": PaymentIntent;
+    };
+    "event_type"?: "payment_intent.fulfillment_hold_updated";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": PaymentIntent;
+    };
+    "event_type"?: "payment_intent.fulfillment_hold_updated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "payment_intent.fulfillment_hold_updated";
+});
+/**
+ * The `payment_intent.fulfillment_hold_updated` webhook payload for the `installed_merchants`
+ * event source. Fields shared by partner webhook payloads.
+ */
+export type PaymentIntentFulfillmentHoldUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link PaymentIntent}. One payment from a buyer, standalone or as a leg
+     * of an order. amount_money is the amount requested. Once the payment is authorized,
+     * authorized_money equals amount_money and splits into captured_money (collected),
+     * capturable_money (still on hold), and released_money (returned without being charged), so
+     * authorized_money always equals the sum of those three. Reconcile revenue from
+     * captured_money.
+     */
+    "data"?: {
+        /**
+         * One payment from a buyer, standalone or as a leg of an order. amount_money is the amount
+         * requested. Once the payment is authorized, authorized_money equals amount_money and
+         * splits into captured_money (collected), capturable_money (still on hold), and
+         * released_money (returned without being charged), so authorized_money always equals the
+         * sum of those three. Reconcile revenue from captured_money.
+         */
+        "object": PaymentIntent;
+    };
+    /** Value enum: "payment_intent.fulfillment_hold_updated". */
+    "event_type"?: "payment_intent.fulfillment_hold_updated";
+    /**
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `payment_intent.fulfillment_hold_updated` webhook payload for the `merchant` event source.
+ * Fields shared by merchant webhook payloads.
+ */
+export type PaymentIntentFulfillmentHoldUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link PaymentIntent}. One payment from a buyer, standalone or as a leg
+     * of an order. amount_money is the amount requested. Once the payment is authorized,
+     * authorized_money equals amount_money and splits into captured_money (collected),
+     * capturable_money (still on hold), and released_money (returned without being charged), so
+     * authorized_money always equals the sum of those three. Reconcile revenue from
+     * captured_money.
+     */
+    "data"?: {
+        /**
+         * One payment from a buyer, standalone or as a leg of an order. amount_money is the amount
+         * requested. Once the payment is authorized, authorized_money equals amount_money and
+         * splits into captured_money (collected), capturable_money (still on hold), and
+         * released_money (returned without being charged), so authorized_money always equals the
+         * sum of those three. Reconcile revenue from captured_money.
+         */
+        "object": PaymentIntent;
+    };
+    /** Value enum: "payment_intent.fulfillment_hold_updated". */
+    "event_type"?: "payment_intent.fulfillment_hold_updated";
+});
+/** A page of `PaymentIntent` objects. */
+export type PaymentIntentListResponse = {
+    /**
+     *  [] (Value): {@link PaymentIntent}. One payment from a buyer, standalone or as a leg of an
+     * order. amount_money is the amount requested. Once the payment is authorized,
+     * authorized_money equals amount_money and splits into captured_money (collected),
+     * capturable_money (still on hold), and released_money (returned without being charged), so
+     * authorized_money always equals the sum of those three. Reconcile revenue from
+     * captured_money.
+     */
+    "data": Array<PaymentIntent>;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    "next_page_token"?: string;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type PaymentIntentPaymentFailedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": PaymentIntent;
+    };
+    "event_type"?: "payment_intent.payment_failed";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": PaymentIntent;
+    };
+    "event_type"?: "payment_intent.payment_failed";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "payment_intent.payment_failed";
+});
+/**
+ * The `payment_intent.payment_failed` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type PaymentIntentPaymentFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link PaymentIntent}. One payment from a buyer, standalone or as a leg
+     * of an order. amount_money is the amount requested. Once the payment is authorized,
+     * authorized_money equals amount_money and splits into captured_money (collected),
+     * capturable_money (still on hold), and released_money (returned without being charged), so
+     * authorized_money always equals the sum of those three. Reconcile revenue from
+     * captured_money.
+     */
+    "data"?: {
+        /**
+         * One payment from a buyer, standalone or as a leg of an order. amount_money is the amount
+         * requested. Once the payment is authorized, authorized_money equals amount_money and
+         * splits into captured_money (collected), capturable_money (still on hold), and
+         * released_money (returned without being charged), so authorized_money always equals the
+         * sum of those three. Reconcile revenue from captured_money.
+         */
+        "object": PaymentIntent;
+    };
+    /** Value enum: "payment_intent.payment_failed". */
+    "event_type"?: "payment_intent.payment_failed";
+    /**
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `payment_intent.payment_failed` webhook payload for the `merchant` event source. Fields
+ * shared by merchant webhook payloads.
+ */
+export type PaymentIntentPaymentFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link PaymentIntent}. One payment from a buyer, standalone or as a leg
+     * of an order. amount_money is the amount requested. Once the payment is authorized,
+     * authorized_money equals amount_money and splits into captured_money (collected),
+     * capturable_money (still on hold), and released_money (returned without being charged), so
+     * authorized_money always equals the sum of those three. Reconcile revenue from
+     * captured_money.
+     */
+    "data"?: {
+        /**
+         * One payment from a buyer, standalone or as a leg of an order. amount_money is the amount
+         * requested. Once the payment is authorized, authorized_money equals amount_money and
+         * splits into captured_money (collected), capturable_money (still on hold), and
+         * released_money (returned without being charged), so authorized_money always equals the
+         * sum of those three. Reconcile revenue from captured_money.
+         */
+        "object": PaymentIntent;
+    };
+    /** Value enum: "payment_intent.payment_failed". */
+    "event_type"?: "payment_intent.payment_failed";
+});
+export type PaymentIntentProcessingEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": PaymentIntent;
+    };
+    "event_type"?: "payment_intent.processing";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": PaymentIntent;
+    };
+    "event_type"?: "payment_intent.processing";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "payment_intent.processing";
+});
+/**
+ * The `payment_intent.processing` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type PaymentIntentProcessingInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link PaymentIntent}. One payment from a buyer, standalone or as a leg
+     * of an order. amount_money is the amount requested. Once the payment is authorized,
+     * authorized_money equals amount_money and splits into captured_money (collected),
+     * capturable_money (still on hold), and released_money (returned without being charged), so
+     * authorized_money always equals the sum of those three. Reconcile revenue from
+     * captured_money.
+     */
+    "data"?: {
+        /**
+         * One payment from a buyer, standalone or as a leg of an order. amount_money is the amount
+         * requested. Once the payment is authorized, authorized_money equals amount_money and
+         * splits into captured_money (collected), capturable_money (still on hold), and
+         * released_money (returned without being charged), so authorized_money always equals the
+         * sum of those three. Reconcile revenue from captured_money.
+         */
+        "object": PaymentIntent;
+    };
+    /** Value enum: "payment_intent.processing". */
+    "event_type"?: "payment_intent.processing";
+    /**
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `payment_intent.processing` webhook payload for the `merchant` event source. Fields shared
+ * by merchant webhook payloads.
+ */
+export type PaymentIntentProcessingMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link PaymentIntent}. One payment from a buyer, standalone or as a leg
+     * of an order. amount_money is the amount requested. Once the payment is authorized,
+     * authorized_money equals amount_money and splits into captured_money (collected),
+     * capturable_money (still on hold), and released_money (returned without being charged), so
+     * authorized_money always equals the sum of those three. Reconcile revenue from
+     * captured_money.
+     */
+    "data"?: {
+        /**
+         * One payment from a buyer, standalone or as a leg of an order. amount_money is the amount
+         * requested. Once the payment is authorized, authorized_money equals amount_money and
+         * splits into captured_money (collected), capturable_money (still on hold), and
+         * released_money (returned without being charged), so authorized_money always equals the
+         * sum of those three. Reconcile revenue from captured_money.
+         */
+        "object": PaymentIntent;
+    };
+    /** Value enum: "payment_intent.processing". */
+    "event_type"?: "payment_intent.processing";
+});
+export type PaymentIntentRequiresActionEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": PaymentIntent;
+    };
+    "event_type"?: "payment_intent.requires_action";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": PaymentIntent;
+    };
+    "event_type"?: "payment_intent.requires_action";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "payment_intent.requires_action";
+});
 /**
  * The `payment_intent.requires_action` webhook payload for the `installed_merchants` event source.
  * Fields shared by partner webhook payloads.
@@ -1164,1617 +2342,3 @@ export type PaymentLinkCustomFieldPatchRequest = {
     "position"?: number;
     "required"?: boolean;
 };
-/**
- * A custom field in a payment link update. Include its ID to change an existing field, or omit the
- * ID to add a new one.
- */
-export type PaymentLinkCustomFieldPatchRequestInput = {
-    /** Value enum: "text", "dropdown", "checkbox", "textarea". */
-    "custom_field_type": "text" | "dropdown" | "checkbox" | "textarea";
-    /**
-     * Unique custom field key. Must not have leading or trailing whitespace. Buyer answers are
-     * stored in order metadata as custom_field_<key>. minLength: 1. maxLength: 243.
-     */
-    "key": string;
-    /** minLength: 1. maxLength: 255. */
-    "label": string;
-    /**
-     * Maximum answer length for text and textarea fields, counted in Unicode code points. Defaults
-     * to 255 for text and 1000 for textarea when omitted. Each code point can occupy up to four
-     * UTF-8 bytes in the combined metadata size budget. Format: int32. minimum: 1. maximum: 4096.
-     */
-    "max_length"?: number;
-    /**
-     * Dropdown choices. Dropdown fields require at least one option. Options must not have leading
-     * or trailing whitespace. The longest option in UTF-8 bytes counts toward the combined
-     * metadata size budget. [] (Value): string. minLength: 1. maxLength: 4096.
-     */
-    "options"?: Array<string>;
-    /**
-     * Stable ID of an existing custom field. Omit it to create a new custom field. minLength: 1.
-     */
-    "payment_link_custom_field_id"?: string;
-    /** minLength: 1. maxLength: 500. */
-    "placeholder"?: string;
-    /** Format: int32. */
-    "position"?: number;
-    "required"?: boolean;
-};
-/** A custom field you add to a payment link when creating it. */
-export type PaymentLinkCustomFieldRequest = {
-    /** Value enum: "text", "dropdown", "checkbox", "textarea". */
-    "custom_field_type": "text" | "dropdown" | "checkbox" | "textarea" | (string & {});
-    /**
-     * Unique custom field key. Must not have leading or trailing whitespace. Buyer answers are
-     * stored in order metadata as custom_field_<key>. minLength: 1. maxLength: 243.
-     */
-    "key": string;
-    /** minLength: 1. maxLength: 255. */
-    "label": string;
-    /**
-     * Maximum answer length for text and textarea fields, counted in Unicode code points. Defaults
-     * to 255 for text and 1000 for textarea when omitted. Each code point can occupy up to four
-     * UTF-8 bytes in the combined metadata size budget. Format: int32. minimum: 1. maximum: 4096.
-     */
-    "max_length"?: number;
-    /**
-     * Dropdown choices. Dropdown fields require at least one option. Options must not have leading
-     * or trailing whitespace. The longest option in UTF-8 bytes counts toward the combined
-     * metadata size budget. [] (Value): string. minLength: 1. maxLength: 4096.
-     */
-    "options"?: Array<string>;
-    /** minLength: 1. maxLength: 500. */
-    "placeholder"?: string;
-    /** Format: int32. */
-    "position"?: number;
-    "required"?: boolean;
-};
-/** A custom field you add to a payment link when creating it. */
-export type PaymentLinkCustomFieldRequestInput = {
-    /** Value enum: "text", "dropdown", "checkbox", "textarea". */
-    "custom_field_type": "text" | "dropdown" | "checkbox" | "textarea";
-    /**
-     * Unique custom field key. Must not have leading or trailing whitespace. Buyer answers are
-     * stored in order metadata as custom_field_<key>. minLength: 1. maxLength: 243.
-     */
-    "key": string;
-    /** minLength: 1. maxLength: 255. */
-    "label": string;
-    /**
-     * Maximum answer length for text and textarea fields, counted in Unicode code points. Defaults
-     * to 255 for text and 1000 for textarea when omitted. Each code point can occupy up to four
-     * UTF-8 bytes in the combined metadata size budget. Format: int32. minimum: 1. maximum: 4096.
-     */
-    "max_length"?: number;
-    /**
-     * Dropdown choices. Dropdown fields require at least one option. Options must not have leading
-     * or trailing whitespace. The longest option in UTF-8 bytes counts toward the combined
-     * metadata size budget. [] (Value): string. minLength: 1. maxLength: 4096.
-     */
-    "options"?: Array<string>;
-    /** minLength: 1. maxLength: 500. */
-    "placeholder"?: string;
-    /** Format: int32. */
-    "position"?: number;
-    "required"?: boolean;
-};
-/**
- * Custom text shown on a payment link's checkout, such as the order summary message and shipping
- * address label.
- */
-export type PaymentLinkCustomTextConfigInput = {
-    /** minLength: 1. maxLength: 2048. */
-    "order_summary_message"?: string;
-    /** minLength: 1. maxLength: 255. */
-    "shipping_address_label"?: string;
-};
-/** Changes to a payment link's custom checkout text. Send null to clear a field. */
-export type PaymentLinkCustomTextPatchRequest = {
-    /** Send null to clear it. minLength: 1. maxLength: 2048. */
-    "order_summary_message"?: string | null;
-    /** Send null to clear it. minLength: 1. maxLength: 255. */
-    "shipping_address_label"?: string | null;
-};
-/** Changes to a payment link's custom checkout text. Send null to clear a field. */
-export type PaymentLinkCustomTextPatchRequestInput = PaymentLinkCustomTextPatchRequest;
-/**
- * Event settings on an event payment link, such as its date, venue, ticket limit, and ticket
- * emails.
- */
-export type PaymentLinkEventConfig = {
-    /** RFC3339 timestamp. Format: date-time. */
-    "event_at"?: string;
-    /**
-     * Most tickets the event sells across all orders. Absent means no limit. On update, send null
-     * to remove the limit; a value below the tickets already sold or held by payments in progress
-     * returns MAX_TOTAL_QUANTITY_BELOW_SOLD. Whole-number quantity; fractional quantities are not
-     * supported. Format: int32.
-     */
-    "max_total_quantity"?: number | null;
-    "send_ticket_emails"?: boolean;
-    /**
-     * Prefix for ticket numbers, up to 5 characters. It cannot change after the event has issued
-     * tickets. maxLength: 5.
-     */
-    "ticket_prefix"?: string;
-    "timezone"?: string;
-    /** maxLength: 500. */
-    "venue"?: string;
-};
-/** Changes to an event payment link's settings. Send null on a nullable field to clear it. */
-export type PaymentLinkEventConfigPatchRequest = {
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "event_at"?: string;
-    /**
-     * Most tickets the event sells across all orders. Absent means no limit. On update, send null
-     * to remove the limit; a value below the tickets already sold or held by payments in progress
-     * returns MAX_TOTAL_QUANTITY_BELOW_SOLD. Whole-number quantity; fractional quantities are not
-     * supported. Format: int32.
-     */
-    "max_total_quantity"?: number | null;
-    "send_ticket_emails"?: boolean;
-    /**
-     * Prefix for ticket numbers, up to 5 characters. It cannot change after the event has issued
-     * tickets. Send null to clear it. minLength: 1. maxLength: 5.
-     */
-    "ticket_prefix"?: string | null;
-    /** minLength: 1. */
-    "timezone"?: string;
-    /** Send null to clear it. minLength: 1. maxLength: 500. */
-    "venue"?: string | null;
-};
-/** Changes to an event payment link's settings. Send null on a nullable field to clear it. */
-export type PaymentLinkEventConfigPatchRequestInput = {
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "event_at"?: string | globalThis.Date;
-    /**
-     * Most tickets the event sells across all orders. Absent means no limit. On update, send null
-     * to remove the limit; a value below the tickets already sold or held by payments in progress
-     * returns MAX_TOTAL_QUANTITY_BELOW_SOLD. Whole-number quantity; fractional quantities are not
-     * supported. Format: int32.
-     */
-    "max_total_quantity"?: number | null;
-    "send_ticket_emails"?: boolean;
-    /**
-     * Prefix for ticket numbers, up to 5 characters. It cannot change after the event has issued
-     * tickets. Send null to clear it. minLength: 1. maxLength: 5.
-     */
-    "ticket_prefix"?: string | null;
-    /** minLength: 1. */
-    "timezone"?: string;
-    /** Send null to clear it. minLength: 1. maxLength: 500. */
-    "venue"?: string | null;
-};
-/** Event settings you supply when creating an event payment link. */
-export type PaymentLinkEventConfigRequestInput = {
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "event_at"?: string | globalThis.Date;
-    /**
-     * Most tickets the event sells across all orders. Absent means no limit. On update, send null
-     * to remove the limit; a value below the tickets already sold or held by payments in progress
-     * returns MAX_TOTAL_QUANTITY_BELOW_SOLD. Whole-number quantity; fractional quantities are not
-     * supported. Format: int32.
-     */
-    "max_total_quantity"?: number | null;
-    "send_ticket_emails"?: boolean;
-    /**
-     * Prefix for ticket numbers, up to 5 characters. It cannot change after the event has issued
-     * tickets. minLength: 1. maxLength: 5.
-     */
-    "ticket_prefix"?: string;
-    /** minLength: 1. */
-    "timezone"?: string;
-    /** minLength: 1. maxLength: 500. */
-    "venue"?: string;
-};
-/**
- * Legal links on a payment link: contract, refund policy, shipping policy, and terms of service
- * URLs, and whether buyers must accept the terms.
- */
-export type PaymentLinkLegalConfigInput = {
-    /** minLength: 1. maxLength: 2048. */
-    "contract_url"?: string;
-    /** minLength: 1. maxLength: 2048. */
-    "refund_policy_url"?: string;
-    "require_terms_of_service"?: boolean;
-    /** minLength: 1. maxLength: 2048. */
-    "shipping_policy_url"?: string;
-    /** minLength: 1. maxLength: 2048. */
-    "terms_of_service_url"?: string;
-};
-/** Changes to a payment link's legal links and terms setting. Send null on a URL to clear it. */
-export type PaymentLinkLegalPatchRequestInput = {
-    /** Send null to clear it. minLength: 1. maxLength: 2048. */
-    "contract_url"?: string | null;
-    /** Send null to clear it. minLength: 1. maxLength: 2048. */
-    "refund_policy_url"?: string | null;
-    "require_terms_of_service"?: boolean;
-    /** Send null to clear it. minLength: 1. maxLength: 2048. */
-    "shipping_policy_url"?: string | null;
-    /** Send null to clear it. minLength: 1. maxLength: 2048. */
-    "terms_of_service_url"?: string | null;
-};
-/**
- * A line item on a payment link, sold from a catalog variant, a bundle, or an ad hoc name and
- * price, with quantity and price rules.
- */
-export type PaymentLinkLineItem = ({
-    "allow_quantity_adjustment"?: boolean;
-    "allow_unit_price_adjustment"?: boolean;
-    "bundle_id"?: string;
-    /**
-     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
-     * Must be in variant_ids. Omit it to require a buyer selection. pattern:
-     * ^var_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "default_variant_id"?: string;
-    "description"?: string;
-    /**
-     * True when the referenced variant or bundle cannot be sold, or no listed variant in
-     * variant_ids can be sold in the line currency. Always false on ad hoc line items.
-     */
-    "is_catalog_item_unavailable": boolean;
-    /**
-     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
-     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
-     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
-     * when omitted on update.
-     */
-    "key"?: string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
-    "max_quantity"?: number;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "max_unit_price_money"?: MoneyValue;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
-    "min_quantity"?: number;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "min_unit_price_money"?: MoneyValue;
-    "name"?: string;
-    "payment_link_line_item_id": string;
-    /**
-     * Parent catalog context only. The product that the variants in variant_ids belong to. Present
-     * only on buyer choice lines; refused on input.
-     */
-    "product_id"?: string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
-    "quantity": number;
-    /**
-     * Current catalog name of the referenced variant or bundle, or the product name for
-     * variant_ids lines. A variant reads as the product name, plus the variant name when the
-     * variant is a named option combination. This is the catalog value at read time, not a stored
-     * snapshot: checkout resolves it again when a buyer opens the link. Absent on ad-hoc line
-     * items and when the catalog object no longer exists.
-     */
-    "resolved_name"?: string;
-    /**
-     * Current lowest and highest catalog unit prices among listed variants that can be sold in the
-     * line currency. Computed at read time, not stored. Omitted when no listed variant can be
-     * sold. The lowest and highest unit prices across a product's variants.
-     */
-    "resolved_price_range"?: ProductPriceRange;
-    /**
-     * Current catalog unit price of the referenced variant or bundle. This is the catalog value at
-     * read time, not a stored snapshot: checkout resolves the price again when a buyer opens the
-     * link, so the amount a buyer pays can differ. Absent on ad-hoc line items, variant_ids lines,
-     * and when the catalog object no longer exists. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code.
-     */
-    "resolved_unit_price_money"?: MoneyValue;
-    /**
-     *  [] (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus an
-     * ISO 4217 currency code.
-     */
-    "suggested_unit_price_money_options"?: Array<MoneyValue>;
-    /** A line item's tax category and whether it is taxable. */
-    "tax"?: OrderLineItemTax;
-    /** Value enum: "variant", "bundle", "custom_fixed", "custom_variable". */
-    "type": "variant" | "bundle" | "custom_fixed" | "custom_variable" | (string & {});
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "unit_price_money"?: MoneyValue;
-    "variant_id"?: string;
-    /**
-     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
-     * sellable variants of one product in one currency. Available only on standard payment links.
-     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
-     * maxItems: 100. uniqueItems: true. [] (Value): string. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "variant_ids"?: Array<string>;
-})
-    & ((Exclude<PaymentLinkLineItemVariant & object, readonly unknown[]>)
-    | (Exclude<PaymentLinkLineItemBundle & object, readonly unknown[]>)
-    | (Exclude<PaymentLinkLineItemCustomFixed & object, readonly unknown[]>)
-    | (Exclude<PaymentLinkLineItemCustomVariable & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/** The `bundle` variant of `PaymentLinkLineItem`. */
-export type PaymentLinkLineItemBundle = ({
-    "allow_quantity_adjustment"?: boolean;
-    "allow_unit_price_adjustment"?: boolean;
-    "bundle_id": string;
-    /**
-     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
-     * Must be in variant_ids. Omit it to require a buyer selection. pattern:
-     * ^var_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "default_variant_id"?: string;
-    "description"?: string;
-    /**
-     * True when the referenced variant or bundle cannot be sold, or no listed variant in
-     * variant_ids can be sold in the line currency. Always false on ad hoc line items.
-     */
-    "is_catalog_item_unavailable": boolean;
-    /**
-     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
-     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
-     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
-     * when omitted on update.
-     */
-    "key"?: string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
-    "max_quantity"?: number;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "max_unit_price_money"?: MoneyValue;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
-    "min_quantity"?: number;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "min_unit_price_money"?: MoneyValue;
-    "name"?: string;
-    "payment_link_line_item_id": string;
-    /**
-     * Parent catalog context only. The product that the variants in variant_ids belong to. Present
-     * only on buyer choice lines; refused on input.
-     */
-    "product_id"?: string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
-    "quantity": number;
-    /**
-     * Current catalog name of the referenced variant or bundle, or the product name for
-     * variant_ids lines. A variant reads as the product name, plus the variant name when the
-     * variant is a named option combination. This is the catalog value at read time, not a stored
-     * snapshot: checkout resolves it again when a buyer opens the link. Absent on ad-hoc line
-     * items and when the catalog object no longer exists.
-     */
-    "resolved_name"?: string;
-    /**
-     * Current lowest and highest catalog unit prices among listed variants that can be sold in the
-     * line currency. Computed at read time, not stored. Omitted when no listed variant can be
-     * sold. The lowest and highest unit prices across a product's variants.
-     */
-    "resolved_price_range"?: ProductPriceRange;
-    /**
-     * Current catalog unit price of the referenced variant or bundle. This is the catalog value at
-     * read time, not a stored snapshot: checkout resolves the price again when a buyer opens the
-     * link, so the amount a buyer pays can differ. Absent on ad-hoc line items, variant_ids lines,
-     * and when the catalog object no longer exists. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code.
-     */
-    "resolved_unit_price_money"?: MoneyValue;
-    /**
-     *  [] (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus an
-     * ISO 4217 currency code.
-     */
-    "suggested_unit_price_money_options"?: Array<MoneyValue>;
-    /** A line item's tax category and whether it is taxable. */
-    "tax"?: OrderLineItemTax;
-    /** Value enum: "bundle". */
-    "type": "bundle" | (string & {});
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "unit_price_money"?: MoneyValue;
-    "variant_id"?: string;
-    /**
-     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
-     * sellable variants of one product in one currency. Available only on standard payment links.
-     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
-     * maxItems: 100. uniqueItems: true. [] (Value): string. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "variant_ids"?: Array<string>;
-})
-    & (({
-    /** Value enum: "bundle". */
-    "type": "bundle" | (string & {});
-    "bundle_id": string;
-}));
-/** The `custom_fixed` variant of `PaymentLinkLineItem`. */
-export type PaymentLinkLineItemCustomFixed = ({
-    "allow_quantity_adjustment"?: boolean;
-    "allow_unit_price_adjustment"?: boolean;
-    "bundle_id"?: string;
-    /**
-     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
-     * Must be in variant_ids. Omit it to require a buyer selection. pattern:
-     * ^var_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "default_variant_id"?: string;
-    "description"?: string;
-    /**
-     * True when the referenced variant or bundle cannot be sold, or no listed variant in
-     * variant_ids can be sold in the line currency. Always false on ad hoc line items.
-     */
-    "is_catalog_item_unavailable": boolean;
-    /**
-     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
-     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
-     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
-     * when omitted on update.
-     */
-    "key"?: string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
-    "max_quantity"?: number;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "max_unit_price_money"?: MoneyValue;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
-    "min_quantity"?: number;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "min_unit_price_money"?: MoneyValue;
-    "name": string;
-    "payment_link_line_item_id": string;
-    /**
-     * Parent catalog context only. The product that the variants in variant_ids belong to. Present
-     * only on buyer choice lines; refused on input.
-     */
-    "product_id"?: string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
-    "quantity": number;
-    /**
-     * Current catalog name of the referenced variant or bundle, or the product name for
-     * variant_ids lines. A variant reads as the product name, plus the variant name when the
-     * variant is a named option combination. This is the catalog value at read time, not a stored
-     * snapshot: checkout resolves it again when a buyer opens the link. Absent on ad-hoc line
-     * items and when the catalog object no longer exists.
-     */
-    "resolved_name"?: string;
-    /**
-     * Current lowest and highest catalog unit prices among listed variants that can be sold in the
-     * line currency. Computed at read time, not stored. Omitted when no listed variant can be
-     * sold. The lowest and highest unit prices across a product's variants.
-     */
-    "resolved_price_range"?: ProductPriceRange;
-    /**
-     * Current catalog unit price of the referenced variant or bundle. This is the catalog value at
-     * read time, not a stored snapshot: checkout resolves the price again when a buyer opens the
-     * link, so the amount a buyer pays can differ. Absent on ad-hoc line items, variant_ids lines,
-     * and when the catalog object no longer exists. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code.
-     */
-    "resolved_unit_price_money"?: MoneyValue;
-    /**
-     *  [] (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus an
-     * ISO 4217 currency code.
-     */
-    "suggested_unit_price_money_options"?: Array<MoneyValue>;
-    /** A line item's tax category and whether it is taxable. */
-    "tax"?: OrderLineItemTax;
-    /** Value enum: "custom_fixed". */
-    "type": "custom_fixed" | (string & {});
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "unit_price_money": MoneyValue;
-    "variant_id"?: string;
-    /**
-     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
-     * sellable variants of one product in one currency. Available only on standard payment links.
-     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
-     * maxItems: 100. uniqueItems: true. [] (Value): string. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "variant_ids"?: Array<string>;
-})
-    & (({
-    /** Value enum: false. */
-    "allow_unit_price_adjustment"?: boolean;
-    /** Value enum: "custom_fixed". */
-    "type": "custom_fixed" | (string & {});
-    "name": string;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "unit_price_money": MoneyValue;
-}));
-/** The `custom_variable` variant of `PaymentLinkLineItem`. */
-export type PaymentLinkLineItemCustomVariable = ({
-    "allow_quantity_adjustment"?: boolean;
-    "allow_unit_price_adjustment": boolean;
-    "bundle_id"?: string;
-    /**
-     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
-     * Must be in variant_ids. Omit it to require a buyer selection. pattern:
-     * ^var_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "default_variant_id"?: string;
-    "description"?: string;
-    /**
-     * True when the referenced variant or bundle cannot be sold, or no listed variant in
-     * variant_ids can be sold in the line currency. Always false on ad hoc line items.
-     */
-    "is_catalog_item_unavailable": boolean;
-    /**
-     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
-     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
-     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
-     * when omitted on update.
-     */
-    "key"?: string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
-    "max_quantity"?: number;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "max_unit_price_money"?: MoneyValue;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
-    "min_quantity"?: number;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "min_unit_price_money"?: MoneyValue;
-    "name": string;
-    "payment_link_line_item_id": string;
-    /**
-     * Parent catalog context only. The product that the variants in variant_ids belong to. Present
-     * only on buyer choice lines; refused on input.
-     */
-    "product_id"?: string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
-    "quantity": number;
-    /**
-     * Current catalog name of the referenced variant or bundle, or the product name for
-     * variant_ids lines. A variant reads as the product name, plus the variant name when the
-     * variant is a named option combination. This is the catalog value at read time, not a stored
-     * snapshot: checkout resolves it again when a buyer opens the link. Absent on ad-hoc line
-     * items and when the catalog object no longer exists.
-     */
-    "resolved_name"?: string;
-    /**
-     * Current lowest and highest catalog unit prices among listed variants that can be sold in the
-     * line currency. Computed at read time, not stored. Omitted when no listed variant can be
-     * sold. The lowest and highest unit prices across a product's variants.
-     */
-    "resolved_price_range"?: ProductPriceRange;
-    /**
-     * Current catalog unit price of the referenced variant or bundle. This is the catalog value at
-     * read time, not a stored snapshot: checkout resolves the price again when a buyer opens the
-     * link, so the amount a buyer pays can differ. Absent on ad-hoc line items, variant_ids lines,
-     * and when the catalog object no longer exists. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code.
-     */
-    "resolved_unit_price_money"?: MoneyValue;
-    /**
-     *  [] (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus an
-     * ISO 4217 currency code.
-     */
-    "suggested_unit_price_money_options"?: Array<MoneyValue>;
-    /** A line item's tax category and whether it is taxable. */
-    "tax"?: OrderLineItemTax;
-    /** Value enum: "custom_variable". */
-    "type": "custom_variable" | (string & {});
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "unit_price_money"?: MoneyValue;
-    "variant_id"?: string;
-    /**
-     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
-     * sellable variants of one product in one currency. Available only on standard payment links.
-     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
-     * maxItems: 100. uniqueItems: true. [] (Value): string. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "variant_ids"?: Array<string>;
-})
-    & (({
-    /** Value enum: true. */
-    "allow_unit_price_adjustment": boolean;
-    /** Value enum: "custom_variable". */
-    "type": "custom_variable" | (string & {});
-    "name": string;
-}));
-/** The `bundle` variant of `PaymentLinkLineItemInput`. */
-export type PaymentLinkLineItemInputBundle = ({
-    "allow_quantity_adjustment"?: boolean;
-    "allow_unit_price_adjustment"?: boolean;
-    /** minLength: 1. */
-    "bundle_id": string;
-    /**
-     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
-     * Must be in variant_ids. Omit it to require a buyer selection. minLength: 1. pattern:
-     * ^var_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "default_variant_id"?: string;
-    /** minLength: 1. maxLength: 2048. */
-    "description"?: string;
-    /**
-     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
-     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
-     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
-     * when omitted on update. minLength: 1. maxLength: 100.
-     */
-    "key"?: string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
-    "max_quantity"?: number;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "max_unit_price_money"?: MoneyValue;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
-    "min_quantity"?: number;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "min_unit_price_money"?: MoneyValue;
-    /** minLength: 1. maxLength: 255. */
-    "name"?: string;
-    /**
-     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
-     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
-     */
-    "quantity"?: number;
-    /**
-     *  [] (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus an
-     * ISO 4217 currency code.
-     */
-    "suggested_unit_price_money_options"?: Array<MoneyValue>;
-    /** A line item's tax category and whether it is taxable. */
-    "tax"?: OrderLineItemTax;
-    /** Value enum: "bundle". */
-    "type": "bundle" | (string & {});
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "unit_price_money"?: MoneyValue;
-    /** minLength: 1. */
-    "variant_id"?: string;
-    /**
-     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
-     * sellable variants of one product in one currency. Available only on standard payment links.
-     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
-     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
-     * ^var_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "variant_ids"?: Array<string>;
-})
-    & (({
-    /** Value enum: "bundle". */
-    "type": "bundle" | (string & {});
-    /** minLength: 1. */
-    "bundle_id": string;
-}));
-/** The `bundle` variant of `PaymentLinkLineItemInput`. */
-export type PaymentLinkLineItemInputBundleInput = ({
-    "allow_quantity_adjustment"?: boolean;
-    "allow_unit_price_adjustment"?: boolean;
-    /** minLength: 1. */
-    "bundle_id": string;
-    /**
-     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
-     * Must be in variant_ids. Omit it to require a buyer selection. minLength: 1. pattern:
-     * ^var_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "default_variant_id"?: string;
-    /** minLength: 1. maxLength: 2048. */
-    "description"?: string;
-    /**
-     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
-     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
-     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
-     * when omitted on update. minLength: 1. maxLength: 100.
-     */
-    "key"?: string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
-    "max_quantity"?: number;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "max_unit_price_money"?: MoneyValueInput;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
-    "min_quantity"?: number;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "min_unit_price_money"?: MoneyValueInput;
-    /** minLength: 1. maxLength: 255. */
-    "name"?: string;
-    /**
-     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
-     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
-     */
-    "quantity"?: number;
-    /**
-     *  [] (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "suggested_unit_price_money_options"?: Array<MoneyValueInput>;
-    /** A line item's tax category and whether it is taxable. */
-    "tax"?: OrderLineItemTaxInput;
-    /** Value enum: "bundle". */
-    "type": "bundle";
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "unit_price_money"?: MoneyValueInput;
-    /** minLength: 1. */
-    "variant_id"?: string;
-    /**
-     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
-     * sellable variants of one product in one currency. Available only on standard payment links.
-     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
-     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
-     * ^var_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "variant_ids"?: Array<string>;
-})
-    & (({
-    /** Value enum: "bundle". */
-    "type": ("bundle") & ("bundle");
-    /** minLength: 1. */
-    "bundle_id": string;
-})
-    & (({
-    "variant_id"?: never;
-})
-    & ({
-    "variant_ids"?: never;
-})
-    & ({
-    "default_variant_id"?: never;
-})
-    & ({
-    "name"?: never;
-})
-    & ({
-    "unit_price_money"?: never;
-})
-    & ({
-    "description"?: never;
-})
-    & ({
-    "tax"?: never;
-})
-    & ({
-    "allow_unit_price_adjustment"?: never;
-})
-    & ({
-    "min_unit_price_money"?: never;
-})
-    & ({
-    "max_unit_price_money"?: never;
-})
-    & ({
-    "suggested_unit_price_money_options"?: never;
-})));
-/** The `custom_fixed` variant of `PaymentLinkLineItemInput`. */
-export type PaymentLinkLineItemInputCustomFixed = ({
-    "allow_quantity_adjustment"?: boolean;
-    "allow_unit_price_adjustment"?: boolean;
-    /** minLength: 1. */
-    "bundle_id"?: string;
-    /**
-     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
-     * Must be in variant_ids. Omit it to require a buyer selection. minLength: 1. pattern:
-     * ^var_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "default_variant_id"?: string;
-    /** minLength: 1. maxLength: 2048. */
-    "description"?: string;
-    /**
-     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
-     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
-     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
-     * when omitted on update. minLength: 1. maxLength: 100.
-     */
-    "key"?: string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
-    "max_quantity"?: number;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "max_unit_price_money"?: MoneyValue;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
-    "min_quantity"?: number;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "min_unit_price_money"?: MoneyValue;
-    /** minLength: 1. maxLength: 255. */
-    "name": string;
-    /**
-     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
-     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
-     */
-    "quantity"?: number;
-    /**
-     *  [] (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus an
-     * ISO 4217 currency code.
-     */
-    "suggested_unit_price_money_options"?: Array<MoneyValue>;
-    /** A line item's tax category and whether it is taxable. */
-    "tax"?: OrderLineItemTax;
-    /** Value enum: "custom_fixed". */
-    "type": "custom_fixed" | (string & {});
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "unit_price_money": MoneyValue;
-    /** minLength: 1. */
-    "variant_id"?: string;
-    /**
-     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
-     * sellable variants of one product in one currency. Available only on standard payment links.
-     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
-     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
-     * ^var_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "variant_ids"?: Array<string>;
-})
-    & (({
-    /** Value enum: false. */
-    "allow_unit_price_adjustment"?: boolean;
-    /** Value enum: "custom_fixed". */
-    "type": "custom_fixed" | (string & {});
-    /** minLength: 1. maxLength: 255. */
-    "name": string;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "unit_price_money": MoneyValue;
-}));
-/** The `custom_fixed` variant of `PaymentLinkLineItemInput`. */
-export type PaymentLinkLineItemInputCustomFixedInput = ({
-    "allow_quantity_adjustment"?: boolean;
-    "allow_unit_price_adjustment"?: boolean;
-    /** minLength: 1. */
-    "bundle_id"?: string;
-    /**
-     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
-     * Must be in variant_ids. Omit it to require a buyer selection. minLength: 1. pattern:
-     * ^var_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "default_variant_id"?: string;
-    /** minLength: 1. maxLength: 2048. */
-    "description"?: string;
-    /**
-     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
-     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
-     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
-     * when omitted on update. minLength: 1. maxLength: 100.
-     */
-    "key"?: string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
-    "max_quantity"?: number;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "max_unit_price_money"?: MoneyValueInput;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
-    "min_quantity"?: number;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "min_unit_price_money"?: MoneyValueInput;
-    /** minLength: 1. maxLength: 255. */
-    "name": string;
-    /**
-     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
-     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
-     */
-    "quantity"?: number;
-    /**
-     *  [] (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "suggested_unit_price_money_options"?: Array<MoneyValueInput>;
-    /** A line item's tax category and whether it is taxable. */
-    "tax"?: OrderLineItemTaxInput;
-    /** Value enum: "custom_fixed". */
-    "type": "custom_fixed";
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "unit_price_money": MoneyValueInput;
-    /** minLength: 1. */
-    "variant_id"?: string;
-    /**
-     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
-     * sellable variants of one product in one currency. Available only on standard payment links.
-     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
-     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
-     * ^var_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "variant_ids"?: Array<string>;
-})
-    & (({
-    /** Value enum: false. */
-    "allow_unit_price_adjustment"?: false;
-    /** Value enum: "custom_fixed". */
-    "type": ("custom_fixed") & ("custom_fixed");
-    /** minLength: 1. maxLength: 255. */
-    "name": string;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "unit_price_money": MoneyValueInput;
-})
-    & (({
-    "variant_id"?: never;
-})
-    & ({
-    "variant_ids"?: never;
-})
-    & ({
-    "default_variant_id"?: never;
-})
-    & ({
-    "bundle_id"?: never;
-})));
-/** The `custom_variable` variant of `PaymentLinkLineItemInput`. */
-export type PaymentLinkLineItemInputCustomVariable = ({
-    "allow_quantity_adjustment"?: boolean;
-    "allow_unit_price_adjustment": boolean;
-    /** minLength: 1. */
-    "bundle_id"?: string;
-    /**
-     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
-     * Must be in variant_ids. Omit it to require a buyer selection. minLength: 1. pattern:
-     * ^var_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "default_variant_id"?: string;
-    /** minLength: 1. maxLength: 2048. */
-    "description"?: string;
-    /**
-     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
-     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
-     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
-     * when omitted on update. minLength: 1. maxLength: 100.
-     */
-    "key"?: string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
-    "max_quantity"?: number;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "max_unit_price_money"?: MoneyValue;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
-    "min_quantity"?: number;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "min_unit_price_money"?: MoneyValue;
-    /** minLength: 1. maxLength: 255. */
-    "name": string;
-    /**
-     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
-     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
-     */
-    "quantity"?: number;
-    /**
-     *  [] (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus an
-     * ISO 4217 currency code.
-     */
-    "suggested_unit_price_money_options"?: Array<MoneyValue>;
-    /** A line item's tax category and whether it is taxable. */
-    "tax"?: OrderLineItemTax;
-    /** Value enum: "custom_variable". */
-    "type": "custom_variable" | (string & {});
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "unit_price_money"?: MoneyValue;
-    /** minLength: 1. */
-    "variant_id"?: string;
-    /**
-     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
-     * sellable variants of one product in one currency. Available only on standard payment links.
-     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
-     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
-     * ^var_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "variant_ids"?: Array<string>;
-})
-    & (({
-    /** Value enum: true. */
-    "allow_unit_price_adjustment": boolean;
-    /** Value enum: "custom_variable". */
-    "type": "custom_variable" | (string & {});
-    /** minLength: 1. maxLength: 255. */
-    "name": string;
-}));
-/** The `custom_variable` variant of `PaymentLinkLineItemInput`. */
-export type PaymentLinkLineItemInputCustomVariableInput = ({
-    "allow_quantity_adjustment"?: boolean;
-    "allow_unit_price_adjustment": boolean;
-    /** minLength: 1. */
-    "bundle_id"?: string;
-    /**
-     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
-     * Must be in variant_ids. Omit it to require a buyer selection. minLength: 1. pattern:
-     * ^var_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "default_variant_id"?: string;
-    /** minLength: 1. maxLength: 2048. */
-    "description"?: string;
-    /**
-     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
-     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
-     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
-     * when omitted on update. minLength: 1. maxLength: 100.
-     */
-    "key"?: string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
-    "max_quantity"?: number;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "max_unit_price_money"?: MoneyValueInput;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
-    "min_quantity"?: number;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "min_unit_price_money"?: MoneyValueInput;
-    /** minLength: 1. maxLength: 255. */
-    "name": string;
-    /**
-     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
-     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
-     */
-    "quantity"?: number;
-    /**
-     *  [] (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "suggested_unit_price_money_options"?: Array<MoneyValueInput>;
-    /** A line item's tax category and whether it is taxable. */
-    "tax"?: OrderLineItemTaxInput;
-    /** Value enum: "custom_variable". */
-    "type": "custom_variable";
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "unit_price_money"?: MoneyValueInput;
-    /** minLength: 1. */
-    "variant_id"?: string;
-    /**
-     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
-     * sellable variants of one product in one currency. Available only on standard payment links.
-     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
-     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
-     * ^var_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "variant_ids"?: Array<string>;
-})
-    & (({
-    /** Value enum: true. */
-    "allow_unit_price_adjustment": true;
-    /** Value enum: "custom_variable". */
-    "type": ("custom_variable") & ("custom_variable");
-    /** minLength: 1. maxLength: 255. */
-    "name": string;
-})
-    & (({
-    "variant_id"?: never;
-})
-    & ({
-    "variant_ids"?: never;
-})
-    & ({
-    "default_variant_id"?: never;
-})
-    & ({
-    "bundle_id"?: never;
-})));
-/** The `variant` variant of `PaymentLinkLineItemInput`. */
-export type PaymentLinkLineItemInputVariant = ({
-    "allow_quantity_adjustment"?: boolean;
-    "allow_unit_price_adjustment"?: boolean;
-    /** minLength: 1. */
-    "bundle_id"?: string;
-    /**
-     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
-     * Must be in variant_ids. Omit it to require a buyer selection. minLength: 1. pattern:
-     * ^var_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "default_variant_id"?: string;
-    /** minLength: 1. maxLength: 2048. */
-    "description"?: string;
-    /**
-     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
-     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
-     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
-     * when omitted on update. minLength: 1. maxLength: 100.
-     */
-    "key"?: string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
-    "max_quantity"?: number;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "max_unit_price_money"?: MoneyValue;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
-    "min_quantity"?: number;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "min_unit_price_money"?: MoneyValue;
-    /** minLength: 1. maxLength: 255. */
-    "name"?: string;
-    /**
-     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
-     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
-     */
-    "quantity"?: number;
-    /**
-     *  [] (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus an
-     * ISO 4217 currency code.
-     */
-    "suggested_unit_price_money_options"?: Array<MoneyValue>;
-    /** A line item's tax category and whether it is taxable. */
-    "tax"?: OrderLineItemTax;
-    /** Value enum: "variant". */
-    "type": "variant" | (string & {});
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "unit_price_money"?: MoneyValue;
-    /** minLength: 1. */
-    "variant_id"?: string;
-    /**
-     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
-     * sellable variants of one product in one currency. Available only on standard payment links.
-     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
-     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
-     * ^var_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "variant_ids"?: Array<string>;
-})
-    & (({
-    /** Value enum: "variant". */
-    "type": "variant" | (string & {});
-})
-    & (({
-    /** minLength: 1. */
-    "variant_id": string;
-})
-    | ({
-    /**
-     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
-     * sellable variants of one product in one currency. Available only on standard payment links.
-     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
-     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
-     * ^var_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "variant_ids": Array<string>;
-})
-    | (Record<string, unknown>)));
-/** The `variant` variant of `PaymentLinkLineItemInput`. */
-export type PaymentLinkLineItemInputVariantInput = ({
-    "allow_quantity_adjustment"?: boolean;
-    "allow_unit_price_adjustment"?: boolean;
-    /** minLength: 1. */
-    "bundle_id"?: string;
-    /**
-     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
-     * Must be in variant_ids. Omit it to require a buyer selection. minLength: 1. pattern:
-     * ^var_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "default_variant_id"?: string;
-    /** minLength: 1. maxLength: 2048. */
-    "description"?: string;
-    /**
-     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
-     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
-     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
-     * when omitted on update. minLength: 1. maxLength: 100.
-     */
-    "key"?: string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
-    "max_quantity"?: number;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "max_unit_price_money"?: MoneyValueInput;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
-    "min_quantity"?: number;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "min_unit_price_money"?: MoneyValueInput;
-    /** minLength: 1. maxLength: 255. */
-    "name"?: string;
-    /**
-     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
-     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
-     */
-    "quantity"?: number;
-    /**
-     *  [] (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "suggested_unit_price_money_options"?: Array<MoneyValueInput>;
-    /** A line item's tax category and whether it is taxable. */
-    "tax"?: OrderLineItemTaxInput;
-    /** Value enum: "variant". */
-    "type": "variant";
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "unit_price_money"?: MoneyValueInput;
-    /** minLength: 1. */
-    "variant_id"?: string;
-    /**
-     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
-     * sellable variants of one product in one currency. Available only on standard payment links.
-     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
-     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
-     * ^var_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "variant_ids"?: Array<string>;
-})
-    & (({
-    /** Value enum: "variant". */
-    "type": ("variant") & ("variant");
-})
-    & (({
-    /** minLength: 1. */
-    "variant_id": string;
-})
-    | ({
-    /**
-     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
-     * sellable variants of one product in one currency. Available only on standard payment links.
-     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
-     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
-     * ^var_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "variant_ids": Array<string>;
-}))
-    & (({
-    "bundle_id"?: never;
-})
-    & ({
-    "name"?: never;
-})
-    & ({
-    "unit_price_money"?: never;
-})
-    & ({
-    "description"?: never;
-})
-    & ({
-    "tax"?: never;
-})
-    & ({
-    "allow_unit_price_adjustment"?: never;
-})
-    & ({
-    "min_unit_price_money"?: never;
-})
-    & ({
-    "max_unit_price_money"?: never;
-})
-    & ({
-    "suggested_unit_price_money_options"?: never;
-})
-    & ({
-    "variant_id"?: never;
-} | {
-    "variant_ids"?: never;
-})));
-/** The `bundle` variant of `PaymentLinkLineItemPatchInput`. */
-export type PaymentLinkLineItemPatchInputBundle = ({
-    "allow_quantity_adjustment"?: boolean;
-    "allow_unit_price_adjustment"?: boolean;
-    /** minLength: 1. */
-    "bundle_id": string;
-    /**
-     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
-     * Must be in variant_ids. Omit it to require a buyer selection. Send null to clear it.
-     * minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "default_variant_id"?: string | null;
-    /** minLength: 1. maxLength: 2048. */
-    "description"?: string;
-    /**
-     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
-     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
-     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
-     * when omitted on update. minLength: 1. maxLength: 100.
-     */
-    "key"?: string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
-    "max_quantity"?: number;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "max_unit_price_money"?: MoneyValue;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
-    "min_quantity"?: number;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "min_unit_price_money"?: MoneyValue;
-    /** minLength: 1. maxLength: 255. */
-    "name"?: string;
-    /** Stable ID of an existing line item. Omit it to create a new line item. minLength: 1. */
-    "payment_link_line_item_id"?: string;
-    /**
-     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
-     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
-     */
-    "quantity"?: number;
-    /**
-     *  [] (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus an
-     * ISO 4217 currency code.
-     */
-    "suggested_unit_price_money_options"?: Array<MoneyValue>;
-    /** A line item's tax category and whether it is taxable. */
-    "tax"?: OrderLineItemTax;
-    /** Value enum: "bundle". */
-    "type": "bundle" | (string & {});
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "unit_price_money"?: MoneyValue;
-    /** minLength: 1. */
-    "variant_id"?: string;
-    /**
-     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
-     * sellable variants of one product in one currency. Available only on standard payment links.
-     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
-     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
-     * ^var_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "variant_ids"?: Array<string>;
-})
-    & (({
-    /** Value enum: "bundle". */
-    "type": "bundle" | (string & {});
-    /** minLength: 1. */
-    "bundle_id": string;
-}));
-/** The `bundle` variant of `PaymentLinkLineItemPatchInput`. */
-export type PaymentLinkLineItemPatchInputBundleInput = ({
-    "allow_quantity_adjustment"?: boolean;
-    "allow_unit_price_adjustment"?: boolean;
-    /** minLength: 1. */
-    "bundle_id": string;
-    /**
-     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
-     * Must be in variant_ids. Omit it to require a buyer selection. Send null to clear it.
-     * minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "default_variant_id"?: string | null;
-    /** minLength: 1. maxLength: 2048. */
-    "description"?: string;
-    /**
-     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
-     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
-     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
-     * when omitted on update. minLength: 1. maxLength: 100.
-     */
-    "key"?: string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
-    "max_quantity"?: number;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "max_unit_price_money"?: MoneyValueInput;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
-    "min_quantity"?: number;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "min_unit_price_money"?: MoneyValueInput;
-    /** minLength: 1. maxLength: 255. */
-    "name"?: string;
-    /** Stable ID of an existing line item. Omit it to create a new line item. minLength: 1. */
-    "payment_link_line_item_id"?: string;
-    /**
-     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
-     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
-     */
-    "quantity"?: number;
-    /**
-     *  [] (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "suggested_unit_price_money_options"?: Array<MoneyValueInput>;
-    /** A line item's tax category and whether it is taxable. */
-    "tax"?: OrderLineItemTaxInput;
-    /** Value enum: "bundle". */
-    "type": "bundle";
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "unit_price_money"?: MoneyValueInput;
-    /** minLength: 1. */
-    "variant_id"?: string;
-    /**
-     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
-     * sellable variants of one product in one currency. Available only on standard payment links.
-     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
-     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
-     * ^var_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "variant_ids"?: Array<string>;
-})
-    & (({
-    /** Value enum: "bundle". */
-    "type": ("bundle") & ("bundle");
-    /** minLength: 1. */
-    "bundle_id": string;
-})
-    & (({
-    "variant_id"?: never;
-})
-    & ({
-    "variant_ids"?: never;
-})
-    & ({
-    "default_variant_id"?: never;
-})
-    & ({
-    "name"?: never;
-})
-    & ({
-    "unit_price_money"?: never;
-})
-    & ({
-    "description"?: never;
-})
-    & ({
-    "tax"?: never;
-})
-    & ({
-    "allow_unit_price_adjustment"?: never;
-})
-    & ({
-    "min_unit_price_money"?: never;
-})
-    & ({
-    "max_unit_price_money"?: never;
-})
-    & ({
-    "suggested_unit_price_money_options"?: never;
-})));
-/** The `custom_fixed` variant of `PaymentLinkLineItemPatchInput`. */
-export type PaymentLinkLineItemPatchInputCustomFixed = ({
-    "allow_quantity_adjustment"?: boolean;
-    "allow_unit_price_adjustment"?: boolean;
-    /** minLength: 1. */
-    "bundle_id"?: string;
-    /**
-     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
-     * Must be in variant_ids. Omit it to require a buyer selection. Send null to clear it.
-     * minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "default_variant_id"?: string | null;
-    /** minLength: 1. maxLength: 2048. */
-    "description"?: string;
-    /**
-     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
-     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
-     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
-     * when omitted on update. minLength: 1. maxLength: 100.
-     */
-    "key"?: string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
-    "max_quantity"?: number;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "max_unit_price_money"?: MoneyValue;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
-    "min_quantity"?: number;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "min_unit_price_money"?: MoneyValue;
-    /** minLength: 1. maxLength: 255. */
-    "name": string;
-    /** Stable ID of an existing line item. Omit it to create a new line item. minLength: 1. */
-    "payment_link_line_item_id"?: string;
-    /**
-     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
-     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
-     */
-    "quantity"?: number;
-    /**
-     *  [] (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus an
-     * ISO 4217 currency code.
-     */
-    "suggested_unit_price_money_options"?: Array<MoneyValue>;
-    /** A line item's tax category and whether it is taxable. */
-    "tax"?: OrderLineItemTax;
-    /** Value enum: "custom_fixed". */
-    "type": "custom_fixed" | (string & {});
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "unit_price_money": MoneyValue;
-    /** minLength: 1. */
-    "variant_id"?: string;
-    /**
-     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
-     * sellable variants of one product in one currency. Available only on standard payment links.
-     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
-     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
-     * ^var_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "variant_ids"?: Array<string>;
-})
-    & (({
-    /** Value enum: false. */
-    "allow_unit_price_adjustment"?: boolean;
-    /** Value enum: "custom_fixed". */
-    "type": "custom_fixed" | (string & {});
-    /** minLength: 1. maxLength: 255. */
-    "name": string;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "unit_price_money": MoneyValue;
-}));
-/** The `custom_fixed` variant of `PaymentLinkLineItemPatchInput`. */
-export type PaymentLinkLineItemPatchInputCustomFixedInput = ({
-    "allow_quantity_adjustment"?: boolean;
-    "allow_unit_price_adjustment"?: boolean;
-    /** minLength: 1. */
-    "bundle_id"?: string;
-    /**
-     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
-     * Must be in variant_ids. Omit it to require a buyer selection. Send null to clear it.
-     * minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "default_variant_id"?: string | null;
-    /** minLength: 1. maxLength: 2048. */
-    "description"?: string;
-    /**
-     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
-     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
-     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
-     * when omitted on update. minLength: 1. maxLength: 100.
-     */
-    "key"?: string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
-    "max_quantity"?: number;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "max_unit_price_money"?: MoneyValueInput;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
-    "min_quantity"?: number;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "min_unit_price_money"?: MoneyValueInput;
-    /** minLength: 1. maxLength: 255. */
-    "name": string;
-    /** Stable ID of an existing line item. Omit it to create a new line item. minLength: 1. */
-    "payment_link_line_item_id"?: string;
-    /**
-     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
-     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
-     */
-    "quantity"?: number;
-    /**
-     *  [] (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "suggested_unit_price_money_options"?: Array<MoneyValueInput>;
-    /** A line item's tax category and whether it is taxable. */
-    "tax"?: OrderLineItemTaxInput;
-    /** Value enum: "custom_fixed". */
-    "type": "custom_fixed";
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "unit_price_money": MoneyValueInput;
-    /** minLength: 1. */
-    "variant_id"?: string;
-    /**
-     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
-     * sellable variants of one product in one currency. Available only on standard payment links.
-     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
-     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
-     * ^var_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "variant_ids"?: Array<string>;
-})
-    & (({
-    /** Value enum: false. */
-    "allow_unit_price_adjustment"?: false;
-    /** Value enum: "custom_fixed". */
-    "type": ("custom_fixed") & ("custom_fixed");
-    /** minLength: 1. maxLength: 255. */
-    "name": string;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "unit_price_money": MoneyValueInput;
-})
-    & (({
-    "variant_id"?: never;
-})
-    & ({
-    "variant_ids"?: never;
-})
-    & ({
-    "default_variant_id"?: never;
-})
-    & ({
-    "bundle_id"?: never;
-})));
-/** The `custom_variable` variant of `PaymentLinkLineItemPatchInput`. */
-export type PaymentLinkLineItemPatchInputCustomVariable = ({
-    "allow_quantity_adjustment"?: boolean;
-    "allow_unit_price_adjustment": boolean;
-    /** minLength: 1. */
-    "bundle_id"?: string;
-    /**
-     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
-     * Must be in variant_ids. Omit it to require a buyer selection. Send null to clear it.
-     * minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "default_variant_id"?: string | null;
-    /** minLength: 1. maxLength: 2048. */
-    "description"?: string;
-    /**
-     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
-     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
-     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
-     * when omitted on update. minLength: 1. maxLength: 100.
-     */
-    "key"?: string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
-    "max_quantity"?: number;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "max_unit_price_money"?: MoneyValue;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
-    "min_quantity"?: number;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "min_unit_price_money"?: MoneyValue;
-    /** minLength: 1. maxLength: 255. */
-    "name": string;
-    /** Stable ID of an existing line item. Omit it to create a new line item. minLength: 1. */
-    "payment_link_line_item_id"?: string;
-    /**
-     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
-     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
-     */
-    "quantity"?: number;
-    /**
-     *  [] (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus an
-     * ISO 4217 currency code.
-     */
-    "suggested_unit_price_money_options"?: Array<MoneyValue>;
-    /** A line item's tax category and whether it is taxable. */
-    "tax"?: OrderLineItemTax;
-    /** Value enum: "custom_variable". */
-    "type": "custom_variable" | (string & {});
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "unit_price_money"?: MoneyValue;
-    /** minLength: 1. */
-    "variant_id"?: string;
-    /**
-     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
-     * sellable variants of one product in one currency. Available only on standard payment links.
-     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
-     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
-     * ^var_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "variant_ids"?: Array<string>;
-})
-    & (({
-    /** Value enum: true. */
-    "allow_unit_price_adjustment": boolean;
-    /** Value enum: "custom_variable". */
-    "type": "custom_variable" | (string & {});
-    /** minLength: 1. maxLength: 255. */
-    "name": string;
-}));

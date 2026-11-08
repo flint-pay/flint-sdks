@@ -3,9 +3,9 @@ import type { ClientOptions } from '../declarations/types-5.js';
 import type { CreateReturnPolicyResponse } from '../declarations/types-10.js';
 import type { DeleteReturnPolicyResponse } from '../declarations/types-14.js';
 import type { GetReturnPolicyResponse, GetReturnPolicyRevisionResponse } from '../declarations/types-23.js';
-import type { ListReturnPoliciesResponse, ListReturnPolicyRevisionsResponse } from '../declarations/types-32.js';
+import type { ListReturnPoliciesResponse, ListReturnPolicyRevisionsResponse } from '../declarations/types-33.js';
 import type { PublishReturnPolicyRevisionResponse } from '../declarations/types-46.js';
-import type { RequestOptions } from '../declarations/types-47.js';
+import type { RequestOptions } from '../declarations/types-48.js';
 import type {
     ReturnPoliciesCreateParams,
     ReturnPoliciesCreateRevisionParams,
@@ -18,8 +18,8 @@ import type {
     ReturnPolicy,
     ReturnPolicyRevision
 } from '../declarations/types-49.js';
-import type { UpdateReturnPolicyResponse } from '../declarations/types-59.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { UpdateReturnPolicyResponse } from '../declarations/types-60.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -45,17 +45,10 @@ export type {
     ReturnPoliciesListParams,
     ReturnPoliciesListRevisionsParams,
     ReturnPoliciesUpdateParams,
-    ReturnPolicyRevisionRequestInput,
-    ReturnPolicyScopeInput,
-    ReturnPolicyScopeAllInput,
-    ReturnPolicyScopeIncludeInput,
     ReturnPolicyRevisionInputIneligibleInput,
-    ReturnPolicyRevisionInputReturnableInput,
-    ReturnPolicyScope,
-    ReturnPolicyScopeAll,
-    ReturnPolicyScopeInclude
+    ReturnPolicyRevisionInputReturnableInput
 } from '../declarations/types-49.js';
-export type { RequestOptions } from '../declarations/types-47.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
 export type { CreateReturnPolicyResponse, CreateReturnPolicyRequestInput } from '../declarations/types-10.js';
 export type {
     PublishReturnPolicyRevisionResponse,
@@ -63,31 +56,46 @@ export type {
     ReadinessMerchantAccountSession
 } from '../declarations/types-46.js';
 export type { DeleteReturnPolicyResponse } from '../declarations/types-14.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { GetReturnPolicyResponse, GetReturnPolicyRevisionResponse } from '../declarations/types-23.js';
-export type { ListReturnPoliciesResponse, ListReturnPolicyRevisionsResponse } from '../declarations/types-32.js';
-export type { UpdateReturnPolicyResponse, UpdateReturnPolicyRequestInput } from '../declarations/types-59.js';
+export type { ListReturnPoliciesResponse, ListReturnPolicyRevisionsResponse } from '../declarations/types-33.js';
+export type { UpdateReturnPolicyResponse, UpdateReturnPolicyRequestInput } from '../declarations/types-60.js';
 export type { ClientOptions } from '../declarations/types-5.js';
-export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-34.js';
+export type {
+    MetadataRequestInput,
+    MoneyValueInput,
+    MetadataMap,
+    NextAction,
+    MoneyValue,
+    MetadataPatchRequestInput,
+    MetadataPatchRequest
+} from '../declarations/types-35.js';
+export type {
+    ReturnPolicyRevisionRequestInput,
+    ReturnPolicyScopeInput,
+    ReturnPolicyScopeAllInput,
+    ReturnPolicyScopeIncludeInput,
+    ReturnPolicyScope,
+    ReturnPolicyScopeAll,
+    ReturnPolicyScopeInclude
+} from '../declarations/types-50.js';
 export type {
     ReturnRestockingFeePolicyInput,
     ReturnShippingPolicyInput,
+    ReturnWindowInput,
     ReturnRestockingFeePolicy,
-    ReturnShippingPolicy
-} from '../declarations/types-50.js';
-export type { MoneyValueInput, NextAction, MoneyValue } from '../declarations/types-35.js';
-export type { ReturnWindowInput, ReturnWindow } from '../declarations/types-51.js';
+    ReturnShippingPolicy,
+    ReturnWindow
+} from '../declarations/types-51.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-12.js';
-export type { ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
 export { makeCreateReturnPolicyRequest } from '../declarations/types-65.js';
-export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-69.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-69.js';
+export { makeMoneyValue } from '../declarations/types-70.js';
+export { makePublishReturnPolicyRevisionRequest } from '../declarations/types-71.js';
 export {
-    makePublishReturnPolicyRevisionRequest,
     makeReturnPolicyRevisionInputIneligible,
-    makeReturnPolicyRevisionInputReturnable
-} from '../declarations/types-71.js';
-export {
+    makeReturnPolicyRevisionInputReturnable,
     makeReturnPolicyRevisionRequest,
     makeReturnPolicyScope,
     makeReturnPolicyScopeAll,
@@ -96,7 +104,7 @@ export {
     makeReturnShippingPolicy,
     makeReturnWindow
 } from '../declarations/types-72.js';
-export { makeUpdateReturnPolicyRequest } from '../declarations/types-74.js';
+export { makeUpdateReturnPolicyRequest } from '../declarations/types-75.js';
 export interface ReturnPoliciesResource {
     /**
  * Create a Return policy with its first revision. The policy ID is stable across revisions, and

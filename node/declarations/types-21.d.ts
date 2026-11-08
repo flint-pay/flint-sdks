@@ -1,23 +1,255 @@
-import type { DocumentTaxID, Dispute, DigitalFulfillmentDetails } from './types-20.js';
+import type { Dispute } from './types-20.js';
+import type { MerchantWebhookEnvelope, MoneyValue, NextAction } from './types-35.js';
+import type { InputValue } from '../runtime.js';
+import type {
+    SimulateDisputeRequestInput,
+    ScopeRequirement,
+    SelectableErrorResource,
+    Shipment,
+    SettlementAmounts
+} from './types-53.js';
 import type { DeliverySelection } from './types-19.js';
 import type { ResponseMeta } from './types-48.js';
-import type { InputValue } from '../runtime.js';
 import type { PartnerEnvironmentGrant, PartnerWebhookEnvelope } from './types-40.js';
-import type { CustomDomain } from './types-12.js';
-import type { MoneyValue, NextAction } from './types-35.js';
-import type { Package } from './types-38.js';
+import type { CustomDomain } from './types-13.js';
+import type { Fulfillment } from './types-22.js';
+import type { Package } from './types-39.js';
 import type { QuotaDetails } from './types-46.js';
-import type { ScopeRequirement, SelectableErrorResource } from './types-52.js';
-import type { Shipment, SettlementAmounts, ServiceFulfillmentDetails, ShipmentFulfillmentDetails } from './types-53.js';
 import type { CheckoutBuyerContact, CardDetails } from './types-4.js';
-import type { PricingAmounts, PaymentSourceSummary, PickupFulfillmentDetails } from './types-43.js';
-import type { SubscriptionIntervalOption } from './types-54.js';
-import type { SubscriptionPlanLineItem } from './types-55.js';
+import type { PricingAmounts } from './types-44.js';
+import type { PaymentSourceSummary } from './types-43.js';
+import type { SubscriptionIntervalOption } from './types-55.js';
+import type { SubscriptionPlanLineItem } from './types-56.js';
 import type { CreateFeedbackReportRequestInput, CreateFileRequestInput } from './types-7.js';
 import type { CheckoutSessionsListDeliverySelectionsParams } from './types-5.js';
-import type { MerchantWebhookEnvelope, MetadataMap } from './types-34.js';
-import type { DeliveryFulfillmentDetails } from './types-15.js';
-import type { FulfillmentHold, FulfillmentLineItem, FulfillmentOutcome, FulfillmentRecipient } from './types-22.js';
+/**
+ * An embedded Stripe component to render for the dispute response session, with the payment
+ * reference to pass to it.
+ */
+export type DisputeResponseSessionStripeComponent = {
+    /** Value enum: "payment_disputes". */
+    "component": "payment_disputes" | (string & {});
+    /** Stripe payment reference to pass to setPayment or the React payment prop. */
+    "payment": string;
+};
+export type DisputeUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Dispute;
+    };
+    "event_type"?: "dispute.updated";
+})
+    & {
+    "event_type": "dispute.updated";
+});
+export type DisputeWonEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Dispute;
+    };
+    "event_type"?: "dispute.won";
+})
+    & {
+    "event_type": "dispute.won";
+});
+export type DisputesAcceptParams = {};
+export type DisputesCreateResponseSessionParams = {};
+export type DisputesGetParams = {
+    /**
+     * Supported expansions: customer, order, payment_intent. Expansion requires
+     * payments.disputes.read plus the read scope for each expanded resource. Limits: at most 10
+     * unique expand paths per request. Repeat expand, for example expand=customer&expand=order, or
+     * pass one comma-separated value. [] enum: "customer", "order", "payment_intent". Value enum:
+     * "customer", "order", "payment_intent". anyOf[1] (Value): Array of string. [] enum:
+     * "customer", "order", "payment_intent". anyOf[1][] (Value): string. Value enum: "customer",
+     * "order", "payment_intent". anyOf[2] (Value): string. Value enum: "customer", "order",
+     * "payment_intent".
+     */
+    "expand"?: InputValue<("customer" | "order" | "payment_intent") | readonly ("customer" | "order" | "payment_intent")[]>;
+};
+export type DisputesListParams = {
+    /** Inclusive lower bound on updated_at. Format: date-time. */
+    "updated_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on updated_at. Format: date-time. */
+    "updated_before"?: InputValue<string | globalThis.Date>;
+    /** Optional Flint payment intent ID filter. Example: "pi_01ARZ3NDEKTSV4RRFFQ69G5FAV". */
+    "payment_intent_id"?: InputValue<string>;
+    /** Optional Flint order ID filter. Example: "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV". */
+    "order_id"?: InputValue<string>;
+    /** Optional Flint customer ID filter. Example: "cus_01ARZ3NDEKTSV4RRFFQ69G5FAV". */
+    "customer_id"?: InputValue<string>;
+    /**
+     * Optional dispute status filter. Accepts repeated keys, comma-separated values, or mixtures.
+     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
+     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum:
+     * "inquiry_needs_response", "inquiry_under_review", "inquiry_closed", "needs_response",
+     * "under_review", "won", "lost", "prevented", "other". Value enum: "inquiry_needs_response",
+     * "inquiry_under_review", "inquiry_closed", "needs_response", "under_review", "won", "lost",
+     * "prevented", "other". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
+     * "inquiry_needs_response", "inquiry_under_review", "inquiry_closed", "needs_response",
+     * "under_review", "won", "lost", "prevented", "other". anyOf[1][] (Value): string. Value enum:
+     * "inquiry_needs_response", "inquiry_under_review", "inquiry_closed", "needs_response",
+     * "under_review", "won", "lost", "prevented", "other". anyOf[2] (Value): string. Value enum:
+     * "inquiry_needs_response", "inquiry_under_review", "inquiry_closed", "needs_response",
+     * "under_review", "won", "lost", "prevented", "other".
+     */
+    "status"?: InputValue<("inquiry_needs_response"
+        | "inquiry_under_review"
+        | "inquiry_closed"
+        | "needs_response"
+        | "under_review"
+        | "won"
+        | "lost"
+        | "prevented"
+        | "other")
+        | readonly ("inquiry_needs_response"
+        | "inquiry_under_review"
+        | "inquiry_closed"
+        | "needs_response"
+        | "under_review"
+        | "won"
+        | "lost"
+        | "prevented"
+        | "other")[]>;
+    /**
+     * Optional normalized dispute reason filter. Accepts repeated keys, comma-separated values, or
+     * mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries
+     * are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum:
+     * "fraudulent", "unrecognized", "duplicate", "product_not_received",
+     * "product_not_as_described", "refund_not_processed", "subscription_canceled", "noncompliant",
+     * "insufficient_funds", "debit_not_authorized", "bank_account_not_found", "other". Value enum:
+     * "fraudulent", "unrecognized", "duplicate", "product_not_received",
+     * "product_not_as_described", "refund_not_processed", "subscription_canceled", "noncompliant",
+     * "insufficient_funds", "debit_not_authorized", "bank_account_not_found", "other". anyOf[1]
+     * (Value): Array of string. minItems: 1. [] enum: "fraudulent", "unrecognized", "duplicate",
+     * "product_not_received", "product_not_as_described", "refund_not_processed",
+     * "subscription_canceled", "noncompliant", "insufficient_funds", "debit_not_authorized",
+     * "bank_account_not_found", "other". anyOf[1][] (Value): string. Value enum: "fraudulent",
+     * "unrecognized", "duplicate", "product_not_received", "product_not_as_described",
+     * "refund_not_processed", "subscription_canceled", "noncompliant", "insufficient_funds",
+     * "debit_not_authorized", "bank_account_not_found", "other". anyOf[2] (Value): string. Value
+     * enum: "fraudulent", "unrecognized", "duplicate", "product_not_received",
+     * "product_not_as_described", "refund_not_processed", "subscription_canceled", "noncompliant",
+     * "insufficient_funds", "debit_not_authorized", "bank_account_not_found", "other".
+     */
+    "reason"?: InputValue<("fraudulent"
+        | "unrecognized"
+        | "duplicate"
+        | "product_not_received"
+        | "product_not_as_described"
+        | "refund_not_processed"
+        | "subscription_canceled"
+        | "noncompliant"
+        | "insufficient_funds"
+        | "debit_not_authorized"
+        | "bank_account_not_found"
+        | "other")
+        | readonly ("fraudulent"
+        | "unrecognized"
+        | "duplicate"
+        | "product_not_received"
+        | "product_not_as_described"
+        | "refund_not_processed"
+        | "subscription_canceled"
+        | "noncompliant"
+        | "insufficient_funds"
+        | "debit_not_authorized"
+        | "bank_account_not_found"
+        | "other")[]>;
+    /**
+     * Optional dispute case type filter. Accepts repeated keys, comma-separated values, or
+     * mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries
+     * are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum:
+     * "inquiry", "chargeback", "compliance", "resolution", "block", "other", "bank_return". Value
+     * enum: "inquiry", "chargeback", "compliance", "resolution", "block", "other", "bank_return".
+     * anyOf[1] (Value): Array of string. minItems: 1. [] enum: "inquiry", "chargeback",
+     * "compliance", "resolution", "block", "other", "bank_return". anyOf[1][] (Value): string.
+     * Value enum: "inquiry", "chargeback", "compliance", "resolution", "block", "other",
+     * "bank_return". anyOf[2] (Value): string. Value enum: "inquiry", "chargeback", "compliance",
+     * "resolution", "block", "other", "bank_return".
+     */
+    "case_type"?: InputValue<("inquiry" | "chargeback" | "compliance" | "resolution" | "block" | "other" | "bank_return")
+        | readonly ("inquiry" | "chargeback" | "compliance" | "resolution" | "block" | "other" | "bank_return")[]>;
+    /**
+     * Filter by whether a merchant response is needed now. True includes needs_response and
+     * inquiry_needs_response disputes that allow evidence and whose evidence deadline has not
+     * passed; false includes the remaining disputes.
+     */
+    "is_action_required"?: InputValue<boolean>;
+    /**
+     * Field to sort by. Defaults to created_at; ties are broken by dispute_id. Default:
+     * "created_at". Value enum: "created_at", "evidence_due_at", "amount_money".
+     */
+    "sort_by"?: InputValue<"created_at" | "evidence_due_at" | "amount_money">;
+    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
+    "sort_direction"?: InputValue<"asc" | "desc">;
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Inclusive lower bound on evidence_due_at. Format: date-time. Example:
+     * "2026-03-17T14:30:00Z".
+     */
+    "evidence_due_after"?: InputValue<string | globalThis.Date>;
+    /**
+     * Exclusive upper bound on evidence_due_at. Format: date-time. Example:
+     * "2026-03-17T14:30:00Z".
+     */
+    "evidence_due_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque next_page_token from the previous response. Omit on the first request. You may change
+     * `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request
+     * context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns
+     * a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Supported expansions: customer, order, payment_intent. Include the requested related
+     * resources using scoped batch reads for this page. Each relationship requires its existing
+     * target read scopes. Expansion changes the representation without changing pagination tokens.
+     * Limits: at most 10 unique expand paths per request. Repeat expand, for example
+     * expand=customer&expand=order, or pass one comma-separated value. [] enum: "customer",
+     * "order", "payment_intent". Value enum: "customer", "order", "payment_intent". anyOf[1]
+     * (Value): Array of string. [] enum: "customer", "order", "payment_intent". anyOf[1][]
+     * (Value): string. Value enum: "customer", "order", "payment_intent". anyOf[2] (Value):
+     * string. Value enum: "customer", "order", "payment_intent".
+     */
+    "expand"?: InputValue<("customer" | "order" | "payment_intent") | readonly ("customer" | "order" | "payment_intent")[]>;
+};
+export type DisputesSimulateParams = (InputValue<SimulateDisputeRequestInput>);
+/**
+ * A tax identifier printed on documents, with its country, optional region, identifier type, and
+ * value. Flint does not verify the value.
+ */
+export type DocumentTaxID = {
+    /**
+     * Two-letter ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$.
+     * Example: "US".
+     */
+    "country": string;
+    /**
+     * Server-generated identity of an existing entry. Omit when adding an entry. minLength: 1.
+     * pattern: ^dti_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "document_tax_id"?: string;
+    /**
+     * Provider-independent identifier type, for example vat, gst, or ein. This is an open
+     * vocabulary. minLength: 1. maxLength: 64. pattern: ^[a-z][a-z0-9_]*$.
+     */
+    "identifier_type": string;
+    /** minLength: 1. maxLength: 64. */
+    "region"?: string;
+    /**
+     * Full identifier printed on documents. Not verified by Flint. minLength: 1. maxLength: 255.
+     */
+    "value": string;
+};
 /**
  * A tax identifier printed on documents, with its country, optional region, identifier type, and
  * value. Flint does not verify the value.
@@ -2784,382 +3016,3 @@ export type FraudWarningUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & obj
     & {
     "event_type": "fraud_warning.updated";
 });
-/**
- * The `fraud_warning.updated` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type FraudWarningUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**  object (Required): {@link FraudWarning}. A notice that a payment may be fraudulent. */
-    "data"?: {
-        /** A notice that a payment may be fraudulent. */
-        "object": FraudWarning;
-    };
-    /** Value enum: "fraud_warning.updated". */
-    "event_type"?: "fraud_warning.updated";
-    /**
-     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
-     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
-     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        /** Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        /** Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * The `fraud_warning.updated` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type FraudWarningUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**  object (Required): {@link FraudWarning}. A notice that a payment may be fraudulent. */
-    "data"?: {
-        /** A notice that a payment may be fraudulent. */
-        "object": FraudWarning;
-    };
-    /** Value enum: "fraud_warning.updated". */
-    "event_type"?: "fraud_warning.updated";
-});
-export type FraudWarningsGetParams = {
-    /**
-     * Supported expansions: dispute, payment_intent. Expansion requires risk.read plus the read
-     * scope for each expanded resource. Limits: at most 10 unique expand paths per request. Repeat
-     * expand, for example expand=dispute&expand=payment_intent, or pass one comma-separated value.
-     * [] enum: "dispute", "payment_intent". Value enum: "dispute", "payment_intent". anyOf[1]
-     * (Value): Array of string. [] enum: "dispute", "payment_intent". anyOf[1][] (Value): string.
-     * Value enum: "dispute", "payment_intent". anyOf[2] (Value): string. Value enum: "dispute",
-     * "payment_intent".
-     */
-    "expand"?: InputValue<("dispute" | "payment_intent") | readonly ("dispute" | "payment_intent")[]>;
-};
-export type FraudWarningsListParams = {
-    /** Filter by whether a proactive fraudulent refund can still prevent a dispute. */
-    "is_actionable"?: InputValue<boolean>;
-    /** Filter by Flint payment intent ID. Example: "pi_01ARZ3NDEKTSV4RRFFQ69G5FAV". */
-    "payment_intent_id"?: InputValue<string>;
-    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque next_page_token from the previous response. Omit on the first request. You may change
-     * `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request
-     * context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns
-     * a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /**
-     * Supported expansions: dispute, payment_intent. Include the requested related resources using
-     * scoped batch reads for this page. Each relationship requires its existing target read
-     * scopes. Expansion changes the representation without changing pagination tokens. Limits: at
-     * most 10 unique expand paths per request. Repeat expand, for example
-     * expand=dispute&expand=payment_intent, or pass one comma-separated value. [] enum: "dispute",
-     * "payment_intent". Value enum: "dispute", "payment_intent". anyOf[1] (Value): Array of
-     * string. [] enum: "dispute", "payment_intent". anyOf[1][] (Value): string. Value enum:
-     * "dispute", "payment_intent". anyOf[2] (Value): string. Value enum: "dispute",
-     * "payment_intent".
-     */
-    "expand"?: InputValue<("dispute" | "payment_intent") | readonly ("dispute" | "payment_intent")[]>;
-};
-/** Work required to deliver an order's items. */
-export type Fulfillment = {
-    /**
-     * Current hold details. Present exactly when status is on_hold. A hold on a fulfillment, with
-     * its reason, who placed it, and when it became active.
-     */
-    "active_hold"?: FulfillmentHold;
-    /**
-     * Order charges associated with this fulfillment. [] (Value): {@link FulfillmentChargeLink}.
-     * Links a fulfillment to an order charge by `order_charge_id`.
-     */
-    "charges"?: Array<FulfillmentChargeLink>;
-    /**
-     * When the fulfillment was completed. Mirrors the completion time for its type: delivered_at
-     * for shipment, local delivery, and digital fulfillments, picked_up_at for pickup, and
-     * service_details.completed_at for service fulfillments. Omitted until a completion time is
-     * recorded. Format: date-time.
-     */
-    "completed_at"?: string;
-    /** When the fulfillment was created, in RFC3339 format. Format: date-time. */
-    "created_at"?: string;
-    /** Customer receiving this fulfillment, when one is set. */
-    "customer_id"?: string;
-    /**
-     * Delivery choice group that created this fulfillment. Null for fulfillments created by the
-     * merchant or through checkout without a delivery quote.
-     */
-    "delivery_choice_group_id": string | null;
-    /**
-     * Execution leg of the selected delivery option that created this fulfillment. Null for
-     * fulfillments created by the merchant or through checkout without a delivery quote.
-     */
-    "delivery_execution_leg_id": string | null;
-    /**
-     * Delivery method chosen for this fulfillment. Null for fulfillments created by the merchant
-     * or through checkout without a delivery quote. Also null for fulfillments created before this
-     * field was added.
-     */
-    "delivery_method_id": string | null;
-    /**
-     * Delivery selection that created this fulfillment. Null for fulfillments created by the
-     * merchant or through checkout without a delivery quote.
-     */
-    "delivery_selection_id": string | null;
-    /** Device associated with the fulfillment, when one is recorded. */
-    "device_id"?: string;
-    /**
-     * Delivery URL and completion time for a digital fulfillment. Details of a digital
-     * fulfillment: when it was delivered (`delivered_at`) and its `delivery_url`.
-     */
-    "digital_details"?: DigitalFulfillmentDetails;
-    /** First time this fulfillment reached dispatched. Format: date-time. */
-    "dispatched_at"?: string;
-    /** Caller-owned identifier for this resource in an external system. maxLength: 255. */
-    "external_reference_id"?: string;
-    /** Stable identifier of the fulfillment. */
-    "fulfillment_id": string;
-    /**
-     * Order lines and quantities allocated to this fulfillment. [] (Value): {@link
-     * FulfillmentLineItem}. An order line item and quantity included in a fulfillment, with the
-     * modifiers applied to it.
-     */
-    "line_items": Array<FulfillmentLineItem>;
-    /**
-     * Courier, delivery window, and handoff details for a local delivery fulfillment. Details of a
-     * local delivery fulfillment: courier, timing window, instructions, and tracking. Some fields
-     * are omitted for credentials that don't act for the verified customer.
-     */
-    "local_delivery_details"?: DeliveryFulfillmentDetails;
-    /** Merchant location responsible for this fulfillment. */
-    "location_id"?: string;
-    /**
-     * Caller-owned key-value metadata associated with the fulfillment. Caller-owned key-value data
-     * stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned.
-     * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those
-     * limits may not satisfy them.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Order summary returned when the order relationship is expanded. Present only when `expand`
-     * includes `order`; `null` when expanded and there is no related order. anyOf[1] (Value):
-     * {@link ExpandedOrderSummary}. An order's summary fields, including status, payment and
-     * refund status, and pricing and settlement amounts, returned when the order is expanded.
-     * anyOf[2] (Value): null.
-     */
-    "order"?: ((ExpandedOrderSummary) | (null));
-    /** Order whose items this fulfillment delivers. */
-    "order_id": string;
-    /**
-     * Human-readable number of the order this fulfillment belongs to. Omitted when the order has
-     * no number.
-     */
-    "order_number"?: string;
-    /**
-     * Terminal outcome details. Present exactly when status is no_show. The terminal outcome
-     * recorded for a fulfillment, such as a no-show, with its reason, notes, and when it occurred.
-     */
-    "outcome"?: FulfillmentOutcome;
-    /**
-     * Packages associated with this fulfillment. [] (Value): {@link ExpandedPackageSummary}. A
-     * package's summary fields, including carrier, tracking, status, and supported actions,
-     * returned when the package is expanded.
-     */
-    "packages"?: Array<ExpandedPackageSummary>;
-    /** First time this fulfillment reached packed. Format: date-time. */
-    "packed_at"?: string;
-    /** First time this fulfillment reached picked. Format: date-time. */
-    "picked_at"?: string;
-    /**
-     * Pickup window, pickup mode, and handoff times for a pickup fulfillment. Pickup details. For
-     * a pickup that checkout creates, location_name, address, and instructions name the store the
-     * buyer chose and the delivery method's pickup instructions. The note the buyer left for the
-     * store is in recipient.instructions.
-     */
-    "pickup_details"?: PickupFulfillmentDetails;
-    /**
-     * Omitted for a checkout session credential that doesn't act for the customer the buyer
-     * verified. The recipient of a fulfillment, with name, email, phone, address, and handling
-     * instructions.
-     */
-    "recipient"?: FulfillmentRecipient;
-    /**
-     * Derived start of the service schedule or pickup, local delivery, or shipment window. Null
-     * when no schedule is booked, including digital fulfillments. Details remain the authoritative
-     * schedule inputs. Nulls sort first ascending and last descending, then by fulfillment_id in
-     * the same direction. Format: date-time.
-     */
-    "scheduled_start_at": string | null;
-    /**
-     * Schedule and completion details for a service fulfillment. Details of a service fulfillment:
-     * the scheduled start and end, timezone, completion time, and notes.
-     */
-    "service_details"?: ServiceFulfillmentDetails;
-    /**
-     * Shipping schedule and ship time for a shipment fulfillment. Present only on shipment
-     * fulfillments with at least one value. Details of a shipment fulfillment: the shipping
-     * window, timezone, and when the shipment was handed to the carrier.
-     */
-    "shipment_details"?: ShipmentFulfillmentDetails;
-    /**
-     * Shipments associated with this fulfillment. [] (Value): {@link ExpandedShipmentSummary}. A
-     * shipment's summary fields, including direction, status, and package count, returned when the
-     * shipment is expanded.
-     */
-    "shipments"?: Array<ExpandedShipmentSummary>;
-    /**
-     * Current fulfillment lifecycle status. Read supported_actions for available transitions. -
-     * `pending`: Work has not started and has not been accepted. Approval may be required before
-     * work can begin. - `accepted`: The provider accepted the fulfillment; work has not started. -
-     * `on_hold`: Work is paused. Release the hold to restore active_hold.previous_status, or use a
-     * supported forward action. - `in_progress`: Work has started and is not yet ready or
-     * complete. - `ready`: The fulfillment is ready for pickup, handoff, or completion. -
-     * `completed`: All fulfillment work completed successfully. - `canceled`: The fulfillment was
-     * intentionally canceled and will not continue. - `failed`: The fulfillment could not be
-     * completed. Resolve the recorded reason before creating replacement work. - `scheduled`: The
-     * fulfillment is scheduled for its recorded service window. - `preparing`: Warehouse or
-     * provider preparation is underway. - `picked`: The assigned items have been picked. -
-     * `packed`: The assigned items have been packed. - `dispatched`: The fulfillment left its
-     * origin for delivery or handoff. - `no_show`: A service appointment was missed. Read outcome
-     * for the recorded reason. Value enum: "pending", "accepted", "on_hold", "in_progress",
-     * "ready", "completed", "canceled", "failed", "scheduled", "preparing", "picked", "packed",
-     * "dispatched", "no_show".
-     */
-    "status": "pending"
-        | "accepted"
-        | "on_hold"
-        | "in_progress"
-        | "ready"
-        | "completed"
-        | "canceled"
-        | "failed"
-        | "scheduled"
-        | "preparing"
-        | "picked"
-        | "packed"
-        | "dispatched"
-        | "no_show"
-        | (string & {});
-    /**
-     * Read-only actions currently supported for this fulfillment. [] enum: "complete", "cancel",
-     * "hold", "start", "mark_ready", "fail", "schedule", "accept", "mark_preparing",
-     * "mark_picked", "mark_packed", "dispatch", "mark_no_show", "release_hold". [] (Value):
-     * string. Value enum: "complete", "cancel", "hold", "start", "mark_ready", "fail", "schedule",
-     * "accept", "mark_preparing", "mark_picked", "mark_packed", "dispatch", "mark_no_show",
-     * "release_hold".
-     */
-    "supported_actions": Array<"complete"
-        | "cancel"
-        | "hold"
-        | "start"
-        | "mark_ready"
-        | "fail"
-        | "schedule"
-        | "accept"
-        | "mark_preparing"
-        | "mark_picked"
-        | "mark_packed"
-        | "dispatch"
-        | "mark_no_show"
-        | "release_hold"
-        | (string & {})>;
-    /**
-     * When the fulfillment entered a terminal state: completed, canceled, failed, or no_show. This
-     * records the state transition; completed_at records completion evidence supplied for the
-     * fulfillment. Format: date-time.
-     */
-    "terminal_at"?: string;
-    /**
-     * How the items are delivered: shipment, pickup, local delivery, digital delivery, or service.
-     * Value enum: "shipment", "pickup", "local_delivery", "digital", "service".
-     */
-    "type": "shipment" | "pickup" | "local_delivery" | "digital" | "service" | (string & {});
-    /** When the fulfillment was last updated, in RFC3339 format. Format: date-time. */
-    "updated_at"?: string;
-    /** Monotonic fulfillment version for expected_version checks. Format: uint64. minimum: 1. */
-    "version": number;
-};
-export type FulfillmentCanceledEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Fulfillment;
-    };
-    "event_type"?: "fulfillment.canceled";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Fulfillment;
-    };
-    "event_type"?: "fulfillment.canceled";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "fulfillment.canceled";
-});
-/**
- * The `fulfillment.canceled` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type FulfillmentCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**  object (Required): {@link Fulfillment}. Work required to deliver an order's items. */
-    "data"?: {
-        /** Work required to deliver an order's items. */
-        "object": Fulfillment;
-    };
-    /** Value enum: "fulfillment.canceled". */
-    "event_type"?: "fulfillment.canceled";
-    /**
-     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
-     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
-     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        /** Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        /** Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * The `fulfillment.canceled` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type FulfillmentCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**  object (Required): {@link Fulfillment}. Work required to deliver an order's items. */
-    "data"?: {
-        /** Work required to deliver an order's items. */
-        "object": Fulfillment;
-    };
-    /** Value enum: "fulfillment.canceled". */
-    "event_type"?: "fulfillment.canceled";
-});
-/** Links a fulfillment to an order charge by `order_charge_id`. */
-export type FulfillmentChargeLink = {
-    /** Order charge associated with this fulfillment. */
-    "order_charge_id": string;
-};

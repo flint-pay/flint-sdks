@@ -33,11 +33,11 @@ import type {
     MerchantGetParams,
     MerchantReadiness,
     MerchantResponse,
-    MerchantUpdateParams,
-    MerchantWebhookEnvelope
+    MerchantUpdateParams
 } from '../declarations/types-34.js';
-import type { RequestOptions } from '../declarations/types-47.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { MerchantWebhookEnvelope } from '../declarations/types-35.js';
+import type { RequestOptions } from '../declarations/types-48.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -79,40 +79,41 @@ export type {
     MerchantBillingInvoiceListResponse,
     MerchantBillingInvoiceResponse,
     MerchantReadiness,
-    MerchantWebhookEnvelope,
     MerchantAccountSessionsCreateParams,
     MerchantBillingBalancesGetParams,
     MerchantBillingInvoicesGetParams,
     MerchantBillingBalancesListParams,
     MerchantBillingEntriesListParams,
     MerchantBillingInvoicesListParams,
-    MerchantAccountSessionsRefreshParams,
+    MerchantAccountSessionsRefreshParams
+} from '../declarations/types-34.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
+export type {
+    MerchantWebhookEnvelope,
     MetadataMap,
+    NextAction,
+    MoneyValue,
     MetadataPatchRequestInput,
     MetadataPatchRequest
-} from '../declarations/types-34.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
-export type { RequestOptions } from '../declarations/types-47.js';
+} from '../declarations/types-35.js';
 export type { ClientOptions } from '../declarations/types-5.js';
 export type { AuthMode, Address, AddressRequestInput, AddressRequest } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-12.js';
 export type { ImageAttachment, ImageRequestInput, ImageInputSourceURLInput, ImageInputFileInput } from '../declarations/types-25.js';
 export type { ExpandedOrganizationSummary } from '../declarations/types-21.js';
-export type { ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
-export type { NextAction, MoneyValue } from '../declarations/types-35.js';
 export type { ReadinessMerchantAccountSession, ReadinessAction, ReadinessRequirements, ReadinessAxis } from '../declarations/types-46.js';
 export type { UpdateMerchantRequestInput } from '../declarations/types-59.js';
 export type { DisputeResponseSessionStripeAccountSession } from '../declarations/types-20.js';
 export type { CapabilityReadiness } from '../declarations/types-4.js';
-export { makeAddressRequest } from '../declarations/types-61.js';
-export { makeImageInputFile, makeImageInputSourceURL } from '../declarations/types-67.js';
-export { makeImageRequest } from '../declarations/types-68.js';
+export { makeAddressRequest } from '../declarations/types-62.js';
+export { makeImageInputFile, makeImageInputSourceURL, makeImageRequest } from '../declarations/types-68.js';
 export {
     makeMerchantAccountSessionCreateRequest,
     makeMerchantAccountSessionRefreshRequest,
-    makeMetadataPatchRequest,
-    makeMoneyValue
+    makeMetadataPatchRequest
 } from '../declarations/types-69.js';
+export { makeMoneyValue } from '../declarations/types-70.js';
 export { makeUpdateMerchantRequest } from '../declarations/types-74.js';
 export interface MerchantResource {
     /**

@@ -1,0 +1,9 @@
+import { d93 as c0 } from '../descriptors/data/4.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import { d93 as d93 } from '../descriptors/data/4.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import { lazyCodec, preparedCodec } from '../descriptor-source.js';
+const read = d93;
+let prepared;
+function codec() { return prepared ??= preparedCodec(read(), {["CLIContextsRequest"]:c0()}); }
+export { codec as _validate };
+import { modelFromCodec } from '../runtime.js';
+export function makeCLIContextsRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

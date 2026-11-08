@@ -9,7 +9,9 @@ import type {
     ProductResponse,
     ProductVariant,
     ProductVariantListResponse,
-    ProductVariantResponse,
+    ProductVariantResponse
+} from '../declarations/types-44.js';
+import type {
     ProductsCreateParams,
     ProductsCreateVariantParams,
     ProductsDeleteParams,
@@ -22,9 +24,9 @@ import type {
     ProductsListVariantsParams,
     ProductsUpdateParams,
     ProductsUpdateVariantParams
-} from '../declarations/types-44.js';
-import type { RequestOptions } from '../declarations/types-47.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+} from '../declarations/types-45.js';
+import type { RequestOptions } from '../declarations/types-48.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -41,26 +43,29 @@ export type {
 } from '../runtime.js';
 export type {
     ProductsCreateParams,
-    Product,
-    ProductResponse,
     ProductsCreateVariantParams,
-    ProductVariant,
-    ProductVariantResponse,
     ProductsDeleteParams,
     ProductsDeleteVariantParams,
     ProductsGetParams,
     ProductsGetOptionParams,
-    ProductOption,
-    ProductOptionResponse,
     ProductsGetVariantParams,
     ProductsListOptionsParams,
-    ProductOptionListResponse,
     ProductsListParams,
-    ProductListResponse,
     ProductsListVariantsParams,
-    ProductVariantListResponse,
     ProductsUpdateParams,
-    ProductsUpdateVariantParams,
+    ProductsUpdateVariantParams
+} from '../declarations/types-45.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
+export type {
+    Product,
+    ProductResponse,
+    ProductVariant,
+    ProductVariantResponse,
+    ProductOption,
+    ProductOptionResponse,
+    ProductOptionListResponse,
+    ProductListResponse,
+    ProductVariantListResponse,
     ProductVariantRequestInput,
     ProductVariantSelectedOptionRequestInput,
     ProductVariantMatch,
@@ -68,39 +73,40 @@ export type {
     ProductOptionValue,
     ProductVariantSelectedOptionRequest
 } from '../declarations/types-44.js';
-export type { RequestOptions } from '../declarations/types-47.js';
-export type { _SdkWithoutIdempotency, WeightInput, Weight } from '../declarations/types-61.js';
+export type { _SdkWithoutIdempotency, WeightInput, Weight } from '../declarations/types-62.js';
 export type { ClientOptions } from '../declarations/types-5.js';
-export type { CreateProductRequestInput, CreateProductRequestSimpleInput, CreateProductRequestOptionedInput } from '../declarations/types-10.js';
+export type {
+    CreateProductRequestInput,
+    CreateProductOptionRequestInput,
+    CreateProductOptionValueRequestInput,
+    CreateProductRequestSimpleInput,
+    CreateProductRequestOptionedInput
+} from '../declarations/types-10.js';
 export type { GiftCardProductConfigurationRequestInput, GiftCardProductConfiguration } from '../declarations/types-24.js';
 export type { GiftCardCustomAmountBoundsRequestInput, GiftCardCustomAmountBounds } from '../declarations/types-23.js';
 export type { ImageRequestInput, ImageInputSourceURLInput, ImageInputFileInput, ImageAttachment } from '../declarations/types-25.js';
 export type { InventoryItemCreateRequestInput } from '../declarations/types-26.js';
 export type {
     MetadataRequestInput,
-    MetadataMap,
-    ModifierGroup,
-    Modifier,
-    MetadataPatchRequestInput,
-    MetadataPatchRequest
-} from '../declarations/types-34.js';
-export type { DimensionsInput, Dimensions } from '../declarations/types-20.js';
-export type {
     MoneyValueInput,
+    MetadataMap,
     ModifierSet,
     ModifierSetGroup,
+    ModifierGroup,
+    Modifier,
     MoneyValue,
     ModifierOverride,
     ModifierSetGroupExisting,
     ModifierSetGroupInline,
-    NextAction
+    NextAction,
+    MetadataPatchRequestInput,
+    MetadataPatchRequest
 } from '../declarations/types-35.js';
-export type { CreateProductOptionRequestInput, CreateProductOptionValueRequestInput } from '../declarations/types-9.js';
+export type { DimensionsInput, Dimensions } from '../declarations/types-20.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-12.js';
 export type { CategoryReference } from '../declarations/types-4.js';
-export type { TextModifierConfig } from '../declarations/types-57.js';
-export type { ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
+export type { TextModifierConfig } from '../declarations/types-58.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
 export type { SelectedProductOption } from '../declarations/types-53.js';
 export type {
@@ -108,7 +114,7 @@ export type {
     UpdateProductOptionRequestInput,
     UpdateProductOptionValueRequestInput,
     UpdateProductVariantRequestInput
-} from '../declarations/types-59.js';
+} from '../declarations/types-60.js';
 export type { BundlesGetParams } from '../declarations/types-1.js';
 export {
     makeCreateProductOptionRequest,
@@ -116,24 +122,26 @@ export {
     makeCreateProductRequest,
     makeCreateProductRequestOptioned,
     makeCreateProductRequestSimple
-} from '../declarations/types-64.js';
+} from '../declarations/types-65.js';
+export { makeDimensions } from '../declarations/types-67.js';
 export {
-    makeDimensions,
     makeGiftCardCustomAmountBoundsRequest,
     makeGiftCardProductConfigurationRequest,
     makeImageInputFile,
-    makeImageInputSourceURL
-} from '../declarations/types-67.js';
-export { makeImageRequest, makeInventoryItemCreateRequest } from '../declarations/types-68.js';
-export { makeMetadataPatchRequest, makeMetadataRequest, makeModifierOverride, makeMoneyValue } from '../declarations/types-69.js';
+    makeImageInputSourceURL,
+    makeImageRequest,
+    makeInventoryItemCreateRequest
+} from '../declarations/types-68.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeModifierOverride } from '../declarations/types-69.js';
+export { makeMoneyValue } from '../declarations/types-70.js';
 export { makeProductVariantRequest, makeProductVariantSelectedOptionRequest } from '../declarations/types-71.js';
 export {
     makeUpdateProductOptionRequest,
     makeUpdateProductOptionValueRequest,
     makeUpdateProductRequest,
-    makeUpdateProductVariantRequest
-} from '../declarations/types-74.js';
-export { makeWeight } from '../declarations/types-75.js';
+    makeUpdateProductVariantRequest,
+    makeWeight
+} from '../declarations/types-75.js';
 export interface ProductsResource {
     /**
  * Creates a product for the authenticated merchant.

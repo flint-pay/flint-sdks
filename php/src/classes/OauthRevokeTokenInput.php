@@ -1,0 +1,18 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/**
+ * @internal
+ *
+ * @property-read array{'client_assertion'?: string, 'client_assertion_type'?: string, 'client_id'?: string, 'client_secret'?: string, 'token': string, 'token_type_hint'?: string, ...}|object $body
+ * Presence-aware input; omitted fields throw when accessed. */
+final class OauthRevokeTokenInput extends Model {
+    /** @param array{'body': array{'client_assertion'?: string, 'client_assertion_type'?: string, 'client_id'?: string, 'client_secret'?: string, 'token': string, 'token_type_hint'?: string, ...}|object}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OauthRevokeTokenInput')); }
+    /** The request body for: Revoke an OAuth token.
+     * @return array{'client_assertion'?: string, 'client_assertion_type'?: string, 'client_id'?: string, 'client_secret'?: string, 'token': string, 'token_type_hint'?: string, ...}|object
+     * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
+     */
+    public function getBody(): array|object { return $this->get('body'); }
+    public function hasBody(): bool { return $this->has('body'); }
+}

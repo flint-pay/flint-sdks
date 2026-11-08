@@ -1,7 +1,16 @@
 [Model index](../MODELS.md)
 
-# CreateInvoiceRequest to CreateReturnDispositionRequestInput
+# CreateInventoryTransferRequestInput to CreateRefundRequestFull
 
+- [CreateInventoryTransferRequestInput](CreateInventoryTransferRequestInput.md)
+- [CreateInvoiceIssueRequest](CreateInvoiceIssueRequest.md)
+- [CreateInvoiceIssueRequestInput](CreateInvoiceIssueRequestInput.md)
+- [CreateInvoiceManualPaymentRequest](CreateInvoiceManualPaymentRequest.md)
+- [CreateInvoiceManualPaymentRequestInput](CreateInvoiceManualPaymentRequestInput.md)
+- [CreateInvoicePaymentTermRequest](CreateInvoicePaymentTermRequest.md)
+- [CreateInvoicePaymentTermRequestInput](CreateInvoicePaymentTermRequestInput.md)
+- [CreateInvoiceQuickPayRequest](CreateInvoiceQuickPayRequest.md)
+- [CreateInvoiceQuickPayRequestInput](CreateInvoiceQuickPayRequestInput.md)
 - [CreateInvoiceRequest](CreateInvoiceRequest.md)
 - [CreateInvoiceRequestInput](CreateInvoiceRequestInput.md)
 - [CreateInvoiceRequestOrder](CreateInvoiceRequestOrder.md)
@@ -93,13 +102,4 @@
 - [CreateRefundRequestAmount](CreateRefundRequestAmount.md)
 - [CreateRefundRequestAmountInput](CreateRefundRequestAmountInput.md)
 - [CreateRefundRequestFull](CreateRefundRequestFull.md)
-- [CreateRefundRequestFullInput](CreateRefundRequestFullInput.md)
-- [CreateRefundRequestTargets](CreateRefundRequestTargets.md)
-- [CreateRefundRequestTargetsInput](CreateRefundRequestTargetsInput.md)
-- [CreateRefundResponse](CreateRefundResponse.md)
-- [CreateRefundResult](CreateRefundResult.md)
-- [CreateReportRequest](CreateReportRequest.md)
-- [CreateReportRequestInput](CreateReportRequestInput.md)
-- [CreateReturnDispositionRequest](CreateReturnDispositionRequest.md)
-- [CreateReturnDispositionRequestInput](CreateReturnDispositionRequestInput.md)
 

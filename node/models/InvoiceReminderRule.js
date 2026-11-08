@@ -1,7 +1,7 @@
-import { d6856 as c0 } from '../descriptors/data/325.js?sdk=d1fbdc9ae03748db4df89d58da8fba32d0ff2e9fa5c15cee69be90b031712c30';
-import { d6856 as d6856 } from '../descriptors/data/325.js?sdk=d1fbdc9ae03748db4df89d58da8fba32d0ff2e9fa5c15cee69be90b031712c30';
+import { d6915 as c0 } from '../descriptors/data/328.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
+import { d6915 as d6915 } from '../descriptors/data/328.js?sdk=5d52a1e5def284d74a4776bf9579736739feb879cd55107c7fc2677195d75c51';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d6856;
+const read = d6915;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["InvoiceReminderRule"]:c0()}); }
 export { codec as _validate };

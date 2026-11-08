@@ -16,11 +16,11 @@ import type {
     DeliveryRateCallbacksDeleteParams,
     DeliveryRateCallbacksGetParams,
     DeliveryRateCallbacksListParams,
-    DeliveryRateCallbacksRotateSecretParams,
-    DeliveryRateCallbacksUpdateParams
+    DeliveryRateCallbacksRotateSecretParams
 } from '../declarations/types-18.js';
-import type { RequestOptions } from '../declarations/types-47.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { DeliveryRateCallbacksUpdateParams } from '../declarations/types-19.js';
+import type { RequestOptions } from '../declarations/types-48.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -52,26 +52,26 @@ export type {
     DeliveryRateCallbacksRotateSecretParams,
     DeliveryRateCallbackSigningKeyRotation,
     DeliveryRateCallbackSigningKeyRotationResponse,
-    DeliveryRateCallbacksUpdateParams,
     DeliveryRateCallbackConfigurationInput,
     DeliveryRateCallbackConfiguration,
     DeliveryRateCallbackConfigurationPatchRequestInput
 } from '../declarations/types-18.js';
-export type { RequestOptions } from '../declarations/types-47.js';
-export type { _SdkWithoutIdempotency, WebhookSigningMethodInput } from '../declarations/types-61.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+export type { DeliveryRateCallbacksUpdateParams } from '../declarations/types-19.js';
 export type { ClientOptions } from '../declarations/types-5.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-12.js';
-export type { ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
 export type { NextAction, MoneyValue } from '../declarations/types-35.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
 export type { CreateDeliveryRateCallbackRequestInput } from '../declarations/types-7.js';
+export type { WebhookSigningMethodInput } from '../declarations/types-61.js';
 export type { UpdateDeliveryRateCallbackRequestInput } from '../declarations/types-58.js';
 export type { DeliveryLocationSetsDeleteParams } from '../declarations/types-15.js';
-export { makeCreateDeliveryRateCallbackRequest } from '../declarations/types-63.js';
-export { makeDeliveryRateCallbackConfiguration, makeDeliveryRateCallbackConfigurationPatchRequest } from '../declarations/types-66.js';
-export { makeMoneyValue } from '../declarations/types-69.js';
-export { makeUpdateDeliveryRateCallbackRequest } from '../declarations/types-73.js';
+export { makeCreateDeliveryRateCallbackRequest } from '../declarations/types-64.js';
+export { makeDeliveryRateCallbackConfiguration, makeDeliveryRateCallbackConfigurationPatchRequest } from '../declarations/types-67.js';
+export { makeMoneyValue } from '../declarations/types-70.js';
+export { makeUpdateDeliveryRateCallbackRequest } from '../declarations/types-74.js';
 export { makeWebhookSigningMethod } from '../declarations/types-75.js';
 export interface DeliveryRateCallbacksResource {
     /**

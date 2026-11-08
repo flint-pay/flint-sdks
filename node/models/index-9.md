@@ -1,7 +1,16 @@
 [Model index](../MODELS.md)
 
-# DeliveryBuyerLocationInputCoordinate to DeliveryOptionProjection
+# DeliveryArrivalEstimate to DeliveryMethodOriginSelectorInputPickupLocationCollectionDeliveryLocationSetInput
 
+- [DeliveryArrivalEstimate](DeliveryArrivalEstimate.md)
+- [DeliveryAvailability](DeliveryAvailability.md)
+- [DeliveryAvailabilityRequestInput](DeliveryAvailabilityRequestInput.md)
+- [DeliveryBlackoutInterval](DeliveryBlackoutInterval.md)
+- [DeliveryBlackoutIntervalRequestInput](DeliveryBlackoutIntervalRequestInput.md)
+- [DeliveryBusinessDayRange](DeliveryBusinessDayRange.md)
+- [DeliveryBusinessDayRangeRequestInput](DeliveryBusinessDayRangeRequestInput.md)
+- [DeliveryBuyerLocationInputAddress](DeliveryBuyerLocationInputAddress.md)
+- [DeliveryBuyerLocationInputAddressInput](DeliveryBuyerLocationInputAddressInput.md)
 - [DeliveryBuyerLocationInputCoordinate](DeliveryBuyerLocationInputCoordinate.md)
 - [DeliveryBuyerLocationInputCoordinateInput](DeliveryBuyerLocationInputCoordinateInput.md)
 - [DeliveryBuyerLocationRequest](DeliveryBuyerLocationRequest.md)
@@ -93,13 +102,4 @@
 - [DeliveryMethodOriginSelectorInputPickupLocationCollectionInput](DeliveryMethodOriginSelectorInputPickupLocationCollectionInput.md)
 - [DeliveryMethodOriginSelectorInputPickupLocationCollectionDeliveryLocationSet](DeliveryMethodOriginSelectorInputPickupLocationCollectionDeliveryLocationSet.md)
 - [DeliveryMethodOriginSelectorInputPickupLocationCollectionDeliveryLocationSetInput](DeliveryMethodOriginSelectorInputPickupLocationCollectionDeliveryLocationSetInput.md)
-- [DeliveryMethodOriginSelectorInputPickupLocationCollectionLocations](DeliveryMethodOriginSelectorInputPickupLocationCollectionLocations.md)
-- [DeliveryMethodOriginSelectorInputPickupLocationCollectionLocationsInput](DeliveryMethodOriginSelectorInputPickupLocationCollectionLocationsInput.md)
-- [DeliveryMethodOriginSelectorPickupLocationCollection](DeliveryMethodOriginSelectorPickupLocationCollection.md)
-- [DeliveryMethodOriginSelectorRequest](DeliveryMethodOriginSelectorRequest.md)
-- [DeliveryMethodOriginSelectorRequestInput](DeliveryMethodOriginSelectorRequestInput.md)
-- [DeliveryMethodResponse](DeliveryMethodResponse.md)
-- [DeliveryMethodUpdatedInstalledMerchantsEvent](DeliveryMethodUpdatedInstalledMerchantsEvent.md)
-- [DeliveryMethodUpdatedMerchantEvent](DeliveryMethodUpdatedMerchantEvent.md)
-- [DeliveryOptionProjection](DeliveryOptionProjection.md)
 

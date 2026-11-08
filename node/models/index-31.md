@@ -1,7 +1,30 @@
 [Model index](../MODELS.md)
 
-# UpdateRiskListRequest to WorkloadIdentityResponse
+# UpdateRefundRequest to WorkloadIdentityListResponse
 
+- [UpdateRefundRequest](UpdateRefundRequest.md)
+- [UpdateRefundRequestInput](UpdateRefundRequestInput.md)
+- [UpdateReturnLineItemRequest](UpdateReturnLineItemRequest.md)
+- [UpdateReturnLineItemRequestInput](UpdateReturnLineItemRequestInput.md)
+- [UpdateReturnPolicyRequest](UpdateReturnPolicyRequest.md)
+- [UpdateReturnPolicyRequestInput](UpdateReturnPolicyRequestInput.md)
+- [UpdateReturnReasonRequest](UpdateReturnReasonRequest.md)
+- [UpdateReturnReasonRequestInput](UpdateReturnReasonRequestInput.md)
+- [UpdateReturnReplacementLineItemInputBundle](UpdateReturnReplacementLineItemInputBundle.md)
+- [UpdateReturnReplacementLineItemInputBundleInput](UpdateReturnReplacementLineItemInputBundleInput.md)
+- [UpdateReturnReplacementLineItemInputCustom](UpdateReturnReplacementLineItemInputCustom.md)
+- [UpdateReturnReplacementLineItemInputCustomInput](UpdateReturnReplacementLineItemInputCustomInput.md)
+- [UpdateReturnReplacementLineItemInputVariant](UpdateReturnReplacementLineItemInputVariant.md)
+- [UpdateReturnReplacementLineItemInputVariantInput](UpdateReturnReplacementLineItemInputVariantInput.md)
+- [UpdateReturnReplacementLineItemRequest](UpdateReturnReplacementLineItemRequest.md)
+- [UpdateReturnReplacementLineItemRequestInput](UpdateReturnReplacementLineItemRequestInput.md)
+- [UpdateReturnRequestInput](UpdateReturnRequestInput.md)
+- [UpdateReturnResolutionAdjustmentRequest](UpdateReturnResolutionAdjustmentRequest.md)
+- [UpdateReturnResolutionAdjustmentRequestInput](UpdateReturnResolutionAdjustmentRequestInput.md)
+- [UpdateReturnResolutionLineItemRequest](UpdateReturnResolutionLineItemRequest.md)
+- [UpdateReturnResolutionLineItemRequestInput](UpdateReturnResolutionLineItemRequestInput.md)
+- [UpdateReturnResolutionRequest](UpdateReturnResolutionRequest.md)
+- [UpdateReturnResolutionRequestInput](UpdateReturnResolutionRequestInput.md)
 - [UpdateRiskListRequest](UpdateRiskListRequest.md)
 - [UpdateRiskListRequestInput](UpdateRiskListRequestInput.md)
 - [UpdateRiskRuleRequest](UpdateRiskRuleRequest.md)
@@ -79,5 +102,4 @@
 - [WorkloadIdentityClaimConditionRequest](WorkloadIdentityClaimConditionRequest.md)
 - [WorkloadIdentityClaimConditionRequestInput](WorkloadIdentityClaimConditionRequestInput.md)
 - [WorkloadIdentityListResponse](WorkloadIdentityListResponse.md)
-- [WorkloadIdentityResponse](WorkloadIdentityResponse.md)
 

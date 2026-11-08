@@ -1,51 +1,42 @@
-import type { CreateProductOptionRequestInput, CreateProductOptionRequest } from './types-9.js';
-import type { ImageRequestInput, ImageRequest } from './types-25.js';
-import type { MetadataRequestInput, MetadataMap } from './types-34.js';
+import type { MetadataMap, MoneyValue, MetadataRequestInput, MoneyValueInput } from './types-35.js';
+import type { AddressRequest, AddressRequestInput } from './types-0.js';
+import type { ImageRequest, ImageRequestInput } from './types-25.js';
+import type { ProductVariantRequest, ProductVariantRequestInput } from './types-44.js';
 import type {
-    ProductVariantRequestInput,
-    ProductVariantRequest,
     PromotionApplicationMethodRequest,
-    PromotionApplicationMethodRequestInput
-} from './types-44.js';
-import type {
     PromotionCombinesWithPatch,
     PromotionExclusivityRequest,
+    PromotionApplicationMethodRequestInput,
+    PromotionCombinesWithRequestInput,
+    PromotionExclusivityRequestInput
+} from './types-45.js';
+import type {
     PromotionRuleGroupRequest,
     PromotionSchedule,
-    PromotionCombinesWithRequestInput,
-    PromotionExclusivityRequestInput,
     PromotionRuleGroupRequestInput,
-    PromotionScheduleRequestInput
-} from './types-45.js';
-import type { MoneyValue, MoneyValueInput } from './types-35.js';
+    PromotionScheduleRequestInput,
+    Refund
+} from './types-46.js';
 import type {
     RefundCharge,
     RefundDestinations,
     RefundLineItem,
+    RefundTaxBreakdownRefundIn,
+    RefundTenderAllocationRequest,
     RefundChargeInput,
     RefundDestinationsInput,
     RefundLineItemInput,
-    Refund,
-    RefundGiftCardCode,
-    RefundLineItemAllocation
-} from './types-46.js';
-import type {
-    RefundTaxBreakdownRefundIn,
-    RefundTenderAllocationRequest,
     RefundTaxBreakdownRefundInInput,
     RefundTenderAllocationRequestInput,
+    RefundGiftCardCode,
+    RefundLineItemAllocation,
     RefundTaxBreakdownRefund,
     RefundTenderAllocation,
     RefundUnissuedGiftCardRecovery
 } from './types-47.js';
-import type {
-    ResponseMeta,
-    ReturnEligibilitySelection,
-    ReturnEligibilitySelectionInput,
-    ReturnEligibilityPreview
-} from './types-48.js';
+import type { ResponseMeta } from './types-48.js';
 import type { ExpandedCustomerSummary, ExpandedOrderSummary, ExpandedPaymentIntentSummary } from './types-21.js';
-import type { PaymentRefund } from './types-42.js';
+import type { PaymentRefund } from './types-43.js';
 import type {
     GetReturnDispositionResponse,
     GetReturnInspectionResponse,
@@ -54,10 +45,12 @@ import type {
     GetReturnReceiptResponse
 } from './types-23.js';
 import type {
+    ReturnEligibilitySelection,
+    ReturnEligibilitySelectionInput,
     ReturnInspectionLineItemRequest,
     ReturnInspectionLineItemRequestInput,
     ReturnPolicyRevisionRequest,
-    ReturnPolicyRevisionRequestInput,
+    ReturnEligibilityPreview,
     ReturnLineItemRequest,
     ReturnLineItemRequestInput
 } from './types-49.js';
@@ -65,16 +58,398 @@ import type {
     ReturnSourceSystemRequest,
     ReturnSourceSystemRequestInput,
     ReturnResolutionPreview,
+    ReturnResolutionLineItemRequest
+} from './types-51.js';
+import type {
+    ReturnPolicyRevisionRequestInput,
     ReturnReceiptLineItemRequest,
     ReturnReceiptLineItemRequestInput,
     ReturnReplacementLineItemRequest,
-    ReturnResolutionAdjustmentRequest,
-    ReturnResolutionLineItemRequest,
-    ReturnResolutionAdjustmentRequestInput,
-    ReturnReplacementLineItemRequestInput,
-    ReturnResolutionLineItemRequestInput
+    ReturnResolutionAdjustmentRequest
 } from './types-50.js';
-import type { CreateReturnResolutionRequestStandard, CreateReturnResolutionRequestStandardInput } from './types-11.js';
+import type {
+    CreateReturnResolutionPreviewRequestInput,
+    CreateReturnResolutionPreviewRequestCorrection,
+    CreateReturnResolutionPreviewRequestStandard
+} from './types-11.js';
+/** The request body for: Create a payout. */
+export type CreatePayoutRequest = {
+    /**
+     * Amount to send, above zero. It can't exceed what one balance source has in
+     * available_by_source_type. Monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code.
+     */
+    "amount_money": MoneyValue;
+    /**
+     * Balance source this payout draws from. Flint chooses the source when omitted. Value enum:
+     * "card", "bank_account".
+     */
+    "balance_source_type"?: "card" | "bank_account" | (string & {});
+    /** Your description of the payout, returned on the payout. minLength: 1. */
+    "description"?: string;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Payout method. Only standard is accepted; omitted defaults to standard. Value enum:
+     * "standard".
+     */
+    "method"?: "standard" | (string & {});
+    /**
+     * Destination to pay. It must be active and in the payout's currency. Omit it to pay the
+     * currency's default destination. minLength: 1.
+     */
+    "payout_destination_id"?: string;
+    /** Text shown on your bank statement for this deposit, 22 characters or fewer. minLength: 1. */
+    "statement_descriptor"?: string;
+};
+/** The request body for: Create a payout. */
+export type CreatePayoutRequestInput = {
+    /**
+     * Amount to send, above zero. It can't exceed what one balance source has in
+     * available_by_source_type. Monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code.
+     */
+    "amount_money": MoneyValueInput;
+    /**
+     * Balance source this payout draws from. Flint chooses the source when omitted. Value enum:
+     * "card", "bank_account".
+     */
+    "balance_source_type"?: "card" | "bank_account";
+    /** Your description of the payout, returned on the payout. minLength: 1. */
+    "description"?: string;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Payout method. Only standard is accepted; omitted defaults to standard. Value enum:
+     * "standard".
+     */
+    "method"?: "standard";
+    /**
+     * Destination to pay. It must be active and in the payout's currency. Omit it to pay the
+     * currency's default destination. minLength: 1.
+     */
+    "payout_destination_id"?: string;
+    /** Text shown on your bank statement for this deposit, 22 characters or fewer. minLength: 1. */
+    "statement_descriptor"?: string;
+};
+/**
+ * Pickup details you supply when creating a fulfillment: the pickup address, location, window,
+ * instructions, and curbside details.
+ */
+export type CreatePickupFulfillmentDetails = {
+    /**
+     * Address where the buyer collects the order. A complete postal address. State and postal_code
+     * are required for US addresses and optional for other countries. Send null or omit line2,
+     * state, and postal_code when the address has none.
+     */
+    "address"?: AddressRequest;
+    /** Instructions specific to curbside handoff. minLength: 1. maxLength: 2048. */
+    "curbside_instructions"?: string;
+    /**
+     * Buyer-reported arrival time for curbside or counter pickup. Format: date-time. minLength: 1.
+     */
+    "customer_arrived_at"?: string;
+    /**
+     * Deadline after which an uncollected pickup should enter merchant review. Format: date-time.
+     * minLength: 1.
+     */
+    "expires_at"?: string;
+    /** Pickup instructions for the buyer, such as where to go on arrival. minLength: 1. */
+    "instructions"?: string;
+    /** Name of the store or place where the buyer collects the order. minLength: 1. */
+    "location_name"?: string;
+    /**
+     * Width of the promised pickup window, from 0 to 86400 seconds. Format: int64. minimum: 0.
+     * maximum: 86400.
+     */
+    "pickup_window_duration_seconds"?: number;
+    /**
+     * Expected preparation time for restaurant and made-to-order pickup, from 0 to 86400 seconds.
+     * Format: int64. minimum: 0. maximum: 86400.
+     */
+    "prep_time_duration_seconds"?: number;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. */
+    "ready_at"?: string;
+    /** minLength: 1. */
+    "timezone"?: string;
+    /** Buyer vehicle description used for curbside handoff. minLength: 1. maxLength: 500. */
+    "vehicle_description"?: string;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. */
+    "window_end_at"?: string;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. */
+    "window_start_at"?: string;
+};
+/**
+ * Pickup details you supply when creating a fulfillment: the pickup address, location, window,
+ * instructions, and curbside details.
+ */
+export type CreatePickupFulfillmentDetailsInput = {
+    /**
+     * Address where the buyer collects the order. A complete postal address. State and postal_code
+     * are required for US addresses and optional for other countries. Send null or omit line2,
+     * state, and postal_code when the address has none.
+     */
+    "address"?: AddressRequestInput;
+    /** Instructions specific to curbside handoff. minLength: 1. maxLength: 2048. */
+    "curbside_instructions"?: string;
+    /**
+     * Buyer-reported arrival time for curbside or counter pickup. Format: date-time. minLength: 1.
+     */
+    "customer_arrived_at"?: string | globalThis.Date;
+    /**
+     * Deadline after which an uncollected pickup should enter merchant review. Format: date-time.
+     * minLength: 1.
+     */
+    "expires_at"?: string | globalThis.Date;
+    /** Pickup instructions for the buyer, such as where to go on arrival. minLength: 1. */
+    "instructions"?: string;
+    /** Name of the store or place where the buyer collects the order. minLength: 1. */
+    "location_name"?: string;
+    /**
+     * Width of the promised pickup window, from 0 to 86400 seconds. Format: int64. minimum: 0.
+     * maximum: 86400.
+     */
+    "pickup_window_duration_seconds"?: number;
+    /**
+     * Expected preparation time for restaurant and made-to-order pickup, from 0 to 86400 seconds.
+     * Format: int64. minimum: 0. maximum: 86400.
+     */
+    "prep_time_duration_seconds"?: number;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. */
+    "ready_at"?: string | globalThis.Date;
+    /** minLength: 1. */
+    "timezone"?: string;
+    /** Buyer vehicle description used for curbside handoff. minLength: 1. maxLength: 500. */
+    "vehicle_description"?: string;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. */
+    "window_end_at"?: string | globalThis.Date;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. */
+    "window_start_at"?: string | globalThis.Date;
+};
+/**
+ * A product option to create with a product, such as size, with its values, position, and status.
+ */
+export type CreateProductOptionRequest = {
+    /**
+     * Value of this option given to every active variant that has no active value for it after
+     * this request, such as when you add an option to a product that already has active variants.
+     * It must match one of this option's active `values`, ignoring case and surrounding
+     * whitespace. Not stored; the variants keep the value. minLength: 1. maxLength: 255.
+     */
+    "existing_variant_value"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /** Option name, such as Size or Color. minLength: 1. maxLength: 255. */
+    "name": string;
+    /**
+     * Display order among the product's options, starting at zero. Defaults to the option's array
+     * index when omitted. Format: int32. minimum: 0.
+     */
+    "position"?: number;
+    /**
+     * Whether the option is active or inactive. Active variants must select an active value for
+     * every active option. Default: "active". Value enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive" | (string & {});
+    /**
+     * Values offered for this option, such as Small, Medium, and Large for Size. [] (Value):
+     * {@link CreateProductOptionValueRequest}. One value of a product option to create, such as a
+     * specific size, with its position and status.
+     */
+    "values"?: Array<CreateProductOptionValueRequest>;
+};
+/**
+ * A product option to create with a product, such as size, with its values, position, and status.
+ */
+export type CreateProductOptionRequestInput = {
+    /**
+     * Value of this option given to every active variant that has no active value for it after
+     * this request, such as when you add an option to a product that already has active variants.
+     * It must match one of this option's active `values`, ignoring case and surrounding
+     * whitespace. Not stored; the variants keep the value. minLength: 1. maxLength: 255.
+     */
+    "existing_variant_value"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /** Option name, such as Size or Color. minLength: 1. maxLength: 255. */
+    "name": string;
+    /**
+     * Display order among the product's options, starting at zero. Defaults to the option's array
+     * index when omitted. Format: int32. minimum: 0.
+     */
+    "position"?: number;
+    /**
+     * Whether the option is active or inactive. Active variants must select an active value for
+     * every active option. Default: "active". Value enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive";
+    /**
+     * Values offered for this option, such as Small, Medium, and Large for Size. [] (Value):
+     * {@link CreateProductOptionValueRequestInput}. One value of a product option to create, such
+     * as a specific size, with its position and status.
+     */
+    "values"?: Array<CreateProductOptionValueRequestInput>;
+};
+/**
+ * One value of a product option to create, such as a specific size, with its position and status.
+ */
+export type CreateProductOptionValueRequest = {
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Display order among the option's values, starting at zero. Defaults to the value's array
+     * index when omitted. Format: int32. minimum: 0.
+     */
+    "position"?: number;
+    /**
+     * Whether the value is active or inactive. Active variants cannot newly select an inactive
+     * value. Default: "active". Value enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive" | (string & {});
+    /** Option value shown to buyers, such as Medium. minLength: 1. maxLength: 255. */
+    "value": string;
+};
+/**
+ * One value of a product option to create, such as a specific size, with its position and status.
+ */
+export type CreateProductOptionValueRequestInput = {
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Display order among the option's values, starting at zero. Defaults to the value's array
+     * index when omitted. Format: int32. minimum: 0.
+     */
+    "position"?: number;
+    /**
+     * Whether the value is active or inactive. Active variants cannot newly select an inactive
+     * value. Default: "active". Value enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive";
+    /** Option value shown to buyers, such as Medium. minLength: 1. maxLength: 255. */
+    "value": string;
+};
+/** The request body for: Create product. */
+export type CreateProductRequest = ({
+    /**
+     * Relationship set of category handles that must already exist. Each handle has 1 to 100
+     * characters (Unicode code points). Unknown handles return RESOURCE_NOT_FOUND. Replaces the
+     * whole set when present; send [] to clear it. On PATCH, omission leaves it unchanged. Does
+     * not require expected_version. maxItems: 100. uniqueItems: true. [] (Value): string.
+     * minLength: 1. maxLength: 100. pattern: ^[a-z0-9]+(-[a-z0-9]+)*$.
+     */
+    "category_handles"?: Array<string>;
+    /**
+     * The single variant to create as the product's default. Send either default_variant or both
+     * options and variants. The request body for: Create product variant.
+     */
+    "default_variant"?: ProductVariantRequest;
+    /** Description of the product shown to buyers. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * The complete desired gallery in display order. The first image is primary. Send [] to clear
+     * the gallery. minItems: 0. maxItems: 8. [] (Value): {@link ImageRequest}. An image you supply
+     * by `source_url`, with optional `alt` text and external reference.
+     */
+    "images"?: Array<ImageRequest>;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /** Attached modifier set. Send null on update to remove it. minLength: 1. */
+    "modifier_set_id"?: string | null;
+    /** Product name shown to buyers. minLength: 1. maxLength: 255. */
+    "name": string;
+    /**
+     * Options and values that distinguish this product's variants. Send with variants instead of
+     * default_variant. minItems: 1. [] (Value): {@link CreateProductOptionRequest}. A product
+     * option to create with a product, such as size, with its values, position, and status.
+     */
+    "options"?: Array<CreateProductOptionRequest>;
+    /**
+     * Kind of goods or service this product represents. New variants of digital products store
+     * digital_goods when line_item_tax_category is omitted; explicit categories are preserved.
+     * Value enum: "physical", "service", "fee", "digital", "gift_card".
+     */
+    "product_type": "physical" | "service" | "fee" | "digital" | "gift_card" | (string & {});
+    /**
+     * Whether the product is active or inactive. An inactive product's variants cannot be sold.
+     * Default: "active". Value enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive" | (string & {});
+    /** Selects the variant mode branch. Value enum: "simple", "optioned". */
+    "variant_mode": "simple" | "optioned" | (string & {});
+    /**
+     * Independent variants to create with this product, at most 100. Add more with `POST
+     * /v1/products/{product_id}/variants`. minItems: 1. maxItems: 100. [] (Value): {@link
+     * ProductVariantRequest}. The request body for: Create product variant.
+     */
+    "variants"?: Array<ProductVariantRequest>;
+})
+    & ((Exclude<CreateProductRequestSimple & object, readonly unknown[]>)
+    | (Exclude<CreateProductRequestOptioned & object, readonly unknown[]>)
+    | (Record<string, unknown>));
 /** The request body for: Create product. */
 export type CreateProductRequestInput = ({
     /**
@@ -3068,429 +3443,3 @@ export type CreateReturnResolutionPreviewRequest = ({
     & ((Exclude<CreateReturnResolutionPreviewRequestStandard & object, readonly unknown[]>)
     | (Exclude<CreateReturnResolutionPreviewRequestCorrection & object, readonly unknown[]>)
     | (Record<string, unknown>));
-/** The `correction` variant of `CreateReturnResolutionPreviewRequest`. */
-export type CreateReturnResolutionPreviewRequestCorrection = ({
-    /**
-     *  [] (Value): {@link ReturnResolutionAdjustmentRequest}. A fee or credit to apply to a return
-     * resolution, with the assessed and applied amounts and whether it is applied or waived.
-     */
-    "adjustments": Array<ReturnResolutionAdjustmentRequest>;
-    /** minLength: 1. */
-    "corrects_return_resolution_id": string;
-    /**
-     * Optional version of the parent Return. A stale value returns VERSION_CONFLICT with the
-     * Return ID and its current version. Format: int64. minimum: 1.
-     */
-    "expected_return_version"?: number;
-    /** Value enum: "correction". */
-    "resolution_type": "correction" | (string & {});
-    /** minLength: 1. */
-    "return_id": string;
-})
-    & (({
-    /** minItems: 1. */
-    "adjustments": unknown;
-    /** Value enum: "correction". */
-    "resolution_type"?: unknown;
-    /** minLength: 1. */
-    "corrects_return_resolution_id": string;
-}));
-/** The `correction` variant of `CreateReturnResolutionPreviewRequest`. */
-export type CreateReturnResolutionPreviewRequestCorrectionInput = ({
-    /**
-     *  [] (Value): {@link ReturnResolutionAdjustmentRequestInput}. A fee or credit to apply to a
-     * return resolution, with the assessed and applied amounts and whether it is applied or
-     * waived.
-     */
-    "adjustments": Array<ReturnResolutionAdjustmentRequestInput>;
-    /** minLength: 1. */
-    "corrects_return_resolution_id": string;
-    /**
-     * Optional version of the parent Return. A stale value returns VERSION_CONFLICT with the
-     * Return ID and its current version. Format: int64. minimum: 1.
-     */
-    "expected_return_version"?: number;
-    /** Value enum: "correction". */
-    "resolution_type": "correction";
-    /** minLength: 1. */
-    "return_id": string;
-})
-    & (({
-    /** minItems: 1. */
-    "adjustments": unknown;
-    /** Value enum: "correction". */
-    "resolution_type"?: "correction";
-    /** minLength: 1. */
-    "corrects_return_resolution_id": string;
-})
-    & (({
-    "line_items"?: never;
-})
-    & ({
-    "replacement_line_items"?: never;
-})
-    & ({
-    "pricing_basis"?: never;
-})));
-/**
- * A request to preview the amounts of a return resolution for a return, selected by
- * `resolution_type`: refund, exchange, replacement, no monetary action, or correction.
- */
-export type CreateReturnResolutionPreviewRequestInput = ({
-    /**
-     *  [] (Value): {@link ReturnResolutionAdjustmentRequestInput}. A fee or credit to apply to a
-     * return resolution, with the assessed and applied amounts and whether it is applied or
-     * waived.
-     */
-    "adjustments"?: Array<ReturnResolutionAdjustmentRequestInput>;
-    /** minLength: 1. */
-    "corrects_return_resolution_id"?: string;
-    /**
-     * Optional version of the parent Return. A stale value returns VERSION_CONFLICT with the
-     * Return ID and its current version. Format: int64. minimum: 1.
-     */
-    "expected_return_version"?: number;
-    /**
-     *  [] (Value): {@link ReturnResolutionLineItemRequestInput}. A return line and quantity to
-     * include in a return resolution.
-     */
-    "line_items"?: Array<ReturnResolutionLineItemRequestInput>;
-    /** Value enum: "original_price", "current_price", "merchant_agreed_price". */
-    "pricing_basis"?: "original_price" | "current_price" | "merchant_agreed_price";
-    /**
-     *  [] (Value): {@link ReturnReplacementLineItemRequestInput}. A replacement item to include in
-     * a return resolution, from a variant, a bundle, or a custom name and price.
-     */
-    "replacement_line_items"?: Array<ReturnReplacementLineItemRequestInput>;
-    /**
-     * Value enum: "refund", "exchange", "replacement", "store_credit", "no_monetary_action",
-     * "correction".
-     */
-    "resolution_type": "refund" | "exchange" | "replacement" | "store_credit" | "no_monetary_action" | "correction";
-    /** minLength: 1. */
-    "return_id": string;
-})
-    & ((Exclude<CreateReturnResolutionPreviewRequestStandardInput & object, readonly unknown[]>)
-    | (Exclude<CreateReturnResolutionPreviewRequestCorrectionInput & object, readonly unknown[]>));
-/**
- * The `exchange` variant of `CreateReturnResolutionPreviewRequest`. The `no_monetary_action`
- * variant of `CreateReturnResolutionPreviewRequest`. The `refund` variant of
- * `CreateReturnResolutionPreviewRequest`. The `replacement` variant of
- * `CreateReturnResolutionPreviewRequest`. The `store_credit` variant of
- * `CreateReturnResolutionPreviewRequest`.
- */
-export type CreateReturnResolutionPreviewRequestStandard = ({
-    /**
-     *  [] (Value): {@link ReturnResolutionAdjustmentRequest}. A fee or credit to apply to a return
-     * resolution, with the assessed and applied amounts and whether it is applied or waived.
-     */
-    "adjustments"?: Array<ReturnResolutionAdjustmentRequest>;
-    /**
-     * Optional version of the parent Return. A stale value returns VERSION_CONFLICT with the
-     * Return ID and its current version. Format: int64. minimum: 1.
-     */
-    "expected_return_version"?: number;
-    /**
-     *  [] (Value): {@link ReturnResolutionLineItemRequest}. A return line and quantity to include
-     * in a return resolution.
-     */
-    "line_items": Array<ReturnResolutionLineItemRequest>;
-    /** Value enum: "original_price", "current_price", "merchant_agreed_price". */
-    "pricing_basis"?: "original_price" | "current_price" | "merchant_agreed_price" | (string & {});
-    /**
-     *  [] (Value): {@link ReturnReplacementLineItemRequest}. A replacement item to include in a
-     * return resolution, from a variant, a bundle, or a custom name and price.
-     */
-    "replacement_line_items"?: Array<ReturnReplacementLineItemRequest>;
-    /** Value enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit". */
-    "resolution_type": "refund" | "exchange" | "replacement" | "no_monetary_action" | "store_credit" | (string & {});
-    /** minLength: 1. */
-    "return_id": string;
-})
-    & (({
-    /** minItems: 1. */
-    "line_items": unknown;
-    /** Value enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit". */
-    "resolution_type"?: unknown;
-}));
-/**
- * The `exchange` variant of `CreateReturnResolutionPreviewRequest`. The `no_monetary_action`
- * variant of `CreateReturnResolutionPreviewRequest`. The `refund` variant of
- * `CreateReturnResolutionPreviewRequest`. The `replacement` variant of
- * `CreateReturnResolutionPreviewRequest`. The `store_credit` variant of
- * `CreateReturnResolutionPreviewRequest`.
- */
-export type CreateReturnResolutionPreviewRequestStandardInput = ({
-    /**
-     *  [] (Value): {@link ReturnResolutionAdjustmentRequestInput}. A fee or credit to apply to a
-     * return resolution, with the assessed and applied amounts and whether it is applied or
-     * waived.
-     */
-    "adjustments"?: Array<ReturnResolutionAdjustmentRequestInput>;
-    /**
-     * Optional version of the parent Return. A stale value returns VERSION_CONFLICT with the
-     * Return ID and its current version. Format: int64. minimum: 1.
-     */
-    "expected_return_version"?: number;
-    /**
-     *  [] (Value): {@link ReturnResolutionLineItemRequestInput}. A return line and quantity to
-     * include in a return resolution.
-     */
-    "line_items": Array<ReturnResolutionLineItemRequestInput>;
-    /** Value enum: "original_price", "current_price", "merchant_agreed_price". */
-    "pricing_basis"?: "original_price" | "current_price" | "merchant_agreed_price";
-    /**
-     *  [] (Value): {@link ReturnReplacementLineItemRequestInput}. A replacement item to include in
-     * a return resolution, from a variant, a bundle, or a custom name and price.
-     */
-    "replacement_line_items"?: Array<ReturnReplacementLineItemRequestInput>;
-    /** Value enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit". */
-    "resolution_type": "refund" | "exchange" | "replacement" | "no_monetary_action" | "store_credit";
-    /** minLength: 1. */
-    "return_id": string;
-})
-    & (({
-    /** minItems: 1. */
-    "line_items": unknown;
-    /** Value enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit". */
-    "resolution_type"?: "refund" | "exchange" | "replacement" | "no_monetary_action" | "store_credit";
-})
-    & ({
-    "corrects_return_resolution_id"?: never;
-}));
-/** The request body for: Create return resolution. */
-export type CreateReturnResolutionRequest = ({
-    /**
-     *  [] (Value): {@link ReturnResolutionAdjustmentRequest}. A fee or credit to apply to a return
-     * resolution, with the assessed and applied amounts and whether it is applied or waived.
-     */
-    "adjustments"?: Array<ReturnResolutionAdjustmentRequest>;
-    /** minLength: 1. */
-    "corrects_return_resolution_id"?: string;
-    /**
-     * Optional version of the parent Return. A stale value returns VERSION_CONFLICT with the
-     * Return ID and its current version. Format: int64. minimum: 1.
-     */
-    "expected_return_version"?: number;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Where the gift-card-paid portion is refunded. original credits the original gift card;
-     * new_gift_card issues new gift cards. Accepted for refund, exchange, and correction, except a
-     * correction of store_credit. Omit for store_credit, replacement, and no_monetary_action;
-     * sending it returns INVALID_REQUEST with a NOT_ALLOWED detail and conflicting_fields naming
-     * resolution_type and gift_card_refund_destination. Store credit and its corrections always
-     * issue new gift cards. PATCH can change it only while proposed. Retry persists the chosen
-     * destination before starting the new attempt. Default: "original". Value enum: "original",
-     * "new_gift_card".
-     */
-    "gift_card_refund_destination"?: "original" | "new_gift_card" | (string & {});
-    /**
-     *  [] (Value): {@link ReturnResolutionLineItemRequest}. A return line and quantity to include
-     * in a return resolution.
-     */
-    "line_items"?: Array<ReturnResolutionLineItemRequest>;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /** Value enum: "original_price", "current_price", "merchant_agreed_price". */
-    "pricing_basis"?: "original_price" | "current_price" | "merchant_agreed_price" | (string & {});
-    /**
-     *  [] (Value): {@link ReturnReplacementLineItemRequest}. A replacement item to include in a
-     * return resolution, from a variant, a bundle, or a custom name and price.
-     */
-    "replacement_line_items"?: Array<ReturnReplacementLineItemRequest>;
-    /**
-     * Value enum: "refund", "exchange", "replacement", "store_credit", "no_monetary_action",
-     * "correction".
-     */
-    "resolution_type": "refund"
-        | "exchange"
-        | "replacement"
-        | "store_credit"
-        | "no_monetary_action"
-        | "correction"
-        | (string & {});
-})
-    & ((Exclude<CreateReturnResolutionRequestStandard & object, readonly unknown[]>)
-    | (Exclude<CreateReturnResolutionRequestCorrection & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/** The `correction` variant of `CreateReturnResolutionRequest`. */
-export type CreateReturnResolutionRequestCorrection = ({
-    /**
-     *  [] (Value): {@link ReturnResolutionAdjustmentRequest}. A fee or credit to apply to a return
-     * resolution, with the assessed and applied amounts and whether it is applied or waived.
-     */
-    "adjustments": Array<ReturnResolutionAdjustmentRequest>;
-    /** minLength: 1. */
-    "corrects_return_resolution_id": string;
-    /**
-     * Optional version of the parent Return. A stale value returns VERSION_CONFLICT with the
-     * Return ID and its current version. Format: int64. minimum: 1.
-     */
-    "expected_return_version"?: number;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Where the gift-card-paid portion is refunded. original credits the original gift card;
-     * new_gift_card issues new gift cards. Accepted for refund, exchange, and correction, except a
-     * correction of store_credit. Omit for store_credit, replacement, and no_monetary_action;
-     * sending it returns INVALID_REQUEST with a NOT_ALLOWED detail and conflicting_fields naming
-     * resolution_type and gift_card_refund_destination. Store credit and its corrections always
-     * issue new gift cards. PATCH can change it only while proposed. Retry persists the chosen
-     * destination before starting the new attempt. Default: "original". Value enum: "original",
-     * "new_gift_card".
-     */
-    "gift_card_refund_destination"?: "original" | "new_gift_card" | (string & {});
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /** Value enum: "correction". */
-    "resolution_type": "correction" | (string & {});
-})
-    & (({
-    /** minItems: 1. */
-    "adjustments": unknown;
-    /** Value enum: "correction". */
-    "resolution_type"?: unknown;
-    /** minLength: 1. */
-    "corrects_return_resolution_id": string;
-}));
-/** The `correction` variant of `CreateReturnResolutionRequest`. */
-export type CreateReturnResolutionRequestCorrectionInput = ({
-    /**
-     *  [] (Value): {@link ReturnResolutionAdjustmentRequestInput}. A fee or credit to apply to a
-     * return resolution, with the assessed and applied amounts and whether it is applied or
-     * waived.
-     */
-    "adjustments": Array<ReturnResolutionAdjustmentRequestInput>;
-    /** minLength: 1. */
-    "corrects_return_resolution_id": string;
-    /**
-     * Optional version of the parent Return. A stale value returns VERSION_CONFLICT with the
-     * Return ID and its current version. Format: int64. minimum: 1.
-     */
-    "expected_return_version"?: number;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Where the gift-card-paid portion is refunded. original credits the original gift card;
-     * new_gift_card issues new gift cards. Accepted for refund, exchange, and correction, except a
-     * correction of store_credit. Omit for store_credit, replacement, and no_monetary_action;
-     * sending it returns INVALID_REQUEST with a NOT_ALLOWED detail and conflicting_fields naming
-     * resolution_type and gift_card_refund_destination. Store credit and its corrections always
-     * issue new gift cards. PATCH can change it only while proposed. Retry persists the chosen
-     * destination before starting the new attempt. Default: "original". Value enum: "original",
-     * "new_gift_card".
-     */
-    "gift_card_refund_destination"?: "original" | "new_gift_card";
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /** Value enum: "correction". */
-    "resolution_type": "correction";
-})
-    & (({
-    /** minItems: 1. */
-    "adjustments": unknown;
-    /** Value enum: "correction". */
-    "resolution_type"?: "correction";
-    /** minLength: 1. */
-    "corrects_return_resolution_id": string;
-})
-    & (({
-    "line_items"?: never;
-})
-    & ({
-    "replacement_line_items"?: never;
-})
-    & ({
-    "pricing_basis"?: never;
-})));
-/** The request body for: Create return resolution. */
-export type CreateReturnResolutionRequestInput = ({
-    /**
-     *  [] (Value): {@link ReturnResolutionAdjustmentRequestInput}. A fee or credit to apply to a
-     * return resolution, with the assessed and applied amounts and whether it is applied or
-     * waived.
-     */
-    "adjustments"?: Array<ReturnResolutionAdjustmentRequestInput>;
-    /** minLength: 1. */
-    "corrects_return_resolution_id"?: string;
-    /**
-     * Optional version of the parent Return. A stale value returns VERSION_CONFLICT with the
-     * Return ID and its current version. Format: int64. minimum: 1.
-     */
-    "expected_return_version"?: number;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Where the gift-card-paid portion is refunded. original credits the original gift card;
-     * new_gift_card issues new gift cards. Accepted for refund, exchange, and correction, except a
-     * correction of store_credit. Omit for store_credit, replacement, and no_monetary_action;
-     * sending it returns INVALID_REQUEST with a NOT_ALLOWED detail and conflicting_fields naming
-     * resolution_type and gift_card_refund_destination. Store credit and its corrections always
-     * issue new gift cards. PATCH can change it only while proposed. Retry persists the chosen
-     * destination before starting the new attempt. Default: "original". Value enum: "original",
-     * "new_gift_card".
-     */
-    "gift_card_refund_destination"?: "original" | "new_gift_card";
-    /**
-     *  [] (Value): {@link ReturnResolutionLineItemRequestInput}. A return line and quantity to
-     * include in a return resolution.
-     */
-    "line_items"?: Array<ReturnResolutionLineItemRequestInput>;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /** Value enum: "original_price", "current_price", "merchant_agreed_price". */
-    "pricing_basis"?: "original_price" | "current_price" | "merchant_agreed_price";
-    /**
-     *  [] (Value): {@link ReturnReplacementLineItemRequestInput}. A replacement item to include in
-     * a return resolution, from a variant, a bundle, or a custom name and price.
-     */
-    "replacement_line_items"?: Array<ReturnReplacementLineItemRequestInput>;
-    /**
-     * Value enum: "refund", "exchange", "replacement", "store_credit", "no_monetary_action",
-     * "correction".
-     */
-    "resolution_type": "refund" | "exchange" | "replacement" | "store_credit" | "no_monetary_action" | "correction";
-})
-    & ((Exclude<CreateReturnResolutionRequestStandardInput & object, readonly unknown[]>)
-    | (Exclude<CreateReturnResolutionRequestCorrectionInput & object, readonly unknown[]>));

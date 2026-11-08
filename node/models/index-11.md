@@ -1,7 +1,16 @@
 [Model index](../MODELS.md)
 
-# DeliveryQuoteListResponse to DeliveryZoneResponse
+# DeliveryProfileOriginPolicyRequest to DeliveryZoneCondition
 
+- [DeliveryProfileOriginPolicyRequest](DeliveryProfileOriginPolicyRequest.md)
+- [DeliveryProfileOriginPolicyRequestInput](DeliveryProfileOriginPolicyRequestInput.md)
+- [DeliveryProfileResponse](DeliveryProfileResponse.md)
+- [DeliveryProfileUpdatedInstalledMerchantsEvent](DeliveryProfileUpdatedInstalledMerchantsEvent.md)
+- [DeliveryProfileUpdatedMerchantEvent](DeliveryProfileUpdatedMerchantEvent.md)
+- [DeliveryQuote](DeliveryQuote.md)
+- [DeliveryQuoteChoiceGroupResource](DeliveryQuoteChoiceGroupResource.md)
+- [DeliveryQuoteExecutionLegResource](DeliveryQuoteExecutionLegResource.md)
+- [DeliveryQuoteLineItemResource](DeliveryQuoteLineItemResource.md)
 - [DeliveryQuoteListResponse](DeliveryQuoteListResponse.md)
 - [DeliveryQuoteMethodResource](DeliveryQuoteMethodResource.md)
 - [DeliveryQuoteResponse](DeliveryQuoteResponse.md)
@@ -93,13 +102,4 @@
 - [DeliveryZoneArchivedInstalledMerchantsEvent](DeliveryZoneArchivedInstalledMerchantsEvent.md)
 - [DeliveryZoneArchivedMerchantEvent](DeliveryZoneArchivedMerchantEvent.md)
 - [DeliveryZoneCondition](DeliveryZoneCondition.md)
-- [DeliveryZoneConditionInput](DeliveryZoneConditionInput.md)
-- [DeliveryZoneConfiguration](DeliveryZoneConfiguration.md)
-- [DeliveryZoneConfigurationInput](DeliveryZoneConfigurationInput.md)
-- [DeliveryZoneCreatedInstalledMerchantsEvent](DeliveryZoneCreatedInstalledMerchantsEvent.md)
-- [DeliveryZoneCreatedMerchantEvent](DeliveryZoneCreatedMerchantEvent.md)
-- [DeliveryZoneDeactivatedInstalledMerchantsEvent](DeliveryZoneDeactivatedInstalledMerchantsEvent.md)
-- [DeliveryZoneDeactivatedMerchantEvent](DeliveryZoneDeactivatedMerchantEvent.md)
-- [DeliveryZoneListResponse](DeliveryZoneListResponse.md)
-- [DeliveryZoneResponse](DeliveryZoneResponse.md)
 

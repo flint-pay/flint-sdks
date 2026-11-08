@@ -1,10 +1,11 @@
 import type { InputValue } from '../runtime.js';
+import type { CheckoutSessionsListDeliverySelectionsParams } from './types-5.js';
 import type { CreditNotesListAllocationsParams } from './types-12.js';
-import type { PauseSubscriptionRequestInput, PartnerWebhookEnvelope } from './types-40.js';
+import type { PauseSubscriptionRequestInput } from './types-40.js';
 import type { RenewSubscriptionRequestInput } from './types-47.js';
 import type { InvoicesMarkUncollectibleParams } from './types-32.js';
-import type { SaveMeGiftCardRequestInput } from './types-52.js';
-import type { SkipMeSubscriptionCycleRequestInput } from './types-53.js';
+import type { SaveMeGiftCardRequestInput } from './types-53.js';
+import type { SkipMeSubscriptionCycleRequestInput } from './types-54.js';
 import type { CustomersUpdateAddressParams } from './types-14.js';
 import type { UpdateCustomerEmailPreferencesRequestInput } from './types-58.js';
 import type {
@@ -16,12 +17,651 @@ import type {
 import type { Address } from './types-0.js';
 import type { ExpandedOrganizationSummary } from './types-21.js';
 import type { ImageAttachment } from './types-25.js';
+import type { MetadataMap, MoneyValue, MerchantWebhookEnvelope } from './types-35.js';
 import type { ResponseMeta } from './types-48.js';
 import type { DisputeResponseSessionStripeAccountSession } from './types-20.js';
-import type { MoneyValue } from './types-35.js';
 import type { CapabilityReadiness } from './types-4.js';
 import type { ReadinessAxis, ReadinessRequirements } from './types-46.js';
-import type { TextModifierConfig } from './types-57.js';
+export type MeListFulfillmentsParams = {
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque next_page_token from the previous response. Omit on the first request. You may change
+     * `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request
+     * context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns
+     * a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /** Filter by order ID. Example: "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV". */
+    "order_id"?: InputValue<string>;
+    /**
+     * Filter by buyer-visible status. Held fulfillments match their pre-hold status. Accepts
+     * repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in
+     * first-seen order; empty or unknown entries are rejected. Values within this filter are ORed;
+     * separate filters are ANDed. [] enum: "pending", "in_progress", "ready", "completed",
+     * "canceled", "failed", "scheduled", "accepted", "preparing", "picked", "packed",
+     * "dispatched", "no_show". Value enum: "pending", "in_progress", "ready", "completed",
+     * "canceled", "failed", "scheduled", "accepted", "preparing", "picked", "packed",
+     * "dispatched", "no_show". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "pending",
+     * "in_progress", "ready", "completed", "canceled", "failed", "scheduled", "accepted",
+     * "preparing", "picked", "packed", "dispatched", "no_show". anyOf[1][] (Value): string. Value
+     * enum: "pending", "in_progress", "ready", "completed", "canceled", "failed", "scheduled",
+     * "accepted", "preparing", "picked", "packed", "dispatched", "no_show". anyOf[2] (Value):
+     * string. Value enum: "pending", "in_progress", "ready", "completed", "canceled", "failed",
+     * "scheduled", "accepted", "preparing", "picked", "packed", "dispatched", "no_show".
+     */
+    "status"?: InputValue<("pending"
+        | "in_progress"
+        | "ready"
+        | "completed"
+        | "canceled"
+        | "failed"
+        | "scheduled"
+        | "accepted"
+        | "preparing"
+        | "picked"
+        | "packed"
+        | "dispatched"
+        | "no_show")
+        | readonly ("pending"
+        | "in_progress"
+        | "ready"
+        | "completed"
+        | "canceled"
+        | "failed"
+        | "scheduled"
+        | "accepted"
+        | "preparing"
+        | "picked"
+        | "packed"
+        | "dispatched"
+        | "no_show")[]>;
+    /**
+     * Filter by fulfillment type. Accepts repeated keys, comma-separated values, or mixtures.
+     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
+     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum:
+     * "shipment", "pickup", "local_delivery", "digital", "service". Value enum: "shipment",
+     * "pickup", "local_delivery", "digital", "service". anyOf[1] (Value): Array of string.
+     * minItems: 1. [] enum: "shipment", "pickup", "local_delivery", "digital", "service".
+     * anyOf[1][] (Value): string. Value enum: "shipment", "pickup", "local_delivery", "digital",
+     * "service". anyOf[2] (Value): string. Value enum: "shipment", "pickup", "local_delivery",
+     * "digital", "service".
+     */
+    "type"?: InputValue<("shipment" | "pickup" | "local_delivery" | "digital" | "service")
+        | readonly ("shipment" | "pickup" | "local_delivery" | "digital" | "service")[]>;
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /** Inclusive lower bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_before"?: InputValue<string | globalThis.Date>;
+    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
+    "sort_direction"?: InputValue<"asc" | "desc">;
+};
+export type MeListGiftCardTransactionsParams = CheckoutSessionsListDeliverySelectionsParams;
+export type MeListGiftCardsParams = {
+    /**
+     * Filter by status. Accepts repeated keys, comma-separated values, or mixtures. Values are
+     * trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values
+     * within this filter are ORed; separate filters are ANDed. [] enum: "pending", "active",
+     * "frozen", "closed". Value enum: "pending", "active", "frozen", "closed". anyOf[1] (Value):
+     * Array of string. minItems: 1. [] enum: "pending", "active", "frozen", "closed". anyOf[1][]
+     * (Value): string. Value enum: "pending", "active", "frozen", "closed". anyOf[2] (Value):
+     * string. Value enum: "pending", "active", "frozen", "closed".
+     */
+    "status"?: InputValue<("pending" | "active" | "frozen" | "closed")
+        | readonly ("pending" | "active" | "frozen" | "closed")[]>;
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque next_page_token from the previous response. Omit on the first request. You may change
+     * `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request
+     * context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns
+     * a validation error.
+     */
+    "page_token"?: InputValue<string>;
+};
+export type MeListInvoicesParams = {
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque next_page_token from the previous response. Omit on the first request. You may change
+     * `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request
+     * context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns
+     * a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Filter by invoice status. Repeat the parameter or pass comma-separated values to match
+     * multiple statuses. Accepts repeated keys, comma-separated values, or mixtures. Values are
+     * trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values
+     * within this filter are ORed; separate filters are ANDed. [] enum: "open", "partially_paid",
+     * "paid", "void", "uncollectible", "credited". Value enum: "open", "partially_paid", "paid",
+     * "void", "uncollectible", "credited". anyOf[1] (Value): Array of string. minItems: 1. []
+     * enum: "open", "partially_paid", "paid", "void", "uncollectible", "credited". anyOf[1][]
+     * (Value): string. Value enum: "open", "partially_paid", "paid", "void", "uncollectible",
+     * "credited". anyOf[2] (Value): string. Value enum: "open", "partially_paid", "paid", "void",
+     * "uncollectible", "credited".
+     */
+    "status"?: InputValue<("open" | "partially_paid" | "paid" | "void" | "uncollectible" | "credited")
+        | readonly ("open" | "partially_paid" | "paid" | "void" | "uncollectible" | "credited")[]>;
+    /** Filter by Flint order ID. Example: "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV". */
+    "order_id"?: InputValue<string>;
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /** Inclusive lower bound on due_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "due_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on due_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "due_before"?: InputValue<string | globalThis.Date>;
+    /** Filter by whether the invoice is overdue. */
+    "is_overdue"?: InputValue<boolean>;
+    /** Filter by whether outstanding_money is greater than zero. */
+    "has_outstanding_balance"?: InputValue<boolean>;
+    /**
+     * Field to sort by. Defaults to created_at; ties are broken by invoice_id. Default:
+     * "created_at". Value enum: "created_at", "updated_at", "due_at", "invoice_number",
+     * "outstanding_money".
+     */
+    "sort_by"?: InputValue<"created_at" | "updated_at" | "due_at" | "invoice_number" | "outstanding_money">;
+    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
+    "sort_direction"?: InputValue<"asc" | "desc">;
+};
+export type MeListOrderActivitiesParams = {
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque next_page_token from the previous response. Omit on the first request. You may change
+     * `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request
+     * context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns
+     * a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
+    "sort_direction"?: InputValue<"asc" | "desc">;
+    /**
+     * Filter by activity type. Repeat the parameter or pass comma-separated values to OR multiple
+     * types. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and
+     * deduplicated in first-seen order; empty or unknown entries are rejected. Values within this
+     * filter are ORed; separate filters are ANDed. [] enum: "created", "line_item_added",
+     * "line_item_updated", "line_item_removed", "discount_applied", "discount_removed",
+     * "tax_updated", "requested_tip_added", "requested_tip_updated", "requested_tip_removed",
+     * "charge_added", "charge_updated", "charge_removed", "charge_fulfillment_updated",
+     * "order_updated", "adjustment", "closed", "payment", "payment_failed", "refund",
+     * "refund_failed", "checkout_session_created", "checkout_session_expired",
+     * "checkout_session_invalidated", "fulfillment_created", "fulfillment_updated",
+     * "fulfillment_state_changed". Value enum: "created", "line_item_added", "line_item_updated",
+     * "line_item_removed", "discount_applied", "discount_removed", "tax_updated",
+     * "requested_tip_added", "requested_tip_updated", "requested_tip_removed", "charge_added",
+     * "charge_updated", "charge_removed", "charge_fulfillment_updated", "order_updated",
+     * "adjustment", "closed", "payment", "payment_failed", "refund", "refund_failed",
+     * "checkout_session_created", "checkout_session_expired", "checkout_session_invalidated",
+     * "fulfillment_created", "fulfillment_updated", "fulfillment_state_changed". anyOf[1] (Value):
+     * Array of string. minItems: 1. [] enum: "created", "line_item_added", "line_item_updated",
+     * "line_item_removed", "discount_applied", "discount_removed", "tax_updated",
+     * "requested_tip_added", "requested_tip_updated", "requested_tip_removed", "charge_added",
+     * "charge_updated", "charge_removed", "charge_fulfillment_updated", "order_updated",
+     * "adjustment", "closed", "payment", "payment_failed", "refund", "refund_failed",
+     * "checkout_session_created", "checkout_session_expired", "checkout_session_invalidated",
+     * "fulfillment_created", "fulfillment_updated", "fulfillment_state_changed". anyOf[1][]
+     * (Value): string. Value enum: "created", "line_item_added", "line_item_updated",
+     * "line_item_removed", "discount_applied", "discount_removed", "tax_updated",
+     * "requested_tip_added", "requested_tip_updated", "requested_tip_removed", "charge_added",
+     * "charge_updated", "charge_removed", "charge_fulfillment_updated", "order_updated",
+     * "adjustment", "closed", "payment", "payment_failed", "refund", "refund_failed",
+     * "checkout_session_created", "checkout_session_expired", "checkout_session_invalidated",
+     * "fulfillment_created", "fulfillment_updated", "fulfillment_state_changed". anyOf[2] (Value):
+     * string. Value enum: "created", "line_item_added", "line_item_updated", "line_item_removed",
+     * "discount_applied", "discount_removed", "tax_updated", "requested_tip_added",
+     * "requested_tip_updated", "requested_tip_removed", "charge_added", "charge_updated",
+     * "charge_removed", "charge_fulfillment_updated", "order_updated", "adjustment", "closed",
+     * "payment", "payment_failed", "refund", "refund_failed", "checkout_session_created",
+     * "checkout_session_expired", "checkout_session_invalidated", "fulfillment_created",
+     * "fulfillment_updated", "fulfillment_state_changed".
+     */
+    "activity_type"?: InputValue<("created"
+        | "line_item_added"
+        | "line_item_updated"
+        | "line_item_removed"
+        | "discount_applied"
+        | "discount_removed"
+        | "tax_updated"
+        | "requested_tip_added"
+        | "requested_tip_updated"
+        | "requested_tip_removed"
+        | "charge_added"
+        | "charge_updated"
+        | "charge_removed"
+        | "charge_fulfillment_updated"
+        | "order_updated"
+        | "adjustment"
+        | "closed"
+        | "payment"
+        | "payment_failed"
+        | "refund"
+        | "refund_failed"
+        | "checkout_session_created"
+        | "checkout_session_expired"
+        | "checkout_session_invalidated"
+        | "fulfillment_created"
+        | "fulfillment_updated"
+        | "fulfillment_state_changed")
+        | readonly ("created"
+        | "line_item_added"
+        | "line_item_updated"
+        | "line_item_removed"
+        | "discount_applied"
+        | "discount_removed"
+        | "tax_updated"
+        | "requested_tip_added"
+        | "requested_tip_updated"
+        | "requested_tip_removed"
+        | "charge_added"
+        | "charge_updated"
+        | "charge_removed"
+        | "charge_fulfillment_updated"
+        | "order_updated"
+        | "adjustment"
+        | "closed"
+        | "payment"
+        | "payment_failed"
+        | "refund"
+        | "refund_failed"
+        | "checkout_session_created"
+        | "checkout_session_expired"
+        | "checkout_session_invalidated"
+        | "fulfillment_created"
+        | "fulfillment_updated"
+        | "fulfillment_state_changed")[]>;
+};
+export type MeListOrdersParams = {
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque next_page_token from the previous response. Omit on the first request. You may change
+     * `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request
+     * context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns
+     * a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Why a closed order closed. Repeated keys and comma-separated values match any reason.
+     * Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and
+     * deduplicated in first-seen order; empty or unknown entries are rejected. Values within this
+     * filter are ORed; separate filters are ANDed. [] enum: "paid", "closed_by_merchant",
+     * "checkout_expired", "written_off", "superseded", "return_resolution_canceled", "other".
+     * Value enum: "paid", "closed_by_merchant", "checkout_expired", "written_off", "superseded",
+     * "return_resolution_canceled", "other". anyOf[1] (Value): Array of string. minItems: 1. []
+     * enum: "paid", "closed_by_merchant", "checkout_expired", "written_off", "superseded",
+     * "return_resolution_canceled", "other". anyOf[1][] (Value): string. Value enum: "paid",
+     * "closed_by_merchant", "checkout_expired", "written_off", "superseded",
+     * "return_resolution_canceled", "other". anyOf[2] (Value): string. Value enum: "paid",
+     * "closed_by_merchant", "checkout_expired", "written_off", "superseded",
+     * "return_resolution_canceled", "other".
+     */
+    "closed_reason"?: InputValue<("paid"
+        | "closed_by_merchant"
+        | "checkout_expired"
+        | "written_off"
+        | "superseded"
+        | "return_resolution_canceled"
+        | "other")
+        | readonly ("paid"
+        | "closed_by_merchant"
+        | "checkout_expired"
+        | "written_off"
+        | "superseded"
+        | "return_resolution_canceled"
+        | "other")[]>;
+    /**
+     * Order status: open or closed. Repeated keys and comma-separated values are both accepted.
+     * Selecting open and closed includes both statuses. Accepts repeated keys, comma-separated
+     * values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or
+     * unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "open", "closed". Value enum: "open", "closed". anyOf[1] (Value): Array of
+     * string. minItems: 1. [] enum: "open", "closed". anyOf[1][] (Value): string. Value enum:
+     * "open", "closed". anyOf[2] (Value): string. Value enum: "open", "closed".
+     */
+    "status"?: InputValue<("open" | "closed") | readonly ("open" | "closed")[]>;
+    /**
+     * Filter by settled collection status. Repeat the parameter or pass comma-separated values to
+     * match any of several statuses. Accepts repeated keys, comma-separated values, or mixtures.
+     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
+     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "unpaid",
+     * "partially_paid", "paid". Value enum: "unpaid", "partially_paid", "paid". anyOf[1] (Value):
+     * Array of string. minItems: 1. [] enum: "unpaid", "partially_paid", "paid". anyOf[1][]
+     * (Value): string. Value enum: "unpaid", "partially_paid", "paid". anyOf[2] (Value): string.
+     * Value enum: "unpaid", "partially_paid", "paid".
+     */
+    "payment_status"?: InputValue<("unpaid" | "partially_paid" | "paid") | readonly ("unpaid" | "partially_paid" | "paid")[]>;
+    /**
+     * Filter by refund progress. Repeated keys and comma-separated values are both accepted to
+     * match any status. Accepts repeated keys, comma-separated values, or mixtures. Values are
+     * trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values
+     * within this filter are ORed; separate filters are ANDed. [] enum: "none",
+     * "partially_refunded", "refunded". Value enum: "none", "partially_refunded", "refunded".
+     * anyOf[1] (Value): Array of string. minItems: 1. [] enum: "none", "partially_refunded",
+     * "refunded". anyOf[1][] (Value): string. Value enum: "none", "partially_refunded",
+     * "refunded". anyOf[2] (Value): string. Value enum: "none", "partially_refunded", "refunded".
+     */
+    "refund_status"?: InputValue<("none" | "partially_refunded" | "refunded")
+        | readonly ("none" | "partially_refunded" | "refunded")[]>;
+    /**
+     * Filter by aggregate order fulfillment status. Repeated keys and comma-separated values are
+     * both accepted to match any status. Accepts repeated keys, comma-separated values, or
+     * mixtures. Values are trimmed and deduplicated in first-seen order; empty or unknown entries
+     * are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum:
+     * "not_fulfilled", "partially_fulfilled", "fulfilled", "canceled", "not_applicable", "closed".
+     * Value enum: "not_fulfilled", "partially_fulfilled", "fulfilled", "canceled",
+     * "not_applicable", "closed". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
+     * "not_fulfilled", "partially_fulfilled", "fulfilled", "canceled", "not_applicable", "closed".
+     * anyOf[1][] (Value): string. Value enum: "not_fulfilled", "partially_fulfilled", "fulfilled",
+     * "canceled", "not_applicable", "closed". anyOf[2] (Value): string. Value enum:
+     * "not_fulfilled", "partially_fulfilled", "fulfilled", "canceled", "not_applicable", "closed".
+     */
+    "fulfillment_status"?: InputValue<("not_fulfilled" | "partially_fulfilled" | "fulfilled" | "canceled" | "not_applicable" | "closed")
+        | readonly ("not_fulfilled" | "partially_fulfilled" | "fulfilled" | "canceled" | "not_applicable" | "closed")[]>;
+    /** Filter by merchant-visible order number. */
+    "order_number"?: InputValue<string>;
+    /**
+     * Separate subscription renewal purchases (subscription) from orders placed through other
+     * channels. Accepts repeated keys, comma-separated values, or mixtures. Values are trimmed and
+     * deduplicated in first-seen order; empty or unknown entries are rejected. Values within this
+     * filter are ORed; separate filters are ANDed. [] enum: "virtual_terminal", "payment_link",
+     * "checkout", "api", "subscription". Value enum: "virtual_terminal", "payment_link",
+     * "checkout", "api", "subscription". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
+     * "virtual_terminal", "payment_link", "checkout", "api", "subscription". anyOf[1][] (Value):
+     * string. Value enum: "virtual_terminal", "payment_link", "checkout", "api", "subscription".
+     * anyOf[2] (Value): string. Value enum: "virtual_terminal", "payment_link", "checkout", "api",
+     * "subscription".
+     */
+    "origin"?: InputValue<("virtual_terminal" | "payment_link" | "checkout" | "api" | "subscription")
+        | readonly ("virtual_terminal" | "payment_link" | "checkout" | "api" | "subscription")[]>;
+    /**
+     * Search across order_id, order number, buyer note, and line item names. Text fields match any
+     * part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the
+     * start and need the type prefix, such as ord_01.
+     */
+    "query"?: InputValue<string>;
+    /** Filter by subscription ID. Example: "sub_01ARZ3NDEKTSV4RRFFQ69G5FAV". */
+    "subscription_id"?: InputValue<string>;
+    /** Filter by whether the subscriber changed delivery after this order was paid. */
+    "subscription_delivery_changed"?: InputValue<boolean>;
+    /**
+     * Inclusive lower bound on pricing_amounts.total_money.amount. Requires currency. Format:
+     * int64. minimum: 1. Example: 500.
+     */
+    "min_amount"?: InputValue<number>;
+    /**
+     * Inclusive upper bound on pricing_amounts.total_money.amount. Requires currency. Format:
+     * int64. minimum: 1. Example: 500.
+     */
+    "max_amount"?: InputValue<number>;
+    /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */
+    "currency"?: InputValue<string>;
+    /**
+     * Field to sort by. Defaults to created_at; ties are broken by order_id. Default:
+     * "created_at". Value enum: "created_at", "updated_at",
+     * "settlement_amounts.outstanding_money", "pricing_amounts.total_money".
+     */
+    "sort_by"?: InputValue<"created_at" | "updated_at" | "settlement_amounts.outstanding_money" | "pricing_amounts.total_money">;
+    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
+    "sort_direction"?: InputValue<"asc" | "desc">;
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /** Inclusive lower bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_before"?: InputValue<string | globalThis.Date>;
+};
+export type MeListPackagesParams = {
+    /** Optional shipment ID filter. Example: "shp_01ARZ3NDEKTSV4RRFFQ69G5FAV". */
+    "shipment_id"?: InputValue<string>;
+    /** Optional fulfillment ID filter. Example: "ful_01ARZ3NDEKTSV4RRFFQ69G5FAV". */
+    "fulfillment_id"?: InputValue<string>;
+    /** Optional order ID filter. Example: "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV". */
+    "order_id"?: InputValue<string>;
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque next_page_token from the previous response. Omit on the first request. You may change
+     * `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request
+     * context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns
+     * a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Filter by package status. Values within this filter are combined with OR. Accepts repeated
+     * keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen
+     * order; empty or unknown entries are rejected. Values within this filter are ORed; separate
+     * filters are ANDed. [] enum: "created", "packed", "shipped", "in_transit",
+     * "out_for_delivery", "delivered", "delivery_attempted", "exception", "returned", "voided".
+     * Value enum: "created", "packed", "shipped", "in_transit", "out_for_delivery", "delivered",
+     * "delivery_attempted", "exception", "returned", "voided". anyOf[1] (Value): Array of string.
+     * minItems: 1. [] enum: "created", "packed", "shipped", "in_transit", "out_for_delivery",
+     * "delivered", "delivery_attempted", "exception", "returned", "voided". anyOf[1][] (Value):
+     * string. Value enum: "created", "packed", "shipped", "in_transit", "out_for_delivery",
+     * "delivered", "delivery_attempted", "exception", "returned", "voided". anyOf[2] (Value):
+     * string. Value enum: "created", "packed", "shipped", "in_transit", "out_for_delivery",
+     * "delivered", "delivery_attempted", "exception", "returned", "voided".
+     */
+    "status"?: InputValue<("created"
+        | "packed"
+        | "shipped"
+        | "in_transit"
+        | "out_for_delivery"
+        | "delivered"
+        | "delivery_attempted"
+        | "exception"
+        | "returned"
+        | "voided")
+        | readonly ("created"
+        | "packed"
+        | "shipped"
+        | "in_transit"
+        | "out_for_delivery"
+        | "delivered"
+        | "delivery_attempted"
+        | "exception"
+        | "returned"
+        | "voided")[]>;
+};
+export type MeListPaymentIntentsParams = {
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque next_page_token from the previous response. Omit on the first request. You may change
+     * `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request
+     * context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns
+     * a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /** Filter by order ID. Example: "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV". */
+    "order_id"?: InputValue<string>;
+    /** Filter by invoice ID. Example: "inv_01ARZ3NDEKTSV4RRFFQ69G5FAV". */
+    "invoice_id"?: InputValue<string>;
+    /**
+     * Filter by payment intent status. Accepts repeated keys, comma-separated values, or mixtures.
+     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
+     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum:
+     * "requires_payment_method", "requires_confirmation", "requires_action", "processing",
+     * "requires_capture", "canceled", "succeeded", "expired". Value enum:
+     * "requires_payment_method", "requires_confirmation", "requires_action", "processing",
+     * "requires_capture", "canceled", "succeeded", "expired". anyOf[1] (Value): Array of string.
+     * minItems: 1. [] enum: "requires_payment_method", "requires_confirmation", "requires_action",
+     * "processing", "requires_capture", "canceled", "succeeded", "expired". anyOf[1][] (Value):
+     * string. Value enum: "requires_payment_method", "requires_confirmation", "requires_action",
+     * "processing", "requires_capture", "canceled", "succeeded", "expired". anyOf[2] (Value):
+     * string. Value enum: "requires_payment_method", "requires_confirmation", "requires_action",
+     * "processing", "requires_capture", "canceled", "succeeded", "expired".
+     */
+    "status"?: InputValue<("requires_payment_method"
+        | "requires_confirmation"
+        | "requires_action"
+        | "processing"
+        | "requires_capture"
+        | "canceled"
+        | "succeeded"
+        | "expired")
+        | readonly ("requires_payment_method"
+        | "requires_confirmation"
+        | "requires_action"
+        | "processing"
+        | "requires_capture"
+        | "canceled"
+        | "succeeded"
+        | "expired")[]>;
+    /**
+     * Filter by immutable payment flow. Repeat or comma-separate values. Accepts repeated keys,
+     * comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen
+     * order; empty or unknown entries are rejected. Values within this filter are ORed; separate
+     * filters are ANDed. [] enum: "checkout", "payment_link", "invoice", "subscription_initial",
+     * "subscription_renewal", "virtual_terminal", "api". Value enum: "checkout", "payment_link",
+     * "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal", "api".
+     * anyOf[1] (Value): Array of string. minItems: 1. [] enum: "checkout", "payment_link",
+     * "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal", "api".
+     * anyOf[1][] (Value): string. Value enum: "checkout", "payment_link", "invoice",
+     * "subscription_initial", "subscription_renewal", "virtual_terminal", "api". anyOf[2] (Value):
+     * string. Value enum: "checkout", "payment_link", "invoice", "subscription_initial",
+     * "subscription_renewal", "virtual_terminal", "api".
+     */
+    "payment_flow"?: InputValue<("checkout"
+        | "payment_link"
+        | "invoice"
+        | "subscription_initial"
+        | "subscription_renewal"
+        | "virtual_terminal"
+        | "api")
+        | readonly ("checkout"
+        | "payment_link"
+        | "invoice"
+        | "subscription_initial"
+        | "subscription_renewal"
+        | "virtual_terminal"
+        | "api")[]>;
+    /**
+     * Inclusive lower bound on amount_money.amount. Requires currency. Format: int64. minimum: 1.
+     * Example: 500.
+     */
+    "min_amount"?: InputValue<number>;
+    /**
+     * Inclusive upper bound on amount_money.amount. Requires currency. Format: int64. minimum: 1.
+     * Example: 500.
+     */
+    "max_amount"?: InputValue<number>;
+    /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */
+    "currency"?: InputValue<string>;
+    /**
+     * Exact match on refund_status. Repeat keys or comma-separate values to match any selected
+     * status. Combined with dispute_status, both filters must match. Accepts repeated keys,
+     * comma-separated values, or mixtures. Values are trimmed and deduplicated in first-seen
+     * order; empty or unknown entries are rejected. Values within this filter are ORed; separate
+     * filters are ANDed. [] enum: "none", "partially_refunded", "refunded". Value enum: "none",
+     * "partially_refunded", "refunded". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
+     * "none", "partially_refunded", "refunded". anyOf[1][] (Value): string. Value enum: "none",
+     * "partially_refunded", "refunded". anyOf[2] (Value): string. Value enum: "none",
+     * "partially_refunded", "refunded".
+     */
+    "refund_status"?: InputValue<("none" | "partially_refunded" | "refunded")
+        | readonly ("none" | "partially_refunded" | "refunded")[]>;
+    /**
+     * Field to sort by. Defaults to created_at; ties are broken by payment_intent_id. Default:
+     * "created_at". Value enum: "created_at", "updated_at", "amount_money".
+     */
+    "sort_by"?: InputValue<"created_at" | "updated_at" | "amount_money">;
+    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
+    "sort_direction"?: InputValue<"asc" | "desc">;
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /** Inclusive lower bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_before"?: InputValue<string | globalThis.Date>;
+};
+export type MeListPaymentMethodsParams = {
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque next_page_token from the previous response. Omit on the first request. You may change
+     * `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request
+     * context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns
+     * a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Filter by payment method type. Accepts repeated keys, comma-separated values, or mixtures.
+     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
+     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "card".
+     * Value enum: "card". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "card".
+     * anyOf[1][] (Value): string. Value enum: "card". anyOf[2] (Value): string. Value enum:
+     * "card".
+     */
+    "type"?: InputValue<("card") | readonly ("card")[]>;
+    /**
+     * Filter by status. Repeat the parameter or send comma-separated values to match any of
+     * several. Omitted, the list leaves out archived rows; name archived to include them. Accepts
+     * repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in
+     * first-seen order; empty or unknown entries are rejected. Values within this filter are ORed;
+     * separate filters are ANDed. [] enum: "active", "pending", "expired", "archived", "failed".
+     * Value enum: "active", "pending", "expired", "archived", "failed". anyOf[1] (Value): Array of
+     * string. minItems: 1. [] enum: "active", "pending", "expired", "archived", "failed".
+     * anyOf[1][] (Value): string. Value enum: "active", "pending", "expired", "archived",
+     * "failed". anyOf[2] (Value): string. Value enum: "active", "pending", "expired", "archived",
+     * "failed".
+     */
+    "status"?: InputValue<("active" | "pending" | "expired" | "archived" | "failed")
+        | readonly ("active" | "pending" | "expired" | "archived" | "failed")[]>;
+    /**
+     * Filter by usage: off_session payment methods can be charged without the buyer; on_session
+     * ones were saved by buyers for faster checkout. Accepts repeated keys, comma-separated
+     * values, or mixtures. Values are trimmed and deduplicated in first-seen order; empty or
+     * unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "on_session", "off_session". Value enum: "on_session", "off_session".
+     * anyOf[1] (Value): Array of string. minItems: 1. [] enum: "on_session", "off_session".
+     * anyOf[1][] (Value): string. Value enum: "on_session", "off_session". anyOf[2] (Value):
+     * string. Value enum: "on_session", "off_session".
+     */
+    "usage"?: InputValue<("on_session" | "off_session") | readonly ("on_session" | "off_session")[]>;
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+};
 export type MeListRefundsParams = {
     /**
      * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
@@ -1266,607 +1906,3 @@ export type MerchantResponse = {
     "request_id": string;
 };
 export type MerchantUpdateParams = (InputValue<UpdateMerchantRequestInput>);
-export type MerchantUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Merchant;
-    };
-    "event_type"?: "merchant.updated";
-})
-    & {
-    "event_type": "merchant.updated";
-});
-/** Fields shared by merchant webhook payloads. */
-export type MerchantWebhookEnvelope = ({
-    /** Format: date. */
-    "api_version": string;
-    /** Format: date-time. */
-    "created_at": string;
-    /**  object (Required): object. */
-    "data": {
-        "object": {
-            [key: string]: unknown;
-        };
-    };
-    /**
-     * Value enum: "test_clock.created", "test_clock.advancing", "test_clock.ready",
-     * "test_clock.failed", "test_clock.archived", "tax_connection.updated",
-     * "customer_deletion_request.processing", "customer_deletion_request.failed",
-     * "invoice_delivery_attempt.sent", "invoice_delivery_attempt.failed",
-     * "invoice_delivery_attempt.suppressed", "fulfillment.canceled", "fulfillment.failed",
-     * "merchant.updated", "product.created", "product.updated", "product.archived",
-     * "product_variant.created", "product_variant.updated", "product_variant.archived",
-     * "bundle.created", "bundle.updated", "bundle.archived", "category.created",
-     * "category.updated", "category.deleted", "modifier_group.created", "modifier_group.updated",
-     * "modifier_group.archived", "modifier_set.created", "modifier_set.updated",
-     * "modifier_set.archived", "promotion.created", "promotion.updated", "promotion.archived",
-     * "promotion_code.created", "promotion_code.updated", "promotion_code.archived",
-     * "balance.updated", "balance_transaction.created", "balance_transaction.updated",
-     * "checkout_session.partially_paid", "checkout_session.created", "checkout_session.paid",
-     * "checkout_session.closed", "checkout_session.expired", "checkout_session.invalidated",
-     * "credit_note_allocation.created", "credit_note_allocation.reversed", "credit_note.created",
-     * "credit_note.issued", "credit_note.updated", "credit_note.voided", "customer.created",
-     * "customer_deletion_request.completed", "customer_deletion_request.rejected",
-     * "customer_deletion_request.created", "customer.updated", "customer.deleted",
-     * "custom_domain.updated", "custom_domain.archived", "dispute.created", "dispute.lost",
-     * "dispute.needs_response", "dispute.prevented", "dispute.updated", "dispute.inquiry_closed",
-     * "dispute.won", "fraud_warning.created", "fraud_warning.updated", "gift_card.created",
-     * "gift_card.updated", "gift_card_load.created", "gift_card_load.updated",
-     * "gift_card_notification.created", "gift_card_notification.updated",
-     * "gift_card_redemption.created", "gift_card_redemption.updated",
-     * "gift_card_transaction.created", "delivery_rate_callback.archived",
-     * "delivery_rate_callback.created", "delivery_rate_callback.deactivated",
-     * "delivery_rate_callback.activated", "delivery_rate_callback.updated",
-     * "delivery_method.archived", "delivery_method.created", "delivery_method.deactivated",
-     * "delivery_method.activated", "delivery_method.updated", "delivery_location_set.archived",
-     * "delivery_location_set.created", "delivery_location_set.deactivated",
-     * "delivery_location_set.activated", "delivery_location_set.updated",
-     * "delivery_profile.archived", "delivery_profile.created", "delivery_profile.deactivated",
-     * "delivery_profile.activated", "delivery_profile.updated", "delivery_revocation.created",
-     * "delivery_selection.committed", "delivery_zone.archived", "delivery_zone.created",
-     * "delivery_zone.deactivated", "delivery_zone.activated", "delivery_zone.updated",
-     * "invoice.collection_block_resolved", "invoice.collection_blocked", "invoice.credited",
-     * "invoice.created", "invoice.issued", "invoice.issue_failed", "invoice.late_fee_due",
-     * "invoice.late_fee_assessed", "invoice.late_fee_waived", "invoice.marked_uncollectible",
-     * "invoice_manual_payment.created", "invoice_manual_payment.reversed", "invoice.overdue",
-     * "invoice.paid", "invoice_payment_attempt.processing", "invoice_payment_attempt.canceled",
-     * "invoice_payment_attempt.expired", "invoice_payment_attempt.failed",
-     * "invoice_payment_attempt.settled", "invoice.partially_paid", "invoice.partially_refunded",
-     * "invoice.refunded", "invoice.reminder_due", "invoice.reopened", "invoice.sent",
-     * "invoice.updated", "invoice.voided", "inventory_reservation.action_required",
-     * "inventory_count.applied", "inventory_level.updated", "inventory_receipt.created",
-     * "inventory_reservation.at_risk", "inventory_reservation.closed",
-     * "inventory_reservation.committed", "inventory_reservation.consumed",
-     * "inventory_reservation.created", "inventory_reservation.hold_expired",
-     * "inventory_reservation.released", "inventory_level.shortage_detected",
-     * "inventory_transfer.closed", "inventory_transfer.departed", "inventory_transfer.lost",
-     * "inventory_transfer.received", "inventory_transfer.returned",
-     * "merchant_billing_balance.updated", "merchant.readiness_updated",
-     * "merchant_billing_invoice.issued", "merchant_billing_invoice.updated",
-     * "order.partially_refunded", "order.closed", "order.created", "fulfillment.completed",
-     * "fulfillment.created", "fulfillment_event.created", "package.created", "package.updated",
-     * "shipment.created", "shipment.updated", "fulfillment.updated",
-     * "order.inventory_exception_created", "order.inventory_exception_resolved",
-     * "order.partially_paid", "order.paid", "order.refunded", "order.updated",
-     * "payment_intent.expired", "payment_intent.updated", "payment_intent.created",
-     * "payment_intent.canceled", "payment_intent.fulfillment_hold_updated",
-     * "payment_intent.payment_failed", "payment_intent.processing",
-     * "payment_intent.requires_action", "payment_intent.requires_capture",
-     * "payment_intent.succeeded", "payment_link.created", "payment_link.updated",
-     * "payment_method.archived", "payment_method.failed", "payment_method.activated",
-     * "payout.canceled", "payout.created", "payout.failed", "payout.paid", "payout.reversed",
-     * "payout.updated", "payout_destination.created", "payout_destination.archived",
-     * "payout_destination.disabled", "payout_destination.updated", "payout_settings.updated",
-     * "refund.partially_succeeded", "refund.succeeded", "refund.created", "refund.failed",
-     * "refund.updated", "report.failed", "report.succeeded", "return.canceled",
-     * "return.completed", "return.created", "return.decision_recorded", "return.reopened",
-     * "return.updated", "return_disposition.created", "return_disposition.updated",
-     * "return_inspection.acceptance_decided", "return_inspection.created",
-     * "return_inspection.superseded", "return_receipt.created", "return_receipt.superseded",
-     * "return_receipt.verified", "return_resolution.created", "return_resolution.updated",
-     * "payment_review.closed", "payment_review.reopened", "payment_review.opened",
-     * "subscription.activated", "subscription.canceled", "subscription.cancellation_scheduled",
-     * "subscription.created", "subscription.dunning_exhausted", "subscription.past_due",
-     * "subscription.paused", "subscription.payment_succeeded",
-     * "subscription_payment_retry.created", "subscription_payment_retry.succeeded",
-     * "subscription_payment_retry.failed", "subscription.reactivated", "subscription.resumed",
-     * "subscription.renewal_upcoming", "subscription.trial_ending", "subscription.plan_changed",
-     * "subscription.updated", "subscription.delivery_action_required",
-     * "subscription.delivery_pause_upcoming", "subscription.delivery_updated",
-     * "subscription.cycle_skipped", "subscription_delivery_migration.completed".
-     */
-    "event_type": "test_clock.created"
-        | "test_clock.advancing"
-        | "test_clock.ready"
-        | "test_clock.failed"
-        | "test_clock.archived"
-        | "tax_connection.updated"
-        | "customer_deletion_request.processing"
-        | "customer_deletion_request.failed"
-        | "invoice_delivery_attempt.sent"
-        | "invoice_delivery_attempt.failed"
-        | "invoice_delivery_attempt.suppressed"
-        | "fulfillment.canceled"
-        | "fulfillment.failed"
-        | "merchant.updated"
-        | "product.created"
-        | "product.updated"
-        | "product.archived"
-        | "product_variant.created"
-        | "product_variant.updated"
-        | "product_variant.archived"
-        | "bundle.created"
-        | "bundle.updated"
-        | "bundle.archived"
-        | "category.created"
-        | "category.updated"
-        | "category.deleted"
-        | "modifier_group.created"
-        | "modifier_group.updated"
-        | "modifier_group.archived"
-        | "modifier_set.created"
-        | "modifier_set.updated"
-        | "modifier_set.archived"
-        | "promotion.created"
-        | "promotion.updated"
-        | "promotion.archived"
-        | "promotion_code.created"
-        | "promotion_code.updated"
-        | "promotion_code.archived"
-        | "balance.updated"
-        | "balance_transaction.created"
-        | "balance_transaction.updated"
-        | "checkout_session.partially_paid"
-        | "checkout_session.created"
-        | "checkout_session.paid"
-        | "checkout_session.closed"
-        | "checkout_session.expired"
-        | "checkout_session.invalidated"
-        | "credit_note_allocation.created"
-        | "credit_note_allocation.reversed"
-        | "credit_note.created"
-        | "credit_note.issued"
-        | "credit_note.updated"
-        | "credit_note.voided"
-        | "customer.created"
-        | "customer_deletion_request.completed"
-        | "customer_deletion_request.rejected"
-        | "customer_deletion_request.created"
-        | "customer.updated"
-        | "customer.deleted"
-        | "custom_domain.updated"
-        | "custom_domain.archived"
-        | "dispute.created"
-        | "dispute.lost"
-        | "dispute.needs_response"
-        | "dispute.prevented"
-        | "dispute.updated"
-        | "dispute.inquiry_closed"
-        | "dispute.won"
-        | "fraud_warning.created"
-        | "fraud_warning.updated"
-        | "gift_card.created"
-        | "gift_card.updated"
-        | "gift_card_load.created"
-        | "gift_card_load.updated"
-        | "gift_card_notification.created"
-        | "gift_card_notification.updated"
-        | "gift_card_redemption.created"
-        | "gift_card_redemption.updated"
-        | "gift_card_transaction.created"
-        | "delivery_rate_callback.archived"
-        | "delivery_rate_callback.created"
-        | "delivery_rate_callback.deactivated"
-        | "delivery_rate_callback.activated"
-        | "delivery_rate_callback.updated"
-        | "delivery_method.archived"
-        | "delivery_method.created"
-        | "delivery_method.deactivated"
-        | "delivery_method.activated"
-        | "delivery_method.updated"
-        | "delivery_location_set.archived"
-        | "delivery_location_set.created"
-        | "delivery_location_set.deactivated"
-        | "delivery_location_set.activated"
-        | "delivery_location_set.updated"
-        | "delivery_profile.archived"
-        | "delivery_profile.created"
-        | "delivery_profile.deactivated"
-        | "delivery_profile.activated"
-        | "delivery_profile.updated"
-        | "delivery_revocation.created"
-        | "delivery_selection.committed"
-        | "delivery_zone.archived"
-        | "delivery_zone.created"
-        | "delivery_zone.deactivated"
-        | "delivery_zone.activated"
-        | "delivery_zone.updated"
-        | "invoice.collection_block_resolved"
-        | "invoice.collection_blocked"
-        | "invoice.credited"
-        | "invoice.created"
-        | "invoice.issued"
-        | "invoice.issue_failed"
-        | "invoice.late_fee_due"
-        | "invoice.late_fee_assessed"
-        | "invoice.late_fee_waived"
-        | "invoice.marked_uncollectible"
-        | "invoice_manual_payment.created"
-        | "invoice_manual_payment.reversed"
-        | "invoice.overdue"
-        | "invoice.paid"
-        | "invoice_payment_attempt.processing"
-        | "invoice_payment_attempt.canceled"
-        | "invoice_payment_attempt.expired"
-        | "invoice_payment_attempt.failed"
-        | "invoice_payment_attempt.settled"
-        | "invoice.partially_paid"
-        | "invoice.partially_refunded"
-        | "invoice.refunded"
-        | "invoice.reminder_due"
-        | "invoice.reopened"
-        | "invoice.sent"
-        | "invoice.updated"
-        | "invoice.voided"
-        | "inventory_reservation.action_required"
-        | "inventory_count.applied"
-        | "inventory_level.updated"
-        | "inventory_receipt.created"
-        | "inventory_reservation.at_risk"
-        | "inventory_reservation.closed"
-        | "inventory_reservation.committed"
-        | "inventory_reservation.consumed"
-        | "inventory_reservation.created"
-        | "inventory_reservation.hold_expired"
-        | "inventory_reservation.released"
-        | "inventory_level.shortage_detected"
-        | "inventory_transfer.closed"
-        | "inventory_transfer.departed"
-        | "inventory_transfer.lost"
-        | "inventory_transfer.received"
-        | "inventory_transfer.returned"
-        | "merchant_billing_balance.updated"
-        | "merchant.readiness_updated"
-        | "merchant_billing_invoice.issued"
-        | "merchant_billing_invoice.updated"
-        | "order.partially_refunded"
-        | "order.closed"
-        | "order.created"
-        | "fulfillment.completed"
-        | "fulfillment.created"
-        | "fulfillment_event.created"
-        | "package.created"
-        | "package.updated"
-        | "shipment.created"
-        | "shipment.updated"
-        | "fulfillment.updated"
-        | "order.inventory_exception_created"
-        | "order.inventory_exception_resolved"
-        | "order.partially_paid"
-        | "order.paid"
-        | "order.refunded"
-        | "order.updated"
-        | "payment_intent.expired"
-        | "payment_intent.updated"
-        | "payment_intent.created"
-        | "payment_intent.canceled"
-        | "payment_intent.fulfillment_hold_updated"
-        | "payment_intent.payment_failed"
-        | "payment_intent.processing"
-        | "payment_intent.requires_action"
-        | "payment_intent.requires_capture"
-        | "payment_intent.succeeded"
-        | "payment_link.created"
-        | "payment_link.updated"
-        | "payment_method.archived"
-        | "payment_method.failed"
-        | "payment_method.activated"
-        | "payout.canceled"
-        | "payout.created"
-        | "payout.failed"
-        | "payout.paid"
-        | "payout.reversed"
-        | "payout.updated"
-        | "payout_destination.created"
-        | "payout_destination.archived"
-        | "payout_destination.disabled"
-        | "payout_destination.updated"
-        | "payout_settings.updated"
-        | "refund.partially_succeeded"
-        | "refund.succeeded"
-        | "refund.created"
-        | "refund.failed"
-        | "refund.updated"
-        | "report.failed"
-        | "report.succeeded"
-        | "return.canceled"
-        | "return.completed"
-        | "return.created"
-        | "return.decision_recorded"
-        | "return.reopened"
-        | "return.updated"
-        | "return_disposition.created"
-        | "return_disposition.updated"
-        | "return_inspection.acceptance_decided"
-        | "return_inspection.created"
-        | "return_inspection.superseded"
-        | "return_receipt.created"
-        | "return_receipt.superseded"
-        | "return_receipt.verified"
-        | "return_resolution.created"
-        | "return_resolution.updated"
-        | "payment_review.closed"
-        | "payment_review.reopened"
-        | "payment_review.opened"
-        | "subscription.activated"
-        | "subscription.canceled"
-        | "subscription.cancellation_scheduled"
-        | "subscription.created"
-        | "subscription.dunning_exhausted"
-        | "subscription.past_due"
-        | "subscription.paused"
-        | "subscription.payment_succeeded"
-        | "subscription_payment_retry.created"
-        | "subscription_payment_retry.succeeded"
-        | "subscription_payment_retry.failed"
-        | "subscription.reactivated"
-        | "subscription.resumed"
-        | "subscription.renewal_upcoming"
-        | "subscription.trial_ending"
-        | "subscription.plan_changed"
-        | "subscription.updated"
-        | "subscription.delivery_action_required"
-        | "subscription.delivery_pause_upcoming"
-        | "subscription.delivery_updated"
-        | "subscription.cycle_skipped"
-        | "subscription_delivery_migration.completed"
-        | (string & {});
-    "merchant_id": string;
-    /** Value enum: "test", "live". */
-    "mode": "test" | "live" | (string & {});
-    /**
-     * 2 for every current event. 1 only for an event queued before 2026-10-16 and delivered
-     * afterwards, which keeps its previous data shape. Value enum: 1, 2.
-     */
-    "payload_version": number;
-    /**
-     *  id (Required): string. idempotency_key (Optional): string. The Idempotency-Key the
-     * originating request sent. Absent when it sent none.
-     */
-    "request": {
-        "id": string;
-        /** The Idempotency-Key the originating request sent. Absent when it sent none. */
-        "idempotency_key"?: string;
-    }
-        | null;
-    /** true for a synthetic event sent from the test-events endpoint, false otherwise. */
-    "test": boolean;
-    "webhook_event_id": string;
-});
-/**
- * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
- * Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput;
- * maps written before those limits may not satisfy them.
- */
-export type MetadataMap = Record<string, string>;
-/**
- * Changes to a caller-owned metadata map. Omit the field to leave metadata unchanged. Each key
- * sets a value, a null value deletes the key, and an empty object makes no change; send null for
- * the whole field to clear all caller-owned metadata. The resulting map is limited the same way as
- * MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to
- * 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key
- * that does not exist is allowed, so the number of operations is not itself the stored-map limit.
- * Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
- */
-export type MetadataPatchRequest = Record<string, string | null>;
-/**
- * Changes to a caller-owned metadata map. Omit the field to leave metadata unchanged. Each key
- * sets a value, a null value deletes the key, and an empty object makes no change; send null for
- * the whole field to clear all caller-owned metadata. The resulting map is limited the same way as
- * MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to
- * 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key
- * that does not exist is allowed, so the number of operations is not itself the stored-map limit.
- * Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
- */
-export type MetadataPatchRequestInput = MetadataPatchRequest;
-/**
- * Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50
- * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
- * points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and
- * keys starting with flint_ are reserved for Flint. maxProperties: 50.
- */
-export type MetadataRequestInput = MetadataMap;
-/** A purchasable customization choice. */
-export type Modifier = {
-    /** When the modifier was created, as an RFC3339 timestamp. Format: date-time. */
-    "created_at"?: string;
-    /**
-     * Whole-number quantity selected by default. Used only when the choice is available and
-     * selected_by_default is true. A modifier set can override this value; fractional quantities
-     * are not supported. Format: int64.
-     */
-    "default_quantity"?: number;
-    /**
-     * Flint line-item tax category. Value enum: "general", "physical_goods", "digital_goods",
-     * "software", "saas", "services", "professional_services", "food", "prepared_food",
-     * "clothing", "medical_goods", "admission".
-     */
-    "line_item_tax_category"?: "general"
-        | "physical_goods"
-        | "digital_goods"
-        | "software"
-        | "saas"
-        | "services"
-        | "professional_services"
-        | "food"
-        | "prepared_food"
-        | "clothing"
-        | "medical_goods"
-        | "admission"
-        | (string & {});
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
-     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
-     * written before those limits may not satisfy them.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Identifier of the group that owns this modifier. For an inline group, read the group through
-     * its modifier set.
-     */
-    "modifier_group_id"?: string;
-    /**
-     * Stable identifier of the modifier. In a replacement request, include it to retain a modifier
-     * or omit it to create one.
-     */
-    "modifier_id": string;
-    /** Name of the choice shown to buyers. */
-    "name": string;
-    /**
-     * Display position of the choice within its group; lower values appear first. Format: int32.
-     */
-    "position": number;
-    /**
-     * Whether this choice is selected when the buyer has not supplied selections for the group. A
-     * modifier set can override this value; unavailable choices are never selected by default.
-     */
-    "selected_by_default": boolean;
-    /** Whether this modifier appears in fulfillment details. */
-    "show_on_fulfillment": boolean;
-    /** Whether this modifier appears on buyer receipts. */
-    "show_on_receipt": boolean;
-    /**
-     * Lifecycle status of the modifier. Only active modifiers can be offered to buyers. Value
-     * enum: "active", "inactive", "archived".
-     */
-    "status": "active" | "inactive" | "archived" | (string & {});
-    /** Whether this modifier's price is taxable. A modifier set can override this value. */
-    "taxable"?: boolean;
-    /**
-     * Amount added to the item's unit price for each unit of this modifier. A modifier set can
-     * override this value. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "unit_price_delta_money"?: MoneyValue;
-    /** When the modifier last changed, as an RFC3339 timestamp. Format: date-time. */
-    "updated_at"?: string;
-};
-/** A group of choices that customize an item. */
-export type ModifierGroup = {
-    /** Whether buyers can select more than one unit of a list modifier. */
-    "allow_quantities": boolean;
-    /** When the modifier group was created, as an RFC3339 timestamp. Format: date-time. */
-    "created_at"?: string;
-    /** Caller-owned identifier for this resource in an external system. maxLength: 255. */
-    "external_reference_id"?: string;
-    /**
-     * Maximum whole-number quantity for each selected list modifier when allow_quantities is true;
-     * fractional quantities are not supported. Format: int64.
-     */
-    "max_quantity"?: number;
-    /**
-     * Maximum number of distinct modifiers buyers can select from a list group. Omit it for no
-     * limit. A modifier set can override this value. Format: int32.
-     */
-    "max_selected"?: number;
-    /**
-     * Maximum combined whole-number quantity across selected list modifiers; fractional quantities
-     * are not supported. Format: int64.
-     */
-    "max_total_quantity"?: number;
-    /** Identifier of the merchant that owns this modifier group. */
-    "merchant_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
-     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
-     * written before those limits may not satisfy them.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Minimum whole-number quantity for each selected list modifier when allow_quantities is true;
-     * fractional quantities are not supported. Format: int64.
-     */
-    "min_quantity"?: number;
-    /**
-     * Minimum number of distinct modifiers buyers must select from a list group. Omit it to
-     * require no selections. A modifier set can override this value. Format: int32.
-     */
-    "min_selected"?: number;
-    /**
-     * Stable identifier of the modifier group. For a group a modifier set owns (`source: inline`),
-     * read it through `GET /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups` doesn't
-     * return it.
-     */
-    "modifier_group_id": string;
-    /**
-     * Whether buyers choose from a list of modifiers or enter text. On create, inferred as text
-     * when text configuration is supplied, otherwise list. Value enum: "list", "text".
-     */
-    "modifier_group_type": "list" | "text" | (string & {});
-    /**
-     * Choices in a list group. Only active modifiers whose set override's available is not false
-     * are offered to buyers. Text groups do not have choices. [] (Value): {@link Modifier}. A
-     * purchasable customization choice.
-     */
-    "modifiers": Array<Modifier>;
-    /** Name of the modifier group shown to buyers. */
-    "name": string;
-    /**
-     * Whether selections from this group appear in fulfillment details unless overridden for a
-     * modifier set.
-     */
-    "show_on_fulfillment": boolean;
-    /**
-     * Whether selections from this group appear on buyer receipts unless overridden for a modifier
-     * set.
-     */
-    "show_on_receipt": boolean;
-    /**
-     * Lifecycle status of the modifier group. Only active groups can be offered to buyers;
-     * archived groups remain readable and cannot be edited. Value enum: "active", "inactive",
-     * "archived".
-     */
-    "status": "active" | "inactive" | "archived" | (string & {});
-    /**
-     * Text entry rules for a text group. Use text.required to require a value; list groups use
-     * min_selected instead. Settings for a text modifier group: whether input is required or
-     * multiline, and its length limits.
-     */
-    "text"?: TextModifierConfig;
-    /**
-     * When the modifier group or its modifiers last changed, as an RFC3339 timestamp. Format:
-     * date-time.
-     */
-    "updated_at"?: string;
-    /** Version of the modifier group and its modifiers. Format: uint64. minimum: 1. */
-    "version": number;
-};
-export type ModifierGroupArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": ModifierGroup;
-    };
-    "event_type"?: "modifier_group.archived";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": ModifierGroup;
-    };
-    "event_type"?: "modifier_group.archived";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "modifier_group.archived";
-});

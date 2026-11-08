@@ -1,41 +1,63 @@
-import type { CreateInlineModifierGroupRequestInput, CreateModifierGroupRequest } from './types-8.js';
-import type { MetadataMap, MetadataRequestInput } from './types-34.js';
-import type { MoneyValue, MoneyValueInput, ModifierOverride, ModifierOverrideInput } from './types-35.js';
-import type { ManualDiscountRequest, ManualDiscountRequestInput } from './types-33.js';
-import type { PromotionRefRequest, PromotionRefRequestInput } from './types-45.js';
+import type { AddressRequest, AddressRequestInput } from './types-0.js';
+import type {
+    CreateInvoiceIssueRequest,
+    CreateInvoiceQuickPayRequest,
+    CreateInvoiceIssueRequestInput,
+    CreateInvoiceQuickPayRequestInput,
+    CreateInlineModifierGroupRequestInput
+} from './types-8.js';
+import type { InvoiceCollectionRequest, InvoiceCollectionRequestInput } from './types-29.js';
+import type { InvoicePaymentDueRequest, InvoicePaymentDueRequestInput } from './types-30.js';
+import type { InvoiceScheduleEntryWrite, InvoiceScheduleEntryWriteInput } from './types-31.js';
+import type {
+    MetadataMap,
+    MetadataRequestInput,
+    MoneyValue,
+    MoneyValueInput,
+    ModifierOverride,
+    ModifierOverrideInput
+} from './types-35.js';
+import type {
+    LocationCoordinate,
+    LocationCoordinateRequestInput,
+    ManualDiscountRequest,
+    ManualDiscountRequestInput
+} from './types-33.js';
+import type { CreateSubscriptionPreviewRequestDeliveryOptions, CreateSubscriptionPreviewRequestNextRenewal } from './types-11.js';
+import type { SubscriptionDeliveryDestinationRequestInput, SubscribedLineRequest, SubscribedLineRequestInput } from './types-54.js';
+import type { TextModifierConfigRequest, ThemeConfig } from './types-58.js';
+import type { PromotionRefRequest, PromotionRefRequestInput } from './types-46.js';
 import type { Dimensions, DimensionsInput } from './types-20.js';
 import type { GiftCardPurchaseRequest, GiftCardPurchaseDetailsRequestInput } from './types-24.js';
 import type { ImageReferenceRequest, ImageReferenceRequestInput, ImageRequest, ImageRequestInput } from './types-25.js';
 import type { LineItemFulfillmentRequest, LineItemFulfillmentRequestInput, LegalSettings } from './types-32.js';
+import type { OrderCalculatedLineItemTax } from './types-36.js';
 import type {
-    OrderCalculatedLineItemTax,
     OrderDraftLineItemInventoryDemandRequest,
+    OrderLineItemModifierRequest,
     OrderDraftLineItemInventoryDemandRequestInput,
     OrderDraftLineItemTaxRequestInput,
+    OrderLineItemModifierRequestInput,
     OrderDeliveryDestinationRequest,
     OrderDeliveryDestinationRequestInput,
     OrderInventoryRoutingSourceRequestInput
-} from './types-36.js';
-import type {
-    OrderLineItemModifierRequest,
-    OrderLineItemModifierRequestInput,
-    OrderPaymentSourceSelection,
-    OrderPaymentSourceSelectionInput
 } from './types-37.js';
-import type { SubscribedLineRequest, SubscribedLineRequestInput } from './types-53.js';
-import type { Weight, WeightInput } from './types-61.js';
-import type { InventoryRoutingSource, InventoryRoutingSourceRequest, InventoryRoutingSourceRequestInput } from './types-27.js';
-import type { OrderTaxRequest, OrderTaxRequestInput } from './types-38.js';
+import type { Weight, WeightInput } from './types-62.js';
+import type {
+    OrderPaymentSourceSelection,
+    OrderPaymentSourceSelectionInput,
+    OrderTaxRequest,
+    OrderTaxRequestInput
+} from './types-38.js';
+import type { InventoryRoutingSource, InventoryRoutingSourceRequest, InventoryRoutingSourceRequestInput } from './types-28.js';
 import type {
     CheckoutGiftCardChallenge,
     CheckoutBuyerFields,
     CheckoutCustomTextConfig,
     CheckoutPaymentConfig,
     CheckoutPromotionConfig,
-    CheckoutRedirects,
     CheckoutBuyerFieldsRequestInput,
-    CheckoutPromotionConfigRequestInput,
-    CheckoutRedirectsRequestInput
+    CheckoutPromotionConfigRequestInput
 } from './types-4.js';
 import type {
     PartnerAppCredentialJWKSURLRequestInput,
@@ -45,31 +67,443 @@ import type {
     PartnerAppCredentialWorkloadIdentityRequestInput,
     PartnerAppPermissionManifestEntry,
     PartnerAppPermissionManifestEntryRequestInput
-} from './types-39.js';
+} from './types-40.js';
 import type {
+    CheckoutRedirects,
     CheckoutTaxConfig,
     CheckoutTipConfig,
+    CheckoutRedirectsRequestInput,
     CheckoutTaxConfigRequestInput,
     CheckoutTipConfigRequestInput
 } from './types-5.js';
 import type {
     PaymentLinkCustomFieldRequest,
     PaymentLinkEventConfig,
+    PaymentLinkLineItemRequest,
     PaymentLinkCustomFieldRequestInput,
     PaymentLinkCustomTextConfigInput,
     PaymentLinkEventConfigRequestInput,
-    PaymentLinkLegalConfigInput
-} from './types-41.js';
-import type {
-    PaymentLinkLineItemRequest,
+    PaymentLinkLegalConfigInput,
     PaymentLinkLineItemRequestInput,
     PaymentLinkPaymentConfigInput,
     PaymentLinkThemeConfigInput
 } from './types-42.js';
-import type { ThemeConfig } from './types-57.js';
-import type { AddressRequest, AddressRequestInput } from './types-0.js';
-import type { CreateProductRequestOptioned, CreateProductRequestSimple } from './types-10.js';
-import type { ProductVariantRequest } from './types-44.js';
+/** The `quick_pay` variant of `CreateInvoiceRequest`. */
+export type CreateInvoiceRequestQuickPay = ({
+    /**
+     * Additional addresses copied on the invoice email and every reminder. [] (Value): string.
+     * minLength: 1.
+     */
+    "cc_emails"?: Array<string>;
+    /**
+     * How the invoice is collected. Omit it to use merchant_default. The invoice's collection
+     * object returns the resolved mode, and you can send it back unchanged on update. How an
+     * invoice is collected, used when creating or updating an invoice: a `mode`, an optional saved
+     * payment method, and a payment policy.
+     */
+    "collection"?: InvoiceCollectionRequest;
+    /**
+     * Caller-owned identifier for this resource in an external system. Use it as your sync key: it
+     * isn't printed on the invoice, and GET /v1/invoices filters on it by exact match. minLength:
+     * 1. maxLength: 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * Fine print at the bottom of the invoice and PDF. Omit it to use the invoice settings
+     * default_footer. minLength: 1.
+     */
+    "footer"?: string;
+    /**
+     * Issue the invoice immediately after creating it. An empty object uses merchant_default
+     * delivery. Cannot be combined with a scheduled_issue_at timestamp. Options for issuing an
+     * invoice as you create it. `delivery_mode` chooses how the invoice reaches its recipient.
+     */
+    "issue"?: CreateInvoiceIssueRequest;
+    /**
+     * Message to the customer, printed on the invoice and PDF. Omit it to use the invoice settings
+     * default_memo. minLength: 1.
+     */
+    "memo"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * The open order to bill. It must have no payments, refunds, or other active invoice. Send
+     * exactly one of order_id or quick_pay. minLength: 1.
+     */
+    "order_id"?: string;
+    /**
+     * When the invoice is due. Omit it to use merchant_default. The invoice's payment_due object
+     * returns the resolved type, and you can send it back unchanged on update. Default:
+     * {"type":"merchant_default"}. When an invoice is due, used when creating or updating an
+     * invoice: no due date, a fixed time, payment terms, or a default.
+     */
+    "payment_due"?: InvoicePaymentDueRequest;
+    /** The buyer's purchase order number, printed on the invoice and PDF. minLength: 1. */
+    "po_number"?: string;
+    /**
+     * Order details for an invoice with no existing order. Flint creates the backing order from
+     * them. Send exactly one of order_id or quick_pay. Inline order details for creating an
+     * invoice as `quick_pay`: line items, discounts, notes, customer, tip, and inventory routing.
+     */
+    "quick_pay": CreateInvoiceQuickPayRequest;
+    /**
+     * Where Flint emails the invoice and its reminders. Required at issue when delivery resolves
+     * to email, and when you schedule the issue. minLength: 1.
+     */
+    "recipient_email"?: string;
+    /**
+     * Your reference for the invoice, printed on the invoice and PDF. Put the buyer's purchase
+     * order number in po_number instead. minLength: 1.
+     */
+    "reference"?: string;
+    /**
+     * Where the buyer sends offline payments, printed on the invoice. Omit it to use the invoice
+     * settings remit-to address. A complete postal address. State and postal_code are required for
+     * US addresses and optional for other countries. Send null or omit line2, state, and
+     * postal_code when the address has none.
+     */
+    "remit_to_address"?: AddressRequest;
+    /**
+     * Complete draft payment schedule with at most 14 entries. Validation errors identify the
+     * entry by index, such as schedule_entries[3].kind. Enum values are case-sensitive and must
+     * not contain surrounding whitespace. Omission preserves the current or default schedule; []
+     * clears the authored schedule. Null is not accepted. On PATCH, include
+     * invoice_schedule_entry_id to retain an entry and expected_version to detect concurrent
+     * edits. maxItems: 14. [] (Value): {@link InvoiceScheduleEntryWrite}. One payment schedule
+     * entry you supply when creating or updating an invoice. Set its kind, how much it collects,
+     * and when it is due.
+     */
+    "schedule_entries"?: Array<InvoiceScheduleEntryWrite>;
+    /**
+     * When Flint issues and delivers this draft, as an RFC 3339 timestamp in the future. A
+     * scheduled issue delivers by email, so the draft needs recipient_email. Cannot be combined
+     * with issue. null is the same as omitting it. Format: date-time. minLength: 1.
+     */
+    "scheduled_issue_at"?: string | null;
+    /**
+     * The calendar date of the billed service, in YYYY-MM-DD format. The invoice and PDF print it
+     * as written, without timezone conversion. Format: date. minLength: 1.
+     */
+    "service_date"?: string;
+    /** Selects the type branch. Value enum: "quick_pay". */
+    "type": "quick_pay" | (string & {});
+})
+    & (({
+    /** Value enum: "quick_pay". */
+    "type": "quick_pay" | (string & {});
+    /**
+     * Order details for an invoice with no existing order. Flint creates the backing order from
+     * them. Send exactly one of order_id or quick_pay. Inline order details for creating an
+     * invoice as `quick_pay`: line items, discounts, notes, customer, tip, and inventory routing.
+     */
+    "quick_pay": CreateInvoiceQuickPayRequest;
+}));
+/** The `quick_pay` variant of `CreateInvoiceRequest`. */
+export type CreateInvoiceRequestQuickPayInput = ({
+    /**
+     * Additional addresses copied on the invoice email and every reminder. [] (Value): string.
+     * minLength: 1.
+     */
+    "cc_emails"?: Array<string>;
+    /**
+     * How the invoice is collected. Omit it to use merchant_default. The invoice's collection
+     * object returns the resolved mode, and you can send it back unchanged on update. How an
+     * invoice is collected, used when creating or updating an invoice: a `mode`, an optional saved
+     * payment method, and a payment policy.
+     */
+    "collection"?: InvoiceCollectionRequestInput;
+    /**
+     * Caller-owned identifier for this resource in an external system. Use it as your sync key: it
+     * isn't printed on the invoice, and GET /v1/invoices filters on it by exact match. minLength:
+     * 1. maxLength: 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * Fine print at the bottom of the invoice and PDF. Omit it to use the invoice settings
+     * default_footer. minLength: 1.
+     */
+    "footer"?: string;
+    /**
+     * Issue the invoice immediately after creating it. An empty object uses merchant_default
+     * delivery. Cannot be combined with a scheduled_issue_at timestamp. Options for issuing an
+     * invoice as you create it. `delivery_mode` chooses how the invoice reaches its recipient.
+     */
+    "issue"?: CreateInvoiceIssueRequestInput;
+    /**
+     * Message to the customer, printed on the invoice and PDF. Omit it to use the invoice settings
+     * default_memo. minLength: 1.
+     */
+    "memo"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * The open order to bill. It must have no payments, refunds, or other active invoice. Send
+     * exactly one of order_id or quick_pay. minLength: 1.
+     */
+    "order_id"?: string;
+    /**
+     * When the invoice is due. Omit it to use merchant_default. The invoice's payment_due object
+     * returns the resolved type, and you can send it back unchanged on update. Default:
+     * {"type":"merchant_default"}. When an invoice is due, used when creating or updating an
+     * invoice: no due date, a fixed time, payment terms, or a default.
+     */
+    "payment_due"?: InvoicePaymentDueRequestInput;
+    /** The buyer's purchase order number, printed on the invoice and PDF. minLength: 1. */
+    "po_number"?: string;
+    /**
+     * Order details for an invoice with no existing order. Flint creates the backing order from
+     * them. Send exactly one of order_id or quick_pay. Inline order details for creating an
+     * invoice as `quick_pay`: line items, discounts, notes, customer, tip, and inventory routing.
+     */
+    "quick_pay": CreateInvoiceQuickPayRequestInput;
+    /**
+     * Where Flint emails the invoice and its reminders. Required at issue when delivery resolves
+     * to email, and when you schedule the issue. minLength: 1.
+     */
+    "recipient_email"?: string;
+    /**
+     * Your reference for the invoice, printed on the invoice and PDF. Put the buyer's purchase
+     * order number in po_number instead. minLength: 1.
+     */
+    "reference"?: string;
+    /**
+     * Where the buyer sends offline payments, printed on the invoice. Omit it to use the invoice
+     * settings remit-to address. A complete postal address. State and postal_code are required for
+     * US addresses and optional for other countries. Send null or omit line2, state, and
+     * postal_code when the address has none.
+     */
+    "remit_to_address"?: AddressRequestInput;
+    /**
+     * Complete draft payment schedule with at most 14 entries. Validation errors identify the
+     * entry by index, such as schedule_entries[3].kind. Enum values are case-sensitive and must
+     * not contain surrounding whitespace. Omission preserves the current or default schedule; []
+     * clears the authored schedule. Null is not accepted. On PATCH, include
+     * invoice_schedule_entry_id to retain an entry and expected_version to detect concurrent
+     * edits. maxItems: 14. [] (Value): {@link InvoiceScheduleEntryWriteInput}. One payment
+     * schedule entry you supply when creating or updating an invoice. Set its kind, how much it
+     * collects, and when it is due.
+     */
+    "schedule_entries"?: Array<InvoiceScheduleEntryWriteInput>;
+    /**
+     * When Flint issues and delivers this draft, as an RFC 3339 timestamp in the future. A
+     * scheduled issue delivers by email, so the draft needs recipient_email. Cannot be combined
+     * with issue. null is the same as omitting it. Format: date-time. minLength: 1.
+     */
+    "scheduled_issue_at"?: string | globalThis.Date | null;
+    /**
+     * The calendar date of the billed service, in YYYY-MM-DD format. The invoice and PDF print it
+     * as written, without timezone conversion. Format: date. minLength: 1.
+     */
+    "service_date"?: string;
+    /** Selects the type branch. Value enum: "quick_pay". */
+    "type": "quick_pay";
+})
+    & (({
+    /** Value enum: "quick_pay". */
+    "type": ("quick_pay") & ("quick_pay");
+    /**
+     * Order details for an invoice with no existing order. Flint creates the backing order from
+     * them. Send exactly one of order_id or quick_pay. Inline order details for creating an
+     * invoice as `quick_pay`: line items, discounts, notes, customer, tip, and inventory routing.
+     */
+    "quick_pay": CreateInvoiceQuickPayRequestInput;
+})
+    & (({
+    "order_id"?: never;
+})));
+/** The request body for: Create location. */
+export type CreateLocationRequest = {
+    /**
+     * A complete postal address. State and postal_code are required for US addresses and optional
+     * for other countries. Send null or omit line2, state, and postal_code when the address has
+     * none.
+     */
+    "address": AddressRequest;
+    /** A latitude and longitude for a merchant location. */
+    "coordinate"?: LocationCoordinate;
+    /** Send null to clear it. Value enum: "merchant_supplied", "geocoded", null. */
+    "coordinate_source"?: "merchant_supplied" | "geocoded" | null | (string & {}) | null;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * Whether this Location accepts inventory allocation. Sending this field requires
+     * commerce.inventory.allocation.write in addition to the route scope. Default: false.
+     */
+    "inventory_allocation_enabled"?: boolean;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /** minLength: 1. maxLength: 255. */
+    "name": string;
+    /** Default: "active". Value enum: "active", "inactive". */
+    "status"?: "active" | "inactive" | (string & {});
+    /** minLength: 1. */
+    "timezone": string;
+};
+/** The request body for: Create location. */
+export type CreateLocationRequestInput = {
+    /**
+     * A complete postal address. State and postal_code are required for US addresses and optional
+     * for other countries. Send null or omit line2, state, and postal_code when the address has
+     * none.
+     */
+    "address": AddressRequestInput;
+    /** A latitude and longitude for a merchant location. */
+    "coordinate"?: LocationCoordinateRequestInput;
+    /** Send null to clear it. Value enum: "merchant_supplied", "geocoded", null. */
+    "coordinate_source"?: "merchant_supplied" | "geocoded" | null;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * Whether this Location accepts inventory allocation. Sending this field requires
+     * commerce.inventory.allocation.write in addition to the route scope. Default: false.
+     */
+    "inventory_allocation_enabled"?: boolean;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /** minLength: 1. maxLength: 255. */
+    "name": string;
+    /** Default: "active". Value enum: "active", "inactive". */
+    "status"?: "active" | "inactive";
+    /** minLength: 1. */
+    "timezone": string;
+};
+/** The request body for: Preview subscription. */
+export type CreateMeSubscriptionPreviewRequest = ((CreateSubscriptionPreviewRequestDeliveryOptions)
+    | (CreateSubscriptionPreviewRequestNextRenewal)
+    | (Record<string, unknown>));
+/** The `delivery_options` variant of `CreateMeSubscriptionPreviewRequest`. */
+export type CreateMeSubscriptionPreviewRequestDeliveryOptionsInput = {
+    /** Where to deliver a subscription: a saved customer address by ID, or a new address. */
+    "destination": SubscriptionDeliveryDestinationRequestInput;
+    /** Value enum: "delivery_options". */
+    "mode": "delivery_options";
+    /** minLength: 1. pattern: ^sub_[0-9A-HJKMNP-TV-Z]{26}$. */
+    "subscription_id": string;
+};
+/** The request body for: Preview subscription. */
+export type CreateMeSubscriptionPreviewRequestInput = ((CreateMeSubscriptionPreviewRequestDeliveryOptionsInput)
+    | (CreateMeSubscriptionPreviewRequestNextRenewalInput));
+/** The `next_renewal` variant of `CreateMeSubscriptionPreviewRequest`. */
+export type CreateMeSubscriptionPreviewRequestNextRenewalInput = {
+    /** Value enum: "next_renewal". */
+    "mode": "next_renewal";
+    /** minLength: 1. pattern: ^sub_[0-9A-HJKMNP-TV-Z]{26}$. */
+    "subscription_id": string;
+};
+/** The request body for: Create modifier group. */
+export type CreateModifierGroupRequest = {
+    /** Whether buyers can select more than one unit of a list modifier. Default: false. */
+    "allow_quantities"?: boolean;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * Maximum whole-number quantity for each selected list modifier when allow_quantities is true;
+     * fractional quantities are not supported. Format: int64.
+     */
+    "max_quantity"?: number;
+    /**
+     * Maximum number of distinct modifiers buyers can select from a list group. Omit it for no
+     * limit. A modifier set can override this value. Format: int32.
+     */
+    "max_selected"?: number;
+    /**
+     * Maximum combined whole-number quantity across selected list modifiers; fractional quantities
+     * are not supported. Format: int64.
+     */
+    "max_total_quantity"?: number;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Minimum whole-number quantity for each selected list modifier when allow_quantities is true;
+     * fractional quantities are not supported. Format: int64.
+     */
+    "min_quantity"?: number;
+    /**
+     * Minimum number of distinct modifiers buyers must select from a list group. Omit it to
+     * require no selections. A modifier set can override this value. Format: int32.
+     */
+    "min_selected"?: number;
+    /**
+     * Whether buyers choose from a list of modifiers or enter text. On create, inferred as text
+     * when text configuration is supplied, otherwise list. Value enum: "list", "text".
+     */
+    "modifier_group_type"?: "list" | "text" | (string & {});
+    /**
+     * Choices in a list group. Only active modifiers whose set override's available is not false
+     * are offered to buyers. Text groups do not have choices. [] (Value): {@link
+     * CreateModifierRequest}. A modifier to create in a modifier group, with its name, price
+     * change, tax category, and default selection.
+     */
+    "modifiers"?: Array<CreateModifierRequest>;
+    /** Name of the modifier group shown to buyers. minLength: 1. maxLength: 255. */
+    "name": string;
+    /**
+     * Whether selections from this group appear in fulfillment details unless overridden for a
+     * modifier set.
+     */
+    "show_on_fulfillment"?: boolean;
+    /**
+     * Whether selections from this group appear on buyer receipts unless overridden for a modifier
+     * set.
+     */
+    "show_on_receipt"?: boolean;
+    /**
+     * Lifecycle status of the modifier group. Only active groups can be offered to buyers;
+     * archived groups remain readable and cannot be edited. Default: "active". Value enum:
+     * "active", "inactive".
+     */
+    "status"?: "active" | "inactive" | (string & {});
+    /**
+     * Text entry rules for a text group. Use text.required to require a value; list groups use
+     * min_selected instead. Settings for a text modifier group when creating or updating one:
+     * required, multiline, and length limits.
+     */
+    "text"?: TextModifierConfigRequest;
+};
 /** The request body for: Create modifier group. */
 export type CreateModifierGroupRequestInput = CreateInlineModifierGroupRequestInput;
 /**
@@ -2855,381 +3289,3 @@ export type CreatePaymentMethodDomainRequest = {
 };
 /** The request body for: Register payment method domain. */
 export type CreatePaymentMethodDomainRequestInput = CreatePaymentMethodDomainRequest;
-/** The request body for: Create a payout. */
-export type CreatePayoutRequest = {
-    /**
-     * Amount to send, above zero. It can't exceed what one balance source has in
-     * available_by_source_type. Monetary amount represented as integer minor units plus an ISO
-     * 4217 currency code.
-     */
-    "amount_money": MoneyValue;
-    /**
-     * Balance source this payout draws from. Flint chooses the source when omitted. Value enum:
-     * "card", "bank_account".
-     */
-    "balance_source_type"?: "card" | "bank_account" | (string & {});
-    /** Your description of the payout, returned on the payout. minLength: 1. */
-    "description"?: string;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Payout method. Only standard is accepted; omitted defaults to standard. Value enum:
-     * "standard".
-     */
-    "method"?: "standard" | (string & {});
-    /**
-     * Destination to pay. It must be active and in the payout's currency. Omit it to pay the
-     * currency's default destination. minLength: 1.
-     */
-    "payout_destination_id"?: string;
-    /** Text shown on your bank statement for this deposit, 22 characters or fewer. minLength: 1. */
-    "statement_descriptor"?: string;
-};
-/** The request body for: Create a payout. */
-export type CreatePayoutRequestInput = {
-    /**
-     * Amount to send, above zero. It can't exceed what one balance source has in
-     * available_by_source_type. Monetary amount represented as integer minor units plus an ISO
-     * 4217 currency code.
-     */
-    "amount_money": MoneyValueInput;
-    /**
-     * Balance source this payout draws from. Flint chooses the source when omitted. Value enum:
-     * "card", "bank_account".
-     */
-    "balance_source_type"?: "card" | "bank_account";
-    /** Your description of the payout, returned on the payout. minLength: 1. */
-    "description"?: string;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * Payout method. Only standard is accepted; omitted defaults to standard. Value enum:
-     * "standard".
-     */
-    "method"?: "standard";
-    /**
-     * Destination to pay. It must be active and in the payout's currency. Omit it to pay the
-     * currency's default destination. minLength: 1.
-     */
-    "payout_destination_id"?: string;
-    /** Text shown on your bank statement for this deposit, 22 characters or fewer. minLength: 1. */
-    "statement_descriptor"?: string;
-};
-/**
- * Pickup details you supply when creating a fulfillment: the pickup address, location, window,
- * instructions, and curbside details.
- */
-export type CreatePickupFulfillmentDetails = {
-    /**
-     * Address where the buyer collects the order. A complete postal address. State and postal_code
-     * are required for US addresses and optional for other countries. Send null or omit line2,
-     * state, and postal_code when the address has none.
-     */
-    "address"?: AddressRequest;
-    /** Instructions specific to curbside handoff. minLength: 1. maxLength: 2048. */
-    "curbside_instructions"?: string;
-    /**
-     * Buyer-reported arrival time for curbside or counter pickup. Format: date-time. minLength: 1.
-     */
-    "customer_arrived_at"?: string;
-    /**
-     * Deadline after which an uncollected pickup should enter merchant review. Format: date-time.
-     * minLength: 1.
-     */
-    "expires_at"?: string;
-    /** Pickup instructions for the buyer, such as where to go on arrival. minLength: 1. */
-    "instructions"?: string;
-    /** Name of the store or place where the buyer collects the order. minLength: 1. */
-    "location_name"?: string;
-    /**
-     * Width of the promised pickup window, from 0 to 86400 seconds. Format: int64. minimum: 0.
-     * maximum: 86400.
-     */
-    "pickup_window_duration_seconds"?: number;
-    /**
-     * Expected preparation time for restaurant and made-to-order pickup, from 0 to 86400 seconds.
-     * Format: int64. minimum: 0. maximum: 86400.
-     */
-    "prep_time_duration_seconds"?: number;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "ready_at"?: string;
-    /** minLength: 1. */
-    "timezone"?: string;
-    /** Buyer vehicle description used for curbside handoff. minLength: 1. maxLength: 500. */
-    "vehicle_description"?: string;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "window_end_at"?: string;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "window_start_at"?: string;
-};
-/**
- * Pickup details you supply when creating a fulfillment: the pickup address, location, window,
- * instructions, and curbside details.
- */
-export type CreatePickupFulfillmentDetailsInput = {
-    /**
-     * Address where the buyer collects the order. A complete postal address. State and postal_code
-     * are required for US addresses and optional for other countries. Send null or omit line2,
-     * state, and postal_code when the address has none.
-     */
-    "address"?: AddressRequestInput;
-    /** Instructions specific to curbside handoff. minLength: 1. maxLength: 2048. */
-    "curbside_instructions"?: string;
-    /**
-     * Buyer-reported arrival time for curbside or counter pickup. Format: date-time. minLength: 1.
-     */
-    "customer_arrived_at"?: string | globalThis.Date;
-    /**
-     * Deadline after which an uncollected pickup should enter merchant review. Format: date-time.
-     * minLength: 1.
-     */
-    "expires_at"?: string | globalThis.Date;
-    /** Pickup instructions for the buyer, such as where to go on arrival. minLength: 1. */
-    "instructions"?: string;
-    /** Name of the store or place where the buyer collects the order. minLength: 1. */
-    "location_name"?: string;
-    /**
-     * Width of the promised pickup window, from 0 to 86400 seconds. Format: int64. minimum: 0.
-     * maximum: 86400.
-     */
-    "pickup_window_duration_seconds"?: number;
-    /**
-     * Expected preparation time for restaurant and made-to-order pickup, from 0 to 86400 seconds.
-     * Format: int64. minimum: 0. maximum: 86400.
-     */
-    "prep_time_duration_seconds"?: number;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "ready_at"?: string | globalThis.Date;
-    /** minLength: 1. */
-    "timezone"?: string;
-    /** Buyer vehicle description used for curbside handoff. minLength: 1. maxLength: 500. */
-    "vehicle_description"?: string;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "window_end_at"?: string | globalThis.Date;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "window_start_at"?: string | globalThis.Date;
-};
-/**
- * A product option to create with a product, such as size, with its values, position, and status.
- */
-export type CreateProductOptionRequest = {
-    /**
-     * Value of this option given to every active variant that has no active value for it after
-     * this request, such as when you add an option to a product that already has active variants.
-     * It must match one of this option's active `values`, ignoring case and surrounding
-     * whitespace. Not stored; the variants keep the value. minLength: 1. maxLength: 255.
-     */
-    "existing_variant_value"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /** Option name, such as Size or Color. minLength: 1. maxLength: 255. */
-    "name": string;
-    /**
-     * Display order among the product's options, starting at zero. Defaults to the option's array
-     * index when omitted. Format: int32. minimum: 0.
-     */
-    "position"?: number;
-    /**
-     * Whether the option is active or inactive. Active variants must select an active value for
-     * every active option. Default: "active". Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive" | (string & {});
-    /**
-     * Values offered for this option, such as Small, Medium, and Large for Size. [] (Value):
-     * {@link CreateProductOptionValueRequest}. One value of a product option to create, such as a
-     * specific size, with its position and status.
-     */
-    "values"?: Array<CreateProductOptionValueRequest>;
-};
-/**
- * A product option to create with a product, such as size, with its values, position, and status.
- */
-export type CreateProductOptionRequestInput = {
-    /**
-     * Value of this option given to every active variant that has no active value for it after
-     * this request, such as when you add an option to a product that already has active variants.
-     * It must match one of this option's active `values`, ignoring case and surrounding
-     * whitespace. Not stored; the variants keep the value. minLength: 1. maxLength: 255.
-     */
-    "existing_variant_value"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /** Option name, such as Size or Color. minLength: 1. maxLength: 255. */
-    "name": string;
-    /**
-     * Display order among the product's options, starting at zero. Defaults to the option's array
-     * index when omitted. Format: int32. minimum: 0.
-     */
-    "position"?: number;
-    /**
-     * Whether the option is active or inactive. Active variants must select an active value for
-     * every active option. Default: "active". Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive";
-    /**
-     * Values offered for this option, such as Small, Medium, and Large for Size. [] (Value):
-     * {@link CreateProductOptionValueRequestInput}. One value of a product option to create, such
-     * as a specific size, with its position and status.
-     */
-    "values"?: Array<CreateProductOptionValueRequestInput>;
-};
-/**
- * One value of a product option to create, such as a specific size, with its position and status.
- */
-export type CreateProductOptionValueRequest = {
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Display order among the option's values, starting at zero. Defaults to the value's array
-     * index when omitted. Format: int32. minimum: 0.
-     */
-    "position"?: number;
-    /**
-     * Whether the value is active or inactive. Active variants cannot newly select an inactive
-     * value. Default: "active". Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive" | (string & {});
-    /** Option value shown to buyers, such as Medium. minLength: 1. maxLength: 255. */
-    "value": string;
-};
-/**
- * One value of a product option to create, such as a specific size, with its position and status.
- */
-export type CreateProductOptionValueRequestInput = {
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * Display order among the option's values, starting at zero. Defaults to the value's array
-     * index when omitted. Format: int32. minimum: 0.
-     */
-    "position"?: number;
-    /**
-     * Whether the value is active or inactive. Active variants cannot newly select an inactive
-     * value. Default: "active". Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive";
-    /** Option value shown to buyers, such as Medium. minLength: 1. maxLength: 255. */
-    "value": string;
-};
-/** The request body for: Create product. */
-export type CreateProductRequest = ({
-    /**
-     * Relationship set of category handles that must already exist. Each handle has 1 to 100
-     * characters (Unicode code points). Unknown handles return RESOURCE_NOT_FOUND. Replaces the
-     * whole set when present; send [] to clear it. On PATCH, omission leaves it unchanged. Does
-     * not require expected_version. maxItems: 100. uniqueItems: true. [] (Value): string.
-     * minLength: 1. maxLength: 100. pattern: ^[a-z0-9]+(-[a-z0-9]+)*$.
-     */
-    "category_handles"?: Array<string>;
-    /**
-     * The single variant to create as the product's default. Send either default_variant or both
-     * options and variants. The request body for: Create product variant.
-     */
-    "default_variant"?: ProductVariantRequest;
-    /** Description of the product shown to buyers. minLength: 1. maxLength: 2048. */
-    "description"?: string;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * The complete desired gallery in display order. The first image is primary. Send [] to clear
-     * the gallery. minItems: 0. maxItems: 8. [] (Value): {@link ImageRequest}. An image you supply
-     * by `source_url`, with optional `alt` text and external reference.
-     */
-    "images"?: Array<ImageRequest>;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /** Attached modifier set. Send null on update to remove it. minLength: 1. */
-    "modifier_set_id"?: string | null;
-    /** Product name shown to buyers. minLength: 1. maxLength: 255. */
-    "name": string;
-    /**
-     * Options and values that distinguish this product's variants. Send with variants instead of
-     * default_variant. minItems: 1. [] (Value): {@link CreateProductOptionRequest}. A product
-     * option to create with a product, such as size, with its values, position, and status.
-     */
-    "options"?: Array<CreateProductOptionRequest>;
-    /**
-     * Kind of goods or service this product represents. New variants of digital products store
-     * digital_goods when line_item_tax_category is omitted; explicit categories are preserved.
-     * Value enum: "physical", "service", "fee", "digital", "gift_card".
-     */
-    "product_type": "physical" | "service" | "fee" | "digital" | "gift_card" | (string & {});
-    /**
-     * Whether the product is active or inactive. An inactive product's variants cannot be sold.
-     * Default: "active". Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive" | (string & {});
-    /** Selects the variant mode branch. Value enum: "simple", "optioned". */
-    "variant_mode": "simple" | "optioned" | (string & {});
-    /**
-     * Independent variants to create with this product, at most 100. Add more with `POST
-     * /v1/products/{product_id}/variants`. minItems: 1. maxItems: 100. [] (Value): {@link
-     * ProductVariantRequest}. The request body for: Create product variant.
-     */
-    "variants"?: Array<ProductVariantRequest>;
-})
-    & ((Exclude<CreateProductRequestSimple & object, readonly unknown[]>)
-    | (Exclude<CreateProductRequestOptioned & object, readonly unknown[]>)
-    | (Record<string, unknown>));

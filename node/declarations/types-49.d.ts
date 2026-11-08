@@ -1,32 +1,773 @@
-import type { ReturnActor, ReturnInspection, ReturnDisposition } from './types-48.js';
-import type { MerchantWebhookEnvelope, MetadataMap, MetadataRequestInput } from './types-34.js';
 import type { PartnerWebhookEnvelope } from './types-40.js';
+import type { ReturnDisposition, RetryReturnDispositionRequestInput, ReturnActor } from './types-48.js';
+import type { MerchantWebhookEnvelope, MoneyValue, MetadataMap } from './types-35.js';
 import type { InputValue } from '../runtime.js';
-import type { DecideReturnInspectionLineItemRequestInput } from './types-14.js';
+import type { CancelReturnDispositionRequestInput } from './types-4.js';
 import type { BundleComponent } from './types-1.js';
-import type { Fulfillment } from './types-21.js';
 import type { Image } from './types-25.js';
 import type { OrderLineItemModifier } from './types-37.js';
+import type { ReturnReasonSummary, ReturnReason, ReturnPolicyScope, ReturnPolicyScopeInput } from './types-50.js';
 import type { SelectedProductOption } from './types-53.js';
-import type { MoneyValue } from './types-35.js';
-import type { CreateReturnPolicyRequestInput, CreateReturnPreviewRequestInput, CreateReturnReasonRequestInput } from './types-10.js';
-import type { PublishReturnPolicyRevisionRequestInput } from './types-46.js';
-import type { UpdateReturnPolicyRequestInput, UpdateReturnReasonRequestInput } from './types-59.js';
+import type { Address } from './types-0.js';
 import type {
+    ReturnResolutionLineItemRequest,
+    ReturnSourceSystem,
     ReturnRestockingFeePolicy,
     ReturnShippingPolicy,
+    ReturnWindow,
     ReturnRestockingFeePolicyInput,
     ReturnShippingPolicyInput,
-    ReturnSourceSystemRequest,
-    ReturnSourceSystemRequestInput,
-    ReturnReplacementLineItemRequest,
-    ReturnReplacementLineItemRequestInput,
-    ReturnResolution,
-    ReturnResource,
-    ReturnReceiptLineItem,
-    ReturnSourceSystem
-} from './types-50.js';
-import type { ReturnWindow, ReturnWindowInput } from './types-51.js';
+    ReturnWindowInput
+} from './types-51.js';
+import type { DecideReturnInspectionLineItemRequestInput } from './types-14.js';
+import type { Fulfillment } from './types-22.js';
+import type { CreateReturnPolicyRequestInput } from './types-10.js';
+import type { PublishReturnPolicyRevisionRequestInput } from './types-46.js';
+import type { UpdateReturnPolicyRequestInput } from './types-60.js';
+/**
+ * The `return_disposition.created` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type ReturnDispositionCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link ReturnDisposition}. A decision about how returned merchandise
+     * will be handled.
+     */
+    "data"?: {
+        /** A decision about how returned merchandise will be handled. */
+        "object": ReturnDisposition;
+    };
+    /** Value enum: "return_disposition.created". */
+    "event_type"?: "return_disposition.created";
+    /**
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `return_disposition.created` webhook payload for the `merchant` event source. Fields shared
+ * by merchant webhook payloads.
+ */
+export type ReturnDispositionCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link ReturnDisposition}. A decision about how returned merchandise
+     * will be handled.
+     */
+    "data"?: {
+        /** A decision about how returned merchandise will be handled. */
+        "object": ReturnDisposition;
+    };
+    /** Value enum: "return_disposition.created". */
+    "event_type"?: "return_disposition.created";
+});
+export type ReturnDispositionUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": ReturnDisposition;
+    };
+    "event_type"?: "return_disposition.updated";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": ReturnDisposition;
+    };
+    "event_type"?: "return_disposition.updated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "return_disposition.updated";
+});
+/**
+ * The `return_disposition.updated` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type ReturnDispositionUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link ReturnDisposition}. A decision about how returned merchandise
+     * will be handled.
+     */
+    "data"?: {
+        /** A decision about how returned merchandise will be handled. */
+        "object": ReturnDisposition;
+    };
+    /** Value enum: "return_disposition.updated". */
+    "event_type"?: "return_disposition.updated";
+    /**
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `return_disposition.updated` webhook payload for the `merchant` event source. Fields shared
+ * by merchant webhook payloads.
+ */
+export type ReturnDispositionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link ReturnDisposition}. A decision about how returned merchandise
+     * will be handled.
+     */
+    "data"?: {
+        /** A decision about how returned merchandise will be handled. */
+        "object": ReturnDisposition;
+    };
+    /** Value enum: "return_disposition.updated". */
+    "event_type"?: "return_disposition.updated";
+});
+export type ReturnDispositionsCancelParams = (InputValue<CancelReturnDispositionRequestInput>);
+export type ReturnDispositionsGetParams = {};
+export type ReturnDispositionsListParams = {
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Filter by disposition type. Accepts repeated keys, comma-separated values, or mixtures.
+     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
+     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum:
+     * "sellable", "quality_control", "damaged", "quarantined", "repair", "refurbish", "liquidate",
+     * "donate", "discard", "return_to_buyer", "lost". Value enum: "sellable", "quality_control",
+     * "damaged", "quarantined", "repair", "refurbish", "liquidate", "donate", "discard",
+     * "return_to_buyer", "lost". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
+     * "sellable", "quality_control", "damaged", "quarantined", "repair", "refurbish", "liquidate",
+     * "donate", "discard", "return_to_buyer", "lost". anyOf[1][] (Value): string. Value enum:
+     * "sellable", "quality_control", "damaged", "quarantined", "repair", "refurbish", "liquidate",
+     * "donate", "discard", "return_to_buyer", "lost". anyOf[2] (Value): string. Value enum:
+     * "sellable", "quality_control", "damaged", "quarantined", "repair", "refurbish", "liquidate",
+     * "donate", "discard", "return_to_buyer", "lost".
+     */
+    "disposition_type"?: InputValue<("sellable"
+        | "quality_control"
+        | "damaged"
+        | "quarantined"
+        | "repair"
+        | "refurbish"
+        | "liquidate"
+        | "donate"
+        | "discard"
+        | "return_to_buyer"
+        | "lost")
+        | readonly ("sellable"
+        | "quality_control"
+        | "damaged"
+        | "quarantined"
+        | "repair"
+        | "refurbish"
+        | "liquidate"
+        | "donate"
+        | "discard"
+        | "return_to_buyer"
+        | "lost")[]>;
+    /**
+     * Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
+     */
+    "external_reference_id"?: InputValue<string>;
+    /**
+     * Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is
+     * exact and case-sensitive. Returns current authorized resources, not the recorded response. A
+     * pending resource does not prove that the operation succeeded, and an empty list does not
+     * prove that it had no effect. minLength: 1. maxLength: 255.
+     */
+    "idempotency_key"?: InputValue<string>;
+    /** Filter by inventory location id. */
+    "inventory_location_id"?: InputValue<string>;
+    /** Inclusive lower bound on occurred_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "occurred_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on occurred_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "occurred_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. Format: int32. minimum:
+     * 1. maximum: 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque next_page_token from the previous response. Omit on the first request. You may change
+     * `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request
+     * context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns
+     * a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /** Search by return disposition ID or external reference ID. */
+    "query"?: InputValue<string>;
+    /** Filter by replaces return disposition id. */
+    "replaces_return_disposition_id"?: InputValue<string>;
+    /** Filter by return id. Example: "ret_01ARZ3NDEKTSV4RRFFQ69G5FAV". */
+    "return_id"?: InputValue<string>;
+    /** Filter by return inspection line item id. Example: "retinli_01ARZ3NDEKTSV4RRFFQ69G5FAV". */
+    "return_inspection_line_item_id"?: InputValue<string>;
+    /** Filter by return line item id. Example: "retli_01ARZ3NDEKTSV4RRFFQ69G5FAV". */
+    "return_line_item_id"?: InputValue<string>;
+    /** Filter by return receipt line item id. Example: "retrcli_01ARZ3NDEKTSV4RRFFQ69G5FAV". */
+    "return_receipt_line_item_id"?: InputValue<string>;
+    /**
+     * Filter by status. Accepts repeated keys, comma-separated values, or mixtures. Values are
+     * trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values
+     * within this filter are ORed; separate filters are ANDed. [] enum: "pending", "succeeded",
+     * "failed", "canceled". Value enum: "pending", "succeeded", "failed", "canceled". anyOf[1]
+     * (Value): Array of string. minItems: 1. [] enum: "pending", "succeeded", "failed",
+     * "canceled". anyOf[1][] (Value): string. Value enum: "pending", "succeeded", "failed",
+     * "canceled". anyOf[2] (Value): string. Value enum: "pending", "succeeded", "failed",
+     * "canceled".
+     */
+    "status"?: InputValue<("pending" | "succeeded" | "failed" | "canceled")
+        | readonly ("pending" | "succeeded" | "failed" | "canceled")[]>;
+    /** Inclusive lower bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_before"?: InputValue<string | globalThis.Date>;
+};
+export type ReturnDispositionsRetryParams = (InputValue<RetryReturnDispositionRequestInput>);
+/**
+ * An order line and quantity to check. return_reason_id is optional here; when you send it, Flint
+ * checks that the reason is active and applies to the line.
+ */
+export type ReturnEligibilityLineItemRequest = {
+    /** minLength: 1. */
+    "fulfillment_id"?: string;
+    /** minLength: 1. */
+    "order_line_item_id": string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "requested_quantity": number;
+    /** Value enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit". */
+    "requested_resolution_type"?: "refund" | "exchange" | "replacement" | "no_monetary_action" | "store_credit" | (string & {});
+    /** minLength: 1. */
+    "return_reason_id"?: string;
+};
+/**
+ * An order line and quantity to check. return_reason_id is optional here; when you send it, Flint
+ * checks that the reason is active and applies to the line.
+ */
+export type ReturnEligibilityLineItemRequestInput = {
+    /** minLength: 1. */
+    "fulfillment_id"?: string;
+    /** minLength: 1. */
+    "order_line_item_id": string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "requested_quantity": number;
+    /** Value enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit". */
+    "requested_resolution_type"?: "refund" | "exchange" | "replacement" | "no_monetary_action" | "store_credit";
+    /** minLength: 1. */
+    "return_reason_id"?: string;
+};
+/**
+ * The result of checking whether an order's items can be returned: overall status, per-line
+ * eligibility, and the policy evaluation.
+ */
+export type ReturnEligibilityPreview = {
+    /** RFC3339 timestamp. Format: date-time. */
+    "evaluated_at": string;
+    /**
+     *  [] (Value): {@link ReturnEligibilityPreviewLineItem}. Return eligibility for one order line
+     * item, with the line's details, suggested return reasons, and whether self-service returns
+     * are enabled.
+     */
+    "line_items": Array<ReturnEligibilityPreviewLineItem>;
+    "order_id": string;
+    /**
+     * How a return policy evaluated a return request: overall status and reason, the policy
+     * revision used, and per-line results.
+     */
+    "policy_evaluation": ReturnPolicyEvaluation;
+    /**
+     * Which order lines to check for return eligibility: all remaining fulfilled lines, or a
+     * specific list of lines.
+     */
+    "selection": ReturnEligibilitySelection;
+    /** Value enum: "eligible", "ineligible", "review_required". */
+    "status": "eligible" | "ineligible" | "review_required" | (string & {});
+};
+/**
+ * Return eligibility for one order line item, with the line's details, suggested return reasons,
+ * and whether self-service returns are enabled.
+ */
+export type ReturnEligibilityPreviewLineItem = {
+    /**  [] (Value): {@link BundleComponent}. An item included in a bundle. */
+    "bundle_components": Array<BundleComponent>;
+    "bundle_id"?: string;
+    /**
+     * Whether the buyer can request this line themselves, through a customer session, right now.
+     * False when no policy covers the item, when it is not eligible, or when the store offers no
+     * reason for it. Read eligibility.reason and ineligibility_reason to say why.
+     */
+    "can_buyer_request": boolean;
+    "description"?: string;
+    /**
+     * Whether a return line is eligible under policy, with the eligible quantity, allowed
+     * resolution types, and any policy adjustments.
+     */
+    "eligibility": ReturnLineItemEligibility;
+    "fulfillment_id": string;
+    /** An image with its `url`, `width`, and `height`, and optional `alt` text. */
+    "image"?: Image;
+    /**
+     *  [] (Value): {@link OrderLineItemModifier}. A modifier selected on an order line item, with
+     * its quantity, price change, total, and display flags.
+     */
+    "modifiers": Array<OrderLineItemModifier>;
+    "name": string;
+    "order_line_item_id": string;
+    "product_id"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "requested_quantity"?: number;
+    /**
+     *  [] (Value): {@link SelectedProductOption}. An option and value chosen for a product
+     * variant, such as size Large.
+     */
+    "selected_options": Array<SelectedProductOption>;
+    "sku"?: string;
+    /**
+     * Active reasons that apply to this item, up to 20. Category-scoped reasons come first, then
+     * reasons that apply to every item. Each group sorts by handle ascending, with
+     * return_reason_id ascending as the tiebreak. maxItems: 20. [] (Value): {@link
+     * ReturnReasonSummary}. A return reason a buyer can pick for a line, with its `handle` and
+     * whether a note is required.
+     */
+    "suggested_return_reasons": Array<ReturnReasonSummary>;
+    "variant_id"?: string;
+};
+/**
+ * Which order lines to check for return eligibility: all remaining fulfilled lines, or a specific
+ * list of lines.
+ */
+export type ReturnEligibilitySelection = ({
+    /**
+     *  [] (Value): {@link ReturnEligibilityLineItemRequest}. An order line and quantity to check.
+     * return_reason_id is optional here; when you send it, Flint checks that the reason is active
+     * and applies to the line.
+     */
+    "line_items"?: Array<ReturnEligibilityLineItemRequest>;
+    /** Value enum: "all_remaining_fulfilled", "line_items". */
+    "selection_type": "all_remaining_fulfilled" | "line_items" | (string & {});
+})
+    & ((Exclude<ReturnEligibilitySelectionAllRemainingFulfilled & object, readonly unknown[]>)
+    | (Exclude<ReturnEligibilitySelectionLineItems & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/** The `all_remaining_fulfilled` variant of `ReturnEligibilitySelection`. */
+export type ReturnEligibilitySelectionAllRemainingFulfilled = ({
+    /**
+     *  [] (Value): {@link ReturnEligibilityLineItemRequest}. An order line and quantity to check.
+     * return_reason_id is optional here; when you send it, Flint checks that the reason is active
+     * and applies to the line.
+     */
+    "line_items"?: Array<ReturnEligibilityLineItemRequest>;
+    /** Value enum: "all_remaining_fulfilled". */
+    "selection_type": "all_remaining_fulfilled" | (string & {});
+})
+    & (({
+    /** Value enum: "all_remaining_fulfilled". */
+    "selection_type": unknown;
+}));
+/** The `all_remaining_fulfilled` variant of `ReturnEligibilitySelection`. */
+export type ReturnEligibilitySelectionAllRemainingFulfilledInput = ({
+    /**
+     *  [] (Value): {@link ReturnEligibilityLineItemRequestInput}. An order line and quantity to
+     * check. return_reason_id is optional here; when you send it, Flint checks that the reason is
+     * active and applies to the line.
+     */
+    "line_items"?: Array<ReturnEligibilityLineItemRequestInput>;
+    /** Value enum: "all_remaining_fulfilled". */
+    "selection_type": "all_remaining_fulfilled";
+})
+    & (({
+    /** Value enum: "all_remaining_fulfilled". */
+    "selection_type": "all_remaining_fulfilled";
+})
+    & ({
+    "line_items"?: never;
+}));
+/**
+ * Which order lines to check for return eligibility: all remaining fulfilled lines, or a specific
+ * list of lines.
+ */
+export type ReturnEligibilitySelectionInput = ({
+    /**
+     *  [] (Value): {@link ReturnEligibilityLineItemRequestInput}. An order line and quantity to
+     * check. return_reason_id is optional here; when you send it, Flint checks that the reason is
+     * active and applies to the line.
+     */
+    "line_items"?: Array<ReturnEligibilityLineItemRequestInput>;
+    /** Value enum: "all_remaining_fulfilled", "line_items". */
+    "selection_type": "all_remaining_fulfilled" | "line_items";
+})
+    & ((Exclude<ReturnEligibilitySelectionAllRemainingFulfilledInput & object, readonly unknown[]>)
+    | (Exclude<ReturnEligibilitySelectionLineItemsInput & object, readonly unknown[]>));
+/** The `line_items` variant of `ReturnEligibilitySelection`. */
+export type ReturnEligibilitySelectionLineItems = ({
+    /**
+     *  [] (Value): {@link ReturnEligibilityLineItemRequest}. An order line and quantity to check.
+     * return_reason_id is optional here; when you send it, Flint checks that the reason is active
+     * and applies to the line.
+     */
+    "line_items": Array<ReturnEligibilityLineItemRequest>;
+    /** Value enum: "line_items". */
+    "selection_type": "line_items" | (string & {});
+})
+    & ({
+    /** minItems: 1. */
+    "line_items": unknown;
+    /** Value enum: "line_items". */
+    "selection_type": unknown;
+});
+/** The `line_items` variant of `ReturnEligibilitySelection`. */
+export type ReturnEligibilitySelectionLineItemsInput = ({
+    /**
+     *  [] (Value): {@link ReturnEligibilityLineItemRequestInput}. An order line and quantity to
+     * check. return_reason_id is optional here; when you send it, Flint checks that the reason is
+     * active and applies to the line.
+     */
+    "line_items": Array<ReturnEligibilityLineItemRequestInput>;
+    /** Value enum: "line_items". */
+    "selection_type": "line_items";
+})
+    & ({
+    /** minItems: 1. */
+    "line_items": unknown;
+    /** Value enum: "line_items". */
+    "selection_type": "line_items";
+});
+/**
+ * The money for a return: returned value, deductions, credits, replacement total, and amounts due
+ * to or from the buyer.
+ */
+export type ReturnFinancialSummary = {
+    /**
+     * Balances collected from the buyer. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "collected_money": MoneyValue;
+    /**
+     * Credits added by confirmed, non-canceled resolutions. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "credit_money": MoneyValue;
+    /**
+     * Fees withheld by confirmed, non-canceled resolutions. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "deduction_money": MoneyValue;
+    /**
+     * Balances the buyer owes on confirmed, non-canceled resolutions whose payment has not
+     * succeeded. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "due_from_buyer_money": MoneyValue;
+    /**
+     * Refund amounts on confirmed, non-canceled resolutions whose Refund has not succeeded.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "due_to_buyer_money": MoneyValue;
+    /**
+     * Refund amounts that succeeded. Monetary amount represented as integer minor units plus an
+     * ISO 4217 currency code.
+     */
+    "refunded_money": MoneyValue;
+    /**
+     * Value of replacement merchandise on confirmed, non-canceled resolutions. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "replacement_total_money": MoneyValue;
+    /**
+     * Sum of return_value.discount_money across the Return's line items. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "returned_discount_money": MoneyValue;
+    /**
+     * Sum of return_value.subtotal_money across the Return's line items. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "returned_subtotal_money": MoneyValue;
+    /**
+     * Sum of return_value.tax_money across the Return's line items. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "returned_tax_money": MoneyValue;
+    /**
+     * Sum of return_value.total_money across the Return's line items. Monetary amount represented
+     * as integer minor units plus an ISO 4217 currency code.
+     */
+    "returned_total_money": MoneyValue;
+};
+/**
+ * Where the buyer sends returned merchandise: their own address, a merchant location, or an
+ * external location.
+ */
+export type ReturnHandoffDestination = {
+    /**
+     * A postal address. Every address has country. Addresses Flint checked as complete (customer
+     * and saved addresses, merchant, location, invoice, order delivery destination, tax identity,
+     * fulfillment recipient and pickup addresses) always have line1 and city, and US ones always
+     * have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax
+     * locations hold only what was provided, such as postal_code and country.
+     */
+    "address"?: Address;
+    /** Value enum: "buyer_address", "location", "external_location". */
+    "destination_type": "buyer_address" | "location" | "external_location" | (string & {});
+    "location_id"?: string;
+    "name"?: string;
+};
+/**
+ * What the buyer must do to hand merchandise back: the destination, instructions, line items, and
+ * expiry.
+ */
+export type ReturnHandoffRequirement = {
+    /**
+     * Where the buyer sends returned merchandise: their own address, a merchant location, or an
+     * external location.
+     */
+    "destination": ReturnHandoffDestination;
+    /** RFC3339 timestamp. Format: date-time. */
+    "expires_at"?: string;
+    "instructions"?: string;
+    /**
+     *  [] (Value): {@link ReturnResolutionLineItemRequest}. A return line and the quantity the
+     * buyer must hand back.
+     */
+    "line_items": Array<ReturnResolutionLineItemRequest>;
+    /** Format: int64. */
+    "shipment_count"?: number;
+    /**
+     * Whether the buyer has started sending merchandise back. A requirement leaves
+     * handoff_requirements entirely once it is satisfied, so there is no terminal status and an
+     * empty array means nothing is waiting on the buyer. Value enum: "pending", "in_progress".
+     */
+    "status": "pending" | "in_progress" | (string & {});
+};
+/** An assessment of the condition of returned items. */
+export type ReturnInspection = {
+    /**
+     * Value enum: "entry_error", "duplicate_observation", "source_correction",
+     * "reconciliation_correction", "other".
+     */
+    "correction_reason"?: "entry_error"
+        | "duplicate_observation"
+        | "source_correction"
+        | "reconciliation_correction"
+        | "other"
+        | (string & {});
+    "correction_reason_message"?: string;
+    /** RFC3339 timestamp. Format: date-time. */
+    "created_at": string;
+    /**
+     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
+     * maxLength: 255.
+     */
+    "external_actor_id"?: string;
+    /** Caller-owned identifier for this resource in an external system. maxLength: 255. */
+    "external_reference_id"?: string;
+    /**
+     *  [] (Value): {@link ReturnDisposition}. A decision about how returned merchandise will be
+     * handled.
+     */
+    "generated_dispositions": Array<ReturnDisposition>;
+    /** RFC3339 timestamp. Format: date-time. */
+    "inspected_at": string;
+    /**
+     * Location where the returned merchandise was inspected. Must match the receipt
+     * receiving_location_id.
+     */
+    "inspection_location_id": string;
+    /**  [] (Value): {@link ReturnInspectionLineItem}. The inspection result for a returned item. */
+    "line_items": Array<ReturnInspectionLineItem>;
+    "return_id": string;
+    "return_inspection_id": string;
+    "return_receipt_id": string;
+    /**
+     *  anyOf[1] (Value): {@link ReturnSourceSystem}. The system a return event came from, such as
+     * a point of sale or warehouse system, with its own identifier. anyOf[2] (Value): null.
+     */
+    "source_system": ((ReturnSourceSystem) | (null));
+    /** Value enum: "current", "superseded". */
+    "status": "current" | "superseded" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. */
+    "superseded_at"?: string;
+    "superseded_by_return_inspection_id"?: string;
+    "supersedes_return_inspection_id"?: string;
+    /** RFC3339 timestamp. Format: date-time. */
+    "updated_at": string;
+    /** Format: int64. minimum: 1. */
+    "version": number;
+};
+export type ReturnInspectionAcceptanceDecidedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": ReturnInspection;
+    };
+    "event_type"?: "return_inspection.acceptance_decided";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": ReturnInspection;
+    };
+    "event_type"?: "return_inspection.acceptance_decided";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "return_inspection.acceptance_decided";
+});
+/**
+ * The `return_inspection.acceptance_decided` webhook payload for the `installed_merchants` event
+ * source. Fields shared by partner webhook payloads.
+ */
+export type ReturnInspectionAcceptanceDecidedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link ReturnInspection}. An assessment of the condition of returned
+     * items.
+     */
+    "data"?: {
+        /** An assessment of the condition of returned items. */
+        "object": ReturnInspection;
+    };
+    /** Value enum: "return_inspection.acceptance_decided". */
+    "event_type"?: "return_inspection.acceptance_decided";
+    /**
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `return_inspection.acceptance_decided` webhook payload for the `merchant` event source.
+ * Fields shared by merchant webhook payloads.
+ */
+export type ReturnInspectionAcceptanceDecidedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link ReturnInspection}. An assessment of the condition of returned
+     * items.
+     */
+    "data"?: {
+        /** An assessment of the condition of returned items. */
+        "object": ReturnInspection;
+    };
+    /** Value enum: "return_inspection.acceptance_decided". */
+    "event_type"?: "return_inspection.acceptance_decided";
+});
+export type ReturnInspectionCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": ReturnInspection;
+    };
+    "event_type"?: "return_inspection.created";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": ReturnInspection;
+    };
+    "event_type"?: "return_inspection.created";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "return_inspection.created";
+});
+/**
+ * The `return_inspection.created` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type ReturnInspectionCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link ReturnInspection}. An assessment of the condition of returned
+     * items.
+     */
+    "data"?: {
+        /** An assessment of the condition of returned items. */
+        "object": ReturnInspection;
+    };
+    /** Value enum: "return_inspection.created". */
+    "event_type"?: "return_inspection.created";
+    /**
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `return_inspection.created` webhook payload for the `merchant` event source. Fields shared
+ * by merchant webhook payloads.
+ */
+export type ReturnInspectionCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link ReturnInspection}. An assessment of the condition of returned
+     * items.
+     */
+    "data"?: {
+        /** An assessment of the condition of returned items. */
+        "object": ReturnInspection;
+    };
+    /** Value enum: "return_inspection.created". */
+    "event_type"?: "return_inspection.created";
+});
 /** The inspection result for a returned item. */
 export type ReturnInspectionLineItem = {
     /** RFC3339 timestamp. Format: date-time. */
@@ -1833,1112 +2574,3 @@ export type ReturnPolicyRevisionRequest = ({
     & ((Exclude<ReturnPolicyRevisionInputIneligible & object, readonly unknown[]>)
     | (Exclude<ReturnPolicyRevisionInputReturnable & object, readonly unknown[]>)
     | (Record<string, unknown>));
-/**
- * The rules for a return policy revision: scope, eligibility, return window, approval and
- * resolution modes, shipping, and restocking fee.
- */
-export type ReturnPolicyRevisionRequestInput = ({
-    /**
-     * [] enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit". []
-     * (Value): string. Value enum: "refund", "exchange", "replacement", "no_monetary_action",
-     * "store_credit".
-     */
-    "allowed_resolution_types"?: Array<"refund" | "exchange" | "replacement" | "no_monetary_action" | "store_credit">;
-    /**
-     * Whether Flint approves eligible lines automatically or waits for merchant review. Automatic
-     * approval still waits for the buyer to request a Return. Value enum: "automatic", "manual".
-     */
-    "approval_mode": "automatic" | "manual";
-    /** Value enum: "refund", "store_credit", "no_monetary_action". */
-    "automatic_resolution_type"?: "refund" | "store_credit" | "no_monetary_action";
-    /** Value enum: "manual", "automatic". */
-    "completion_mode"?: "manual" | "automatic";
-    /**
-     * Whether merchandise matching this scope may be returned. An ineligible revision commits no
-     * resolution behavior: allowed_resolution_types, resolution_mode, release_timing, and
-     * completion_mode must all be omitted. Eligible and review_required revisions require
-     * allowed_resolution_types, resolution_mode, and completion_mode. Value enum: "eligible",
-     * "ineligible", "review_required".
-     */
-    "eligibility_result": "eligible" | "ineligible" | "review_required";
-    /**
-     * Value enum: "final_sale", "product_excluded", "category_excluded", "market_restricted",
-     * "channel_restricted", "outside_return_window", "other".
-     */
-    "ineligibility_reason"?: "final_sale"
-        | "product_excluded"
-        | "category_excluded"
-        | "market_restricted"
-        | "channel_restricted"
-        | "outside_return_window"
-        | "other";
-    "is_inspection_required"?: boolean;
-    "is_merchandise_return_required": boolean;
-    /** Format: int32. */
-    "priority": number;
-    /**
-     * Controls verified merchandise after receipt. automatic creates a successful sellable
-     * disposition at the receiving location. For tracked merchandise, it also creates an inventory
-     * receipt and movement. Untracked merchandise has no inventory effect. If the Return line
-     * requires inspection, creation waits for an accepted inspection. manual leaves inventory
-     * unchanged until an explicit disposition succeeds. When omitted, the value defaults to
-     * automatic. Default: "automatic". Value enum: "automatic", "manual".
-     */
-    "receipt_disposition_mode"?: "automatic" | "manual";
-    /**
-     * Where returned merchandise is sent. Required when is_merchandise_return_required is true.
-     * Presence is checked when the revision is written; whether the Location exists, is active,
-     * and carries a postal address is checked when the policy is activated. minLength: 1.
-     */
-    "receiving_location_id"?: string;
-    /**
-     * Required whenever allowed_resolution_types contains refund or store_credit. For other types,
-     * an omitted timing defaults to after_inspection when merchandise and inspection are required,
-     * after_receipt when merchandise is required without inspection, or after_approval when
-     * merchandise is not required. after_handoff and after_receipt require
-     * is_merchandise_return_required, and after_inspection also requires is_inspection_required.
-     * Applies to every resolution type, including exchanges and replacements. manual is held until
-     * a merchant calls POST /v1/return-resolutions/{id}/release. Value enum: "after_approval",
-     * "after_handoff", "after_receipt", "after_inspection", "manual".
-     */
-    "release_timing"?: "after_approval" | "after_handoff" | "after_receipt" | "after_inspection" | "manual";
-    /** Value enum: "automatic", "manual". */
-    "resolution_mode"?: "automatic" | "manual";
-    /** Value enum: "policy_default", "buyer_requested". */
-    "resolution_selection_mode"?: "policy_default" | "buyer_requested";
-    /** A restocking fee in a return policy, charged as a flat amount or a percent. */
-    "restocking_fee"?: ReturnRestockingFeePolicyInput;
-    /** Who pays for return shipping in a return policy: the merchant or the buyer. */
-    "return_shipping"?: ReturnShippingPolicyInput;
-    /**
-     * How long after an event, such as fulfillment or delivery, an order can be returned under a
-     * return policy.
-     */
-    "return_window"?: ReturnWindowInput;
-    /**
-     * The products, variants, categories, channels, or locations a return policy revision applies
-     * to, or all of them.
-     */
-    "scope": ReturnPolicyScopeInput;
-})
-    & ((Exclude<ReturnPolicyRevisionInputIneligibleInput & object, readonly unknown[]>)
-    | (Exclude<ReturnPolicyRevisionInputReturnableInput & object, readonly unknown[]>));
-/**
- * The products, variants, categories, channels, or locations a return policy revision applies to,
- * or all of them.
- */
-export type ReturnPolicyScope = ({
-    /**  [] (Value): string. minLength: 1. */
-    "category_handles"?: Array<string>;
-    /**  [] (Value): string. minLength: 1. */
-    "channel_types"?: Array<string>;
-    /**  [] (Value): string. minLength: 1. */
-    "location_ids"?: Array<string>;
-    /**
-     * all covers every item and requires every selector to be empty. include covers only what the
-     * selectors name and requires at least one nonempty selector. Value enum: "all", "include".
-     */
-    "match_type": "all" | "include" | (string & {});
-    /**  [] (Value): string. minLength: 1. */
-    "product_ids"?: Array<string>;
-    /**  [] (Value): string. minLength: 1. */
-    "variant_ids"?: Array<string>;
-})
-    & ((Exclude<ReturnPolicyScopeAll & object, readonly unknown[]>)
-    | (Exclude<ReturnPolicyScopeInclude & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/** The `all` variant of `ReturnPolicyScope`. */
-export type ReturnPolicyScopeAll = ({
-    /**  [] (Value): string. minLength: 1. */
-    "category_handles"?: Array<string>;
-    /**  [] (Value): string. minLength: 1. */
-    "channel_types"?: Array<string>;
-    /**  [] (Value): string. minLength: 1. */
-    "location_ids"?: Array<string>;
-    /**
-     * all covers every item and requires every selector to be empty. include covers only what the
-     * selectors name and requires at least one nonempty selector. Value enum: "all".
-     */
-    "match_type": "all" | (string & {});
-    /**  [] (Value): string. minLength: 1. */
-    "product_ids"?: Array<string>;
-    /**  [] (Value): string. minLength: 1. */
-    "variant_ids"?: Array<string>;
-})
-    & ({
-    /** maxItems: 0. */
-    "category_handles"?: unknown;
-    /** maxItems: 0. */
-    "channel_types"?: unknown;
-    /** maxItems: 0. */
-    "location_ids"?: unknown;
-    /** Value enum: "all". */
-    "match_type": unknown;
-    /** maxItems: 0. */
-    "product_ids"?: unknown;
-    /** maxItems: 0. */
-    "variant_ids"?: unknown;
-});
-/** The `all` variant of `ReturnPolicyScope`. */
-export type ReturnPolicyScopeAllInput = ({
-    /**  [] (Value): string. minLength: 1. */
-    "category_handles"?: Array<string>;
-    /**  [] (Value): string. minLength: 1. */
-    "channel_types"?: Array<string>;
-    /**  [] (Value): string. minLength: 1. */
-    "location_ids"?: Array<string>;
-    /**
-     * all covers every item and requires every selector to be empty. include covers only what the
-     * selectors name and requires at least one nonempty selector. Value enum: "all".
-     */
-    "match_type": "all";
-    /**  [] (Value): string. minLength: 1. */
-    "product_ids"?: Array<string>;
-    /**  [] (Value): string. minLength: 1. */
-    "variant_ids"?: Array<string>;
-})
-    & ({
-    /** maxItems: 0. */
-    "category_handles"?: unknown;
-    /** maxItems: 0. */
-    "channel_types"?: unknown;
-    /** maxItems: 0. */
-    "location_ids"?: unknown;
-    /** Value enum: "all". */
-    "match_type": "all";
-    /** maxItems: 0. */
-    "product_ids"?: unknown;
-    /** maxItems: 0. */
-    "variant_ids"?: unknown;
-});
-/** The `include` variant of `ReturnPolicyScope`. */
-export type ReturnPolicyScopeInclude = ({
-    /**  [] (Value): string. minLength: 1. */
-    "category_handles"?: Array<string>;
-    /**  [] (Value): string. minLength: 1. */
-    "channel_types"?: Array<string>;
-    /**  [] (Value): string. minLength: 1. */
-    "location_ids"?: Array<string>;
-    /**
-     * all covers every item and requires every selector to be empty. include covers only what the
-     * selectors name and requires at least one nonempty selector. Value enum: "include".
-     */
-    "match_type": "include" | (string & {});
-    /**  [] (Value): string. minLength: 1. */
-    "product_ids"?: Array<string>;
-    /**  [] (Value): string. minLength: 1. */
-    "variant_ids"?: Array<string>;
-})
-    & (({
-    /** Value enum: "include". */
-    "match_type": unknown;
-})
-    & (({
-    /** minItems: 1. */
-    "product_ids": unknown;
-})
-    | ({
-    /** minItems: 1. */
-    "variant_ids": unknown;
-})
-    | ({
-    /** minItems: 1. */
-    "category_handles": unknown;
-})
-    | ({
-    /** minItems: 1. */
-    "location_ids": unknown;
-})
-    | ({
-    /** minItems: 1. */
-    "channel_types": unknown;
-})
-    | (Record<string, unknown>)));
-/** The `include` variant of `ReturnPolicyScope`. */
-export type ReturnPolicyScopeIncludeInput = ({
-    /**  [] (Value): string. minLength: 1. */
-    "category_handles"?: Array<string>;
-    /**  [] (Value): string. minLength: 1. */
-    "channel_types"?: Array<string>;
-    /**  [] (Value): string. minLength: 1. */
-    "location_ids"?: Array<string>;
-    /**
-     * all covers every item and requires every selector to be empty. include covers only what the
-     * selectors name and requires at least one nonempty selector. Value enum: "include".
-     */
-    "match_type": "include";
-    /**  [] (Value): string. minLength: 1. */
-    "product_ids"?: Array<string>;
-    /**  [] (Value): string. minLength: 1. */
-    "variant_ids"?: Array<string>;
-})
-    & (({
-    /** Value enum: "include". */
-    "match_type": "include";
-})
-    & (({
-    /** minItems: 1. */
-    "product_ids": unknown;
-})
-    | ({
-    /** minItems: 1. */
-    "variant_ids": unknown;
-})
-    | ({
-    /** minItems: 1. */
-    "category_handles": unknown;
-})
-    | ({
-    /** minItems: 1. */
-    "location_ids": unknown;
-})
-    | ({
-    /** minItems: 1. */
-    "channel_types": unknown;
-})));
-/**
- * The products, variants, categories, channels, or locations a return policy revision applies to,
- * or all of them.
- */
-export type ReturnPolicyScopeInput = ({
-    /**  [] (Value): string. minLength: 1. */
-    "category_handles"?: Array<string>;
-    /**  [] (Value): string. minLength: 1. */
-    "channel_types"?: Array<string>;
-    /**  [] (Value): string. minLength: 1. */
-    "location_ids"?: Array<string>;
-    /**
-     * all covers every item and requires every selector to be empty. include covers only what the
-     * selectors name and requires at least one nonempty selector. Value enum: "all", "include".
-     */
-    "match_type": "all" | "include";
-    /**  [] (Value): string. minLength: 1. */
-    "product_ids"?: Array<string>;
-    /**  [] (Value): string. minLength: 1. */
-    "variant_ids"?: Array<string>;
-})
-    & ((Exclude<ReturnPolicyScopeAllInput & object, readonly unknown[]>)
-    | (Exclude<ReturnPolicyScopeIncludeInput & object, readonly unknown[]>));
-export type ReturnPreviewsCreateParams = (CreateReturnPreviewRequestInput);
-/**
- * Start from the pinned policy proposal recomputed for approved_quantity when the line has a
- * policy evaluation and the proposal can be built. Otherwise start with return_required_quantity
- * equal to approved_quantity, allowed_resolution_types containing refund, exchange, replacement,
- * no_monetary_action, and store_credit in that order regardless of whether the original payment is
- * refundable, no automatic_resolution_type, is_inspection_required false, and no
- * receiving_location_id. Each supplied field replaces its starting value; allowed_resolution_types
- * replaces the whole list. Omit automatic_resolution_type to keep its starting value, or send null
- * to resolve manually. Then fill an omitted release_timing with after_inspection when merchandise
- * is required and inspection is required, after_receipt when merchandise is required without
- * inspection, or after_approval when no merchandise is required. Validate the merged decision for
- * quantity bounds, allowed resolution types, and reachable timing and inspection requirements. A
- * pinned policy always requires override_reason when approved_quantity exceeds evaluated
- * eligible_quantity, even when no proposal can be built. With a pinned policy but no proposal,
- * other decision fields use these defaults and override_reason is otherwise optional. Example:
- * {"approved_quantity":1,"receiving_location_id":"loc_01KEZF7C005QW6QDMVP0P473FZ"}.
- */
-export type ReturnProcessDecision = ({
-    /**
-     * Optional replacement for the entire starting list. Defaults to the buildable pinned policy
-     * proposal; otherwise refund, exchange, replacement, no_monetary_action, and store_credit in
-     * that order, independent of the original payment's refundability. The resulting list must be
-     * valid and non-empty when approved_quantity is above zero. [] enum: "refund", "exchange",
-     * "replacement", "no_monetary_action", "store_credit". [] (Value): string. Value enum:
-     * "refund", "exchange", "replacement", "no_monetary_action", "store_credit".
-     */
-    "allowed_resolution_types"?: Array<"refund" | "exchange" | "replacement" | "no_monetary_action" | "store_credit" | (string & {})>;
-    /**
-     * Required whole-number quantity from zero through the line's requested_quantity; fractional
-     * quantities are not supported. When approved_quantity is below requested_quantity, send
-     * decline_reason; decline_reason_message is optional. Both decline fields are forbidden when
-     * all requested quantity is approved. Format: int64. minimum: 0.
-     */
-    "approved_quantity": number;
-    /**
-     * Optional refund, store_credit, or no_monetary_action that Flint creates and confirms
-     * automatically. Omit to keep the policy proposal's value, or the absent value from no-policy
-     * defaults. Send null to resolve the line manually; clearing a policy proposal's automatic
-     * value requires override_reason. Must be in the resulting allowed_resolution_types. Exchange
-     * and replacement cannot be automated. An unavailable automatic refund or store credit fails
-     * with 409 ACTION_NOT_ALLOWED and reason refund_unavailable or store_credit_unavailable. Value
-     * enum: "refund", "store_credit", "no_monetary_action", null.
-     */
-    "automatic_resolution_type"?: "refund" | "store_credit" | "no_monetary_action" | null | (string & {}) | null;
-    /**
-     * Value enum: "not_eligible", "quantity_unavailable", "evidence_missing", "suspected_abuse",
-     * "merchant_discretion", "other".
-     */
-    "decline_reason"?: "not_eligible"
-        | "quantity_unavailable"
-        | "evidence_missing"
-        | "suspected_abuse"
-        | "merchant_discretion"
-        | "other"
-        | (string & {});
-    /**
-     * Optional explanation accompanying decline_reason, up to 2048 characters (Unicode code
-     * points), counted before normalization. Requires decline_reason and is forbidden when all
-     * requested quantity is approved. minLength: 1. maxLength: 2048.
-     */
-    "decline_reason_message"?: string;
-    /**
-     * Optional inspection requirement. Defaults to the buildable pinned policy proposal or false
-     * when no proposal can be built. The resulting requirement must be reachable with the merged
-     * merchandise quantity and release timing.
-     */
-    "is_inspection_required"?: boolean;
-    /**
-     * Required when a decision differs from a buildable pinned policy proposal. With a pinned
-     * policy, also required whenever approved_quantity exceeds evaluated eligible_quantity, even
-     * when no proposal can be built. The release timing fill also applies to the proposal and does
-     * not count as a deviation. Otherwise optional when a pinned policy proposal cannot be built
-     * or no deviation exists. Forbidden without a pinned policy. Value enum:
-     * "customer_service_exception", "policy_correction", "risk_review", "merchant_discretion",
-     * "other".
-     */
-    "override_reason"?: "customer_service_exception"
-        | "policy_correction"
-        | "risk_review"
-        | "merchant_discretion"
-        | "other"
-        | (string & {});
-    /**
-     * Optional explanation accompanying override_reason. Requires override_reason and is forbidden
-     * without a pinned policy. minLength: 1.
-     */
-    "override_reason_message"?: string;
-    /**
-     * Optional receiving Location with a postal address. Defaults to the buildable pinned policy
-     * proposal or no location when no proposal can be built. Required when the resulting
-     * return_required_quantity is above zero and there is no starting location. A process receipt
-     * does not supply the decision's location. minLength: 1.
-     */
-    "receiving_location_id"?: string;
-    /**
-     * Optional gate for every resolution type. Defaults to the policy proposal's timing when set.
-     * After merging supplied fields, an unset timing becomes after_inspection when
-     * return_required_quantity is above zero and inspection is required, after_receipt when
-     * return_required_quantity is above zero without inspection, or after_approval when
-     * return_required_quantity is zero. Applies to every resolution type, including exchanges and
-     * replacements. manual is held until a merchant calls POST
-     * /v1/return-resolutions/{id}/release. Value enum: "after_approval", "after_handoff",
-     * "after_receipt", "after_inspection", "manual".
-     */
-    "release_timing"?: "after_approval" | "after_handoff" | "after_receipt" | "after_inspection" | "manual" | (string & {});
-    /**
-     * How much of the approved quantity the buyer must physically send back; fractional quantities
-     * are not supported. Set 0 for a returnless refund, where the buyer keeps the merchandise and
-     * the Return still settles the money. Format: int64. minimum: 0.
-     */
-    "return_required_quantity"?: number;
-})
-    & (((unknown)
-    | ({
-    /**
-     * Value enum: "not_eligible", "quantity_unavailable", "evidence_missing", "suspected_abuse",
-     * "merchant_discretion", "other".
-     */
-    "decline_reason": "not_eligible"
-        | "quantity_unavailable"
-        | "evidence_missing"
-        | "suspected_abuse"
-        | "merchant_discretion"
-        | "other"
-        | (string & {});
-})
-    | (Record<string, unknown>)))
-    & (((unknown)
-    | ({
-    /**
-     * Required when a decision differs from a buildable pinned policy proposal. With a pinned
-     * policy, also required whenever approved_quantity exceeds evaluated eligible_quantity, even
-     * when no proposal can be built. The release timing fill also applies to the proposal and does
-     * not count as a deviation. Otherwise optional when a pinned policy proposal cannot be built
-     * or no deviation exists. Forbidden without a pinned policy. Value enum:
-     * "customer_service_exception", "policy_correction", "risk_review", "merchant_discretion",
-     * "other".
-     */
-    "override_reason": "customer_service_exception"
-        | "policy_correction"
-        | "risk_review"
-        | "merchant_discretion"
-        | "other"
-        | (string & {});
-})
-    | (Record<string, unknown>)));
-/**
- * Start from the pinned policy proposal recomputed for approved_quantity when the line has a
- * policy evaluation and the proposal can be built. Otherwise start with return_required_quantity
- * equal to approved_quantity, allowed_resolution_types containing refund, exchange, replacement,
- * no_monetary_action, and store_credit in that order regardless of whether the original payment is
- * refundable, no automatic_resolution_type, is_inspection_required false, and no
- * receiving_location_id. Each supplied field replaces its starting value; allowed_resolution_types
- * replaces the whole list. Omit automatic_resolution_type to keep its starting value, or send null
- * to resolve manually. Then fill an omitted release_timing with after_inspection when merchandise
- * is required and inspection is required, after_receipt when merchandise is required without
- * inspection, or after_approval when no merchandise is required. Validate the merged decision for
- * quantity bounds, allowed resolution types, and reachable timing and inspection requirements. A
- * pinned policy always requires override_reason when approved_quantity exceeds evaluated
- * eligible_quantity, even when no proposal can be built. With a pinned policy but no proposal,
- * other decision fields use these defaults and override_reason is otherwise optional. Example:
- * {"approved_quantity":1,"receiving_location_id":"loc_01KEZF7C005QW6QDMVP0P473FZ"}.
- */
-export type ReturnProcessDecisionInput = ({
-    /**
-     * Optional replacement for the entire starting list. Defaults to the buildable pinned policy
-     * proposal; otherwise refund, exchange, replacement, no_monetary_action, and store_credit in
-     * that order, independent of the original payment's refundability. The resulting list must be
-     * valid and non-empty when approved_quantity is above zero. [] enum: "refund", "exchange",
-     * "replacement", "no_monetary_action", "store_credit". [] (Value): string. Value enum:
-     * "refund", "exchange", "replacement", "no_monetary_action", "store_credit".
-     */
-    "allowed_resolution_types"?: Array<"refund" | "exchange" | "replacement" | "no_monetary_action" | "store_credit">;
-    /**
-     * Required whole-number quantity from zero through the line's requested_quantity; fractional
-     * quantities are not supported. When approved_quantity is below requested_quantity, send
-     * decline_reason; decline_reason_message is optional. Both decline fields are forbidden when
-     * all requested quantity is approved. Format: int64. minimum: 0.
-     */
-    "approved_quantity": number;
-    /**
-     * Optional refund, store_credit, or no_monetary_action that Flint creates and confirms
-     * automatically. Omit to keep the policy proposal's value, or the absent value from no-policy
-     * defaults. Send null to resolve the line manually; clearing a policy proposal's automatic
-     * value requires override_reason. Must be in the resulting allowed_resolution_types. Exchange
-     * and replacement cannot be automated. An unavailable automatic refund or store credit fails
-     * with 409 ACTION_NOT_ALLOWED and reason refund_unavailable or store_credit_unavailable. Value
-     * enum: "refund", "store_credit", "no_monetary_action", null.
-     */
-    "automatic_resolution_type"?: "refund" | "store_credit" | "no_monetary_action" | null;
-    /**
-     * Value enum: "not_eligible", "quantity_unavailable", "evidence_missing", "suspected_abuse",
-     * "merchant_discretion", "other".
-     */
-    "decline_reason"?: "not_eligible"
-        | "quantity_unavailable"
-        | "evidence_missing"
-        | "suspected_abuse"
-        | "merchant_discretion"
-        | "other";
-    /**
-     * Optional explanation accompanying decline_reason, up to 2048 characters (Unicode code
-     * points), counted before normalization. Requires decline_reason and is forbidden when all
-     * requested quantity is approved. minLength: 1. maxLength: 2048.
-     */
-    "decline_reason_message"?: string;
-    /**
-     * Optional inspection requirement. Defaults to the buildable pinned policy proposal or false
-     * when no proposal can be built. The resulting requirement must be reachable with the merged
-     * merchandise quantity and release timing.
-     */
-    "is_inspection_required"?: boolean;
-    /**
-     * Required when a decision differs from a buildable pinned policy proposal. With a pinned
-     * policy, also required whenever approved_quantity exceeds evaluated eligible_quantity, even
-     * when no proposal can be built. The release timing fill also applies to the proposal and does
-     * not count as a deviation. Otherwise optional when a pinned policy proposal cannot be built
-     * or no deviation exists. Forbidden without a pinned policy. Value enum:
-     * "customer_service_exception", "policy_correction", "risk_review", "merchant_discretion",
-     * "other".
-     */
-    "override_reason"?: "customer_service_exception" | "policy_correction" | "risk_review" | "merchant_discretion" | "other";
-    /**
-     * Optional explanation accompanying override_reason. Requires override_reason and is forbidden
-     * without a pinned policy. minLength: 1.
-     */
-    "override_reason_message"?: string;
-    /**
-     * Optional receiving Location with a postal address. Defaults to the buildable pinned policy
-     * proposal or no location when no proposal can be built. Required when the resulting
-     * return_required_quantity is above zero and there is no starting location. A process receipt
-     * does not supply the decision's location. minLength: 1.
-     */
-    "receiving_location_id"?: string;
-    /**
-     * Optional gate for every resolution type. Defaults to the policy proposal's timing when set.
-     * After merging supplied fields, an unset timing becomes after_inspection when
-     * return_required_quantity is above zero and inspection is required, after_receipt when
-     * return_required_quantity is above zero without inspection, or after_approval when
-     * return_required_quantity is zero. Applies to every resolution type, including exchanges and
-     * replacements. manual is held until a merchant calls POST
-     * /v1/return-resolutions/{id}/release. Value enum: "after_approval", "after_handoff",
-     * "after_receipt", "after_inspection", "manual".
-     */
-    "release_timing"?: "after_approval" | "after_handoff" | "after_receipt" | "after_inspection" | "manual";
-    /**
-     * How much of the approved quantity the buyer must physically send back; fractional quantities
-     * are not supported. Set 0 for a returnless refund, where the buyer keeps the merchandise and
-     * the Return still settles the money. Format: int64. minimum: 0.
-     */
-    "return_required_quantity"?: number;
-})
-    & (((({
-    "decline_reason_message"?: never;
-}))
-    | ({
-    /**
-     * Value enum: "not_eligible", "quantity_unavailable", "evidence_missing", "suspected_abuse",
-     * "merchant_discretion", "other".
-     */
-    "decline_reason": "not_eligible"
-        | "quantity_unavailable"
-        | "evidence_missing"
-        | "suspected_abuse"
-        | "merchant_discretion"
-        | "other";
-})))
-    & (((({
-    "override_reason_message"?: never;
-}))
-    | ({
-    /**
-     * Required when a decision differs from a buildable pinned policy proposal. With a pinned
-     * policy, also required whenever approved_quantity exceeds evaluated eligible_quantity, even
-     * when no proposal can be built. The release timing fill also applies to the proposal and does
-     * not count as a deviation. Otherwise optional when a pinned policy proposal cannot be built
-     * or no deviation exists. Forbidden without a pinned policy. Value enum:
-     * "customer_service_exception", "policy_correction", "risk_review", "merchant_discretion",
-     * "other".
-     */
-    "override_reason": "customer_service_exception" | "policy_correction" | "risk_review" | "merchant_discretion" | "other";
-})));
-/**
- * What was done with a returned item, such as restocked as sellable or sent for repair, supplied
- * when processing an existing return.
- */
-export type ReturnProcessDispositionRequest = {
-    /**
-     * Value enum: "sellable", "quality_control", "damaged", "quarantined", "repair", "refurbish",
-     * "liquidate", "donate", "discard", "return_to_buyer", "lost".
-     */
-    "disposition_type": "sellable"
-        | "quality_control"
-        | "damaged"
-        | "quarantined"
-        | "repair"
-        | "refurbish"
-        | "liquidate"
-        | "donate"
-        | "discard"
-        | "return_to_buyer"
-        | "lost"
-        | (string & {});
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255.
-     */
-    "external_reference_id"?: string;
-    /** minLength: 1. */
-    "inventory_location_id"?: string;
-    /**
-     * Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50
-     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
-     * points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings,
-     * and keys starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at": string;
-    /**
-     * Value enum: "inspection_result", "return_policy", "warehouse_override",
-     * "safety_requirement", "other".
-     */
-    "reason": "inspection_result"
-        | "return_policy"
-        | "warehouse_override"
-        | "safety_requirement"
-        | "other"
-        | (string & {});
-    /** minLength: 1. */
-    "reason_message"?: string;
-};
-/**
- * What was done with a returned item, such as restocked as sellable or sent for repair, supplied
- * when processing an existing return.
- */
-export type ReturnProcessDispositionRequestInput = {
-    /**
-     * Value enum: "sellable", "quality_control", "damaged", "quarantined", "repair", "refurbish",
-     * "liquidate", "donate", "discard", "return_to_buyer", "lost".
-     */
-    "disposition_type": "sellable"
-        | "quality_control"
-        | "damaged"
-        | "quarantined"
-        | "repair"
-        | "refurbish"
-        | "liquidate"
-        | "donate"
-        | "discard"
-        | "return_to_buyer"
-        | "lost";
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255.
-     */
-    "external_reference_id"?: string;
-    /** minLength: 1. */
-    "inventory_location_id"?: string;
-    /**
-     * Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50
-     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
-     * points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings,
-     * and keys starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at": string | globalThis.Date;
-    /**
-     * Value enum: "inspection_result", "return_policy", "warehouse_override",
-     * "safety_requirement", "other".
-     */
-    "reason": "inspection_result" | "return_policy" | "warehouse_override" | "safety_requirement" | "other";
-    /** minLength: 1. */
-    "reason_message"?: string;
-};
-/** An inspection result for a returned item, supplied when processing an existing return. */
-export type ReturnProcessInspectionRequest = {
-    /** Value enum: "accepted", "rejected", "review_required". */
-    "acceptance_status": "accepted" | "rejected" | "review_required" | (string & {});
-    /**
-     * `undetermined`: The item's condition could not be assessed. Value enum: "new", "unopened",
-     * "opened", "used", "damaged", "defective", "incomplete", "undetermined".
-     */
-    "condition": "new"
-        | "unopened"
-        | "opened"
-        | "used"
-        | "damaged"
-        | "defective"
-        | "incomplete"
-        | "undetermined"
-        | (string & {});
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * [] enum: "matches_expected_item", "wrong_item", "damaged", "defective", "used",
-     * "missing_parts", "empty_package", "counterfeit_suspected", "other". [] (Value): string.
-     * Value enum: "matches_expected_item", "wrong_item", "damaged", "defective", "used",
-     * "missing_parts", "empty_package", "counterfeit_suspected", "other".
-     */
-    "finding_codes"?: Array<"matches_expected_item"
-        | "wrong_item"
-        | "damaged"
-        | "defective"
-        | "used"
-        | "missing_parts"
-        | "empty_package"
-        | "counterfeit_suspected"
-        | "other"
-        | (string & {})>;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "inspected_at": string;
-    /** minLength: 1. */
-    "internal_note"?: string;
-};
-/** An inspection result for a returned item, supplied when processing an existing return. */
-export type ReturnProcessInspectionRequestInput = {
-    /** Value enum: "accepted", "rejected", "review_required". */
-    "acceptance_status": "accepted" | "rejected" | "review_required";
-    /**
-     * `undetermined`: The item's condition could not be assessed. Value enum: "new", "unopened",
-     * "opened", "used", "damaged", "defective", "incomplete", "undetermined".
-     */
-    "condition": "new" | "unopened" | "opened" | "used" | "damaged" | "defective" | "incomplete" | "undetermined";
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * [] enum: "matches_expected_item", "wrong_item", "damaged", "defective", "used",
-     * "missing_parts", "empty_package", "counterfeit_suspected", "other". [] (Value): string.
-     * Value enum: "matches_expected_item", "wrong_item", "damaged", "defective", "used",
-     * "missing_parts", "empty_package", "counterfeit_suspected", "other".
-     */
-    "finding_codes"?: Array<"matches_expected_item"
-        | "wrong_item"
-        | "damaged"
-        | "defective"
-        | "used"
-        | "missing_parts"
-        | "empty_package"
-        | "counterfeit_suspected"
-        | "other">;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "inspected_at": string | globalThis.Date;
-    /** minLength: 1. */
-    "internal_note"?: string;
-};
-/**
- * The receipt of returned merchandise, with when and where it was received, supplied when
- * processing an existing return.
- */
-export type ReturnProcessReceiptRequest = {
-    /**
-     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_actor_id"?: string;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * When the event occurred, at most 5 minutes in the future. Format: date-time. minLength: 1.
-     */
-    "received_at": string;
-    /** minLength: 1. */
-    "receiving_location_id": string;
-    /**
-     * The system a return event came from, such as a point of sale or warehouse system, with its
-     * own identifier.
-     */
-    "source_system"?: ReturnSourceSystemRequest;
-};
-/**
- * The receipt of returned merchandise, with when and where it was received, supplied when
- * processing an existing return.
- */
-export type ReturnProcessReceiptRequestInput = {
-    /**
-     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_actor_id"?: string;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * When the event occurred, at most 5 minutes in the future. Format: date-time. minLength: 1.
-     */
-    "received_at": string | globalThis.Date;
-    /** minLength: 1. */
-    "receiving_location_id": string;
-    /**
-     * The system a return event came from, such as a point of sale or warehouse system, with its
-     * own identifier.
-     */
-    "source_system"?: ReturnSourceSystemRequestInput;
-};
-/**
- * The resolution to apply to a returned item, such as refund or exchange, with the quantity and
- * any replacement items.
- */
-export type ReturnProcessResolutionRequest = ({
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Where the gift-card-paid portion is refunded. original credits the original gift card;
-     * new_gift_card issues new gift cards. Accepted for refund, exchange, and correction, except a
-     * correction of store_credit. Omit for store_credit, replacement, and no_monetary_action;
-     * sending it returns INVALID_REQUEST with a NOT_ALLOWED detail and conflicting_fields naming
-     * resolution_type and gift_card_refund_destination. Store credit and its corrections always
-     * issue new gift cards. PATCH can change it only while proposed. Retry persists the chosen
-     * destination before starting the new attempt. Default: "original". Value enum: "original",
-     * "new_gift_card".
-     */
-    "gift_card_refund_destination"?: "original" | "new_gift_card" | (string & {});
-    /**
-     * Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50
-     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
-     * points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings,
-     * and keys starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /** Value enum: "original_price", "current_price", "merchant_agreed_price". */
-    "pricing_basis"?: "original_price" | "current_price" | "merchant_agreed_price" | (string & {});
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quantity": number;
-    /**
-     *  [] (Value): {@link ReturnReplacementLineItemRequest}. A replacement item to include in a
-     * return resolution, from a variant, a bundle, or a custom name and price.
-     */
-    "replacement_line_items"?: Array<ReturnReplacementLineItemRequest>;
-    /** Value enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit". */
-    "resolution_type": "refund" | "exchange" | "replacement" | "no_monetary_action" | "store_credit" | (string & {});
-});
-/**
- * The resolution to apply to a returned item, such as refund or exchange, with the quantity and
- * any replacement items.
- */
-export type ReturnProcessResolutionRequestInput = ({
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Where the gift-card-paid portion is refunded. original credits the original gift card;
-     * new_gift_card issues new gift cards. Accepted for refund, exchange, and correction, except a
-     * correction of store_credit. Omit for store_credit, replacement, and no_monetary_action;
-     * sending it returns INVALID_REQUEST with a NOT_ALLOWED detail and conflicting_fields naming
-     * resolution_type and gift_card_refund_destination. Store credit and its corrections always
-     * issue new gift cards. PATCH can change it only while proposed. Retry persists the chosen
-     * destination before starting the new attempt. Default: "original". Value enum: "original",
-     * "new_gift_card".
-     */
-    "gift_card_refund_destination"?: "original" | "new_gift_card";
-    /**
-     * Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50
-     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
-     * points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings,
-     * and keys starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /** Value enum: "original_price", "current_price", "merchant_agreed_price". */
-    "pricing_basis"?: "original_price" | "current_price" | "merchant_agreed_price";
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quantity": number;
-    /**
-     *  [] (Value): {@link ReturnReplacementLineItemRequestInput}. A replacement item to include in
-     * a return resolution, from a variant, a bundle, or a custom name and price.
-     */
-    "replacement_line_items"?: Array<ReturnReplacementLineItemRequestInput>;
-    /** Value enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit". */
-    "resolution_type": "refund" | "exchange" | "replacement" | "no_monetary_action" | "store_credit";
-});
-/**
- * The return is the primary resource and expected_version target; the other resources report the
- * processing effects.
- */
-export type ReturnProcessResult = {
-    /** A request to send purchased items back. */
-    "return": ReturnResource;
-    /**
-     *  [] (Value): {@link ReturnDisposition}. A decision about how returned merchandise will be
-     * handled.
-     */
-    "return_dispositions": Array<ReturnDisposition>;
-    /**  [] (Value): {@link ReturnInspection}. An assessment of the condition of returned items. */
-    "return_inspections": Array<ReturnInspection>;
-    /**  [] (Value): {@link ReturnReceipt}. A record of returned items arriving at a location. */
-    "return_receipts": Array<ReturnReceipt>;
-    /**
-     *  [] (Value): {@link ReturnResolution}. The refund, exchange, or other outcome of a return.
-     */
-    "return_resolutions": Array<ReturnResolution>;
-};
-/** A reason customers can select when requesting a return. */
-export type ReturnReason = {
-    /**
-     * Catalog category handles this reason applies to. A reason with categories is suggested, and
-     * accepted from a customer session, only for order lines whose product is in one of them. A
-     * reason with no categories applies to every line. Not product types or tags: use handles from
-     * GET /v1/categories. [] (Value): string.
-     */
-    "category_handles": Array<string>;
-    /** RFC3339 timestamp. Format: date-time. */
-    "created_at": string;
-    /** Longer explanation of when to use the reason. */
-    "description"?: string;
-    /** Caller-owned identifier for this resource in an external system. maxLength: 255. */
-    "external_reference_id"?: string;
-    /**
-     * Lowercase snake_case identifier, unique among your reasons. Flint's own reasons have fixed
-     * handles. Can't be changed after create, and an archived reason keeps its handle reserved.
-     * minLength: 1. maxLength: 100. pattern: ^[a-z][a-z0-9_]{0,99}$.
-     */
-    "handle": string;
-    /** Whether a Return line with this reason needs a buyer_note. */
-    "is_note_required": boolean;
-    /** Name buyers and staff see. */
-    "name": string;
-    /** Flint's ID for the reason. Send it as return_reason_id on a Return line. */
-    "return_reason_id": string;
-    /** Value enum: "flint", "merchant". */
-    "source": "flint" | "merchant" | (string & {});
-    /**
-     * Whether the reason is offered. An active reason is offered and accepted on new Return lines.
-     * An inactive reason is not offered or accepted until you set it back to active. An archived
-     * reason is retired for good and stays readable on Returns that recorded it. Archive a
-     * merchant reason with DELETE /v1/return-reasons/{return_reason_id}. Flint reasons cannot be
-     * deleted, but you can set them inactive. Value enum: "active", "archived", "inactive".
-     */
-    "status": "active" | "archived" | "inactive" | (string & {});
-    /** RFC3339 timestamp. Format: date-time. */
-    "updated_at": string;
-    /**
-     * Increases whenever the reason changes. Send it as expected_version to update or archive the
-     * reason only if it hasn't changed since you read it. Format: int64. minimum: 1.
-     */
-    "version": number;
-};
-/**
- * A return reason a buyer can pick for a line, with its `handle` and whether a note is required.
- */
-export type ReturnReasonSummary = {
-    "handle": string;
-    "is_note_required": boolean;
-    "name": string;
-    "return_reason_id": string;
-};
-export type ReturnReasonsCreateParams = (InputValue<CreateReturnReasonRequestInput>);
-export type ReturnReasonsDeleteParams = {
-    /**
-     * Optional. The reason's current version. If it changed, the archive fails with 409
-     * VERSION_CONFLICT and nothing changes. Format: int64. minimum: 1.
-     */
-    "expected_version"?: InputValue<number>;
-};
-export type ReturnReasonsGetParams = {};
-export type ReturnReasonsListParams = {
-    /**
-     * Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: InputValue<string>;
-    /** Exact, case-sensitive match on the reason's handle, for Flint and merchant reasons. */
-    "handle"?: InputValue<string>;
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. Format: int32. minimum:
-     * 1. maximum: 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque next_page_token from the previous response. Omit on the first request. You may change
-     * `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request
-     * context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns
-     * a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /** Search by return reason ID, handle, name, description, or external reference ID. */
-    "query"?: InputValue<string>;
-    /**
-     * Filter by source. Accepts repeated keys, comma-separated values, or mixtures. Values are
-     * trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values
-     * within this filter are ORed; separate filters are ANDed. [] enum: "flint", "merchant". Value
-     * enum: "flint", "merchant". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "flint",
-     * "merchant". anyOf[1][] (Value): string. Value enum: "flint", "merchant". anyOf[2] (Value):
-     * string. Value enum: "flint", "merchant".
-     */
-    "source"?: InputValue<("flint" | "merchant") | readonly ("flint" | "merchant")[]>;
-    /**
-     * Filter by status. Repeat the parameter or send comma-separated values to match any of
-     * several. Omitted, the list leaves out archived rows; name archived to include them. Accepts
-     * repeated keys, comma-separated values, or mixtures. Values are trimmed and deduplicated in
-     * first-seen order; empty or unknown entries are rejected. Values within this filter are ORed;
-     * separate filters are ANDed. [] enum: "active", "archived", "inactive". Value enum: "active",
-     * "archived", "inactive". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "active",
-     * "archived", "inactive". anyOf[1][] (Value): string. Value enum: "active", "archived",
-     * "inactive". anyOf[2] (Value): string. Value enum: "active", "archived", "inactive".
-     */
-    "status"?: InputValue<("active" | "archived" | "inactive") | readonly ("active" | "archived" | "inactive")[]>;
-};
-export type ReturnReasonsUpdateParams = (InputValue<UpdateReturnReasonRequestInput>);
-/** A record of returned items arriving at a location. */
-export type ReturnReceipt = {
-    /**
-     * Value enum: "entry_error", "duplicate_observation", "source_correction",
-     * "reconciliation_correction", "other".
-     */
-    "correction_reason"?: "entry_error"
-        | "duplicate_observation"
-        | "source_correction"
-        | "reconciliation_correction"
-        | "other"
-        | (string & {});
-    "correction_reason_message"?: string;
-    /** RFC3339 timestamp. Format: date-time. */
-    "created_at": string;
-    /**
-     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
-     * maxLength: 255.
-     */
-    "external_actor_id"?: string;
-    /** Caller-owned identifier for this resource in an external system. maxLength: 255. */
-    "external_reference_id"?: string;
-    /**
-     *  [] (Value): {@link ReturnDisposition}. A decision about how returned merchandise will be
-     * handled.
-     */
-    "generated_dispositions": Array<ReturnDisposition>;
-    /**  [] (Value): {@link ReturnReceiptLineItem}. A returned item recorded as received. */
-    "line_items": Array<ReturnReceiptLineItem>;
-    /** RFC3339 timestamp. Format: date-time. */
-    "received_at": string;
-    "receiving_location_id": string;
-    "return_id": string;
-    "return_receipt_id": string;
-    "shipment_id"?: string;
-    /**
-     *  anyOf[1] (Value): {@link ReturnSourceSystem}. The system a return event came from, such as
-     * a point of sale or warehouse system, with its own identifier. anyOf[2] (Value): null.
-     */
-    "source_system": ((ReturnSourceSystem) | (null));
-    /** Value enum: "current", "superseded". */
-    "status": "current" | "superseded" | (string & {});
-    /** RFC3339 timestamp. Format: date-time. */
-    "superseded_at"?: string;
-    "superseded_by_return_receipt_id"?: string;
-    "supersedes_return_receipt_id"?: string;
-    /** RFC3339 timestamp. Format: date-time. */
-    "updated_at": string;
-    /** Format: int64. minimum: 1. */
-    "version": number;
-};
-export type ReturnReceiptCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": ReturnReceipt;
-    };
-    "event_type"?: "return_receipt.created";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": ReturnReceipt;
-    };
-    "event_type"?: "return_receipt.created";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "return_receipt.created";
-});
-/**
- * The `return_receipt.created` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type ReturnReceiptCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link ReturnReceipt}. A record of returned items arriving at a
-     * location.
-     */
-    "data"?: {
-        /** A record of returned items arriving at a location. */
-        "object": ReturnReceipt;
-    };
-    /** Value enum: "return_receipt.created". */
-    "event_type"?: "return_receipt.created";
-    /**
-     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
-     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
-     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        /** Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        /** Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});

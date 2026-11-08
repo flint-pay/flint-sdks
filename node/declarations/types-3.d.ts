@@ -10,25 +10,23 @@ import type {
 } from './types-2.js';
 import type { ResponseMeta } from './types-48.js';
 import type { MoneyValue, MoneyValueInput } from './types-35.js';
-import type { ReturnReplacementLineItem, ReturnResolutionLineItem, ReturnResolutionLineItemRequest } from './types-50.js';
+import type { ReturnReplacementLineItem } from './types-50.js';
+import type { ReturnResolutionLineItem, ReturnResolutionLineItemRequest } from './types-51.js';
 import type { BuyerCheckoutSessionWithSecret, BuyerAction, BuyerExpandedSubscriptionPlanSummary } from './types-1.js';
-import type {
-    SubscriptionDelivery,
-    SubscriptionDeliveryHold,
-    SubscriptionIntervalOption,
-    SubscriptionDeliveryOption
-} from './types-54.js';
-import type { SubscriptionPromotion, SubscriptionUpcomingDeliveryHold, SubscriptionRenewalPreview } from './types-56.js';
+import type { SubscriptionDelivery, SubscriptionDeliveryHold, SubscriptionAddressVerification } from './types-54.js';
+import type { SubscriptionIntervalOption, SubscriptionDeliveryOption } from './types-55.js';
+import type { SubscriptionPromotion, SubscriptionPlanSwapVariant, SubscriptionRenewalPreview } from './types-56.js';
+import type { SubscriptionUpcomingDeliveryHold } from './types-57.js';
 import type { CategoryReference } from './types-4.js';
 import type { Image } from './types-25.js';
-import type { SelectedProductOption, SubscriptionAddressVerification } from './types-53.js';
-import type { PaymentErrorSummary, PayOrderResponse } from './types-40.js';
+import type { SelectedProductOption } from './types-53.js';
+import type { PaymentErrorSummary } from './types-41.js';
 import type { OrderLineItemTax } from './types-37.js';
-import type { SubscriptionPlanSwapVariant } from './types-55.js';
 import type { Address } from './types-0.js';
-import type { TipPaymentIntentAllocation, TipValueSettlementAllocation } from './types-57.js';
+import type { TipPaymentIntentAllocation, TipValueSettlementAllocation } from './types-58.js';
+import type { ContextSummary } from './types-6.js';
 import type { DeliveryWindowRequest, DeliveryWindowRequestInput } from './types-19.js';
-import type { GetReturnDispositionResponse, GetReturnResponse } from './types-23.js';
+import type { PayOrderResponse } from './types-40.js';
 /** A response containing `BuyerReturnPreview` data. */
 export type BuyerReturnPreviewResponse = {
     /** A Return eligibility or resolution preview shown to the buyer, selected by mode. */
@@ -1437,6 +1435,167 @@ export type BuyerTip = {
      */
     "value_settlement_allocations": Array<TipValueSettlementAllocation>;
 };
+/** The request body for: List authorized CLI contexts. */
+export type CLIContextsRequest = ({
+    /** Value enum: "flint-cli". */
+    "client_id": "flint-cli" | (string & {});
+    "refresh_token": string;
+});
+/** The request body for: List authorized CLI contexts. */
+export type CLIContextsRequestInput = ({
+    /** Value enum: "flint-cli". */
+    "client_id": "flint-cli";
+    "refresh_token": string;
+})
+    & ({
+    "client_secret"?: never;
+});
+/** The response for: List authorized CLI contexts. */
+export type CLIContextsResponse = {
+    /**
+     * maxItems: 100. [] (Value): {@link ContextSummary}. A context the CLI is authorized to use: a
+     * sandbox or live account, with its ID, merchant ID, and name.
+     */
+    "contexts": Array<ContextSummary>;
+    "oauth_session_id": string;
+};
+/** The request body for: Start CLI browser login. */
+export type CLIDeviceRequest = ({
+    /** Value enum: "flint-cli". */
+    "client_id": "flint-cli" | (string & {});
+    /**
+     * Optional compatibility field for the computer name sent by released Flint CLI versions.
+     * Accepted and ignored.
+     */
+    "device_name"?: string;
+    "merchant_id"?: string;
+    /** Value enum: "test", "live". */
+    "mode"?: "test" | "live" | (string & {});
+    /**
+     * Optional compatibility field for the operating system sent by released Flint CLI versions.
+     * Accepted and ignored.
+     */
+    "platform"?: string;
+    "sandbox_id"?: string;
+    /**
+     * Required space-separated public API scope names. Only requested scopes approved in the
+     * browser are granted. Normal login sends x-flint-cli-bootstrap-scopes; explicit requests may
+     * use x-flint-cli-allowed-scopes. Unsupported scopes return invalid_scope. minLength: 1.
+     */
+    "scope": string;
+    /** Value enum: "contexts". */
+    "session_mode"?: "contexts" | (string & {});
+});
+/** The request body for: Start CLI browser login. */
+export type CLIDeviceRequestInput = ({
+    /** Value enum: "flint-cli". */
+    "client_id": "flint-cli";
+    /**
+     * Optional compatibility field for the computer name sent by released Flint CLI versions.
+     * Accepted and ignored.
+     */
+    "device_name"?: string;
+    "merchant_id"?: string;
+    /** Value enum: "test", "live". */
+    "mode"?: "test" | "live";
+    /**
+     * Optional compatibility field for the operating system sent by released Flint CLI versions.
+     * Accepted and ignored.
+     */
+    "platform"?: string;
+    "sandbox_id"?: string;
+    /**
+     * Required space-separated public API scope names. Only requested scopes approved in the
+     * browser are granted. Normal login sends x-flint-cli-bootstrap-scopes; explicit requests may
+     * use x-flint-cli-allowed-scopes. Unsupported scopes return invalid_scope. minLength: 1.
+     */
+    "scope": string;
+    /** Value enum: "contexts". */
+    "session_mode"?: "contexts";
+})
+    & ({
+    "client_secret"?: never;
+});
+/** The response for: Review CLI session consent; Start CLI browser login. */
+export type CLIDeviceResponse = {
+    /** minLength: 1. maxLength: 4096. */
+    "device_code": string;
+    /** minimum: 1. maximum: 1800. */
+    "expires_in": number;
+    /** minimum: 1. maximum: 60. */
+    "interval": number;
+    /** minLength: 4. maxLength: 32. pattern: ^[!-~]+$. */
+    "user_code": string;
+    "verification_uri": string;
+    "verification_uri_complete": string;
+};
+/** The request body for: Review CLI session consent. */
+export type CLIReauthorizeRequest = ({
+    /** Value enum: "flint-cli". */
+    "client_id": "flint-cli" | (string & {});
+    /** minLength: 1. */
+    "context_id"?: string;
+    /**
+     * Optional compatibility field for the computer name sent by released Flint CLI versions.
+     * Accepted and ignored.
+     */
+    "device_name"?: string;
+    "merchant_id"?: string;
+    /** Value enum: "test", "live". */
+    "mode"?: "test" | "live" | (string & {});
+    /**
+     * Optional compatibility field for the operating system sent by released Flint CLI versions.
+     * Accepted and ignored.
+     */
+    "platform"?: string;
+    "refresh_token": string;
+    "sandbox_id"?: string;
+    /**
+     * Required space-separated public API scope names. Only requested scopes approved in the
+     * browser are granted. Normal login sends x-flint-cli-bootstrap-scopes; explicit requests may
+     * use x-flint-cli-allowed-scopes. Unsupported scopes return invalid_scope. minLength: 1.
+     */
+    "scope": string;
+    /** Value enum: "additive". */
+    "scope_mode"?: "additive" | (string & {});
+    /** Value enum: "contexts". */
+    "session_mode": "contexts" | (string & {});
+});
+/** The request body for: Review CLI session consent. */
+export type CLIReauthorizeRequestInput = ({
+    /** Value enum: "flint-cli". */
+    "client_id": "flint-cli";
+    /** minLength: 1. */
+    "context_id"?: string;
+    /**
+     * Optional compatibility field for the computer name sent by released Flint CLI versions.
+     * Accepted and ignored.
+     */
+    "device_name"?: string;
+    "merchant_id"?: string;
+    /** Value enum: "test", "live". */
+    "mode"?: "test" | "live";
+    /**
+     * Optional compatibility field for the operating system sent by released Flint CLI versions.
+     * Accepted and ignored.
+     */
+    "platform"?: string;
+    "refresh_token": string;
+    "sandbox_id"?: string;
+    /**
+     * Required space-separated public API scope names. Only requested scopes approved in the
+     * browser are granted. Normal login sends x-flint-cli-bootstrap-scopes; explicit requests may
+     * use x-flint-cli-allowed-scopes. Unsupported scopes return invalid_scope. minLength: 1.
+     */
+    "scope": string;
+    /** Value enum: "additive". */
+    "scope_mode"?: "additive";
+    /** Value enum: "contexts". */
+    "session_mode": "contexts";
+})
+    & ({
+    "client_secret"?: never;
+});
 /**
  * The rate result you supply for one delivery method and choice group when creating a delivery
  * quote with caller-supplied pricing.
@@ -2205,83 +2364,3 @@ export type CancelPaymentIntentRequestInput = {
 };
 /** The request body for: Cancel a payout. */
 export type CancelPayoutRequest = {};
-/** The request body for: Cancel a payout. */
-export type CancelPayoutRequestInput = {};
-/** The request body for: Cancel return disposition. */
-export type CancelReturnDispositionRequest = {
-    /**
-     * Optional. The disposition's current version; a stale value returns 409 VERSION_CONFLICT.
-     * Format: int64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /** Value enum: "created_in_error", "changed_disposition", "duplicate", "other". */
-    "reason": "created_in_error" | "changed_disposition" | "duplicate" | "other" | (string & {});
-    /** minLength: 1. */
-    "reason_message"?: string;
-};
-/** The request body for: Cancel return disposition. */
-export type CancelReturnDispositionRequestInput = {
-    /**
-     * Optional. The disposition's current version; a stale value returns 409 VERSION_CONFLICT.
-     * Format: int64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /** Value enum: "created_in_error", "changed_disposition", "duplicate", "other". */
-    "reason": "created_in_error" | "changed_disposition" | "duplicate" | "other";
-    /** minLength: 1. */
-    "reason_message"?: string;
-};
-export type CancelReturnDispositionResponse = GetReturnDispositionResponse;
-/** The request body for: Cancel return line item. */
-export type CancelReturnLineItemRequest = {
-    /** Format: int64. minimum: 1. */
-    "expected_version"?: number;
-    /**
-     * How many of the canceled units the buyer no longer has to send back, as a whole number;
-     * fractional quantities are not supported. Lowers return_required_quantity. Omit it to lower
-     * it only as far as the canceled quantity requires. Format: int64.
-     */
-    "handback_quantity"?: number;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quantity": number;
-    /** Value enum: "buyer_request", "merchant_request", "expired", "created_in_error", "other". */
-    "reason": "buyer_request" | "merchant_request" | "expired" | "created_in_error" | "other" | (string & {});
-    /** minLength: 1. */
-    "reason_message"?: string;
-};
-/** The request body for: Cancel return line item. */
-export type CancelReturnLineItemRequestInput = {
-    /** Format: int64. minimum: 1. */
-    "expected_version"?: number;
-    /**
-     * How many of the canceled units the buyer no longer has to send back, as a whole number;
-     * fractional quantities are not supported. Lowers return_required_quantity. Omit it to lower
-     * it only as far as the canceled quantity requires. Format: int64.
-     */
-    "handback_quantity"?: number;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quantity": number;
-    /** Value enum: "buyer_request", "merchant_request", "expired", "created_in_error", "other". */
-    "reason": "buyer_request" | "merchant_request" | "expired" | "created_in_error" | "other";
-    /** minLength: 1. */
-    "reason_message"?: string;
-};
-export type CancelReturnLineItemResponse = GetReturnResponse;
-/** The request body for: Cancel one of the current buyer's Returns; Cancel return. */
-export type CancelReturnRequest = {
-    /** Format: int64. minimum: 1. */
-    "expected_version"?: number;
-    /**
-     * Value enum: "buyer_request", "merchant_request", "duplicate", "expired", "created_in_error",
-     * "other".
-     */
-    "reason": "buyer_request"
-        | "merchant_request"
-        | "duplicate"
-        | "expired"
-        | "created_in_error"
-        | "other"
-        | (string & {});
-    /** minLength: 1. */
-    "reason_message"?: string;
-};

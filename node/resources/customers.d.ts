@@ -8,10 +8,10 @@ import type {
     CustomerAddressResponse,
     CustomerListResponse,
     CustomerResponse,
-    CustomerSessionsRevocation,
-    CustomerSessionsRevocationResponse
+    CustomerSessionsRevocation
 } from '../declarations/types-13.js';
 import type {
+    CustomerSessionsRevocationResponse,
     CustomersCreateAccessLinkParams,
     CustomersCreateAddressParams,
     CustomersCreateParams,
@@ -26,8 +26,8 @@ import type {
     CustomersUpdateParams
 } from '../declarations/types-14.js';
 import type { GuestPurchaseLink, GuestPurchaseLinkResponse } from '../declarations/types-25.js';
-import type { RequestOptions } from '../declarations/types-47.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { RequestOptions } from '../declarations/types-48.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -53,10 +53,11 @@ export type {
     CustomersListAddressesParams,
     CustomersListParams,
     CustomersRevokeSessionsParams,
+    CustomerSessionsRevocationResponse,
     CustomersUpdateParams,
     CustomersUpdateAddressParams
 } from '../declarations/types-14.js';
-export type { RequestOptions } from '../declarations/types-47.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
 export type {
     Customer,
     CustomerResponse,
@@ -65,42 +66,40 @@ export type {
     CustomerAddressListResponse,
     CustomerListResponse,
     CustomerSessionsRevocation,
-    CustomerSessionsRevocationResponse,
     CustomerReceivables,
     CustomerReceivableBalance
 } from '../declarations/types-13.js';
 export type { AccessLink, AccessLinkResponse, AddressRequestInput, AuthMode, Address, AddressRequest } from '../declarations/types-0.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { GuestPurchaseLink, GuestPurchaseLinkResponse } from '../declarations/types-25.js';
 export type { ClientOptions, CheckoutSessionsListDeliverySelectionsParams } from '../declarations/types-5.js';
-export type { CreateCustomerRequestInput } from '../declarations/types-7.js';
-export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-34.js';
+export type { CreateCustomerRequestInput, CreateCustomerAddressRequestInput } from '../declarations/types-7.js';
+export type {
+    MetadataRequestInput,
+    MetadataMap,
+    MoneyValue,
+    NextAction,
+    MetadataPatchRequestInput,
+    MetadataPatchRequest
+} from '../declarations/types-35.js';
 export type { TaxIdentityRequestInput, TaxIdentity, TaxIdentityPatchInput } from '../declarations/types-57.js';
-export type { DocumentTaxIDRequestInput, ExpandedPaymentMethodSummary } from '../declarations/types-21.js';
+export type { DocumentTaxIDRequestInput, ExpandedPaymentMethodSummary, DocumentTaxID } from '../declarations/types-21.js';
 export type { Credentials } from '../declarations/types-12.js';
 export type { CardDetails } from '../declarations/types-4.js';
-export type { MoneyValue, NextAction } from '../declarations/types-35.js';
-export type { DocumentTaxID } from '../declarations/types-20.js';
-export type { ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
-export type { CreateCustomerAddressRequestInput } from '../declarations/types-6.js';
 export type { LinkCustomerGuestPurchasesRequestInput, LinkCustomerGuestPurchasesRequest } from '../declarations/types-32.js';
 export type { UpdateCustomerRequestInput, UpdateCustomerAddressRequestInput } from '../declarations/types-58.js';
-export { makeAddressRequest } from '../declarations/types-61.js';
+export { makeAddressRequest } from '../declarations/types-62.js';
 export { makeCreateCustomerAddressRequest, makeCreateCustomerRequest } from '../declarations/types-63.js';
 export { makeDocumentTaxIDRequest } from '../declarations/types-67.js';
-export {
-    makeLinkCustomerGuestPurchasesRequest,
-    makeMetadataPatchRequest,
-    makeMetadataRequest,
-    makeMoneyValue
-} from '../declarations/types-69.js';
+export { makeLinkCustomerGuestPurchasesRequest, makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-69.js';
+export { makeMoneyValue } from '../declarations/types-70.js';
 export {
     makeTaxIdentityPatch,
     makeTaxIdentityRequest,
     makeUpdateCustomerAddressRequest,
     makeUpdateCustomerRequest
-} from '../declarations/types-73.js';
+} from '../declarations/types-74.js';
 export interface CustomersResource {
     /**
  * Creates a customer for the authenticated merchant.

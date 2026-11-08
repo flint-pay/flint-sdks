@@ -1,7 +1,13 @@
 [Model index](../MODELS.md)
 
-# InvoiceScheduleDueAtIssueInput to ModifierSetArchivedInstalledMerchantsEventInput
+# InvoiceResponseInput to ModifierGroupResponseInput
 
+- [InvoiceResponseInput](InvoiceResponseInput.md)
+- [InvoiceScheduleAmountSpecificationInput](InvoiceScheduleAmountSpecificationInput.md)
+- [InvoiceScheduleAmountSpecificationFixedInput](InvoiceScheduleAmountSpecificationFixedInput.md)
+- [InvoiceScheduleAmountSpecificationPercentageInput](InvoiceScheduleAmountSpecificationPercentageInput.md)
+- [InvoiceScheduleAmountSpecificationRemainingBalanceInput](InvoiceScheduleAmountSpecificationRemainingBalanceInput.md)
+- [InvoiceScheduleDueInput](InvoiceScheduleDueInput.md)
 - [InvoiceScheduleDueAtIssueInput](InvoiceScheduleDueAtIssueInput.md)
 - [InvoiceScheduleDueDateInput](InvoiceScheduleDueDateInput.md)
 - [InvoiceScheduleDueInvoiceDueDateInput](InvoiceScheduleDueInvoiceDueDateInput.md)
@@ -96,10 +102,4 @@
 - [ModifierGroupCreatedMerchantEventInput](ModifierGroupCreatedMerchantEventInput.md)
 - [ModifierGroupListResponseInput](ModifierGroupListResponseInput.md)
 - [ModifierGroupResponseInput](ModifierGroupResponseInput.md)
-- [ModifierGroupUpdatedInstalledMerchantsEventInput](ModifierGroupUpdatedInstalledMerchantsEventInput.md)
-- [ModifierGroupUpdatedMerchantEventInput](ModifierGroupUpdatedMerchantEventInput.md)
-- [ModifierOverrideInput](ModifierOverrideInput.md)
-- [ModifierRequestInput](ModifierRequestInput.md)
-- [ModifierSetInput](ModifierSetInput.md)
-- [ModifierSetArchivedInstalledMerchantsEventInput](ModifierSetArchivedInstalledMerchantsEventInput.md)
 

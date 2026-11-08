@@ -1,7 +1,16 @@
 [Model index](../MODELS.md)
 
-# DeliveryPendingCallerRateRequest to DeliveryQuoteLineItemResource
+# DeliveryMethodOriginSelectorInputPickupLocationCollectionLocations to DeliveryProfileOriginPolicyInputMethodOriginInput
 
+- [DeliveryMethodOriginSelectorInputPickupLocationCollectionLocations](DeliveryMethodOriginSelectorInputPickupLocationCollectionLocations.md)
+- [DeliveryMethodOriginSelectorInputPickupLocationCollectionLocationsInput](DeliveryMethodOriginSelectorInputPickupLocationCollectionLocationsInput.md)
+- [DeliveryMethodOriginSelectorPickupLocationCollection](DeliveryMethodOriginSelectorPickupLocationCollection.md)
+- [DeliveryMethodOriginSelectorRequest](DeliveryMethodOriginSelectorRequest.md)
+- [DeliveryMethodOriginSelectorRequestInput](DeliveryMethodOriginSelectorRequestInput.md)
+- [DeliveryMethodResponse](DeliveryMethodResponse.md)
+- [DeliveryMethodUpdatedInstalledMerchantsEvent](DeliveryMethodUpdatedInstalledMerchantsEvent.md)
+- [DeliveryMethodUpdatedMerchantEvent](DeliveryMethodUpdatedMerchantEvent.md)
+- [DeliveryOptionProjection](DeliveryOptionProjection.md)
 - [DeliveryPendingCallerRateRequest](DeliveryPendingCallerRateRequest.md)
 - [DeliveryPickupAvailability](DeliveryPickupAvailability.md)
 - [DeliveryPickupAvailabilityCandidateOutcome](DeliveryPickupAvailabilityCandidateOutcome.md)
@@ -93,13 +102,4 @@
 - [DeliveryProfileOriginPolicyInputInventoryRoutingInput](DeliveryProfileOriginPolicyInputInventoryRoutingInput.md)
 - [DeliveryProfileOriginPolicyInputMethodOrigin](DeliveryProfileOriginPolicyInputMethodOrigin.md)
 - [DeliveryProfileOriginPolicyInputMethodOriginInput](DeliveryProfileOriginPolicyInputMethodOriginInput.md)
-- [DeliveryProfileOriginPolicyRequest](DeliveryProfileOriginPolicyRequest.md)
-- [DeliveryProfileOriginPolicyRequestInput](DeliveryProfileOriginPolicyRequestInput.md)
-- [DeliveryProfileResponse](DeliveryProfileResponse.md)
-- [DeliveryProfileUpdatedInstalledMerchantsEvent](DeliveryProfileUpdatedInstalledMerchantsEvent.md)
-- [DeliveryProfileUpdatedMerchantEvent](DeliveryProfileUpdatedMerchantEvent.md)
-- [DeliveryQuote](DeliveryQuote.md)
-- [DeliveryQuoteChoiceGroupResource](DeliveryQuoteChoiceGroupResource.md)
-- [DeliveryQuoteExecutionLegResource](DeliveryQuoteExecutionLegResource.md)
-- [DeliveryQuoteLineItemResource](DeliveryQuoteLineItemResource.md)
 

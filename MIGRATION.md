@@ -579,7 +579,7 @@ const flint = new Client({ baseUrl: process.env.FLINT_BASE_URL || undefined });
 
 ## Packaging
 
-- `oauth.authorizePartnerInstall` is removed. `GET /v1/oauth/authorize` is a browser redirect to Flint's consent screen, so an API call can't complete it. Send the merchant's browser to `https://api.withflintpay.com/v1/oauth/authorize` with your query parameters; see [partner app installs](https://developers.withflintpay.com/docs/guides/partner-app-installs). `oauth.previewPartnerInstallAuthorization` stays.
+- `oauth.authorizePartnerInstall` is removed. `GET /v1/oauth/authorize` is a browser redirect to Flint's consent screen, so an API call can't complete it. Send the merchant's browser to `https://api.withflintpay.com/v1/oauth/authorize` with your query parameters; see [partner app installs](https://developers.withflintpay.com/docs/guides/partner-app-installs). Unreleased helpers on `main` build that URL with PKCE and `state`: `buildAuthorizeUrl` from `@flintpay/node/custom/partner-oauth.js`, or `Flint\Partner\OAuth::buildAuthorizeUrl` in PHP. See the [partner OAuth guide](node/guides/partner-oauth.md). `oauth.previewPartnerInstallAuthorization` stays.
 - The Composer package no longer ships the repository's internal agent and contributor files (`AGENTS.md`, `CLAUDE.md`, `claude/`, `CONTRIBUTING.md`). It now includes `MIGRATION.md` and `CHANGELOG.md`.
 - Release notes move from the root README to `CHANGELOG.md` and GitHub Releases.
 

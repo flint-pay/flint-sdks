@@ -1,22 +1,20 @@
-import type { ResourceReference } from './types-47.js';
-import type { ResponseMeta, ResourceType } from './types-48.js';
+import type { ResourceReference, ResponseMeta, ResourceType } from './types-48.js';
 import type { CreateOrderLineItem, CreateOrderLineItemRequestInput } from './types-9.js';
 import type { OrderChargeRequest, OrderChargeRequestInput } from './types-36.js';
 import type { ReturnLineItemRequest, ReturnLineItemRequestInput } from './types-49.js';
-import type { GetReturnResponse, GiftCard, GiftCardLoad } from './types-23.js';
-import type { RiskListItemAddition } from './types-51.js';
-import type { MoneyValue, MoneyMovementListMeta } from './types-35.js';
+import type { GetReturnResponse, GiftCard } from './types-23.js';
+import type { RiskListItemAddition } from './types-52.js';
+import type { MoneyValue, MoneyMovementListMeta, MerchantWebhookEnvelope } from './types-35.js';
 import type { SignedMoneyRequestInput } from './types-53.js';
-import type { GiftCardTransaction } from './types-24.js';
+import type { GiftCardLoad } from './types-24.js';
+import type { GiftCardTransaction } from './types-25.js';
 import type { InputValue } from '../runtime.js';
-import type { CreateAPIKeyRequestInput } from './types-6.js';
-import type { ConfigurationVersionRequestInput } from './types-5.js';
+import type { CreateAPIKeyRequestInput, ConfigurationVersionRequestInput } from './types-6.js';
 import type { UpdateAPIKeyRequestInput } from './types-58.js';
 import type { ManualDiscountRequest, ManualDiscountRequestInput } from './types-33.js';
-import type { PromotionRefRequest, PromotionRefRequestInput } from './types-45.js';
+import type { PromotionRefRequest, PromotionRefRequestInput } from './types-46.js';
 import type { Credentials } from './types-12.js';
 import type { ExpandedOrderSummary } from './types-21.js';
-import type { MerchantWebhookEnvelope } from './types-34.js';
 /** A credential used to authenticate API requests. */
 export type APIKey = {
     /**

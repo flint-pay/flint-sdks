@@ -1,1 +1,1 @@
-{"shared":"CreateAPIKeyRequestReadOnly","dependencies":["CreateAPIKeyRequestReadOnly","SharedCodec128","SharedCodec3"]}
+{"shared":"CreateAPIKeyRequestReadOnly","dependencies":["CreateAPIKeyRequestReadOnly","SharedCodec130","SharedCodec3"]}

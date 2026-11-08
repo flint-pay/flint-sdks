@@ -1,7 +1,16 @@
 [Model index](../MODELS.md)
 
-# DeliveryZoneUpdatedInstalledMerchantsEvent to FulfillmentFailedMerchantEvent
+# DeliveryZoneConditionInput to FulfillmentCompletedMerchantEvent
 
+- [DeliveryZoneConditionInput](DeliveryZoneConditionInput.md)
+- [DeliveryZoneConfiguration](DeliveryZoneConfiguration.md)
+- [DeliveryZoneConfigurationInput](DeliveryZoneConfigurationInput.md)
+- [DeliveryZoneCreatedInstalledMerchantsEvent](DeliveryZoneCreatedInstalledMerchantsEvent.md)
+- [DeliveryZoneCreatedMerchantEvent](DeliveryZoneCreatedMerchantEvent.md)
+- [DeliveryZoneDeactivatedInstalledMerchantsEvent](DeliveryZoneDeactivatedInstalledMerchantsEvent.md)
+- [DeliveryZoneDeactivatedMerchantEvent](DeliveryZoneDeactivatedMerchantEvent.md)
+- [DeliveryZoneListResponse](DeliveryZoneListResponse.md)
+- [DeliveryZoneResponse](DeliveryZoneResponse.md)
 - [DeliveryZoneUpdatedInstalledMerchantsEvent](DeliveryZoneUpdatedInstalledMerchantsEvent.md)
 - [DeliveryZoneUpdatedMerchantEvent](DeliveryZoneUpdatedMerchantEvent.md)
 - [DemoSession](DemoSession.md)
@@ -93,13 +102,4 @@
 - [FulfillmentChargeLink](FulfillmentChargeLink.md)
 - [FulfillmentCompletedInstalledMerchantsEvent](FulfillmentCompletedInstalledMerchantsEvent.md)
 - [FulfillmentCompletedMerchantEvent](FulfillmentCompletedMerchantEvent.md)
-- [FulfillmentCreatedInstalledMerchantsEvent](FulfillmentCreatedInstalledMerchantsEvent.md)
-- [FulfillmentCreatedMerchantEvent](FulfillmentCreatedMerchantEvent.md)
-- [FulfillmentEvent](FulfillmentEvent.md)
-- [FulfillmentEventCreatedInstalledMerchantsEvent](FulfillmentEventCreatedInstalledMerchantsEvent.md)
-- [FulfillmentEventCreatedMerchantEvent](FulfillmentEventCreatedMerchantEvent.md)
-- [FulfillmentEventListResponse](FulfillmentEventListResponse.md)
-- [FulfillmentEventResourceResponse](FulfillmentEventResourceResponse.md)
-- [FulfillmentFailedInstalledMerchantsEvent](FulfillmentFailedInstalledMerchantsEvent.md)
-- [FulfillmentFailedMerchantEvent](FulfillmentFailedMerchantEvent.md)
 

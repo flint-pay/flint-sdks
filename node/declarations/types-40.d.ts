@@ -1,26 +1,532 @@
-import type { CreatePartnerAppCredentialRequestInput, CreatePartnerAppRequestInput } from './types-9.js';
-import type { InputValue } from '../runtime.js';
-import type { CheckoutSessionsListDeliverySelectionsParams } from './types-5.js';
-import type { RotatePartnerAppSecretRequestInput } from './types-52.js';
-import type { UpdatePartnerAppRequestInput } from './types-59.js';
-import type { PartnerAppPermissionManifestEntry } from './types-39.js';
 import type { ResponseMeta } from './types-48.js';
+import type {
+    WorkloadIdentityClaimCondition,
+    WorkloadIdentityClaimConditionRequest,
+    WorkloadIdentityClaimConditionRequestInput
+} from './types-62.js';
+import type { InputValue } from '../runtime.js';
+import type { CreatePartnerAppCredentialRequestInput, CreatePartnerAppRequestInput } from './types-9.js';
+import type { CheckoutSessionsListDeliverySelectionsParams } from './types-5.js';
+import type { RotatePartnerAppSecretRequestInput } from './types-53.js';
+import type { UpdatePartnerAppRequestInput } from './types-59.js';
 import type { WebhookEventSource } from './types-61.js';
 import type { CheckoutBuyerContactRequest, CheckoutBuyerContactRequestInput } from './types-4.js';
 import type { MoneyValue, MoneyValueInput } from './types-35.js';
-import type { OrderGiftCardAllocationAcceptance, OrderGiftCardAllocationAcceptanceInput, Order } from './types-36.js';
-import type { OrderPaymentIntentSelection, OrderPaymentIntentSelectionInput, OrderPaymentAttempt } from './types-37.js';
+import type {
+    OrderGiftCardAllocationAcceptance,
+    OrderPaymentIntentSelection,
+    OrderGiftCardAllocationAcceptanceInput,
+    OrderPaymentIntentSelectionInput,
+    OrderPaymentAttempt
+} from './types-37.js';
 import type {
     PaymentSourceCredential,
     PaymentSourceCredentialInput,
     PaymentSourceCredentialToken,
-    PaymentSourceCredentialTokenInput,
-    PaymentRisk,
-    PaymentSourceSummary
+    PaymentSourceCredentialTokenInput
 } from './types-43.js';
-import type { StripePaymentClientAction, SelectableOrderPaymentIntent } from './types-53.js';
-import type { ErrorRemediation, ExpandedCustomerSummary, ExpandedInvoiceSummary, ExpandedOrderSummary } from './types-21.js';
-import type { MetadataMap, MerchantWebhookEnvelope } from './types-34.js';
+import type { Order } from './types-36.js';
+import type { PaymentErrorSummary } from './types-41.js';
+/** An application that merchants can authorize to access their accounts. */
+export type PartnerApp = {
+    /**
+     * Every Flint scope the app can hold: the union of required_scopes across the manifest. An
+     * install grants only the scopes of the permissions the merchant approves. [] (Value): string.
+     */
+    "allowed_scopes": Array<string>;
+    /**
+     * API version for requests the app makes with its install tokens that send no Flint-Version
+     * header.
+     */
+    "api_version": string;
+    /** RFC3339 timestamp. Format: date-time. */
+    "api_version_changed_at"?: string;
+    /**
+     * Version the app used before its last upgrade. Present while a rollback is available. To roll
+     * back, send it as api_version.
+     */
+    "api_version_previous"?: string;
+    /**
+     * Public identifier the app sends as client_id in OAuth authorization and token requests.
+     * Doesn't change.
+     */
+    "client_id": string;
+    /**
+     * Whether the app can authenticate with a client secret. When false, it authenticates with a
+     * registered credential.
+     */
+    "client_secret_enabled": boolean;
+    /** RFC3339 timestamp. Format: date-time. */
+    "client_secret_last_used_at": string | null;
+    /** RFC3339 timestamp. Format: date-time. */
+    "created_at"?: string;
+    /**
+     * IDs of the permissions requested when an authorization request sends no scope. Defaults to
+     * every permission in the manifest that isn't optional. [] (Value): string.
+     */
+    "default_requested_permissions": Array<string>;
+    /** The app's name, shown to merchants on the consent screen. */
+    "name": string;
+    "partner_app_id": string;
+    /**
+     * Permissions the app can request from merchants. Each lists the Flint scopes it grants. []
+     * (Value): {@link PartnerAppPermissionManifestEntry}. One permission a partner app can
+     * request, with a title, a description, and the Flint scopes it grants.
+     */
+    "permission_manifest": Array<PartnerAppPermissionManifestEntry>;
+    /** RFC3339 timestamp. Format: date-time. */
+    "previous_secret_expires_at"?: string;
+    /**
+     * Redirect URIs the app can use after authorization. Each is an absolute HTTPS URL, or HTTP on
+     * localhost or a loopback address, with no fragment. [] (Value): string.
+     */
+    "redirect_uris": Array<string>;
+    /** Value enum: "active", "archived". */
+    "status": "active" | "archived" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. */
+    "updated_at"?: string;
+    /**
+     * Starts at 1 and increases by 1 each time the app is updated, its client secret is rotated,
+     * or it is deleted. Send it as expected_version to apply an update only to the version you
+     * read. Format: uint64. minimum: 1.
+     */
+    "version": number;
+};
+/**
+ * An immutable partner app credential, including its authentication status and usage timestamps.
+ */
+export type PartnerAppCredential = ({
+    /** RFC3339 timestamp. Format: date-time. */
+    "created_at": string;
+    /** A registered JWKS URL and its most recent successful fetch. */
+    "jwks_url"?: PartnerAppCredentialJWKSURL;
+    /**
+     * When the credential last authenticated the app. Updated at most once an hour, so it can lag
+     * the latest use by up to an hour. `null` when the credential has never been used. Format:
+     * date-time.
+     */
+    "last_used_at": string | null;
+    /** Name given to the credential when it was created. `null` when it has no name. */
+    "name": string | null;
+    "partner_app_credential_id": string;
+    "partner_app_id": string;
+    /** A registered public JSON Web Key and its RFC 7638 SHA-256 thumbprint. */
+    "public_key"?: PartnerAppCredentialPublicKey;
+    /** Value enum: "active", "removed". */
+    "status": "active" | "removed" | (string & {});
+    /**
+     * Credential type. Currently public_key, jwks_url, or workload_identity. Value enum:
+     * "public_key", "jwks_url", "workload_identity".
+     */
+    "type": "public_key" | "jwks_url" | "workload_identity" | (string & {});
+    /** The registered external OIDC issuer, exact subject, audience, and claim conditions. */
+    "workload_identity"?: PartnerAppCredentialWorkloadIdentity;
+});
+/** A registered JWKS URL and its most recent successful fetch. */
+export type PartnerAppCredentialJWKSURL = {
+    /**
+     * Most recent successful fetch of this URL by Flint. Updated at most once per minute. Format:
+     * date-time.
+     */
+    "last_fetched_at": string;
+    "url": string;
+};
+/**
+ * A public HTTPS JSON Web Key Set URL. Flint validates and fetches it before registering the
+ * credential.
+ */
+export type PartnerAppCredentialJWKSURLRequestInput = {
+    /**
+     * HTTPS URL with a DNS host, optional port 443, no userinfo or fragment, and an optional
+     * query. Flint API hosts and nonpublic destinations are rejected. The URL must serve a JSON
+     * Web Key Set with 1 to 10 supported public signing keys; unusable keys are ignored and don't
+     * count. minLength: 1. maxLength: 2048.
+     */
+    "url": string;
+};
+/** A page of `PartnerAppCredential` objects. */
+export type PartnerAppCredentialListResponse = {
+    /**
+     *  [] (Value): {@link PartnerAppCredential}. An immutable partner app credential, including
+     * its authentication status and usage timestamps.
+     */
+    "data": Array<PartnerAppCredential>;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    "next_page_token"?: string;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A registered public JSON Web Key and its RFC 7638 SHA-256 thumbprint. */
+export type PartnerAppCredentialPublicKey = {
+    "jwk": {
+        [key: string]: unknown;
+    };
+    /** RFC 7638 SHA-256 JWK thumbprint. */
+    "jwk_thumbprint": string;
+};
+/** The public JSON Web Key to register for client authentication. */
+export type PartnerAppCredentialPublicKeyRequest = {
+    /** A public JSON Web Key. Private key and symmetric key members are rejected. */
+    "jwk": {
+        [key: string]: unknown;
+    };
+};
+/** The public JSON Web Key to register for client authentication. */
+export type PartnerAppCredentialPublicKeyRequestInput = PartnerAppCredentialPublicKeyRequest;
+/** A response containing `PartnerAppCredential` data. */
+export type PartnerAppCredentialResponse = {
+    /**
+     * An immutable partner app credential, including its authentication status and usage
+     * timestamps.
+     */
+    "data": PartnerAppCredential;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** The registered external OIDC issuer, exact subject, audience, and claim conditions. */
+export type PartnerAppCredentialWorkloadIdentity = {
+    "audience": string;
+    /**
+     * Bounded value array of top-level scalar conditions checked for every assertion. [] (Value):
+     * {@link WorkloadIdentityClaimCondition}. A condition matching one top-level scalar claim in
+     * the workload's identity token.
+     */
+    "claim_conditions": Array<WorkloadIdentityClaimCondition>;
+    "issuer": string;
+    /**
+     * The platform Flint recognizes from the issuer. New platform values may be added. Value enum:
+     * "generic", "github_actions", "gitlab_ci", "google_cloud", "aws", "azure", "kubernetes",
+     * "circleci", "buildkite", "vercel", "fly_io".
+     */
+    "platform": "generic"
+        | "github_actions"
+        | "gitlab_ci"
+        | "google_cloud"
+        | "aws"
+        | "azure"
+        | "kubernetes"
+        | "circleci"
+        | "buildkite"
+        | "vercel"
+        | "fly_io"
+        | (string & {});
+    "subject": string;
+};
+/**
+ * An external OIDC identity whose subject and claim conditions must match exactly the registered
+ * policy.
+ */
+export type PartnerAppCredentialWorkloadIdentityRequest = {
+    /**
+     * Token audience. Defaults to Flint's configured issuer URL when omitted. minLength: 1.
+     * maxLength: 255.
+     */
+    "audience"?: string;
+    /**
+     * Bounded value array of at most 10 top-level scalar claim conditions. Defaults to []. A glob
+     * requires an exact condition; shared issuers require tenant pinning. maxItems: 10.
+     * uniqueItems: true. [] (Value): {@link WorkloadIdentityClaimConditionRequest}. A condition to
+     * match one top-level scalar claim in the workload's identity token. Omitted match defaults to
+     * exact.
+     */
+    "claim_conditions"?: Array<WorkloadIdentityClaimConditionRequest>;
+    /**
+     * Immutable public HTTPS issuer with a DNS host, optional port 443, and no userinfo, query, or
+     * fragment. Compared exactly. Must publish valid OIDC discovery metadata. minLength: 1.
+     * maxLength: 255.
+     */
+    "issuer": string;
+    /**
+     * Exact token subject. Google Cloud subjects must be numeric. minLength: 1. maxLength: 1024.
+     */
+    "subject": string;
+};
+/**
+ * An external OIDC identity whose subject and claim conditions must match exactly the registered
+ * policy.
+ */
+export type PartnerAppCredentialWorkloadIdentityRequestInput = {
+    /**
+     * Token audience. Defaults to Flint's configured issuer URL when omitted. minLength: 1.
+     * maxLength: 255.
+     */
+    "audience"?: string;
+    /**
+     * Bounded value array of at most 10 top-level scalar claim conditions. Defaults to []. A glob
+     * requires an exact condition; shared issuers require tenant pinning. maxItems: 10.
+     * uniqueItems: true. [] (Value): {@link WorkloadIdentityClaimConditionRequestInput}. A
+     * condition to match one top-level scalar claim in the workload's identity token. Omitted
+     * match defaults to exact.
+     */
+    "claim_conditions"?: Array<WorkloadIdentityClaimConditionRequestInput>;
+    /**
+     * Immutable public HTTPS issuer with a DNS host, optional port 443, and no userinfo, query, or
+     * fragment. Compared exactly. Must publish valid OIDC discovery metadata. minLength: 1.
+     * maxLength: 255.
+     */
+    "issuer": string;
+    /**
+     * Exact token subject. Google Cloud subjects must be numeric. minLength: 1. maxLength: 1024.
+     */
+    "subject": string;
+};
+/** A merchant's authorization of a partner application. */
+export type PartnerAppInstall = {
+    /** RFC3339 timestamp. Format: date-time. */
+    "created_at"?: string;
+    /**
+     *  [] (Value): {@link PartnerEnvironmentGrant}. A partner application's authorization to
+     * access an environment.
+     */
+    "environment_grants"?: Array<PartnerEnvironmentGrant>;
+    "installed_by_user_id"?: string;
+    "merchant_id": string;
+    "partner_app_id": string;
+    "partner_app_install_id": string;
+    /** The app’s current name. */
+    "partner_app_name": string;
+    /** RFC3339 timestamp. Format: date-time. */
+    "revoked_at"?: string;
+    /** Value enum: "merchant", "partner_app". */
+    "revoked_by"?: "merchant" | "partner_app" | (string & {});
+    "revoked_by_user_id"?: string;
+    /** Value enum: "pending_exchange", "active", "revoked". */
+    "status": "pending_exchange" | "active" | "revoked" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. */
+    "updated_at"?: string;
+};
+export type PartnerAppInstallCreatedEvent = ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": PartnerAppInstall;
+    };
+    "event_type"?: "partner_app_install.created";
+    "source"?: {
+        "merchant_id": string;
+        "partner_app_install_id": string;
+        "type": "partner_app" | (string & {});
+    };
+})
+    & {
+    "event_type": "partner_app_install.created";
+});
+/** A page of `PartnerAppInstall` objects. */
+export type PartnerAppInstallListResponse = {
+    /**
+     *  [] (Value): {@link PartnerAppInstall}. A merchant's authorization of a partner application.
+     */
+    "data": Array<PartnerAppInstall>;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    "next_page_token"?: string;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type PartnerAppInstallPermissionsUpdatedEvent = ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": PartnerAppInstall;
+    };
+    "event_type"?: "partner_app_install.permissions_updated";
+    "source"?: {
+        "merchant_id": string;
+        "partner_app_install_id": string;
+        "type": "partner_app" | (string & {});
+    };
+})
+    & {
+    "event_type": "partner_app_install.permissions_updated";
+});
+/** A response containing `PartnerAppInstall` data. */
+export type PartnerAppInstallResponse = {
+    /** A merchant's authorization of a partner application. */
+    "data": PartnerAppInstall;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type PartnerAppInstallRevokedEvent = ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": PartnerAppInstall;
+    };
+    "event_type"?: "partner_app_install.revoked";
+    "source"?: {
+        "merchant_id": string;
+        "partner_app_install_id": string;
+        "type": "partner_app" | (string & {});
+    };
+})
+    & {
+    "event_type": "partner_app_install.revoked";
+});
+export type PartnerAppInstallUpdatedEvent = ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": PartnerAppInstall;
+    };
+    "event_type"?: "partner_app_install.updated";
+    "source"?: {
+        "merchant_id": string;
+        "partner_app_install_id": string;
+        "type": "partner_app" | (string & {});
+    };
+})
+    & {
+    "event_type": "partner_app_install.updated";
+});
+export type PartnerAppInstallsListParams = {
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque next_page_token from the previous response. Omit on the first request. You may change
+     * `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request
+     * context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns
+     * a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /** Filter by app ID. Example: "papp_01ARZ3NDEKTSV4RRFFQ69G5FAV". */
+    "partner_app_id"?: InputValue<string>;
+    /**
+     * Filter by install status. Accepts repeated keys, comma-separated values, or mixtures. Values
+     * are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected.
+     * Values within this filter are ORed; separate filters are ANDed. [] enum: "pending_exchange",
+     * "active", "revoked". Value enum: "pending_exchange", "active", "revoked". anyOf[1] (Value):
+     * Array of string. minItems: 1. [] enum: "pending_exchange", "active", "revoked". anyOf[1][]
+     * (Value): string. Value enum: "pending_exchange", "active", "revoked". anyOf[2] (Value):
+     * string. Value enum: "pending_exchange", "active", "revoked".
+     */
+    "status"?: InputValue<("pending_exchange" | "active" | "revoked") | readonly ("pending_exchange" | "active" | "revoked")[]>;
+};
+export type PartnerAppInstallsRevokeParams = {};
+/** A page of `PartnerApp` objects. */
+export type PartnerAppListResponse = {
+    /**
+     *  [] (Value): {@link PartnerApp}. An application that merchants can authorize to access their
+     * accounts.
+     */
+    "data": Array<PartnerApp>;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    "next_page_token"?: string;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * One permission a partner app can request, with a title, a description, and the Flint scopes it
+ * grants.
+ */
+export type PartnerAppPermissionManifestEntry = {
+    /** minLength: 1. */
+    "description": string;
+    /**
+     * Whether the merchant can decline this permission when they approve the install. Defaults to
+     * false: the permission is required and is always granted.
+     */
+    "optional"?: boolean;
+    /** minLength: 1. */
+    "permission_id": string;
+    /**  [] (Value): string. minLength: 1. */
+    "required_scopes": Array<string>;
+    /** minLength: 1. */
+    "title": string;
+};
+/**
+ * One permission a partner app can request, with a title, a description, and the Flint scopes it
+ * grants.
+ */
+export type PartnerAppPermissionManifestEntryRequestInput = PartnerAppPermissionManifestEntry;
+/** A response containing `PartnerApp` data. */
+export type PartnerAppResponse = {
+    /** An application that merchants can authorize to access their accounts. */
+    "data": PartnerApp;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * A partner app returned with its newly issued client secret after rotation. An application that
+ * merchants can authorize to access their accounts.
+ */
+export type PartnerAppWithRotatedSecret = (Exclude<PartnerApp & object, readonly unknown[]>)
+    & ({
+    /** Newly issued client secret, returned only once after rotation. */
+    "client_secret": string;
+});
+/**
+ * A partner app returned with its client secret, as in the response to creating a partner app. An
+ * application that merchants can authorize to access their accounts.
+ */
+export type PartnerAppWithSecret = (Exclude<PartnerApp & object, readonly unknown[]>)
+    & ({
+    /**
+     * One-time client secret returned when enabled at creation. Null when client_secret_enabled is
+     * false.
+     */
+    "client_secret": string | null;
+});
+/** A response containing `PartnerAppWithSecret` data. */
+export type PartnerAppWithSecretResponse = {
+    /**
+     * A partner app returned with its client secret, as in the response to creating a partner app.
+     * An application that merchants can authorize to access their accounts.
+     */
+    "data": PartnerAppWithSecret;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
 export type PartnerAppsCreateCredentialParams = (CreatePartnerAppCredentialRequestInput);
 export type PartnerAppsCreateParams = (InputValue<CreatePartnerAppRequestInput>);
 export type PartnerAppsDeleteCredentialParams = {};
@@ -161,6 +667,14 @@ export type PartnerEnvironmentGrant = ({
     /** RFC3339 timestamp. Format: date-time. */
     "updated_at"?: string;
 });
+/**
+ * The response for: Exchange an OAuth token; List authorized CLI contexts; Review CLI session
+ * consent; Revoke an OAuth token; Start CLI browser login.
+ */
+export type PartnerTokenErrorResponse = {
+    "error": string;
+    "error_description"?: string;
+};
 /** Fields shared by partner webhook payloads. */
 export type PartnerWebhookEnvelope = ({
     /** Format: date. */
@@ -1199,1177 +1713,3 @@ export type PaymentAttemptPaymentIntent = {
     /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
     "tip_money": MoneyValue;
 };
-/**
- * Typed provider-specific browser action payload. Execute the selected provider action before
- * continuing the owning payment through Flint.
- */
-export type PaymentClientAction = {
-    /**
-     * Stripe.js initialization context plus one flow-specific authority object. Exactly one of
-     * payment_intent or setup_intent is present.
-     */
-    "stripe": StripePaymentClientAction;
-};
-/**
- * Client-side details for collecting payment from the buyer, such as the Stripe settings to
- * initialize Stripe.js.
- */
-export type PaymentCollection = {
-    /**
-     * Client configuration for collecting the payment through Stripe. Stripe details for
-     * collecting payment in the browser: account ID, publishable key, return URL, and Elements
-     * options.
-     */
-    "stripe"?: PaymentCollectionStripe;
-};
-/**
- * Stripe details for collecting payment in the browser: account ID, publishable key, return URL,
- * and Elements options.
- */
-export type PaymentCollectionStripe = {
-    /** Stripe account to use when initializing the payment client. */
-    "account_id"?: string;
-    /**
-     * Stripe Elements configuration for the available payment methods and amounts. Stripe Elements
-     * collection guidance. Follow next_step in the browser, then submit the result to submit_to
-     * through Flint.
-     */
-    "elements"?: PaymentCollectionStripeElements;
-    /** Publishable Stripe key for initializing the payment client. */
-    "publishable_key"?: string;
-    /** URL the buyer returns to after a redirect payment step. */
-    "return_url"?: string;
-};
-/**
- * Stripe Elements collection guidance. Follow next_step in the browser, then submit the result to
- * submit_to through Flint.
- */
-export type PaymentCollectionStripeElements = {
-    /**
-     * Amount and currency used to initialize the payment form. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money"?: MoneyValue;
-    /** Digital wallets that the payment form can offer. [] (Value): string. */
-    "digital_wallets"?: Array<string>;
-    /**
-     * Whether Elements is collecting a payment source for an immediate payment or a setup source
-     * for future use. Value enum: "payment", "setup".
-     */
-    "mode": "payment" | "setup" | (string & {});
-    /**
-     * Browser collection operation to perform before calling submit_to. Value enum:
-     * "collect_payment_source", "collect_setup_payment_source", "create_confirmation_token".
-     */
-    "next_step": "collect_payment_source"
-        | "collect_setup_payment_source"
-        | "create_confirmation_token"
-        | (string & {});
-    /**
-     * Stripe Elements payment method creation mode. Follow next_step: standalone PaymentIntents
-     * and checkout-authenticated order collection create a ConfirmationToken, while
-     * merchant-authenticated order collection and setup collection create a PaymentMethod. Value
-     * enum: "manual".
-     */
-    "payment_method_creation": "manual" | (string & {});
-    /** Payment method settings passed to the payment form. */
-    "payment_method_options"?: {
-        [key: string]: unknown;
-    };
-    /** Payment method types that the payment form can offer. [] (Value): string. */
-    "payment_method_types": Array<string>;
-    /**
-     * Order payment intents that the buyer can select for collection. [] (Value): {@link
-     * SelectableOrderPaymentIntent}. A payment intent on an order the caller can pick, with its
-     * amount, status, and last payment error.
-     */
-    "selectable_payment_intents"?: Array<SelectableOrderPaymentIntent>;
-    /**
-     * Flint operation that accepts the result of next_step. Value enum: "pay_order",
-     * "confirm_payment_intent".
-     */
-    "submit_to": "pay_order" | "confirm_payment_intent" | (string & {});
-};
-/**
- * A summary of why a payment attempt failed, with a normalized error code, a message, the failure
- * time, and remediation.
- */
-export type PaymentErrorSummary = {
-    /**
-     * Flint-normalized payment failure code. Unknown provider values are returned as
-     * payment_failed. Value enum: "card_declined", "insufficient_funds", "bank_account_closed",
-     * "bank_account_not_found", "bank_debit_not_authorized", "bank_account_restricted",
-     * "bank_debit_limit_exceeded", "authentication_required", "payment_blocked", "expired_card",
-     * "incorrect_cvc", "lost_card", "stolen_card", "do_not_honor", "fraudulent",
-     * "processing_error", "payment_method_unavailable", "payment_method_declined",
-     * "payment_not_completed", "payment_action_expired", "payment_method_temporarily_unavailable",
-     * "payment_failed".
-     */
-    "code": "card_declined"
-        | "insufficient_funds"
-        | "bank_account_closed"
-        | "bank_account_not_found"
-        | "bank_debit_not_authorized"
-        | "bank_account_restricted"
-        | "bank_debit_limit_exceeded"
-        | "authentication_required"
-        | "payment_blocked"
-        | "expired_card"
-        | "incorrect_cvc"
-        | "lost_card"
-        | "stolen_card"
-        | "do_not_honor"
-        | "fraudulent"
-        | "processing_error"
-        | "payment_method_unavailable"
-        | "payment_method_declined"
-        | "payment_not_completed"
-        | "payment_action_expired"
-        | "payment_method_temporarily_unavailable"
-        | "payment_failed"
-        | (string & {});
-    /** Time the payment attempt concluded in failure. Format: date-time. */
-    "failed_at": string;
-    /**
-     * Flint-authored merchant-facing payment failure message. This is stable explanatory text, not
-     * raw provider copy.
-     */
-    "message": string;
-    /**
-     * Guidance for resolving the payment failure before trying to collect again. anyOf[1] (Value):
-     * {@link ErrorRemediation}. Recovery guidance for an error: whether and how to `retry`, plus
-     * next steps and suggested actions. anyOf[2] (Value): null.
-     */
-    "remediation": ((ErrorRemediation) | (null));
-};
-/**
- * A hold on fulfillment tied to a payment, with the reason, the action required, and whether the
- * hold is active or released.
- */
-export type PaymentFulfillmentHold = {
-    /** Value enum: "external_payment_hold", "external_payment_hold_released". */
-    "reason": "external_payment_hold" | "external_payment_hold_released" | (string & {});
-    /** RFC3339 timestamp. Format: date-time. */
-    "released_at"?: string;
-    /** RFC3339 timestamp. Format: date-time. */
-    "requested_at": string;
-    /** Value enum: "pause_fulfillment", "reevaluate_fulfillment". */
-    "required_action": "pause_fulfillment" | "reevaluate_fulfillment" | (string & {});
-    /** Value enum: "active", "released". */
-    "status": "active" | "released" | (string & {});
-    /** RFC3339 timestamp. Format: date-time. */
-    "updated_at": string;
-};
-/**
- * One payment from a buyer, standalone or as a leg of an order. amount_money is the amount
- * requested. Once the payment is authorized, authorized_money equals amount_money and splits into
- * captured_money (collected), capturable_money (still on hold), and released_money (returned
- * without being charged), so authorized_money always equals the sum of those three. Reconcile
- * revenue from captured_money.
- */
-export type PaymentIntent = {
-    /**
-     * Itemized invoice, subscription, and automatic tax fees collected with this payment.
-     * Available to the merchant only. Empty until fees settle or when no add-ons apply. Refunds do
-     * not return or revise these fees. Absent until Flint has determined and verified the fee. If
-     * Flint can't verify it when you read the payment intent, the field is omitted rather than
-     * shown unverified; read the payment intent again later. [] (Value): {@link PaymentAddOnFee}.
-     * A Flint fee added to a payment intent, with the fee type and amount.
-     */
-    "add_on_fees"?: Array<PaymentAddOnFee>;
-    /**
-     * The amount requested from the buyer, including any tip_money. Capturing doesn't change it:
-     * after a partial capture it still shows the requested amount, and captured_money shows what
-     * was collected. On a standalone payment intent, PATCH can change it only before the first
-     * confirmation attempt. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "amount_money": MoneyValue;
-    /**
-     * Deadline to capture a manual-capture hold. The authorization lapses at this time, and a
-     * capture attempted after it fails even if status is still requires_capture. Set when the hold
-     * is placed. Format: date-time.
-     */
-    "authorization_expires_at"?: string;
-    /** When the processor authorized the payment. Absent until then. Format: date-time. */
-    "authorized_at"?: string;
-    /**
-     * The amount the processor authorized. It always equals amount_money and doesn't change once
-     * set. Absent until the payment is authorized, and on payments canceled before authorization.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "authorized_money"?: MoneyValue;
-    /**
-     * Flint-normalized reason the payment intent was canceled. Present only while status is
-     * canceled. Unknown processor values are returned as payment_canceled. Value enum:
-     * "requested_by_customer", "duplicate", "fraudulent", "abandoned", "invoice_payment_failed",
-     * "invoice_voided", "order_closed", "payment_canceled".
-     */
-    "cancellation_reason"?: "requested_by_customer"
-        | "duplicate"
-        | "fraudulent"
-        | "abandoned"
-        | "invoice_payment_failed"
-        | "invoice_voided"
-        | "order_closed"
-        | "payment_canceled"
-        | (string & {});
-    /**
-     * The part of the authorization you can still capture. Positive only while status is
-     * requires_capture, and zero after you capture or cancel or the authorization expires. The
-     * authorization lapses at authorization_expires_at, and a capture attempted after that fails
-     * even if this is positive. Absent until the payment is authorized. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "capturable_money"?: MoneyValue;
-    /** When money is collected. Defaults to automatic. Value enum: "automatic", "manual". */
-    "capture_method"?: "automatic" | "manual" | (string & {});
-    /**
-     * When money was captured. For automatic capture, this is when the payment succeeded. Absent
-     * until capture. Format: date-time.
-     */
-    "captured_at"?: string;
-    /**
-     * The amount collected from the buyer. Reconcile revenue and print receipts from this amount,
-     * not amount_money. Zero while a hold is open, and positive whenever status is succeeded.
-     * processing_fee_money, merchant_net_money, and refunds are based on it. Absent until the
-     * payment is authorized. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "captured_money"?: MoneyValue;
-    /** Flint checkout session ID associated with this payment, when present. */
-    "checkout_session_id"?: string;
-    /** RFC3339 timestamp. Format: date-time. */
-    "created_at"?: string;
-    /**
-     * The linked customer. Returned only with expand=customer. Present only when `expand` includes
-     * `customer`; `null` when expanded and there is no related customer. anyOf[1] (Value): {@link
-     * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer ID
-     * when the customer is expanded. anyOf[2] (Value): null.
-     */
-    "customer"?: ((ExpandedCustomerSummary) | (null));
-    /** Customer linked to this payment intent. */
-    "customer_id"?: string;
-    /**
-     * Dispute state of this payment. none means no dispute or inquiry is open or recorded. The
-     * inquiry_ values track an issuer inquiry or early warning that isn't a chargeback. Read the
-     * dispute with GET /v1/disputes for its deadline and evidence. Value enum: "none",
-     * "inquiry_needs_response", "inquiry_under_review", "inquiry_closed", "needs_response",
-     * "under_review", "won", "lost", "prevented", "other".
-     */
-    "dispute_status"?: "none"
-        | "inquiry_needs_response"
-        | "inquiry_under_review"
-        | "inquiry_closed"
-        | "needs_response"
-        | "under_review"
-        | "won"
-        | "lost"
-        | "prevented"
-        | "other"
-        | (string & {});
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255.
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Present when a payment provider asked Flint to pause fulfillment for this payment. While its
-     * status is active, open fulfillments on the order are on hold with reason payment_review.
-     * payment_intent.fulfillment_hold_updated is sent when the hold starts and when it lifts. A
-     * hold on fulfillment tied to a payment, with the reason, the action required, and whether the
-     * hold is active or released.
-     */
-    "fulfillment_hold"?: PaymentFulfillmentHold;
-    /**
-     * The linked invoice. Returned only with expand=invoice. Present only when `expand` includes
-     * `invoice`; `null` when expanded and there is no related invoice. anyOf[1] (Value): {@link
-     * ExpandedInvoiceSummary}. An invoice's summary fields, including status, due date, and paid,
-     * outstanding, and refunded amounts, returned when the invoice is expanded. anyOf[2] (Value):
-     * null.
-     */
-    "invoice"?: ((ExpandedInvoiceSummary) | (null));
-    /** Invoice this payment intent collects, when it pays an invoice. */
-    "invoice_id"?: string;
-    /**
-     * Most recent payment error. Null when no payment error is recorded. anyOf[1] (Value): {@link
-     * PaymentErrorSummary}. A summary of why a payment attempt failed, with a normalized error
-     * code, a message, the failure time, and remediation. anyOf[2] (Value): null.
-     */
-    "last_payment_error": ((PaymentErrorSummary) | (null));
-    /** Merchant that owns this payment intent. */
-    "merchant_id"?: string;
-    /**
-     * Captured amount minus processing_fee_money and every amount in add_on_fees. Later merchant
-     * assessments and credits are separate balance effects. Absent until Flint has determined and
-     * verified the fee. If Flint can't verify it when you read the payment intent, the field is
-     * omitted rather than shown unverified; read the payment intent again later. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "merchant_net_money"?: MoneyValue;
-    /**
-     * Caller-owned metadata. Keys starting with flint_ are reserved for Flint and aren't returned.
-     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
-     * Flint and are not returned. Writes follow the limits on MetadataInput and
-     * MetadataPatchInput; maps written before those limits may not satisfy them.
-     */
-    "metadata": MetadataMap;
-    /**
-     * The linked order. Returned only with expand=order. Present only when `expand` includes
-     * `order`; `null` when expanded and there is no related order. anyOf[1] (Value): {@link
-     * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
-     * status, and pricing and settlement amounts, returned when the order is expanded. anyOf[2]
-     * (Value): null.
-     */
-    "order"?: ((ExpandedOrderSummary) | (null));
-    /**
-     * Order this payment intent belongs to. Create it through the order and confirm it with POST
-     * /v1/orders/{order_id}/pay. Capture and cancel use POST
-     * /v1/payment-intents/{payment_intent_id}/capture or /cancel for every payment intent.
-     * Order-owned intents accept PATCH for metadata and external_reference_id.
-     */
-    "order_id"?: string;
-    /**
-     * How the payment was started. Fixed when the payment intent is created. Value enum:
-     * "checkout", "payment_link", "invoice", "subscription_initial", "subscription_renewal",
-     * "virtual_terminal", "api".
-     */
-    "payment_flow": "checkout"
-        | "payment_link"
-        | "invoice"
-        | "subscription_initial"
-        | "subscription_renewal"
-        | "virtual_terminal"
-        | "api"
-        | (string & {});
-    /** Flint payment intent ID. */
-    "payment_intent_id": string;
-    /**
-     * Payment options the buyer can use for this payment. [] enum: "card", "apple_pay",
-     * "google_pay", "affirm", "ach_debit". [] (Value): string. Value enum: "card", "apple_pay",
-     * "google_pay", "affirm", "ach_debit".
-     */
-    "payment_options": Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | (string & {})>;
-    /**
-     * Summary of the card or bank account used for the payment. Absent until a payment source is
-     * attached. A summary of the payment source used for a payment, by funding-method family, with
-     * card or bank account display details.
-     */
-    "payment_source"?: PaymentSourceSummary;
-    /**
-     * Flint's all-in processing fee for this payment. It is the complete price Flint charges to
-     * process the payment, never a provider cost passed through. The fee is final once the card
-     * payment is captured or the ACH payment succeeds; canceled payments and failures before
-     * success have none. Invoice, subscription, and automatic tax fees are itemized separately in
-     * add_on_fees. Your net for the payment is captured_money minus this fee and the add-on fees.
-     * Refunds do not return or revise it. Absent until Flint has determined and verified the fee.
-     * If Flint can't verify it when you read the payment intent, the field is omitted rather than
-     * shown unverified; read the payment intent again later. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "processing_fee_money"?: MoneyValue;
-    /**
-     * Email address for this payment's receipt. When it isn't set, Flint uses the customer's
-     * email. Format: email. maxLength: 255.
-     */
-    "receipt_email"?: string | null;
-    /**
-     * How much of captured_money has been refunded, including value issued as store credit, based
-     * on refunded_money. Value enum: "none", "partially_refunded", "refunded".
-     */
-    "refund_status"?: "none" | "partially_refunded" | "refunded" | (string & {});
-    /**
-     * Total refunded against captured_money, including value issued as store credit and processor
-     * refunds still pending. Failed and canceled refunds aren't counted. Zero when nothing has
-     * been refunded. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code.
-     */
-    "refunded_money"?: MoneyValue;
-    /**
-     * The part of the authorization returned to the buyer without being charged: the uncaptured
-     * remainder after a partial capture, or the whole authorization after a cancellation or
-     * expiry. It was never collected, so it needs no refund and can't be captured later. Absent
-     * until the payment is authorized. Monetary amount represented as integer minor units plus an
-     * ISO 4217 currency code.
-     */
-    "released_money"?: MoneyValue;
-    /** Flint return ID associated with this payment, when present. */
-    "return_id"?: string;
-    /**
-     * Risk assessment. Always present with merchant credentials; null when no risk assessment is
-     * available. Omitted with the checkout credential. anyOf[1] (Value): {@link PaymentRisk}. The
-     * risk assessment for a payment intent, with its risk level, score, outcome, and any matched
-     * rule or review. anyOf[2] (Value): null.
-     */
-    "risk"?: ((PaymentRisk) | (null));
-    /**
-     * The payment option the most recent confirmation used. Absent until the payment intent is
-     * first confirmed.
-     */
-    "selected_payment_option"?: string;
-    /**
-     * Lifecycle status. requires_payment_method covers both a new payment intent and one whose
-     * last attempt failed, so read last_payment_error with it. succeeded, canceled, and expired
-     * are final. Refunds and disputes never change status. Value enum: "requires_payment_method",
-     * "requires_confirmation", "requires_action", "processing", "requires_capture", "canceled",
-     * "succeeded", "expired".
-     */
-    "status": "requires_payment_method"
-        | "requires_confirmation"
-        | "requires_action"
-        | "processing"
-        | "requires_capture"
-        | "canceled"
-        | "succeeded"
-        | "expired"
-        | (string & {});
-    /** Opaque payment reference to share with merchant support. Do not parse its format. */
-    "support_reference": string;
-    /**
-     * Actions the payment intent's current state accepts, each a POST to
-     * /v1/payment-intents/{payment_intent_id}/{action}. An action that isn't listed returns 409
-     * ACTION_NOT_ALLOWED. A listed action can still be refused because of something outside the
-     * payment intent: an open risk review, an order payment attempt that is using this payment, a
-     * closed order, or the merchant's account. An order-owned payment intent never lists confirm;
-     * pay it with POST /v1/orders/{order_id}/pay. The list changes only when the payment intent
-     * changes. Always empty for buyer credentials. New actions may be added. [] enum: "confirm",
-     * "capture", "cancel". [] (Value): string. Value enum: "confirm", "capture", "cancel".
-     */
-    "supported_actions": Array<"confirm" | "capture" | "cancel" | (string & {})>;
-    /**
-     * Portion of amount_money that is a tip. Uses amount_money's currency and is at most
-     * amount_money. anyOf[1] (Value): {@link MoneyValue}. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
-     */
-    "tip_money"?: ((MoneyValue) | (null));
-    /**
-     * Why a bank debit is taken. Set only when payment_options includes ach_debit, and fixed once
-     * the payment intent exists. Value enum: "goods", "services", "other".
-     */
-    "transaction_purpose"?: "goods" | "services" | "other" | (string & {});
-    /** RFC3339 timestamp. Format: date-time. */
-    "updated_at"?: string;
-    /**
-     * Persisted version of this resource's owned state. Expanded resources and external
-     * observations can change independently. Format: uint64. minimum: 1.
-     */
-    "version": number;
-};
-/**
- * A read-only entry in a payment intent's human-readable history. Read the referenced resource for
- * authoritative state.
- */
-export type PaymentIntentActivity = {
-    /**
-     * Value enum: "other", "created", "updated", "status_changed", "failed", "canceled",
-     * "expired", "refund_created", "refund_status_changed", "dispute_status_changed",
-     * "receipt_sent".
-     */
-    "activity_type": "other"
-        | "created"
-        | "updated"
-        | "status_changed"
-        | "failed"
-        | "canceled"
-        | "expired"
-        | "refund_created"
-        | "refund_status_changed"
-        | "dispute_status_changed"
-        | "receipt_sent"
-        | (string & {});
-    "checkout_session_id"?: string;
-    /** RFC3339 timestamp. Format: date-time. */
-    "created_at": string;
-    "description": string;
-    "dispute_id"?: string;
-    /**
-     * Value enum: "none", "inquiry_needs_response", "inquiry_under_review", "inquiry_closed",
-     * "needs_response", "under_review", "won", "lost", "prevented", "other".
-     */
-    "from_dispute_status"?: "none"
-        | "inquiry_needs_response"
-        | "inquiry_under_review"
-        | "inquiry_closed"
-        | "needs_response"
-        | "under_review"
-        | "won"
-        | "lost"
-        | "prevented"
-        | "other"
-        | (string & {});
-    /**
-     * Value enum: "requires_payment_method", "requires_confirmation", "requires_action",
-     * "processing", "requires_capture", "canceled", "succeeded", "expired".
-     */
-    "from_status"?: "requires_payment_method"
-        | "requires_confirmation"
-        | "requires_action"
-        | "processing"
-        | "requires_capture"
-        | "canceled"
-        | "succeeded"
-        | "expired"
-        | (string & {});
-    "order_id"?: string;
-    "payment_intent_activity_id": string;
-    "refund_id"?: string;
-    /**
-     * Value enum: "none", "inquiry_needs_response", "inquiry_under_review", "inquiry_closed",
-     * "needs_response", "under_review", "won", "lost", "prevented", "other".
-     */
-    "to_dispute_status"?: "none"
-        | "inquiry_needs_response"
-        | "inquiry_under_review"
-        | "inquiry_closed"
-        | "needs_response"
-        | "under_review"
-        | "won"
-        | "lost"
-        | "prevented"
-        | "other"
-        | (string & {});
-    /**
-     * Value enum: "requires_payment_method", "requires_confirmation", "requires_action",
-     * "processing", "requires_capture", "canceled", "succeeded", "expired".
-     */
-    "to_status"?: "requires_payment_method"
-        | "requires_confirmation"
-        | "requires_action"
-        | "processing"
-        | "requires_capture"
-        | "canceled"
-        | "succeeded"
-        | "expired"
-        | (string & {});
-};
-/** A page of `PaymentIntentActivity` objects. */
-export type PaymentIntentActivityListResponse = {
-    /**
-     *  [] (Value): {@link PaymentIntentActivity}. A read-only entry in a payment intent's
-     * human-readable history. Read the referenced resource for authoritative state.
-     */
-    "data": Array<PaymentIntentActivity>;
-    /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    "next_page_token"?: string;
-    /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type PaymentIntentCanceledEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": PaymentIntent;
-    };
-    "event_type"?: "payment_intent.canceled";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": PaymentIntent;
-    };
-    "event_type"?: "payment_intent.canceled";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "payment_intent.canceled";
-});
-/**
- * The `payment_intent.canceled` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type PaymentIntentCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link PaymentIntent}. One payment from a buyer, standalone or as a leg
-     * of an order. amount_money is the amount requested. Once the payment is authorized,
-     * authorized_money equals amount_money and splits into captured_money (collected),
-     * capturable_money (still on hold), and released_money (returned without being charged), so
-     * authorized_money always equals the sum of those three. Reconcile revenue from
-     * captured_money.
-     */
-    "data"?: {
-        /**
-         * One payment from a buyer, standalone or as a leg of an order. amount_money is the amount
-         * requested. Once the payment is authorized, authorized_money equals amount_money and
-         * splits into captured_money (collected), capturable_money (still on hold), and
-         * released_money (returned without being charged), so authorized_money always equals the
-         * sum of those three. Reconcile revenue from captured_money.
-         */
-        "object": PaymentIntent;
-    };
-    /** Value enum: "payment_intent.canceled". */
-    "event_type"?: "payment_intent.canceled";
-    /**
-     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
-     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
-     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        /** Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        /** Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * The `payment_intent.canceled` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type PaymentIntentCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link PaymentIntent}. One payment from a buyer, standalone or as a leg
-     * of an order. amount_money is the amount requested. Once the payment is authorized,
-     * authorized_money equals amount_money and splits into captured_money (collected),
-     * capturable_money (still on hold), and released_money (returned without being charged), so
-     * authorized_money always equals the sum of those three. Reconcile revenue from
-     * captured_money.
-     */
-    "data"?: {
-        /**
-         * One payment from a buyer, standalone or as a leg of an order. amount_money is the amount
-         * requested. Once the payment is authorized, authorized_money equals amount_money and
-         * splits into captured_money (collected), capturable_money (still on hold), and
-         * released_money (returned without being charged), so authorized_money always equals the
-         * sum of those three. Reconcile revenue from captured_money.
-         */
-        "object": PaymentIntent;
-    };
-    /** Value enum: "payment_intent.canceled". */
-    "event_type"?: "payment_intent.canceled";
-});
-export type PaymentIntentCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": PaymentIntent;
-    };
-    "event_type"?: "payment_intent.created";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": PaymentIntent;
-    };
-    "event_type"?: "payment_intent.created";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "payment_intent.created";
-});
-/**
- * The `payment_intent.created` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type PaymentIntentCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link PaymentIntent}. One payment from a buyer, standalone or as a leg
-     * of an order. amount_money is the amount requested. Once the payment is authorized,
-     * authorized_money equals amount_money and splits into captured_money (collected),
-     * capturable_money (still on hold), and released_money (returned without being charged), so
-     * authorized_money always equals the sum of those three. Reconcile revenue from
-     * captured_money.
-     */
-    "data"?: {
-        /**
-         * One payment from a buyer, standalone or as a leg of an order. amount_money is the amount
-         * requested. Once the payment is authorized, authorized_money equals amount_money and
-         * splits into captured_money (collected), capturable_money (still on hold), and
-         * released_money (returned without being charged), so authorized_money always equals the
-         * sum of those three. Reconcile revenue from captured_money.
-         */
-        "object": PaymentIntent;
-    };
-    /** Value enum: "payment_intent.created". */
-    "event_type"?: "payment_intent.created";
-    /**
-     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
-     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
-     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        /** Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        /** Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * The `payment_intent.created` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type PaymentIntentCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link PaymentIntent}. One payment from a buyer, standalone or as a leg
-     * of an order. amount_money is the amount requested. Once the payment is authorized,
-     * authorized_money equals amount_money and splits into captured_money (collected),
-     * capturable_money (still on hold), and released_money (returned without being charged), so
-     * authorized_money always equals the sum of those three. Reconcile revenue from
-     * captured_money.
-     */
-    "data"?: {
-        /**
-         * One payment from a buyer, standalone or as a leg of an order. amount_money is the amount
-         * requested. Once the payment is authorized, authorized_money equals amount_money and
-         * splits into captured_money (collected), capturable_money (still on hold), and
-         * released_money (returned without being charged), so authorized_money always equals the
-         * sum of those three. Reconcile revenue from captured_money.
-         */
-        "object": PaymentIntent;
-    };
-    /** Value enum: "payment_intent.created". */
-    "event_type"?: "payment_intent.created";
-});
-export type PaymentIntentExpiredEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": PaymentIntent;
-    };
-    "event_type"?: "payment_intent.expired";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": PaymentIntent;
-    };
-    "event_type"?: "payment_intent.expired";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "payment_intent.expired";
-});
-/**
- * The `payment_intent.expired` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type PaymentIntentExpiredInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link PaymentIntent}. One payment from a buyer, standalone or as a leg
-     * of an order. amount_money is the amount requested. Once the payment is authorized,
-     * authorized_money equals amount_money and splits into captured_money (collected),
-     * capturable_money (still on hold), and released_money (returned without being charged), so
-     * authorized_money always equals the sum of those three. Reconcile revenue from
-     * captured_money.
-     */
-    "data"?: {
-        /**
-         * One payment from a buyer, standalone or as a leg of an order. amount_money is the amount
-         * requested. Once the payment is authorized, authorized_money equals amount_money and
-         * splits into captured_money (collected), capturable_money (still on hold), and
-         * released_money (returned without being charged), so authorized_money always equals the
-         * sum of those three. Reconcile revenue from captured_money.
-         */
-        "object": PaymentIntent;
-    };
-    /** Value enum: "payment_intent.expired". */
-    "event_type"?: "payment_intent.expired";
-    /**
-     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
-     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
-     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        /** Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        /** Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * The `payment_intent.expired` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type PaymentIntentExpiredMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link PaymentIntent}. One payment from a buyer, standalone or as a leg
-     * of an order. amount_money is the amount requested. Once the payment is authorized,
-     * authorized_money equals amount_money and splits into captured_money (collected),
-     * capturable_money (still on hold), and released_money (returned without being charged), so
-     * authorized_money always equals the sum of those three. Reconcile revenue from
-     * captured_money.
-     */
-    "data"?: {
-        /**
-         * One payment from a buyer, standalone or as a leg of an order. amount_money is the amount
-         * requested. Once the payment is authorized, authorized_money equals amount_money and
-         * splits into captured_money (collected), capturable_money (still on hold), and
-         * released_money (returned without being charged), so authorized_money always equals the
-         * sum of those three. Reconcile revenue from captured_money.
-         */
-        "object": PaymentIntent;
-    };
-    /** Value enum: "payment_intent.expired". */
-    "event_type"?: "payment_intent.expired";
-});
-export type PaymentIntentFulfillmentHoldUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": PaymentIntent;
-    };
-    "event_type"?: "payment_intent.fulfillment_hold_updated";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": PaymentIntent;
-    };
-    "event_type"?: "payment_intent.fulfillment_hold_updated";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "payment_intent.fulfillment_hold_updated";
-});
-/**
- * The `payment_intent.fulfillment_hold_updated` webhook payload for the `installed_merchants`
- * event source. Fields shared by partner webhook payloads.
- */
-export type PaymentIntentFulfillmentHoldUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link PaymentIntent}. One payment from a buyer, standalone or as a leg
-     * of an order. amount_money is the amount requested. Once the payment is authorized,
-     * authorized_money equals amount_money and splits into captured_money (collected),
-     * capturable_money (still on hold), and released_money (returned without being charged), so
-     * authorized_money always equals the sum of those three. Reconcile revenue from
-     * captured_money.
-     */
-    "data"?: {
-        /**
-         * One payment from a buyer, standalone or as a leg of an order. amount_money is the amount
-         * requested. Once the payment is authorized, authorized_money equals amount_money and
-         * splits into captured_money (collected), capturable_money (still on hold), and
-         * released_money (returned without being charged), so authorized_money always equals the
-         * sum of those three. Reconcile revenue from captured_money.
-         */
-        "object": PaymentIntent;
-    };
-    /** Value enum: "payment_intent.fulfillment_hold_updated". */
-    "event_type"?: "payment_intent.fulfillment_hold_updated";
-    /**
-     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
-     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
-     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        /** Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        /** Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * The `payment_intent.fulfillment_hold_updated` webhook payload for the `merchant` event source.
- * Fields shared by merchant webhook payloads.
- */
-export type PaymentIntentFulfillmentHoldUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link PaymentIntent}. One payment from a buyer, standalone or as a leg
-     * of an order. amount_money is the amount requested. Once the payment is authorized,
-     * authorized_money equals amount_money and splits into captured_money (collected),
-     * capturable_money (still on hold), and released_money (returned without being charged), so
-     * authorized_money always equals the sum of those three. Reconcile revenue from
-     * captured_money.
-     */
-    "data"?: {
-        /**
-         * One payment from a buyer, standalone or as a leg of an order. amount_money is the amount
-         * requested. Once the payment is authorized, authorized_money equals amount_money and
-         * splits into captured_money (collected), capturable_money (still on hold), and
-         * released_money (returned without being charged), so authorized_money always equals the
-         * sum of those three. Reconcile revenue from captured_money.
-         */
-        "object": PaymentIntent;
-    };
-    /** Value enum: "payment_intent.fulfillment_hold_updated". */
-    "event_type"?: "payment_intent.fulfillment_hold_updated";
-});
-/** A page of `PaymentIntent` objects. */
-export type PaymentIntentListResponse = {
-    /**
-     *  [] (Value): {@link PaymentIntent}. One payment from a buyer, standalone or as a leg of an
-     * order. amount_money is the amount requested. Once the payment is authorized,
-     * authorized_money equals amount_money and splits into captured_money (collected),
-     * capturable_money (still on hold), and released_money (returned without being charged), so
-     * authorized_money always equals the sum of those three. Reconcile revenue from
-     * captured_money.
-     */
-    "data": Array<PaymentIntent>;
-    /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    "next_page_token"?: string;
-    /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type PaymentIntentPaymentFailedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": PaymentIntent;
-    };
-    "event_type"?: "payment_intent.payment_failed";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": PaymentIntent;
-    };
-    "event_type"?: "payment_intent.payment_failed";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "payment_intent.payment_failed";
-});
-/**
- * The `payment_intent.payment_failed` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
- */
-export type PaymentIntentPaymentFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link PaymentIntent}. One payment from a buyer, standalone or as a leg
-     * of an order. amount_money is the amount requested. Once the payment is authorized,
-     * authorized_money equals amount_money and splits into captured_money (collected),
-     * capturable_money (still on hold), and released_money (returned without being charged), so
-     * authorized_money always equals the sum of those three. Reconcile revenue from
-     * captured_money.
-     */
-    "data"?: {
-        /**
-         * One payment from a buyer, standalone or as a leg of an order. amount_money is the amount
-         * requested. Once the payment is authorized, authorized_money equals amount_money and
-         * splits into captured_money (collected), capturable_money (still on hold), and
-         * released_money (returned without being charged), so authorized_money always equals the
-         * sum of those three. Reconcile revenue from captured_money.
-         */
-        "object": PaymentIntent;
-    };
-    /** Value enum: "payment_intent.payment_failed". */
-    "event_type"?: "payment_intent.payment_failed";
-    /**
-     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
-     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
-     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        /** Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        /** Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * The `payment_intent.payment_failed` webhook payload for the `merchant` event source. Fields
- * shared by merchant webhook payloads.
- */
-export type PaymentIntentPaymentFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link PaymentIntent}. One payment from a buyer, standalone or as a leg
-     * of an order. amount_money is the amount requested. Once the payment is authorized,
-     * authorized_money equals amount_money and splits into captured_money (collected),
-     * capturable_money (still on hold), and released_money (returned without being charged), so
-     * authorized_money always equals the sum of those three. Reconcile revenue from
-     * captured_money.
-     */
-    "data"?: {
-        /**
-         * One payment from a buyer, standalone or as a leg of an order. amount_money is the amount
-         * requested. Once the payment is authorized, authorized_money equals amount_money and
-         * splits into captured_money (collected), capturable_money (still on hold), and
-         * released_money (returned without being charged), so authorized_money always equals the
-         * sum of those three. Reconcile revenue from captured_money.
-         */
-        "object": PaymentIntent;
-    };
-    /** Value enum: "payment_intent.payment_failed". */
-    "event_type"?: "payment_intent.payment_failed";
-});
-export type PaymentIntentProcessingEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": PaymentIntent;
-    };
-    "event_type"?: "payment_intent.processing";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": PaymentIntent;
-    };
-    "event_type"?: "payment_intent.processing";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "payment_intent.processing";
-});
-/**
- * The `payment_intent.processing` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
- */
-export type PaymentIntentProcessingInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link PaymentIntent}. One payment from a buyer, standalone or as a leg
-     * of an order. amount_money is the amount requested. Once the payment is authorized,
-     * authorized_money equals amount_money and splits into captured_money (collected),
-     * capturable_money (still on hold), and released_money (returned without being charged), so
-     * authorized_money always equals the sum of those three. Reconcile revenue from
-     * captured_money.
-     */
-    "data"?: {
-        /**
-         * One payment from a buyer, standalone or as a leg of an order. amount_money is the amount
-         * requested. Once the payment is authorized, authorized_money equals amount_money and
-         * splits into captured_money (collected), capturable_money (still on hold), and
-         * released_money (returned without being charged), so authorized_money always equals the
-         * sum of those three. Reconcile revenue from captured_money.
-         */
-        "object": PaymentIntent;
-    };
-    /** Value enum: "payment_intent.processing". */
-    "event_type"?: "payment_intent.processing";
-    /**
-     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
-     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
-     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        /** Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        /** Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * The `payment_intent.processing` webhook payload for the `merchant` event source. Fields shared
- * by merchant webhook payloads.
- */
-export type PaymentIntentProcessingMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link PaymentIntent}. One payment from a buyer, standalone or as a leg
-     * of an order. amount_money is the amount requested. Once the payment is authorized,
-     * authorized_money equals amount_money and splits into captured_money (collected),
-     * capturable_money (still on hold), and released_money (returned without being charged), so
-     * authorized_money always equals the sum of those three. Reconcile revenue from
-     * captured_money.
-     */
-    "data"?: {
-        /**
-         * One payment from a buyer, standalone or as a leg of an order. amount_money is the amount
-         * requested. Once the payment is authorized, authorized_money equals amount_money and
-         * splits into captured_money (collected), capturable_money (still on hold), and
-         * released_money (returned without being charged), so authorized_money always equals the
-         * sum of those three. Reconcile revenue from captured_money.
-         */
-        "object": PaymentIntent;
-    };
-    /** Value enum: "payment_intent.processing". */
-    "event_type"?: "payment_intent.processing";
-});
-export type PaymentIntentRequiresActionEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": PaymentIntent;
-    };
-    "event_type"?: "payment_intent.requires_action";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": PaymentIntent;
-    };
-    "event_type"?: "payment_intent.requires_action";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "payment_intent.requires_action";
-});

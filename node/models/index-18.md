@@ -1,7 +1,16 @@
 [Model index](../MODELS.md)
 
-# IssueSandboxAPIKeyRequestFullInput to ModifierSetUpdatedInstalledMerchantsEvent
+# IssueCreditNoteRequest to ModifierSetGroupInline
 
+- [IssueCreditNoteRequest](IssueCreditNoteRequest.md)
+- [IssueCreditNoteRequestInput](IssueCreditNoteRequestInput.md)
+- [IssueCreditNoteResponse](IssueCreditNoteResponse.md)
+- [IssueCreditNoteResult](IssueCreditNoteResult.md)
+- [IssueInvoiceRequest](IssueInvoiceRequest.md)
+- [IssueInvoiceRequestInput](IssueInvoiceRequestInput.md)
+- [IssueSandboxAPIKeyRequest](IssueSandboxAPIKeyRequest.md)
+- [IssueSandboxAPIKeyRequestInput](IssueSandboxAPIKeyRequestInput.md)
+- [IssueSandboxAPIKeyRequestFull](IssueSandboxAPIKeyRequestFull.md)
 - [IssueSandboxAPIKeyRequestFullInput](IssueSandboxAPIKeyRequestFullInput.md)
 - [IssueSandboxAPIKeyRequestReadOnly](IssueSandboxAPIKeyRequestReadOnly.md)
 - [IssueSandboxAPIKeyRequestReadOnlyInput](IssueSandboxAPIKeyRequestReadOnlyInput.md)
@@ -93,13 +102,4 @@
 - [ModifierSetGroup](ModifierSetGroup.md)
 - [ModifierSetGroupExisting](ModifierSetGroupExisting.md)
 - [ModifierSetGroupInline](ModifierSetGroupInline.md)
-- [ModifierSetGroupInputExisting](ModifierSetGroupInputExisting.md)
-- [ModifierSetGroupInputExistingInput](ModifierSetGroupInputExistingInput.md)
-- [ModifierSetGroupInputInline](ModifierSetGroupInputInline.md)
-- [ModifierSetGroupInputInlineInput](ModifierSetGroupInputInlineInput.md)
-- [ModifierSetGroupRequest](ModifierSetGroupRequest.md)
-- [ModifierSetGroupRequestInput](ModifierSetGroupRequestInput.md)
-- [ModifierSetListResponse](ModifierSetListResponse.md)
-- [ModifierSetResponse](ModifierSetResponse.md)
-- [ModifierSetUpdatedInstalledMerchantsEvent](ModifierSetUpdatedInstalledMerchantsEvent.md)
 

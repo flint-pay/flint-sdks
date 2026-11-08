@@ -1,10 +1,241 @@
-import type { InvoiceManualPayment, InvoiceLateFeePolicy } from './types-29.js';
-import type { PartnerWebhookEnvelope, PaymentErrorSummary } from './types-40.js';
-import type { MerchantWebhookEnvelope } from './types-34.js';
-import type { Invoice } from './types-28.js';
-import type { MoneyValue, MoneyValueInput } from './types-35.js';
+import type { MoneyValue, MerchantWebhookEnvelope, MoneyValueInput } from './types-35.js';
+import type { PartnerWebhookEnvelope } from './types-40.js';
 import type { ResponseMeta } from './types-48.js';
-import type { InvoicePaymentTermCalculationOnReceipt, InvoicePaymentTermCalculationOnReceiptInput } from './types-31.js';
+import type { Invoice } from './types-28.js';
+import type { PaymentErrorSummary } from './types-41.js';
+import type { InvoiceLateFeePolicy } from './types-29.js';
+import type {
+    InvoicePaymentTermCalculationDayOfMonth,
+    InvoicePaymentTermCalculationDayOfNextMonth,
+    InvoicePaymentTermCalculationDaysAfterMonthEnd,
+    InvoicePaymentTermCalculationNetDays,
+    InvoicePaymentTermCalculationOnReceipt
+} from './types-31.js';
+/**
+ * A recorded offline payment against an invoice. Its amount contributes to invoice paid_money
+ * while recorded; reversing it returns its full amount to outstanding_money. A payment can cover
+ * principal and late fees. Manual payments are separate from online payment attempts.
+ */
+export type InvoiceManualPayment = {
+    /**
+     * Full amount received, including any principal and late fees covered. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValue;
+    /** The invoice this payment was recorded against. */
+    "invoice_id": string;
+    /**
+     * Stable payment ID. IDs begin with omp_. Gift card loads funded by this payment expose this
+     * value as source.order_manual_payment_id.
+     */
+    "invoice_manual_payment_id": string;
+    /** minLength: 1. maxLength: 4096. */
+    "note"?: string;
+    /**
+     * Caller-owned check, wire, or bank reference, stored unmodified. minLength: 1. maxLength:
+     * 255.
+     */
+    "payment_reference"?: string;
+    /** When the payment was received. Format: date-time. */
+    "received_at": string;
+    /**
+     * Note supplied when reversing the payment. Present only when reversed and a note was
+     * supplied. minLength: 1. maxLength: 4096.
+     */
+    "reversal_note"?: string;
+    /** When the payment was reversed. Present only when reversed. Format: date-time. */
+    "reversed_at"?: string;
+    /**
+     * Whether the payment is recorded or has been reversed in full. Value enum: "recorded",
+     * "reversed".
+     */
+    "status": "recorded" | "reversed" | (string & {});
+};
+export type InvoiceManualPaymentCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InvoiceManualPayment;
+    };
+    "event_type"?: "invoice_manual_payment.created";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InvoiceManualPayment;
+    };
+    "event_type"?: "invoice_manual_payment.created";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "invoice_manual_payment.created";
+});
+/**
+ * The `invoice_manual_payment.created` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type InvoiceManualPaymentCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link InvoiceManualPayment}. A recorded offline payment against an
+     * invoice. Its amount contributes to invoice paid_money while recorded; reversing it returns
+     * its full amount to outstanding_money. A payment can cover principal and late fees. Manual
+     * payments are separate from online payment attempts.
+     */
+    "data"?: {
+        /**
+         * A recorded offline payment against an invoice. Its amount contributes to invoice
+         * paid_money while recorded; reversing it returns its full amount to outstanding_money. A
+         * payment can cover principal and late fees. Manual payments are separate from online
+         * payment attempts.
+         */
+        "object": InvoiceManualPayment;
+    };
+    /** Value enum: "invoice_manual_payment.created". */
+    "event_type"?: "invoice_manual_payment.created";
+    /**
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `invoice_manual_payment.created` webhook payload for the `merchant` event source. Fields
+ * shared by merchant webhook payloads.
+ */
+export type InvoiceManualPaymentCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link InvoiceManualPayment}. A recorded offline payment against an
+     * invoice. Its amount contributes to invoice paid_money while recorded; reversing it returns
+     * its full amount to outstanding_money. A payment can cover principal and late fees. Manual
+     * payments are separate from online payment attempts.
+     */
+    "data"?: {
+        /**
+         * A recorded offline payment against an invoice. Its amount contributes to invoice
+         * paid_money while recorded; reversing it returns its full amount to outstanding_money. A
+         * payment can cover principal and late fees. Manual payments are separate from online
+         * payment attempts.
+         */
+        "object": InvoiceManualPayment;
+    };
+    /** Value enum: "invoice_manual_payment.created". */
+    "event_type"?: "invoice_manual_payment.created";
+});
+/** A page of `InvoiceManualPayment` objects. */
+export type InvoiceManualPaymentListResponse = {
+    /**
+     *  [] (Value): {@link InvoiceManualPayment}. A recorded offline payment against an invoice.
+     * Its amount contributes to invoice paid_money while recorded; reversing it returns its full
+     * amount to outstanding_money. A payment can cover principal and late fees. Manual payments
+     * are separate from online payment attempts.
+     */
+    "data": Array<InvoiceManualPayment>;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    "next_page_token"?: string;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `InvoiceManualPayment` data. */
+export type InvoiceManualPaymentResponse = {
+    /**
+     * A recorded offline payment against an invoice. Its amount contributes to invoice paid_money
+     * while recorded; reversing it returns its full amount to outstanding_money. A payment can
+     * cover principal and late fees. Manual payments are separate from online payment attempts.
+     */
+    "data": InvoiceManualPayment;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * The recorded or reversed payment and the updated invoice. expected_version on either write
+ * fences the invoice; use the returned invoice version for the next write.
+ */
+export type InvoiceManualPaymentResult = {
+    /** A bill issued to a customer. */
+    "invoice": Invoice;
+    /**
+     * A recorded offline payment against an invoice. Its amount contributes to invoice paid_money
+     * while recorded; reversing it returns its full amount to outstanding_money. A payment can
+     * cover principal and late fees. Manual payments are separate from online payment attempts.
+     */
+    "invoice_manual_payment": InvoiceManualPayment;
+};
+/** A response containing `InvoiceManualPaymentResult` data. */
+export type InvoiceManualPaymentResultResponse = {
+    /**
+     * The recorded or reversed payment and the updated invoice. expected_version on either write
+     * fences the invoice; use the returned invoice version for the next write.
+     */
+    "data": InvoiceManualPaymentResult;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type InvoiceManualPaymentReversedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InvoiceManualPayment;
+    };
+    "event_type"?: "invoice_manual_payment.reversed";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InvoiceManualPayment;
+    };
+    "event_type"?: "invoice_manual_payment.reversed";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "invoice_manual_payment.reversed";
+});
 /**
  * The `invoice_manual_payment.reversed` webhook payload for the `installed_merchants` event
  * source. Fields shared by partner webhook payloads.
@@ -1363,194 +1594,3 @@ export type InvoicePaymentTermCalculation = ({
     | (Exclude<InvoicePaymentTermCalculationDayOfMonth & object, readonly unknown[]>)
     | (Exclude<InvoicePaymentTermCalculationDayOfNextMonth & object, readonly unknown[]>)
     | (Record<string, unknown>));
-/** The `day_of_month` variant of `InvoicePaymentTermCalculation`. */
-export type InvoicePaymentTermCalculationDayOfMonth = ({
-    /**
-     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
-     * maximum: 31.
-     */
-    "day": number;
-    /** Format: int32. minimum: 0. maximum: 365. */
-    "days"?: number;
-    /** Value enum: "day_of_month". */
-    "type": "day_of_month" | (string & {});
-})
-    & (({
-    /** Value enum: "day_of_month". */
-    "type": "day_of_month" | (string & {});
-    /**
-     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
-     * maximum: 31.
-     */
-    "day": number;
-}));
-/** The `day_of_month` variant of `InvoicePaymentTermCalculation`. */
-export type InvoicePaymentTermCalculationDayOfMonthInput = ({
-    /**
-     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
-     * maximum: 31.
-     */
-    "day": number;
-    /** Format: int32. minimum: 0. maximum: 365. */
-    "days"?: number;
-    /** Value enum: "day_of_month". */
-    "type": "day_of_month";
-})
-    & (({
-    /** Value enum: "day_of_month". */
-    "type": "day_of_month";
-    /**
-     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
-     * maximum: 31.
-     */
-    "day": number;
-})
-    & ({
-    "days"?: never;
-}));
-/** The `day_of_next_month` variant of `InvoicePaymentTermCalculation`. */
-export type InvoicePaymentTermCalculationDayOfNextMonth = ({
-    /**
-     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
-     * maximum: 31.
-     */
-    "day": number;
-    /** Format: int32. minimum: 0. maximum: 365. */
-    "days"?: number;
-    /** Value enum: "day_of_next_month". */
-    "type": "day_of_next_month" | (string & {});
-})
-    & (({
-    /** Value enum: "day_of_next_month". */
-    "type": "day_of_next_month" | (string & {});
-    /**
-     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
-     * maximum: 31.
-     */
-    "day": number;
-}));
-/** The `day_of_next_month` variant of `InvoicePaymentTermCalculation`. */
-export type InvoicePaymentTermCalculationDayOfNextMonthInput = ({
-    /**
-     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
-     * maximum: 31.
-     */
-    "day": number;
-    /** Format: int32. minimum: 0. maximum: 365. */
-    "days"?: number;
-    /** Value enum: "day_of_next_month". */
-    "type": "day_of_next_month";
-})
-    & (({
-    /** Value enum: "day_of_next_month". */
-    "type": "day_of_next_month";
-    /**
-     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
-     * maximum: 31.
-     */
-    "day": number;
-})
-    & ({
-    "days"?: never;
-}));
-/** The `days_after_month_end` variant of `InvoicePaymentTermCalculation`. */
-export type InvoicePaymentTermCalculationDaysAfterMonthEnd = ({
-    /**
-     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
-     * maximum: 31.
-     */
-    "day"?: number;
-    /** Format: int32. minimum: 0. maximum: 365. */
-    "days": number;
-    /** Value enum: "days_after_month_end". */
-    "type": "days_after_month_end" | (string & {});
-})
-    & (({
-    /** Value enum: "days_after_month_end". */
-    "type": "days_after_month_end" | (string & {});
-    /** Format: int32. minimum: 0. maximum: 365. */
-    "days": number;
-}));
-/** The `days_after_month_end` variant of `InvoicePaymentTermCalculation`. */
-export type InvoicePaymentTermCalculationDaysAfterMonthEndInput = ({
-    /**
-     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
-     * maximum: 31.
-     */
-    "day"?: number;
-    /** Format: int32. minimum: 0. maximum: 365. */
-    "days": number;
-    /** Value enum: "days_after_month_end". */
-    "type": "days_after_month_end";
-})
-    & (({
-    /** Value enum: "days_after_month_end". */
-    "type": "days_after_month_end";
-    /** Format: int32. minimum: 0. maximum: 365. */
-    "days": number;
-})
-    & ({
-    "day"?: never;
-}));
-/**
- * How an invoice due date is calculated from payment terms, such as on receipt, net days, or a day
- * of the month.
- */
-export type InvoicePaymentTermCalculationInput = ({
-    /**
-     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
-     * maximum: 31.
-     */
-    "day"?: number;
-    /** Format: int32. minimum: 0. maximum: 365. */
-    "days"?: number;
-    /**
-     * Value enum: "on_receipt", "net_days", "day_of_month", "day_of_next_month",
-     * "days_after_month_end".
-     */
-    "type": "on_receipt" | "net_days" | "day_of_month" | "day_of_next_month" | "days_after_month_end";
-})
-    & ((Exclude<InvoicePaymentTermCalculationOnReceiptInput & object, readonly unknown[]>)
-    | (Exclude<InvoicePaymentTermCalculationNetDaysInput & object, readonly unknown[]>)
-    | (Exclude<InvoicePaymentTermCalculationDaysAfterMonthEndInput & object, readonly unknown[]>)
-    | (Exclude<InvoicePaymentTermCalculationDayOfMonthInput & object, readonly unknown[]>)
-    | (Exclude<InvoicePaymentTermCalculationDayOfNextMonthInput & object, readonly unknown[]>));
-/** The `net_days` variant of `InvoicePaymentTermCalculation`. */
-export type InvoicePaymentTermCalculationNetDays = ({
-    /**
-     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
-     * maximum: 31.
-     */
-    "day"?: number;
-    /** Format: int32. minimum: 0. maximum: 365. */
-    "days": number;
-    /** Value enum: "net_days". */
-    "type": "net_days" | (string & {});
-})
-    & (({
-    /** Value enum: "net_days". */
-    "type": "net_days" | (string & {});
-    /** Format: int32. minimum: 0. maximum: 365. */
-    "days": number;
-}));
-/** The `net_days` variant of `InvoicePaymentTermCalculation`. */
-export type InvoicePaymentTermCalculationNetDaysInput = ({
-    /**
-     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
-     * maximum: 31.
-     */
-    "day"?: number;
-    /** Format: int32. minimum: 0. maximum: 365. */
-    "days": number;
-    /** Value enum: "net_days". */
-    "type": "net_days";
-})
-    & (({
-    /** Value enum: "net_days". */
-    "type": "net_days";
-    /** Format: int32. minimum: 0. maximum: 365. */
-    "days": number;
-})
-    & ({
-    "day"?: never;
-}));

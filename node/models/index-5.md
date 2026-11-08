@@ -1,7 +1,16 @@
 [Model index](../MODELS.md)
 
-# CreateDeliveryMethodRequestLocalDeliveryInput to CreateInvoiceQuickPayRequestInput
+# CreateCustomerVerificationRequest to CreateInventoryTransferRequest
 
+- [CreateCustomerVerificationRequest](CreateCustomerVerificationRequest.md)
+- [CreateCustomerVerificationRequestInput](CreateCustomerVerificationRequestInput.md)
+- [CreateDeliveryFulfillmentDetails](CreateDeliveryFulfillmentDetails.md)
+- [CreateDeliveryFulfillmentDetailsInput](CreateDeliveryFulfillmentDetailsInput.md)
+- [CreateDeliveryLocationSetRequest](CreateDeliveryLocationSetRequest.md)
+- [CreateDeliveryLocationSetRequestInput](CreateDeliveryLocationSetRequestInput.md)
+- [CreateDeliveryMethodRequest](CreateDeliveryMethodRequest.md)
+- [CreateDeliveryMethodRequestInput](CreateDeliveryMethodRequestInput.md)
+- [CreateDeliveryMethodRequestLocalDelivery](CreateDeliveryMethodRequestLocalDelivery.md)
 - [CreateDeliveryMethodRequestLocalDeliveryInput](CreateDeliveryMethodRequestLocalDeliveryInput.md)
 - [CreateDeliveryMethodRequestPickup](CreateDeliveryMethodRequestPickup.md)
 - [CreateDeliveryMethodRequestPickupInput](CreateDeliveryMethodRequestPickupInput.md)
@@ -93,13 +102,4 @@
 - [CreateInventoryReservationRequest](CreateInventoryReservationRequest.md)
 - [CreateInventoryReservationRequestInput](CreateInventoryReservationRequestInput.md)
 - [CreateInventoryTransferRequest](CreateInventoryTransferRequest.md)
-- [CreateInventoryTransferRequestInput](CreateInventoryTransferRequestInput.md)
-- [CreateInvoiceIssueRequest](CreateInvoiceIssueRequest.md)
-- [CreateInvoiceIssueRequestInput](CreateInvoiceIssueRequestInput.md)
-- [CreateInvoiceManualPaymentRequest](CreateInvoiceManualPaymentRequest.md)
-- [CreateInvoiceManualPaymentRequestInput](CreateInvoiceManualPaymentRequestInput.md)
-- [CreateInvoicePaymentTermRequest](CreateInvoicePaymentTermRequest.md)
-- [CreateInvoicePaymentTermRequestInput](CreateInvoicePaymentTermRequestInput.md)
-- [CreateInvoiceQuickPayRequest](CreateInvoiceQuickPayRequest.md)
-- [CreateInvoiceQuickPayRequestInput](CreateInvoiceQuickPayRequestInput.md)
 

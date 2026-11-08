@@ -1,28 +1,173 @@
-import type { DeliveryProfile } from './types-17.js';
-import type { MerchantWebhookEnvelope } from './types-34.js';
+import type {
+    DeliveryProfileOriginPolicyInputFixedLocation,
+    DeliveryProfileOriginPolicyInputFixedLocationInput,
+    DeliveryProfile
+} from './types-17.js';
+import type { ResponseMeta } from './types-48.js';
+import type { MerchantWebhookEnvelope } from './types-35.js';
+import type { PartnerWebhookEnvelope } from './types-40.js';
 import type { InputValue } from '../runtime.js';
 import type { AssignToUnconfiguredDeliveryProfileRequestInput, Address } from './types-0.js';
 import type { CreateDeliveryProfileRequestInput, CreateDeliveryRateCallbackRequestInput } from './types-7.js';
-import type { DeliveryLocationSetsDeleteParams, DeliveryInputRequirement, DeliveryMerchantDiagnostic } from './types-15.js';
-import type { UpdateDeliveryProfileRequestInput, UpdateDeliveryRateCallbackRequestInput } from './types-58.js';
 import type {
-    DeliveryBuyerLocationResource,
-    DeliveryAddressAdvisoryResource,
-    DeliveryCandidateOutcomeResource,
+    DeliveryLocationSetsDeleteParams,
+    DeliveryInputRequirement,
+    DeliveryMerchantDiagnostic,
     DeliveryDistance,
     DeliveryDistanceInput
-} from './types-14.js';
-import type {
-    DeliveryPendingCallerRateRequest,
-    DeliveryOptionProjection,
-    DeliveryPricingRate,
-    DeliveryPricingRateCreateRequest,
-    DeliveryPricingRateCreateRequestInput,
-    DeliveryPricingRateRequest,
-    DeliveryPricingRateRequestInput
-} from './types-16.js';
-import type { ResponseMeta } from './types-48.js';
-import type { PartnerWebhookEnvelope } from './types-40.js';
+} from './types-15.js';
+import type { UpdateDeliveryProfileRequestInput } from './types-58.js';
+import type { DeliveryBuyerLocationResource, DeliveryAddressAdvisoryResource, DeliveryCandidateOutcomeResource } from './types-14.js';
+import type { DeliveryPendingCallerRateRequest, DeliveryOptionProjection } from './types-16.js';
+/** The `inventory_routing` variant of `DeliveryProfileOriginPolicyInput`. */
+export type DeliveryProfileOriginPolicyInputInventoryRouting = ({
+    /** minLength: 1. */
+    "location_id"?: string;
+    /** Value enum: "inventory_routing". */
+    "type": "inventory_routing" | (string & {});
+})
+    & (({
+    /** Value enum: "inventory_routing". */
+    "type": unknown;
+}));
+/** The `inventory_routing` variant of `DeliveryProfileOriginPolicyInput`. */
+export type DeliveryProfileOriginPolicyInputInventoryRoutingInput = ({
+    /** minLength: 1. */
+    "location_id"?: string;
+    /** Value enum: "inventory_routing". */
+    "type": "inventory_routing";
+})
+    & (({
+    /** Value enum: "inventory_routing". */
+    "type": "inventory_routing";
+})
+    & (({
+    "location_id"?: never;
+})));
+/** The `method_origin` variant of `DeliveryProfileOriginPolicyInput`. */
+export type DeliveryProfileOriginPolicyInputMethodOrigin = ({
+    /** minLength: 1. */
+    "location_id"?: string;
+    /** Value enum: "method_origin". */
+    "type": "method_origin" | (string & {});
+})
+    & (({
+    /** Value enum: "method_origin". */
+    "type": unknown;
+}));
+/** The `method_origin` variant of `DeliveryProfileOriginPolicyInput`. */
+export type DeliveryProfileOriginPolicyInputMethodOriginInput = ({
+    /** minLength: 1. */
+    "location_id"?: string;
+    /** Value enum: "method_origin". */
+    "type": "method_origin";
+})
+    & (({
+    /** Value enum: "method_origin". */
+    "type": "method_origin";
+})
+    & (({
+    "location_id"?: never;
+})));
+/**
+ * Origin policy you supply for a delivery profile: a fixed Location (`location_id`), inventory
+ * routing, or the origin set on the delivery method.
+ */
+export type DeliveryProfileOriginPolicyRequest = ({
+    /** minLength: 1. */
+    "location_id"?: string;
+    /** Value enum: "fixed_location", "inventory_routing", "method_origin". */
+    "type": "fixed_location" | "inventory_routing" | "method_origin" | (string & {});
+})
+    & ((Exclude<DeliveryProfileOriginPolicyInputFixedLocation & object, readonly unknown[]>)
+    | (Exclude<DeliveryProfileOriginPolicyInputInventoryRouting & object, readonly unknown[]>)
+    | (Exclude<DeliveryProfileOriginPolicyInputMethodOrigin & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/**
+ * Origin policy you supply for a delivery profile: a fixed Location (`location_id`), inventory
+ * routing, or the origin set on the delivery method.
+ */
+export type DeliveryProfileOriginPolicyRequestInput = ({
+    /** minLength: 1. */
+    "location_id"?: string;
+    /** Value enum: "fixed_location", "inventory_routing", "method_origin". */
+    "type": "fixed_location" | "inventory_routing" | "method_origin";
+})
+    & ((Exclude<DeliveryProfileOriginPolicyInputFixedLocationInput & object, readonly unknown[]>)
+    | (Exclude<DeliveryProfileOriginPolicyInputInventoryRoutingInput & object, readonly unknown[]>)
+    | (Exclude<DeliveryProfileOriginPolicyInputMethodOriginInput & object, readonly unknown[]>));
+/** A response containing `DeliveryProfile` data. */
+export type DeliveryProfileResponse = {
+    /** Reusable delivery rules assigned to catalog items. */
+    "data": DeliveryProfile;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type DeliveryProfileUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": DeliveryProfile;
+    };
+    "event_type"?: "delivery_profile.updated";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": DeliveryProfile;
+    };
+    "event_type"?: "delivery_profile.updated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "delivery_profile.updated";
+});
+/**
+ * The `delivery_profile.updated` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type DeliveryProfileUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link DeliveryProfile}. Reusable delivery rules assigned to catalog
+     * items.
+     */
+    "data"?: {
+        /** Reusable delivery rules assigned to catalog items. */
+        "object": DeliveryProfile;
+    };
+    /** Value enum: "delivery_profile.updated". */
+    "event_type"?: "delivery_profile.updated";
+    /**
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
 /**
  * The `delivery_profile.updated` webhook payload for the `merchant` event source. Fields shared by
  * merchant webhook payloads.
@@ -1178,100 +1323,3 @@ export type DeliveryRateCallbacksListParams = {
     "delivery_method_id"?: InputValue<string>;
 };
 export type DeliveryRateCallbacksRotateSecretParams = {};
-export type DeliveryRateCallbacksUpdateParams = (UpdateDeliveryRateCallbackRequestInput);
-/**
- * Pricing strategy that charges the price of the first matching rate in a list of prioritized
- * rates. `unmatched_behavior` says what happens when none match.
- */
-export type DeliveryRateTablePricingStrategy = {
-    /**
-     *  [] (Value): {@link DeliveryPricingRate}. One rate in a rate table pricing strategy: a
-     * `when` condition, a `priority`, and a price per currency. The first matching rate by
-     * priority sets the price.
-     */
-    "rates": Array<DeliveryPricingRate>;
-    /** Value enum: "unavailable". */
-    "unmatched_behavior": "unavailable" | (string & {});
-};
-/**
- * Rate table pricing strategy you supply when creating a delivery method: a list of prioritized
- * rates, each with a condition and prices.
- */
-export type DeliveryRateTablePricingStrategyCreateRequest = {
-    /**
-     *  [] (Value): {@link DeliveryPricingRateCreateRequest}. A rate to add when creating a rate
-     * table pricing strategy: a `when` condition, a `priority`, and a price per currency.
-     */
-    "rates": Array<DeliveryPricingRateCreateRequest>;
-    /** Default: "unavailable". Value enum: "unavailable". */
-    "unmatched_behavior"?: "unavailable" | (string & {});
-};
-/**
- * Rate table pricing strategy you supply when creating a delivery method: a list of prioritized
- * rates, each with a condition and prices.
- */
-export type DeliveryRateTablePricingStrategyCreateRequestInput = {
-    /**
-     *  [] (Value): {@link DeliveryPricingRateCreateRequestInput}. A rate to add when creating a
-     * rate table pricing strategy: a `when` condition, a `priority`, and a price per currency.
-     */
-    "rates": Array<DeliveryPricingRateCreateRequestInput>;
-    /** Default: "unavailable". Value enum: "unavailable". */
-    "unmatched_behavior"?: "unavailable";
-};
-/**
- * Rate table pricing strategy you supply when updating a delivery method: a list of prioritized
- * rates, each with a condition and prices.
- */
-export type DeliveryRateTablePricingStrategyRequest = {
-    /**
-     *  [] (Value): {@link DeliveryPricingRateRequest}. A rate in a rate table pricing strategy you
-     * send when updating a delivery method. Include `delivery_rate_id` to keep or update an
-     * existing rate.
-     */
-    "rates": Array<DeliveryPricingRateRequest>;
-    /** Default: "unavailable". Value enum: "unavailable". */
-    "unmatched_behavior"?: "unavailable" | (string & {});
-};
-/**
- * Rate table pricing strategy you supply when updating a delivery method: a list of prioritized
- * rates, each with a condition and prices.
- */
-export type DeliveryRateTablePricingStrategyRequestInput = {
-    /**
-     *  [] (Value): {@link DeliveryPricingRateRequestInput}. A rate in a rate table pricing
-     * strategy you send when updating a delivery method. Include `delivery_rate_id` to keep or
-     * update an existing rate.
-     */
-    "rates": Array<DeliveryPricingRateRequestInput>;
-    /** Default: "unavailable". Value enum: "unavailable". */
-    "unmatched_behavior"?: "unavailable";
-};
-/**
- * Says whether a recipient field (`name`, `email`, or `phone`) is required for a delivery method,
- * and the format it must use.
- */
-export type DeliveryRecipientRequirement = {
-    /** Value enum: "name", "email", "phone". */
-    "field": "name" | "email" | "phone" | (string & {});
-    /** Value enum: "text", "email", "e164". */
-    "format"?: "text" | "email" | "e164" | (string & {});
-    "required": boolean;
-};
-/**
- * Says whether a recipient field (`name`, `email`, or `phone`) is required for a delivery method,
- * and the format it must use.
- */
-export type DeliveryRecipientRequirementInput = {
-    /** Value enum: "name", "email", "phone". */
-    "field": "name" | "email" | "phone";
-    /** Value enum: "text", "email", "e164". */
-    "format"?: "text" | "email" | "e164";
-    "required": boolean;
-};
-/** The person receiving a delivery selection, with optional `name`, `email`, and `phone`. */
-export type DeliveryRecipientResource = {
-    "email"?: string;
-    "name"?: string;
-    "phone"?: string;
-};

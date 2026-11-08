@@ -1,4 +1,5 @@
-import type { ModifierGroup, MerchantWebhookEnvelope, MetadataMap, MetadataRequestInput } from './types-34.js';
+import type { Merchant } from './types-34.js';
+import type { TextModifierConfig } from './types-58.js';
 import type { PartnerWebhookEnvelope } from './types-40.js';
 import type { ResponseMeta, ResponseWarning } from './types-48.js';
 import type { InputValue } from '../runtime.js';
@@ -6,8 +7,611 @@ import type { CreateModifierGroupRequestInput, CreateModifierSetRequestInput } f
 import type { UpdateModifierGroupRequestInput, UpdateModifierSetRequestInput } from './types-59.js';
 import type { InlineModifierGroupRequest, InlineModifierGroupRequestInput } from './types-25.js';
 import type { ReadinessMerchantAccountSession } from './types-46.js';
-import type { DeveloperInitialAPIKeyRequestInput } from './types-20.js';
-import type { OnboardingStartResult } from './types-36.js';
+import type { OAuthTokenRequestDeviceCode, OAuthTokenRequestRefreshToken, OAuthTokenRequestTokenExchange } from './types-36.js';
+export type MerchantUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Merchant;
+    };
+    "event_type"?: "merchant.updated";
+})
+    & {
+    "event_type": "merchant.updated";
+});
+/** Fields shared by merchant webhook payloads. */
+export type MerchantWebhookEnvelope = ({
+    /** Format: date. */
+    "api_version": string;
+    /** Format: date-time. */
+    "created_at": string;
+    /**  object (Required): object. */
+    "data": {
+        "object": {
+            [key: string]: unknown;
+        };
+    };
+    /**
+     * Value enum: "test_clock.created", "test_clock.advancing", "test_clock.ready",
+     * "test_clock.failed", "test_clock.archived", "tax_connection.updated",
+     * "customer_deletion_request.processing", "customer_deletion_request.failed",
+     * "invoice_delivery_attempt.sent", "invoice_delivery_attempt.failed",
+     * "invoice_delivery_attempt.suppressed", "fulfillment.canceled", "fulfillment.failed",
+     * "merchant.updated", "product.created", "product.updated", "product.archived",
+     * "product_variant.created", "product_variant.updated", "product_variant.archived",
+     * "bundle.created", "bundle.updated", "bundle.archived", "category.created",
+     * "category.updated", "category.deleted", "modifier_group.created", "modifier_group.updated",
+     * "modifier_group.archived", "modifier_set.created", "modifier_set.updated",
+     * "modifier_set.archived", "promotion.created", "promotion.updated", "promotion.archived",
+     * "promotion_code.created", "promotion_code.updated", "promotion_code.archived",
+     * "balance.updated", "balance_transaction.created", "balance_transaction.updated",
+     * "checkout_session.partially_paid", "checkout_session.created", "checkout_session.paid",
+     * "checkout_session.closed", "checkout_session.expired", "checkout_session.invalidated",
+     * "credit_note_allocation.created", "credit_note_allocation.reversed", "credit_note.created",
+     * "credit_note.issued", "credit_note.updated", "credit_note.voided", "customer.created",
+     * "customer_deletion_request.completed", "customer_deletion_request.rejected",
+     * "customer_deletion_request.created", "customer.updated", "customer.deleted",
+     * "custom_domain.updated", "custom_domain.archived", "dispute.created", "dispute.lost",
+     * "dispute.needs_response", "dispute.prevented", "dispute.updated", "dispute.inquiry_closed",
+     * "dispute.won", "fraud_warning.created", "fraud_warning.updated", "gift_card.created",
+     * "gift_card.updated", "gift_card_load.created", "gift_card_load.updated",
+     * "gift_card_notification.created", "gift_card_notification.updated",
+     * "gift_card_redemption.created", "gift_card_redemption.updated",
+     * "gift_card_transaction.created", "delivery_rate_callback.archived",
+     * "delivery_rate_callback.created", "delivery_rate_callback.deactivated",
+     * "delivery_rate_callback.activated", "delivery_rate_callback.updated",
+     * "delivery_method.archived", "delivery_method.created", "delivery_method.deactivated",
+     * "delivery_method.activated", "delivery_method.updated", "delivery_location_set.archived",
+     * "delivery_location_set.created", "delivery_location_set.deactivated",
+     * "delivery_location_set.activated", "delivery_location_set.updated",
+     * "delivery_profile.archived", "delivery_profile.created", "delivery_profile.deactivated",
+     * "delivery_profile.activated", "delivery_profile.updated", "delivery_revocation.created",
+     * "delivery_selection.committed", "delivery_zone.archived", "delivery_zone.created",
+     * "delivery_zone.deactivated", "delivery_zone.activated", "delivery_zone.updated",
+     * "invoice.collection_block_resolved", "invoice.collection_blocked", "invoice.credited",
+     * "invoice.created", "invoice.issued", "invoice.issue_failed", "invoice.late_fee_due",
+     * "invoice.late_fee_assessed", "invoice.late_fee_waived", "invoice.marked_uncollectible",
+     * "invoice_manual_payment.created", "invoice_manual_payment.reversed", "invoice.overdue",
+     * "invoice.paid", "invoice_payment_attempt.processing", "invoice_payment_attempt.canceled",
+     * "invoice_payment_attempt.expired", "invoice_payment_attempt.failed",
+     * "invoice_payment_attempt.settled", "invoice.partially_paid", "invoice.partially_refunded",
+     * "invoice.refunded", "invoice.reminder_due", "invoice.reopened", "invoice.sent",
+     * "invoice.updated", "invoice.voided", "inventory_reservation.action_required",
+     * "inventory_count.applied", "inventory_level.updated", "inventory_receipt.created",
+     * "inventory_reservation.at_risk", "inventory_reservation.closed",
+     * "inventory_reservation.committed", "inventory_reservation.consumed",
+     * "inventory_reservation.created", "inventory_reservation.hold_expired",
+     * "inventory_reservation.released", "inventory_level.shortage_detected",
+     * "inventory_transfer.closed", "inventory_transfer.departed", "inventory_transfer.lost",
+     * "inventory_transfer.received", "inventory_transfer.returned",
+     * "merchant_billing_balance.updated", "merchant.readiness_updated",
+     * "merchant_billing_invoice.issued", "merchant_billing_invoice.updated",
+     * "order.partially_refunded", "order.closed", "order.created", "fulfillment.completed",
+     * "fulfillment.created", "fulfillment_event.created", "package.created", "package.updated",
+     * "shipment.created", "shipment.updated", "fulfillment.updated",
+     * "order.inventory_exception_created", "order.inventory_exception_resolved",
+     * "order.partially_paid", "order.paid", "order.refunded", "order.updated",
+     * "payment_intent.expired", "payment_intent.updated", "payment_intent.created",
+     * "payment_intent.canceled", "payment_intent.fulfillment_hold_updated",
+     * "payment_intent.payment_failed", "payment_intent.processing",
+     * "payment_intent.requires_action", "payment_intent.requires_capture",
+     * "payment_intent.succeeded", "payment_link.created", "payment_link.updated",
+     * "payment_method.archived", "payment_method.failed", "payment_method.activated",
+     * "payout.canceled", "payout.created", "payout.failed", "payout.paid", "payout.reversed",
+     * "payout.updated", "payout_destination.created", "payout_destination.archived",
+     * "payout_destination.disabled", "payout_destination.updated", "payout_settings.updated",
+     * "refund.partially_succeeded", "refund.succeeded", "refund.created", "refund.failed",
+     * "refund.updated", "report.failed", "report.succeeded", "return.canceled",
+     * "return.completed", "return.created", "return.decision_recorded", "return.reopened",
+     * "return.updated", "return_disposition.created", "return_disposition.updated",
+     * "return_inspection.acceptance_decided", "return_inspection.created",
+     * "return_inspection.superseded", "return_receipt.created", "return_receipt.superseded",
+     * "return_receipt.verified", "return_resolution.created", "return_resolution.updated",
+     * "payment_review.closed", "payment_review.reopened", "payment_review.opened",
+     * "subscription.activated", "subscription.canceled", "subscription.cancellation_scheduled",
+     * "subscription.created", "subscription.dunning_exhausted", "subscription.past_due",
+     * "subscription.paused", "subscription.payment_succeeded",
+     * "subscription_payment_retry.created", "subscription_payment_retry.succeeded",
+     * "subscription_payment_retry.failed", "subscription.reactivated", "subscription.resumed",
+     * "subscription.renewal_upcoming", "subscription.trial_ending", "subscription.plan_changed",
+     * "subscription.updated", "subscription.delivery_action_required",
+     * "subscription.delivery_pause_upcoming", "subscription.delivery_updated",
+     * "subscription.cycle_skipped", "subscription_delivery_migration.completed".
+     */
+    "event_type": "test_clock.created"
+        | "test_clock.advancing"
+        | "test_clock.ready"
+        | "test_clock.failed"
+        | "test_clock.archived"
+        | "tax_connection.updated"
+        | "customer_deletion_request.processing"
+        | "customer_deletion_request.failed"
+        | "invoice_delivery_attempt.sent"
+        | "invoice_delivery_attempt.failed"
+        | "invoice_delivery_attempt.suppressed"
+        | "fulfillment.canceled"
+        | "fulfillment.failed"
+        | "merchant.updated"
+        | "product.created"
+        | "product.updated"
+        | "product.archived"
+        | "product_variant.created"
+        | "product_variant.updated"
+        | "product_variant.archived"
+        | "bundle.created"
+        | "bundle.updated"
+        | "bundle.archived"
+        | "category.created"
+        | "category.updated"
+        | "category.deleted"
+        | "modifier_group.created"
+        | "modifier_group.updated"
+        | "modifier_group.archived"
+        | "modifier_set.created"
+        | "modifier_set.updated"
+        | "modifier_set.archived"
+        | "promotion.created"
+        | "promotion.updated"
+        | "promotion.archived"
+        | "promotion_code.created"
+        | "promotion_code.updated"
+        | "promotion_code.archived"
+        | "balance.updated"
+        | "balance_transaction.created"
+        | "balance_transaction.updated"
+        | "checkout_session.partially_paid"
+        | "checkout_session.created"
+        | "checkout_session.paid"
+        | "checkout_session.closed"
+        | "checkout_session.expired"
+        | "checkout_session.invalidated"
+        | "credit_note_allocation.created"
+        | "credit_note_allocation.reversed"
+        | "credit_note.created"
+        | "credit_note.issued"
+        | "credit_note.updated"
+        | "credit_note.voided"
+        | "customer.created"
+        | "customer_deletion_request.completed"
+        | "customer_deletion_request.rejected"
+        | "customer_deletion_request.created"
+        | "customer.updated"
+        | "customer.deleted"
+        | "custom_domain.updated"
+        | "custom_domain.archived"
+        | "dispute.created"
+        | "dispute.lost"
+        | "dispute.needs_response"
+        | "dispute.prevented"
+        | "dispute.updated"
+        | "dispute.inquiry_closed"
+        | "dispute.won"
+        | "fraud_warning.created"
+        | "fraud_warning.updated"
+        | "gift_card.created"
+        | "gift_card.updated"
+        | "gift_card_load.created"
+        | "gift_card_load.updated"
+        | "gift_card_notification.created"
+        | "gift_card_notification.updated"
+        | "gift_card_redemption.created"
+        | "gift_card_redemption.updated"
+        | "gift_card_transaction.created"
+        | "delivery_rate_callback.archived"
+        | "delivery_rate_callback.created"
+        | "delivery_rate_callback.deactivated"
+        | "delivery_rate_callback.activated"
+        | "delivery_rate_callback.updated"
+        | "delivery_method.archived"
+        | "delivery_method.created"
+        | "delivery_method.deactivated"
+        | "delivery_method.activated"
+        | "delivery_method.updated"
+        | "delivery_location_set.archived"
+        | "delivery_location_set.created"
+        | "delivery_location_set.deactivated"
+        | "delivery_location_set.activated"
+        | "delivery_location_set.updated"
+        | "delivery_profile.archived"
+        | "delivery_profile.created"
+        | "delivery_profile.deactivated"
+        | "delivery_profile.activated"
+        | "delivery_profile.updated"
+        | "delivery_revocation.created"
+        | "delivery_selection.committed"
+        | "delivery_zone.archived"
+        | "delivery_zone.created"
+        | "delivery_zone.deactivated"
+        | "delivery_zone.activated"
+        | "delivery_zone.updated"
+        | "invoice.collection_block_resolved"
+        | "invoice.collection_blocked"
+        | "invoice.credited"
+        | "invoice.created"
+        | "invoice.issued"
+        | "invoice.issue_failed"
+        | "invoice.late_fee_due"
+        | "invoice.late_fee_assessed"
+        | "invoice.late_fee_waived"
+        | "invoice.marked_uncollectible"
+        | "invoice_manual_payment.created"
+        | "invoice_manual_payment.reversed"
+        | "invoice.overdue"
+        | "invoice.paid"
+        | "invoice_payment_attempt.processing"
+        | "invoice_payment_attempt.canceled"
+        | "invoice_payment_attempt.expired"
+        | "invoice_payment_attempt.failed"
+        | "invoice_payment_attempt.settled"
+        | "invoice.partially_paid"
+        | "invoice.partially_refunded"
+        | "invoice.refunded"
+        | "invoice.reminder_due"
+        | "invoice.reopened"
+        | "invoice.sent"
+        | "invoice.updated"
+        | "invoice.voided"
+        | "inventory_reservation.action_required"
+        | "inventory_count.applied"
+        | "inventory_level.updated"
+        | "inventory_receipt.created"
+        | "inventory_reservation.at_risk"
+        | "inventory_reservation.closed"
+        | "inventory_reservation.committed"
+        | "inventory_reservation.consumed"
+        | "inventory_reservation.created"
+        | "inventory_reservation.hold_expired"
+        | "inventory_reservation.released"
+        | "inventory_level.shortage_detected"
+        | "inventory_transfer.closed"
+        | "inventory_transfer.departed"
+        | "inventory_transfer.lost"
+        | "inventory_transfer.received"
+        | "inventory_transfer.returned"
+        | "merchant_billing_balance.updated"
+        | "merchant.readiness_updated"
+        | "merchant_billing_invoice.issued"
+        | "merchant_billing_invoice.updated"
+        | "order.partially_refunded"
+        | "order.closed"
+        | "order.created"
+        | "fulfillment.completed"
+        | "fulfillment.created"
+        | "fulfillment_event.created"
+        | "package.created"
+        | "package.updated"
+        | "shipment.created"
+        | "shipment.updated"
+        | "fulfillment.updated"
+        | "order.inventory_exception_created"
+        | "order.inventory_exception_resolved"
+        | "order.partially_paid"
+        | "order.paid"
+        | "order.refunded"
+        | "order.updated"
+        | "payment_intent.expired"
+        | "payment_intent.updated"
+        | "payment_intent.created"
+        | "payment_intent.canceled"
+        | "payment_intent.fulfillment_hold_updated"
+        | "payment_intent.payment_failed"
+        | "payment_intent.processing"
+        | "payment_intent.requires_action"
+        | "payment_intent.requires_capture"
+        | "payment_intent.succeeded"
+        | "payment_link.created"
+        | "payment_link.updated"
+        | "payment_method.archived"
+        | "payment_method.failed"
+        | "payment_method.activated"
+        | "payout.canceled"
+        | "payout.created"
+        | "payout.failed"
+        | "payout.paid"
+        | "payout.reversed"
+        | "payout.updated"
+        | "payout_destination.created"
+        | "payout_destination.archived"
+        | "payout_destination.disabled"
+        | "payout_destination.updated"
+        | "payout_settings.updated"
+        | "refund.partially_succeeded"
+        | "refund.succeeded"
+        | "refund.created"
+        | "refund.failed"
+        | "refund.updated"
+        | "report.failed"
+        | "report.succeeded"
+        | "return.canceled"
+        | "return.completed"
+        | "return.created"
+        | "return.decision_recorded"
+        | "return.reopened"
+        | "return.updated"
+        | "return_disposition.created"
+        | "return_disposition.updated"
+        | "return_inspection.acceptance_decided"
+        | "return_inspection.created"
+        | "return_inspection.superseded"
+        | "return_receipt.created"
+        | "return_receipt.superseded"
+        | "return_receipt.verified"
+        | "return_resolution.created"
+        | "return_resolution.updated"
+        | "payment_review.closed"
+        | "payment_review.reopened"
+        | "payment_review.opened"
+        | "subscription.activated"
+        | "subscription.canceled"
+        | "subscription.cancellation_scheduled"
+        | "subscription.created"
+        | "subscription.dunning_exhausted"
+        | "subscription.past_due"
+        | "subscription.paused"
+        | "subscription.payment_succeeded"
+        | "subscription_payment_retry.created"
+        | "subscription_payment_retry.succeeded"
+        | "subscription_payment_retry.failed"
+        | "subscription.reactivated"
+        | "subscription.resumed"
+        | "subscription.renewal_upcoming"
+        | "subscription.trial_ending"
+        | "subscription.plan_changed"
+        | "subscription.updated"
+        | "subscription.delivery_action_required"
+        | "subscription.delivery_pause_upcoming"
+        | "subscription.delivery_updated"
+        | "subscription.cycle_skipped"
+        | "subscription_delivery_migration.completed"
+        | (string & {});
+    "merchant_id": string;
+    /** Value enum: "test", "live". */
+    "mode": "test" | "live" | (string & {});
+    /**
+     * 2 for every current event. 1 only for an event queued before 2026-10-16 and delivered
+     * afterwards, which keeps its previous data shape. Value enum: 1, 2.
+     */
+    "payload_version": number;
+    /**
+     *  id (Required): string. idempotency_key (Optional): string. The Idempotency-Key the
+     * originating request sent. Absent when it sent none.
+     */
+    "request": {
+        "id": string;
+        /** The Idempotency-Key the originating request sent. Absent when it sent none. */
+        "idempotency_key"?: string;
+    }
+        | null;
+    /** true for a synthetic event sent from the test-events endpoint, false otherwise. */
+    "test": boolean;
+    "webhook_event_id": string;
+});
+/**
+ * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
+ * Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput;
+ * maps written before those limits may not satisfy them.
+ */
+export type MetadataMap = Record<string, string>;
+/**
+ * Changes to a caller-owned metadata map. Omit the field to leave metadata unchanged. Each key
+ * sets a value, a null value deletes the key, and an empty object makes no change; send null for
+ * the whole field to clear all caller-owned metadata. The resulting map is limited the same way as
+ * MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to
+ * 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key
+ * that does not exist is allowed, so the number of operations is not itself the stored-map limit.
+ * Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
+ */
+export type MetadataPatchRequest = Record<string, string | null>;
+/**
+ * Changes to a caller-owned metadata map. Omit the field to leave metadata unchanged. Each key
+ * sets a value, a null value deletes the key, and an empty object makes no change; send null for
+ * the whole field to clear all caller-owned metadata. The resulting map is limited the same way as
+ * MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to
+ * 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key
+ * that does not exist is allowed, so the number of operations is not itself the stored-map limit.
+ * Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
+ */
+export type MetadataPatchRequestInput = MetadataPatchRequest;
+/**
+ * Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50
+ * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+ * points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and
+ * keys starting with flint_ are reserved for Flint. maxProperties: 50.
+ */
+export type MetadataRequestInput = MetadataMap;
+/** A purchasable customization choice. */
+export type Modifier = {
+    /** When the modifier was created, as an RFC3339 timestamp. Format: date-time. */
+    "created_at"?: string;
+    /**
+     * Whole-number quantity selected by default. Used only when the choice is available and
+     * selected_by_default is true. A modifier set can override this value; fractional quantities
+     * are not supported. Format: int64.
+     */
+    "default_quantity"?: number;
+    /**
+     * Flint line-item tax category. Value enum: "general", "physical_goods", "digital_goods",
+     * "software", "saas", "services", "professional_services", "food", "prepared_food",
+     * "clothing", "medical_goods", "admission".
+     */
+    "line_item_tax_category"?: "general"
+        | "physical_goods"
+        | "digital_goods"
+        | "software"
+        | "saas"
+        | "services"
+        | "professional_services"
+        | "food"
+        | "prepared_food"
+        | "clothing"
+        | "medical_goods"
+        | "admission"
+        | (string & {});
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
+     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
+     * written before those limits may not satisfy them.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Identifier of the group that owns this modifier. For an inline group, read the group through
+     * its modifier set.
+     */
+    "modifier_group_id"?: string;
+    /**
+     * Stable identifier of the modifier. In a replacement request, include it to retain a modifier
+     * or omit it to create one.
+     */
+    "modifier_id": string;
+    /** Name of the choice shown to buyers. */
+    "name": string;
+    /**
+     * Display position of the choice within its group; lower values appear first. Format: int32.
+     */
+    "position": number;
+    /**
+     * Whether this choice is selected when the buyer has not supplied selections for the group. A
+     * modifier set can override this value; unavailable choices are never selected by default.
+     */
+    "selected_by_default": boolean;
+    /** Whether this modifier appears in fulfillment details. */
+    "show_on_fulfillment": boolean;
+    /** Whether this modifier appears on buyer receipts. */
+    "show_on_receipt": boolean;
+    /**
+     * Lifecycle status of the modifier. Only active modifiers can be offered to buyers. Value
+     * enum: "active", "inactive", "archived".
+     */
+    "status": "active" | "inactive" | "archived" | (string & {});
+    /** Whether this modifier's price is taxable. A modifier set can override this value. */
+    "taxable"?: boolean;
+    /**
+     * Amount added to the item's unit price for each unit of this modifier. A modifier set can
+     * override this value. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "unit_price_delta_money"?: MoneyValue;
+    /** When the modifier last changed, as an RFC3339 timestamp. Format: date-time. */
+    "updated_at"?: string;
+};
+/** A group of choices that customize an item. */
+export type ModifierGroup = {
+    /** Whether buyers can select more than one unit of a list modifier. */
+    "allow_quantities": boolean;
+    /** When the modifier group was created, as an RFC3339 timestamp. Format: date-time. */
+    "created_at"?: string;
+    /** Caller-owned identifier for this resource in an external system. maxLength: 255. */
+    "external_reference_id"?: string;
+    /**
+     * Maximum whole-number quantity for each selected list modifier when allow_quantities is true;
+     * fractional quantities are not supported. Format: int64.
+     */
+    "max_quantity"?: number;
+    /**
+     * Maximum number of distinct modifiers buyers can select from a list group. Omit it for no
+     * limit. A modifier set can override this value. Format: int32.
+     */
+    "max_selected"?: number;
+    /**
+     * Maximum combined whole-number quantity across selected list modifiers; fractional quantities
+     * are not supported. Format: int64.
+     */
+    "max_total_quantity"?: number;
+    /** Identifier of the merchant that owns this modifier group. */
+    "merchant_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
+     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
+     * written before those limits may not satisfy them.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Minimum whole-number quantity for each selected list modifier when allow_quantities is true;
+     * fractional quantities are not supported. Format: int64.
+     */
+    "min_quantity"?: number;
+    /**
+     * Minimum number of distinct modifiers buyers must select from a list group. Omit it to
+     * require no selections. A modifier set can override this value. Format: int32.
+     */
+    "min_selected"?: number;
+    /**
+     * Stable identifier of the modifier group. For a group a modifier set owns (`source: inline`),
+     * read it through `GET /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups` doesn't
+     * return it.
+     */
+    "modifier_group_id": string;
+    /**
+     * Whether buyers choose from a list of modifiers or enter text. On create, inferred as text
+     * when text configuration is supplied, otherwise list. Value enum: "list", "text".
+     */
+    "modifier_group_type": "list" | "text" | (string & {});
+    /**
+     * Choices in a list group. Only active modifiers whose set override's available is not false
+     * are offered to buyers. Text groups do not have choices. [] (Value): {@link Modifier}. A
+     * purchasable customization choice.
+     */
+    "modifiers": Array<Modifier>;
+    /** Name of the modifier group shown to buyers. */
+    "name": string;
+    /**
+     * Whether selections from this group appear in fulfillment details unless overridden for a
+     * modifier set.
+     */
+    "show_on_fulfillment": boolean;
+    /**
+     * Whether selections from this group appear on buyer receipts unless overridden for a modifier
+     * set.
+     */
+    "show_on_receipt": boolean;
+    /**
+     * Lifecycle status of the modifier group. Only active groups can be offered to buyers;
+     * archived groups remain readable and cannot be edited. Value enum: "active", "inactive",
+     * "archived".
+     */
+    "status": "active" | "inactive" | "archived" | (string & {});
+    /**
+     * Text entry rules for a text group. Use text.required to require a value; list groups use
+     * min_selected instead. Settings for a text modifier group: whether input is required or
+     * multiline, and its length limits.
+     */
+    "text"?: TextModifierConfig;
+    /**
+     * When the modifier group or its modifiers last changed, as an RFC3339 timestamp. Format:
+     * date-time.
+     */
+    "updated_at"?: string;
+    /** Version of the modifier group and its modifiers. Format: uint64. minimum: 1. */
+    "version": number;
+};
+export type ModifierGroupArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": ModifierGroup;
+    };
+    "event_type"?: "modifier_group.archived";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": ModifierGroup;
+    };
+    "event_type"?: "modifier_group.archived";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "modifier_group.archived";
+});
 /**
  * The `modifier_group.archived` webhook payload for the `installed_merchants` event source. Fields
  * shared by partner webhook payloads.
@@ -1756,133 +2360,212 @@ export type NextAction = {
     /** Public endpoint or launch URL for this remediation action, when applicable. */
     "url"?: string;
 };
-export type OauthPreviewPartnerInstallAuthorizationParams = {
-    /** OAuth response type. Must be code. Value enum: "code". */
-    "response_type"?: InputValue<"code">;
-    /** Partner app client ID. */
-    "client_id": InputValue<string>;
-    /** Registered redirect URI for the partner app. */
-    "redirect_uri": InputValue<string>;
-    /** Install mode. Value enum: "test", "live". */
-    "mode": InputValue<"test" | "live">;
-    /** Base64url-encoded SHA-256 hash of your code_verifier, without padding (RFC 7636). */
-    "code_challenge"?: InputValue<string>;
-    /** PKCE challenge method. Value enum: "S256". */
-    "code_challenge_method"?: InputValue<"S256">;
+/** The request body for: Revoke an OAuth token. */
+export type OAuthRevokeRequest = ({
     /**
-     * Space-separated permission IDs from your app's permission manifest. Omit to request
-     * default_requested_permissions. Required permissions are always granted.
+     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
+     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
      */
-    "scope"?: InputValue<string>;
+    "client_assertion"?: string;
     /**
-     * Optional active merchant sandbox ID, accepted only with mode=test. When omitted in test
-     * mode, Flint uses the merchant's default sandbox. Example: "test_01ARZ3NDEKTSV4RRFFQ69G5FAV".
+     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
+     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
      */
-    "sandbox_id"?: InputValue<string>;
-    /** Opaque state value returned to the partner callback. */
-    "state"?: InputValue<string>;
-};
-export type OnboardingAdvanceParams = (InputValue<OnboardingAdvanceRequestInput>);
-/** The request body for: Advance onboarding flow. */
-export type OnboardingAdvanceRequest = {
+    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer" | (string & {});
+    /** Partner client ID for client_secret_post, or flint-cli for the public CLI client. */
+    "client_id"?: string;
     /**
-     * ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example:
-     * "US". Value enum: "US".
+     * Partner client secret for client_secret_post. Omit when using HTTP Basic; flint-cli never
+     * sends a secret.
      */
-    "country"?: "US" | (string & {});
+    "client_secret"?: string;
+    /** Partner or flint-cli access token or refresh token to revoke. */
+    "token": string;
+    /** Optional token lookup hint. Value enum: "refresh_token", "access_token". */
+    "token_type_hint"?: "refresh_token" | "access_token" | (string & {});
+});
+/** The request body for: Revoke an OAuth token. */
+export type OAuthRevokeRequestInput = ({
     /**
-     * Contact and website details you submit for a merchant during onboarding. Send null to clear
-     * a field.
+     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
+     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
      */
-    "profile"?: OnboardingProfileRequest;
+    "client_assertion"?: string;
     /**
-     * Exact initial Flint capability set. Include accept_card_payments and receive_payouts
-     * together. Optionally include accept_ach_debit_payments, or omit the field to use the card
-     * and payout default set. minItems: 2. maxItems: 3. uniqueItems: true. [] enum:
-     * "accept_card_payments", "receive_payouts", "accept_ach_debit_payments". [] (Value): string.
-     * Value enum: "accept_card_payments", "receive_payouts", "accept_ach_debit_payments".
+     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
+     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
      */
-    "requested_capabilities"?: (Array<"accept_card_payments" | "receive_payouts" | "accept_ach_debit_payments" | (string & {})>);
-};
-/** The request body for: Advance onboarding flow. */
-export type OnboardingAdvanceRequestInput = {
+    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer";
+    /** Partner client ID for client_secret_post, or flint-cli for the public CLI client. */
+    "client_id"?: string;
     /**
-     * ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example:
-     * "US". Value enum: "US".
+     * Partner client secret for client_secret_post. Omit when using HTTP Basic; flint-cli never
+     * sends a secret.
      */
-    "country"?: "US";
+    "client_secret"?: string;
+    /** Partner or flint-cli access token or refresh token to revoke. */
+    "token": string;
+    /** Optional token lookup hint. Value enum: "refresh_token", "access_token". */
+    "token_type_hint"?: "refresh_token" | "access_token";
+});
+/** The request body for: Exchange an OAuth token. */
+export type OAuthTokenRequest = ({
     /**
-     * Contact and website details you submit for a merchant during onboarding. Send null to clear
-     * a field.
+     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
+     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
      */
-    "profile"?: OnboardingProfileRequestInput;
+    "client_assertion"?: string;
     /**
-     * Exact initial Flint capability set. Include accept_card_payments and receive_payouts
-     * together. Optionally include accept_ach_debit_payments, or omit the field to use the card
-     * and payout default set. minItems: 2. maxItems: 3. uniqueItems: true. [] enum:
-     * "accept_card_payments", "receive_payouts", "accept_ach_debit_payments". [] (Value): string.
-     * Value enum: "accept_card_payments", "receive_payouts", "accept_ach_debit_payments".
+     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
+     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
      */
-    "requested_capabilities"?: (Array<"accept_card_payments" | "receive_payouts" | "accept_ach_debit_payments">);
-};
-export type OnboardingCreateAPIKeyParams = (InputValue<DeveloperInitialAPIKeyRequestInput>);
-export type OnboardingGetStateParams = {};
-/** Contact and website details recorded for a merchant during onboarding. */
-export type OnboardingProfile = {
-    "email": string | null;
-    "support_email"?: string;
-    "support_phone"?: string;
-    "support_url"?: string;
-    "website_url"?: string;
-};
-/**
- * Contact and website details you submit for a merchant during onboarding. Send null to clear a
- * field.
- */
-export type OnboardingProfileRequest = {
-    /** Send null to clear it. minLength: 1. */
-    "email"?: string | null;
-    /** Send null to clear it. minLength: 1. */
-    "support_email"?: string | null;
-    /** Send null to clear it. minLength: 1. */
-    "support_phone"?: string | null;
-    /** Send null to clear it. minLength: 1. */
-    "support_url"?: string | null;
-    /** Send null to clear it. minLength: 1. */
-    "website_url"?: string | null;
-};
-/**
- * Contact and website details you submit for a merchant during onboarding. Send null to clear a
- * field.
- */
-export type OnboardingProfileRequestInput = OnboardingProfileRequest;
-export type OnboardingStartParams = (InputValue<OnboardingStartRequestInput>);
-/** The request body for: Start onboarding flow. */
-export type OnboardingStartRequest = {
-    /** minLength: 1. */
-    "email": string;
-    /** minLength: 1. */
-    "first_name": string;
-    /** minLength: 1. */
-    "last_name": string;
-};
-/** The request body for: Start onboarding flow. */
-export type OnboardingStartRequestInput = OnboardingStartRequest;
-/** A response containing `OnboardingStartResult` data. */
-export type OnboardingStartResponse = {
+    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer" | (string & {});
     /**
-     * The result of starting onboarding: whether email verification began, plus the verification
-     * token and its expiry.
+     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
+     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
      */
-    "data": OnboardingStartResult;
+    "client_id"?: string;
     /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
+     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
+     * a secret. Forbidden for workload identity token exchange.
      */
-    "meta"?: ResponseMeta;
+    "client_secret"?: string;
+    /** Partner authorization code, required for authorization_code. */
+    "code"?: string;
     /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
+     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
      */
-    "request_id": string;
-};
+    "code_verifier"?: string;
+    /** flint-cli only. */
+    "context_id"?: string;
+    /** flint-cli device code, required for the device_code grant. */
+    "device_code"?: string;
+    /**
+     * OAuth grant to exchange. Partner apps use authorization_code or refresh_token; flint-cli
+     * uses device_code or refresh_token; workload identities use token-exchange. Value enum:
+     * "authorization_code", "refresh_token", "urn:ietf:params:oauth:grant-type:device_code",
+     * "urn:ietf:params:oauth:grant-type:token-exchange".
+     */
+    "grant_type": "authorization_code"
+        | "refresh_token"
+        | "urn:ietf:params:oauth:grant-type:device_code"
+        | "urn:ietf:params:oauth:grant-type:token-exchange"
+        | (string & {});
+    /** Partner redirect URI used in authorization, required for authorization_code. */
+    "redirect_uri"?: string;
+    /** Partner or flint-cli refresh token, required for refresh_token. */
+    "refresh_token"?: string;
+    /**
+     * Optional requested credential type for token exchange. Only access tokens are supported.
+     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
+     */
+    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token" | (string & {});
+    /**
+     * flint-cli and workload identities: optional subset of API scope names for this access token.
+     * Partner apps: omit, or send exactly the granted permission IDs.
+     */
+    "scope"?: string;
+    /**
+     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
+     * maxLength: 8192.
+     */
+    "subject_token"?: string;
+    /**
+     * Format of subject_token. Required for token exchange. Value enum:
+     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
+     */
+    "subject_token_type"?: "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token" | (string & {});
+    /**
+     * Configured workload identity to match against the verified subject token. Required for token
+     * exchange.
+     */
+    "workload_identity_id"?: string;
+})
+    & ((Exclude<OAuthTokenRequestAuthorizationCode & object, readonly unknown[]>)
+    | (Exclude<OAuthTokenRequestRefreshToken & object, readonly unknown[]>)
+    | (Exclude<OAuthTokenRequestDeviceCode & object, readonly unknown[]>)
+    | (Exclude<OAuthTokenRequestTokenExchange & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/** The `authorization_code` variant of `OAuthTokenRequest`. */
+export type OAuthTokenRequestAuthorizationCode = ({
+    /**
+     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
+     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
+     */
+    "client_assertion"?: string;
+    /**
+     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
+     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
+     */
+    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer" | (string & {});
+    /**
+     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
+     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
+     */
+    "client_id"?: string;
+    /**
+     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
+     * a secret. Forbidden for workload identity token exchange.
+     */
+    "client_secret"?: string;
+    /** Partner authorization code, required for authorization_code. */
+    "code": string;
+    /**
+     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
+     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
+     */
+    "code_verifier": string;
+    /** flint-cli only. */
+    "context_id"?: string;
+    /** flint-cli device code, required for the device_code grant. */
+    "device_code"?: string;
+    /**
+     * OAuth grant to exchange. Partner apps use authorization_code or refresh_token; flint-cli
+     * uses device_code or refresh_token; workload identities use token-exchange. Value enum:
+     * "authorization_code".
+     */
+    "grant_type": "authorization_code" | (string & {});
+    /** Partner redirect URI used in authorization, required for authorization_code. */
+    "redirect_uri": string;
+    /** Partner or flint-cli refresh token, required for refresh_token. */
+    "refresh_token"?: string;
+    /**
+     * Optional requested credential type for token exchange. Only access tokens are supported.
+     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
+     */
+    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token" | (string & {});
+    /**
+     * flint-cli and workload identities: optional subset of API scope names for this access token.
+     * Partner apps: omit, or send exactly the granted permission IDs.
+     */
+    "scope"?: string;
+    /**
+     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
+     * maxLength: 8192.
+     */
+    "subject_token"?: string;
+    /**
+     * Format of subject_token. Required for token exchange. Value enum:
+     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
+     */
+    "subject_token_type"?: "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token" | (string & {});
+    /**
+     * Configured workload identity to match against the verified subject token. Required for token
+     * exchange.
+     */
+    "workload_identity_id"?: string;
+})
+    & ({
+    /** Value enum: "authorization_code". */
+    "grant_type"?: unknown;
+    /** Partner authorization code, required for authorization_code. */
+    "code": string;
+    /** Partner redirect URI used in authorization, required for authorization_code. */
+    "redirect_uri": string;
+    /**
+     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
+     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
+     */
+    "code_verifier": string;
+});

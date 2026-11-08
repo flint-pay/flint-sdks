@@ -1,6 +1,15 @@
-import type { GiftCard, GiftCardFundingSource, GiftCardFundingSourceInput } from './types-23.js';
+import type { GiftCard, GiftCardFundingSource } from './types-23.js';
+import type { ResponseMeta, ResourceReference } from './types-48.js';
+import type {
+    MoneyValue,
+    MerchantWebhookEnvelope,
+    MoneyValueInput,
+    MetadataMap,
+    ModifierRequest,
+    MetadataRequestInput,
+    ModifierRequestInput
+} from './types-35.js';
 import type { PartnerWebhookEnvelope } from './types-40.js';
-import type { MerchantWebhookEnvelope, MetadataMap, MetadataRequestInput } from './types-34.js';
 import type { InputValue } from '../runtime.js';
 import type { AdjustGiftCardBalanceRequestInput } from './types-0.js';
 import type { CashOutGiftCardRequestInput } from './types-4.js';
@@ -12,16 +21,382 @@ import type {
 } from './types-8.js';
 import type { LookupGiftCardRequestInput } from './types-33.js';
 import type { RotateGiftCardCodeRequestInput } from './types-52.js';
-import type {
-    TransitionGiftCardRequestInput,
-    UpdateGiftCardRequestInput,
-    UpdateInventoryAllocationPolicyRequestInput
-} from './types-58.js';
-import type { ResponseMeta } from './types-48.js';
-import type { MoneyValue, MoneyValueInput, ModifierRequest, ModifierRequestInput } from './types-35.js';
-import type { TextModifierConfigRequest, TextModifierConfigRequestInput } from './types-57.js';
+import type { TransitionGiftCardRequestInput, TextModifierConfigRequest, TextModifierConfigRequestInput } from './types-58.js';
+import type { UpdateGiftCardRequestInput } from './types-59.js';
+import type { GiftCardFundingSourceInput } from './types-24.js';
 import type { InventorySourceSystem } from './types-28.js';
-import type { InventoryLevel } from './types-26.js';
+import type { InventoryLevel, InventoryAllocationPolicyLocation, InventoryAllocationPolicyLocationInput } from './types-26.js';
+/** A response containing `GiftCard` data. */
+export type GiftCardResponse = {
+    /**
+     * Merchant-issued purchased gift card. Posted balance includes reserved value; available value
+     * is balance minus reservations. Frozen value remains part of outstanding liability. Gift
+     * cards are independent resources and cannot be transferred across merchants or currencies.
+     */
+    "data": GiftCard;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * A restriction on a gift card, either a merchant freeze or a funding dispute, with its reason or
+ * dispute details.
+ */
+export type GiftCardRestriction = {
+    /**
+     * Present only for type funding_dispute. The dispute on the payment that funded value on this
+     * card. pattern: ^du_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "dispute_id"?: string;
+    /**
+     * Present only for type funding_dispute. A copy of the funding dispute's current state. lost
+     * means the loss must be honored with a gift card funding disposition before the card can be
+     * spent. Value enum: "open", "lost".
+     */
+    "dispute_status"?: "open" | "lost" | (string & {});
+    /**
+     * Present only for type merchant_freeze. The merchant's freeze reason. Value enum:
+     * "suspicious_activity", "customer_request", "support_issue".
+     */
+    "reason"?: "suspicious_activity" | "customer_request" | "support_issue" | (string & {});
+    /**
+     * The kind of restriction. merchant_freeze is a freeze requested by the merchant.
+     * funding_dispute is a dispute on the payment that funded value on this card. Value enum:
+     * "merchant_freeze", "funding_dispute".
+     */
+    "type": "merchant_freeze" | "funding_dispute" | (string & {});
+};
+/**
+ * Immutable posted financial movement with signed amount, per-card sequence, merchant sequence and
+ * balance snapshots. Corrections create new transactions.
+ */
+export type GiftCardTransaction = {
+    /**
+     * Signed change to the card's balance: positive amounts add value and negative amounts remove
+     * it. balance_after_money is balance_before_money plus this amount; funding_loss_accepted
+     * records a decision and moves 0. Signed monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValue;
+    /**
+     * The card's balance immediately after this transaction. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "balance_after_money": MoneyValue;
+    /**
+     * The card's balance immediately before this transaction. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "balance_before_money": MoneyValue;
+    /**
+     * Your reference for the cash you paid the buyer outside Flint. Set only on cash_out
+     * transactions; null for other transactions. maxLength: 255.
+     */
+    "cash_out_reference": string | null;
+    /** Gift card whose balance this transaction changed. */
+    "gift_card_id": string;
+    /** Stable identifier of the transaction. */
+    "gift_card_transaction_id": string;
+    /**
+     * Your Idempotency-Key for the command that created this record. null when Flint created it or
+     * no key was sent.
+     */
+    "idempotency_key": string | null;
+    /**
+     * Position of this transaction among all of your gift card transactions in this environment.
+     * It increases by one with each posted transaction, and the transaction list is ordered by it.
+     * Format: int64.
+     */
+    "merchant_sequence": number;
+    /** Order this transaction belongs to, when there is one. */
+    "order_id"?: string;
+    /** When the transaction was posted to the card. Format: date-time. */
+    "posted_at": string;
+    /**
+     * Your adjustment reason on adjustment transactions; customer_request on cash_out; null on all
+     * other transaction types. Value enum: "complimentary", "balance_accidentally_decreased",
+     * "support_issue", "suspicious_activity", "balance_accidentally_increased",
+     * "customer_request", null.
+     */
+    "reason": "complimentary"
+        | "balance_accidentally_decreased"
+        | "support_issue"
+        | "suspicious_activity"
+        | "balance_accidentally_increased"
+        | "customer_request"
+        | null
+        | (string & {})
+        | null;
+    /**
+     * Position of this transaction in the card's history. It increases by one with each
+     * transaction posted to the card. Format: int64.
+     */
+    "sequence": number;
+    /**
+     * The resource that caused this transaction, such as a gift_card_load, gift_card_redemption,
+     * refund, or gift_card_funding_disposition. null when the cause has no public resource.
+     * anyOf[1] (Value): {@link ResourceReference}. A reference to another resource by
+     * `resource_type` and `resource_id`. anyOf[2] (Value): null.
+     */
+    "source": ((ResourceReference) | (null));
+    /**
+     * Kind of movement, such as load, redeem, refund, adjustment, or cash_out. Value enum: "load",
+     * "import", "redeem", "refund", "refund_transfer", "adjustment", "cash_out",
+     * "purchase_reversal", "funding_loss_accepted", "purchase_refund_recovery",
+     * "purchase_refund_recovery_transfer".
+     */
+    "transaction_type": "load"
+        | "import"
+        | "redeem"
+        | "refund"
+        | "refund_transfer"
+        | "adjustment"
+        | "cash_out"
+        | "purchase_reversal"
+        | "funding_loss_accepted"
+        | "purchase_refund_recovery"
+        | "purchase_refund_recovery_transfer"
+        | (string & {});
+};
+export type GiftCardTransactionCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": GiftCardTransaction;
+    };
+    "event_type"?: "gift_card_transaction.created";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": GiftCardTransaction;
+    };
+    "event_type"?: "gift_card_transaction.created";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "gift_card_transaction.created";
+});
+/**
+ * The `gift_card_transaction.created` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type GiftCardTransactionCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link GiftCardTransaction}. Immutable posted financial movement with
+     * signed amount, per-card sequence, merchant sequence and balance snapshots. Corrections
+     * create new transactions.
+     */
+    "data"?: {
+        /**
+         * Immutable posted financial movement with signed amount, per-card sequence, merchant
+         * sequence and balance snapshots. Corrections create new transactions.
+         */
+        "object": GiftCardTransaction;
+    };
+    /** Value enum: "gift_card_transaction.created". */
+    "event_type"?: "gift_card_transaction.created";
+    /**
+     *  environment_grant_id (Required): string. merchant_id (Required): string. mode (Required):
+     * string. Value enum: "test", "live". partner_app_install_id (Required): string. sandbox_id
+     * (Optional): string. type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        /** Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        /** Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * The `gift_card_transaction.created` webhook payload for the `merchant` event source. Fields
+ * shared by merchant webhook payloads.
+ */
+export type GiftCardTransactionCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link GiftCardTransaction}. Immutable posted financial movement with
+     * signed amount, per-card sequence, merchant sequence and balance snapshots. Corrections
+     * create new transactions.
+     */
+    "data"?: {
+        /**
+         * Immutable posted financial movement with signed amount, per-card sequence, merchant
+         * sequence and balance snapshots. Corrections create new transactions.
+         */
+        "object": GiftCardTransaction;
+    };
+    /** Value enum: "gift_card_transaction.created". */
+    "event_type"?: "gift_card_transaction.created";
+});
+/** A page of `GiftCardTransaction` objects. */
+export type GiftCardTransactionListResponse = {
+    /**
+     *  [] (Value): {@link GiftCardTransaction}. Immutable posted financial movement with signed
+     * amount, per-card sequence, merchant sequence and balance snapshots. Corrections create new
+     * transactions.
+     */
+    "data": Array<GiftCardTransaction>;
+    /**
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    "next_page_token"?: string;
+    /**
+     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type GiftCardTransactionsListParams = {
+    /**
+     * Exact, case-sensitive filter on your reference for the cash paid to the buyer outside Flint.
+     * Matches only cash_out transactions. minLength: 1. maxLength: 255.
+     */
+    "cash_out_reference"?: InputValue<string>;
+    /** Exact, case-sensitive filter. maxLength: 255. Example: "gc_01ARZ3NDEKTSV4RRFFQ69G5FAV". */
+    "gift_card_id"?: InputValue<string>;
+    /**
+     * Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is
+     * exact and case-sensitive. Returns current authorized resources, not the recorded response. A
+     * pending resource does not prove that the operation succeeded, and an empty list does not
+     * prove that it had no effect. minLength: 1. maxLength: 255.
+     */
+    "idempotency_key"?: InputValue<string>;
+    /** Exact, case-sensitive filter. maxLength: 255. Example: "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV". */
+    "order_id"?: InputValue<string>;
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque next_page_token from the previous response. Omit on the first request. You may change
+     * `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request
+     * context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns
+     * a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /** Inclusive lower bound on posted_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "posted_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on posted_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "posted_before"?: InputValue<string | globalThis.Date>;
+    /** Exact, case-sensitive filter. maxLength: 255. */
+    "source_id"?: InputValue<string>;
+    /**
+     * Exact, case-sensitive filter. Accepts repeated keys, comma-separated values, or mixtures.
+     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
+     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum:
+     * "gift_card_funding_disposition", "gift_card_load", "gift_card_redemption",
+     * "purchase_refund_allocation", "refund", "refund_allocation". Value enum:
+     * "gift_card_funding_disposition", "gift_card_load", "gift_card_redemption",
+     * "purchase_refund_allocation", "refund", "refund_allocation". anyOf[1] (Value): Array of
+     * string. minItems: 1. [] enum: "gift_card_funding_disposition", "gift_card_load",
+     * "gift_card_redemption", "purchase_refund_allocation", "refund", "refund_allocation".
+     * anyOf[1][] (Value): string. maxLength: 255. Value enum: "gift_card_funding_disposition",
+     * "gift_card_load", "gift_card_redemption", "purchase_refund_allocation", "refund",
+     * "refund_allocation". anyOf[2] (Value): string. maxLength: 255. Value enum:
+     * "gift_card_funding_disposition", "gift_card_load", "gift_card_redemption",
+     * "purchase_refund_allocation", "refund", "refund_allocation".
+     */
+    "source_type"?: InputValue<("gift_card_funding_disposition"
+        | "gift_card_load"
+        | "gift_card_redemption"
+        | "purchase_refund_allocation"
+        | "refund"
+        | "refund_allocation")
+        | readonly ("gift_card_funding_disposition"
+        | "gift_card_load"
+        | "gift_card_redemption"
+        | "purchase_refund_allocation"
+        | "refund"
+        | "refund_allocation")[]>;
+    /**
+     * Filter by transaction_type. Repeat the parameter or send a comma-separated list to match any
+     * of several values. Accepts repeated keys, comma-separated values, or mixtures. Values are
+     * trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values
+     * within this filter are ORed; separate filters are ANDed. [] enum: "load", "import",
+     * "redeem", "refund", "refund_transfer", "adjustment", "cash_out", "purchase_reversal",
+     * "funding_loss_accepted", "purchase_refund_recovery", "purchase_refund_recovery_transfer".
+     * Value enum: "load", "import", "redeem", "refund", "refund_transfer", "adjustment",
+     * "cash_out", "purchase_reversal", "funding_loss_accepted", "purchase_refund_recovery",
+     * "purchase_refund_recovery_transfer". anyOf[1] (Value): Array of string. minItems: 1. []
+     * enum: "load", "import", "redeem", "refund", "refund_transfer", "adjustment", "cash_out",
+     * "purchase_reversal", "funding_loss_accepted", "purchase_refund_recovery",
+     * "purchase_refund_recovery_transfer". anyOf[1][] (Value): string. Value enum: "load",
+     * "import", "redeem", "refund", "refund_transfer", "adjustment", "cash_out",
+     * "purchase_reversal", "funding_loss_accepted", "purchase_refund_recovery",
+     * "purchase_refund_recovery_transfer". anyOf[2] (Value): string. Value enum: "load", "import",
+     * "redeem", "refund", "refund_transfer", "adjustment", "cash_out", "purchase_reversal",
+     * "funding_loss_accepted", "purchase_refund_recovery", "purchase_refund_recovery_transfer".
+     */
+    "transaction_type"?: InputValue<("load"
+        | "import"
+        | "redeem"
+        | "refund"
+        | "refund_transfer"
+        | "adjustment"
+        | "cash_out"
+        | "purchase_reversal"
+        | "funding_loss_accepted"
+        | "purchase_refund_recovery"
+        | "purchase_refund_recovery_transfer")
+        | readonly ("load"
+        | "import"
+        | "redeem"
+        | "refund"
+        | "refund_transfer"
+        | "adjustment"
+        | "cash_out"
+        | "purchase_reversal"
+        | "funding_loss_accepted"
+        | "purchase_refund_recovery"
+        | "purchase_refund_recovery_transfer")[]>;
+};
+export type GiftCardUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": GiftCard;
+    };
+    "event_type"?: "gift_card.updated";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": GiftCard;
+    };
+    "event_type"?: "gift_card.updated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "gift_card.updated";
+});
 /**
  * The `gift_card.updated` webhook payload for the `installed_merchants` event source. Fields
  * shared by partner webhook payloads.
@@ -1234,169 +1609,4 @@ export type InventoryAllocationPoliciesListParams = {
     "external_reference_id"?: InputValue<string>;
     /** Search allocation policy ID, external reference ID, or name. maxLength: 255. */
     "query"?: InputValue<string>;
-};
-export type InventoryAllocationPoliciesListRevisionsParams = {
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque next_page_token from the previous response. Omit on the first request. You may change
-     * `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request
-     * context. Do not parse or construct tokens. An invalid, expired, or mismatched token returns
-     * a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
-    "sort_direction"?: InputValue<"asc" | "desc">;
-    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
-};
-export type InventoryAllocationPoliciesUpdateParams = (InputValue<UpdateInventoryAllocationPolicyRequestInput>);
-/** Named, version-fenced rules that decide which Locations serve demand and in what order. */
-export type InventoryAllocationPolicy = {
-    /**
-     *  location_groups (Required): Array of {@link InventoryAllocationPolicyLocation}. Locations
-     * ranked into priority groups. Routing prefers the lowest group priority, then the lowest
-     * location ID. minItems: 1. maxItems: 25. location_groups[] (Value): {@link
-     * InventoryAllocationPolicyLocation}. A Location in an inventory allocation policy and the
-     * priority group it belongs to. maximum_locations_per_assignment (Required): integer. Upper
-     * bound on how many Locations one assignment may use. Defaults to 1 for single_location and 10
-     * for split_when_required. single_location requires 1 when sent. Format: int32. minimum: 1.
-     * maximum: 10. splitting_behavior (Required): string. single_location fails rather than
-     * splitting demand across Locations; split_when_required allows a split when no single
-     * Location can serve the whole request. Value enum: "single_location", "split_when_required".
-     * within_group_order (Required): string. Tie-break inside a priority group. Ascending location
-     * ID keeps assignments reproducible. Value enum: "location_id_ascending".
-     */
-    "configuration": {
-        /**
-         * Locations ranked into priority groups. Routing prefers the lowest group priority, then
-         * the lowest location ID. minItems: 1. maxItems: 25. [] (Value): {@link
-         * InventoryAllocationPolicyLocation}. A Location in an inventory allocation policy and the
-         * priority group it belongs to.
-         */
-        "location_groups": Array<InventoryAllocationPolicyLocation>;
-        /**
-         * Upper bound on how many Locations one assignment may use. Defaults to 1 for
-         * single_location and 10 for split_when_required. single_location requires 1 when sent.
-         * Format: int32. minimum: 1. maximum: 10.
-         */
-        "maximum_locations_per_assignment": number;
-        /**
-         * single_location fails rather than splitting demand across Locations; split_when_required
-         * allows a split when no single Location can serve the whole request. Value enum:
-         * "single_location", "split_when_required".
-         */
-        "splitting_behavior": "single_location" | "split_when_required" | (string & {});
-        /**
-         * Tie-break inside a priority group. Ascending location ID keeps assignments reproducible.
-         * Value enum: "location_id_ascending".
-         */
-        "within_group_order": "location_id_ascending" | (string & {});
-    };
-    /** RFC3339 timestamp. Format: date-time. */
-    "created_at": string;
-    /**
-     * The immutable revision containing this policy's current routing configuration. Replacing
-     * configuration publishes a new revision; other policy edits keep this ID.
-     */
-    "current_inventory_allocation_policy_revision_id": string;
-    /** Caller-owned identifier for this resource in an external system. maxLength: 255. */
-    "external_reference_id"?: string;
-    "inventory_allocation_policy_id": string;
-    /**
-     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
-     * Flint and are not returned. Writes follow the limits on MetadataInput and
-     * MetadataPatchInput; maps written before those limits may not satisfy them.
-     */
-    "metadata": MetadataMap;
-    "name": string;
-    /** Value enum: "active", "inactive", "archived". */
-    "status": "active" | "inactive" | "archived" | (string & {});
-    /** RFC3339 timestamp. Format: date-time. */
-    "updated_at": string;
-    /** Format: uint64. minimum: 1. */
-    "version": number;
-};
-/** A page of `InventoryAllocationPolicy` objects. */
-export type InventoryAllocationPolicyListResponse = {
-    /**
-     *  [] (Value): {@link InventoryAllocationPolicy}. Named, version-fenced rules that decide
-     * which Locations serve demand and in what order.
-     */
-    "data": Array<InventoryAllocationPolicy>;
-    /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    "next_page_token"?: string;
-    /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A Location in an inventory allocation policy and the priority group it belongs to. */
-export type InventoryAllocationPolicyLocation = {
-    /** Format: int32. minimum: 1. */
-    "group_priority": number;
-    /** minLength: 1. */
-    "location_id": string;
-};
-/** A Location in an inventory allocation policy and the priority group it belongs to. */
-export type InventoryAllocationPolicyLocationInput = InventoryAllocationPolicyLocation;
-/** A response containing `InventoryAllocationPolicy` data. */
-export type InventoryAllocationPolicyResponse = {
-    /** Named, version-fenced rules that decide which Locations serve demand and in what order. */
-    "data": InventoryAllocationPolicy;
-    /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * An immutable routing configuration published when an allocation policy is created or its
- * configuration is replaced. Revisions remain readable after later policy edits.
- */
-export type InventoryAllocationPolicyRevision = {
-    /**
-     * Routing rules for an inventory allocation policy: ranked groups of Locations, whether demand
-     * can be split, and how many Locations one assignment may use.
-     */
-    "configuration": InventoryAllocationConfigurationValue;
-    /** RFC3339 timestamp. Format: date-time. */
-    "created_at": string;
-    "inventory_allocation_policy_id": string;
-    "inventory_allocation_policy_revision_id": string;
-};
-/** A page of `InventoryAllocationPolicyRevision` objects. */
-export type InventoryAllocationPolicyRevisionListResponse = {
-    /**
-     *  [] (Value): {@link InventoryAllocationPolicyRevision}. An immutable routing configuration
-     * published when an allocation policy is created or its configuration is replaced. Revisions
-     * remain readable after later policy edits.
-     */
-    "data": Array<InventoryAllocationPolicyRevision>;
-    /**
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    "next_page_token"?: string;
-    /**
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
 };

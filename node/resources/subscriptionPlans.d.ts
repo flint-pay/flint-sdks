@@ -1,19 +1,17 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-5.js';
-import type { RequestOptions } from '../declarations/types-47.js';
+import type { RequestOptions } from '../declarations/types-48.js';
 import type {
     SubscriptionPlan,
     SubscriptionPlanListResponse,
     SubscriptionPlanResponse,
-    SubscriptionPlansCreateParams
-} from '../declarations/types-55.js';
-import type {
+    SubscriptionPlansCreateParams,
     SubscriptionPlansDeleteParams,
     SubscriptionPlansGetParams,
     SubscriptionPlansListParams,
     SubscriptionPlansUpdateParams
 } from '../declarations/types-56.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -32,8 +30,11 @@ export type {
     SubscriptionPlansCreateParams,
     SubscriptionPlan,
     SubscriptionPlanResponse,
+    SubscriptionPlansDeleteParams,
+    SubscriptionPlansGetParams,
+    SubscriptionPlansListParams,
     SubscriptionPlanListResponse,
-    SubscriptionIntervalOptionInput,
+    SubscriptionPlansUpdateParams,
     SubscriptionPlanLineItemRequestInput,
     SubscriptionPlanLineItemInputVariantInput,
     SubscriptionPlanLineItemInputBundleInput,
@@ -43,18 +44,21 @@ export type {
     SubscriptionPlanLineItemVariant,
     SubscriptionPlanLineItemBundle,
     SubscriptionPlanLineItemCustom
-} from '../declarations/types-55.js';
-export type { RequestOptions } from '../declarations/types-47.js';
-export type {
-    SubscriptionPlansDeleteParams,
-    SubscriptionPlansGetParams,
-    SubscriptionPlansListParams,
-    SubscriptionPlansUpdateParams
 } from '../declarations/types-56.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { ClientOptions } from '../declarations/types-5.js';
 export type { CreateSubscriptionPlanRequestInput } from '../declarations/types-11.js';
-export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-35.js';
+export type { SubscriptionIntervalOptionInput, SubscriptionIntervalOption, SubscriptionDeliveryMethodCounts } from '../declarations/types-55.js';
+export type {
+    MoneyValueInput,
+    MetadataRequestInput,
+    MoneyValue,
+    MetadataMap,
+    NextAction,
+    MetadataPatchRequestInput,
+    MetadataPatchRequest
+} from '../declarations/types-35.js';
 export type { ImageRequestInput, ImageInputSourceURLInput, ImageInputFileInput, ImageAttachment, Image } from '../declarations/types-25.js';
 export type {
     InventoryRoutingSourceRequestInput,
@@ -62,7 +66,7 @@ export type {
     InventoryRoutingSourceInputPolicyInput,
     InventoryRoutingSourceInputPolicyRevisionInput,
     InventoryRoutingSource
-} from '../declarations/types-27.js';
+} from '../declarations/types-28.js';
 export type {
     OrderLineItemModifierRequestInput,
     OrderLineItemModifierInputCatalogInput,
@@ -71,56 +75,54 @@ export type {
     OrderLineItemModifier,
     OrderLineItemTax
 } from '../declarations/types-37.js';
-export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-34.js';
-export type { TextModifierRequestInput, TextModifierRequest } from '../declarations/types-57.js';
+export type { TextModifierRequestInput, TextModifierRequest } from '../declarations/types-58.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-12.js';
-export type { SubscriptionIntervalOption, SubscriptionDeliveryMethodCounts, SubscriptionCounts } from '../declarations/types-54.js';
+export type { SubscriptionCounts } from '../declarations/types-54.js';
 export type { BundleComponent, BundleComponentVariantSummary } from '../declarations/types-1.js';
 export type { SelectedProductOption } from '../declarations/types-53.js';
 export type { CategoryReference } from '../declarations/types-4.js';
-export type { ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
+export type { UpdateSubscriptionPlanRequestInput } from '../declarations/types-61.js';
 export type {
-    UpdateSubscriptionPlanRequestInput,
     UpdateSubscriptionPlanLineItemRequestInput,
     UpdateSubscriptionPlanLineItemInputVariantInput,
     UpdateSubscriptionPlanLineItemInputBundleInput,
     UpdateSubscriptionPlanLineItemInputCustomInput
 } from '../declarations/types-60.js';
-export { makeCreateSubscriptionPlanRequest } from '../declarations/types-65.js';
-export { makeImageInputFile, makeImageInputSourceURL } from '../declarations/types-67.js';
+export { makeCreateSubscriptionPlanRequest } from '../declarations/types-66.js';
 export {
+    makeImageInputFile,
+    makeImageInputSourceURL,
     makeImageRequest,
     makeInventoryRoutingSourceInputFixedLocation,
     makeInventoryRoutingSourceInputPolicy,
     makeInventoryRoutingSourceInputPolicyRevision,
     makeInventoryRoutingSourceRequest
 } from '../declarations/types-68.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-69.js';
 export {
-    makeMetadataPatchRequest,
-    makeMetadataRequest,
     makeMoneyValue,
     makeOrderLineItemModifierInputCatalog,
     makeOrderLineItemModifierInputText,
     makeOrderLineItemModifierRequest,
     makeOrderLineItemTax
-} from '../declarations/types-69.js';
+} from '../declarations/types-70.js';
 export {
     makeSubscriptionIntervalOption,
     makeSubscriptionPlanLineItemInputBundle,
     makeSubscriptionPlanLineItemInputCustom,
     makeSubscriptionPlanLineItemInputVariant,
-    makeSubscriptionPlanLineItemRequest,
-    makeTextModifierRequest
+    makeSubscriptionPlanLineItemRequest
 } from '../declarations/types-73.js';
+export { makeTextModifierRequest } from '../declarations/types-74.js';
 export {
     makeUpdateSubscriptionPlanLineItemInputBundle,
     makeUpdateSubscriptionPlanLineItemInputCustom,
     makeUpdateSubscriptionPlanLineItemInputVariant,
     makeUpdateSubscriptionPlanLineItemRequest,
     makeUpdateSubscriptionPlanRequest
-} from '../declarations/types-74.js';
+} from '../declarations/types-75.js';
 export interface SubscriptionPlansResource {
     /**
  * Creates a subscription plan for the authenticated merchant.

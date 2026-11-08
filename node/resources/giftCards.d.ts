@@ -8,9 +8,10 @@ import type {
     CreateGiftCardResult,
     CreateGiftCardResultResponse
 } from '../declarations/types-8.js';
-import type { GiftCard, GiftCardListResponse } from '../declarations/types-23.js';
-import type { GiftCardResponse } from '../declarations/types-24.js';
+import type { GiftCard } from '../declarations/types-23.js';
+import type { GiftCardListResponse } from '../declarations/types-24.js';
 import type {
+    GiftCardResponse,
     GiftCardsAdjustBalanceParams,
     GiftCardsCashOutParams,
     GiftCardsCreateLoadParams,
@@ -22,9 +23,9 @@ import type {
     GiftCardsTransitionParams,
     GiftCardsUpdateParams
 } from '../declarations/types-25.js';
-import type { RequestOptions } from '../declarations/types-47.js';
-import type { RotateGiftCardCodeResult, RotateGiftCardCodeResultResponse } from '../declarations/types-52.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { RequestOptions } from '../declarations/types-48.js';
+import type { RotateGiftCardCodeResult, RotateGiftCardCodeResultResponse } from '../declarations/types-53.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -45,15 +46,18 @@ export type {
     GiftCardsCreateParams,
     GiftCardsCreateLoadParams,
     GiftCardsGetParams,
+    GiftCardResponse,
     GiftCardsListParams,
     GiftCardsLookupParams,
     GiftCardsRotateCodeParams,
     GiftCardsTransitionParams,
     GiftCardsUpdateParams,
-    InitialGiftCardFundingInput
+    GiftCardTransaction,
+    InitialGiftCardFundingInput,
+    GiftCardRestriction
 } from '../declarations/types-25.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-61.js';
-export type { RequestOptions, ResourceReference } from '../declarations/types-47.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
+export type { RequestOptions, ResourceReference, ResourceType, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
 export type {
     AdjustGiftCardBalanceResult,
     AdjustGiftCardBalanceResultResponse,
@@ -71,8 +75,6 @@ export type {
 } from '../declarations/types-8.js';
 export type {
     GiftCard,
-    GiftCardListResponse,
-    GiftCardLoad,
     GiftCardFundingDispute,
     GiftCardFundingLossResolution,
     GiftCardFundingSource,
@@ -83,19 +85,17 @@ export type {
     GiftCardFundingSourceAdjustment,
     GiftCardFundingSourceGiftCardRefund,
     GiftCardFundingSourceGiftCardPurchaseRefundRecovery,
-    GiftCardFundingSourceStoreCredit,
-    GiftCardFundingSourceInput,
     GiftCardFundingSourceExternalPaymentInput,
     GiftCardFundingSourceFlintPaymentInput,
     GiftCardFundingSourceFlintManualPaymentInput,
     GiftCardFundingSourceImportInput,
     GiftCardFundingSourceAdjustmentInput,
     GiftCardFundingSourceGiftCardRefundInput,
-    GiftCardFundingSourceGiftCardPurchaseRefundRecoveryInput,
-    GiftCardFundingSourceStoreCreditInput
+    GiftCardFundingSourceGiftCardPurchaseRefundRecoveryInput
 } from '../declarations/types-23.js';
 export type {
-    GiftCardResponse,
+    GiftCardListResponse,
+    GiftCardLoad,
     GiftCardPurchaseRefundValueHold,
     GiftCardPurchaseRefundAllocation,
     GiftCardPurchaseRefundRecovery,
@@ -103,33 +103,32 @@ export type {
     GiftCardPurchaseRefundValueAllocation,
     GiftCardPurchaseRestoration,
     GiftCardRefundProvenance,
-    GiftCardTransaction,
+    GiftCardFundingSourceStoreCredit,
+    GiftCardFundingSourceInput,
+    GiftCardFundingSourceStoreCreditInput,
     GiftCardNotificationRecipientInput,
     GiftCardNotification,
     GiftCardNotificationDelivery,
     GiftCardNotificationDeliveryAttempt,
     GiftCardNotificationDeliveryEvent,
-    GiftCardPurchaseRecipient,
-    GiftCardRestriction
+    GiftCardPurchaseRecipient
 } from '../declarations/types-24.js';
-export type { RotateGiftCardCodeResult, RotateGiftCardCodeResultResponse, RotateGiftCardCodeRequestInput } from '../declarations/types-52.js';
+export type { RotateGiftCardCodeResult, RotateGiftCardCodeResultResponse, SignedMoneyRequestInput } from '../declarations/types-53.js';
 export type { ClientOptions } from '../declarations/types-5.js';
-export type { SignedMoneyRequestInput } from '../declarations/types-53.js';
 export type { Credentials } from '../declarations/types-12.js';
 export type { MoneyValue, NextAction, MoneyValueInput } from '../declarations/types-35.js';
-export type { ResourceType, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
 export type { LookupGiftCardRequestInput, LookupGiftCardRequest } from '../declarations/types-33.js';
+export type { RotateGiftCardCodeRequestInput } from '../declarations/types-52.js';
 export type {
     TransitionGiftCardRequestInput,
     TransitionGiftCardRequestFreezeInput,
-    TransitionGiftCardRequestWithoutReasonInput,
-    UpdateGiftCardRequestInput,
-    UpdateGiftCardRequest
+    TransitionGiftCardRequestWithoutReasonInput
 } from '../declarations/types-58.js';
-export { makeAdjustGiftCardBalanceRequest } from '../declarations/types-61.js';
-export { makeCashOutGiftCardRequest } from '../declarations/types-62.js';
-export { makeCreateGiftCardLoadRequest, makeCreateGiftCardRequest } from '../declarations/types-63.js';
+export type { UpdateGiftCardRequestInput, UpdateGiftCardRequest } from '../declarations/types-59.js';
+export { makeAdjustGiftCardBalanceRequest } from '../declarations/types-62.js';
+export { makeCashOutGiftCardRequest } from '../declarations/types-63.js';
+export { makeCreateGiftCardLoadRequest, makeCreateGiftCardRequest } from '../declarations/types-64.js';
 export {
     makeGiftCardFundingSource,
     makeGiftCardFundingSourceAdjustment,
@@ -140,17 +139,18 @@ export {
     makeGiftCardFundingSourceGiftCardRefund,
     makeGiftCardFundingSourceImport,
     makeGiftCardFundingSourceStoreCredit,
-    makeGiftCardNotificationRecipient
-} from '../declarations/types-67.js';
-export { makeInitialGiftCardFunding } from '../declarations/types-68.js';
-export { makeLookupGiftCardRequest, makeMoneyValue } from '../declarations/types-69.js';
-export { makeRotateGiftCardCodeRequest, makeSignedMoneyRequest } from '../declarations/types-72.js';
+    makeGiftCardNotificationRecipient,
+    makeInitialGiftCardFunding
+} from '../declarations/types-68.js';
+export { makeLookupGiftCardRequest } from '../declarations/types-69.js';
+export { makeMoneyValue } from '../declarations/types-70.js';
+export { makeRotateGiftCardCodeRequest, makeSignedMoneyRequest } from '../declarations/types-73.js';
 export {
     makeTransitionGiftCardRequest,
     makeTransitionGiftCardRequestFreeze,
     makeTransitionGiftCardRequestWithoutReason,
     makeUpdateGiftCardRequest
-} from '../declarations/types-73.js';
+} from '../declarations/types-74.js';
 export interface GiftCardsResource {
     /**
  * Posts a relative correction with a typed reason and separate administrative authority.

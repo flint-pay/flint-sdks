@@ -1,16 +1,15 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-5.js';
+import type { PayoutDestination, PayoutDestinationListResponse } from '../declarations/types-43.js';
 import type {
-    PayoutDestination,
-    PayoutDestinationListResponse,
     PayoutDestinationResponse,
     PayoutDestinationsDeleteParams,
     PayoutDestinationsGetParams,
     PayoutDestinationsListParams,
     PayoutDestinationsUpdateParams
-} from '../declarations/types-43.js';
-import type { RequestOptions } from '../declarations/types-47.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+} from '../declarations/types-44.js';
+import type { RequestOptions } from '../declarations/types-48.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -27,24 +26,30 @@ export type {
 } from '../runtime.js';
 export type {
     PayoutDestinationsDeleteParams,
-    PayoutDestination,
     PayoutDestinationResponse,
     PayoutDestinationsGetParams,
     PayoutDestinationsListParams,
-    PayoutDestinationListResponse,
     PayoutDestinationsUpdateParams
-} from '../declarations/types-43.js';
-export type { RequestOptions } from '../declarations/types-47.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+} from '../declarations/types-44.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
+export type { PayoutDestination, PayoutDestinationListResponse } from '../declarations/types-43.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { ClientOptions } from '../declarations/types-5.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-12.js';
-export type { MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-34.js';
-export type { ResponseMeta, ResponseWarning } from '../declarations/types-48.js';
-export type { NextAction, MoneyValue, MoneyMovementListMeta, MoneyMovementHistoryMeta } from '../declarations/types-35.js';
+export type {
+    MetadataMap,
+    NextAction,
+    MoneyValue,
+    MoneyMovementListMeta,
+    MoneyMovementHistoryMeta,
+    MetadataPatchRequestInput,
+    MetadataPatchRequest
+} from '../declarations/types-35.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-46.js';
 export type { UpdatePayoutDestinationRequestInput } from '../declarations/types-59.js';
-export { makeMetadataPatchRequest, makeMoneyValue } from '../declarations/types-69.js';
+export { makeMetadataPatchRequest } from '../declarations/types-69.js';
+export { makeMoneyValue } from '../declarations/types-70.js';
 export { makeUpdatePayoutDestinationRequest } from '../declarations/types-74.js';
 export interface PayoutDestinationsResource {
     /**

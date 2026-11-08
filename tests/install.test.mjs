@@ -126,15 +126,8 @@ test(
       );
       assert.deepEqual(
         operationIds.filter((id) => !selected.has(id)).sort(),
-        [
-          "authorizeCLIDevice",
-          "authorizePartnerInstall",
-          "exchangeOAuthToken",
-          "listCLIContexts",
-          "reauthorizeCLIDevice",
-          "revokeOAuthToken",
-        ],
-        "Only the reviewed CLI/OAuth operations are excluded from the SDK packages",
+        ["authorizePartnerInstall"],
+        "Only the browser consent redirect is excluded from the SDK packages",
       );
       assert.ok(
         [...selected].every((id) => operationIds.includes(id)),
@@ -162,7 +155,10 @@ for (const scenario of ${JSON.stringify(cases)}) {
   const make = () => sdk['make' + scenario.model](scenario.value);
   if (scenario.valid) make(); else assert.throws(make, scenario.name);
 }
-console.log('Installed npm package: all operations and model cases passed.');
+const oauth = await import('@flintpay/node/custom/partner-oauth.js');
+assert.equal(oauth.codeChallenge('dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk'), 'E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM');
+assert.equal(typeof oauth.exchangeCode, 'function');
+console.log('Installed npm package: all operations, model cases and partner OAuth helpers passed.');
 `,
       );
       run(process.execPath, ["check.mjs"], consumer);
@@ -244,7 +240,9 @@ foreach ($expected as [$resource, $method]) {
   if (method_exists($client->$resource, $method . 'WithResponse')) throw new \\RuntimeException('Removed companion: ' . $resource . '.' . $method . 'WithResponse');
 }
 $client->close();
-echo "Installed root Composer package: all operations passed.\\n";
+if (\\Flint\\Partner\\OAuth::codeChallenge('dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk') !== 'E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM') throw new \\RuntimeException('Partner OAuth helpers are not autoloaded');
+if (!in_array(\\Flint\\Partner\\ClientAssertionProvider::class, class_implements(\\Flint\\Partner\\PrivateKeyJwt::class), true)) throw new \\RuntimeException('Missing client assertion provider');
+echo "Installed root Composer package: all operations and partner OAuth helpers passed.\\n";
 `,
       );
       run("php", ["check.php"], consumer);
