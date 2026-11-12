@@ -1,5 +1,17 @@
 # Changelog
 
+## 8.0.0
+
+Release preparation only. API date: `2026-09-07`. Production contract SHA: `<PRODUCTION_SHA_AT_RELEASE>`. The candidate contract is Flint `dc2bc7303d7fe048136c45dd0cbaedd61eb19bcf`, exported from a clean `main` worktree. The generator is pinned to `4e727e1e3027cc354518aee1332545b9b968f05f`. Re-pin to the deployed production contract and regenerate before release.
+
+Upgrading from 7.x requires the [8.0 migration guide](MIGRATION.md#sdk-800). Both SDKs use path-derived namespaces and methods, positional path IDs with flat params, native integer counters, HTTP-status error classes, and `lastResponse` metadata. Remove deprecated aliases and `*WithResponse` calls, move idempotency keys into request options, and keep money amounts as exact integer strings. Explicit empty credentials fail before sending; set `ambientCredentials: false` for tenant-specific credentials. Payment operations use a 150-second attempt timeout and a 300-second deadline. Review unknown outcomes before retrying with the same saved idempotency key.
+
+The candidate adds the `url` and `stripe` variants of `client_action` on pending payment actions. Check `client_action.type` and the member fields before treating the forward-compatible response union as a known action; open `client_action.url` for URL actions, or use `client_action.stripe` for Stripe actions. Read `expires_at` from the containing pending action. Order payment attempts and order pay results expose `pending_actions`; standalone payment-intent confirmation exposes `current_payment_action`. Email preferences allow `customer_id` and `version` to be null. Buyer fulfillments and packages no longer require or expose merchant `supported_actions`.
+
+The contract also replaces checkout-specific delivery operations with delivery quote and selection resources, replaces invoice and return-resolution checkout creation with checkout-session creation, adds readers and card-present payment credentials, payment splits and platform fees, and merchant signup and onboarding access-link operations. Update calls and request bodies against the generated reference. Removed sandbox and onboarding API-key creation operations are absent from this candidate. The SDK selects 706 of the contract's 707 operations; the browser-only OAuth consent redirect remains excluded.
+
+This preparation remains blocked on generator support for OpenAPI operation callbacks and negative scalar query constraints. A provisional comparison against `8.0.0-beta.2`, with those two operations omitted only in a diagnostic build, flags removed checkout response models, changed webhook model exports, changed request and response fields, and new operations. Review the final compatibility report and generated packages after generator support lands and before the production re-pin. No package has been published from this preparation.
+
 ## 8.0.0-beta.2
 
 Both SDKs add `gitlab_ci`, `kubernetes`, `gcp`, `azure` and `aws` workload identity sources. Explicit cloud sources work without auto-discovery markers. AWS uses its standard credential chain and STS outbound identity federation; Node consumers install the optional peer `@aws-sdk/client-sts` >=3.1161.0, and PHP consumers install the suggested `aws/aws-sdk-php` >=3.402.5. Without that dependency, selecting `aws` reports `source_unavailable` and names the missing package. Review the [credential guide](node/guides/default-credentials.md), including the PHP AWS profile/SSO transport limitation.
