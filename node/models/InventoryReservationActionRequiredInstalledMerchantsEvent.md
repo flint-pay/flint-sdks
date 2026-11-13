@@ -36,10 +36,6 @@ The affected public resource without expansions, client authority fields, or fie
 
 Field definitions: [shared fields](InventoryReservation.md#inventoryreservation).
 
-### InventoryReservationActionRequiredInstalledMerchantsEvent.data.object.inventory_routing_source
-
-Field definitions: [InventoryReservation.inventory_routing_source](../models/InventoryReservation.md#inventoryreservationinventory_routing_source).
-
 ### InventoryReservationActionRequiredInstalledMerchantsEvent.source
 
 Field definitions: [BalanceTransactionCreatedInstalledMerchantsEvent.source](../models/BalanceTransactionCreatedInstalledMerchantsEvent.md#balancetransactioncreatedinstalledmerchantseventsource).

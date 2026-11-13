@@ -102,7 +102,7 @@ Body model: [CreateWebhookTestEventRequestInput](../models/CreateWebhookTestEven
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `event_type` | Required | string | Current event type to send. merchant delivers merchant events; partner_app delivers partner lifecycle events; installed_merchants delivers merchant events permitted by the install read scopes. The event catalog lists event_sources for each type. Values: [275 declared values](../models/CreateWebhookTestEventRequest.md#createwebhooktesteventrequest-event_type-values). |
+| `event_type` | Required | string | Current event type to send. merchant delivers merchant events; partner_app delivers partner lifecycle events; installed_merchants delivers merchant events permitted by the install read scopes. The event catalog lists event_sources for each type. Values: [291 declared values](../models/CreateWebhookTestEventRequest.md#createwebhooktesteventrequest-event_type-values). |
 
 #### Response
 
@@ -160,7 +160,7 @@ Signature: `delete(webhook_endpoint_id: InputValue<string>, params?: WebhookEndp
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `webhook_endpoint_id` | Required | string | Flint webhook endpoint ID. |
-| `expected_version` | Optional | integer | Optional configuration version last read by the caller. Format: `uint64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Optional configuration version last read by the caller. Format: `uint64`. minimum: `1`. maximum: `9007199254740991`. |
 
 #### Response
 
@@ -237,6 +237,7 @@ Returned payload: [WebhookEndpoint](../models/WebhookEndpoint.md#webhookendpoint
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -271,12 +272,12 @@ Signature: `list(params?: WebhookEndpointsListParams, options?: _SdkWithoutIdemp
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `created_by` | Optional | string | Filter by the exact ID of the API key, user, partner app, or workload identity that created the endpoint. Unknown IDs return an empty list. |
+| `created_by` | Optional | string | Filter by the exact ID of the API key, user, partner app, or workload identity that created the endpoint. Unknown IDs return an empty list. pattern: `^(key\|usr\|papp\|wid)_[0-7][0-9A-HJKMNP-TV-Z]{25}$`. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `status` | Optional | Array of string or string | Filter by status. Omitted, the list leaves out deleted rows; name deleted to include them. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"inactive"`, `"deleted"`. Values: `"active"`, `"inactive"`, `"deleted"`. |
 | `event_sources` | Optional | Array of string or string | Filter by webhook endpoint event sources. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"merchant"`, `"partner_app"`, `"installed_merchants"`. Values: `"merchant"`, `"partner_app"`, `"installed_merchants"`. |
-| `partner_app_id` | Optional | string | Filter by partner app ID for partner-source webhook endpoints. |
+| `partner_app_id` | Optional | string | Filter by partner app ID for partner-source webhook endpoints. pattern: `^papp_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `partner_app_install_id` | Optional | string | Exact-match filter on partner_app_install_id. pattern: `^pinst_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
@@ -293,6 +294,7 @@ Returned payload: [WebhookEndpointListResponse](../models/WebhookEndpointListRes
 | 400 | InvalidRequestError |
 | 401 | AuthenticationError |
 | 403 | PermissionError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -383,6 +385,73 @@ const result = await client.webhookEndpoints.rotateSecret("whep_01KEZF7C006FXYTA
 
 [Complete runnable example](../examples/webhookEndpoints-rotateSecret.mjs)
 
+### webhookEndpoints.signDelivery
+
+Sandbox only. Returns the exact delivery body and headers for an authorized sandbox endpoint without dispatching it. Requires webhooks.write and permission to read the event's resource. JWT signing must be enabled. Each call reauthorizes and creates a fresh five-minute bearer frame; receivers deduplicate webhook-id. Limited to one request per 200 ms and 10,000 per UTC day per endpoint, plus external-provider-action API quotas. The 200 ms throttle returns 429 with Retry-After; daily exhaustion returns 409 LIMIT_REACHED with limit and resets_at and no Retry-After. Signing fails closed if the shared quota store is unavailable. Responses are not cached or retained for idempotency. Previously issued JWTs remain usable until expiry after endpoint changes.
+
+`POST /v1/webhook-endpoints/{webhook_endpoint_id}/sign-delivery`
+
+Signature:
+
+```typescript
+signDelivery(webhook_endpoint_id: InputValue<string>,
+ params: WebhookEndpointsSignDeliveryParams,
+ options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
+```
+
+#### Request fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `webhook_endpoint_id` | Required | string | The caller's own merchant event-delivery endpoint in the selected sandbox. |
+| `body` | Required | [SignWebhookEndpointDeliveryRequestInput](../models/SignWebhookEndpointDeliveryRequest.md#signwebhookendpointdeliveryrequest) | The request body for: Sign a sandbox webhook delivery. |
+
+Body model: [SignWebhookEndpointDeliveryRequestInput](../models/SignWebhookEndpointDeliveryRequest.md#signwebhookendpointdeliveryrequest).
+
+#### webhookEndpoints.signDelivery body fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `webhook_event_id` | Required | string | Retained merchant event in the endpoint's sandbox. The endpoint must subscribe to its event type. minLength: `1`. |
+
+#### Response
+
+Returned payload: [SignedWebhookEndpointDelivery](../models/SignedWebhookEndpointDelivery.md#signedwebhookendpointdelivery).
+
+#### Errors
+
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+| 504 | ServerError |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
+
+#### Example
+
+```typescript
+const result = await client.webhookEndpoints.signDelivery("whep_01KEZF7C006FXYTAJRZCGCBJTN", {webhook_event_id: "whev_01KEZF7C00BW7XQJ98PQ8EHA81"}, {  });
+```
+
+[Complete runnable example](../examples/webhookEndpoints-signDelivery.mjs)
+
 ### webhookEndpoints.update
 
 Updates a webhook endpoint's URL, description, status, subscribed events, event sources, signing methods, or pinned API version. Only the fields you send change. Sending `enabled_events`, `event_sources`, `installed_merchant_modes`, or `signing_methods` replaces that whole list and requires `expected_version`; a stale version fails with `VERSION_CONFLICT`. Adding `hmac` when no secret exists issues the first secret and returns it once. Removing `hmac` deletes all shared secrets. Partner-source endpoints are global configuration. Changes to them or their events and deliveries require a live-mode credential or a Dashboard session, including test events and endpoints subscribed only to test installed-merchant events. Test credentials fail with `FORBIDDEN` and reason `live_mode_required`, including on idempotent replay.
@@ -396,7 +465,7 @@ Signature: `update(webhook_endpoint_id: InputValue<string>, params: WebhookEndpo
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `webhook_endpoint_id` | Required | string | Flint webhook endpoint ID. |
-| `body` | Required | [UpdateWebhookEndpointRequestInput](../models/UpdateWebhookEndpointRequest.md#updatewebhookendpointrequest) | The request body for: Update webhook endpoint. |
+| `body` | Required | [UpdateWebhookEndpointRequestInput](../models/UpdateWebhookEndpointRequest.md#updatewebhookendpointrequest) | The request body for: Update webhook endpoint. minProperties: `1`. |
 
 Body model: [UpdateWebhookEndpointRequestInput](../models/UpdateWebhookEndpointRequest.md#updatewebhookendpointrequest).
 

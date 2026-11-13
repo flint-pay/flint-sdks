@@ -5,6 +5,7 @@ namespace Flint;
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $amount_money
  * @property-read string|\DateTimeInterface $authorization_expires_at
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $capturable_money
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $captured_money
  * @property-read BuyerPaymentErrorSummaryInput|array<array-key, mixed>|\stdClass $last_payment_error
  * @property-read string $payment_intent_id
  * @property-read string $selected_payment_option
@@ -12,9 +13,9 @@ namespace Flint;
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $tip_money
  * Presence-aware input; omitted fields throw when accessed. */
 final class BuyerPaymentAttemptPaymentIntentInput extends Model {
-    /** @param array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'authorization_expires_at'?: string|\DateTimeInterface, 'capturable_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'last_payment_error'?: BuyerPaymentErrorSummaryInput|array<array-key, mixed>|\stdClass, 'payment_intent_id': string, 'selected_payment_option'?: string, 'status': string, 'tip_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'authorization_expires_at'?: string|\DateTimeInterface, 'capturable_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'captured_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'last_payment_error'?: BuyerPaymentErrorSummaryInput|array<array-key, mixed>|\stdClass, 'payment_intent_id': string, 'selected_payment_option'?: string, 'status': string, 'tip_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerPaymentAttemptPaymentIntentInput')); }
-    /** The amount requested from the buyer, including any tip_money. Capturing doesn't change it: after a partial capture it still shows the requested amount, and captured_money shows what was collected. On a standalone payment intent, PATCH can change it only before the first confirmation attempt. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** The amount requested from the buyer, including any tip_money. Capturing doesn't change it: after a partial capture it still shows the requested amount, and captured_money shows what was collected. On a standalone payment intent, PATCH can change it only before the first confirmation attempt. An amount_money or tip_money change that leaves too little for stored splits returns LIMIT_EXCEEDED at the changed field with minimum_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
      */
@@ -32,6 +33,12 @@ final class BuyerPaymentAttemptPaymentIntentInput extends Model {
      */
     public function getCapturableMoney(): mixed { return $this->get('capturable_money'); }
     public function hasCapturableMoney(): bool { return $this->has('capturable_money'); }
+    /** Money collected through this payment, once nothing more can be collected. Positive when money was collected, including a payment Flint couldn't accept and is refunding (the payment intent's cancellation_reason is payment_returned). Zero when nothing was collected, for example after a decline or a released authorization. Absent while the outcome can still change, such as an ACH debit that hasn't settled or an open hold. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When captured_money is omitted; use hasCapturedMoney() or valueOrDefault().
+     */
+    public function getCapturedMoney(): mixed { return $this->get('captured_money'); }
+    public function hasCapturedMoney(): bool { return $this->has('captured_money'); }
     /** Why a payment attempt failed: a normalized `code`, a message, when it failed, and recovery guidance.
      * @return BuyerPaymentErrorSummaryInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When last_payment_error is omitted; use hasLastPaymentError() or valueOrDefault().
@@ -44,7 +51,7 @@ final class BuyerPaymentAttemptPaymentIntentInput extends Model {
      */
     public function getPaymentIntentId(): string { return $this->get('payment_intent_id'); }
     public function hasPaymentIntentId(): bool { return $this->has('payment_intent_id'); }
-    /** Payment option used by this leg, using the same values as PaymentIntent.selected_payment_option. Fixed when the attempt becomes terminal. Omitted when no payment option has been selected. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit".
+    /** Payment option used by this leg, using the same values as PaymentIntent.selected_payment_option. Fixed when the attempt becomes terminal. Omitted when no payment option has been selected. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", "card_present".
      * @return string
      * @throws SdkError When selected_payment_option is omitted; use hasSelectedPaymentOption() or valueOrDefault().
      */

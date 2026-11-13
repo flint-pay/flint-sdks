@@ -16,7 +16,7 @@ namespace Flint;
 final class DeliveryLocationSetArchivedMerchantEventDataObject extends Model {
     /** @param array{'configuration': mixed, 'created_at': string, 'current_delivery_location_set_revision_id': string, 'delivery_location_set_id': string, 'external_reference_id'?: string, 'metadata'?: mixed, 'name': string, 'status': string, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryLocationSetArchivedMerchantEventDataObject')); }
-    /** Current member Locations and selection rules. The location IDs in a delivery location set.
+    /** Current member Locations. The location IDs in a delivery location set.
      * @return DeliveryLocationSetConfiguration
      */
     public function getConfiguration(): DeliveryLocationSetConfiguration { return $this->get('configuration'); }

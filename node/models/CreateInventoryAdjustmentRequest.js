@@ -1,11 +1,12 @@
-import { d260 as c0 } from '../descriptors/data/13.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
-import { d6668 as c1, d6670 as c2, d6672 as c3, d6677 as c9, d6678 as c10, d6679 as c11, d6680 as c12, d6681 as c13 } from '../descriptors/data/303.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
-import { d6698 as c4, d6699 as c5, d6700 as c6, d6701 as c7, d6697 as c8, d6682 as c14, d6683 as c15, d6694 as c16, d6695 as c17, d6696 as c18, d6684 as c19, d6685 as c20, d6686 as c21, d6687 as c22, d6688 as c23 } from '../descriptors/data/304.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
-import { d260 as d260 } from '../descriptors/data/13.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d268 as c0 } from '../descriptors/data/14.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d6949 as c1 } from '../descriptors/data/323.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d6951 as c2, d6953 as c3, d6958 as c9, d6959 as c10, d6960 as c11, d6961 as c12, d6962 as c13, d6963 as c14, d6964 as c15, d6965 as c19, d6966 as c20, d6967 as c21, d6968 as c22, d6969 as c23 } from '../descriptors/data/324.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d6979 as c4, d6980 as c5, d6981 as c6, d6982 as c7, d6978 as c8, d6975 as c16, d6976 as c17, d6977 as c18 } from '../descriptors/data/325.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d268 as d268 } from '../descriptors/data/14.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d260;
+const read = d268;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["CreateInventoryAdjustmentRequest"]:c0(),["InventoryAdjustmentConditionChangeLineRequest"]:c1(),["InventoryAdjustmentQuantityLineRequest"]:c2(),["InventoryAdjustmentSetLineRequest"]:c3(),["InventorySourceSystemRequest"]:c4(),["SharedCodec267"]:c5(),["SharedCodec268"]:c6(),["SharedCodec269"]:c7(),["SharedCodec270"]:c8(),["SharedCodec271"]:c9(),["SharedCodec272"]:c10(),["SharedCodec273"]:c11(),["SharedCodec274"]:c12(),["SharedCodec275"]:c13(),["SharedCodec276"]:c14(),["SharedCodec277"]:c15(),["SharedCodec732"]:c16(),["SharedCodec733"]:c17(),["SharedCodec734"]:c18(),["SharedCodec735"]:c19(),["SharedCodec736"]:c20(),["SharedCodec737"]:c21(),["SharedCodec738"]:c22(),["SharedCodec739"]:c23()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["CreateInventoryAdjustmentRequest"]:c0(),["InventoryAdjustmentConditionChangeLineRequest"]:c1(),["InventoryAdjustmentQuantityLineRequest"]:c2(),["InventoryAdjustmentSetLineRequest"]:c3(),["InventorySourceSystemRequest"]:c4(),["SharedCodec301"]:c5(),["SharedCodec302"]:c6(),["SharedCodec303"]:c7(),["SharedCodec304"]:c8(),["SharedCodec305"]:c9(),["SharedCodec306"]:c10(),["SharedCodec307"]:c11(),["SharedCodec308"]:c12(),["SharedCodec309"]:c13(),["SharedCodec310"]:c14(),["SharedCodec311"]:c15(),["SharedCodec787"]:c16(),["SharedCodec788"]:c17(),["SharedCodec789"]:c18(),["SharedCodec790"]:c19(),["SharedCodec791"]:c20(),["SharedCodec792"]:c21(),["SharedCodec793"]:c22(),["SharedCodec794"]:c23()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeCreateInventoryAdjustmentRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

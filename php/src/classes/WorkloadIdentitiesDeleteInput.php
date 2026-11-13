@@ -16,7 +16,7 @@ final class WorkloadIdentitiesDeleteInput extends Model {
      */
     public function getWorkloadIdentityId(): string { return $this->get('workload_identity_id'); }
     public function hasWorkloadIdentityId(): bool { return $this->has('workload_identity_id'); }
-    /** Optional version most recently read. Format: int64. minimum: 1.
+    /** Optional version most recently read. Format: int64. minimum: 1. maximum: 9007199254740991.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */

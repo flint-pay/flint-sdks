@@ -5,6 +5,7 @@ namespace Flint;
  * @property-read string $created_at
  * @property-read ?PartnerAppCredentialJWKSURL $jwks_url
  * @property-read string|null $last_used_at
+ * @property-read list<string> $modes
  * @property-read string|null $name
  * @property-read string $partner_app_credential_id
  * @property-read string $partner_app_id
@@ -14,7 +15,7 @@ namespace Flint;
  * @property-read ?PartnerAppCredentialWorkloadIdentity $workload_identity
  * Presence-aware response; omitted optional fields return null. */
 final class PartnerAppCredential extends Model {
-    /** @param array{'created_at': string, 'jwks_url'?: mixed, 'last_used_at': string|null, 'name': string|null, 'partner_app_credential_id': string, 'partner_app_id': string, 'public_key'?: mixed, 'status': string, 'type': string, 'workload_identity'?: mixed, ...}|object $values */
+    /** @param array{'created_at': string, 'jwks_url'?: mixed, 'last_used_at': string|null, 'modes': list<string>, 'name': string|null, 'partner_app_credential_id': string, 'partner_app_id': string, 'public_key'?: mixed, 'status': string, 'type': string, 'workload_identity'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PartnerAppCredential')); }
     /** RFC3339 timestamp. Format: date-time.
      * @return string
@@ -31,6 +32,11 @@ final class PartnerAppCredential extends Model {
      */
     public function getLastUsedAt(): string|null { return $this->get('last_used_at'); }
     public function hasLastUsedAt(): bool { return $this->has('last_used_at'); }
+    /** Modes this credential can mint partner app tokens for, in the order live, test. A mint for another mode returns 400 unauthorized_client. Set at creation and never changed. minItems: 1. maxItems: 2. uniqueItems: true. [] enum: "live", "test". [] (Value): string.  Value enum: "live", "test".
+     * @return list<string>
+     */
+    public function getModes(): array { return $this->get('modes'); }
+    public function hasModes(): bool { return $this->has('modes'); }
     /** Name given to the credential when it was created. `null` when it has no name.
      * @return string|null
      */

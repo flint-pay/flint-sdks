@@ -9,4 +9,5 @@ Response model.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `order_charge_id` | Required | string | Order charge associated with this fulfillment. |
+| `order_id` | Required | string | Order that owns the referenced charge. |
 

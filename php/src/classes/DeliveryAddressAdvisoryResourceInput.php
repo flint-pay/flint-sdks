@@ -9,7 +9,7 @@ namespace Flint;
 final class DeliveryAddressAdvisoryResourceInput extends Model {
     /** @param array{'role': string, 'suggested_address'?: AddressInput|array<array-key, mixed>|\stdClass, 'verification_state': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryAddressAdvisoryResourceInput')); }
-    /** Value enum: "destination_address", "buyer_location".
+    /** Which address the advisory is about. Value enum: "destination_address", "buyer_location".
      * @return string
      * @throws SdkError When role is omitted; use hasRole() or valueOrDefault().
      */
@@ -21,7 +21,7 @@ final class DeliveryAddressAdvisoryResourceInput extends Model {
      */
     public function getSuggestedAddress(): mixed { return $this->get('suggested_address'); }
     public function hasSuggestedAddress(): bool { return $this->has('suggested_address'); }
-    /** Value enum: "needs_review", "unverifiable".
+    /** How far address verification got. Value enum: "needs_review", "unverifiable".
      * @return string
      * @throws SdkError When verification_state is omitted; use hasVerificationState() or valueOrDefault().
      */

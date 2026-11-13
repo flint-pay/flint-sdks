@@ -10,7 +10,7 @@ The locations available to a delivery method.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `configuration` | Required | [DeliveryLocationSetConfiguration](../models/DeliveryLocationSetConfiguration.md#deliverylocationsetconfiguration) | Current member Locations and selection rules. The location IDs in a delivery location set. |
+| `configuration` | Required | [DeliveryLocationSetConfiguration](../models/DeliveryLocationSetConfiguration.md#deliverylocationsetconfiguration) | Current member Locations. The location IDs in a delivery location set. |
 | `created_at` | Required | string | Time the location set was created. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `current_delivery_location_set_revision_id` | Required | string | Immutable revision used for new quotes. Example: `"dlsr_01KEZF7C00HN2NT80H5VNQSVFJ"`. |
 | `delivery_location_set_id` | Required | string | Stable delivery location set ID. Example: `"dls_01KEZF7C00C4WWN7RYTRF55C4H"`. |

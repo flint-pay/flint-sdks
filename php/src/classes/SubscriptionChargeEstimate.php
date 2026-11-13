@@ -4,6 +4,9 @@ namespace Flint;
 /**
  * @property-read string|null $billing_at
  * @property-read string $currency
+ * @property-read int $deliveries_per_period
+ * @property-read string|null $delivery_interval
+ * @property-read int|null $delivery_interval_count
  * @property-read MoneyValue $discount_money
  * @property-read list<SubscriptionRenewalEstimateDiscount> $discounts
  * @property-read list<SubscriptionRenewalEstimateLineItem> $line_items
@@ -14,7 +17,7 @@ namespace Flint;
  * @property-read MoneyValue $total_money
  * Presence-aware response; omitted optional fields return null. */
 final class SubscriptionChargeEstimate extends Model {
-    /** @param array{'billing_at': string|null, 'currency': string, 'discount_money': mixed, 'discounts': list<mixed>, 'line_items': list<mixed>, 'shipping_money': mixed, 'subscription_cycle': int, 'subtotal_money': mixed, 'tax_money': mixed, 'total_money': mixed, ...}|object $values */
+    /** @param array{'billing_at': string|null, 'currency': string, 'deliveries_per_period': int, 'delivery_interval': string|null, 'delivery_interval_count': int|null, 'discount_money': mixed, 'discounts': list<mixed>, 'line_items': list<mixed>, 'shipping_money': mixed, 'subscription_cycle': int, 'subtotal_money': mixed, 'tax_money': mixed, 'total_money': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionChargeEstimate')); }
     /** Expected collection time. Null when billing is not scheduled. Format: date-time.
      * @return string|null
@@ -26,6 +29,21 @@ final class SubscriptionChargeEstimate extends Model {
      */
     public function getCurrency(): string { return $this->get('currency'); }
     public function hasCurrency(): bool { return $this->has('currency'); }
+    /** Deliveries paid for by one billing period, from 1 to 24. One when no separate delivery cadence is set. Line prices are per delivery. Format: int32. minimum: 1. maximum: 24.
+     * @return int
+     */
+    public function getDeliveriesPerPeriod(): int { return $this->get('deliveries_per_period'); }
+    public function hasDeliveriesPerPeriod(): bool { return $this->has('deliveries_per_period'); }
+    /** Delivery cadence frozen from the plan. Null when no separate delivery cadence is set; one delivery is made per billing period. Value enum: "daily", "weekly", "monthly", "yearly", null.
+     * @return string|null
+     */
+    public function getDeliveryInterval(): string|null { return $this->get('delivery_interval'); }
+    public function hasDeliveryInterval(): bool { return $this->has('delivery_interval'); }
+    /** Number of delivery intervals between deliveries. Null when no separate delivery cadence is set. Format: int32. minimum: 1.
+     * @return int|null
+     */
+    public function getDeliveryIntervalCount(): int|null { return $this->get('delivery_interval_count'); }
+    public function hasDeliveryIntervalCount(): bool { return $this->has('delivery_interval_count'); }
     /** Estimated discount total. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */

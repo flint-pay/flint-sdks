@@ -11,31 +11,31 @@ namespace Flint;
 final class DeliveryMethodOriginSelectorFixedLocationInput extends Model {
     /** @param array{'delivery_location_set_id'?: string, 'delivery_location_set_revision_id'?: string, 'location_id': string, 'location_ids'?: list<string>, 'type': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryMethodOriginSelectorFixedLocationInput')); }
-    /** Example: "dls_01KEZF7C00C4WWN7RYTRF55C4H".
+    /** ID of the delivery location set that names the Locations in the group. Example: "dls_01KEZF7C00C4WWN7RYTRF55C4H".
      * @return string
      * @throws SdkError When delivery_location_set_id is omitted; use hasDeliveryLocationSetId() or valueOrDefault().
      */
     public function getDeliveryLocationSetId(): string { return $this->get('delivery_location_set_id'); }
     public function hasDeliveryLocationSetId(): bool { return $this->has('delivery_location_set_id'); }
-    /** Example: "dlsr_01KEZF7C00HN2NT80H5VNQSVFJ".
+    /** ID of the location set revision in effect for this method revision. Example: "dlsr_01KEZF7C00HN2NT80H5VNQSVFJ".
      * @return string
      * @throws SdkError When delivery_location_set_revision_id is omitted; use hasDeliveryLocationSetRevisionId() or valueOrDefault().
      */
     public function getDeliveryLocationSetRevisionId(): string { return $this->get('delivery_location_set_revision_id'); }
     public function hasDeliveryLocationSetRevisionId(): bool { return $this->has('delivery_location_set_revision_id'); }
-    /** Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+    /** ID of the Location delivery starts from. Required for `fixed_location` and not allowed otherwise. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When location_id is omitted; use hasLocationId() or valueOrDefault().
      */
     public function getLocationId(): string { return $this->get('location_id'); }
     public function hasLocationId(): bool { return $this->has('location_id'); }
-    /**  [] (Value): string. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+    /** IDs of the Locations in the group. [] (Value): string. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return list<string>
      * @throws SdkError When location_ids is omitted; use hasLocationIds() or valueOrDefault().
      */
     public function getLocationIds(): array { return $this->get('location_ids'); }
     public function hasLocationIds(): bool { return $this->has('location_ids'); }
-    /** Value enum: "fixed_location".
+    /** Where delivery starts. Value enum: "fixed_location".
      * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */

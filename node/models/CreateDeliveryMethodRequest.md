@@ -10,15 +10,15 @@ The request body for: Create delivery method.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `configuration` | Required | [DeliveryMethodConfigurationCreateRequest](../models/DeliveryMethodConfigurationCreateRequest.md#deliverymethodconfigurationcreaterequest) and [DeliveryMethodConfigurationRequest](../models/DeliveryMethodConfigurationRequest.md#deliverymethodconfigurationrequest) | The configuration you supply for a delivery method: origin, pricing, eligibility, timing estimate, tax settings, and recipient requirements. The configuration you supply when creating a delivery method. `origin` and `pricing` are required. `configuration`: [field definitions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configuration), [field definitions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-2configuration), [field definitions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-3configuration). |
-| `description` | Optional | string | minLength: `1`. |
-| `display_position` | Optional | integer | Format: `int32`. |
+| `configuration` | Required | [DeliveryMethodConfigurationCreateRequest](../models/DeliveryMethodConfigurationCreateRequest.md#deliverymethodconfigurationcreaterequest) and [DeliveryMethodConfigurationRequest](../models/DeliveryMethodConfigurationRequest.md#deliverymethodconfigurationrequest) | Settings that decide where this method is offered, how it is priced, and what the buyer sees. Changing them publishes a new revision. The configuration you supply for a delivery method: origin, pricing, eligibility, timing estimate, tax settings, and recipient requirements. Settings that decide where this method is offered, how it is priced, and what the buyer sees. Changing them publishes a new revision. The configuration you supply when creating a delivery method. `origin` and `pricing` are required. The configuration you supply for a delivery method: origin, pricing, eligibility, timing estimate, tax settings, and recipient requirements. `configuration`: [field definitions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configuration), [field definitions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-2configuration), [field definitions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-3configuration). |
+| `description` | Optional | string | Buyer-visible description of the method. minLength: `1`. |
+| `display_position` | Optional | integer | Position in which this method displays among the others. Lower values display first. Format: `int32`. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. Example: `"warehouse-1842"`. |
-| `metadata` | Optional | [MetadataMap](../models/MetadataMap.md#metadatamap) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. `metadata`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_itemsmetadata). |
-| `name` | Required | string | minLength: `1`. |
+| `metadata` | Optional | [MetadataMap](../models/MetadataMap.md#metadatamap) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. `metadata`: [field definitions](../models/CreateBundleRequest.md#createbundlerequestmetadata). |
+| `name` | Required | string | Name of the method. Buyers see it as the option name at checkout. minLength: `1`. |
 | `recommendation_priority` | Optional | integer | Marks this method as recommended. Within each choice group, the available method with the lowest value is recommended and listed first. Ties go to the lower display_position, then the method ID. Null never recommends the method. Format: `int32`. |
 | `status` | Optional | string | Whether this method is available for new delivery quotes. Defaults to inactive. Default: `"inactive"`. Values: `"inactive"`, `"active"`. |
-| `type` | Required | string | Values: `"shipment"`, `"local_delivery"`, `"pickup"`. |
+| `type` | Required | string | Delivery type of the method. It cannot change after you create the method. Values: `"shipment"`, `"local_delivery"`, `"pickup"`. |
 
 ### CreateDeliveryMethodRequest variant 1: `type` = `"shipment"`
 
@@ -40,7 +40,7 @@ oneOf with type: "pickup": The `pickup` variant of `CreateDeliveryMethodRequest`
 
 ### CreateDeliveryMethodRequest variant 1.configuration
 
-The configuration you supply when creating a delivery method. `origin` and `pricing` are required. The configuration you supply for a delivery method: origin, pricing, eligibility, timing estimate, tax settings, and recipient requirements.
+Settings that decide where this method is offered, how it is priced, and what the buyer sees. Changing them publishes a new revision. The configuration you supply when creating a delivery method. `origin` and `pricing` are required. The configuration you supply for a delivery method: origin, pricing, eligibility, timing estimate, tax settings, and recipient requirements.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
@@ -87,73 +87,70 @@ The buyer-visible delivery or pickup estimate. Use type none when the merchant m
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `schedule_window` | Optional | [DeliveryScheduleWindowRule](../models/DeliveryScheduleWindowRule.md#deliveryschedulewindowrule) | Scheduled-window estimate rule you supply for a delivery method, defined by its `availability` schedule. `schedule_window`: [field definitions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configurationestimateschedule_window). |
-| `transit_time` | Optional | [DeliveryTransitTimeRule](../models/DeliveryTransitTimeRule.md#deliverytransittimerule) | Estimate rule giving a delivery method's handling time and transit time as ranges of business days. `transit_time`: [field definitions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configurationestimatetransit_time). |
-| `type` | Required | string | Values: `"none"`, `"transit_time"`, `"schedule_window"`. |
+| `schedule_window` | Optional | [DeliveryScheduleWindowRule](../models/DeliveryScheduleWindowRule.md#deliveryschedulewindowrule) | Weekly schedule of delivery windows. Set only when `type` is `schedule_window`. Scheduled-window estimate rule you supply for a delivery method, defined by its `availability` schedule. `schedule_window`: [field definitions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configurationestimateschedule_window). |
+| `transit_time` | Optional | [DeliveryTransitTimeRule](../models/DeliveryTransitTimeRule.md#deliverytransittimerule) | Handling and transit time. Set only when `type` is `transit_time`. Estimate rule giving a delivery method's handling time and transit time as ranges of business days. `transit_time`: [field definitions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configurationestimatetransit_time). |
+| `type` | Required | string | How Flint estimates timing. Set the property named by this value. Values: `"none"`, `"transit_time"`, `"schedule_window"`. |
 
 ### CreateDeliveryMethodRequest variant 1.configuration.estimate.schedule_window
 
-Scheduled-window estimate rule you supply for a delivery method, defined by its `availability` schedule.
+Weekly schedule of delivery windows. Set only when `type` is `schedule_window`. Scheduled-window estimate rule you supply for a delivery method, defined by its `availability` schedule.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `availability` | Required | [DeliveryAvailability](../models/DeliveryAvailability.md#deliveryavailability) | When a delivery method can be scheduled: weekly intervals, blackout intervals, lead time, and how far ahead a buyer can book. `availability`: [field definitions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configurationestimateschedule_windowavailability). |
+| `availability` | Required | [DeliveryAvailability](../models/DeliveryAvailability.md#deliveryavailability) | When windows can be offered. When a delivery method can be scheduled: weekly intervals, blackout intervals, lead time, and how far ahead a buyer can book. `availability`: [field definitions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configurationestimateschedule_windowavailability). |
 
 ### CreateDeliveryMethodRequest variant 1.configuration.estimate.schedule_window.availability
 
-When a delivery method can be scheduled: weekly intervals, blackout intervals, lead time, and how far ahead a buyer can book.
+When windows can be offered. When a delivery method can be scheduled: weekly intervals, blackout intervals, lead time, and how far ahead a buyer can book.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `blackout_intervals` | Optional | Array of [DeliveryBlackoutInterval](../models/DeliveryBlackoutInterval.md#deliveryblackoutinterval) | `blackout_intervals[]`: [field definitions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configurationestimateschedule_windowavailabilityblackout_intervals). |
-| `dst_disambiguation` | Optional | string | Default: `"earlier"`. Values: `"earlier"`, `"later"`. |
-| `maximum_scheduling_horizon_days` | Required | integer |  |
+| `blackout_intervals` | Optional | Array of [DeliveryBlackoutInterval](../models/DeliveryBlackoutInterval.md#deliveryblackoutinterval) | Local date-time spans in which no window is offered. `blackout_intervals[]`: [field definitions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configurationestimateschedule_windowavailabilityblackout_intervals). |
+| `dst_disambiguation` | Optional | string | Which of the two instants a local time means when a clock change makes it happen twice. Defaults to `earlier`. Default: `"earlier"`. Values: `"earlier"`, `"later"`. |
+| `maximum_scheduling_horizon_days` | Required | integer | How many days ahead windows are offered, from 1 to 365. |
 | `preparation_lead_time_seconds` | Required | integer | Notice the merchant needs before a window starts, in seconds. A buyer can choose a window until this long before it starts. Quotes offer only windows that can still be chosen, so a window already under way is not offered. Format: `int64`. |
-| `same_day_cutoff_minute` | Optional | integer |  |
+| `same_day_cutoff_minute` | Optional | integer | Minute of the day, from 0 to 1439 in the schedule's timezone, after which today's windows are no longer offered. Omit it to apply no cutoff. |
 | `timezone` | Required | string | Uses an IANA time zone name. minLength: `1`. |
-| `weekly_intervals` | Required | Array of [DeliveryWeeklyInterval](../models/DeliveryWeeklyInterval.md#deliveryweeklyinterval) | `weekly_intervals[]`: [field definitions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configurationestimateschedule_windowavailabilityweekly_intervals). |
+| `weekly_intervals` | Required | Array of [DeliveryWeeklyInterval](../models/DeliveryWeeklyInterval.md#deliveryweeklyinterval) | One to 100 weekly spans in which windows are offered. They cannot overlap. `weekly_intervals[]`: [field definitions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configurationestimateschedule_windowavailabilityweekly_intervals). |
 
 ### CreateDeliveryMethodRequest variant 1.configuration.estimate.schedule_window.availability.blackout_intervals[]
 
 A local start and end time during which a delivery schedule offers no windows.
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `end_local` | Required | string | minLength: `1`. |
-| `start_local` | Required | string | minLength: `1`. |
+Field definitions: [shared fields](DeliveryBlackoutInterval.md#deliveryblackoutinterval).
 
 ### CreateDeliveryMethodRequest variant 1.configuration.estimate.schedule_window.availability.weekly_intervals[]
 
 A recurring weekly span, from a start weekday and minute to an end weekday and minute, used in a delivery method's availability schedule.
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `end_minute` | Required | integer |  |
-| `end_weekday` | Required | integer |  |
-| `start_minute` | Required | integer |  |
-| `start_weekday` | Required | integer |  |
+Field definitions: [shared fields](DeliveryWeeklyInterval.md#deliveryweeklyinterval).
 
 ### CreateDeliveryMethodRequest variant 1.configuration.estimate.transit_time
 
-Estimate rule giving a delivery method's handling time and transit time as ranges of business days.
+Handling and transit time. Set only when `type` is `transit_time`. Estimate rule giving a delivery method's handling time and transit time as ranges of business days.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `handling_days` | Required | [DeliveryBusinessDayRange](../models/DeliveryBusinessDayRange.md#deliverybusinessdayrange) | A minimum and maximum number of business days, used in transit time estimates. `handling_days`: [field definitions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configurationestimatetransit_timehandling_days). |
-| `transit_days` | Required | [DeliveryBusinessDayRange](../models/DeliveryBusinessDayRange.md#deliverybusinessdayrange) | A minimum and maximum number of business days, used in transit time estimates. `transit_days`: [field definitions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configurationestimatetransit_timehandling_days). |
+| `handling_days` | Required | [DeliveryBusinessDayRange](../models/DeliveryBusinessDayRange.md#deliverybusinessdayrange) | Business days the merchant needs to prepare the order. A minimum and maximum number of business days, used in transit time estimates. `handling_days`: [field definitions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configurationestimatetransit_timehandling_days). |
+| `transit_days` | Required | [DeliveryBusinessDayRange](../models/DeliveryBusinessDayRange.md#deliverybusinessdayrange) | Business days the order spends in transit. A minimum and maximum number of business days, used in transit time estimates. `transit_days`: [field definitions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configurationestimatetransit_timetransit_days). |
 
 ### CreateDeliveryMethodRequest variant 1.configuration.estimate.transit_time.handling_days
 
-A minimum and maximum number of business days, used in transit time estimates.
+Business days the merchant needs to prepare the order. A minimum and maximum number of business days, used in transit time estimates.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `maximum` | Required | integer |  |
-| `minimum` | Required | integer |  |
+| `maximum` | Required | integer | Most business days, from `minimum` to 365. |
+| `minimum` | Required | integer | Fewest business days, from 0. |
 
 ### CreateDeliveryMethodRequest variant 1.configuration.estimate.transit_time.transit_days
 
-Field definitions: [CreateDeliveryMethodRequest variant 1.configuration.estimate.transit_time.handling_days](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configurationestimatetransit_timehandling_days).
+Business days the order spends in transit. A minimum and maximum number of business days, used in transit time estimates.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `maximum` | Required | integer | Most business days, from `minimum` to 365. |
+| `minimum` | Required | integer | Fewest business days, from 0. |
 
 ### CreateDeliveryMethodRequest variant 1.configuration.public_details
 
@@ -169,19 +166,15 @@ Buyer-visible structured details supplied by the merchant.
 
 Says whether a recipient field (`name`, `email`, or `phone`) is required for a delivery method, and the format it must use.
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `field` | Required | string | Values: `"name"`, `"email"`, `"phone"`. |
-| `format` | Optional | string | Values: `"text"`, `"email"`, `"e164"`. |
-| `required` | Required | boolean |  |
+Field definitions: [shared fields](DeliveryRecipientRequirement.md#deliveryrecipientrequirement).
 
 ### CreateDeliveryMethodRequest.metadata
 
-Field definitions: [AddLineItemsRequest.line_items[].metadata](../models/AddLineItemsRequest.md#addlineitemsrequestline_itemsmetadata).
+Field definitions: [CreateBundleRequest.metadata](../models/CreateBundleRequest.md#createbundlerequestmetadata).
 
 ### CreateDeliveryMethodRequest variant 2.configuration
 
-The configuration you supply when creating a delivery method. `origin` and `pricing` are required. The configuration you supply for a delivery method: origin, pricing, eligibility, timing estimate, tax settings, and recipient requirements.
+Settings that decide where this method is offered, how it is priced, and what the buyer sees. Changing them publishes a new revision. The configuration you supply when creating a delivery method. `origin` and `pricing` are required. The configuration you supply for a delivery method: origin, pricing, eligibility, timing estimate, tax settings, and recipient requirements.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
@@ -222,7 +215,7 @@ Field definitions: [CreateDeliveryMethodRequest variant 1.configuration.recipien
 
 ### CreateDeliveryMethodRequest variant 3.configuration
 
-The configuration you supply when creating a delivery method. `origin` and `pricing` are required. The configuration you supply for a delivery method: origin, pricing, eligibility, timing estimate, tax settings, and recipient requirements.
+Settings that decide where this method is offered, how it is priced, and what the buyer sees. Changing them publishes a new revision. The configuration you supply when creating a delivery method. `origin` and `pricing` are required. The configuration you supply for a delivery method: origin, pricing, eligibility, timing estimate, tax settings, and recipient requirements.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
@@ -251,7 +244,12 @@ Field definitions: [CreateDeliveryMethodRequest variant 1.configuration.estimate
 
 Where delivery starts. A method can use a fixed location or a delivery location set; origin.type determines allocation or buyer pickup behavior. The origin you supply for a delivery method, chosen by `type`: a fixed location, or locations from a delivery location set or an inline list.
 
-Field definitions: [shared fields](DeliveryMethodOriginSelectorInputPickupLocationCollection.md#deliverymethodoriginselectorinputpickuplocationcollection).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `delivery_location_set_id` | Conditional | string | Named delivery location set to reuse. Send either delivery_location_set_id or inline location_ids, never both. The set may contain at most 25 Locations for allocated_origin_group or 1,000 for pickup_location_collection. minLength: `1`. Example: `"dls_01KEZF7C00C4WWN7RYTRF55C4H"`. ID of the delivery location set that names the Locations in the group. Named delivery location set to reuse. Send either delivery_location_set_id or inline location_ids, never both. The set may contain at most 25 Locations for allocated_origin_group or 1,000 for pickup_location_collection. minLength: `1`. Example: `"dls_01KEZF7C00C4WWN7RYTRF55C4H"`. ID of the delivery location set that names the Locations in the group. |
+| `location_id` | Optional | string | ID of the Location delivery starts from. Required for `fixed_location` and not allowed otherwise. minLength: `1`. Example: `"loc_01KEZF7C00CMHRRYA3MV996JB2"`. |
+| `location_ids` | Conditional | Array of string | Inline Location IDs for a set managed by this delivery method. Send either location_ids or delivery_location_set_id, never both. Use 1 to 25 unique Locations for allocated_origin_group or 1 to 1,000 for pickup_location_collection. Reads return these Location IDs without exposing the managed set. minItems: `1`. maxItems: `1000`. uniqueItems: `true`. IDs of the Locations in the group. Items: minLength: `1`. Example: `"loc_01KEZF7C00CMHRRYA3MV996JB2"`. Inline Location IDs for a set managed by this delivery method. Send either location_ids or delivery_location_set_id, never both. Use 1 to 25 unique Locations for allocated_origin_group or 1 to 1,000 for pickup_location_collection. Reads return these Location IDs without exposing the managed set. minItems: `1`. maxItems: `1000`. uniqueItems: `true`. Items: minLength: `1`. Example: `"loc_01KEZF7C00CMHRRYA3MV996JB2"`. IDs of the Locations in the group. |
+| `type` | Required | string | Where delivery starts. Delivery type of the method. It cannot change after you create the method. Where delivery starts. Delivery type of the method. It cannot change after you create the method. Values: `"pickup_location_collection"`. |
 
 ### CreateDeliveryMethodRequest variant 3.configuration.origin variant 1: `type` = `"pickup_location_collection"`
 

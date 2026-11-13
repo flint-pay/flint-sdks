@@ -52,7 +52,7 @@ The credential that closed this payment review. Null when Flint closed it.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `resource_id` | Conditional | string | Public Flint ID of the referenced resource. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
-| `resource_type` | Conditional | string | Public resource kind identified by resource_id, such as payment_intent for a payment. Example: `"order"`. Values: [146 declared values](APIRequestLogInput.md#apirequestloginput-resource_type-values). |
+| `resource_type` | Conditional | string | Public resource kind identified by resource_id, such as payment_intent for a payment. Example: `"order"`. Values: [153 declared values](APIRequestLogInput.md#apirequestloginput-resource_type-values). |
 
 ### PaymentReviewResponse.data.closed_by variant 1
 

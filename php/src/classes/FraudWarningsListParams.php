@@ -19,7 +19,7 @@ final class FraudWarningsListParams extends Model {
      */
     public function getIsActionable(): bool { return $this->get('is_actionable'); }
     public function hasIsActionable(): bool { return $this->has('is_actionable'); }
-    /** Filter by Flint payment intent ID. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+    /** Filter by Flint payment intent ID. pattern: ^pi_[0-9A-HJKMNP-TV-Z]{26}$. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
      * @return string
      * @throws SdkError When payment_intent_id is omitted; use hasPaymentIntentId() or valueOrDefault().
      */

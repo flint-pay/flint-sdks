@@ -10,9 +10,9 @@ import type {
     InvoicePaymentTermsListParams,
     InvoicePaymentTermsSnapshot,
     InvoicePaymentTermsUpdateParams
-} from '../declarations/types-32.js';
-import type { RequestOptions } from '../declarations/types-51.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+} from '../declarations/types-33.js';
+import type { RequestOptions } from '../declarations/types-53.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -49,11 +49,11 @@ export type {
     InvoicePaymentTermCalculationDaysAfterMonthEnd,
     InvoicePaymentTermCalculationDayOfMonth,
     InvoicePaymentTermCalculationDayOfNextMonth
-} from '../declarations/types-32.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+} from '../declarations/types-33.js';
+export type { RequestOptions } from '../declarations/types-53.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
 export type { ClientOptions } from '../declarations/types-6.js';
-export type { CreateInvoicePaymentTermRequestInput } from '../declarations/types-9.js';
+export type { CreateInvoicePaymentTermRequestInput } from '../declarations/types-10.js';
 export type {
     InvoiceLateFeePolicyRequestInput,
     InvoiceLateFeePolicyFixedRequestInput,
@@ -61,16 +61,18 @@ export type {
     InvoiceLateFeePolicy,
     InvoiceLateFeePolicyFixed,
     InvoiceLateFeePolicyPercentage
-} from '../declarations/types-31.js';
-export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-37.js';
-export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-13.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
-export type { UpdateInvoicePaymentTermRequestInput } from '../declarations/types-63.js';
-export type { DisputesAcceptParams } from '../declarations/types-22.js';
-export { makeCreateInvoicePaymentTermRequest } from '../declarations/types-69.js';
-export { makeInvoiceLateFeePolicyFixedRequest, makeInvoiceLateFeePolicyPercentageRequest } from '../declarations/types-73.js';
+} from '../declarations/types-32.js';
+export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-38.js';
+export type { AuthMode } from '../declarations/types-1.js';
+export type { Credentials } from '../declarations/types-14.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
+export type { UpdateInvoicePaymentTermRequestInput } from '../declarations/types-66.js';
+export type { DisputesAcceptParams } from '../declarations/types-23.js';
+export { makeCreateInvoicePaymentTermRequest } from '../declarations/types-72.js';
 export {
+    makeInvoiceLateFeePolicyFixedRequest,
+    makeInvoiceLateFeePolicyPercentageRequest,
     makeInvoiceLateFeePolicyRequest,
     makeInvoicePaymentTermCalculationDayOfMonthRequest,
     makeInvoicePaymentTermCalculationDayOfNextMonthRequest,
@@ -78,9 +80,9 @@ export {
     makeInvoicePaymentTermCalculationNetDaysRequest,
     makeInvoicePaymentTermCalculationOnReceiptRequest,
     makeInvoicePaymentTermCalculationRequest
-} from '../declarations/types-74.js';
-export { makeMoneyValue } from '../declarations/types-75.js';
-export { makeUpdateInvoicePaymentTermRequest } from '../declarations/types-79.js';
+} from '../declarations/types-77.js';
+export { makeMoneyValue } from '../declarations/types-78.js';
+export { makeUpdateInvoicePaymentTermRequest } from '../declarations/types-83.js';
 export interface InvoicePaymentTermsResource {
     /**
  * Creates a reusable payment term that decides when an invoice is due, for example on receipt, net

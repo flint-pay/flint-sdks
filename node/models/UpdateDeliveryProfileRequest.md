@@ -2,7 +2,7 @@
 
 ## UpdateDeliveryProfileRequest
 
-The request body for: Update delivery profile.
+The request body for: Update delivery profile. minProperties: `1`.
 
 
 
@@ -10,12 +10,12 @@ The request body for: Update delivery profile.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `configuration` | Conditional | [DeliveryProfileConfigurationRequest](../models/DeliveryProfileConfigurationRequest.md#deliveryprofileconfigurationrequest) | Send the whole profile configuration. It replaces the current one; leave configuration out to keep it. requirement none allows no other keys, and quote profiles require origin_policy, combination_policy, and splitting_policy. Null and an empty object are invalid. Requires expected_version. Delivery planning settings you supply when creating or updating a delivery profile. Which fields are allowed depends on `requirement` and `resolution_mode`. |
-| `expected_version` | Optional | integer | Current resource version. Required for configuration, owned-rate replacement, and quote-pinned method presentation; optional for other scalar and status updates. Required when any of these fields is present: configuration. Format: `uint64`. minimum: `1`. |
+| `configuration` | Conditional | [DeliveryProfileConfigurationRequest](../models/DeliveryProfileConfigurationRequest.md#deliveryprofileconfigurationrequest) | Replaced as a whole: send every field you want to keep. Send the whole profile configuration; leave configuration out to keep it. requirement none allows no other keys, and quote profiles require origin_policy, combination_policy, and splitting_policy. Null and an empty object are invalid. Publishes a new immutable revision, even when the values are unchanged, and requires expected_version. Delivery planning settings you supply when creating or updating a delivery profile. Which fields are allowed depends on `requirement` and `resolution_mode`. |
+| `expected_version` | Optional | integer | Current resource version. Required when the request carries a revision field: configuration. A revision field publishes a new immutable revision even when its value is unchanged. Optional for other fields, which advance version and keep the current revision. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Conditional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. Example: `"warehouse-1842"`. |
 | `is_default` | Conditional | boolean | Send true to make this active profile the physical catalog default. Can be combined with other mutable fields in one atomic update. Send expected_version to fence the update against this profile's current version. Sending only is_default true for the current default is a no-op: its version stays unchanged and no events are emitted. False is invalid; make another profile the default instead. Values: `true`. |
 | `metadata` | Conditional | [MetadataPatchRequest](../models/MetadataPatchRequest.md#metadatapatchrequest) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. |
-| `name` | Conditional | string | minLength: `1`. |
+| `name` | Conditional | string | Merchant-facing name. minLength: `1`. |
 
 ### UpdateDeliveryProfileRequest variant 1: `is_default` = `true`
 

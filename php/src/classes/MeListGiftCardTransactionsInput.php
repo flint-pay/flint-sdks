@@ -11,7 +11,7 @@ namespace Flint;
 final class MeListGiftCardTransactionsInput extends Model {
     /** @param array{'gift_card_id': string, 'page_size'?: int, 'page_token'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MeListGiftCardTransactionsInput')); }
-    /** Exact gift card ID. Requires current saved access to this card. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
+    /** Exact gift card ID. Requires current saved access to this card. pattern: ^gc_[0-9A-HJKMNP-TV-Z]{26}$. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
      * @return string
      * @throws SdkError When gift_card_id is omitted; use hasGiftCardId() or valueOrDefault().
      */

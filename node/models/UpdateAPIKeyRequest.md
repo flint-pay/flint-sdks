@@ -2,7 +2,7 @@
 
 ## UpdateAPIKeyRequest
 
-The request body for: Update an API key.
+The request body for: Update an API key. minProperties: `1`.
 
 
 
@@ -14,7 +14,7 @@ The request body for: Update an API key.
 | `expected_version` | Optional | integer | Resource version last read by the caller. Required when access or scopes is present. Optional for scalar updates. Format: `uint64`. minimum: `1`. |
 | `expires_at` | Optional | string or null | Future RFC3339 timestamp. Send null to clear an existing API-key expiration. Format: `date-time`. minLength: `1`. Example: `"2026-08-02T16:00:00Z"`. |
 | `name` | Optional | string | minLength: `1`. maxLength: `100`. |
-| `scopes` | Conditional | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. minItems: `1`. uniqueItems: `true`. Items values: [96 declared values](APIKey.md#apikey-scopes--values). |
+| `scopes` | Conditional | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. minItems: `1`. uniqueItems: `true`. Items values: [102 declared values](APIKey.md#apikey-scopes--values). |
 
 ### UpdateAPIKeyRequest variant 1: `access` = `"full"`
 
@@ -45,6 +45,6 @@ oneOf Restricted.
 
 oneOf No access change.
 
-- Condition: not (at least one(present(`access`); present(`scopes`))).
+- Condition: not (present(`access`)).
 - Optional: `access`, `scopes`.
 

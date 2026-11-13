@@ -24,7 +24,7 @@ final class SubscriptionDeliveryMigrationsListInput extends Model {
      */
     public function getPageToken(): string { return $this->get('page_token'); }
     public function hasPageToken(): bool { return $this->has('page_token'); }
-    /** Filter by the delivery method subscriptions are moving from. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+    /** Filter by the delivery method subscriptions are moving from. pattern: ^dmet_[0-9A-HJKMNP-TV-Z]{26}$. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
      * @return string
      * @throws SdkError When from_delivery_method_id is omitted; use hasFromDeliveryMethodId() or valueOrDefault().
      */

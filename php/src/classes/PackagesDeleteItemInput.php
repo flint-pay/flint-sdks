@@ -23,7 +23,7 @@ final class PackagesDeleteItemInput extends Model {
      */
     public function getPackageItemId(): string { return $this->get('package_item_id'); }
     public function hasPackageItemId(): bool { return $this->has('package_item_id'); }
-    /** Optional item version last read by the caller. Format: uint64. minimum: 1.
+    /** Optional item version last read by the caller. Format: uint64. minimum: 1. maximum: 9007199254740991.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */

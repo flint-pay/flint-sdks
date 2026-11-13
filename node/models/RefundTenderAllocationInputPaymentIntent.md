@@ -20,5 +20,5 @@ The `payment_intent` variant of `RefundTenderAllocationInput`.
 
 Amount to refund to this tender. Above zero. For a gift card redemption it is in USD. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
 
-Field definitions: [shared fields](CreateGiftCardLoadRequest.md#creategiftcardloadrequestvalue_money).
+Field definitions: [shared fields](CapturePaymentIntentRequest.md#capturepaymentintentrequestsplitsamount_money).
 

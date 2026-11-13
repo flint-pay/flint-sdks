@@ -14,31 +14,31 @@ namespace Flint;
 final class CheckoutDerivedDeliveryResourceInput extends Model {
     /** @param array{'buyer_reasons': list<string>, 'choice_groups': list<DeliveryQuoteChoiceGroupResourceInput|array<array-key, mixed>|\stdClass>, 'delivery_quote_id'?: string, 'delivery_selection_id': string|null, 'evaluation_status': string, 'expires_at'?: string|\DateTimeInterface, 'input_requirements': list<DeliveryInputRequirementInput|array<array-key, mixed>|\stdClass>, 'merchant_diagnostics'?: list<DeliveryMerchantDiagnosticInput|array<array-key, mixed>|\stdClass>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutDerivedDeliveryResourceInput')); }
-    /**  [] (Value): string.
+    /** Buyer-safe reasons candidate methods did not produce an option. These can be present even when another method is available. [] (Value): string.
      * @return list<string>
      * @throws SdkError When buyer_reasons is omitted; use hasBuyerReasons() or valueOrDefault().
      */
     public function getBuyerReasons(): array { return $this->get('buyer_reasons'); }
     public function hasBuyerReasons(): bool { return $this->has('buyer_reasons'); }
-    /**  [] (Value): {@see DeliveryQuoteChoiceGroupResourceInput}. One group of order items in a delivery quote, with the delivery options the buyer can choose, its availability status, and any input still needed.
+    /** Groups of order items that each choose their own delivery option. Empty until the checkout has a delivery quote. [] (Value): {@see DeliveryQuoteChoiceGroupResourceInput}. One group of order items in a delivery quote, with the delivery options the buyer can choose, its availability status, and any input still needed.
      * @return list<DeliveryQuoteChoiceGroupResourceInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When choice_groups is omitted; use hasChoiceGroups() or valueOrDefault().
      */
     public function getChoiceGroups(): array { return $this->get('choice_groups'); }
     public function hasChoiceGroups(): bool { return $this->has('choice_groups'); }
-    /** Example: "dqt_01KEZF7C009EB1AVCDJBN4BBVV".
+    /** ID of the checkout's current delivery quote. Omitted until the checkout has one. Example: "dqt_01KEZF7C009EB1AVCDJBN4BBVV".
      * @return string
      * @throws SdkError When delivery_quote_id is omitted; use hasDeliveryQuoteId() or valueOrDefault().
      */
     public function getDeliveryQuoteId(): string { return $this->get('delivery_quote_id'); }
     public function hasDeliveryQuoteId(): bool { return $this->has('delivery_quote_id'); }
-    /** Current delivery selection ID after reconciliation, or null when no selection is current. Assert this value with expected_delivery_selection_id on checkout delivery writes. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
+    /** Current delivery selection ID after reconciliation. `null` when no selection is current. Assert this value with expected_delivery_selection_id on checkout delivery writes. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
      * @return string|null
      * @throws SdkError When delivery_selection_id is omitted; use hasDeliverySelectionId() or valueOrDefault().
      */
     public function getDeliverySelectionId(): string|null { return $this->get('delivery_selection_id'); }
     public function hasDeliverySelectionId(): bool { return $this->has('delivery_selection_id'); }
-    /** Value enum: "complete", "incomplete", "degraded", "requires_explicit_quote".
+    /** How completely Flint evaluated the candidate delivery methods. Value enum: "complete", "incomplete", "degraded", "requires_explicit_quote".
      * @return string
      * @throws SdkError When evaluation_status is omitted; use hasEvaluationStatus() or valueOrDefault().
      */

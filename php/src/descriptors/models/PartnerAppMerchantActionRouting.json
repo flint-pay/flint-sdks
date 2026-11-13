@@ -1,0 +1,1 @@
+{"shared":"PartnerAppMerchantActionRouting","phpRepresentation":{"kind":"record","fields":{"expires_at":{"kind":"value","type":"string"},"url":{"kind":"value","type":"string"}}},"dependencies":["PartnerAppMerchantActionRouting"]}

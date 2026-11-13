@@ -1,1 +1,1 @@
-{"shared":"CreditNoteLineItemRequest","dependencies":["CreditNoteCorrectionRequestModel","CreditNoteLineItemRequest","MoneyValue","SharedCodec404","SharedCodec405","SharedCodec406","SharedCodec407"]}
+{"shared":"CreditNoteLineItemRequest","dependencies":["CreditNoteCorrectionRequestModel","CreditNoteLineItemRequest","MoneyValue","SharedCodec452","SharedCodec453","SharedCodec454","SharedCodec455"]}

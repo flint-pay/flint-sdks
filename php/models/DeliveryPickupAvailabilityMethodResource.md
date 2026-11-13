@@ -8,6 +8,6 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `delivery_method_id` | Required | string |  |
-| `delivery_method_revision_id` | Required | string |  |
+| `delivery_method_id` | Required | string | ID of the pickup method. |
+| `delivery_method_revision_id` | Required | string | ID of the method revision that was evaluated. |
 

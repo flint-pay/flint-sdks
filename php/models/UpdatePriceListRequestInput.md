@@ -4,6 +4,8 @@
 
 Fields to change on an unarchived price list. Omitted fields remain unchanged.
 
+minProperties: `1`.
+
 Request input.
 
 | Field | Presence | Type | Description |

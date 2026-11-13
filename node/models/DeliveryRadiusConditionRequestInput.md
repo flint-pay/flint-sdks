@@ -12,8 +12,8 @@ Eligibility condition that matches when the destination or buyer location is wit
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `maximum_distance` | Required | [DeliveryDistanceRequestInput](../models/DeliveryDistanceRequestInput.md#deliverydistancerequestinput) | A distance as a `value` in meters, kilometers, or miles. |
-| `measurement` | Optional | string | Default: `"straight_line"`. Values: `"straight_line"`. |
-| `origin` | Required | [DeliveryRadiusOriginInput](../models/DeliveryRadiusOriginInput.md#deliveryradiusorigininput) | The point a radius condition measures from: a specific Location (`location_id`) or the delivery method's own origin (`method_origin`). |
+| `maximum_distance` | Required | [DeliveryDistanceRequestInput](../models/DeliveryDistanceRequestInput.md#deliverydistancerequestinput) | The largest distance from the origin that still matches. A distance as a `value` in meters, kilometers, or miles. |
+| `measurement` | Optional | string | How Flint measures the distance. Default: `"straight_line"`. Values: `"straight_line"`. |
+| `origin` | Required | [DeliveryRadiusOriginInput](../models/DeliveryRadiusOriginInput.md#deliveryradiusorigininput) | The point to measure the distance from. The point a radius condition measures from: a specific Location (`location_id`) or the delivery method's own origin (`method_origin`). |
 | `subject` | Optional | string | Address facts tested by this condition. destination_address is the shipping destination. buyer_location is the buyer's current pickup or local-delivery location. Default: `"destination_address"`. Values: `"destination_address"`, `"buyer_location"`. |
 

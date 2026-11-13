@@ -12,7 +12,7 @@ namespace Flint;
 final class DeliveryAddressRequestInput extends Model {
     /** @param array{'city'?: string, 'country'?: string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryAddressRequestInput')); }
-    /** minLength: 1. maxLength: 100.
+    /** City, town, or locality. minLength: 1. maxLength: 100.
      * @return string
      * @throws SdkError When city is omitted; use hasCity() or valueOrDefault().
      */
@@ -24,19 +24,19 @@ final class DeliveryAddressRequestInput extends Model {
      */
     public function getCountry(): string { return $this->get('country'); }
     public function hasCountry(): bool { return $this->has('country'); }
-    /** minLength: 1. maxLength: 255.
+    /** First line of the street address. minLength: 1. maxLength: 255.
      * @return string
      * @throws SdkError When line1 is omitted; use hasLine1() or valueOrDefault().
      */
     public function getLine1(): string { return $this->get('line1'); }
     public function hasLine1(): bool { return $this->has('line1'); }
-    /** minLength: 1. maxLength: 255.
+    /** Second line of the street address, such as an apartment or suite. minLength: 1. maxLength: 255.
      * @return string
      * @throws SdkError When line2 is omitted; use hasLine2() or valueOrDefault().
      */
     public function getLine2(): string { return $this->get('line2'); }
     public function hasLine2(): bool { return $this->has('line2'); }
-    /** minLength: 1. maxLength: 20.
+    /** Postal or ZIP code. minLength: 1. maxLength: 20.
      * @return string
      * @throws SdkError When postal_code is omitted; use hasPostalCode() or valueOrDefault().
      */

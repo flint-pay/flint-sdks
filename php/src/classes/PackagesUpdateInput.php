@@ -34,7 +34,7 @@ final class PackagesUpdateInput extends Model {
      */
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
-    /** The request body for: Update package. Example: {"expected_delivery_at":"2026-05-16T18:00:00Z","expected_version":1,"metadata":{"box":"small","packed_by":"warehouse-a"},"tracking_number":"1Z999AA10987654321","tracking_url":"https://track.example.com/1Z999AA10987654321"}.
+    /** The request body for: Update package. minProperties: 1. Example: {"expected_delivery_at":"2026-05-16T18:00:00Z","expected_version":1,"metadata":{"box":"small","packed_by":"warehouse-a"},"tracking_number":"1Z999AA10987654321","tracking_url":"https://track.example.com/1Z999AA10987654321"}.
      * @return array{'carrier'?: string|null, 'dimensions'?: array{'height': int|float, 'length': int|float, 'unit': string, 'width': int|float}|object|null, 'expected_delivery_at'?: string|\DateTimeInterface|null, 'expected_version'?: int, 'external_reference_id'?: string|null, 'external_system'?: string|null, 'label_url'?: string|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'service_code'?: string|null, 'status_reason'?: string|null, 'tracking_number'?: string|null, 'tracking_url'?: string|null, 'weight'?: array{'unit': string, 'value': int|float}|object|null}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

@@ -11,19 +11,19 @@ namespace Flint;
 final class DeliveryPickupAvailabilityLocationResourceInput extends Model {
     /** @param array{'applicable_quantities': list<DeliveryPickupAvailabilityQuantityResourceInput|array<array-key, mixed>|\stdClass>, 'candidate_outcome': DeliveryPickupAvailabilityCandidateOutcomeInput|array<array-key, mixed>|\stdClass, 'compatible_methods': list<DeliveryPickupAvailabilityMethodResourceInput|array<array-key, mixed>|\stdClass>, 'distance_meters'?: int|float, 'location': DeliveryPickupAvailabilityLocationSummaryInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPickupAvailabilityLocationResourceInput')); }
-    /**  [] (Value): {@see DeliveryPickupAvailabilityQuantityResourceInput}. The quantity of an order line item, or of one of its bundle components, that a pickup location applies to.
+    /** Quantities of the order's items this Location can supply. [] (Value): {@see DeliveryPickupAvailabilityQuantityResourceInput}. The quantity of an order line item, or of one of its bundle components, that a pickup location applies to.
      * @return list<DeliveryPickupAvailabilityQuantityResourceInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When applicable_quantities is omitted; use hasApplicableQuantities() or valueOrDefault().
      */
     public function getApplicableQuantities(): array { return $this->get('applicable_quantities'); }
     public function hasApplicableQuantities(): bool { return $this->has('applicable_quantities'); }
-    /** Whether pickup is available at one location, chosen by `type`, with the reason when it is unavailable or cannot be calculated.
+    /** Result of evaluating this Location for pickup. Whether pickup is available at one location, chosen by `type`, with the reason when it is unavailable or cannot be calculated.
      * @return DeliveryPickupAvailabilityCandidateOutcomeInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When candidate_outcome is omitted; use hasCandidateOutcome() or valueOrDefault().
      */
     public function getCandidateOutcome(): mixed { return $this->get('candidate_outcome'); }
     public function hasCandidateOutcome(): bool { return $this->has('candidate_outcome'); }
-    /**  [] (Value): {@see DeliveryPickupAvailabilityMethodResourceInput}. A pickup delivery method, with its revision, that can serve a pickup location.
+    /** Pickup methods that can serve this Location. [] (Value): {@see DeliveryPickupAvailabilityMethodResourceInput}. A pickup delivery method, with its revision, that can serve a pickup location.
      * @return list<DeliveryPickupAvailabilityMethodResourceInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When compatible_methods is omitted; use hasCompatibleMethods() or valueOrDefault().
      */
@@ -35,7 +35,7 @@ final class DeliveryPickupAvailabilityLocationResourceInput extends Model {
      */
     public function getDistanceMeters(): int|float { return $this->get('distance_meters'); }
     public function hasDistanceMeters(): bool { return $this->has('distance_meters'); }
-    /** The ID, name, and address of a pickup location in a pickup locations preview.
+    /** The pickup Location. The ID, name, and address of a pickup location in a pickup locations preview.
      * @return DeliveryPickupAvailabilityLocationSummaryInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When location is omitted; use hasLocation() or valueOrDefault().
      */

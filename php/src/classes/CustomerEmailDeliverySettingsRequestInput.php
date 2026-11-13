@@ -18,7 +18,7 @@ final class CustomerEmailDeliverySettingsRequestInput extends Model {
      */
     public function getDunning(): string { return $this->get('dunning'); }
     public function hasDunning(): bool { return $this->has('dunning'); }
-    /** Who sends the buyer updates when a fulfillment, shipment, or package changes. When you send them, use the `fulfillment.*`, `shipment.*`, and `package.*` webhook events. Value enum: "flint_sends", "merchant_sends".
+    /** Who sends the buyer updates when a fulfillment, shipment, or package changes, and when a paid line's `expected_ship_date` changes. When you send them, use the `fulfillment.*`, `shipment.*`, and `package.*` webhook events, and `order.updated` for ship date changes. Value enum: "flint_sends", "merchant_sends".
      * @return string
      * @throws SdkError When fulfillment_updates is omitted; use hasFulfillmentUpdates() or valueOrDefault().
      */

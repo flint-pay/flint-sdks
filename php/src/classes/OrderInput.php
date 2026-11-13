@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read OrderPaymentAttemptInput|array<array-key, mixed>|\stdClass $active_payment_attempt
+ * @property-read string|null $active_payment_review_id
  * @property-read OrderAuthorizationAmountsInput|array<array-key, mixed>|\stdClass $authorization_amounts
  * @property-read CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass $buyer_contact
  * @property-read string $buyer_note
@@ -17,8 +18,10 @@ namespace Flint;
  * @property-read array{'created_at'?: string|\DateTimeInterface, 'customer_id': string, 'email': string|null, 'name': string|null, 'phone': string|null, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null $customer
  * @property-read string $customer_id
  * @property-read list<DeferredPromotionInput|array<array-key, mixed>|\stdClass> $deferred_promotions
+ * @property-read OrderDeliverySummaryInput|array<array-key, mixed>|\stdClass $delivery
  * @property-read OrderDeliveryDestinationInput|array<array-key, mixed>|\stdClass $delivery_destination
  * @property-read list<OrderDiscountInput|array<array-key, mixed>|\stdClass> $discounts
+ * @property-read string $dispute_status
  * @property-read string $external_reference_id
  * @property-read string $fulfillment_status
  * @property-read list<FulfillmentInput|array<array-key, mixed>|\stdClass> $fulfillments
@@ -27,12 +30,14 @@ namespace Flint;
  * @property-read bool $gift_card_tender_enabled
  * @property-read list<OrderGiftCardSelectionInput|array<array-key, mixed>|\stdClass> $gift_cards
  * @property-read string|null $governing_delivery_selection_id
+ * @property-read OrderHandoverInput|array<array-key, mixed>|\stdClass $handover
  * @property-read string $internal_note
  * @property-read string $inventory_exception_reason
  * @property-read string $inventory_exception_resolution_message
  * @property-read string $inventory_exception_status
  * @property-read string $inventory_reservation_id
  * @property-read InventoryRoutingSourceInput|array<array-key, mixed>|\stdClass $inventory_routing_source
+ * @property-read string|null $invoice_id
  * @property-read list<OrderLineItemInput|array<array-key, mixed>|\stdClass> $line_items
  * @property-read string $merchant_id
  * @property-read MetadataMapInput|array<array-key, mixed>|\stdClass $metadata
@@ -45,17 +50,19 @@ namespace Flint;
  * @property-read list<ExpandedPaymentIntentSummaryInput|array<array-key, mixed>|\stdClass> $payment_intents
  * @property-read string $payment_link_id
  * @property-read string $payment_status
+ * @property-read string|null $prepayment_order_id
  * @property-read PricingAmountsInput|array<array-key, mixed>|\stdClass $pricing_amounts
  * @property-read list<string> $refund_ids
  * @property-read string $refund_status
  * @property-read list<OrderReturnCreditSettlementInput|array<array-key, mixed>|\stdClass> $return_credit_settlements
  * @property-read string $return_resolution_id
  * @property-read OrderSettlementAmountsInput|array<array-key, mixed>|\stdClass $settlement_amounts
- * @property-read PaymentCollectionInput|array<array-key, mixed>|\stdClass $setup_collection
+ * @property-read SetupCollectionInput|array<array-key, mixed>|\stdClass $setup_collection
  * @property-read string $status
  * @property-read array{'billing_anchor_day': int, 'cancel_at_period_end': bool, 'created_at'?: string|\DateTimeInterface, 'current_period_end_at'?: string|\DateTimeInterface, 'current_period_start_at'?: string|\DateTimeInterface, 'customer_id': string, 'next_billing_at'?: string|\DateTimeInterface, 'status': string, 'subscription_id': string, 'subscription_plan_id': string, 'terms_type': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null $subscription
  * @property-read int $subscription_cycle
  * @property-read string|\DateTimeInterface $subscription_delivery_changed_at
+ * @property-read int|null $subscription_delivery_number
  * @property-read string $subscription_id
  * @property-read array{'billing_interval': string, 'billing_interval_count': int, 'billing_interval_options'?: list<SubscriptionIntervalOptionInput|array<array-key, mixed>|\stdClass>, 'created_at'?: string|\DateTimeInterface, 'currency': string, 'description'?: string, 'line_items'?: list<SubscriptionPlanLineItemInput|array<array-key, mixed>|\stdClass>, 'name': string, 'quantity_options'?: list<int>, 'setup_fee_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'subscription_plan_id': string, 'trial_period_days'?: int, 'updated_at'?: string|\DateTimeInterface, ...}|object|null $subscription_plan
  * @property-read string $subscription_plan_id
@@ -67,7 +74,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrderInput extends Model {
-    /** @param array{'active_payment_attempt'?: OrderPaymentAttemptInput|array<array-key, mixed>|\stdClass, 'authorization_amounts'?: OrderAuthorizationAmountsInput|array<array-key, mixed>|\stdClass, 'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'buyer_note'?: string, 'charges': list<OrderChargeInput|array<array-key, mixed>|\stdClass>, 'checkout_session_ids': list<string>, 'client_reference': string|null, 'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'closed_reason_message'?: string, 'created_at': string|\DateTimeInterface, 'custom_field_answers': list<CustomFieldAnswerInput|array<array-key, mixed>|\stdClass>, 'customer'?: array{'created_at'?: string|\DateTimeInterface, 'customer_id': string, 'email': string|null, 'name': string|null, 'phone': string|null, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'customer_id'?: string, 'deferred_promotions': list<DeferredPromotionInput|array<array-key, mixed>|\stdClass>, 'delivery_destination'?: OrderDeliveryDestinationInput|array<array-key, mixed>|\stdClass, 'discounts': list<OrderDiscountInput|array<array-key, mixed>|\stdClass>, 'external_reference_id'?: string, 'fulfillment_status'?: string, 'fulfillments': list<FulfillmentInput|array<array-key, mixed>|\stdClass>, 'gift_card_estimate'?: OrderGiftCardEstimateInput|array<array-key, mixed>|\stdClass, 'gift_card_settlements': list<OrderGiftCardSettlementInput|array<array-key, mixed>|\stdClass>, 'gift_card_tender_enabled': bool, 'gift_cards': list<OrderGiftCardSelectionInput|array<array-key, mixed>|\stdClass>, 'governing_delivery_selection_id': string|null, 'internal_note'?: string, 'inventory_exception_reason'?: string, 'inventory_exception_resolution_message'?: string, 'inventory_exception_status'?: string, 'inventory_reservation_id'?: string, 'inventory_routing_source'?: InventoryRoutingSourceInput|array<array-key, mixed>|\stdClass, 'line_items': list<OrderLineItemInput|array<array-key, mixed>|\stdClass>, 'merchant_id': string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'order_id': string, 'order_number'?: string, 'origin'?: string, 'paid_at': string|\DateTimeInterface|null, 'payment_collection'?: PaymentCollectionInput|array<array-key, mixed>|\stdClass, 'payment_intent_ids': list<string>, 'payment_intents'?: list<ExpandedPaymentIntentSummaryInput|array<array-key, mixed>|\stdClass>, 'payment_link_id'?: string, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_ids': list<string>, 'refund_status': string, 'return_credit_settlements': list<OrderReturnCreditSettlementInput|array<array-key, mixed>|\stdClass>, 'return_resolution_id'?: string, 'settlement_amounts': OrderSettlementAmountsInput|array<array-key, mixed>|\stdClass, 'setup_collection'?: PaymentCollectionInput|array<array-key, mixed>|\stdClass, 'status': string, 'subscription'?: array{'billing_anchor_day': int, 'cancel_at_period_end': bool, 'created_at'?: string|\DateTimeInterface, 'current_period_end_at'?: string|\DateTimeInterface, 'current_period_start_at'?: string|\DateTimeInterface, 'customer_id': string, 'next_billing_at'?: string|\DateTimeInterface, 'status': string, 'subscription_id': string, 'subscription_plan_id': string, 'terms_type': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'subscription_cycle'?: int, 'subscription_delivery_changed_at'?: string|\DateTimeInterface, 'subscription_id'?: string, 'subscription_plan'?: array{'billing_interval': string, 'billing_interval_count': int, 'billing_interval_options'?: list<SubscriptionIntervalOptionInput|array<array-key, mixed>|\stdClass>, 'created_at'?: string|\DateTimeInterface, 'currency': string, 'description'?: string, 'line_items'?: list<SubscriptionPlanLineItemInput|array<array-key, mixed>|\stdClass>, 'name': string, 'quantity_options'?: list<int>, 'setup_fee_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'subscription_plan_id': string, 'trial_period_days'?: int, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'subscription_plan_id'?: string, 'supported_actions': list<string>, 'tax': OrderTaxInput|array<array-key, mixed>|\stdClass, 'ticketed_event'?: TicketedEventInput|array<array-key, mixed>|\stdClass, 'tips': list<TipInput|array<array-key, mixed>|\stdClass>, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
+    /** @param array{'active_payment_attempt'?: OrderPaymentAttemptInput|array<array-key, mixed>|\stdClass, 'active_payment_review_id': string|null, 'authorization_amounts'?: OrderAuthorizationAmountsInput|array<array-key, mixed>|\stdClass, 'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'buyer_note'?: string, 'charges': list<OrderChargeInput|array<array-key, mixed>|\stdClass>, 'checkout_session_ids': list<string>, 'client_reference': string|null, 'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'closed_reason_message'?: string, 'created_at': string|\DateTimeInterface, 'custom_field_answers': list<CustomFieldAnswerInput|array<array-key, mixed>|\stdClass>, 'customer'?: array{'created_at'?: string|\DateTimeInterface, 'customer_id': string, 'email': string|null, 'name': string|null, 'phone': string|null, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'customer_id'?: string, 'deferred_promotions': list<DeferredPromotionInput|array<array-key, mixed>|\stdClass>, 'delivery'?: OrderDeliverySummaryInput|array<array-key, mixed>|\stdClass, 'delivery_destination'?: OrderDeliveryDestinationInput|array<array-key, mixed>|\stdClass, 'discounts': list<OrderDiscountInput|array<array-key, mixed>|\stdClass>, 'dispute_status'?: string, 'external_reference_id'?: string, 'fulfillment_status'?: string, 'fulfillments': list<FulfillmentInput|array<array-key, mixed>|\stdClass>, 'gift_card_estimate'?: OrderGiftCardEstimateInput|array<array-key, mixed>|\stdClass, 'gift_card_settlements': list<OrderGiftCardSettlementInput|array<array-key, mixed>|\stdClass>, 'gift_card_tender_enabled': bool, 'gift_cards': list<OrderGiftCardSelectionInput|array<array-key, mixed>|\stdClass>, 'governing_delivery_selection_id': string|null, 'handover'?: OrderHandoverInput|array<array-key, mixed>|\stdClass, 'internal_note'?: string, 'inventory_exception_reason'?: string, 'inventory_exception_resolution_message'?: string, 'inventory_exception_status'?: string, 'inventory_reservation_id'?: string, 'inventory_routing_source'?: InventoryRoutingSourceInput|array<array-key, mixed>|\stdClass, 'invoice_id': string|null, 'line_items': list<OrderLineItemInput|array<array-key, mixed>|\stdClass>, 'merchant_id': string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'order_id': string, 'order_number'?: string, 'origin'?: string, 'paid_at': string|\DateTimeInterface|null, 'payment_collection'?: PaymentCollectionInput|array<array-key, mixed>|\stdClass, 'payment_intent_ids': list<string>, 'payment_intents'?: list<ExpandedPaymentIntentSummaryInput|array<array-key, mixed>|\stdClass>, 'payment_link_id'?: string, 'payment_status': string, 'prepayment_order_id': string|null, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_ids': list<string>, 'refund_status': string, 'return_credit_settlements': list<OrderReturnCreditSettlementInput|array<array-key, mixed>|\stdClass>, 'return_resolution_id'?: string, 'settlement_amounts': OrderSettlementAmountsInput|array<array-key, mixed>|\stdClass, 'setup_collection'?: SetupCollectionInput|array<array-key, mixed>|\stdClass, 'status': string, 'subscription'?: array{'billing_anchor_day': int, 'cancel_at_period_end': bool, 'created_at'?: string|\DateTimeInterface, 'current_period_end_at'?: string|\DateTimeInterface, 'current_period_start_at'?: string|\DateTimeInterface, 'customer_id': string, 'next_billing_at'?: string|\DateTimeInterface, 'status': string, 'subscription_id': string, 'subscription_plan_id': string, 'terms_type': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'subscription_cycle'?: int, 'subscription_delivery_changed_at'?: string|\DateTimeInterface, 'subscription_delivery_number': int|null, 'subscription_id'?: string, 'subscription_plan'?: array{'billing_interval': string, 'billing_interval_count': int, 'billing_interval_options'?: list<SubscriptionIntervalOptionInput|array<array-key, mixed>|\stdClass>, 'created_at'?: string|\DateTimeInterface, 'currency': string, 'description'?: string, 'line_items'?: list<SubscriptionPlanLineItemInput|array<array-key, mixed>|\stdClass>, 'name': string, 'quantity_options'?: list<int>, 'setup_fee_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'subscription_plan_id': string, 'trial_period_days'?: int, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'subscription_plan_id'?: string, 'supported_actions': list<string>, 'tax': OrderTaxInput|array<array-key, mixed>|\stdClass, 'ticketed_event'?: TicketedEventInput|array<array-key, mixed>|\stdClass, 'tips': list<TipInput|array<array-key, mixed>|\stdClass>, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderInput')); }
     /** The payment attempt currently collecting this order. Omitted when no attempt is active or its collection surface belongs to another caller. An attempt to pay an order.
      * @return OrderPaymentAttemptInput|array<array-key, mixed>|\stdClass
@@ -75,6 +82,12 @@ final class OrderInput extends Model {
      */
     public function getActivePaymentAttempt(): mixed { return $this->get('active_payment_attempt'); }
     public function hasActivePaymentAttempt(): bool { return $this->has('active_payment_attempt'); }
+    /** The earliest open or resolving payment review on this order's counted payments. `null` when no review is open or resolving. List reviews with GET /v1/payment-reviews?order_id=&status=open. Omitted for buyer credentials. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
+     * @return string|null
+     * @throws SdkError When active_payment_review_id is omitted; use hasActivePaymentReviewId() or valueOrDefault().
+     */
+    public function getActivePaymentReviewId(): string|null { return $this->get('active_payment_review_id'); }
+    public function hasActivePaymentReviewId(): bool { return $this->has('active_payment_review_id'); }
     /** The amounts authorized and still capturable on the order's payments. The amounts authorized and still capturable on an order's payments, with the authorization expiry.
      * @return OrderAuthorizationAmountsInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When authorization_amounts is omitted; use hasAuthorizationAmounts() or valueOrDefault().
@@ -117,7 +130,7 @@ final class OrderInput extends Model {
      */
     public function getClosedAt(): string|\DateTimeInterface { return $this->get('closed_at'); }
     public function hasClosedAt(): bool { return $this->has('closed_at'); }
-    /** Why the order closed. Present exactly when status is closed. Set once at closure. Unrecognized reasons are returned as other; new values may be added. Value enum: "paid", "closed_by_merchant", "checkout_expired", "written_off", "superseded", "return_resolution_canceled", "other".
+    /** Why the order closed. Present exactly when status is closed. Set once at closure. Unrecognized reasons are returned as other; new values may be added. Value enum: "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off", "superseded", "return_resolution_canceled", "other".
      * @return string
      * @throws SdkError When closed_reason is omitted; use hasClosedReason() or valueOrDefault().
      */
@@ -159,6 +172,12 @@ final class OrderInput extends Model {
      */
     public function getDeferredPromotions(): array { return $this->get('deferred_promotions'); }
     public function hasDeferredPromotions(): bool { return $this->has('deferred_promotions'); }
+    /** Method, type and recipient of governing_delivery_selection_id. The address remains in delivery_destination. Omitted when no shipment or local-delivery selection governs the order. Method, type and recipient of governing_delivery_selection_id. delivery_destination contains the resolved address. These values describe the same selection.
+     * @return OrderDeliverySummaryInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When delivery is omitted; use hasDelivery() or valueOrDefault().
+     */
+    public function getDelivery(): mixed { return $this->get('delivery'); }
+    public function hasDelivery(): bool { return $this->has('delivery'); }
     /** The shipment or local-delivery destination committed for this order. Payment freezes this value; fulfillment recipient changes do not replace it. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. Where an order is delivered: the address, the recipient, and where the destination came from.
      * @return OrderDeliveryDestinationInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When delivery_destination is omitted; use hasDeliveryDestination() or valueOrDefault().
@@ -171,6 +190,12 @@ final class OrderInput extends Model {
      */
     public function getDiscounts(): array { return $this->get('discounts'); }
     public function hasDiscounts(): bool { return $this->has('discounts'); }
+    /** Aggregate dispute state across the order's counted payment intents, excluding payment_returned. Always returned to merchant credentials and omitted from buyer reads. Open states take precedence in this order: needs_response, under_review, inquiry_needs_response, inquiry_under_review, other. Otherwise the most severe closed state wins: lost, won, prevented, inquiry_closed; none when no disputes count. List individual cases with GET /v1/disputes?order_id={order_id}. Value enum: "none", "inquiry_needs_response", "inquiry_under_review", "inquiry_closed", "needs_response", "under_review", "won", "lost", "prevented", "other".
+     * @return string
+     * @throws SdkError When dispute_status is omitted; use hasDisputeStatus() or valueOrDefault().
+     */
+    public function getDisputeStatus(): string { return $this->get('dispute_status'); }
+    public function hasDisputeStatus(): bool { return $this->has('dispute_status'); }
     /** Caller-owned identifier for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
@@ -201,7 +226,7 @@ final class OrderInput extends Model {
      */
     public function getGiftCardSettlements(): array { return $this->get('gift_card_settlements'); }
     public function hasGiftCardSettlements(): bool { return $this->has('gift_card_settlements'); }
-    /** Whether gift cards can pay for this order now. Gift cards pay only USD orders that still accept changes.
+    /** Whether gift cards can pay for this order now. Gift cards pay only USD orders that still accept changes, are not subscription purchases, and whose merchant has at least one gift card that is not closed in this environment. Recomputed on each read; a spent but open card still counts.
      * @return bool
      * @throws SdkError When gift_card_tender_enabled is omitted; use hasGiftCardTenderEnabled() or valueOrDefault().
      */
@@ -213,12 +238,18 @@ final class OrderInput extends Model {
      */
     public function getGiftCards(): array { return $this->get('gift_cards'); }
     public function hasGiftCards(): bool { return $this->has('gift_cards'); }
-    /** ID of the delivery selection that governs this order, including pickup choices without a delivery destination. Null when no selection governs the order. While set, change the destination through the delivery selection. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
+    /** ID of the delivery selection that governs this order, including pickup choices without a delivery destination: the checkout's provisional selection before payment, and the selection a payment committed after. Read it with GET /v1/delivery-selections/{delivery_selection_id}. Null when no selection governs the order. While set, change the destination through the delivery selection. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
      * @return string|null
      * @throws SdkError When governing_delivery_selection_id is omitted; use hasGoverningDeliverySelectionId() or valueOrDefault().
      */
     public function getGoverningDeliverySelectionId(): string|null { return $this->get('governing_delivery_selection_id'); }
     public function hasGoverningDeliverySelectionId(): bool { return $this->has('governing_delivery_selection_id'); }
+    /** Carry-out handover: every physical item is handed to the buyer at this location when the order is paid, in place of a delivery selection. Payment then creates one completed `handover` fulfillment. Absent without a handover. Every physical item is handed to the buyer at this location when the order is paid. Replaces a delivery selection.
+     * @return OrderHandoverInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When handover is omitted; use hasHandover() or valueOrDefault().
+     */
+    public function getHandover(): mixed { return $this->get('handover'); }
+    public function hasHandover(): bool { return $this->has('handover'); }
     /** A note for your team. Buyer reads leave it out.
      * @return string
      * @throws SdkError When internal_note is omitted; use hasInternalNote() or valueOrDefault().
@@ -255,6 +286,12 @@ final class OrderInput extends Model {
      */
     public function getInventoryRoutingSource(): mixed { return $this->get('inventory_routing_source'); }
     public function hasInventoryRoutingSource(): bool { return $this->has('inventory_routing_source'); }
+    /** The invoice associated with this order. Null when the order has no invoice. A replacement invoice replaces this ID; voiding an invoice preserves it. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+     * @return string|null
+     * @throws SdkError When invoice_id is omitted; use hasInvoiceId() or valueOrDefault().
+     */
+    public function getInvoiceId(): string|null { return $this->get('invoice_id'); }
+    public function hasInvoiceId(): bool { return $this->has('invoice_id'); }
     /** Items the order sells, each with its pricing, tax, and fulfillment quantities. [] (Value): {@see OrderLineItemInput}. An item purchased in an order.
      * @return list<OrderLineItemInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When line_items is omitted; use hasLineItems() or valueOrDefault().
@@ -285,7 +322,7 @@ final class OrderInput extends Model {
      */
     public function getOrderNumber(): string { return $this->get('order_number'); }
     public function hasOrderNumber(): bool { return $this->has('order_number'); }
-    /** How the order was created. Value enum: "virtual_terminal", "payment_link", "checkout", "api", "subscription".
+    /** How the order was created. invoice means a Quick Pay invoice created the order; attaching an invoice to an existing order preserves its origin. Value enum: "virtual_terminal", "payment_link", "checkout", "api", "subscription", "invoice".
      * @return string
      * @throws SdkError When origin is omitted; use hasOrigin() or valueOrDefault().
      */
@@ -327,19 +364,25 @@ final class OrderInput extends Model {
      */
     public function getPaymentStatus(): string { return $this->get('payment_status'); }
     public function hasPaymentStatus(): bool { return $this->has('payment_status'); }
+    /** Order that paid for this prepaid delivery. Null when this is not a prepaid delivery order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * @return string|null
+     * @throws SdkError When prepayment_order_id is omitted; use hasPrepaymentOrderId() or valueOrDefault().
+     */
+    public function getPrepaymentOrderId(): string|null { return $this->get('prepayment_order_id'); }
+    public function hasPrepaymentOrderId(): bool { return $this->has('prepayment_order_id'); }
     /** The order's money totals: subtotal, discounts, charges, tax, requested tip, and total. The money totals for an order or invoice: subtotal, discounts, charges, tax, requested tip, and total.
      * @return PricingAmountsInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When pricing_amounts is omitted; use hasPricingAmounts() or valueOrDefault().
      */
     public function getPricingAmounts(): mixed { return $this->get('pricing_amounts'); }
     public function hasPricingAmounts(): bool { return $this->has('pricing_amounts'); }
-    /** IDs of the refunds issued against this order. [] (Value): string. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+    /** IDs of the refunds that name this order. This includes refunds Flint makes to return a payment it couldn't accept (`reason` `payment_returned`), which never count toward `refund_status` or the order's refunded amounts. [] (Value): string. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
      * @return list<string>
      * @throws SdkError When refund_ids is omitted; use hasRefundIds() or valueOrDefault().
      */
     public function getRefundIds(): array { return $this->get('refund_ids'); }
     public function hasRefundIds(): bool { return $this->has('refund_ids'); }
-    /** Refund progress for collected money. Value enum: "none", "partially_refunded", "refunded".
+    /** Refund progress for collected money. Refunds with `reason` `payment_returned` return money the order never received and don't count. Value enum: "none", "partially_refunded", "refunded".
      * @return string
      * @throws SdkError When refund_status is omitted; use hasRefundStatus() or valueOrDefault().
      */
@@ -357,14 +400,14 @@ final class OrderInput extends Model {
      */
     public function getReturnResolutionId(): string { return $this->get('return_resolution_id'); }
     public function hasReturnResolutionId(): bool { return $this->has('return_resolution_id'); }
-    /** How much of the order has been paid, refunded, credited, written off, and settled as tips, and what is still outstanding. The bill settlement amounts plus order overpayments, settled tips, and debt discharged by final capture. Money collected, returned, waived, and still owed on a bill.
+    /** How much of the order has been paid, refunded, credited, written off, and settled as tips, and what is still outstanding. The bill settlement amounts plus order overpayments, settled tips, debt discharged by final capture, and value order edits removed. Money collected, returned, waived, and still owed on a bill.
      * @return OrderSettlementAmountsInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When settlement_amounts is omitted; use hasSettlementAmounts() or valueOrDefault().
      */
     public function getSettlementAmounts(): mixed { return $this->get('settlement_amounts'); }
     public function hasSettlementAmounts(): bool { return $this->has('settlement_amounts'); }
-    /** Instructions for saving a payment method for a subscription order. Omitted when setup is unavailable. Client-side details for collecting payment from the buyer, such as the Stripe settings to initialize Stripe.js.
-     * @return PaymentCollectionInput|array<array-key, mixed>|\stdClass
+    /** Instructions for saving a payment method for a subscription order. Omitted when setup is unavailable. Client guidance for saving a payment method on the merchant's connected account.
+     * @return SetupCollectionInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When setup_collection is omitted; use hasSetupCollection() or valueOrDefault().
      */
     public function getSetupCollection(): mixed { return $this->get('setup_collection'); }
@@ -393,6 +436,12 @@ final class OrderInput extends Model {
      */
     public function getSubscriptionDeliveryChangedAt(): string|\DateTimeInterface { return $this->get('subscription_delivery_changed_at'); }
     public function hasSubscriptionDeliveryChangedAt(): bool { return $this->has('subscription_delivery_changed_at'); }
+    /** Position of this delivery among the deliveries one charge paid for, starting at 2. Null when this is not a prepaid delivery order. Format: uint32. minimum: 2. maximum: 24.
+     * @return int|null
+     * @throws SdkError When subscription_delivery_number is omitted; use hasSubscriptionDeliveryNumber() or valueOrDefault().
+     */
+    public function getSubscriptionDeliveryNumber(): int|null { return $this->get('subscription_delivery_number'); }
+    public function hasSubscriptionDeliveryNumber(): bool { return $this->has('subscription_delivery_number'); }
     /** ID of the subscription this order bills. Absent on an order that isn't from a subscription. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
      * @return string
      * @throws SdkError When subscription_id is omitted; use hasSubscriptionId() or valueOrDefault().

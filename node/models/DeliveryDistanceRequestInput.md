@@ -10,5 +10,8 @@ A distance as a `value` in meters, kilometers, or miles.
 
 
 
-Fields, types, descriptions and enum values: [DeliveryDistance](../models/DeliveryDistance.md#deliverydistance).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `unit` | Required | string | Unit of `value`. Values: `"meter"`, `"kilometer"`, `"mile"`. |
+| `value` | Required | number | Distance, in `unit`. |
 

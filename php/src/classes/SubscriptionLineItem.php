@@ -18,6 +18,7 @@ namespace Flint;
  * @property-read int $quantity
  * @property-read ?list<SelectedProductOption> $selected_options
  * @property-read ?string $sku
+ * @property-read string $subscription_id
  * @property-read ?string $subscription_line_item_id
  * @property-read ?string $subscription_offer_id
  * @property-read ?string $subscription_plan_line_item_id
@@ -27,7 +28,7 @@ namespace Flint;
  * @property-read ?string $variant_id
  * Presence-aware response; omitted optional fields return null. */
 final class SubscriptionLineItem extends Model {
-    /** @param array{'allow_quantity_adjustment': bool, 'base_subtotal_money': mixed, 'bundle_components'?: list<mixed>, 'bundle_id'?: string, 'categories'?: list<mixed>, 'description'?: string, 'image'?: mixed, 'max_quantity'?: int, 'min_quantity'?: int, 'modifier_total_money': mixed, 'modifiers'?: list<mixed>, 'name': string, 'product_id'?: string, 'quantity': int, 'selected_options'?: list<mixed>, 'sku'?: string, 'subscription_line_item_id'?: string, 'subscription_offer_id'?: string, 'subscription_plan_line_item_id'?: string, 'subtotal_money': mixed, 'type': string, 'unit_price_money': mixed, 'variant_id'?: string, ...}|object $values */
+    /** @param array{'allow_quantity_adjustment': bool, 'base_subtotal_money': mixed, 'bundle_components'?: list<mixed>, 'bundle_id'?: string, 'categories'?: list<mixed>, 'description'?: string, 'image'?: mixed, 'max_quantity'?: int, 'min_quantity'?: int, 'modifier_total_money': mixed, 'modifiers'?: list<mixed>, 'name': string, 'product_id'?: string, 'quantity': int, 'selected_options'?: list<mixed>, 'sku'?: string, 'subscription_id': string, 'subscription_line_item_id'?: string, 'subscription_offer_id'?: string, 'subscription_plan_line_item_id'?: string, 'subtotal_money': mixed, 'type': string, 'unit_price_money': mixed, 'variant_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionLineItem')); }
     /** Whether the frozen terms allow the buyer to adjust this line quantity.
      * @return bool
@@ -109,6 +110,11 @@ final class SubscriptionLineItem extends Model {
      */
     public function getSku(): ?string { return $this->get('sku'); }
     public function hasSku(): bool { return $this->has('sku'); }
+    /** Subscription that owns this line, including frozen lines in a scheduled plan change.
+     * @return string
+     */
+    public function getSubscriptionId(): string { return $this->get('subscription_id'); }
+    public function hasSubscriptionId(): bool { return $this->has('subscription_id'); }
     /** Unique identifier for this subscription line item, prefixed `sli_`.
      * @return ?string
      */

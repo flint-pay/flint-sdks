@@ -5,6 +5,7 @@ namespace Flint;
  * @property-read MoneyValue $amount_money
  * @property-read string $assessed_at
  * @property-read MoneyValue $base_outstanding_money
+ * @property-read string $invoice_id
  * @property-read string $invoice_late_fee_id
  * @property-read ?string $invoice_schedule_entry_id
  * @property-read mixed $late_fee_policy
@@ -17,7 +18,7 @@ namespace Flint;
  * @property-read MoneyValue $written_off_money
  * Presence-aware response; omitted optional fields return null. */
 final class InvoiceLateFee extends Model {
-    /** @param array{'amount_money': mixed, 'assessed_at': string, 'base_outstanding_money': mixed, 'invoice_late_fee_id': string, 'invoice_schedule_entry_id'?: string, 'late_fee_policy': mixed, 'outstanding_money': mixed, 'paid_money': mixed, 'supported_actions': list<string>, 'waived_at'?: string, 'waived_money': mixed, 'waiver_reason_message'?: string, 'written_off_money': mixed, ...}|object $values */
+    /** @param array{'amount_money': mixed, 'assessed_at': string, 'base_outstanding_money': mixed, 'invoice_id': string, 'invoice_late_fee_id': string, 'invoice_schedule_entry_id'?: string, 'late_fee_policy': mixed, 'outstanding_money': mixed, 'paid_money': mixed, 'supported_actions': list<string>, 'waived_at'?: string, 'waived_money': mixed, 'waiver_reason_message'?: string, 'written_off_money': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceLateFee')); }
     /** The assessed fee: the policy's fixed amount, or its percent of base_outstanding_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
@@ -34,6 +35,11 @@ final class InvoiceLateFee extends Model {
      */
     public function getBaseOutstandingMoney(): MoneyValue { return $this->get('base_outstanding_money'); }
     public function hasBaseOutstandingMoney(): bool { return $this->has('base_outstanding_money'); }
+    /** Invoice that owns this late fee.
+     * @return string
+     */
+    public function getInvoiceId(): string { return $this->get('invoice_id'); }
+    public function hasInvoiceId(): bool { return $this->has('invoice_id'); }
     /** Flint invoice late fee ID.
      * @return string
      */
@@ -54,7 +60,7 @@ final class InvoiceLateFee extends Model {
      */
     public function getOutstandingMoney(): MoneyValue { return $this->get('outstanding_money'); }
     public function hasOutstandingMoney(): bool { return $this->has('outstanding_money'); }
-    /** Payments applied to this fee, minus reversed payments. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Payments applied to this fee, minus reversed payments. Dispute losses don't reduce it. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getPaidMoney(): MoneyValue { return $this->get('paid_money'); }

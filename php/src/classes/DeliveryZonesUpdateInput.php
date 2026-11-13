@@ -34,7 +34,7 @@ final class DeliveryZonesUpdateInput extends Model {
      */
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
-    /** The request body for: Update delivery zone. Example: {"name":"Standard delivery"}.
+    /** The request body for: Update delivery zone. minProperties: 1. Example: {"name":"Standard delivery"}.
      * @return mixed
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

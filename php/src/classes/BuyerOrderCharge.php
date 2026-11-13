@@ -10,6 +10,7 @@ namespace Flint;
  * @property-read ?string $fulfillment_id
  * @property-read string $name
  * @property-read string $order_charge_id
+ * @property-read string $order_id
  * @property-read ?float $percent
  * @property-read MoneyValue $refunded_money
  * @property-read ?OrderCalculatedChargeTax $tax
@@ -19,7 +20,7 @@ namespace Flint;
  * @property-read string $updated_at
  * Presence-aware response; omitted optional fields return null. */
 final class BuyerOrderCharge extends Model {
-    /** @param array{'amount_money'?: mixed, 'applied_money': mixed, 'calculation_basis'?: string, 'created_at': string, 'description'?: string, 'fulfillment_id'?: string, 'name': string, 'order_charge_id': string, 'percent'?: float, 'refunded_money': mixed, 'tax'?: mixed, 'tax_money': mixed, 'total_money': mixed, 'type': string, 'updated_at': string, ...}|object $values */
+    /** @param array{'amount_money'?: mixed, 'applied_money': mixed, 'calculation_basis'?: string, 'created_at': string, 'description'?: string, 'fulfillment_id'?: string, 'name': string, 'order_charge_id': string, 'order_id': string, 'percent'?: float, 'refunded_money': mixed, 'tax'?: mixed, 'tax_money': mixed, 'total_money': mixed, 'type': string, 'updated_at': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerOrderCharge')); }
     /** Fixed charge amount before charge discounts and tax. Percentage charges use percent instead. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return ?MoneyValue
@@ -61,6 +62,11 @@ final class BuyerOrderCharge extends Model {
      */
     public function getOrderChargeId(): string { return $this->get('order_charge_id'); }
     public function hasOrderChargeId(): bool { return $this->has('order_charge_id'); }
+    /** Order that owns this charge, including the source order of an invoice snapshot.
+     * @return string
+     */
+    public function getOrderId(): string { return $this->get('order_id'); }
+    public function hasOrderId(): bool { return $this->has('order_id'); }
     /** Percentage points of the base `calculation_basis` names, such as `3` for 3%. Fixed charges use `amount_money` instead. multipleOf: 0.0001.
      * @return ?float
      */

@@ -34,7 +34,7 @@ final class PriceListsUpdateInput extends Model {
      */
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
-    /** Fields to change on an unarchived price list. Omitted fields remain unchanged. Example: {"expected_version":1,"name":"Wholesale partners"}.
+    /** Fields to change on an unarchived price list. Omitted fields remain unchanged. minProperties: 1. Example: {"expected_version":1,"name":"Wholesale partners"}.
      * @return array{'customer_segments'?: list<string>, 'expected_version'?: int, 'external_reference_id'?: string|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'name'?: string, 'status'?: string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

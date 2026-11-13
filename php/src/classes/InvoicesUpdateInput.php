@@ -34,7 +34,7 @@ final class InvoicesUpdateInput extends Model {
      */
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
-    /** The request body for: Update invoice.
+    /** The request body for: Update invoice. minProperties: 1.
      * @return array{'cc_emails'?: list<string>, 'collection'?: mixed, 'expected_version'?: int, 'external_reference_id'?: string|null, 'footer'?: string|null, 'memo'?: string|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'payment_due'?: mixed, 'po_number'?: string|null, 'recipient_email'?: string|null, 'reference'?: string|null, 'reminders_paused'?: bool, 'remit_to_address'?: mixed, 'schedule_entries'?: list<mixed>, 'scheduled_issue_at'?: string|\DateTimeInterface|null, 'service_date'?: string|null}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

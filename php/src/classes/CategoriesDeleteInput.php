@@ -16,7 +16,7 @@ final class CategoriesDeleteInput extends Model {
      */
     public function getCategoryId(): string { return $this->get('category_id'); }
     public function hasCategoryId(): bool { return $this->has('category_id'); }
-    /** Optional resource version last read by the caller. Format: uint64. minimum: 1.
+    /** Optional resource version last read by the caller. Format: uint64. minimum: 1. maximum: 9007199254740991.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */

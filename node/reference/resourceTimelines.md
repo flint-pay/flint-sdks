@@ -15,7 +15,7 @@ Signature: `get(resource_id: InputValue<string>, params?: ResourceTimelinesGetPa
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `resource_id` | Required | string | Flint public API resource ID. |
-| `resource_type` | Optional | string | Optional resource type. Must match the resource_id prefix when present. Values: [49 declared values](#resourcetimelinesget-input-resource_type-values). |
+| `resource_type` | Optional | string | Optional resource type. Must match the resource_id prefix when present. Values: [51 declared values](#resourcetimelinesget-input-resource_type-values). |
 | `include` | Optional | Array of string | Timeline entry groups to include. Defaults to all four: requests, webhooks, attempts, image_mutations. Items values: `"requests"`, `"webhooks"`, `"attempts"`, `"image_mutations"`. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
@@ -44,6 +44,7 @@ Signature: `get(resource_id: InputValue<string>, params?: ResourceTimelinesGetPa
 - `"invoice_payment_term"`
 - `"merchant_billing_balance"`
 - `"merchant_billing_invoice"`
+- `"merchant_signup"`
 - `"modifier"`
 - `"modifier_group"`
 - `"modifier_set"`
@@ -60,6 +61,7 @@ Signature: `get(resource_id: InputValue<string>, params?: ResourceTimelinesGetPa
 - `"product_variant"`
 - `"promotion"`
 - `"promotion_code"`
+- `"reader"`
 - `"refund"`
 - `"return"`
 - `"return_activity"`
@@ -86,6 +88,7 @@ Returned payload: [ResourceTimeline](../models/ResourceTimeline.md#resourcetimel
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |

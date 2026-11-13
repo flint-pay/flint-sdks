@@ -11,7 +11,7 @@ const result = await client.partnerApps.acceptPlatformTerms(
   "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV",
   {
     expected_version: 1,
-    platform_terms_version: "2026-11-01",
+    platform_terms_version: "2026-11-12",
   },
   { idempotencyKey: idempotencyKey },
 );

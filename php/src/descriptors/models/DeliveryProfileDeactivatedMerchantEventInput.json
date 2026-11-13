@@ -1,1 +1,0 @@
-{"shared":"DeliveryProfileDeactivatedMerchantEvent","dependencies":["DeliveryProfile","DeliveryProfileConfiguration","DeliveryProfileDeactivatedMerchantEvent","DeliveryProfileDiagnostics","DeliveryProfileOriginPolicy","MetadataMap","SharedCodec18","SharedCodec23","SharedCodec24","SharedCodec25","SharedCodec26","SharedCodec542","SharedCodec559"]}

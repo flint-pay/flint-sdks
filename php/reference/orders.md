@@ -334,15 +334,17 @@ Body model: [CreateOrderRequestInput](../models/CreateOrderRequestInput.md#creat
 | --- | --- | --- | --- |
 | `buyer_note` | Optional | string | A note to the buyer. minLength: `1`. maxLength: `1000`. |
 | `customer_id` | Optional | string | ID of the customer this order belongs to. minLength: `1`. |
+| `delivery` | Optional | [OrderDeliveryRequestInput](../models/OrderDeliveryRequestInput.md#orderdeliveryrequestinput) | Quotes the exact delivery method and atomically selects it with its charge and inventory hold. Requires orders-write and delivery-write. Shipment and local delivery with one choice group are supported. Cannot be combined with delivery_destination or handover. Complete delivery preference to quote and select together with the order's delivery charge and inventory hold. |
 | `delivery_destination` | Optional | [OrderDeliveryDestinationRequestInput](../models/OrderDeliveryDestinationRequestInput.md#orderdeliverydestinationrequestinput) | Shipment or local-delivery destination for an order created without a delivery selection. The delivery destination you set when creating or updating an order, with an address and an optional recipient. |
 | `discounts` | Optional | Array of [CreateOrderDiscountInput](../models/CreateOrderDiscountInput.md#createorderdiscountinput) | Discounts applied to the order, each with its amount, status, and the line items and charges it covers. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
+| `handover` | Optional | [OrderHandoverRequestInput](../models/OrderHandoverRequestInput.md#orderhandoverrequestinput) | Carry-out sale: every physical item is handed to the buyer at this location when the order is paid, so paying needs no delivery selection. Can't be combined with delivery_destination. Every physical item is handed to the buyer at this location when the order is paid. Replaces a delivery selection. |
 | `internal_note` | Optional | string | A note for your team. Buyer reads leave it out. minLength: `1`. maxLength: `1000`. |
 | `inventory_routing_source` | Optional | [InventoryRoutingSourceRequestInput](../models/InventoryRoutingSourceRequestInput.md#inventoryroutingsourcerequestinput) | How Flint chooses the Locations that fill this order's inventory: one fixed Location, an allocation policy, or a specific policy revision. Where you want inventory routed from: a fixed Location, an inventory allocation policy, or one policy revision, selected by `type`. |
 | `line_items` | Required | Array of [CreateOrderLineItemRequestInput](../models/CreateOrderLineItemRequestInput.md#createorderlineitemrequestinput) | Items the order sells, each with its pricing, tax, and fulfillment quantities. minItems: `1`. |
 | `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
 | `requested_tip` | Optional | [CreateOrderTipInput](../models/CreateOrderTipInput.md#createordertipinput) | Optional requested tip. Its effective amount must satisfy the CreateOrderTip limit. Requested tip expressed as either a flat amount or a percentage. Send exactly one of amount_money or percent. |
-| `tax` | Optional | [OrderTaxRequestInput](../models/OrderTaxRequestInput.md#ordertaxrequestinput) | Tax settings for the order. Tax settings you supply when creating an order: whether tax is enabled, how it is calculated, and the tax location. |
+| `tax` | Optional | [OrderTaxRequestInput](../models/OrderTaxRequestInput.md#ordertaxrequestinput) | Tax settings for the order. Tax settings for a new order: whether tax is enabled, its calculation, location, and exemption selection. |
 
 #### Response
 
@@ -397,7 +399,7 @@ $result = $client->orders->create([
 
 ### orders.createAccessLink
 
-Creates the link Flint's receipt email carries, to put in buyer email or messages you send yourself. It opens the order in your Flint-hosted customer account without a sign-in, and lets the buyer have the receipt sent again to the order's email. It works for 30 days or 10 opens, whichever comes first; after that the buyer signs in to see the order. The url is a bearer credential. Flint returns it only in this response and in a retry with the same idempotency key, so send it only to the buyer and keep it out of logs. A call with a new key creates another link; earlier links keep working until they expire. When customer_account.mode is merchant_hosted it fails with `ACTION_NOT_ALLOWED` and reason `merchant_hosted_customer_accounts`, and for an order without a customer, with reason `configuration_required`. Send no request body or an empty object ({}). Idempotency is scoped to the merchant, credential, environment, and this resource's route. A replay returns the original link without extending its lifetime or replenishing its opens. Without an idempotency key, each call creates a new link and has no replay result. If Flint cannot retain a result after minting, contact support with the request ID before sending a new request.
+Creates the link Flint's receipt email carries, to put in buyer email or messages you send yourself. It opens the order in your Flint-hosted customer account without a sign-in, and lets the buyer have the receipt sent again to the order's email. It works for 30 days or 10 opens, whichever comes first; after that the buyer signs in to see the order. The url is a bearer credential. Flint returns it only in this response and in a retry with the same idempotency key, so send it only to the buyer and keep it out of logs. A call with a new key creates another link; earlier links keep working until they expire. When customer_account.mode is merchant_hosted it fails with `ACTION_NOT_ALLOWED` and reason `merchant_hosted_customer_accounts`, and for an order without a customer, with reason `configuration_required`. Dashboard sessions may create links when the staff member can view orders. Send no request body or an empty object ({}). Idempotency is scoped to the merchant, credential, environment, and this resource's route. A replay returns the original link without extending its lifetime or replenishing its opens. Without an idempotency key, each call creates a new link and has no replay result. If Flint cannot retain a result after minting, contact support with the request ID before sending a new request.
 
 `POST /v1/orders/{order_id}/access-links`
 
@@ -535,7 +537,7 @@ $result = $client->orders->createCharge('ord_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
 
 ### orders.createEdit
 
-Removes whole unassigned units from a paid order. Bundle components must all be unassigned; dispatched quantities use Returns. Original quantities and pricing remain the sale record. The edit and release of the removed stock commit together; refund processing can continue afterward. Invoice-collected, subscription-owned, return-owned, disputed orders and unresolved inventory exceptions cannot be edited. Charges change only through charge_refunds. A zero-value edit creates no refund. Refund processing may still be pending, so refunds can be empty and refund.created follows later. Refund failures leave this immutable edit recorded. When supported_actions contains retry, use POST /v1/orders/{order_id}/edits/{order_edit_id}/retry to refund the remaining money. On VERSION_CONFLICT, keep the draft, fetch the order, preview again, and reconcile it before committing with the new expected_order_version and a new key. Retry a lost response with the original Idempotency-Key and unchanged body: Flint recovers the committed edit and its current order and refunds, without repeating the edit. If recovery cannot complete, retain the key and request ID for support; do not change keys to retry an uncertain result.
+Removes unassigned units from a paid order, adds items the removed value and released charges pay for, or does both, and queues any remaining refund atomically. Removed value and released charges pay for added lines first; only the remainder is refunded. Added lines are priced and taxed as usual, without promotions, and must be variant, bundle, or custom lines with a delivery requirement. They do not join the order's delivery selection. An edit that would leave a balance due writes nothing and returns LIMIT_EXCEEDED with reason order_edit_balance_due, with maximum_money equal to the removed value plus released charges. Bundle components must all be unassigned; dispatched quantities use Returns. Original quantities and pricing remain the sale record. The edit, added stock commitments, committed tax, and release of removed stock commit together; refund processing can continue afterward. Invoice-collected, subscription-owned, return-owned, disputed orders and unresolved inventory exceptions cannot be edited. Charges change only through charge_refunds. A zero-value edit creates no refund. Refund processing may still be pending, so refunds can be empty and refund.created follows later. Refund failures leave this immutable edit recorded. When supported_actions contains retry, use POST /v1/orders/{order_id}/edits/{order_edit_id}/retry to refund the remaining money. On VERSION_CONFLICT, keep the draft, fetch the order, preview again, and reconcile it before committing with the new expected_order_version and a new key. Retry a lost response with the original Idempotency-Key and unchanged body: Flint recovers the committed edit and its current order and refunds, without repeating the edit. If recovery cannot complete, retain the key and request ID for support; do not change keys to retry an uncertain result.
 
 `POST /v1/orders/{order_id}/edits`
 
@@ -549,7 +551,7 @@ Signature: `createEdit(string|Model $order_id, array|Model $params, ?RequestOpti
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
-| `body` | Required | [CreateOrderEditRequestInput](../models/CreateOrderEditRequestInput.md#createordereditrequestinput) | Remove unassigned units from a paid order and queue their refund atomically. |
+| `body` | Required | [CreateOrderEditRequestInput](../models/CreateOrderEditRequestInput.md#createordereditrequestinput) | Remove unassigned units from a paid order, add items the removed value and released charges pay for, or do both, and queue any remaining refund atomically. |
 
 Body model: [CreateOrderEditRequestInput](../models/CreateOrderEditRequestInput.md#createordereditrequestinput).
 
@@ -557,12 +559,41 @@ Body model: [CreateOrderEditRequestInput](../models/CreateOrderEditRequestInput.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `charge_refunds` | Optional | Array of [RefundChargeInput](../models/RefundChargeInput.md#refundchargeinput) | Charges to refund. Omitting amount_money refunds the charge's remaining refundable amount. Other charges are unchanged. maxItems: `100`. |
+| `add_line_items` | Optional | Array of [CreateOrderLineItemRequestInput](../models/CreateOrderLineItemRequestInput.md#createorderlineitemrequestinput) | Lines to add after removals, in the same shape as POST /v1/orders/{order_id}/line-items. Only variant, bundle, and custom lines with a delivery requirement can be added. Added lines are priced and taxed as usual, without promotions, and do not join the order's delivery selection. minItems: `1`. maxItems: `100`. |
+| `charge_refunds` | Optional | Array of [RefundChargeInput](../models/RefundChargeInput.md#refundchargeinput) | Charges to release. Released value pays for added lines first and the rest is refunded. Omitting amount_money releases the charge's remaining refundable amount. maxItems: `100`. |
 | `destinations` | Optional | [RefundDestinationsInput](../models/RefundDestinationsInput.md#refunddestinationsinput) | Refund destinations, with the same defaults as POST /v1/refunds. Default refund destinations for payment intent and gift card redemption allocations planned by Flint. Each tender type defaults to original when omitted. |
 | `expected_order_version` | Required | integer | The order.version the edit draft was based on. On VERSION_CONFLICT, keep the draft, fetch the order, preview again, and reconcile before committing with the new version and a new Idempotency-Key. Format: `int64`. minimum: `1`. |
 | `note` | Optional | string | Internal merchant note. Omitted from buyer and webhook payloads and refund messages. minLength: `1`. maxLength: `500`. |
 | `reason` | Optional | string | Reason for the edit and any refund it creates. Values: [13 declared values](../models/CreateOrderEditRequestInput.md#createordereditrequestinput-reason-values). |
-| `remove_line_items` | Required | Array of [OrderEditRemovalRequestInput](../models/OrderEditRemovalRequestInput.md#ordereditremovalrequestinput) | Whole unassigned units to remove. Each line appears once. Original quantities and pricing stay unchanged. minItems: `1`. maxItems: `100`. |
+| `remove_line_items` | Optional | Array of [OrderEditRemovalRequestInput](../models/OrderEditRemovalRequestInput.md#ordereditremovalrequestinput) | Whole unassigned units to remove. Each line appears once. Original quantities and pricing stay unchanged. Send remove_line_items, add_line_items, or both. minItems: `1`. maxItems: `100`. |
+
+#### orders.createEdit: variant 1
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `add_line_items` | Optional | Array of [CreateOrderLineItemRequestInput](../models/CreateOrderLineItemRequestInput.md#createorderlineitemrequestinput) | Lines to add after removals, in the same shape as POST /v1/orders/{order_id}/line-items. Only variant, bundle, and custom lines with a delivery requirement can be added. Added lines are priced and taxed as usual, without promotions, and do not join the order's delivery selection. minItems: `1`. maxItems: `100`. |
+| `charge_refunds` | Optional | Array of [RefundChargeInput](../models/RefundChargeInput.md#refundchargeinput) | Charges to release. Released value pays for added lines first and the rest is refunded. Omitting amount_money releases the charge's remaining refundable amount. maxItems: `100`. |
+| `destinations` | Optional | [RefundDestinationsInput](../models/RefundDestinationsInput.md#refunddestinationsinput) | Refund destinations, with the same defaults as POST /v1/refunds. Default refund destinations for payment intent and gift card redemption allocations planned by Flint. Each tender type defaults to original when omitted. |
+| `expected_order_version` | Required | integer | The order.version the edit draft was based on. On VERSION_CONFLICT, keep the draft, fetch the order, preview again, and reconcile before committing with the new version and a new Idempotency-Key. Format: `int64`. minimum: `1`. |
+| `note` | Optional | string | Internal merchant note. Omitted from buyer and webhook payloads and refund messages. minLength: `1`. maxLength: `500`. |
+| `reason` | Optional | string | Reason for the edit and any refund it creates. Values: [13 declared values](../models/CreateOrderEditRequestInput.md#createordereditrequestinput-reason-values). |
+| `remove_line_items` | Required | Array of [OrderEditRemovalRequestInput](../models/OrderEditRemovalRequestInput.md#ordereditremovalrequestinput) | Whole unassigned units to remove. Each line appears once. Original quantities and pricing stay unchanged. Send remove_line_items, add_line_items, or both. minItems: `1`. maxItems: `100`. |
+
+#### orders.createEdit: variant 2
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `add_line_items` | Required | Array of [CreateOrderLineItemRequestInput](../models/CreateOrderLineItemRequestInput.md#createorderlineitemrequestinput) | Lines to add after removals, in the same shape as POST /v1/orders/{order_id}/line-items. Only variant, bundle, and custom lines with a delivery requirement can be added. Added lines are priced and taxed as usual, without promotions, and do not join the order's delivery selection. minItems: `1`. maxItems: `100`. |
+| `charge_refunds` | Optional | Array of [RefundChargeInput](../models/RefundChargeInput.md#refundchargeinput) | Charges to release. Released value pays for added lines first and the rest is refunded. Omitting amount_money releases the charge's remaining refundable amount. maxItems: `100`. |
+| `destinations` | Optional | [RefundDestinationsInput](../models/RefundDestinationsInput.md#refunddestinationsinput) | Refund destinations, with the same defaults as POST /v1/refunds. Default refund destinations for payment intent and gift card redemption allocations planned by Flint. Each tender type defaults to original when omitted. |
+| `expected_order_version` | Required | integer | The order.version the edit draft was based on. On VERSION_CONFLICT, keep the draft, fetch the order, preview again, and reconcile before committing with the new version and a new Idempotency-Key. Format: `int64`. minimum: `1`. |
+| `note` | Optional | string | Internal merchant note. Omitted from buyer and webhook payloads and refund messages. minLength: `1`. maxLength: `500`. |
+| `reason` | Optional | string | Reason for the edit and any refund it creates. Values: [13 declared values](../models/CreateOrderEditRequestInput.md#createordereditrequestinput-reason-values). |
+| `remove_line_items` | Optional | Array of [OrderEditRemovalRequestInput](../models/OrderEditRemovalRequestInput.md#ordereditremovalrequestinput) | Whole unassigned units to remove. Each line appears once. Original quantities and pricing stay unchanged. Send remove_line_items, add_line_items, or both. minItems: `1`. maxItems: `100`. |
 
 #### Response
 
@@ -581,6 +612,7 @@ Returned payload: [CreateOrderEditResult](../models/CreateOrderEditResult.md#cre
 | 415 | ApiError |
 | 429 | RateLimitError |
 | 500 | ServerError |
+| 502 | ServerError |
 | 503 | ServerError |
 | 504 | ServerError |
 
@@ -614,135 +646,6 @@ $result = $client->orders->createEdit('ord_01KEZF7C0054GQKJ142A8X367A', [
 ```
 
 [Complete runnable example](../examples/orders-createEdit.php)
-
-### orders.createFulfillment
-
-Creates a fulfillment for the specified quantities on a paid order. Idempotency-Key is required for every request because an inline shipped package can consume inventory. Save the key before sending and retry the same key and body after a lost response. GET /v1/fulfillments supports order_id and external_reference_id filters, but not idempotency_key; an empty list does not prove creation failed. If replay cannot recover the result, contact support with the original key and request ID instead of creating another fulfillment. A line that does not require fulfillment returns 400 INVALID_REQUEST with detail code NOT_ALLOWED at line_items[i].order_line_item_id; an unknown line ID returns 404 RESOURCE_NOT_FOUND. Use this when you manage fulfillment outside checkout; checkout creates fulfillments for the buyer's delivery selections. While Flint is creating those fulfillments, requests for their quantities return OPERATION_IN_PROGRESS with reason delivery_selection_materializing. Retrieve the order and use its fulfillments. Fails with `ACTION_NOT_ALLOWED` and reason `status_not_reached` when the order is not paid. See the fulfillment guide.
-
-`POST /v1/orders/{order_id}/fulfillments`
-
-Signature: `createFulfillment(string|Model $order_id, array|Model $params, ?RequestOptions $options = null)`
-
-#### Request fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `order_id` | Required | string | Flint order ID. |
-| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
-| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
-| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
-| `body` | Required | [CreateFulfillmentRequestInput](../models/CreateFulfillmentRequestInput.md#createfulfillmentrequestinput) | Provide at most one fulfillment details object: pickup_details, local_delivery_details, digital_details, or service_details. Shipment execution details belong to shipments and packages. |
-
-Body model: [CreateFulfillmentRequestInput](../models/CreateFulfillmentRequestInput.md#createfulfillmentrequestinput).
-
-#### orders.createFulfillment body fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `customer_id` | Optional | string | Customer receiving this fulfillment, when one is set. minLength: `1`. |
-| `device_id` | Optional | string | Device used for this fulfillment. It must be active. When location_id is also set, the device must belong to that Location. minLength: `1`. |
-| `digital_details` | Optional | [CreateDigitalFulfillmentDetailsInput](../models/CreateDigitalFulfillmentDetailsInput.md#createdigitalfulfillmentdetailsinput) | Details of a `digital` fulfillment, such as the download link. Digital fulfillment details you supply when creating a fulfillment: the delivery URL. |
-| `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
-| `line_items` | Required | Array of [FulfillmentLineItemRequestInput](../models/FulfillmentLineItemRequestInput.md#fulfillmentlineitemrequestinput) | Order line items, with the quantity of each, that this fulfillment covers. minItems: `1`. |
-| `local_delivery_details` | Optional | [CreateDeliveryFulfillmentDetailsInput](../models/CreateDeliveryFulfillmentDetailsInput.md#createdeliveryfulfillmentdetailsinput) | Details of a `local_delivery` fulfillment, such as the courier's tracking link. Local delivery details you supply when creating a fulfillment: courier, timing window, instructions, and tracking. |
-| `location_id` | Optional | string | Merchant location responsible for this fulfillment. minLength: `1`. |
-| `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
-| `pickup_details` | Optional | [CreatePickupFulfillmentDetailsInput](../models/CreatePickupFulfillmentDetailsInput.md#createpickupfulfillmentdetailsinput) | Details of a `pickup` fulfillment. Pickup details you supply when creating a fulfillment: the pickup address, location, window, instructions, and curbside details. |
-| `recipient` | Optional | [FulfillmentRecipientRequestInput](../models/FulfillmentRecipientRequestInput.md#fulfillmentrecipientrequestinput) | Who receives the fulfillment. Recipient details you supply when creating or updating a fulfillment: name, email, phone, address, and handling instructions. |
-| `service_details` | Optional | [CreateServiceFulfillmentDetailsInput](../models/CreateServiceFulfillmentDetailsInput.md#createservicefulfillmentdetailsinput) | Details of a `service` fulfillment. Service details you supply when creating a fulfillment: the scheduled start and end, timezone, and notes. |
-| `shipment` | Optional | [FulfillmentPackagingRequestInput](../models/FulfillmentPackagingRequestInput.md#fulfillmentpackagingrequestinput) | Creates an outbound shipment and packages atomically with a shipment fulfillment. single_package assigns every submitted line quantity to package; itemized requires explicit items in each of 1 to 20 packages. Set a package's status to shipped to report handoff in the same call. Creates an outbound shipment with one package using `packaging: single_package`, or 1 to 20 packages with explicit items using `packaging: itemized`. External reference and metadata are optional. |
-| `type` | Required | string | The kind of fulfillment. Values: `"shipment"`, `"pickup"`, `"local_delivery"`, `"digital"`, `"service"`. |
-
-#### orders.createFulfillment with `type: "shipment"`
-
-Provide at most one fulfillment details object: pickup_details, local_delivery_details, digital_details, or service_details. Shipment execution details belong to shipments and packages.
-
-Body model: [CreateFulfillmentRequestShipmentInput](../models/CreateFulfillmentRequestShipmentInput.md#createfulfillmentrequestshipmentinput).
-
-#### orders.createFulfillment with `type: "pickup"`
-
-Provide at most one fulfillment details object: pickup_details, local_delivery_details, digital_details, or service_details. Shipment execution details belong to shipments and packages.
-
-Body model: [CreateFulfillmentRequestPickupInput](../models/CreateFulfillmentRequestPickupInput.md#createfulfillmentrequestpickupinput).
-
-#### orders.createFulfillment with `type: "local_delivery"`
-
-Provide at most one fulfillment details object: pickup_details, local_delivery_details, digital_details, or service_details. Shipment execution details belong to shipments and packages.
-
-Body model: [CreateFulfillmentRequestLocalDeliveryInput](../models/CreateFulfillmentRequestLocalDeliveryInput.md#createfulfillmentrequestlocaldeliveryinput).
-
-#### orders.createFulfillment with `type: "digital"`
-
-Provide at most one fulfillment details object: pickup_details, local_delivery_details, digital_details, or service_details. Shipment execution details belong to shipments and packages.
-
-Body model: [CreateFulfillmentRequestDigitalInput](../models/CreateFulfillmentRequestDigitalInput.md#createfulfillmentrequestdigitalinput).
-
-#### orders.createFulfillment with `type: "service"`
-
-Provide at most one fulfillment details object: pickup_details, local_delivery_details, digital_details, or service_details. Shipment execution details belong to shipments and packages.
-
-Body model: [CreateFulfillmentRequestServiceInput](../models/CreateFulfillmentRequestServiceInput.md#createfulfillmentrequestserviceinput).
-
-#### Response
-
-Returned payload: [Fulfillment](../models/Fulfillment.md#fulfillment).
-
-#### Errors
-
-| Status | Error class |
-| --- | --- |
-| 400 | InvalidRequestError |
-| 401 | AuthenticationError |
-| 403 | PermissionError |
-| 404 | NotFoundError |
-| 409 | ConflictError |
-| 413 | ApiError |
-| 415 | ApiError |
-| 429 | RateLimitError |
-| 500 | ServerError |
-| 503 | ServerError |
-
-Other failures: [runtime error reference](../RUNTIME.md#error-reference).
-
-#### Request behavior
-
-Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
-
-Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
-
-Idempotent: key required, [As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent retention](../RUNTIME.md#idempotency).
-
-Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
-
-#### Example
-
-```php
-// Persist this key with the action before sending; reuse it for every resubmission.
-$idempotencyKey = bin2hex(random_bytes(16));
-
-$result = $client->orders->createFulfillment('ord_01KEZF7C0054GQKJ142A8X367A', [
-  'line_items' => [
-    (object) [
-      'order_line_item_id' => 'li_01KEZF7C004XP0V220YVMGQ354',
-      'quantity' => 1,
-    ],
-  ],
-  'metadata' => (object) [
-    'source' => 'dispatch',
-  ],
-  'shipment' => (object) [
-    'package' => (object) [
-      'carrier' => 'ups',
-      'status' => 'created',
-      'tracking_number' => '1Z999AA10123456784',
-    ],
-    'packaging' => 'single_package',
-  ],
-  'type' => 'shipment',
-], new RequestOptions(idempotencyKey: $idempotencyKey));
-```
-
-[Complete runnable example](../examples/orders-createFulfillment.php)
 
 ### orders.createLineItems
 
@@ -821,7 +724,7 @@ $result = $client->orders->createLineItems('ord_01KEZF7C0054GQKJ142A8X367A', [
 
 ### orders.createPaymentIntent
 
-Creates a payment intent owned by the order. Collect a payment source using payment_collection, then submit that source through payOrder. This route requires commerce.orders.write; standalone payment-intent routes require payments.payment_intents.write.
+Creates a payment intent owned by the order. For online payments, collect a source using payment_collection, then submit it through payOrder. With payment_options [card_present], no payment_collection is returned; send a reader credential through payOrder. This route requires commerce.orders.write; standalone payment-intent routes require payments.payment_intents.write.
 
 `POST /v1/orders/{order_id}/payment-intents`
 
@@ -847,9 +750,12 @@ Body model: [CreateOrderPaymentIntentRequestInput](../models/CreateOrderPaymentI
 | `capture_method` | Optional | string | automatic collects the payment when it is confirmed. manual places a hold at confirmation that you capture or cancel later. Defaults to automatic. Values: `"automatic"`, `"manual"`. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
-| `payment_options` | Optional | Array of string | Items values: `"card"`, `"apple_pay"`, `"google_pay"`, `"affirm"`, `"ach_debit"`. |
-| `payment_return_url` | Optional | string | Absolute HTTPS URL on your site where Flint sends the buyer after a redirect payment such as Affirm. Required when payment_options includes affirm. It can't contain credentials, a query string, or a fragment. Test mode also accepts http loopback URLs. minLength: `1`. pattern: `\S`. |
+| `payment_options` | Optional | Array of string | Items values: `"card"`, `"apple_pay"`, `"google_pay"`, `"affirm"`, `"ach_debit"`, `"card_present"`. |
+| `payment_return_url` | Optional | string | Where Flint sends the buyer after a redirect or authentication step, adding only payment_intent_id for a payment, or payment_method_id for a setup. The completion message uses type flint.payment_action.completed and exactly that one subject key. Without it, the step ends on a Flint page that tells the parent or opener the step completed. Accepts an absolute HTTPS URL or an app return URL with a custom scheme other than http, javascript, data, file, blob, or about. Cannot contain credentials, a query, or a fragment. Test mode also accepts HTTP loopback URLs. With a checkout credential on order pay, omit payment_return_url; checkout sessions use their own configured return URL. Required when payment_options includes affirm and no checkout session collects the payment. Not accepted with card_present. minLength: `1`. pattern: `\S`. |
 | `payment_source_selection` | Optional | [OrderPaymentSourceSelectionInput](../models/OrderPaymentSourceSelectionInput.md#orderpaymentsourceselectioninput) | The payment source options you choose when creating an order payment intent. |
+| `platform_fee` | Optional | [PlatformFeeRequestInput](../models/PlatformFeeRequestInput.md#platformfeerequestinput) | A platform fee your partner app charges on this payment, checked against amount_money. Only a partner app install token can send it; from any other credential it is INVALID_REQUEST with NOT_ALLOWED on platform_fee. A subscription_plan checkout session, or an order whose payment starts or renews a subscription, refuses it with INVALID_REQUEST and NOT_ALLOWED on platform_fee, because Flint's billing creates the renewals. amount_money must be above zero, in the payment's currency, at most the platform fee cap the merchant approved for this amount, and below the amount; otherwise INVALID_REQUEST with INVALID_VALUE on platform_fee.amount_money, with maximum_money when the cap or the amount bounds it. Without an approved cap in this currency it is ACTION_NOT_ALLOWED with reason platform_fee_consent_required. In live mode the partner app's platform_fees capability must be active; otherwise ACTION_NOT_ALLOWED with capability platform_fees and the reason the app's platform status gives. Test mode never checks the capability. Flint lowers the fee, or cancels it, when the cap or Flint's own fees leave less at confirm or capture, so the payment never fails because of it. Part of the request fingerprint. See Platform fees. A platform fee the partner app charges on the payment, beside Flint's fees. The installed merchant pays it, and Flint takes no share of it. |
+| `request_overcapture` | Optional | boolean | Let one capture collect more than the authorization where the card network allows it, for example the final bill plus a tip. Needs capture_method manual and payment_options limited to card, apple_pay, google_pay or card_present; otherwise INVALID_REQUEST with NOT_ALLOWED on request_overcapture. On an order, the bill can't exceed this payment's share of the order, so an overcapture adds a tip. Card networks allow overcapture only where the final amount isn't known at authorization, such as tips and services, and you're responsible for following their rules. Default: `false`. |
+| `splits` | Optional | Array of [PaymentSplitRequestInput](../models/PaymentSplitRequestInput.md#paymentsplitrequestinput) | Divide this payment's funds between the collecting merchant and sellers; this is separate from split tender, where a buyer uses several payment methods. Only the collecting merchant's own credentials can send splits. Each install must belong to the same app owned by the collecting merchant, with the seller's approval in this mode and readiness to receive payouts. Test mode needs no platform review; live mode requires the app's active payment_splits capability and Flint support for the collecting account. Can't be combined with platform_fee or saved payment credentials. The total must fit after the largest Flint fee for the offered payment options, leaving one minor unit for the collecting merchant; otherwise INVALID_REQUEST with INVALID_VALUE on splits and maximum_money. Fixed after create, except capture's final amounts. Part of the idempotency fingerprint. minItems: `1`. maxItems: `25`. |
 
 #### Response
 
@@ -858,15 +764,16 @@ Returned payload: [OrdersCreatePaymentIntentResponseData](../models/OrdersCreate
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `add_on_fees` | Optional | Array of [PaymentAddOnFee](../models/PaymentAddOnFee.md#paymentaddonfee) | Itemized invoice, subscription, and automatic tax fees collected with this payment. Available to the merchant only. Empty until fees settle or when no add-ons apply. Refunds do not return or revise these fees. Absent until Flint has determined and verified the fee. If Flint can't verify it when you read the payment intent, the field is omitted rather than shown unverified; read the payment intent again later. |
-| `amount_money` | Required | [MoneyValue](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseFaceValueMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantgiftcardpurchasefacevaluemoney) | The amount requested from the buyer, including any tip_money. Capturing doesn't change it: after a partial capture it still shows the requested amount, and captured_money shows what was collected. On a standalone payment intent, PATCH can change it only before the first confirmation attempt. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `amount_money` | Required | [MoneyValue](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseFaceValueMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantgiftcardpurchasefacevaluemoney) | The amount requested from the buyer, including any tip_money. Capturing doesn't change it: after a partial capture it still shows the requested amount, and captured_money shows what was collected. On a standalone payment intent, PATCH can change it only before the first confirmation attempt. An amount_money or tip_money change that leaves too little for stored splits returns LIMIT_EXCEEDED at the changed field with minimum_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `authorization_expires_at` | Optional | string | Effective Flint deadline to capture a manual-capture hold: the earlier of the provider capture deadline and any order resource guarantee. Order guarantees last at most 24 hours from the payment attempt start and may end earlier. Capture is refused at or after this time, even while status is requires_capture. Omitted until a hold is placed. Format: `date-time`. |
 | `authorized_at` | Optional | string | When the processor authorized the payment. Absent until then. Format: `date-time`. |
-| `authorized_money` | Optional | [MoneyValue](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseFaceValueMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantgiftcardpurchasefacevaluemoney) | The amount the processor authorized. It always equals amount_money and doesn't change once set. Absent until the payment is authorized, and on payments canceled before authorization. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `cancellation_reason` | Optional | string | Flint-normalized reason the payment intent was canceled. Present only while status is canceled. Unknown processor values are returned as payment_canceled. Values: [8 declared values](#orderscreatepaymentintent-response-cancellation_reason-values). |
+| `authorized_money` | Optional | [MoneyValue](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseFaceValueMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantgiftcardpurchasefacevaluemoney) | The amount the processor authorized. It always equals amount_money and doesn't change once set, even when a capture collects more. On a payment intent canceled with cancellation_reason payment_returned, it equals the authorization Flint released instead. Absent until the payment is authorized, and on payments canceled before authorization. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `cancellation_reason` | Optional | string | Flint-normalized reason the payment intent was canceled. Present only while status is canceled. Unknown processor values are returned as payment_canceled. Values: [9 declared values](#orderscreatepaymentintent-response-cancellation_reason-values). |
 | `capturable_money` | Optional | [MoneyValue](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseFaceValueMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantgiftcardpurchasefacevaluemoney) | The part of the authorization you can still capture. Positive only while status is requires_capture, and zero after you capture or cancel or the authorization expires. The authorization lapses at authorization_expires_at, and a capture attempted after that fails even if this is positive. Absent until the payment is authorized. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `capture_method` | Optional | string | When money is collected. Defaults to automatic. Values: `"automatic"`, `"manual"`. |
 | `captured_at` | Optional | string | When money was captured. For automatic capture, this is when the payment succeeded. Absent until capture. Format: `date-time`. |
-| `captured_money` | Optional | [MoneyValue](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseFaceValueMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantgiftcardpurchasefacevaluemoney) | The amount collected from the buyer. Reconcile revenue and print receipts from this amount, not amount_money. Zero while a hold is open, and positive whenever status is succeeded. processing_fee_money, merchant_net_money, and refunds are based on it. Absent until the payment is authorized. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `captured_money` | Optional | [MoneyValue](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseFaceValueMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantgiftcardpurchasefacevaluemoney) | The amount collected from the buyer, including captured_tip_money. Reconcile revenue and print receipts from this amount, not amount_money. Zero while a hold is open, and positive whenever status is succeeded. After an overcapture it is above authorized_money. Also positive on a payment intent canceled with cancellation_reason payment_returned: Flint captured the money and is returning it through a refund with reason payment_returned. processing_fee_money, merchant_net_money, and refunds are based on it. Absent until the payment is authorized. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `captured_tip_money` | Optional | [MoneyValue](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseFaceValueMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantgiftcardpurchasefacevaluemoney) | The part of captured_money that is a tip: the capture's tip_money when it sent one, otherwise the tip the authorization carried, at most captured_money. tip_money keeps the tip the authorization carried. Refunds return it last. Absent until the payment is captured. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `checkout_session_id` | Optional | string | Flint checkout session ID associated with this payment, when present. |
 | `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `customer` | Optional | [ExpandedCustomerSummary](../models/ExpandedCustomerSummary.md#expandedcustomersummary) or null | The linked customer. Returned only with expand=customer. Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. |
@@ -878,32 +785,41 @@ Returned payload: [OrdersCreatePaymentIntentResponseData](../models/OrdersCreate
 | `invoice` | Optional | [ExpandedInvoiceSummary](../models/ExpandedInvoiceSummary.md#expandedinvoicesummary) or null | The linked invoice. Returned only with expand=invoice. Present only when `expand` includes `invoice`; `null` when expanded and there is no related invoice. |
 | `invoice_id` | Optional | string | Invoice this payment intent collects, when it pays an invoice. |
 | `last_payment_error` | Required | [PaymentErrorSummary](../models/PaymentErrorSummary.md#paymenterrorsummary) or null | Most recent payment error. Null when no payment error is recorded. |
+| `latest_order_payment_attempt_id` | Optional | string or null | The order payment attempt that most recently used this payment intent. Start times count to the second; of attempts that started in the same second, the one with the highest order_payment_attempt_id is named. `null` when no attempt has used it yet; omitted for payment intents without an order. It changes only when an attempt starts using this payment intent, which advances version. Returned with merchant credentials; omitted with buyer and checkout credentials. |
 | `merchant_id` | Optional | string | Merchant that owns this payment intent. |
-| `merchant_net_money` | Optional | [MoneyValue](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseFaceValueMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantgiftcardpurchasefacevaluemoney) | Captured amount minus processing_fee_money and every amount in add_on_fees. Later merchant assessments and credits are separate balance effects. Absent until Flint has determined and verified the fee. If Flint can't verify it when you read the payment intent, the field is omitted rather than shown unverified; read the payment intent again later. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `merchant_net_money` | Optional | [MoneyValue](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseFaceValueMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantgiftcardpurchasefacevaluemoney) | Captured amount minus processing_fee_money, every amount in add_on_fees, platform_fee.amount_money, and each split commitment. Live, succeeded and fully_reversed splits commit their whole amount; payment_not_completed and install_revoked cancellations commit nothing. A failed split commits only money already taken back before failure; its remainder returns to the collecting merchant. Refunds do not reduce the commitment. Later merchant assessments and credits are separate balance effects. Absent until Flint has determined and verified the fee. If Flint can't verify it when you read the payment intent, the field is omitted rather than shown unverified; read the payment intent again later. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `metadata` | Required | Map of string | Caller-owned metadata. Keys starting with flint_ are reserved for Flint and aren't returned. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. |
 | `order` | Optional | [ExpandedOrderSummary](../models/ExpandedOrderSummary.md#expandedordersummary) or null | The linked order. Returned only with expand=order. Present only when `expand` includes `order`; `null` when expanded and there is no related order. |
 | `order_id` | Optional | string | Order this payment intent belongs to. Create it through the order and confirm it with POST /v1/orders/{order_id}/pay. Capture and cancel use POST /v1/payment-intents/{payment_intent_id}/capture or /cancel for every payment intent. Order-owned intents accept PATCH for metadata and external_reference_id. |
+| `overcapture` | Optional | [PaymentIntentOvercapture](../models/PaymentIntentOvercapture.md#paymentintentovercapture) | Whether one capture can collect more than the authorization, and the most it can collect. Present once a payment with request_overcapture true is authorized. Read it to show the limit; capture enforces it. Whether one capture can collect more than the authorization. |
 | `payment_flow` | Required | string | How the payment was started. Fixed when the payment intent is created. Values: `"checkout"`, `"payment_link"`, `"invoice"`, `"subscription_initial"`, `"subscription_renewal"`, `"virtual_terminal"`, `"api"`. |
 | `payment_intent_id` | Required | string | Flint payment intent ID. |
-| `payment_options` | Required | Array of string | Payment options the buyer can use for this payment. Items values: `"card"`, `"apple_pay"`, `"google_pay"`, `"affirm"`, `"ach_debit"`. |
+| `payment_options` | Required | Array of string | Payment options the buyer can use for this payment. Items values: `"card"`, `"apple_pay"`, `"google_pay"`, `"affirm"`, `"ach_debit"`, `"card_present"`. |
 | `payment_source` | Optional | [PaymentSourceSummary](../models/PaymentSourceSummary.md#paymentsourcesummary) | Summary of the card or bank account used for the payment. Absent until a payment source is attached. A summary of the payment source used for a payment, by funding-method family, with card or bank account display details. |
-| `processing_fee_money` | Optional | [MoneyValue](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseFaceValueMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantgiftcardpurchasefacevaluemoney) | Flint's all-in processing fee for this payment. It is the complete price Flint charges to process the payment, never a provider cost passed through. The fee is final once the card payment is captured or the ACH payment succeeds; canceled payments and failures before success have none. Invoice, subscription, and automatic tax fees are itemized separately in add_on_fees. Your net for the payment is captured_money minus this fee and the add-on fees. Refunds do not return or revise it. Absent until Flint has determined and verified the fee. If Flint can't verify it when you read the payment intent, the field is omitted rather than shown unverified; read the payment intent again later. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `platform_fee` | Optional | [PaymentIntentPlatformFee](../models/PaymentIntentPlatformFee.md#paymentintentplatformfee) | The platform fee a partner app charges on this payment, when it created the payment with an install token and a fee. Absent when the payment carries none. Returned only to merchant credentials; omitted for buyer and checkout credentials. The platform fee a partner app charges on this payment. The merchant pays it beside processing_fee_money and add_on_fees, and merchant_net_money subtracts it. |
+| `processing_fee_money` | Optional | [MoneyValue](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseFaceValueMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantgiftcardpurchasefacevaluemoney) | Flint's all-in processing fee for this payment. It is the complete price Flint charges to process the payment, never a provider cost passed through. The fee is final once the card payment is captured or the ACH payment succeeds; canceled payments and failures before success have none, except a payment intent canceled with cancellation_reason payment_returned, which shows the fee charged at capture on the charge Flint is returning. Flint returns that fee to your balance separately. Invoice, subscription, and automatic tax fees are itemized separately in add_on_fees. Your net for the payment is captured_money minus this fee and the add-on fees. Refunds do not return or revise it. Absent until Flint has determined and verified the fee. If Flint can't verify it when you read the payment intent, the field is omitted rather than shown unverified; read the payment intent again later. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `reader_id` | Optional | string | The reader the payment is or was last presented on. Set when Flint presents it and kept afterward. While processing or requires_action with a reader_id, the payment is on that reader now. |
 | `receipt_email` | Optional | string or null | Email address for this payment's receipt. When it isn't set, Flint uses the customer's email. Format: `email`. maxLength: `255`. |
+| `refund_expires_at` | Required | string or null | Last time Flint can refund this payment through the original payment method. A refund submitted at exactly this time is accepted; after it, refunds through the original payment method are refused. Today only Affirm has a refund window: 120 days after the payment settles. `null` when the method has no refund window, the payment has not succeeded with captured money, or its capture time is missing. Format: `date-time`. |
 | `refund_status` | Optional | string | How much of captured_money has been refunded, including value issued as store credit, based on refunded_money. Values: `"none"`, `"partially_refunded"`, `"refunded"`. |
 | `refunded_money` | Optional | [MoneyValue](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseFaceValueMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantgiftcardpurchasefacevaluemoney) | Total refunded against captured_money, including value issued as store credit and processor refunds still pending. Failed and canceled refunds aren't counted. Zero when nothing has been refunded. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `released_money` | Optional | [MoneyValue](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseFaceValueMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantgiftcardpurchasefacevaluemoney) | The part of the authorization returned to the buyer without being charged: the uncaptured remainder after a partial capture, or the whole authorization after a cancellation or expiry. It was never collected, so it needs no refund and can't be captured later. Absent until the payment is authorized. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `released_money` | Optional | [MoneyValue](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseFaceValueMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantgiftcardpurchasefacevaluemoney) | The part of the authorization returned to the buyer without being charged: the uncaptured remainder after a partial capture, or the whole authorization after a cancellation or expiry. It was never collected, so it needs no refund and can't be captured later. Zero after a capture at or above the authorization. Absent until the payment is authorized. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `request_overcapture` | Optional | boolean | Whether one capture may collect more than the authorization where the card network allows it. Fixed at create. Always present with merchant credentials; omitted with buyer and checkout credentials. |
 | `return_id` | Optional | string | Flint return ID associated with this payment, when present. |
+| `return_resolution_id` | Optional | string | The return resolution whose balance this payment collects. Set for exchange balances and corrections. |
 | `risk` | Optional | [PaymentRisk](../models/PaymentRisk.md#paymentrisk) or null | Risk assessment. Always present with merchant credentials; null when no risk assessment is available. Omitted with the checkout credential. |
-| `selected_payment_option` | Optional | string | The payment option the most recent confirmation used. Absent until the payment intent is first confirmed. |
+| `selected_payment_option` | Optional | string | The payment option the most recent confirmation used. Absent until the payment intent is first confirmed. Values: `"card"`, `"apple_pay"`, `"google_pay"`, `"affirm"`, `"ach_debit"`, `"card_present"`. |
+| `splits` | Optional | Array of [PaymentSplit](../models/PaymentSplit.md#paymentsplit) | Top-level PaymentSplit children in their current state, embedded whole. Empty when the payment has no splits. Child changes do not send payment_intent.updated. Omitted for buyer and checkout credentials. |
 | `statement_descriptor` | Required | string or null | The text shown on the buyer's card or bank statement for this payment. `null` until the charge is created. `null` when the provider supplies no descriptor. Frozen when the charge is created. |
 | `status` | Required | string | Lifecycle status. requires_payment_method covers both a new payment intent and one whose last attempt failed, so read last_payment_error with it. succeeded, canceled, and expired are final. Refunds and disputes never change status. Values: `"requires_payment_method"`, `"requires_confirmation"`, `"requires_action"`, `"processing"`, `"requires_capture"`, `"canceled"`, `"succeeded"`, `"expired"`. |
+| `subscription_id` | Optional | string | The subscription whose billing charged this payment: its first charge, a renewal, a retry or a setup fee. Not set for the checkout payment that created a subscription. |
 | `support_reference` | Required | string | Opaque payment reference to share with merchant support. Do not parse its format. |
 | `supported_actions` | Required | Array of string | Actions the payment intent's current state accepts, each a POST to /v1/payment-intents/{payment_intent_id}/{action}. An action that isn't listed returns 409 ACTION_NOT_ALLOWED. A listed action can still be refused because of something outside the payment intent: an open risk review, an order payment attempt that is using this payment, a closed order, or the merchant's account. An order-owned payment intent never lists confirm; pay it with POST /v1/orders/{order_id}/pay. The list changes only when the payment intent changes. Always empty for buyer credentials. New actions may be added. Items values: `"confirm"`, `"capture"`, `"cancel"`. |
 | `tip_money` | Optional | [MoneyValue](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseFaceValueMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantgiftcardpurchasefacevaluemoney) or null | Portion of amount_money that is a tip. Uses amount_money's currency and is at most amount_money. |
 | `transaction_purpose` | Optional | string | Why a bank debit is taken. Set only when payment_options includes ach_debit, and fixed once the payment intent exists. Values: `"goods"`, `"services"`, `"other"`. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `version` | Required | integer | Persisted version of this resource's owned state. Expanded resources and external observations can change independently. Format: `uint64`. minimum: `1`. |
-| `payment_collection` | Required | [PaymentCollection](../models/PaymentCollection.md#paymentcollection) | Setup details your client uses to collect the buyer's payment details. Required on both standalone and order-owned creates. On GET, returned only for a standalone intent in requires_payment_method or requires_confirmation, and omitted for an intent owned by a checkout session when read with merchant credentials. Order-owned intents never include it on GET; use Order.payment_collection, whose selectable_payment_intents lists the staged payments. Client-side details for collecting payment from the buyer, such as the Stripe settings to initialize Stripe.js. |
+| `payment_collection` | Optional | [PaymentCollection](../models/PaymentCollection.md#paymentcollection) | Setup details your client uses to collect the buyer's payment details. Returned on both standalone and order-owned creates except card_present payments, which have no payment_collection. On GET, returned only for a standalone intent in requires_payment_method or requires_confirmation, and omitted for an intent owned by a checkout session when read with merchant credentials. Order-owned intents never include it on GET; use Order.payment_collection, whose selectable_payment_intents lists the staged payments. Client-side details for collecting payment from the buyer, such as the Stripe settings to initialize Stripe.js. |
 
 #### orders.createPaymentIntent response cancellation_reason values
 
@@ -915,6 +831,7 @@ Returned payload: [OrdersCreatePaymentIntentResponseData](../models/OrdersCreate
 - `"invoice_voided"`
 - `"order_closed"`
 - `"payment_canceled"`
+- `"payment_returned"`
 
 #### orders.createPaymentIntent response dispute_status values
 
@@ -983,7 +900,7 @@ Signature: `deleteCharge(string|Model $order_id, string|Model $order_charge_id, 
 | --- | --- | --- | --- |
 | `order_id` | Required | string | Flint order ID. |
 | `order_charge_id` | Required | string | Flint order charge ID. |
-| `expected_version` | Optional | integer | Order version from the last order read. The mutation fails if the order changed. Format: `int64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Order version from the last order read. The mutation fails if the order changed. Format: `int64`. minimum: `1`. maximum: `9007199254740991`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -1044,7 +961,7 @@ Signature: `deleteLineItem(string|Model $order_id, string|Model $order_line_item
 | --- | --- | --- | --- |
 | `order_id` | Required | string | Flint order ID. |
 | `order_line_item_id` | Required | string | Flint order line item ID. |
-| `expected_version` | Optional | integer | Order version from the last order read. The mutation fails if the order changed. Format: `int64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Order version from the last order read. The mutation fails if the order changed. Format: `int64`. minimum: `1`. maximum: `9007199254740991`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -1144,58 +1061,6 @@ $result = $client->orders->get('ord_01KEZF7C0054GQKJ142A8X367A', [], new Request
 
 [Complete runnable example](../examples/orders-get.php)
 
-### orders.getCurrentDeliverySelection
-
-Returns the delivery selection committed to an order.
-
-`GET /v1/orders/{order_id}/delivery-selections/current`
-
-Signature: `getCurrentDeliverySelection(string|Model $order_id, array|Model|null $params = null, ?RequestOptions $options = null)`
-
-#### Request fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `order_id` | Required | string | Flint order ID. |
-| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
-| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
-| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
-
-#### Response
-
-Returned payload: [DeliverySelection](../models/DeliverySelection.md#deliveryselection).
-
-#### Errors
-
-| Status | Error class |
-| --- | --- |
-| 400 | InvalidRequestError |
-| 401 | AuthenticationError |
-| 403 | PermissionError |
-| 404 | NotFoundError |
-| 409 | ConflictError |
-| 429 | RateLimitError |
-| 500 | ServerError |
-| 503 | ServerError |
-
-Other failures: [runtime error reference](../RUNTIME.md#error-reference).
-
-#### Request behavior
-
-Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
-
-Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
-
-Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
-
-#### Example
-
-```php
-$result = $client->orders->getCurrentDeliverySelection('ord_01KEZF7C0054GQKJ142A8X367A', [], new RequestOptions());
-```
-
-[Complete runnable example](../examples/orders-getCurrentDeliverySelection.php)
-
 ### orders.getEdit
 
 Returns an immutable edit with its frozen refund amounts and current refund IDs. The internal note is visible to merchant callers only.
@@ -1226,6 +1091,7 @@ Returned payload: [OrderEdit](../models/OrderEdit.md#orderedit).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -1322,7 +1188,12 @@ Signature: `getReceiptPDF(string|Model $order_id, array|Model|null $params = nul
 
 #### Request fields
 
-Field definitions: [shared fields](#request-fields-14).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `order_id` | Required | string | Flint order ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
 
@@ -1371,12 +1242,12 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 | --- | --- | --- | --- |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
-| `customer_id` | Optional | string | Filter by customer ID. |
+| `customer_id` | Optional | string | Filter by customer ID. pattern: `^cus_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `product_id` | Optional | string | Filter to orders with any line item referencing this product ID. Bundle lines don't match their component products. An unknown product ID returns an empty page. pattern: `^prod_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `variant_id` | Optional | string | Filter to orders with any line item referencing this variant ID. Bundle lines don't match their component variants. An unknown variant ID returns an empty page. pattern: `^var_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `email` | Optional | string | Filter to orders whose buyer_email or linked customer's email equals this address, compared case-insensitively after trimming, with accents preserved. Requires a bare email address. Format: `email`. |
 | `order_id` | Optional | Array of string or string | Exact-match filter on order IDs. Matches any of up to 100 distinct IDs. Unknown IDs and orders outside your merchant or environment are absent. Other filters still apply, and results keep the list's ordering and pagination. Keep the same ID set on subsequent pages. |
-| `closed_reason` | Optional | Array of string or string | Why a closed order closed. Matches orders closed for any reason given. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"paid"`, `"closed_by_merchant"`, `"checkout_expired"`, `"written_off"`, `"superseded"`, `"return_resolution_canceled"`, `"other"`. Values: `"paid"`, `"closed_by_merchant"`, `"checkout_expired"`, `"written_off"`, `"superseded"`, `"return_resolution_canceled"`, `"other"`. |
+| `closed_reason` | Optional | Array of string or string | Why a closed order closed. Matches orders closed for any reason given. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"invoice_voided"`, `"paid"`, `"closed_by_merchant"`, `"checkout_expired"`, `"written_off"`, `"superseded"`, `"return_resolution_canceled"`, `"other"`. Values: `"invoice_voided"`, `"paid"`, `"closed_by_merchant"`, `"checkout_expired"`, `"written_off"`, `"superseded"`, `"return_resolution_canceled"`, `"other"`. |
 | `status` | Optional | Array of string or string | Order status: open or closed. Selecting open and closed includes both statuses. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"open"`, `"closed"`. Values: `"open"`, `"closed"`. |
 | `payment_status` | Optional | Array of string or string | Filter by settled collection status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"unpaid"`, `"partially_paid"`, `"paid"`. Values: `"unpaid"`, `"partially_paid"`, `"paid"`. |
 | `refund_status` | Optional | Array of string or string | Filter by refund progress. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"none"`, `"partially_refunded"`, `"refunded"`. Values: `"none"`, `"partially_refunded"`, `"refunded"`. |
@@ -1384,15 +1255,16 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 | `order_number` | Optional | string | Filter by merchant-visible order number. |
 | `has_backordered_quantity` | Optional | boolean | Filter by whether any tracked line has units waiting for stock. False includes orders with no backordered units. |
 | `has_unassigned_fulfillment_quantity` | Optional | boolean | Filter by whether any required fulfillment quantity is unassigned. True includes orders with a positive sum of line fulfillment_quantities.unassigned_quantity; false includes orders with no unassigned quantity, including orders that need no fulfillment. |
+| `has_invoice` | Optional | boolean | Filter by whether invoice_id is set, including a voided invoice. False includes orders with no invoice. |
 | `has_open_fulfillment` | Optional | boolean | Filter by whether the order has an open fulfillment. A fulfillment remains open until it completes, is canceled, fails, or is marked as a no-show. False includes orders with no fulfillments. |
 | `external_reference_id` | Optional | string | Exact-match filter on the caller-owned external reference ID. minLength: `1`. maxLength: `255`. |
-| `origin` | Optional | Array of string or string | Filter by order origin. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"virtual_terminal"`, `"payment_link"`, `"checkout"`, `"api"`, `"subscription"`. Values: `"virtual_terminal"`, `"payment_link"`, `"checkout"`, `"api"`, `"subscription"`. |
+| `origin` | Optional | Array of string or string | Filter by order origin. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"virtual_terminal"`, `"payment_link"`, `"checkout"`, `"api"`, `"subscription"`, `"invoice"`. Values: `"virtual_terminal"`, `"payment_link"`, `"checkout"`, `"api"`, `"subscription"`, `"invoice"`. |
 | `query` | Optional | string | Search across order_id, order number, external_reference_id, fulfillment external_reference_id, buyer_email, notes, and line item names. The linked customer's name and email aren't searched; use email or customer_id to find a customer's orders. Text fields match any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the start and need the type prefix, such as ord_01. |
-| `subscription_id` | Optional | string | Filter by subscription ID. |
+| `subscription_id` | Optional | string | Filter by subscription ID. pattern: `^sub_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `subscription_delivery_changed` | Optional | boolean | Filter by whether the subscriber changed delivery after this order was paid. |
-| `return_id` | Optional | string | Filter by the Return that created a replacement order. |
-| `return_resolution_id` | Optional | string | Filter by the ReturnResolution that created a replacement order. |
-| `payment_link_id` | Optional | string | Filter by the payment link whose checkout created the order. |
+| `return_id` | Optional | string | Filter by the Return that created a replacement order. pattern: `^ret_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `return_resolution_id` | Optional | string | Filter by the ReturnResolution that created a replacement order. pattern: `^retres_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `payment_link_id` | Optional | string | Filter by the payment link whose checkout created the order. pattern: `^pl_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `min_amount` | Optional | integer | Inclusive lower bound on pricing_amounts.total_money.amount. Requires currency. Format: `int64`. minimum: `1`. |
 | `max_amount` | Optional | integer | Inclusive upper bound on pricing_amounts.total_money.amount. Requires currency. Format: `int64`. minimum: `1`. |
 | `currency` | Optional | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. |
@@ -1459,7 +1331,7 @@ Signature: `listActivities(string|Model $order_id, array|Model|null $params = nu
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `sort_direction` | Optional | string | Sort direction. Defaults to desc. Default: `"desc"`. Values: `"asc"`, `"desc"`. |
-| `activity_type` | Optional | Array of string or string | Filter by activity type. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [28 declared values](../models/OrderActivityInput.md#orderactivityinput-activity_type-values). Values: [28 declared values](../models/OrderActivityInput.md#orderactivityinput-activity_type-values). |
+| `activity_type` | Optional | Array of string or string | Filter by activity type. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [32 declared values](../models/OrderActivityInput.md#orderactivityinput-activity_type-values). Values: [32 declared values](../models/OrderActivityInput.md#orderactivityinput-activity_type-values). |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -1476,6 +1348,7 @@ Returned payload: [OrderActivityListResponse](../models/OrderActivityListRespons
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -1499,6 +1372,62 @@ $result = $client->orders->listActivities('ord_01KEZF7C0054GQKJ142A8X367A', [], 
 ```
 
 [Complete runnable example](../examples/orders-listActivities.php)
+
+### orders.listCharges
+
+Returns the order's charges sorted by ID in ascending order. Default order: order_charge_id ascending.
+
+`GET /v1/orders/{order_id}/charges`
+
+Signature: `listCharges(string|Model $order_id, array|Model|null $params = null, ?RequestOptions $options = null)`
+
+#### Request fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `order_id` | Required | string | Flint order ID. |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
+
+#### Response
+
+Returned payload: [OrderChargesListResponse](../models/OrderChargesListResponse.md#orderchargeslistresponse).
+
+#### Errors
+
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
+
+Pagination: `listChargesItems`, `listChargesPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+
+#### Example
+
+```php
+$result = $client->orders->listCharges('ord_01KEZF7C0054GQKJ142A8X367A', [], new RequestOptions());
+```
+
+[Complete runnable example](../examples/orders-listCharges.php)
 
 ### orders.listEdits
 
@@ -1533,6 +1462,7 @@ Returned payload: [OrderEditListResponse](../models/OrderEditListResponse.md#ord
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -1557,6 +1487,55 @@ $result = $client->orders->listEdits('ord_01KEZF7C0054GQKJ142A8X367A', [], new R
 
 [Complete runnable example](../examples/orders-listEdits.php)
 
+### orders.listLineItems
+
+Returns the order's line items sorted by ID in ascending order. Default order: order_line_item_id ascending.
+
+`GET /v1/orders/{order_id}/line-items`
+
+Signature: `listLineItems(string|Model $order_id, array|Model|null $params = null, ?RequestOptions $options = null)`
+
+#### Request fields
+
+Field definitions: [shared fields](#request-fields-18).
+
+#### Response
+
+Returned payload: [OrderLineItemsListResponse](../models/OrderLineItemsListResponse.md#orderlineitemslistresponse).
+
+#### Errors
+
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
+
+Pagination: `listLineItemsItems`, `listLineItemsPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+
+#### Example
+
+```php
+$result = $client->orders->listLineItems('ord_01KEZF7C0054GQKJ142A8X367A', [], new RequestOptions());
+```
+
+[Complete runnable example](../examples/orders-listLineItems.php)
+
 ### orders.listPaymentAttempts
 
 Returns payment attempts for the order, newest first. Checkout-session callers see only attempts created by their own session. A list filtered by idempotency_key omits pending_actions; read the attempt by ID to get them. Default order: started_at descending, then order_payment_attempt_id descending.
@@ -1570,7 +1549,7 @@ Signature: `listPaymentAttempts(string|Model $order_id, array|Model|null $params
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `order_id` | Required | string | Flint order ID. |
-| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. |
+| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. pattern: `^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$`. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -1616,7 +1595,7 @@ $result = $client->orders->listPaymentAttempts('ord_01KEZF7C0054GQKJ142A8X367A',
 
 ### orders.pay
 
-Starts or resumes a payment attempt on the order. Starting a subscription requires buyer_contact.email or an email already saved on the checkout session or order. Set action to pay to charge the full outstanding balance, confirm_payment_intents to confirm order-owned payment intents, setup to save a newly collected token on a zero-balance order, or resume to continue an attempt after a pending client action. Each action accepts only its own fields. Only confirm_payment_intents accepts completion_behavior. A pay action without payment_source is valid only when the outstanding balance is zero. To continue a resumable attempt, send action: resume with order_payment_attempt_id and a new Idempotency-Key. An exact retry of the original request with its Idempotency-Key returns the stored response if the request completed, or recovers the same attempt if it was interrupted. Payment intents with manual capture return an active authorization instead of settling immediately. A replay preserves the original HTTP status and domain result. Client authority in order_payment_attempt.pending_actions is available only within 24 hours of the original request and while the matching current payment attempt has status requires_action. Otherwise pending_actions is empty. Read GET /v1/orders/{order_id}/payment-attempts/{order_payment_attempt_id} for the attempt's current state.
+Starts or resumes a payment attempt on the order. Starting a subscription requires buyer_contact.email or an email already saved on the checkout session or order. Set action to pay to charge the full outstanding balance, confirm_payment_intents to confirm order-owned payment intents, setup to save a newly collected token on a zero-balance order, or resume to continue an attempt after a pending client action. Each action accepts only its own fields. Only confirm_payment_intents accepts completion_behavior. A pay action without payment_source is valid only when the outstanding balance is zero. To continue a resumable attempt, send action: resume with order_payment_attempt_id and a new Idempotency-Key. A Tap to Pay reader returns requires_action, is_resumable true, and a card_presentment pending action with stripe.terminal_payment_intent authority for the Stripe Terminal SDK. After the app collects and confirms, resume reads the outcome: authorization or capture applies it, processing keeps the attempt processing, and no card or a decline keeps it requires_action with the same authority. A decline updates last_payment_error without ending the attempt; cancel to give up. An exact retry of the original request with its Idempotency-Key returns the stored response if the request completed, or recovers the same attempt if it was interrupted. Payment intents with manual capture return an active authorization instead of settling immediately. A replay preserves the original HTTP status and domain result. Replays return no URL token or Stripe client secret; pending_actions is empty when action authority was stripped. Read the attempt to recover its current permitted actions. Read GET /v1/orders/{order_id}/payment-attempts/{order_payment_attempt_id} for the attempt's current state.
 
 `POST /v1/orders/{order_id}/pay`
 
@@ -1815,7 +1794,7 @@ Signature: `removeGiftCard(string|Model $order_id, string|Model $gift_card_id, a
 | --- | --- | --- | --- |
 | `order_id` | Required | string | Order ID. |
 | `gift_card_id` | Required | string | Selected gift card ID. |
-| `expected_version` | Required | integer | Order version from the last order read. The mutation fails if the order changed. Format: `int64`. minimum: `1`. |
+| `expected_version` | Required | integer | Order version from the last order read. The mutation fails if the order changed. Format: `int64`. minimum: `1`. maximum: `9007199254740991`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -2137,7 +2116,7 @@ $result = $client->orders->sendReceipt('ord_01KEZF7C0054GQKJ142A8X367A', null, n
 
 ### orders.update
 
-Applies a sparse update to mutable order fields such as customer_id, notes, metadata, tax, the delivery destination, and the requested tip. catalog_price_behavior defaults to keep. Send reprice with an explicit non-null customer_id to refresh every catalog variant line on an open, unpaid order; reassignment resolves the new customer’s direct list, then segment list, then variant prices. Customer removal is not supported. Checkout verification never reprices existing lines. A request containing only metadata, internal_note, buyer_note, or external_reference_id, with optional expected_version, can update open, closed, paid, and invoice-locked orders without changing totals. Other merchant edits keep hosted and embedded checkout sessions open unless an edit closes or completes the order, which ends the session with order_mutated. Edits can also end invoice, return-resolution, and subscription-plan sessions with order_mutated. A session already past expires_at ends with expired before the edit is applied. These annotation updates are blocked while any order payment attempt remains non-terminal, including an authorization awaiting capture, or checkout payment work is still resolving. Requests combining annotations with other fields use the financial mutation rules for the entire request. Send requested_tip: null to clear the current requested tip. A merchant can correct a paid subscription signup or renewal destination before shipment by sending delivery_destination and the current order version as expected_version. The committed delivery methods must remain eligible, and shipping and tax totals must stay unchanged. When the correction would change the paid totals, the request fails with `ACTION_NOT_ALLOWED` and reason `payment_collected`. The detail can include shipping_money, requoted_shipping_money, tax_money, and requoted_tax_money.
+Applies a sparse update to mutable order fields such as customer_id, notes, metadata, tax, the delivery destination, and the requested tip. catalog_price_behavior defaults to keep. Send reprice with an explicit non-null customer_id to refresh every catalog variant line on an open, unpaid order; reassignment resolves the new customer’s direct list, then segment list, then variant prices. Customer removal is not supported. Checkout verification never reprices existing lines. A request containing only metadata, internal_note, buyer_note, or external_reference_id, with optional expected_version, can update open, closed, paid, and invoice-locked orders without changing totals. Other merchant edits keep hosted and headless checkout sessions open unless an edit closes or completes the order, which ends the session with order_mutated. Edits can also end invoice, return-resolution, and subscription-plan sessions with order_mutated. A session already past expires_at ends with expired before the edit is applied. These annotation updates are blocked while any order payment attempt remains non-terminal, including an authorization awaiting capture, or checkout payment work is still resolving. Requests combining annotations with other fields use the financial mutation rules for the entire request. Send requested_tip: null to clear the current requested tip. Once a payment's capture sets its own tip with tip_money, the order's tip is set per payment: setting or clearing requested_tip returns ACTION_NOT_ALLOWED with reason payment_collected. A merchant can correct a paid subscription signup or renewal destination before shipment by sending delivery_destination and the current order version as expected_version. The committed delivery methods must remain eligible, and shipping and tax totals must stay unchanged. When the correction would change the paid totals, the request fails with `ACTION_NOT_ALLOWED` and reason `payment_collected`. The detail can include shipping_money, requoted_shipping_money, tax_money, and requoted_tax_money.
 
 `PATCH /v1/orders/{order_id}`
 
@@ -2162,14 +2141,16 @@ Body model: [UpdateOrderRequestInput](../models/UpdateOrderRequestInput.md#updat
 | `buyer_note` | Optional | string or null | Buyer-provided note about this order, such as a gift message or purchase preference. Send null to clear it. minLength: `1`. maxLength: `1000`. |
 | `catalog_price_behavior` | Optional | string | Defaults to keep, preserving frozen prices. Send reprice with an explicit non-null customer_id to refresh every catalog variant line on an open, unpaid order. Reassigning resolves the new customer’s direct list, then segment list, then variant pricing. Subscription-owned prices remain locked. If any catalog line’s variant is no longer for sale, reprice is refused; remove that line first. Default: `"keep"`. Values: `"keep"`, `"reprice"`. |
 | `customer_id` | Optional | string | Customer to attach. Cannot be null or cleared. Reassignment requires catalog_price_behavior: reprice, which resolves the new customer’s direct list, then segment list, then variant pricing. minLength: `1`. |
+| `delivery` | Optional | [OrderDeliveryRequestInput](../models/OrderDeliveryRequestInput.md#orderdeliveryrequestinput) or null | Complete replacement delivery preference. Omit to leave unchanged. Requires expected_version, orders-write and delivery-write. Send null to clear a provisional direct-order selection, its charge and hold. Draft invoice orders are allowed until issue; checkout-owned, subscription-owned, paid and locked orders are refused. Change delivery separately from delivery_destination, handover and shipping charge calculations. |
 | `delivery_destination` | Optional | [OrderDeliveryDestinationRequestInput](../models/OrderDeliveryDestinationRequestInput.md#orderdeliverydestinationrequestinput) or null | Complete replacement destination. Allowed while the order is open and unpaid and no delivery selection controls it. A merchant may also correct a paid subscription signup or renewal before shipment by sending expected_version, when the committed delivery methods remain eligible and shipping and tax totals stay the same. A paid destination cannot be cleared. Send null to clear an unpaid order's delivery destination. |
-| `expected_version` | Optional | integer | Order version from the last order read. Required when correcting a paid delivery destination. Optional for other updates; when supplied, the update fails if the order changed. Format: `int64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Order version from the last order read. Required when sending delivery or correcting a paid delivery destination. Optional for other updates; when supplied, the update fails if the order changed. Format: `int64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system.  Send null to clear external_reference_id. minLength: `1`. maxLength: `255`. |
+| `handover` | Optional | [OrderHandoverRequestInput](../models/OrderHandoverRequestInput.md#orderhandoverrequestinput) or null | Carry-out handover to set or replace. Allowed while the order is open, nothing is paid, and no checkout session or delivery selection controls its delivery. Can't be combined with delivery_destination. Send null to clear it. |
 | `internal_note` | Optional | string or null | Internal note about this order, visible only to the merchant. Send null to clear it. minLength: `1`. maxLength: `1000`. |
 | `inventory_routing_source` | Optional | [InventoryRoutingSourceRequestInput](../models/InventoryRoutingSourceRequestInput.md#inventoryroutingsourcerequestinput) | How Flint chooses the Locations that fill this order's inventory: one fixed Location, an allocation policy, or a specific policy revision. Where you want inventory routed from: a fixed Location, an inventory allocation policy, or one policy revision, selected by `type`. |
 | `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequestInput.md#metadatapatchrequestinput) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Send null to clear caller-owned metadata and preserve Flint-managed keys. |
-| `requested_tip` | Optional | [CreateOrderTipInput](../models/CreateOrderTipInput.md#createordertipinput) or null | Requested tip to set or replace. Send null to clear the current requested tip. |
-| `tax` | Optional | [OrderTaxUpdateRequestInput](../models/OrderTaxUpdateRequestInput.md#ordertaxupdaterequestinput) | Tax settings for the order. Changes to an order's tax settings: whether tax is enabled, the calculation, the location, and per-line-item or per-charge calculations. |
+| `requested_tip` | Optional | [CreateOrderTipInput](../models/CreateOrderTipInput.md#createordertipinput) or null | Requested tip to set or replace. Send null to clear the current requested tip. Refused with ACTION_NOT_ALLOWED and reason payment_collected once a payment's capture has set its own tip. |
+| `tax` | Optional | [OrderTaxUpdateRequestInput](../models/OrderTaxUpdateRequestInput.md#ordertaxupdaterequestinput) | Tax settings for the order. Changes to an order's tax settings: whether tax is enabled, the calculation, the location, the exemption selection, and per-line-item or per-charge calculations. |
 
 #### Response
 
@@ -2234,7 +2215,7 @@ Signature: `updateCharge(string|Model $order_id, string|Model $order_charge_id, 
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
-| `body` | Required | [UpdateOrderChargeRequestInput](../models/UpdateOrderChargeRequestInput.md#updateorderchargerequestinput) | The request body for: Update order charge. |
+| `body` | Required | [UpdateOrderChargeRequestInput](../models/UpdateOrderChargeRequestInput.md#updateorderchargerequestinput) | The request body for: Update order charge. minProperties: `1`. |
 
 Body model: [UpdateOrderChargeRequestInput](../models/UpdateOrderChargeRequestInput.md#updateorderchargerequestinput).
 
@@ -2316,7 +2297,7 @@ Signature: `updateLineItem(string|Model $order_id, string|Model $order_line_item
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
-| `body` | Required | [UpdateLineItemRequestInput](../models/UpdateLineItemRequestInput.md#updatelineitemrequestinput) | The request body for: Update line item. |
+| `body` | Required | [UpdateLineItemRequestInput](../models/UpdateLineItemRequestInput.md#updatelineitemrequestinput) | The request body for: Update line item. minProperties: `1`. |
 
 Body model: [UpdateLineItemRequestInput](../models/UpdateLineItemRequestInput.md#updatelineitemrequestinput).
 

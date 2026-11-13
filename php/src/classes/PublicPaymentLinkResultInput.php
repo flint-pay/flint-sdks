@@ -9,6 +9,7 @@ namespace Flint;
  * @property-read ImageInput|array<array-key, mixed>|\stdClass $merchant_icon
  * @property-read ImageInput|array<array-key, mixed>|\stdClass $merchant_logo
  * @property-read string $merchant_name
+ * @property-read CheckoutMerchantSupportInput|array<array-key, mixed>|\stdClass $merchant_support
  * @property-read PublicPaymentLinkInput|array<array-key, mixed>|\stdClass $payment_link
  * @property-read int $remaining_quantity
  * @property-read string $resolution_context
@@ -18,7 +19,7 @@ namespace Flint;
  * @property-read PaymentLinkSubscriptionPreviewInput|array<array-key, mixed>|\stdClass $subscription_preview
  * Presence-aware input; omitted fields throw when accessed. */
 final class PublicPaymentLinkResultInput extends Model {
-    /** @param array{'checkout_start_due_at': string|\DateTimeInterface, 'checkout_theme'?: CheckoutThemeInput|array<array-key, mixed>|\stdClass, 'is_past_sales_end': bool, 'is_sold_out': bool, 'merchant_icon'?: ImageInput|array<array-key, mixed>|\stdClass, 'merchant_logo'?: ImageInput|array<array-key, mixed>|\stdClass, 'merchant_name'?: string, 'payment_link': PublicPaymentLinkInput|array<array-key, mixed>|\stdClass, 'remaining_quantity'?: int, 'resolution_context': string, 'resolution_context_expires_at': string|\DateTimeInterface, 'resolved_line_items'?: list<PublicResolvedLineItemInfoInput|array<array-key, mixed>|\stdClass>, 'show_flint_mark': bool, 'subscription_preview'?: PaymentLinkSubscriptionPreviewInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'checkout_start_due_at': string|\DateTimeInterface, 'checkout_theme'?: CheckoutThemeInput|array<array-key, mixed>|\stdClass, 'is_past_sales_end': bool, 'is_sold_out': bool, 'merchant_icon'?: ImageInput|array<array-key, mixed>|\stdClass, 'merchant_logo'?: ImageInput|array<array-key, mixed>|\stdClass, 'merchant_name'?: string, 'merchant_support'?: CheckoutMerchantSupportInput|array<array-key, mixed>|\stdClass, 'payment_link': PublicPaymentLinkInput|array<array-key, mixed>|\stdClass, 'remaining_quantity'?: int, 'resolution_context': string, 'resolution_context_expires_at': string|\DateTimeInterface, 'resolved_line_items'?: list<PublicResolvedLineItemInfoInput|array<array-key, mixed>|\stdClass>, 'show_flint_mark': bool, 'subscription_preview'?: PaymentLinkSubscriptionPreviewInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PublicPaymentLinkResultInput')); }
     /** Start a new checkout before this instant. At or after it, read the public payment link again for a new resolution_context; its credential expiry is resolution_context_expires_at. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
@@ -62,6 +63,12 @@ final class PublicPaymentLinkResultInput extends Model {
      */
     public function getMerchantName(): string { return $this->get('merchant_name'); }
     public function hasMerchantName(): bool { return $this->has('merchant_name'); }
+    /** How the buyer can reach the merchant for help: the support email, phone, and URL the merchant set. Omitted when the merchant set none. The merchant's support contact. Each field is omitted when the merchant has not set it.
+     * @return CheckoutMerchantSupportInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When merchant_support is omitted; use hasMerchantSupport() or valueOrDefault().
+     */
+    public function getMerchantSupport(): mixed { return $this->get('merchant_support'); }
+    public function hasMerchantSupport(): bool { return $this->has('merchant_support'); }
     /** The payment link that was resolved. The buyer-facing view of a payment link, with its line items, custom fields, legal and payment settings, and status.
      * @return PublicPaymentLinkInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When payment_link is omitted; use hasPaymentLink() or valueOrDefault().

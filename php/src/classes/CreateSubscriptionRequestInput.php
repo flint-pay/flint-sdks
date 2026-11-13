@@ -9,15 +9,17 @@ namespace Flint;
  * @property-read SubscriptionDeliveryRequestInput|array<array-key, mixed>|\stdClass $delivery
  * @property-read array{'cycle_count': int, 'type': string}|object|array{'end_date': string, 'timezone'?: string, 'type': string}|object|null $end_after
  * @property-read string $external_reference_id
+ * @property-read array{'email': string, 'message'?: string|null, 'name'?: string|null}|object|null $gift_recipient
  * @property-read MetadataRequestInput|array<array-key, mixed>|\stdClass $metadata
  * @property-read string $payment_method_id
  * @property-read list<SubscriptionPromotionRequestInput|array<array-key, mixed>|\stdClass> $promotions
  * @property-read bool $prorate_first_period
  * @property-read SubscriptionServiceLocationRequestInput|array<array-key, mixed>|\stdClass $service_location
+ * @property-read SubscriptionTaxRequestInput|array<array-key, mixed>|\stdClass $tax
  * @property-read SubscriptionTermsRequestInput|array<array-key, mixed>|\stdClass $terms
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateSubscriptionRequestInput extends Model {
-    /** @param array{'billing_anchor_day'?: int, 'billing_schedule'?: SubscriptionBillingScheduleRequestInput|array<array-key, mixed>|\stdClass, 'billing_start': SubscriptionBillingStartRequestInput|array<array-key, mixed>|\stdClass, 'customer_id': string, 'delivery'?: SubscriptionDeliveryRequestInput|array<array-key, mixed>|\stdClass, 'end_after'?: array{'cycle_count': int, 'type': string}|object|array{'end_date': string, 'timezone'?: string, 'type': string}|object|null, 'external_reference_id'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'payment_method_id'?: string, 'promotions'?: list<SubscriptionPromotionRequestInput|array<array-key, mixed>|\stdClass>, 'prorate_first_period'?: bool, 'service_location'?: SubscriptionServiceLocationRequestInput|array<array-key, mixed>|\stdClass, 'terms': SubscriptionTermsRequestInput|array<array-key, mixed>|\stdClass}|object $values */
+    /** @param array{'billing_anchor_day'?: int, 'billing_schedule'?: SubscriptionBillingScheduleRequestInput|array<array-key, mixed>|\stdClass, 'billing_start': SubscriptionBillingStartRequestInput|array<array-key, mixed>|\stdClass, 'customer_id': string, 'delivery'?: SubscriptionDeliveryRequestInput|array<array-key, mixed>|\stdClass, 'end_after'?: array{'cycle_count': int, 'type': string}|object|array{'end_date': string, 'timezone'?: string, 'type': string}|object|null, 'external_reference_id'?: string, 'gift_recipient'?: array{'email': string, 'message'?: string|null, 'name'?: string|null}|object|null, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'payment_method_id'?: string, 'promotions'?: list<SubscriptionPromotionRequestInput|array<array-key, mixed>|\stdClass>, 'prorate_first_period'?: bool, 'service_location'?: SubscriptionServiceLocationRequestInput|array<array-key, mixed>|\stdClass, 'tax'?: SubscriptionTaxRequestInput|array<array-key, mixed>|\stdClass, 'terms': SubscriptionTermsRequestInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateSubscriptionRequestInput')); }
     /** UTC day of the month used for monthly and yearly billing. Applies only to Flint-owned schedules. Format: int32. minimum: 1. maximum: 31.
      * @return int
@@ -61,6 +63,12 @@ final class CreateSubscriptionRequestInput extends Model {
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
+    /** Who receives the gift. customer_id stays the purchaser. Omit it or send null for a subscription that isn't a gift. Imported subscriptions accept it too. anyOf[1] (Value): {@see SubscriptionGiftRecipientRequestInput}. Who receives a gift subscription. Sending it replaces the whole recipient. anyOf[2] (Value): null.
+     * @return array{'email': string, 'message'?: string|null, 'name'?: string|null}|object|null
+     * @throws SdkError When gift_recipient is omitted; use hasGiftRecipient() or valueOrDefault().
+     */
+    public function getGiftRecipient(): mixed { return $this->get('gift_recipient'); }
+    public function hasGiftRecipient(): bool { return $this->has('gift_recipient'); }
     /** Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: 50.
      * @return MetadataRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
@@ -91,6 +99,12 @@ final class CreateSubscriptionRequestInput extends Model {
      */
     public function getServiceLocation(): mixed { return $this->get('service_location'); }
     public function hasServiceLocation(): bool { return $this->has('service_location'); }
+    /** The tax the subscription's renewal, setup fee and plan change orders use. Omit it to follow `tax.default_enabled` and `tax.default_calculation` from your settings. Replaced as a whole: send every field you want to keep.
+     * @return SubscriptionTaxRequestInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When tax is omitted; use hasTax() or valueOrDefault().
+     */
+    public function getTax(): mixed { return $this->get('tax'); }
+    public function hasTax(): bool { return $this->has('tax'); }
     /** Subscription terms from either a subscription plan or subscription offers, selected by `type`.
      * @return SubscriptionTermsRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When terms is omitted; use hasTerms() or valueOrDefault().

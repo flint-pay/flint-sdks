@@ -221,11 +221,12 @@
   },
   {
     "name": "quote mapping buyer",
-    "operation": "getCheckoutSessionDeliveryQuote",
+    "operation": "createDeliveryQuote",
     "baseUrl": "https://api.example.invalid",
     "input": {
-      "checkout_session_id": "cs_test",
-      "delivery_quote_id": "dq_test"
+      "body": {
+        "checkout_session_id": "cs_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+      }
     },
     "options": {
       "authMode": "checkout",
@@ -234,49 +235,112 @@
       }
     },
     "expected": {
-      "method": "GET",
-      "path": "/v1/checkout-sessions/cs_test/delivery-quotes/dq_test",
+      "method": "POST",
+      "path": "/v1/delivery-quotes",
       "headers": {
         "authorization": "Bearer checkout-test"
       },
       "absentHeaders": [
         "x-checkout-session-id",
         "x-checkout-session-secret"
-      ]
+      ],
+      "body": "{\"checkout_session_id\":\"cs_01ARZ3NDEKTSV4RRFFQ69G5FAV\"}"
     },
     "responses": [
       {
-        "status": 200,
-        "body": "{\"data\":{\"audience\":\"buyer\",\"buyer_reasons\":[],\"choice_groups\":[],\"delivery_quote_id\":\"dq_test\",\"evaluated_at\":\"2026-01-01T00:00:00Z\",\"evaluation_status\":\"complete\",\"expires_at\":\"2026-01-01T00:00:00Z\",\"input_requirements\":[],\"selection_required\":true,\"status\":\"active\",\"created_at\":\"2026-10-06T00:00:00Z\",\"delivery_revocation_id\":null},\"request_id\":\"req_01KWM6WAHG3N9Q8T2V5XRZ7C4D\"}"
+        "status": 201,
+        "body": "{\"data\":{\"buyer_reasons\":[\"address_required\"],\"choice_groups\":[{\"availability_status\":\"ready\",\"delivery_choice_group_id\":\"dcgrp_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"evaluation_status\":\"complete\",\"input_requirements\":[{\"constraint\":{\"type\":\"string\"},\"delivery_input_requirement_id\":\"req_0123456789abcdef\",\"field_path\":\"destination_address\",\"purpose\":\"quote\"}],\"line_items\":[{\"order_id\":\"ord_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"order_line_item_id\":\"li_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"quantity\":1}],\"method_types\":[\"shipment\"],\"options\":[{\"amount_money\":{\"amount\":0,\"currency\":\"USD\"},\"buyer_instructions\":{\"enabled\":true,\"required\":true},\"delivery_method_id\":\"dmet_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"delivery_option_id\":\"dopt_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"delivery_plan\":{\"type\":\"single_delivery\"},\"display_position\":1,\"name\":\"Standard delivery\",\"recommended\":true,\"taxable\":true,\"type\":\"shipment\",\"window_selection\":\"none\"}],\"stable_key\":\"example\"}],\"created_at\":\"2026-08-02T16:00:00Z\",\"delivery_quote_id\":\"dqt_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"delivery_revocation_id\":\"drev_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"evaluated_at\":\"2026-08-02T16:00:00Z\",\"evaluation_status\":\"complete\",\"expires_at\":\"2026-08-02T16:00:00Z\",\"input_requirements\":[{\"constraint\":{\"type\":\"string\"},\"delivery_input_requirement_id\":\"req_0123456789abcdef\",\"field_path\":\"destination_address\",\"purpose\":\"quote\"}],\"selection_required\":true,\"status\":\"active\"},\"meta\":{\"api_version\":\"2026-09-07\"},\"request_id\":\"req_01KWM6AASYFSEP53E9W34N8J33\"}"
       }
     ],
     "data": {
       "data": {
-        "audience": "buyer",
-        "buyer_reasons": [],
-        "choice_groups": [],
-        "delivery_quote_id": "dq_test",
-        "evaluated_at": "2026-01-01T00:00:00Z",
+        "buyer_reasons": [
+          "address_required"
+        ],
+        "choice_groups": [
+          {
+            "availability_status": "ready",
+            "delivery_choice_group_id": "dcgrp_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+            "evaluation_status": "complete",
+            "input_requirements": [
+              {
+                "constraint": {
+                  "type": "string"
+                },
+                "delivery_input_requirement_id": "req_0123456789abcdef",
+                "field_path": "destination_address",
+                "purpose": "quote"
+              }
+            ],
+            "line_items": [
+              {
+                "order_id": "ord_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+                "order_line_item_id": "li_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+                "quantity": 1
+              }
+            ],
+            "method_types": [
+              "shipment"
+            ],
+            "options": [
+              {
+                "amount_money": {
+                  "amount": "0",
+                  "currency": "USD"
+                },
+                "buyer_instructions": {
+                  "enabled": true,
+                  "required": true
+                },
+                "delivery_method_id": "dmet_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+                "delivery_option_id": "dopt_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+                "delivery_plan": {
+                  "type": "single_delivery"
+                },
+                "display_position": 1,
+                "name": "Standard delivery",
+                "recommended": true,
+                "taxable": true,
+                "type": "shipment",
+                "window_selection": "none"
+              }
+            ],
+            "stable_key": "example"
+          }
+        ],
+        "created_at": "2026-08-02T16:00:00Z",
+        "delivery_quote_id": "dqt_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+        "delivery_revocation_id": "drev_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+        "evaluated_at": "2026-08-02T16:00:00Z",
         "evaluation_status": "complete",
-        "expires_at": "2026-01-01T00:00:00Z",
-        "input_requirements": [],
+        "expires_at": "2026-08-02T16:00:00Z",
+        "input_requirements": [
+          {
+            "constraint": {
+              "type": "string"
+            },
+            "delivery_input_requirement_id": "req_0123456789abcdef",
+            "field_path": "destination_address",
+            "purpose": "quote"
+          }
+        ],
         "selection_required": true,
-        "status": "active",
-        "created_at": "2026-10-06T00:00:00Z",
-        "delivery_revocation_id": null
+        "status": "active"
       },
-      "request_id": "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D"
+      "meta": {
+        "api_version": "2026-09-07"
+      },
+      "request_id": "req_01KWM6AASYFSEP53E9W34N8J33"
     }
   },
   {
     "name": "selection mapping buyer",
-    "operation": "createCheckoutSessionDeliverySelection",
+    "operation": "createDeliverySelection",
     "baseUrl": "https://api.example.invalid",
     "input": {
-      "checkout_session_id": "cs_test",
       "body": {
         "choices": [],
-        "delivery_quote_id": "dq_test",
+        "delivery_quote_id": "dq_01ARZ3NDEKTSV4RRFFQ69G5FAV",
         "expected_delivery_selection_id": null
       }
     },
@@ -288,7 +352,7 @@
     },
     "expected": {
       "method": "POST",
-      "path": "/v1/checkout-sessions/cs_test/delivery-selections",
+      "path": "/v1/delivery-selections",
       "headers": {
         "authorization": "Bearer checkout-test"
       },
@@ -296,56 +360,355 @@
         "x-checkout-session-id",
         "x-checkout-session-secret"
       ],
-      "body": "{\"choices\":[],\"delivery_quote_id\":\"dq_test\",\"expected_delivery_selection_id\":null}"
+      "body": "{\"choices\":[],\"delivery_quote_id\":\"dq_01ARZ3NDEKTSV4RRFFQ69G5FAV\",\"expected_delivery_selection_id\":null}"
     },
     "responses": [
       {
         "status": 201,
-        "body": "{\"data\":{\"audience\":\"buyer\",\"checkout_session\":{\"checkout_session_id\":\"cs_test\",\"delivery_method_ids\":[],\"delivery_selection_required\":false,\"problems\":[],\"is_in_recovery\":false,\"status\":\"open\",\"surface\":\"hosted\",\"type\":\"order\",\"version\":1,\"client_reference\":null,\"created_at\":\"2026-08-02T16:00:00Z\",\"custom_field_answers\":[],\"merchant_id\":\"mer_01KEZF7C00KPYH1DDFPCCX3B6E\",\"supported_actions\":[],\"updated_at\":\"2026-08-02T16:00:00Z\"},\"delivery_selection\":{\"amount_money\":{\"amount\":0,\"currency\":\"USD\"},\"choices\":[],\"delivery_quote_id\":\"dq_test\",\"delivery_selection_id\":\"ds_test\",\"expires_at\":\"2026-01-01T00:00:00Z\",\"status\":\"selected\",\"input_requirements\":[]},\"order\":{\"line_items\":[],\"order_id\":\"ord_test\",\"payment_status\":\"unpaid\",\"pricing_amounts\":{\"charge_money\":{\"amount\":0,\"currency\":\"USD\"},\"discount_money\":{\"amount\":0,\"currency\":\"USD\"},\"requested_tip_money\":{\"amount\":0,\"currency\":\"USD\"},\"subtotal_money\":{\"amount\":0,\"currency\":\"USD\"},\"tax_money\":{\"amount\":0,\"currency\":\"USD\"},\"total_money\":{\"amount\":0,\"currency\":\"USD\"},\"additive_tax_money\":{\"amount\":0,\"currency\":\"USD\"},\"inclusive_tax_money\":{\"amount\":0,\"currency\":\"USD\"}},\"refund_status\":\"none\",\"settlement_amounts\":{\"net_collected_money\":{\"amount\":0,\"currency\":\"USD\"},\"outstanding_money\":{\"amount\":0,\"currency\":\"USD\"},\"overpaid_money\":{\"amount\":0,\"currency\":\"USD\"},\"paid_money\":{\"amount\":0,\"currency\":\"USD\"},\"refunded_money\":{\"amount\":0,\"currency\":\"USD\"},\"released_money\":{\"amount\":0,\"currency\":\"USD\"},\"settled_tip_money\":{\"amount\":0,\"currency\":\"USD\"},\"written_off_money\":{\"amount\":0,\"currency\":\"USD\"}},\"status\":\"open\",\"tax\":{\"enabled\":false,\"mode\":\"none\",\"status\":\"none\",\"taxability_reason\":\"none\"},\"buyer_actions\":[],\"charges\":[],\"checkout_session_ids\":[],\"discounts\":[],\"fulfillments\":[],\"gift_card_settlements\":[],\"gift_card_tender_enabled\":false,\"gift_cards\":[],\"payment_intent_ids\":[],\"refund_ids\":[],\"return_credit_settlements\":[],\"tips\":[],\"version\":1,\"governing_delivery_selection_id\":null,\"created_at\":\"2026-08-02T16:00:00Z\",\"deferred_promotions\":[],\"merchant_id\":\"mer_01KEZF7C00KPYH1DDFPCCX3B6E\",\"paid_at\":null,\"updated_at\":\"2026-08-02T16:00:00Z\"}},\"request_id\":\"req_01KWM6WAHG3N9Q8T2V5XRZ7C4D\"}"
+        "body": "{\"data\":{\"checkout_session\":{\"can_apply_promotion_code\":true,\"checkout_session_id\":\"cs_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"client_reference\":\"example\",\"created_at\":\"2026-08-02T16:00:00Z\",\"custom_field_answers\":[{\"custom_field_type\":\"text\",\"key\":\"example\",\"label\":\"example\",\"payment_link_custom_field_id\":\"plcf_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"value\":\"example\"}],\"delivery_method_ids\":[\"dmet_01K1P6G4M7H2N8Q9R3S5T6V7WX\"],\"delivery_selection_required\":true,\"is_in_recovery\":true,\"merchant_id\":\"mer_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"problems\":[{\"blocks_completion\":true,\"code\":\"delivery_selection_stale\",\"severity\":\"error\"}],\"status\":\"open\",\"supported_actions\":[\"close\"],\"surface\":\"hosted\",\"type\":\"order\",\"updated_at\":\"2026-08-02T16:00:00Z\",\"version\":1},\"delivery_selection\":{\"amount_money\":{\"amount\":0,\"currency\":\"USD\"},\"choices\":[{\"amount_money\":{\"amount\":0,\"currency\":\"USD\"},\"delivery_choice_group_id\":\"dcgrp_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"delivery_method_id\":\"dmet_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"delivery_option_id\":\"dopt_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"delivery_plan\":{\"type\":\"single_delivery\"},\"name\":\"Standard delivery\",\"order_id\":\"ord_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"stable_key\":\"example\",\"total_money\":{\"amount\":0,\"currency\":\"USD\"},\"type\":\"shipment\"}],\"delivery_quote_id\":\"dqt_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"delivery_selection_id\":\"dsel_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"expires_at\":\"2026-08-02T16:00:00Z\",\"input_requirements\":[{\"constraint\":{\"type\":\"string\"},\"delivery_input_requirement_id\":\"req_0123456789abcdef\",\"field_path\":\"destination_address\",\"purpose\":\"quote\"}],\"status\":\"selected\",\"supported_actions\":[\"release\"]},\"order\":{\"active_payment_review_id\":\"rev_01KEZF7C00BVBQ00XDFNKB1EF6\",\"buyer_actions\":[],\"charges\":[{\"applied_money\":{\"amount\":0,\"currency\":\"USD\"},\"created_at\":\"2026-08-02T16:00:00Z\",\"name\":\"Standard delivery\",\"order_charge_id\":\"och_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"order_id\":\"ord_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"refunded_money\":{\"amount\":0,\"currency\":\"USD\"},\"tax_money\":{\"amount\":0,\"currency\":\"USD\"},\"total_money\":{\"amount\":0,\"currency\":\"USD\"},\"type\":\"service_fee\",\"updated_at\":\"2026-08-02T16:00:00Z\"}],\"checkout_session_ids\":[\"cs_01K1P6G4M7H2N8Q9R3S5T6V7WX\"],\"client_reference\":\"example\",\"created_at\":\"2026-08-02T16:00:00Z\",\"custom_field_answers\":[{\"custom_field_type\":\"text\",\"key\":\"example\",\"label\":\"example\",\"payment_link_custom_field_id\":\"plcf_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"value\":\"example\"}],\"deferred_promotions\":[{\"customer_facing_name\":\"example\",\"deferred_promotion_id\":\"dp_01KEZF7C00AZMP1PY1ER7CQ4SA\",\"promotion_code\":\"example\",\"promotion_id\":\"promo_01KEZF7C00E1JAV4M413D9DE1P\"}],\"discounts\":[{\"amount_money\":{\"amount\":0,\"currency\":\"USD\"},\"applied_money\":{\"amount\":0,\"currency\":\"USD\"},\"order_charge_ids\":[\"och_01K1P6G4M7H2N8Q9R3S5T6V7WX\"],\"order_discount_id\":\"ad_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"order_id\":\"ord_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"order_line_item_ids\":[\"li_01K1P6G4M7H2N8Q9R3S5T6V7WX\"],\"status\":\"pending\"}],\"dispute_status\":\"none\",\"fulfillments\":[{\"created_at\":\"2026-08-02T16:00:00Z\",\"delivery_choice_group_id\":\"dcgrp_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"delivery_execution_leg_id\":\"dleg_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"delivery_method_id\":\"dmet_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"delivery_selection_id\":\"dsel_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"fulfillment_id\":\"ful_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"line_items\":[{\"bundle_component_id\":\"bunc_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"order_id\":\"ord_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"order_line_item_id\":\"li_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"quantity\":1}],\"order_id\":\"ord_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"scheduled_start_at\":\"2026-08-02T16:00:00Z\",\"status\":\"pending\",\"supported_actions\":[\"accept\"],\"type\":\"shipment\",\"updated_at\":\"2026-08-02T16:00:00Z\",\"version\":1}],\"gift_card_settlements\":[{\"amount_money\":{\"amount\":0,\"currency\":\"USD\"},\"created_at\":\"2026-08-02T16:00:00Z\",\"gift_card_id\":\"gc_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"gift_card_redemption_id\":\"gcr_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"last4\":\"example\",\"tip_money\":{\"amount\":0,\"currency\":\"USD\"}}],\"gift_card_tender_enabled\":true,\"gift_cards\":[{\"available_money\":{\"amount\":0,\"currency\":\"USD\"},\"gift_card_id\":\"gc_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"last4\":\"example\",\"requires_authorization\":true}],\"governing_delivery_selection_id\":\"dsel_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"invoice_id\":\"inv_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"line_items\":[{\"backordered_quantity\":0,\"base_subtotal_money\":{\"amount\":0,\"currency\":\"USD\"},\"bundle_components\":[{\"bundle_component_id\":\"bunc_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"delivery_configuration_status\":\"configured\",\"position\":1,\"quantity\":1,\"variant_id\":\"var_01K1P6G4M7H2N8Q9R3S5T6V7WX\"}],\"categories\":[{\"category_id\":\"ctg_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"handle\":\"example\"}],\"discount_money\":{\"amount\":0,\"currency\":\"USD\"},\"expected_ship_date\":\"2026-08-02\",\"inventory_snapshot\":{\"demands\":[{\"inventory_item_id\":\"invi_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"quantity_per_line_item_unit\":1}],\"inventory_tracking\":\"not_tracked\"},\"modifier_total_money\":{\"amount\":0,\"currency\":\"USD\"},\"modifiers\":[{\"modifier_group_name\":\"example\",\"name\":\"Standard delivery\",\"order_line_item_modifier_id\":\"olim_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"quantity\":1,\"show_on_fulfillment\":true,\"show_on_receipt\":true,\"source_type\":\"catalog_modifier\",\"total_money\":{\"amount\":0,\"currency\":\"USD\"},\"unit_price_delta_money\":{\"amount\":0,\"currency\":\"USD\"}}],\"name\":\"Standard delivery\",\"order_edit_id\":\"oed_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"order_id\":\"ord_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"order_line_item_id\":\"li_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"payment_link_line_item_key\":\"example\",\"purchased_gift_cards\":[{\"gift_card_id\":\"gc_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"last4\":\"example\",\"unit_ordinal\":1}],\"quantity\":1,\"refunded_money\":{\"amount\":0,\"currency\":\"USD\"},\"refunded_quantity\":1,\"release_date\":\"2026-08-02\",\"removed_quantity\":1,\"selected_options\":[{\"option_id\":\"opt_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"option_name\":\"example\",\"option_value_id\":\"optv_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"value\":\"example\"}],\"subtotal_money\":{\"amount\":0,\"currency\":\"USD\"},\"tax_money\":{\"amount\":0,\"currency\":\"USD\"},\"total_money\":{\"amount\":0,\"currency\":\"USD\"},\"type\":\"variant\",\"unit_price_money\":{\"amount\":0,\"currency\":\"USD\"}}],\"merchant_id\":\"mer_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"order_id\":\"ord_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"paid_at\":\"2026-08-02T16:00:00Z\",\"payment_intent_ids\":[\"pi_01K1P6G4M7H2N8Q9R3S5T6V7WX\"],\"payment_status\":\"unpaid\",\"prepayment_order_id\":\"ord_01KEZF7C0054GQKJ142A8X367A\",\"pricing_amounts\":{\"additive_tax_money\":{\"amount\":0,\"currency\":\"USD\"},\"charge_money\":{\"amount\":0,\"currency\":\"USD\"},\"discount_money\":{\"amount\":0,\"currency\":\"USD\"},\"inclusive_tax_money\":{\"amount\":0,\"currency\":\"USD\"},\"requested_tip_money\":{\"amount\":0,\"currency\":\"USD\"},\"subtotal_money\":{\"amount\":0,\"currency\":\"USD\"},\"tax_money\":{\"amount\":0,\"currency\":\"USD\"},\"total_money\":{\"amount\":0,\"currency\":\"USD\"}},\"refund_ids\":[\"ref_01K1P6G4M7H2N8Q9R3S5T6V7WX\"],\"refund_status\":\"none\",\"return_credit_settlements\":[{\"amount_money\":{\"amount\":0,\"currency\":\"USD\"},\"created_at\":\"2026-08-02T16:00:00Z\",\"return_id\":\"ret_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"return_resolution_id\":\"retres_01K1P6G4M7H2N8Q9R3S5T6V7WX\"}],\"settlement_amounts\":{\"dispute_lost_money\":{\"amount\":0,\"currency\":\"USD\"},\"disputed_money\":{\"amount\":0,\"currency\":\"USD\"},\"net_collected_money\":{\"amount\":0,\"currency\":\"USD\"},\"outstanding_money\":{\"amount\":0,\"currency\":\"USD\"},\"overpaid_money\":{\"amount\":0,\"currency\":\"USD\"},\"paid_money\":{\"amount\":0,\"currency\":\"USD\"},\"refunded_money\":{\"amount\":0,\"currency\":\"USD\"},\"released_money\":{\"amount\":0,\"currency\":\"USD\"},\"removed_money\":{\"amount\":0,\"currency\":\"USD\"},\"settled_tip_money\":{\"amount\":0,\"currency\":\"USD\"},\"written_off_money\":{\"amount\":0,\"currency\":\"USD\"}},\"status\":\"open\",\"subscription_delivery_number\":2,\"supported_actions\":[\"close\"],\"tax\":{\"enabled\":true,\"mode\":\"automatic\",\"status\":\"not_required\"},\"tips\":[{\"created_at\":\"2026-08-02T16:00:00Z\",\"effective_amount_money\":{\"amount\":0,\"currency\":\"USD\"},\"order_tip_id\":\"tip_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"payment_intent_allocations\":[{\"amount_money\":{\"amount\":0,\"currency\":\"USD\"},\"payment_intent_id\":\"pi_01K1P6G4M7H2N8Q9R3S5T6V7WX\"}],\"refunded_money\":{\"amount\":0,\"currency\":\"USD\"},\"settled_amount_money\":{\"amount\":0,\"currency\":\"USD\"},\"status\":\"requested\",\"updated_at\":\"2026-08-02T16:00:00Z\",\"value_settlement_allocations\":[{\"amount_money\":{\"amount\":0,\"currency\":\"USD\"},\"value_settlement_id\":\"ovst_01K1P6G4M7H2N8Q9R3S5T6V7WX\"}]}],\"updated_at\":\"2026-08-02T16:00:00Z\",\"version\":1}},\"meta\":{\"api_version\":\"2026-09-07\"},\"request_id\":\"req_01KWM6AASYFSEP53E9W34N8J33\"}"
       }
     ],
     "data": {
       "data": {
-        "audience": "buyer",
         "checkout_session": {
-          "checkout_session_id": "cs_test",
-          "delivery_method_ids": [],
-          "delivery_selection_required": false,
-          "problems": [],
-          "is_in_recovery": false,
+          "can_apply_promotion_code": true,
+          "checkout_session_id": "cs_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+          "client_reference": "example",
+          "created_at": "2026-08-02T16:00:00Z",
+          "custom_field_answers": [
+            {
+              "custom_field_type": "text",
+              "key": "example",
+              "label": "example",
+              "payment_link_custom_field_id": "plcf_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+              "value": "example"
+            }
+          ],
+          "delivery_method_ids": [
+            "dmet_01K1P6G4M7H2N8Q9R3S5T6V7WX"
+          ],
+          "delivery_selection_required": true,
+          "is_in_recovery": true,
+          "merchant_id": "mer_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+          "problems": [
+            {
+              "blocks_completion": true,
+              "code": "delivery_selection_stale",
+              "severity": "error"
+            }
+          ],
           "status": "open",
+          "supported_actions": [
+            "close"
+          ],
           "surface": "hosted",
           "type": "order",
-          "version": 1,
-          "client_reference": null,
-          "created_at": "2026-08-02T16:00:00Z",
-          "custom_field_answers": [],
-          "merchant_id": "mer_01KEZF7C00KPYH1DDFPCCX3B6E",
-          "supported_actions": [],
-          "updated_at": "2026-08-02T16:00:00Z"
+          "updated_at": "2026-08-02T16:00:00Z",
+          "version": 1
         },
         "delivery_selection": {
           "amount_money": {
             "amount": "0",
             "currency": "USD"
           },
-          "choices": [],
-          "delivery_quote_id": "dq_test",
-          "delivery_selection_id": "ds_test",
-          "expires_at": "2026-01-01T00:00:00Z",
+          "choices": [
+            {
+              "amount_money": {
+                "amount": "0",
+                "currency": "USD"
+              },
+              "delivery_choice_group_id": "dcgrp_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+              "delivery_method_id": "dmet_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+              "delivery_option_id": "dopt_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+              "delivery_plan": {
+                "type": "single_delivery"
+              },
+              "name": "Standard delivery",
+              "order_id": "ord_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+              "stable_key": "example",
+              "total_money": {
+                "amount": "0",
+                "currency": "USD"
+              },
+              "type": "shipment"
+            }
+          ],
+          "delivery_quote_id": "dqt_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+          "delivery_selection_id": "dsel_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+          "expires_at": "2026-08-02T16:00:00Z",
+          "input_requirements": [
+            {
+              "constraint": {
+                "type": "string"
+              },
+              "delivery_input_requirement_id": "req_0123456789abcdef",
+              "field_path": "destination_address",
+              "purpose": "quote"
+            }
+          ],
           "status": "selected",
-          "input_requirements": []
+          "supported_actions": [
+            "release"
+          ]
         },
         "order": {
-          "line_items": [],
-          "order_id": "ord_test",
+          "active_payment_review_id": "rev_01KEZF7C00BVBQ00XDFNKB1EF6",
+          "buyer_actions": [],
+          "charges": [
+            {
+              "applied_money": {
+                "amount": "0",
+                "currency": "USD"
+              },
+              "created_at": "2026-08-02T16:00:00Z",
+              "name": "Standard delivery",
+              "order_charge_id": "och_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+              "order_id": "ord_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+              "refunded_money": {
+                "amount": "0",
+                "currency": "USD"
+              },
+              "tax_money": {
+                "amount": "0",
+                "currency": "USD"
+              },
+              "total_money": {
+                "amount": "0",
+                "currency": "USD"
+              },
+              "type": "service_fee",
+              "updated_at": "2026-08-02T16:00:00Z"
+            }
+          ],
+          "checkout_session_ids": [
+            "cs_01K1P6G4M7H2N8Q9R3S5T6V7WX"
+          ],
+          "client_reference": "example",
+          "created_at": "2026-08-02T16:00:00Z",
+          "custom_field_answers": [
+            {
+              "custom_field_type": "text",
+              "key": "example",
+              "label": "example",
+              "payment_link_custom_field_id": "plcf_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+              "value": "example"
+            }
+          ],
+          "deferred_promotions": [
+            {
+              "customer_facing_name": "example",
+              "deferred_promotion_id": "dp_01KEZF7C00AZMP1PY1ER7CQ4SA",
+              "promotion_code": "example",
+              "promotion_id": "promo_01KEZF7C00E1JAV4M413D9DE1P"
+            }
+          ],
+          "discounts": [
+            {
+              "amount_money": {
+                "amount": "0",
+                "currency": "USD"
+              },
+              "applied_money": {
+                "amount": "0",
+                "currency": "USD"
+              },
+              "order_charge_ids": [
+                "och_01K1P6G4M7H2N8Q9R3S5T6V7WX"
+              ],
+              "order_discount_id": "ad_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+              "order_id": "ord_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+              "order_line_item_ids": [
+                "li_01K1P6G4M7H2N8Q9R3S5T6V7WX"
+              ],
+              "status": "pending"
+            }
+          ],
+          "dispute_status": "none",
+          "fulfillments": [
+            {
+              "created_at": "2026-08-02T16:00:00Z",
+              "delivery_choice_group_id": "dcgrp_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+              "delivery_execution_leg_id": "dleg_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+              "delivery_method_id": "dmet_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+              "delivery_selection_id": "dsel_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+              "fulfillment_id": "ful_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+              "line_items": [
+                {
+                  "bundle_component_id": "bunc_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+                  "order_id": "ord_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+                  "order_line_item_id": "li_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+                  "quantity": 1
+                }
+              ],
+              "order_id": "ord_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+              "scheduled_start_at": "2026-08-02T16:00:00Z",
+              "status": "pending",
+              "supported_actions": [
+                "accept"
+              ],
+              "type": "shipment",
+              "updated_at": "2026-08-02T16:00:00Z",
+              "version": 1
+            }
+          ],
+          "gift_card_settlements": [
+            {
+              "amount_money": {
+                "amount": "0",
+                "currency": "USD"
+              },
+              "created_at": "2026-08-02T16:00:00Z",
+              "gift_card_id": "gc_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+              "gift_card_redemption_id": "gcr_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+              "last4": "example",
+              "tip_money": {
+                "amount": "0",
+                "currency": "USD"
+              }
+            }
+          ],
+          "gift_card_tender_enabled": true,
+          "gift_cards": [
+            {
+              "available_money": {
+                "amount": "0",
+                "currency": "USD"
+              },
+              "gift_card_id": "gc_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+              "last4": "example",
+              "requires_authorization": true
+            }
+          ],
+          "governing_delivery_selection_id": "dsel_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+          "invoice_id": "inv_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+          "line_items": [
+            {
+              "backordered_quantity": 0,
+              "base_subtotal_money": {
+                "amount": "0",
+                "currency": "USD"
+              },
+              "bundle_components": [
+                {
+                  "bundle_component_id": "bunc_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+                  "delivery_configuration_status": "configured",
+                  "position": 1,
+                  "quantity": 1,
+                  "variant_id": "var_01K1P6G4M7H2N8Q9R3S5T6V7WX"
+                }
+              ],
+              "categories": [
+                {
+                  "category_id": "ctg_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+                  "handle": "example"
+                }
+              ],
+              "discount_money": {
+                "amount": "0",
+                "currency": "USD"
+              },
+              "expected_ship_date": "2026-08-02",
+              "inventory_snapshot": {
+                "demands": [
+                  {
+                    "inventory_item_id": "invi_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+                    "quantity_per_line_item_unit": 1
+                  }
+                ],
+                "inventory_tracking": "not_tracked"
+              },
+              "modifier_total_money": {
+                "amount": "0",
+                "currency": "USD"
+              },
+              "modifiers": [
+                {
+                  "modifier_group_name": "example",
+                  "name": "Standard delivery",
+                  "order_line_item_modifier_id": "olim_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+                  "quantity": 1,
+                  "show_on_fulfillment": true,
+                  "show_on_receipt": true,
+                  "source_type": "catalog_modifier",
+                  "total_money": {
+                    "amount": "0",
+                    "currency": "USD"
+                  },
+                  "unit_price_delta_money": {
+                    "amount": "0",
+                    "currency": "USD"
+                  }
+                }
+              ],
+              "name": "Standard delivery",
+              "order_edit_id": "oed_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+              "order_id": "ord_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+              "order_line_item_id": "li_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+              "payment_link_line_item_key": "example",
+              "purchased_gift_cards": [
+                {
+                  "gift_card_id": "gc_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+                  "last4": "example",
+                  "unit_ordinal": 1
+                }
+              ],
+              "quantity": 1,
+              "refunded_money": {
+                "amount": "0",
+                "currency": "USD"
+              },
+              "refunded_quantity": 1,
+              "release_date": "2026-08-02",
+              "removed_quantity": 1,
+              "selected_options": [
+                {
+                  "option_id": "opt_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+                  "option_name": "example",
+                  "option_value_id": "optv_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+                  "value": "example"
+                }
+              ],
+              "subtotal_money": {
+                "amount": "0",
+                "currency": "USD"
+              },
+              "tax_money": {
+                "amount": "0",
+                "currency": "USD"
+              },
+              "total_money": {
+                "amount": "0",
+                "currency": "USD"
+              },
+              "type": "variant",
+              "unit_price_money": {
+                "amount": "0",
+                "currency": "USD"
+              }
+            }
+          ],
+          "merchant_id": "mer_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+          "order_id": "ord_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+          "paid_at": "2026-08-02T16:00:00Z",
+          "payment_intent_ids": [
+            "pi_01K1P6G4M7H2N8Q9R3S5T6V7WX"
+          ],
           "payment_status": "unpaid",
+          "prepayment_order_id": "ord_01KEZF7C0054GQKJ142A8X367A",
           "pricing_amounts": {
+            "additive_tax_money": {
+              "amount": "0",
+              "currency": "USD"
+            },
             "charge_money": {
               "amount": "0",
               "currency": "USD"
             },
             "discount_money": {
+              "amount": "0",
+              "currency": "USD"
+            },
+            "inclusive_tax_money": {
               "amount": "0",
               "currency": "USD"
             },
@@ -364,18 +727,32 @@
             "total_money": {
               "amount": "0",
               "currency": "USD"
-            },
-            "additive_tax_money": {
-              "amount": "0",
-              "currency": "USD"
-            },
-            "inclusive_tax_money": {
-              "amount": "0",
-              "currency": "USD"
             }
           },
+          "refund_ids": [
+            "ref_01K1P6G4M7H2N8Q9R3S5T6V7WX"
+          ],
           "refund_status": "none",
+          "return_credit_settlements": [
+            {
+              "amount_money": {
+                "amount": "0",
+                "currency": "USD"
+              },
+              "created_at": "2026-08-02T16:00:00Z",
+              "return_id": "ret_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+              "return_resolution_id": "retres_01K1P6G4M7H2N8Q9R3S5T6V7WX"
+            }
+          ],
           "settlement_amounts": {
+            "dispute_lost_money": {
+              "amount": "0",
+              "currency": "USD"
+            },
+            "disputed_money": {
+              "amount": "0",
+              "currency": "USD"
+            },
             "net_collected_money": {
               "amount": "0",
               "currency": "USD"
@@ -400,6 +777,10 @@
               "amount": "0",
               "currency": "USD"
             },
+            "removed_money": {
+              "amount": "0",
+              "currency": "USD"
+            },
             "settled_tip_money": {
               "amount": "0",
               "currency": "USD"
@@ -410,42 +791,69 @@
             }
           },
           "status": "open",
+          "subscription_delivery_number": 2,
+          "supported_actions": [
+            "close"
+          ],
           "tax": {
-            "enabled": false,
-            "mode": "none",
-            "status": "none",
-            "taxability_reason": "none"
+            "enabled": true,
+            "mode": "automatic",
+            "status": "not_required"
           },
-          "buyer_actions": [],
-          "charges": [],
-          "checkout_session_ids": [],
-          "discounts": [],
-          "fulfillments": [],
-          "gift_card_settlements": [],
-          "gift_card_tender_enabled": false,
-          "gift_cards": [],
-          "payment_intent_ids": [],
-          "refund_ids": [],
-          "return_credit_settlements": [],
-          "tips": [],
-          "version": 1,
-          "governing_delivery_selection_id": null,
-          "created_at": "2026-08-02T16:00:00Z",
-          "deferred_promotions": [],
-          "merchant_id": "mer_01KEZF7C00KPYH1DDFPCCX3B6E",
-          "paid_at": null,
-          "updated_at": "2026-08-02T16:00:00Z"
+          "tips": [
+            {
+              "created_at": "2026-08-02T16:00:00Z",
+              "effective_amount_money": {
+                "amount": "0",
+                "currency": "USD"
+              },
+              "order_tip_id": "tip_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+              "payment_intent_allocations": [
+                {
+                  "amount_money": {
+                    "amount": "0",
+                    "currency": "USD"
+                  },
+                  "payment_intent_id": "pi_01K1P6G4M7H2N8Q9R3S5T6V7WX"
+                }
+              ],
+              "refunded_money": {
+                "amount": "0",
+                "currency": "USD"
+              },
+              "settled_amount_money": {
+                "amount": "0",
+                "currency": "USD"
+              },
+              "status": "requested",
+              "updated_at": "2026-08-02T16:00:00Z",
+              "value_settlement_allocations": [
+                {
+                  "amount_money": {
+                    "amount": "0",
+                    "currency": "USD"
+                  },
+                  "value_settlement_id": "ovst_01K1P6G4M7H2N8Q9R3S5T6V7WX"
+                }
+              ]
+            }
+          ],
+          "updated_at": "2026-08-02T16:00:00Z",
+          "version": 1
         }
       },
-      "request_id": "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D"
+      "meta": {
+        "api_version": "2026-09-07"
+      },
+      "request_id": "req_01KWM6AASYFSEP53E9W34N8J33"
     }
   },
   {
     "name": "effective mapping buyer",
-    "operation": "getCheckoutSessionCurrentDeliverySelection",
+    "operation": "getDeliverySelection",
     "baseUrl": "https://api.example.invalid",
     "input": {
-      "checkout_session_id": "cs_test"
+      "delivery_selection_id": "ds_01ARZ3NDEKTSV4RRFFQ69G5FAV"
     },
     "options": {
       "authMode": "checkout",
@@ -455,7 +863,7 @@
     },
     "expected": {
       "method": "GET",
-      "path": "/v1/checkout-sessions/cs_test/delivery-selections/current",
+      "path": "/v1/delivery-selections/ds_01ARZ3NDEKTSV4RRFFQ69G5FAV",
       "headers": {
         "authorization": "Bearer checkout-test"
       },
@@ -467,26 +875,69 @@
     "responses": [
       {
         "status": 200,
-        "body": "{\"data\":{\"audience\":\"buyer\",\"mutable\":true,\"source\":\"none\",\"delivery_selection\":null},\"request_id\":\"req_01KWM6WAHG3N9Q8T2V5XRZ7C4D\"}"
+        "body": "{\"data\":{\"amount_money\":{\"amount\":0,\"currency\":\"USD\"},\"choices\":[{\"amount_money\":{\"amount\":0,\"currency\":\"USD\"},\"delivery_choice_group_id\":\"dcgrp_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"delivery_method_id\":\"dmet_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"delivery_option_id\":\"dopt_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"delivery_plan\":{\"type\":\"single_delivery\"},\"name\":\"Standard delivery\",\"order_id\":\"ord_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"stable_key\":\"example\",\"total_money\":{\"amount\":0,\"currency\":\"USD\"},\"type\":\"shipment\"}],\"delivery_quote_id\":\"dqt_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"delivery_selection_id\":\"dsel_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"expires_at\":\"2026-08-02T16:00:00Z\",\"input_requirements\":[{\"constraint\":{\"type\":\"string\"},\"delivery_input_requirement_id\":\"req_0123456789abcdef\",\"field_path\":\"destination_address\",\"purpose\":\"quote\"}],\"status\":\"selected\",\"supported_actions\":[\"release\"]},\"meta\":{\"api_version\":\"2026-09-07\"},\"request_id\":\"req_01KWM6AASYFSEP53E9W34N8J33\"}"
       }
     ],
     "data": {
       "data": {
-        "audience": "buyer",
-        "mutable": true,
-        "source": "none",
-        "delivery_selection": null
+        "amount_money": {
+          "amount": "0",
+          "currency": "USD"
+        },
+        "choices": [
+          {
+            "amount_money": {
+              "amount": "0",
+              "currency": "USD"
+            },
+            "delivery_choice_group_id": "dcgrp_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+            "delivery_method_id": "dmet_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+            "delivery_option_id": "dopt_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+            "delivery_plan": {
+              "type": "single_delivery"
+            },
+            "name": "Standard delivery",
+            "order_id": "ord_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+            "stable_key": "example",
+            "total_money": {
+              "amount": "0",
+              "currency": "USD"
+            },
+            "type": "shipment"
+          }
+        ],
+        "delivery_quote_id": "dqt_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+        "delivery_selection_id": "dsel_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+        "expires_at": "2026-08-02T16:00:00Z",
+        "input_requirements": [
+          {
+            "constraint": {
+              "type": "string"
+            },
+            "delivery_input_requirement_id": "req_0123456789abcdef",
+            "field_path": "destination_address",
+            "purpose": "quote"
+          }
+        ],
+        "status": "selected",
+        "supported_actions": [
+          "release"
+        ]
       },
-      "request_id": "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D"
+      "meta": {
+        "api_version": "2026-09-07"
+      },
+      "request_id": "req_01KWM6AASYFSEP53E9W34N8J33"
     }
   },
   {
     "name": "quote mapping merchant",
-    "operation": "getCheckoutSessionDeliveryQuote",
+    "operation": "createDeliveryQuote",
     "baseUrl": "https://api.example.invalid",
     "input": {
-      "checkout_session_id": "cs_test",
-      "delivery_quote_id": "dq_test"
+      "body": {
+        "checkout_session_id": "cs_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+      }
     },
     "options": {
       "authMode": "merchant",
@@ -495,54 +946,112 @@
       }
     },
     "expected": {
-      "method": "GET",
-      "path": "/v1/checkout-sessions/cs_test/delivery-quotes/dq_test",
+      "method": "POST",
+      "path": "/v1/delivery-quotes",
       "headers": {
         "authorization": "Bearer merchant-test"
       },
       "absentHeaders": [
         "x-checkout-session-id",
         "x-checkout-session-secret"
-      ]
+      ],
+      "body": "{\"checkout_session_id\":\"cs_01ARZ3NDEKTSV4RRFFQ69G5FAV\"}"
     },
     "responses": [
       {
-        "status": 200,
-        "body": "{\"data\":{\"audience\":\"merchant\",\"checkout_session_id\":\"cs_test\",\"choice_groups\":[],\"delivery_quote_id\":\"dq_test\",\"delivery_quote_revision\":0,\"eligibility_context_revision\":0,\"evaluated_at\":\"2026-01-01T00:00:00Z\",\"evaluation_status\":\"complete\",\"expires_at\":\"2026-01-01T00:00:00Z\",\"input_requirements\":[],\"merchant_diagnostics\":[],\"order_id\":\"ord_test\",\"selection_required\":true,\"status\":\"active\",\"buyer_reasons\":[],\"created_at\":\"2026-10-06T00:00:00Z\",\"delivery_revocation_id\":null},\"request_id\":\"req_01KWM6WAHG3N9Q8T2V5XRZ7C4D\"}"
+        "status": 201,
+        "body": "{\"data\":{\"buyer_reasons\":[\"address_required\"],\"choice_groups\":[{\"availability_status\":\"ready\",\"delivery_choice_group_id\":\"dcgrp_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"evaluation_status\":\"complete\",\"input_requirements\":[{\"constraint\":{\"type\":\"string\"},\"delivery_input_requirement_id\":\"req_0123456789abcdef\",\"field_path\":\"destination_address\",\"purpose\":\"quote\"}],\"line_items\":[{\"order_id\":\"ord_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"order_line_item_id\":\"li_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"quantity\":1}],\"method_types\":[\"shipment\"],\"options\":[{\"amount_money\":{\"amount\":0,\"currency\":\"USD\"},\"buyer_instructions\":{\"enabled\":true,\"required\":true},\"delivery_method_id\":\"dmet_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"delivery_option_id\":\"dopt_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"delivery_plan\":{\"type\":\"single_delivery\"},\"display_position\":1,\"name\":\"Standard delivery\",\"recommended\":true,\"taxable\":true,\"type\":\"shipment\",\"window_selection\":\"none\"}],\"stable_key\":\"example\"}],\"created_at\":\"2026-08-02T16:00:00Z\",\"delivery_quote_id\":\"dqt_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"delivery_revocation_id\":\"drev_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"evaluated_at\":\"2026-08-02T16:00:00Z\",\"evaluation_status\":\"complete\",\"expires_at\":\"2026-08-02T16:00:00Z\",\"input_requirements\":[{\"constraint\":{\"type\":\"string\"},\"delivery_input_requirement_id\":\"req_0123456789abcdef\",\"field_path\":\"destination_address\",\"purpose\":\"quote\"}],\"selection_required\":true,\"status\":\"active\"},\"meta\":{\"api_version\":\"2026-09-07\"},\"request_id\":\"req_01KWM6AASYFSEP53E9W34N8J33\"}"
       }
     ],
     "data": {
       "data": {
-        "audience": "merchant",
-        "checkout_session_id": "cs_test",
-        "choice_groups": [],
-        "delivery_quote_id": "dq_test",
-        "delivery_quote_revision": 0,
-        "eligibility_context_revision": 0,
-        "evaluated_at": "2026-01-01T00:00:00Z",
+        "buyer_reasons": [
+          "address_required"
+        ],
+        "choice_groups": [
+          {
+            "availability_status": "ready",
+            "delivery_choice_group_id": "dcgrp_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+            "evaluation_status": "complete",
+            "input_requirements": [
+              {
+                "constraint": {
+                  "type": "string"
+                },
+                "delivery_input_requirement_id": "req_0123456789abcdef",
+                "field_path": "destination_address",
+                "purpose": "quote"
+              }
+            ],
+            "line_items": [
+              {
+                "order_id": "ord_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+                "order_line_item_id": "li_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+                "quantity": 1
+              }
+            ],
+            "method_types": [
+              "shipment"
+            ],
+            "options": [
+              {
+                "amount_money": {
+                  "amount": "0",
+                  "currency": "USD"
+                },
+                "buyer_instructions": {
+                  "enabled": true,
+                  "required": true
+                },
+                "delivery_method_id": "dmet_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+                "delivery_option_id": "dopt_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+                "delivery_plan": {
+                  "type": "single_delivery"
+                },
+                "display_position": 1,
+                "name": "Standard delivery",
+                "recommended": true,
+                "taxable": true,
+                "type": "shipment",
+                "window_selection": "none"
+              }
+            ],
+            "stable_key": "example"
+          }
+        ],
+        "created_at": "2026-08-02T16:00:00Z",
+        "delivery_quote_id": "dqt_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+        "delivery_revocation_id": "drev_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+        "evaluated_at": "2026-08-02T16:00:00Z",
         "evaluation_status": "complete",
-        "expires_at": "2026-01-01T00:00:00Z",
-        "input_requirements": [],
-        "merchant_diagnostics": [],
-        "order_id": "ord_test",
+        "expires_at": "2026-08-02T16:00:00Z",
+        "input_requirements": [
+          {
+            "constraint": {
+              "type": "string"
+            },
+            "delivery_input_requirement_id": "req_0123456789abcdef",
+            "field_path": "destination_address",
+            "purpose": "quote"
+          }
+        ],
         "selection_required": true,
-        "status": "active",
-        "buyer_reasons": [],
-        "created_at": "2026-10-06T00:00:00Z",
-        "delivery_revocation_id": null
+        "status": "active"
       },
-      "request_id": "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D"
+      "meta": {
+        "api_version": "2026-09-07"
+      },
+      "request_id": "req_01KWM6AASYFSEP53E9W34N8J33"
     }
   },
   {
     "name": "selection mapping merchant",
-    "operation": "createCheckoutSessionDeliverySelection",
+    "operation": "createDeliverySelection",
     "baseUrl": "https://api.example.invalid",
     "input": {
-      "checkout_session_id": "cs_test",
       "body": {
         "choices": [],
-        "delivery_quote_id": "dq_test",
+        "delivery_quote_id": "dq_01ARZ3NDEKTSV4RRFFQ69G5FAV",
         "expected_delivery_selection_id": null
       }
     },
@@ -554,7 +1063,7 @@
     },
     "expected": {
       "method": "POST",
-      "path": "/v1/checkout-sessions/cs_test/delivery-selections",
+      "path": "/v1/delivery-selections",
       "headers": {
         "authorization": "Bearer merchant-test"
       },
@@ -562,64 +1071,355 @@
         "x-checkout-session-id",
         "x-checkout-session-secret"
       ],
-      "body": "{\"choices\":[],\"delivery_quote_id\":\"dq_test\",\"expected_delivery_selection_id\":null}"
+      "body": "{\"choices\":[],\"delivery_quote_id\":\"dq_01ARZ3NDEKTSV4RRFFQ69G5FAV\",\"expected_delivery_selection_id\":null}"
     },
     "responses": [
       {
         "status": 201,
-        "body": "{\"data\":{\"audience\":\"merchant\",\"checkout_session\":{\"checkout_session_id\":\"cs_test\",\"delivery_method_ids\":[],\"delivery_selection_required\":false,\"problems\":[],\"is_in_recovery\":false,\"status\":\"open\",\"surface\":\"hosted\",\"type\":\"order\",\"version\":1,\"client_reference\":null,\"created_at\":\"2026-08-02T16:00:00Z\",\"custom_field_answers\":[],\"merchant_id\":\"mer_01KEZF7C00KPYH1DDFPCCX3B6E\",\"supported_actions\":[],\"updated_at\":\"2026-08-02T16:00:00Z\"},\"delivery_selection\":{\"amount_money\":{\"amount\":0,\"currency\":\"USD\"},\"calculation_expires_at\":\"2026-01-01T00:00:00Z\",\"checkout_session_id\":\"cs_test\",\"choices\":[],\"created_at\":\"2026-01-01T00:00:00Z\",\"delivery_quote_id\":\"dq_test\",\"delivery_quote_revision\":0,\"delivery_selection_id\":\"ds_test\",\"eligibility_context_revision\":0,\"expires_at\":\"2026-01-01T00:00:00Z\",\"lifecycle_updated_at\":\"2026-01-01T00:00:00Z\",\"limiting_deadline_reason\":\"selection_guarantee_expiry\",\"order_id\":\"ord_test\",\"status\":\"selected\",\"input_requirements\":[]},\"order\":{\"line_items\":[],\"order_id\":\"ord_test\",\"payment_status\":\"unpaid\",\"pricing_amounts\":{\"charge_money\":{\"amount\":0,\"currency\":\"USD\"},\"discount_money\":{\"amount\":0,\"currency\":\"USD\"},\"requested_tip_money\":{\"amount\":0,\"currency\":\"USD\"},\"subtotal_money\":{\"amount\":0,\"currency\":\"USD\"},\"tax_money\":{\"amount\":0,\"currency\":\"USD\"},\"total_money\":{\"amount\":0,\"currency\":\"USD\"},\"additive_tax_money\":{\"amount\":0,\"currency\":\"USD\"},\"inclusive_tax_money\":{\"amount\":0,\"currency\":\"USD\"}},\"refund_status\":\"none\",\"settlement_amounts\":{\"net_collected_money\":{\"amount\":0,\"currency\":\"USD\"},\"outstanding_money\":{\"amount\":0,\"currency\":\"USD\"},\"overpaid_money\":{\"amount\":0,\"currency\":\"USD\"},\"paid_money\":{\"amount\":0,\"currency\":\"USD\"},\"refunded_money\":{\"amount\":0,\"currency\":\"USD\"},\"released_money\":{\"amount\":0,\"currency\":\"USD\"},\"settled_tip_money\":{\"amount\":0,\"currency\":\"USD\"},\"written_off_money\":{\"amount\":0,\"currency\":\"USD\"}},\"status\":\"open\",\"tax\":{\"enabled\":false,\"mode\":\"none\",\"status\":\"none\",\"taxability_reason\":\"none\"},\"buyer_actions\":[],\"charges\":[],\"checkout_session_ids\":[],\"discounts\":[],\"fulfillments\":[],\"gift_card_settlements\":[],\"gift_card_tender_enabled\":false,\"gift_cards\":[],\"payment_intent_ids\":[],\"refund_ids\":[],\"return_credit_settlements\":[],\"tips\":[],\"version\":1,\"governing_delivery_selection_id\":null,\"created_at\":\"2026-08-02T16:00:00Z\",\"deferred_promotions\":[],\"merchant_id\":\"mer_01KEZF7C00KPYH1DDFPCCX3B6E\",\"paid_at\":null,\"updated_at\":\"2026-08-02T16:00:00Z\"}},\"request_id\":\"req_01KWM6WAHG3N9Q8T2V5XRZ7C4D\"}"
+        "body": "{\"data\":{\"checkout_session\":{\"can_apply_promotion_code\":true,\"checkout_session_id\":\"cs_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"client_reference\":\"example\",\"created_at\":\"2026-08-02T16:00:00Z\",\"custom_field_answers\":[{\"custom_field_type\":\"text\",\"key\":\"example\",\"label\":\"example\",\"payment_link_custom_field_id\":\"plcf_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"value\":\"example\"}],\"delivery_method_ids\":[\"dmet_01K1P6G4M7H2N8Q9R3S5T6V7WX\"],\"delivery_selection_required\":true,\"is_in_recovery\":true,\"merchant_id\":\"mer_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"problems\":[{\"blocks_completion\":true,\"code\":\"delivery_selection_stale\",\"severity\":\"error\"}],\"status\":\"open\",\"supported_actions\":[\"close\"],\"surface\":\"hosted\",\"type\":\"order\",\"updated_at\":\"2026-08-02T16:00:00Z\",\"version\":1},\"delivery_selection\":{\"amount_money\":{\"amount\":0,\"currency\":\"USD\"},\"choices\":[{\"amount_money\":{\"amount\":0,\"currency\":\"USD\"},\"delivery_choice_group_id\":\"dcgrp_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"delivery_method_id\":\"dmet_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"delivery_option_id\":\"dopt_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"delivery_plan\":{\"type\":\"single_delivery\"},\"name\":\"Standard delivery\",\"order_id\":\"ord_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"stable_key\":\"example\",\"total_money\":{\"amount\":0,\"currency\":\"USD\"},\"type\":\"shipment\"}],\"delivery_quote_id\":\"dqt_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"delivery_selection_id\":\"dsel_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"expires_at\":\"2026-08-02T16:00:00Z\",\"input_requirements\":[{\"constraint\":{\"type\":\"string\"},\"delivery_input_requirement_id\":\"req_0123456789abcdef\",\"field_path\":\"destination_address\",\"purpose\":\"quote\"}],\"status\":\"selected\",\"supported_actions\":[\"release\"]},\"order\":{\"active_payment_review_id\":\"rev_01KEZF7C00BVBQ00XDFNKB1EF6\",\"buyer_actions\":[],\"charges\":[{\"applied_money\":{\"amount\":0,\"currency\":\"USD\"},\"created_at\":\"2026-08-02T16:00:00Z\",\"name\":\"Standard delivery\",\"order_charge_id\":\"och_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"order_id\":\"ord_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"refunded_money\":{\"amount\":0,\"currency\":\"USD\"},\"tax_money\":{\"amount\":0,\"currency\":\"USD\"},\"total_money\":{\"amount\":0,\"currency\":\"USD\"},\"type\":\"service_fee\",\"updated_at\":\"2026-08-02T16:00:00Z\"}],\"checkout_session_ids\":[\"cs_01K1P6G4M7H2N8Q9R3S5T6V7WX\"],\"client_reference\":\"example\",\"created_at\":\"2026-08-02T16:00:00Z\",\"custom_field_answers\":[{\"custom_field_type\":\"text\",\"key\":\"example\",\"label\":\"example\",\"payment_link_custom_field_id\":\"plcf_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"value\":\"example\"}],\"deferred_promotions\":[{\"customer_facing_name\":\"example\",\"deferred_promotion_id\":\"dp_01KEZF7C00AZMP1PY1ER7CQ4SA\",\"promotion_code\":\"example\",\"promotion_id\":\"promo_01KEZF7C00E1JAV4M413D9DE1P\"}],\"discounts\":[{\"amount_money\":{\"amount\":0,\"currency\":\"USD\"},\"applied_money\":{\"amount\":0,\"currency\":\"USD\"},\"order_charge_ids\":[\"och_01K1P6G4M7H2N8Q9R3S5T6V7WX\"],\"order_discount_id\":\"ad_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"order_id\":\"ord_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"order_line_item_ids\":[\"li_01K1P6G4M7H2N8Q9R3S5T6V7WX\"],\"status\":\"pending\"}],\"dispute_status\":\"none\",\"fulfillments\":[{\"created_at\":\"2026-08-02T16:00:00Z\",\"delivery_choice_group_id\":\"dcgrp_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"delivery_execution_leg_id\":\"dleg_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"delivery_method_id\":\"dmet_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"delivery_selection_id\":\"dsel_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"fulfillment_id\":\"ful_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"line_items\":[{\"bundle_component_id\":\"bunc_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"order_id\":\"ord_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"order_line_item_id\":\"li_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"quantity\":1}],\"order_id\":\"ord_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"scheduled_start_at\":\"2026-08-02T16:00:00Z\",\"status\":\"pending\",\"supported_actions\":[\"accept\"],\"type\":\"shipment\",\"updated_at\":\"2026-08-02T16:00:00Z\",\"version\":1}],\"gift_card_settlements\":[{\"amount_money\":{\"amount\":0,\"currency\":\"USD\"},\"created_at\":\"2026-08-02T16:00:00Z\",\"gift_card_id\":\"gc_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"gift_card_redemption_id\":\"gcr_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"last4\":\"example\",\"tip_money\":{\"amount\":0,\"currency\":\"USD\"}}],\"gift_card_tender_enabled\":true,\"gift_cards\":[{\"available_money\":{\"amount\":0,\"currency\":\"USD\"},\"gift_card_id\":\"gc_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"last4\":\"example\",\"requires_authorization\":true}],\"governing_delivery_selection_id\":\"dsel_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"invoice_id\":\"inv_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"line_items\":[{\"backordered_quantity\":0,\"base_subtotal_money\":{\"amount\":0,\"currency\":\"USD\"},\"bundle_components\":[{\"bundle_component_id\":\"bunc_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"delivery_configuration_status\":\"configured\",\"position\":1,\"quantity\":1,\"variant_id\":\"var_01K1P6G4M7H2N8Q9R3S5T6V7WX\"}],\"categories\":[{\"category_id\":\"ctg_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"handle\":\"example\"}],\"discount_money\":{\"amount\":0,\"currency\":\"USD\"},\"expected_ship_date\":\"2026-08-02\",\"inventory_snapshot\":{\"demands\":[{\"inventory_item_id\":\"invi_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"quantity_per_line_item_unit\":1}],\"inventory_tracking\":\"not_tracked\"},\"modifier_total_money\":{\"amount\":0,\"currency\":\"USD\"},\"modifiers\":[{\"modifier_group_name\":\"example\",\"name\":\"Standard delivery\",\"order_line_item_modifier_id\":\"olim_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"quantity\":1,\"show_on_fulfillment\":true,\"show_on_receipt\":true,\"source_type\":\"catalog_modifier\",\"total_money\":{\"amount\":0,\"currency\":\"USD\"},\"unit_price_delta_money\":{\"amount\":0,\"currency\":\"USD\"}}],\"name\":\"Standard delivery\",\"order_edit_id\":\"oed_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"order_id\":\"ord_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"order_line_item_id\":\"li_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"payment_link_line_item_key\":\"example\",\"purchased_gift_cards\":[{\"gift_card_id\":\"gc_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"last4\":\"example\",\"unit_ordinal\":1}],\"quantity\":1,\"refunded_money\":{\"amount\":0,\"currency\":\"USD\"},\"refunded_quantity\":1,\"release_date\":\"2026-08-02\",\"removed_quantity\":1,\"selected_options\":[{\"option_id\":\"opt_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"option_name\":\"example\",\"option_value_id\":\"optv_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"value\":\"example\"}],\"subtotal_money\":{\"amount\":0,\"currency\":\"USD\"},\"tax_money\":{\"amount\":0,\"currency\":\"USD\"},\"total_money\":{\"amount\":0,\"currency\":\"USD\"},\"type\":\"variant\",\"unit_price_money\":{\"amount\":0,\"currency\":\"USD\"}}],\"merchant_id\":\"mer_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"order_id\":\"ord_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"paid_at\":\"2026-08-02T16:00:00Z\",\"payment_intent_ids\":[\"pi_01K1P6G4M7H2N8Q9R3S5T6V7WX\"],\"payment_status\":\"unpaid\",\"prepayment_order_id\":\"ord_01KEZF7C0054GQKJ142A8X367A\",\"pricing_amounts\":{\"additive_tax_money\":{\"amount\":0,\"currency\":\"USD\"},\"charge_money\":{\"amount\":0,\"currency\":\"USD\"},\"discount_money\":{\"amount\":0,\"currency\":\"USD\"},\"inclusive_tax_money\":{\"amount\":0,\"currency\":\"USD\"},\"requested_tip_money\":{\"amount\":0,\"currency\":\"USD\"},\"subtotal_money\":{\"amount\":0,\"currency\":\"USD\"},\"tax_money\":{\"amount\":0,\"currency\":\"USD\"},\"total_money\":{\"amount\":0,\"currency\":\"USD\"}},\"refund_ids\":[\"ref_01K1P6G4M7H2N8Q9R3S5T6V7WX\"],\"refund_status\":\"none\",\"return_credit_settlements\":[{\"amount_money\":{\"amount\":0,\"currency\":\"USD\"},\"created_at\":\"2026-08-02T16:00:00Z\",\"return_id\":\"ret_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"return_resolution_id\":\"retres_01K1P6G4M7H2N8Q9R3S5T6V7WX\"}],\"settlement_amounts\":{\"dispute_lost_money\":{\"amount\":0,\"currency\":\"USD\"},\"disputed_money\":{\"amount\":0,\"currency\":\"USD\"},\"net_collected_money\":{\"amount\":0,\"currency\":\"USD\"},\"outstanding_money\":{\"amount\":0,\"currency\":\"USD\"},\"overpaid_money\":{\"amount\":0,\"currency\":\"USD\"},\"paid_money\":{\"amount\":0,\"currency\":\"USD\"},\"refunded_money\":{\"amount\":0,\"currency\":\"USD\"},\"released_money\":{\"amount\":0,\"currency\":\"USD\"},\"removed_money\":{\"amount\":0,\"currency\":\"USD\"},\"settled_tip_money\":{\"amount\":0,\"currency\":\"USD\"},\"written_off_money\":{\"amount\":0,\"currency\":\"USD\"}},\"status\":\"open\",\"subscription_delivery_number\":2,\"supported_actions\":[\"close\"],\"tax\":{\"enabled\":true,\"mode\":\"automatic\",\"status\":\"not_required\"},\"tips\":[{\"created_at\":\"2026-08-02T16:00:00Z\",\"effective_amount_money\":{\"amount\":0,\"currency\":\"USD\"},\"order_tip_id\":\"tip_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"payment_intent_allocations\":[{\"amount_money\":{\"amount\":0,\"currency\":\"USD\"},\"payment_intent_id\":\"pi_01K1P6G4M7H2N8Q9R3S5T6V7WX\"}],\"refunded_money\":{\"amount\":0,\"currency\":\"USD\"},\"settled_amount_money\":{\"amount\":0,\"currency\":\"USD\"},\"status\":\"requested\",\"updated_at\":\"2026-08-02T16:00:00Z\",\"value_settlement_allocations\":[{\"amount_money\":{\"amount\":0,\"currency\":\"USD\"},\"value_settlement_id\":\"ovst_01K1P6G4M7H2N8Q9R3S5T6V7WX\"}]}],\"updated_at\":\"2026-08-02T16:00:00Z\",\"version\":1}},\"meta\":{\"api_version\":\"2026-09-07\"},\"request_id\":\"req_01KWM6AASYFSEP53E9W34N8J33\"}"
       }
     ],
     "data": {
       "data": {
-        "audience": "merchant",
         "checkout_session": {
-          "checkout_session_id": "cs_test",
-          "delivery_method_ids": [],
-          "delivery_selection_required": false,
-          "problems": [],
-          "is_in_recovery": false,
+          "can_apply_promotion_code": true,
+          "checkout_session_id": "cs_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+          "client_reference": "example",
+          "created_at": "2026-08-02T16:00:00Z",
+          "custom_field_answers": [
+            {
+              "custom_field_type": "text",
+              "key": "example",
+              "label": "example",
+              "payment_link_custom_field_id": "plcf_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+              "value": "example"
+            }
+          ],
+          "delivery_method_ids": [
+            "dmet_01K1P6G4M7H2N8Q9R3S5T6V7WX"
+          ],
+          "delivery_selection_required": true,
+          "is_in_recovery": true,
+          "merchant_id": "mer_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+          "problems": [
+            {
+              "blocks_completion": true,
+              "code": "delivery_selection_stale",
+              "severity": "error"
+            }
+          ],
           "status": "open",
+          "supported_actions": [
+            "close"
+          ],
           "surface": "hosted",
           "type": "order",
-          "version": 1,
-          "client_reference": null,
-          "created_at": "2026-08-02T16:00:00Z",
-          "custom_field_answers": [],
-          "merchant_id": "mer_01KEZF7C00KPYH1DDFPCCX3B6E",
-          "supported_actions": [],
-          "updated_at": "2026-08-02T16:00:00Z"
+          "updated_at": "2026-08-02T16:00:00Z",
+          "version": 1
         },
         "delivery_selection": {
           "amount_money": {
             "amount": "0",
             "currency": "USD"
           },
-          "calculation_expires_at": "2026-01-01T00:00:00Z",
-          "checkout_session_id": "cs_test",
-          "choices": [],
-          "created_at": "2026-01-01T00:00:00Z",
-          "delivery_quote_id": "dq_test",
-          "delivery_quote_revision": 0,
-          "delivery_selection_id": "ds_test",
-          "eligibility_context_revision": 0,
-          "expires_at": "2026-01-01T00:00:00Z",
-          "lifecycle_updated_at": "2026-01-01T00:00:00Z",
-          "limiting_deadline_reason": "selection_guarantee_expiry",
-          "order_id": "ord_test",
+          "choices": [
+            {
+              "amount_money": {
+                "amount": "0",
+                "currency": "USD"
+              },
+              "delivery_choice_group_id": "dcgrp_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+              "delivery_method_id": "dmet_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+              "delivery_option_id": "dopt_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+              "delivery_plan": {
+                "type": "single_delivery"
+              },
+              "name": "Standard delivery",
+              "order_id": "ord_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+              "stable_key": "example",
+              "total_money": {
+                "amount": "0",
+                "currency": "USD"
+              },
+              "type": "shipment"
+            }
+          ],
+          "delivery_quote_id": "dqt_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+          "delivery_selection_id": "dsel_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+          "expires_at": "2026-08-02T16:00:00Z",
+          "input_requirements": [
+            {
+              "constraint": {
+                "type": "string"
+              },
+              "delivery_input_requirement_id": "req_0123456789abcdef",
+              "field_path": "destination_address",
+              "purpose": "quote"
+            }
+          ],
           "status": "selected",
-          "input_requirements": []
+          "supported_actions": [
+            "release"
+          ]
         },
         "order": {
-          "line_items": [],
-          "order_id": "ord_test",
+          "active_payment_review_id": "rev_01KEZF7C00BVBQ00XDFNKB1EF6",
+          "buyer_actions": [],
+          "charges": [
+            {
+              "applied_money": {
+                "amount": "0",
+                "currency": "USD"
+              },
+              "created_at": "2026-08-02T16:00:00Z",
+              "name": "Standard delivery",
+              "order_charge_id": "och_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+              "order_id": "ord_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+              "refunded_money": {
+                "amount": "0",
+                "currency": "USD"
+              },
+              "tax_money": {
+                "amount": "0",
+                "currency": "USD"
+              },
+              "total_money": {
+                "amount": "0",
+                "currency": "USD"
+              },
+              "type": "service_fee",
+              "updated_at": "2026-08-02T16:00:00Z"
+            }
+          ],
+          "checkout_session_ids": [
+            "cs_01K1P6G4M7H2N8Q9R3S5T6V7WX"
+          ],
+          "client_reference": "example",
+          "created_at": "2026-08-02T16:00:00Z",
+          "custom_field_answers": [
+            {
+              "custom_field_type": "text",
+              "key": "example",
+              "label": "example",
+              "payment_link_custom_field_id": "plcf_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+              "value": "example"
+            }
+          ],
+          "deferred_promotions": [
+            {
+              "customer_facing_name": "example",
+              "deferred_promotion_id": "dp_01KEZF7C00AZMP1PY1ER7CQ4SA",
+              "promotion_code": "example",
+              "promotion_id": "promo_01KEZF7C00E1JAV4M413D9DE1P"
+            }
+          ],
+          "discounts": [
+            {
+              "amount_money": {
+                "amount": "0",
+                "currency": "USD"
+              },
+              "applied_money": {
+                "amount": "0",
+                "currency": "USD"
+              },
+              "order_charge_ids": [
+                "och_01K1P6G4M7H2N8Q9R3S5T6V7WX"
+              ],
+              "order_discount_id": "ad_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+              "order_id": "ord_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+              "order_line_item_ids": [
+                "li_01K1P6G4M7H2N8Q9R3S5T6V7WX"
+              ],
+              "status": "pending"
+            }
+          ],
+          "dispute_status": "none",
+          "fulfillments": [
+            {
+              "created_at": "2026-08-02T16:00:00Z",
+              "delivery_choice_group_id": "dcgrp_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+              "delivery_execution_leg_id": "dleg_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+              "delivery_method_id": "dmet_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+              "delivery_selection_id": "dsel_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+              "fulfillment_id": "ful_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+              "line_items": [
+                {
+                  "bundle_component_id": "bunc_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+                  "order_id": "ord_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+                  "order_line_item_id": "li_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+                  "quantity": 1
+                }
+              ],
+              "order_id": "ord_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+              "scheduled_start_at": "2026-08-02T16:00:00Z",
+              "status": "pending",
+              "supported_actions": [
+                "accept"
+              ],
+              "type": "shipment",
+              "updated_at": "2026-08-02T16:00:00Z",
+              "version": 1
+            }
+          ],
+          "gift_card_settlements": [
+            {
+              "amount_money": {
+                "amount": "0",
+                "currency": "USD"
+              },
+              "created_at": "2026-08-02T16:00:00Z",
+              "gift_card_id": "gc_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+              "gift_card_redemption_id": "gcr_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+              "last4": "example",
+              "tip_money": {
+                "amount": "0",
+                "currency": "USD"
+              }
+            }
+          ],
+          "gift_card_tender_enabled": true,
+          "gift_cards": [
+            {
+              "available_money": {
+                "amount": "0",
+                "currency": "USD"
+              },
+              "gift_card_id": "gc_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+              "last4": "example",
+              "requires_authorization": true
+            }
+          ],
+          "governing_delivery_selection_id": "dsel_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+          "invoice_id": "inv_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+          "line_items": [
+            {
+              "backordered_quantity": 0,
+              "base_subtotal_money": {
+                "amount": "0",
+                "currency": "USD"
+              },
+              "bundle_components": [
+                {
+                  "bundle_component_id": "bunc_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+                  "delivery_configuration_status": "configured",
+                  "position": 1,
+                  "quantity": 1,
+                  "variant_id": "var_01K1P6G4M7H2N8Q9R3S5T6V7WX"
+                }
+              ],
+              "categories": [
+                {
+                  "category_id": "ctg_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+                  "handle": "example"
+                }
+              ],
+              "discount_money": {
+                "amount": "0",
+                "currency": "USD"
+              },
+              "expected_ship_date": "2026-08-02",
+              "inventory_snapshot": {
+                "demands": [
+                  {
+                    "inventory_item_id": "invi_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+                    "quantity_per_line_item_unit": 1
+                  }
+                ],
+                "inventory_tracking": "not_tracked"
+              },
+              "modifier_total_money": {
+                "amount": "0",
+                "currency": "USD"
+              },
+              "modifiers": [
+                {
+                  "modifier_group_name": "example",
+                  "name": "Standard delivery",
+                  "order_line_item_modifier_id": "olim_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+                  "quantity": 1,
+                  "show_on_fulfillment": true,
+                  "show_on_receipt": true,
+                  "source_type": "catalog_modifier",
+                  "total_money": {
+                    "amount": "0",
+                    "currency": "USD"
+                  },
+                  "unit_price_delta_money": {
+                    "amount": "0",
+                    "currency": "USD"
+                  }
+                }
+              ],
+              "name": "Standard delivery",
+              "order_edit_id": "oed_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+              "order_id": "ord_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+              "order_line_item_id": "li_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+              "payment_link_line_item_key": "example",
+              "purchased_gift_cards": [
+                {
+                  "gift_card_id": "gc_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+                  "last4": "example",
+                  "unit_ordinal": 1
+                }
+              ],
+              "quantity": 1,
+              "refunded_money": {
+                "amount": "0",
+                "currency": "USD"
+              },
+              "refunded_quantity": 1,
+              "release_date": "2026-08-02",
+              "removed_quantity": 1,
+              "selected_options": [
+                {
+                  "option_id": "opt_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+                  "option_name": "example",
+                  "option_value_id": "optv_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+                  "value": "example"
+                }
+              ],
+              "subtotal_money": {
+                "amount": "0",
+                "currency": "USD"
+              },
+              "tax_money": {
+                "amount": "0",
+                "currency": "USD"
+              },
+              "total_money": {
+                "amount": "0",
+                "currency": "USD"
+              },
+              "type": "variant",
+              "unit_price_money": {
+                "amount": "0",
+                "currency": "USD"
+              }
+            }
+          ],
+          "merchant_id": "mer_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+          "order_id": "ord_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+          "paid_at": "2026-08-02T16:00:00Z",
+          "payment_intent_ids": [
+            "pi_01K1P6G4M7H2N8Q9R3S5T6V7WX"
+          ],
           "payment_status": "unpaid",
+          "prepayment_order_id": "ord_01KEZF7C0054GQKJ142A8X367A",
           "pricing_amounts": {
+            "additive_tax_money": {
+              "amount": "0",
+              "currency": "USD"
+            },
             "charge_money": {
               "amount": "0",
               "currency": "USD"
             },
             "discount_money": {
+              "amount": "0",
+              "currency": "USD"
+            },
+            "inclusive_tax_money": {
               "amount": "0",
               "currency": "USD"
             },
@@ -638,18 +1438,32 @@
             "total_money": {
               "amount": "0",
               "currency": "USD"
-            },
-            "additive_tax_money": {
-              "amount": "0",
-              "currency": "USD"
-            },
-            "inclusive_tax_money": {
-              "amount": "0",
-              "currency": "USD"
             }
           },
+          "refund_ids": [
+            "ref_01K1P6G4M7H2N8Q9R3S5T6V7WX"
+          ],
           "refund_status": "none",
+          "return_credit_settlements": [
+            {
+              "amount_money": {
+                "amount": "0",
+                "currency": "USD"
+              },
+              "created_at": "2026-08-02T16:00:00Z",
+              "return_id": "ret_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+              "return_resolution_id": "retres_01K1P6G4M7H2N8Q9R3S5T6V7WX"
+            }
+          ],
           "settlement_amounts": {
+            "dispute_lost_money": {
+              "amount": "0",
+              "currency": "USD"
+            },
+            "disputed_money": {
+              "amount": "0",
+              "currency": "USD"
+            },
             "net_collected_money": {
               "amount": "0",
               "currency": "USD"
@@ -674,6 +1488,10 @@
               "amount": "0",
               "currency": "USD"
             },
+            "removed_money": {
+              "amount": "0",
+              "currency": "USD"
+            },
             "settled_tip_money": {
               "amount": "0",
               "currency": "USD"
@@ -684,42 +1502,69 @@
             }
           },
           "status": "open",
+          "subscription_delivery_number": 2,
+          "supported_actions": [
+            "close"
+          ],
           "tax": {
-            "enabled": false,
-            "mode": "none",
-            "status": "none",
-            "taxability_reason": "none"
+            "enabled": true,
+            "mode": "automatic",
+            "status": "not_required"
           },
-          "buyer_actions": [],
-          "charges": [],
-          "checkout_session_ids": [],
-          "discounts": [],
-          "fulfillments": [],
-          "gift_card_settlements": [],
-          "gift_card_tender_enabled": false,
-          "gift_cards": [],
-          "payment_intent_ids": [],
-          "refund_ids": [],
-          "return_credit_settlements": [],
-          "tips": [],
-          "version": 1,
-          "governing_delivery_selection_id": null,
-          "created_at": "2026-08-02T16:00:00Z",
-          "deferred_promotions": [],
-          "merchant_id": "mer_01KEZF7C00KPYH1DDFPCCX3B6E",
-          "paid_at": null,
-          "updated_at": "2026-08-02T16:00:00Z"
+          "tips": [
+            {
+              "created_at": "2026-08-02T16:00:00Z",
+              "effective_amount_money": {
+                "amount": "0",
+                "currency": "USD"
+              },
+              "order_tip_id": "tip_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+              "payment_intent_allocations": [
+                {
+                  "amount_money": {
+                    "amount": "0",
+                    "currency": "USD"
+                  },
+                  "payment_intent_id": "pi_01K1P6G4M7H2N8Q9R3S5T6V7WX"
+                }
+              ],
+              "refunded_money": {
+                "amount": "0",
+                "currency": "USD"
+              },
+              "settled_amount_money": {
+                "amount": "0",
+                "currency": "USD"
+              },
+              "status": "requested",
+              "updated_at": "2026-08-02T16:00:00Z",
+              "value_settlement_allocations": [
+                {
+                  "amount_money": {
+                    "amount": "0",
+                    "currency": "USD"
+                  },
+                  "value_settlement_id": "ovst_01K1P6G4M7H2N8Q9R3S5T6V7WX"
+                }
+              ]
+            }
+          ],
+          "updated_at": "2026-08-02T16:00:00Z",
+          "version": 1
         }
       },
-      "request_id": "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D"
+      "meta": {
+        "api_version": "2026-09-07"
+      },
+      "request_id": "req_01KWM6AASYFSEP53E9W34N8J33"
     }
   },
   {
     "name": "effective mapping merchant",
-    "operation": "getCheckoutSessionCurrentDeliverySelection",
+    "operation": "getDeliverySelection",
     "baseUrl": "https://api.example.invalid",
     "input": {
-      "checkout_session_id": "cs_test"
+      "delivery_selection_id": "ds_01ARZ3NDEKTSV4RRFFQ69G5FAV"
     },
     "options": {
       "authMode": "merchant",
@@ -729,7 +1574,7 @@
     },
     "expected": {
       "method": "GET",
-      "path": "/v1/checkout-sessions/cs_test/delivery-selections/current",
+      "path": "/v1/delivery-selections/ds_01ARZ3NDEKTSV4RRFFQ69G5FAV",
       "headers": {
         "authorization": "Bearer merchant-test"
       },
@@ -741,17 +1586,59 @@
     "responses": [
       {
         "status": 200,
-        "body": "{\"data\":{\"audience\":\"merchant\",\"mutable\":true,\"source\":\"none\",\"delivery_selection\":null},\"request_id\":\"req_01KWM6WAHG3N9Q8T2V5XRZ7C4D\"}"
+        "body": "{\"data\":{\"amount_money\":{\"amount\":0,\"currency\":\"USD\"},\"choices\":[{\"amount_money\":{\"amount\":0,\"currency\":\"USD\"},\"delivery_choice_group_id\":\"dcgrp_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"delivery_method_id\":\"dmet_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"delivery_option_id\":\"dopt_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"delivery_plan\":{\"type\":\"single_delivery\"},\"name\":\"Standard delivery\",\"order_id\":\"ord_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"stable_key\":\"example\",\"total_money\":{\"amount\":0,\"currency\":\"USD\"},\"type\":\"shipment\"}],\"delivery_quote_id\":\"dqt_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"delivery_selection_id\":\"dsel_01K1P6G4M7H2N8Q9R3S5T6V7WX\",\"expires_at\":\"2026-08-02T16:00:00Z\",\"input_requirements\":[{\"constraint\":{\"type\":\"string\"},\"delivery_input_requirement_id\":\"req_0123456789abcdef\",\"field_path\":\"destination_address\",\"purpose\":\"quote\"}],\"status\":\"selected\",\"supported_actions\":[\"release\"]},\"meta\":{\"api_version\":\"2026-09-07\"},\"request_id\":\"req_01KWM6AASYFSEP53E9W34N8J33\"}"
       }
     ],
     "data": {
       "data": {
-        "audience": "merchant",
-        "mutable": true,
-        "source": "none",
-        "delivery_selection": null
+        "amount_money": {
+          "amount": "0",
+          "currency": "USD"
+        },
+        "choices": [
+          {
+            "amount_money": {
+              "amount": "0",
+              "currency": "USD"
+            },
+            "delivery_choice_group_id": "dcgrp_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+            "delivery_method_id": "dmet_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+            "delivery_option_id": "dopt_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+            "delivery_plan": {
+              "type": "single_delivery"
+            },
+            "name": "Standard delivery",
+            "order_id": "ord_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+            "stable_key": "example",
+            "total_money": {
+              "amount": "0",
+              "currency": "USD"
+            },
+            "type": "shipment"
+          }
+        ],
+        "delivery_quote_id": "dqt_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+        "delivery_selection_id": "dsel_01K1P6G4M7H2N8Q9R3S5T6V7WX",
+        "expires_at": "2026-08-02T16:00:00Z",
+        "input_requirements": [
+          {
+            "constraint": {
+              "type": "string"
+            },
+            "delivery_input_requirement_id": "req_0123456789abcdef",
+            "field_path": "destination_address",
+            "purpose": "quote"
+          }
+        ],
+        "status": "selected",
+        "supported_actions": [
+          "release"
+        ]
       },
-      "request_id": "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D"
+      "meta": {
+        "api_version": "2026-09-07"
+      },
+      "request_id": "req_01KWM6AASYFSEP53E9W34N8J33"
     }
   },
   {
@@ -1851,10 +2738,10 @@
   },
   {
     "name": "missing CheckoutSessionBearer",
-    "operation": "getCheckoutSessionCurrentDeliverySelection",
+    "operation": "getDeliverySelection",
     "baseUrl": "https://api.example.invalid",
     "input": {
-      "checkout_session_id": "cs_test"
+      "delivery_selection_id": "ds_01ARZ3NDEKTSV4RRFFQ69G5FAV"
     },
     "options": {
       "authMode": "checkout",
@@ -1870,10 +2757,10 @@
   },
   {
     "name": "empty CheckoutSessionBearer",
-    "operation": "getCheckoutSessionCurrentDeliverySelection",
+    "operation": "getDeliverySelection",
     "baseUrl": "https://api.example.invalid",
     "input": {
-      "checkout_session_id": "cs_test"
+      "delivery_selection_id": "ds_01ARZ3NDEKTSV4RRFFQ69G5FAV"
     },
     "options": {
       "authMode": "checkout",

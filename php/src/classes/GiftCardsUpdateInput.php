@@ -34,7 +34,7 @@ final class GiftCardsUpdateInput extends Model {
      */
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
-    /** The request body for: Update a gift card. Example: {"customer_id":null,"expected_version":2}.
+    /** The request body for: Update a gift card. minProperties: 1. Example: {"customer_id":null,"expected_version":2}.
      * @return array{'customer_id'?: string|null, 'expected_version'?: int, 'external_reference_id'?: string|null}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

@@ -8,12 +8,12 @@ namespace Flint;
 final class DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueCannotCalculateOptionExecutionLegsItem extends Model {
     /** @param array{'delivery_execution_leg_id': string, 'origin_location_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueCannotCalculateOptionExecutionLegsItem')); }
-    /** delivery_execution_leg_id
+    /** Unique ID of this leg.
      * @return string
      */
     public function getDeliveryExecutionLegId(): string { return $this->get('delivery_execution_leg_id'); }
     public function hasDeliveryExecutionLegId(): bool { return $this->has('delivery_execution_leg_id'); }
-    /** origin_location_id
+    /** ID of the Location the items leave from.
      * @return string
      */
     public function getOriginLocationId(): string { return $this->get('origin_location_id'); }

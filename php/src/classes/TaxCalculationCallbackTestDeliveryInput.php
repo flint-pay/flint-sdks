@@ -26,7 +26,7 @@ final class TaxCalculationCallbackTestDeliveryInput extends Model {
      */
     public function getHttpStatusCode(): int { return $this->get('http_status_code'); }
     public function hasHttpStatusCode(): bool { return $this->has('http_status_code'); }
-    /** ID of the HMAC signing key that signed this request. Empty for a JWT-only callback, which has no shared secret. Example: "cbkey_00112233445566778899aabb".
+    /** ID of the HMAC signing key that signed this request, as sent in the Flint-Signing-Key-Ids header. Empty for a JWT-only callback, which has no shared secret. Example: "cbkey_00112233445566778899aabb".
      * @return string
      * @throws SdkError When key_id is omitted; use hasKeyId() or valueOrDefault().
      */

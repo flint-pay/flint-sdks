@@ -2,10 +2,12 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read list<string> $canceled_subscription_ids
  * @property-read string $customer_deletion_request_id
  * @property-read string $customer_id
  * @property-read string|\DateTimeInterface|null $decided_at
  * @property-read string|null $decision_reason
+ * @property-read list<string> $removed_payment_method_ids
  * @property-read string|\DateTimeInterface $requested_at
  * @property-read string|null $requested_by
  * @property-read string|\DateTimeInterface $resolved_at
@@ -15,8 +17,14 @@ namespace Flint;
  * @property-read list<string> $supported_actions
  * Presence-aware input; omitted fields throw when accessed. */
 final class CustomerDeletionRequestInput extends Model {
-    /** @param array{'customer_deletion_request_id': string, 'customer_id': string, 'decided_at': string|\DateTimeInterface|null, 'decision_reason': string|null, 'requested_at': string|\DateTimeInterface, 'requested_by': string|null, 'resolved_at'?: string|\DateTimeInterface, 'response_due_at': string|\DateTimeInterface, 'retention_policy': string, 'status': string, 'supported_actions': list<string>, ...}|object $values */
+    /** @param array{'canceled_subscription_ids': list<string>, 'customer_deletion_request_id': string, 'customer_id': string, 'decided_at': string|\DateTimeInterface|null, 'decision_reason': string|null, 'removed_payment_method_ids': list<string>, 'requested_at': string|\DateTimeInterface, 'requested_by': string|null, 'resolved_at'?: string|\DateTimeInterface, 'response_due_at': string|\DateTimeInterface, 'retention_policy': string, 'status': string, 'supported_actions': list<string>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerDeletionRequestInput')); }
+    /** Subscription IDs whose immediate cancellation completed for this request, sorted by ID. Empty when none have completed. Read the request again while processing to see progress. [] (Value): string. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
+     * @return list<string>
+     * @throws SdkError When canceled_subscription_ids is omitted; use hasCanceledSubscriptionIds() or valueOrDefault().
+     */
+    public function getCanceledSubscriptionIds(): array { return $this->get('canceled_subscription_ids'); }
+    public function hasCanceledSubscriptionIds(): bool { return $this->has('canceled_subscription_ids'); }
     /** Stable ID of the tracked deletion request. Use it to retrieve the review and erasure status. Example: "cdel_01KEZF7C009P94WEXW5RMRFXAY".
      * @return string
      * @throws SdkError When customer_deletion_request_id is omitted; use hasCustomerDeletionRequestId() or valueOrDefault().
@@ -41,6 +49,12 @@ final class CustomerDeletionRequestInput extends Model {
      */
     public function getDecisionReason(): string|null { return $this->get('decision_reason'); }
     public function hasDecisionReason(): bool { return $this->has('decision_reason'); }
+    /** Payment method IDs whose archival completed for this request, sorted by ID. Empty when none have completed. Read the request again while processing to see progress. [] (Value): string. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
+     * @return list<string>
+     * @throws SdkError When removed_payment_method_ids is omitted; use hasRemovedPaymentMethodIds() or valueOrDefault().
+     */
+    public function getRemovedPaymentMethodIds(): array { return $this->get('removed_payment_method_ids'); }
+    public function hasRemovedPaymentMethodIds(): bool { return $this->has('removed_payment_method_ids'); }
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When requested_at is omitted; use hasRequestedAt() or valueOrDefault().

@@ -103,7 +103,7 @@ Signature: `delete(string|Model $promotion_id, array|Model|null $params = null, 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `promotion_id` | Required | string | Flint promotion ID. |
-| `expected_version` | Optional | integer | Optional resource version last read by the caller. Format: `uint64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Optional resource version last read by the caller. Format: `uint64`. minimum: `1`. maximum: `9007199254740991`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -177,6 +177,7 @@ Returned payload: [Promotion](../models/Promotion.md#promotion).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -217,9 +218,9 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 | `availability` | Optional | Array of string or string | Filter by whether a promotion can apply now or why it cannot. available matches available: true; every other value matches unavailable_reason. This filter is ANDed with status. Archived promotions still require status=archived. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"available"`, `"inactive"`, `"archived"`, `"not_yet_started"`, `"expired"`, `"exhausted"`, `"no_active_codes"`. Values: `"available"`, `"inactive"`, `"archived"`, `"not_yet_started"`, `"expired"`, `"exhausted"`, `"no_active_codes"`. |
 | `external_reference_id` | Optional | string | Exact-match filter on the caller-owned external reference ID. minLength: `1`. maxLength: `255`. |
 | `query` | Optional | string | Search across promotion ID, external reference ID, name, display name, description, and promotion codes. Text fields match any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the start and need the type prefix, such as promo_01. |
-| `product_id` | Optional | string | Filter to promotions with an explicit product target rule. Universal promotions are not included by catalog target filters. |
-| `variant_id` | Optional | string | Filter to promotions with an explicit variant target rule. Universal promotions are not included by catalog target filters. |
-| `bundle_id` | Optional | string | Filter to promotions with an explicit bundle target rule. Universal promotions are not included by catalog target filters. |
+| `product_id` | Optional | string | Filter to promotions with an explicit product target rule. Universal promotions are not included by catalog target filters. pattern: `^prod_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `variant_id` | Optional | string | Filter to promotions with an explicit variant target rule. Universal promotions are not included by catalog target filters. pattern: `^var_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `bundle_id` | Optional | string | Filter to promotions with an explicit bundle target rule. Universal promotions are not included by catalog target filters. pattern: `^bun_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `category_handle` | Optional | string | Filter to promotions with an explicit category target rule. Universal promotions are not included by catalog target filters. maxLength: `100`. pattern: `^[a-z0-9]+(-[a-z0-9]+)*$`. |
 | `redemption_type` | Optional | Array of string or string | Filter by promotion redemption type. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"automatic"`, `"code"`. Values: `"automatic"`, `"code"`. |
 | `discount_class` | Optional | Array of string or string | Filter by promotion discount class. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"order"`, `"line_item"`, `"service_charge"`. Values: `"order"`, `"line_item"`, `"service_charge"`. |
@@ -244,6 +245,7 @@ Returned payload: [PromotionListResponse](../models/PromotionListResponse.md#pro
 | 400 | InvalidRequestError |
 | 401 | AuthenticationError |
 | 403 | PermissionError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -284,7 +286,7 @@ Signature: `update(string|Model $promotion_id, array|Model $params, ?RequestOpti
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
-| `body` | Required | [UpdatePromotionRequestInput](../models/UpdatePromotionRequestInput.md#updatepromotionrequestinput) | The request body for: Update promotion. |
+| `body` | Required | [UpdatePromotionRequestInput](../models/UpdatePromotionRequestInput.md#updatepromotionrequestinput) | The request body for: Update promotion. minProperties: `1`. |
 
 Body model: [UpdatePromotionRequestInput](../models/UpdatePromotionRequestInput.md#updatepromotionrequestinput).
 

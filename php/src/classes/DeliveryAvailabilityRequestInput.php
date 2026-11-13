@@ -13,19 +13,19 @@ namespace Flint;
 final class DeliveryAvailabilityRequestInput extends Model {
     /** @param array{'blackout_intervals'?: list<DeliveryBlackoutIntervalRequestInput|array<array-key, mixed>|\stdClass>, 'dst_disambiguation'?: string, 'maximum_scheduling_horizon_days': int, 'preparation_lead_time_seconds': int, 'same_day_cutoff_minute'?: int, 'timezone': string, 'weekly_intervals': list<DeliveryWeeklyIntervalRequestInput|array<array-key, mixed>|\stdClass>}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryAvailabilityRequestInput')); }
-    /**  [] (Value): {@see DeliveryBlackoutIntervalRequestInput}. A local start and end time during which a delivery schedule offers no windows.
+    /** Local date-time spans in which no window is offered. [] (Value): {@see DeliveryBlackoutIntervalRequestInput}. A local start and end time during which a delivery schedule offers no windows.
      * @return list<DeliveryBlackoutIntervalRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When blackout_intervals is omitted; use hasBlackoutIntervals() or valueOrDefault().
      */
     public function getBlackoutIntervals(): array { return $this->get('blackout_intervals'); }
     public function hasBlackoutIntervals(): bool { return $this->has('blackout_intervals'); }
-    /** Default: "earlier". Value enum: "earlier", "later".
+    /** Which of the two instants a local time means when a clock change makes it happen twice. Defaults to `earlier`. Default: "earlier". Value enum: "earlier", "later".
      * @return string
      * @throws SdkError When dst_disambiguation is omitted; use hasDstDisambiguation() or valueOrDefault().
      */
     public function getDstDisambiguation(): string { return $this->get('dst_disambiguation'); }
     public function hasDstDisambiguation(): bool { return $this->has('dst_disambiguation'); }
-    /** maximum_scheduling_horizon_days
+    /** How many days ahead windows are offered, from 1 to 365.
      * @return int
      * @throws SdkError When maximum_scheduling_horizon_days is omitted; use hasMaximumSchedulingHorizonDays() or valueOrDefault().
      */
@@ -37,7 +37,7 @@ final class DeliveryAvailabilityRequestInput extends Model {
      */
     public function getPreparationLeadTimeSeconds(): int { return $this->get('preparation_lead_time_seconds'); }
     public function hasPreparationLeadTimeSeconds(): bool { return $this->has('preparation_lead_time_seconds'); }
-    /** same_day_cutoff_minute
+    /** Minute of the day, from 0 to 1439 in the schedule's timezone, after which today's windows are no longer offered. Omit it to apply no cutoff.
      * @return int
      * @throws SdkError When same_day_cutoff_minute is omitted; use hasSameDayCutoffMinute() or valueOrDefault().
      */
@@ -49,7 +49,7 @@ final class DeliveryAvailabilityRequestInput extends Model {
      */
     public function getTimezone(): string { return $this->get('timezone'); }
     public function hasTimezone(): bool { return $this->has('timezone'); }
-    /**  [] (Value): {@see DeliveryWeeklyIntervalRequestInput}. A recurring weekly span, from a start weekday and minute to an end weekday and minute, used in a delivery method's availability schedule.
+    /** One to 100 weekly spans in which windows are offered. They cannot overlap. [] (Value): {@see DeliveryWeeklyIntervalRequestInput}. A recurring weekly span, from a start weekday and minute to an end weekday and minute, used in a delivery method's availability schedule.
      * @return list<DeliveryWeeklyIntervalRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When weekly_intervals is omitted; use hasWeeklyIntervals() or valueOrDefault().
      */

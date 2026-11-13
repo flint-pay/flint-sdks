@@ -1,7 +1,7 @@
-import { d172 as c0 } from '../descriptors/data/7.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
-import { d172 as d172 } from '../descriptors/data/7.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d178 as c0 } from '../descriptors/data/7.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d178 as d178 } from '../descriptors/data/7.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d172;
+const read = d178;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["CompleteReturnRequest"]:c0()}); }
 export { codec as _validate };

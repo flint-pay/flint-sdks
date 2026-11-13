@@ -14,9 +14,9 @@ Request input.
 | `courier_provider_name` | Optional | string or null | Delivery network or merchant fleet provider handling the job. Send null to clear it. minLength: `1`. maxLength: `255`. |
 | `courier_support_phone` | Optional | string or null | Buyer-safe support number for the courier or merchant fleet. Send null to clear it. minLength: `1`. maxLength: `30`. |
 | `delivered_at` | Optional | string or null | RFC3339 timestamp. Send null to clear it. Format: `date-time`. minLength: `1`. Example: `"2026-08-02T16:00:00Z"`. |
+| `delivery_due_at` | Optional | string or null | Time by which the order should be delivered. Passing it does not change status or emit an event automatically; the merchant decides how to follow up. Send null to clear it. Format: `date-time`. minLength: `1`. Example: `"2026-08-02T16:00:00Z"`. |
 | `dispatched_at` | Optional | string or null | RFC3339 timestamp. Send null to clear it. Format: `date-time`. minLength: `1`. Example: `"2026-08-02T16:00:00Z"`. |
 | `dropoff_notes` | Optional | string or null | Driver-facing notes for the final handoff. Send null to clear it. minLength: `1`. maxLength: `2048`. |
-| `expires_at` | Optional | string or null | Deadline after which an undelivered job should enter merchant review. Send null to clear it. Format: `date-time`. minLength: `1`. Example: `"2026-08-02T16:00:00Z"`. |
 | `external_delivery_id` | Optional | string or null | Stable delivery job ID owned by the courier or merchant dispatch system. Send null to clear it. minLength: `1`. maxLength: `255`. Example: `"warehouse-1842"`. |
 | `instructions` | Optional | string or null | Send null to clear it. minLength: `1`. |
 | `no_contact` | Optional | boolean or null | Whether the buyer requested a no-contact handoff. |

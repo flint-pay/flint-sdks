@@ -16,7 +16,7 @@ final class RiskRulesDeleteInput extends Model {
      */
     public function getRiskRuleId(): string { return $this->get('risk_rule_id'); }
     public function hasRiskRuleId(): bool { return $this->has('risk_rule_id'); }
-    /** Optional risk rule version last read by the caller. Format: int64. minimum: 1.
+    /** Optional risk rule version last read by the caller. Format: int64. minimum: 1. maximum: 9007199254740991.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */

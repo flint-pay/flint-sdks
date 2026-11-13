@@ -12,8 +12,8 @@ import type {
 } from '../declarations/types-0.js';
 import type { ClientOptions } from '../declarations/types-6.js';
 import type { CreateAPIKeyResponse } from '../declarations/types-7.js';
-import type { RequestOptions } from '../declarations/types-51.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+import type { RequestOptions } from '../declarations/types-53.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -37,35 +37,40 @@ export type {
     ApiKeysListParams,
     APIKeyListResponse,
     ApiKeysRevokeParams,
-    ApiKeysUpdateParams,
-    AuthMode
+    ApiKeysUpdateParams
 } from '../declarations/types-0.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
+export type { RequestOptions } from '../declarations/types-53.js';
 export type {
     CreateAPIKeyResponse,
     CreateAPIKeyRequestInput,
     CreateAPIKeyRequestFullInput,
     CreateAPIKeyRequestReadOnlyInput,
-    CreateAPIKeyRequestRestrictedInput
+    CreateAPIKeyRequestRestrictedInput,
+    ConfigurationVersionRequestInput
 } from '../declarations/types-7.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
-export type { ClientOptions, ConfigurationVersionRequestInput } from '../declarations/types-6.js';
-export type { Credentials } from '../declarations/types-13.js';
-export type { NextAction, MoneyValue } from '../declarations/types-37.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
-export type { UpdateAPIKeyRequestInput } from '../declarations/types-62.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
+export type { ClientOptions } from '../declarations/types-6.js';
+export type { AuthMode } from '../declarations/types-1.js';
+export type { Credentials } from '../declarations/types-14.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
+export type { NextAction, MoneyValue } from '../declarations/types-38.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
+export type { UpdateAPIKeyRequestInput } from '../declarations/types-65.js';
 export {
     makeConfigurationVersionRequest,
     makeCreateAPIKeyRequest,
     makeCreateAPIKeyRequestFull,
     makeCreateAPIKeyRequestReadOnly,
     makeCreateAPIKeyRequestRestricted
-} from '../declarations/types-68.js';
-export { makeMoneyValue } from '../declarations/types-75.js';
-export { makeUpdateAPIKeyRequest } from '../declarations/types-79.js';
+} from '../declarations/types-71.js';
+export { makeMoneyValue } from '../declarations/types-78.js';
+export { makeUpdateAPIKeyRequest } from '../declarations/types-83.js';
 export interface ApiKeysResource {
     /**
- * Creates a merchant-bound external API key. secret_key is returned only in the initial successful
+ * Creates a merchant-bound external API key. A live credential creates a live key, or a test key
+ * bound to the sandbox named by sandbox_id. A sandbox-bound credential, such as a test key,
+ * creates test keys in its own sandbox only. An onboarding session creates its merchant's first
+ * keys here, in its default sandbox. secret_key is returned only in the initial successful
  * response and accepted idempotent replays of the same create request.
  *
  * `POST /v1/api-keys`
@@ -78,7 +83,7 @@ export interface ApiKeysResource {
  * orders integration", scopes: ["accounts.api_keys.read", "commerce.orders.read",
  * "commerce.orders.write"]}, { idempotencyKey: idempotencyKey })
  */
-    create(params: ApiKeysCreateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<APIKeyWithSecret, CreateAPIKeyResponse>>;
+    create(params: ApiKeysCreateParams, options?: RequestOptions<"merchant" | "onboarding">): Promise<WithResponseInfo<APIKeyWithSecret, CreateAPIKeyResponse>>;
     /**
  * Returns external API key metadata. Secrets, internal keys, and demo-session keys are not
  * returned.

@@ -107,8 +107,10 @@ export declare function directionalSchema(schema: Schema, response: boolean): Sc
 export declare function compileCodec(schema: Schema): CodecPlan;
 /** Proven tag routing only. A discriminator hint never creates schema constraints. */
 export declare function discriminatorBindings(schema: Schema): Record<string, number> | undefined;
+/** A null-only proof that does not close open response enums. */
+export declare function nullOnlySchema(schema: Schema, depth?: number): boolean;
 /** Nullable wrappers describe one known value, rather than future response variants.
- * Stay conservative: require one explicitly non-null branch and a plain null branch.
+ * Stay conservative: require one explicitly non-null branch and a provably null-only branch.
  */
 export declare function nullableAlternative(schema: Schema): 0 | 1 | undefined;
 export declare const ANY_CODEC: CodecPlan;

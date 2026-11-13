@@ -32,7 +32,7 @@ The request body for: Create payment link.
 | `payment_link_type` | Optional | string | Payment link type. Omit to use standard. Explicit values must be standard, donation, or event; empty or padded values are invalid. Default: `"standard"`. Values: `"standard"`, `"donation"`, `"event"`. |
 | `payments` | Optional | [CheckoutPaymentConfig](../models/CheckoutPaymentConfig.md#checkoutpaymentconfig) | Payment options for checkouts started from this link. Payment settings on a payment link: the enabled payment options and a note shown with payment. `payments`: [field definitions](../models/CreatePaymentLinkRequest.md#createpaymentlinkrequestpayments). |
 | `promotion_config` | Optional | [CheckoutPromotionConfig](../models/CheckoutPromotionConfig.md#checkoutpromotionconfig) | Whether automatic promotions apply to checkouts started from this link and whether buyers can enter promotion codes. Promotion settings for a checkout: whether automatic promotions apply and whether the buyer can apply promotion codes. `promotion_config`: [field definitions](../models/CreatePaymentLinkRequest.md#createpaymentlinkrequestpromotion_config). |
-| `redirects` | Optional | [CheckoutRedirects](../models/CheckoutRedirects.md#checkoutredirects) | Where checkout sessions started from this payment link send the buyer after payment, cancellation, or expiration. Where hosted checkout sends the buyer. Not allowed when surface is embedded; use payment_return_url. `redirects`: [field definitions](../models/CreatePaymentLinkRequest.md#createpaymentlinkrequestredirects). |
+| `redirects` | Optional | [CheckoutRedirects](../models/CheckoutRedirects.md#checkoutredirects) | Where checkout sessions started from this payment link send the buyer after payment, cancellation, or expiration. Where hosted checkout sends the buyer. Not allowed when surface is headless; use payment_return_url. `redirects`: [field definitions](../models/CreatePaymentLinkRequest.md#createpaymentlinkrequestredirects). |
 | `sales_end_at` | Optional | string | RFC3339 timestamp after which the link stops starting checkouts and resolve fails with `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end on their own, except that an event link without sales_end_at stops selling at event_config.event_at. A checkout opened before the end can still start payment for up to 15 minutes after it. Format: `date-time`. minLength: `1`. Example: `"2026-08-02T16:00:00Z"`. |
 | `subscription_plan_id` | Optional | string | minLength: `1`. Example: `"plan_01KEZF7C004CY5ZR33XST2AASV"`. |
 | `tax` | Optional | [CheckoutTaxConfig](../models/CheckoutTaxConfig.md#checkouttaxconfig) | Tax settings for checkouts started from this link. Whether tax is collected for a checkout session or payment link. `tax`: [field definitions](../models/CreatePaymentLinkRequest.md#createpaymentlinkrequesttax). |
@@ -91,7 +91,7 @@ Field definitions: [shared fields](CheckoutPromotionConfig.md#checkoutpromotionc
 
 ### CreatePaymentLinkRequest.redirects
 
-Where checkout sessions started from this payment link send the buyer after payment, cancellation, or expiration. Where hosted checkout sends the buyer. Not allowed when surface is embedded; use payment_return_url.
+Where checkout sessions started from this payment link send the buyer after payment, cancellation, or expiration. Where hosted checkout sends the buyer. Not allowed when surface is headless; use payment_return_url.
 
 Field definitions: [shared fields](CheckoutRedirectsRequestInput.md#checkoutredirectsrequestinput).
 
@@ -99,9 +99,11 @@ Field definitions: [shared fields](CheckoutRedirectsRequestInput.md#checkoutredi
 
 Tax settings for checkouts started from this link. Whether tax is collected for a checkout session or payment link.
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `enabled` | Optional | boolean | Whether Flint calculates automatic tax on the order it creates for this checkout. Omit to use tax.default_enabled from your settings. |
+Field definitions: [shared fields](CreateCheckoutSessionQuickPay.md#createcheckoutsessionquickpaytax).
+
+### CreatePaymentLinkRequest.tax.calculation
+
+Field definitions: [CheckoutTaxConfig variant 2.calculation](../models/CheckoutTaxConfig.md#checkouttaxconfig-variant-2calculation).
 
 ### CreatePaymentLinkRequest.theme
 

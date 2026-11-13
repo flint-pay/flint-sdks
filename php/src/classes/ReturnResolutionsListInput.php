@@ -30,7 +30,7 @@ final class ReturnResolutionsListInput extends Model {
      */
     public function getActionRequiredBy(): mixed { return $this->get('action_required_by'); }
     public function hasActionRequiredBy(): bool { return $this->has('action_required_by'); }
-    /** Filter by corrects return resolution id. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
+    /** Filter by corrects return resolution id. pattern: ^retres_[0-9A-HJKMNP-TV-Z]{26}$. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
      * @return string
      * @throws SdkError When corrects_return_resolution_id is omitted; use hasCorrectsReturnResolutionId() or valueOrDefault().
      */
@@ -78,19 +78,19 @@ final class ReturnResolutionsListInput extends Model {
      */
     public function getResolutionType(): mixed { return $this->get('resolution_type'); }
     public function hasResolutionType(): bool { return $this->has('resolution_type'); }
-    /** Filter by return id. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+    /** Filter by return id. pattern: ^ret_[0-9A-HJKMNP-TV-Z]{26}$. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
      * @return string
      * @throws SdkError When return_id is omitted; use hasReturnId() or valueOrDefault().
      */
     public function getReturnId(): string { return $this->get('return_id'); }
     public function hasReturnId(): bool { return $this->has('return_id'); }
-    /** Filter by return line item id. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
+    /** Filter by return line item id. pattern: ^retli_[0-9A-HJKMNP-TV-Z]{26}$. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
      * @return string
      * @throws SdkError When return_line_item_id is omitted; use hasReturnLineItemId() or valueOrDefault().
      */
     public function getReturnLineItemId(): string { return $this->get('return_line_item_id'); }
     public function hasReturnLineItemId(): bool { return $this->has('return_line_item_id'); }
-    /** Filter by return policy revision id. Example: "rpolv_01KEZF7C007AWH6P4QC14Q25TC".
+    /** Filter by return policy revision id. pattern: ^rpolv_[0-9A-HJKMNP-TV-Z]{26}$. Example: "rpolv_01KEZF7C007AWH6P4QC14Q25TC".
      * @return string
      * @throws SdkError When return_policy_revision_id is omitted; use hasReturnPolicyRevisionId() or valueOrDefault().
      */

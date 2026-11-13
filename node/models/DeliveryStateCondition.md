@@ -17,13 +17,13 @@
 
 anyOf variant 1: Declared schema DeliveryCountryCondition. A delivery eligibility condition that matches when the address country is one of `values`..
 
-- Constraints for `values`: Example: `["US"]`.
+- Constraints for `values`: ISO 3166-1 alpha-2 country codes, such as `US`. The address matches when its country is one of them. Example: `["US"]`.
 
 ### DeliveryStateCondition variant 2
 
 anyOf variant 2: Declared schema DeliveryCountryConditionRequest. A delivery eligibility condition that matches when the address country is one of `values`..
 
-- Constraints for `values`: Example: `["US"]`.
+- Constraints for `values`: ISO 3166-1 alpha-2 country codes, such as `US`. The address matches when its country is one of them. Example: `["US"]`.
 
 ### DeliveryStateCondition variant 3
 

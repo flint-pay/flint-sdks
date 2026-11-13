@@ -1,0 +1,1 @@
+{"shared":"MerchantSignupTerms","phpRepresentation":{"kind":"record","fields":{"url":{"kind":"value","type":"string"},"version":{"kind":"value","type":"string"}}},"dependencies":["MerchantSignupTerms"]}

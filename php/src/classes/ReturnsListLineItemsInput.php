@@ -23,7 +23,7 @@ final class ReturnsListLineItemsInput extends Model {
      */
     public function getReturnId(): string { return $this->get('return_id'); }
     public function hasReturnId(): bool { return $this->has('return_id'); }
-    /** Filter by fulfillment id. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
+    /** Filter by fulfillment id. pattern: ^ful_[0-9A-HJKMNP-TV-Z]{26}$. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
      * @return string
      * @throws SdkError When fulfillment_id is omitted; use hasFulfillmentId() or valueOrDefault().
      */
@@ -35,7 +35,7 @@ final class ReturnsListLineItemsInput extends Model {
      */
     public function getMerchandiseStatus(): mixed { return $this->get('merchandise_status'); }
     public function hasMerchandiseStatus(): bool { return $this->has('merchandise_status'); }
-    /** Filter by order line item id. Example: "li_01KEZF7C008YPRCK7VDKTGWR31".
+    /** Filter by order line item id. pattern: ^li_[0-9A-HJKMNP-TV-Z]{26}$. Example: "li_01KEZF7C008YPRCK7VDKTGWR31".
      * @return string
      * @throws SdkError When order_line_item_id is omitted; use hasOrderLineItemId() or valueOrDefault().
      */
@@ -59,7 +59,7 @@ final class ReturnsListLineItemsInput extends Model {
      */
     public function getResolutionStatus(): mixed { return $this->get('resolution_status'); }
     public function hasResolutionStatus(): bool { return $this->has('resolution_status'); }
-    /** Filter by return reason id. Example: "rrsn_01KEZF7C00SEE2T4EYP1NXAH3E".
+    /** Filter by return reason id. pattern: ^rrsn_[0-9A-HJKMNP-TV-Z]{26}$. Example: "rrsn_01KEZF7C00SEE2T4EYP1NXAH3E".
      * @return string
      * @throws SdkError When return_reason_id is omitted; use hasReturnReasonId() or valueOrDefault().
      */

@@ -8,17 +8,17 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `constraint` | Required | [DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueRequiresCheckoutContextInputRequirementsItemConstraint](../models/DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueRequiresCheckoutContextInputRequirementsItemConstraint.md#deliverypreviewchoicegroupresourcecandidateoutcomesvaluerequirescheckoutcontextinputrequirementsitemconstraint) | The rules for an input a delivery method needs, chosen by `type`, such as allowed values, length limits, supported countries, or offered time windows. `constraint`: [field definitions](../models/DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueRequiresCheckoutContextInputRequirementsItem.md#deliverypreviewchoicegroupresourcecandidateoutcomesvaluerequirescheckoutcontextinputrequirementsitemconstraint-fields-1). |
-| `delivery_choice_group_ids` | Optional | Array of string |  |
-| `delivery_input_requirement_id` | Required | string |  |
-| `delivery_method_ids` | Optional | Array of string |  |
-| `delivery_option_ids` | Optional | Array of string |  |
+| `constraint` | Required | [DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueRequiresCheckoutContextInputRequirementsItemConstraint](../models/DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueRequiresCheckoutContextInputRequirementsItemConstraint.md#deliverypreviewchoicegroupresourcecandidateoutcomesvaluerequirescheckoutcontextinputrequirementsitemconstraint) | The rules the input must follow. The rules for an input a delivery method needs, chosen by `type`, such as allowed values, length limits, supported countries, or offered time windows. `constraint`: [field definitions](../models/DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueRequiresCheckoutContextInputRequirementsItem.md#deliverypreviewchoicegroupresourcecandidateoutcomesvaluerequirescheckoutcontextinputrequirementsitemconstraint-fields-1). |
+| `delivery_choice_group_ids` | Optional | Array of string | Choice groups that need this input. |
+| `delivery_input_requirement_id` | Required | string | Unique ID of this requirement. |
+| `delivery_method_ids` | Optional | Array of string | Delivery methods that need this input. |
+| `delivery_option_ids` | Optional | Array of string | Delivery options that need this input. Omitted when the requirement applies to the choice group or method as a whole. |
 | `field_path` | Required | string | Request property to fill in, using the same path as error params. Array templates use [] in place of an index. Values: [20 declared values](DeliveryInputRequirementInput.md#deliveryinputrequirementinput-field_path-values). |
-| `purpose` | Required | string | Values: `"quote"`, `"selection"`, `"pickup_availability"`. |
+| `purpose` | Required | string | When the input is needed. Values: `"quote"`, `"selection"`, `"pickup_availability"`. |
 
 ### DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueRequiresCheckoutContextInputRequirementsItem.constraint fields 1
 
-The rules for an input a delivery method needs, chosen by `type`, such as allowed values, length limits, supported countries, or offered time windows.
+The rules the input must follow. The rules for an input a delivery method needs, chosen by `type`, such as allowed values, length limits, supported countries, or offered time windows.
 
 Field definitions: [shared fields](CheckoutSessionResponse.md#checkoutsessionresponsedatadeliverychoice_groupscandidate_outcomesinput_requirementsconstraint).
 

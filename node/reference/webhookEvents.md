@@ -31,6 +31,7 @@ Returned payload: [WebhookEvent](../models/WebhookEvent.md#webhookevent).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -67,15 +68,15 @@ Signature: `list(params?: WebhookEventsListParams, options?: _SdkWithoutIdempote
 | --- | --- | --- | --- |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
-| `webhook_endpoint_id` | Optional | string | Filter to events that have a delivery for this webhook endpoint. |
+| `webhook_endpoint_id` | Optional | string | Filter to events that have a delivery for this webhook endpoint. pattern: `^whep_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `delivery_status` | Optional | Array of string or string | Filter to events that have a delivery with this status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"pending"`, `"delivered"`, `"failed"`, `"suppressed"`. Values: `"pending"`, `"delivered"`, `"failed"`, `"suppressed"`. |
 | `event_source` | Optional | Array of string or string | Filter by webhook event source. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"merchant"`, `"partner_app"`, `"installed_merchants"`. Values: `"merchant"`, `"partner_app"`, `"installed_merchants"`. |
-| `partner_app_id` | Optional | string | Filter by partner app ID for partner-source webhook events. |
-| `event_type` | Optional | Array of string or string | Filter by webhook event type. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [275 declared values](../models/CreateWebhookTestEventRequest.md#createwebhooktesteventrequest-event_type-values). Values: [275 declared values](../models/CreateWebhookTestEventRequest.md#createwebhooktesteventrequest-event_type-values). |
-| `resource_type` | Optional | Array of string or string | Filter by affected resource type. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [74 declared values](#webhookeventslist-input-resource_type--values). Values: [74 declared values](#webhookeventslist-input-resource_type--values). |
-| `resource_id` | Optional | string | Filter by affected resource ID. |
-| `api_request_log_id` | Optional | string | Filter by API request log ID associated with the event. |
-| `request_id` | Optional | string | Filter by request ID associated with the event. |
+| `partner_app_id` | Optional | string | Filter by partner app ID for partner-source webhook events. pattern: `^papp_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `event_type` | Optional | Array of string or string | Filter by webhook event type. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [291 declared values](../models/CreateWebhookTestEventRequest.md#createwebhooktesteventrequest-event_type-values). Values: [291 declared values](../models/CreateWebhookTestEventRequest.md#createwebhooktesteventrequest-event_type-values). |
+| `resource_type` | Optional | Array of string or string | Filter by affected resource type. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [79 declared values](#webhookeventslist-input-resource_type--values). Values: [79 declared values](#webhookeventslist-input-resource_type--values). |
+| `resource_id` | Optional | string | Filter by affected resource ID. pattern: `^((ad\|afri\|ba\|bag\|bal\|bam\|baoa\|basa\|bav\|bepevt\|betr\|bses\|btxn\|bue\|bun\|bunc\|bup\|busrc\|caddr\|cagr\|capsnap\|catid\|ccaevt\|ccop\|cdel\|cdom\|cecr\|ch\|clg\|clla\|cn\|cna\|cnart\|cnlease\|cnli\|cnmut\|cof\|cpoc\|cpop\|cs\|cscv\|cses\|cslimr\|csrt\|ctex\|ctg\|cus\|cver\|dca\|dcb\|dcbr\|dcgrp\|ddiag\|defc\|deff\|demo\|dev\|dleg\|dls\|dlsr\|dmet\|dmetr\|dms\|dmsevt\|dmslink\|dmsopen\|dopt\|dp\|dprof\|dprofr\|dqt\|drate\|drev\|dreval\|dsel\|dsle\|dti\|du\|dzone\|dzoner\|edat\|edel\|egrt\|fbc\|fbr\|fev\|file\|fnt\|frw\|fsu\|ful\|fw\|fwad\|fwcmd\|fwcon\|fwpm\|fwss\|gc\|gcg\|gcl\|gcn\|gcpra\|gcr\|gct\|gfd\|hat\|hce\|hcr\|hev\|hin\|hlk\|hnt\|hrp\|hsl\|hsr\|hth\|hwm\|iacr\|iaevt\|iksevt\|iksop\|img\|indel\|inevt\|inlf\|inv\|inv_cmd\|invadj\|invapp\|invart\|invc\|invcln\|invi\|invl\|invlease\|invli\|invm\|invp\|invpa\|invpay\|invpv\|invr\|invrea\|invrec\|invrecln\|invrln\|invse\|invt\|invtr\|invtrln\|iomevt\|ipt\|ivat\|key\|li\|loc\|mac\|mace\|mbbal\|mbclaim\|mbe\|mbin\|mbout\|mca\|mcdchg\|mcdsub\|mcfr\|mcr\|mcra\|mcrecon\|mcrve\|menv\|mer\|mfa\|mfce\|mg\|mod\|mpafc\|mpagr\|mpfa\|mpfc\|mre\|mrecv\|mrp\|ms\|msa\|msg\|msinv\|msinvl\|mso\|msu\|mtac\|ntc\|ntf\|oacr\|oact\|oalk\|och\|ocra\|oed\|olim\|olimas\|olra\|omp\|opahold\|opaleg\|opaobs\|opaop\|opard\|oparp\|opasd\|opasgen\|opasm\|opasp\|opat\|opaum\|opcred\|opra\|oprhold\|opsa\|opt\|optv\|ord\|ordisp\|org\|orp\|orr\|otpial\|otra\|ovst\|pac\|pacr\|pact\|paog\|papp\|pasg\|pat\|patok\|pava\|pavc\|pcae\|pcal\|pcb\|pcfg\|pchkr\|pcode\|pcri\|pcrr\|pcsch\|pdest\|peat\|pendact\|pfbal\|pfbt\|pfee\|pfhi\|pfhold\|pfi\|pfinc\|pfloss\|pflrec\|pfpo\|pfr\|pfrb\|pfrf\|pfs\|phold\|pi\|pia\|pilm\|pinst\|piop\|pipf\|pkg\|pki\|pl\|plan\|plcf\|ple\|plli\|plog\|pm\|pmcr\|pmdom\|po\|poe\|polog\|ppac\|ppd\|pppa\|pppr\|ppta\|pra\|pref\|prl\|prlp\|prod\|promo\|prrc\|prt\|prtn\|psact\|pses\|pset\|psetop\|psinc\|psplit\|psrev\|psu\|pvimg\|pvlaunch\|pvscn\|pvses\|pvshare\|pvw\|ra\|rcs\|rdl\|rdr\|rdrcfg\|rdrpres\|recon\|ref\|rep\|ret\|retact\|retadj\|retcmd\|retdsp\|retfx\|retinli\|retins\|retli\|retrc\|retrcli\|retrepli\|retres\|retresli\|retshli\|rev\|rl\|rli\|rlia\|rliar\|rlima\|rlog\|rpoe\|rpol\|rpolv\|rprev\|rra\|rrq\|rrsn\|rta\|rtba\|rule\|sdmig\|sdts\|sdtu\|set\|sfba\|sfpd\|shp\|sli\|smf\|soffer\|spc\|spcc\|spli\|spol\|sppd\|spr\|ssu\|sub\|tac\|tcae\|tcb\|tcbr\|tce\|tclk\|tcn\|test\|tip\|tkt\|trg\|txb\|usr\|var\|watt\|wdel\|whcl\|whep\|whev\|whout\|whrc\|wid\|ws)_[0-9A-HJKMNP-TV-Z]{26}\|fwa_[A-Z2-7]+\|fwc_[A-Z2-7]+\|fwin_[0-9a-f]+\|req_([0-9a-f]+\|caller_supplied_rate\|pickup_distance_loc_[0-9A-HJKMNP-TV-Z]{26}))$`. |
+| `api_request_log_id` | Optional | string | Filter by API request log ID associated with the event. pattern: `^rlog_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `request_id` | Optional | string | Filter by request ID associated with the event. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
 | `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
 | `test` | Optional | boolean | Filter by whether the event is synthetic: true returns only synthetic test events, false excludes them. Omit to return all events. |
@@ -85,6 +86,7 @@ Signature: `list(params?: WebhookEventsListParams, options?: _SdkWithoutIdempote
 
 #### webhookEvents.list input resource_type [] values
 
+- `"api_key"`
 - `"balance"`
 - `"balance_transaction"`
 - `"bundle"`
@@ -136,14 +138,18 @@ Signature: `list(params?: WebhookEventsListParams, options?: _SdkWithoutIdempote
 - `"payment_link"`
 - `"payment_method"`
 - `"payment_review"`
+- `"payment_split"`
 - `"payout"`
 - `"payout_destination"`
 - `"payout_settings"`
+- `"platform_fee"`
+- `"platform_fee_payout"`
 - `"price_list"`
 - `"product"`
 - `"product_variant"`
 - `"promotion"`
 - `"promotion_code"`
+- `"reader"`
 - `"refund"`
 - `"report"`
 - `"return"`
@@ -172,6 +178,7 @@ Returned payload: [WebhookEventListResponse](../models/WebhookEventListResponse.
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -208,9 +215,9 @@ Signature: `stream(params?: WebhookEventsStreamParams, options?: _SdkWithoutIdem
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `event_type` | Optional | Array of string or string | Filter by canonical merchant webhook event type. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [269 declared values](#webhookeventsstream-input-event_type--values). Values: [269 declared values](#webhookeventsstream-input-event_type--values). |
+| `event_type` | Optional | Array of string or string | Filter by canonical merchant webhook event type. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [284 declared values](#webhookeventsstream-input-event_type--values). Values: [284 declared values](#webhookeventsstream-input-event_type--values). |
 | `test` | Optional | boolean | Filter by whether the event is synthetic: true returns only synthetic test events, false excludes them. Omit to return all events. |
-| `after_event_id` | Optional | string | Webhook event ID to resume after. Last-Event-ID is preferred when reconnecting. |
+| `after_event_id` | Optional | string | Webhook event ID to resume after. Last-Event-ID is preferred when reconnecting. pattern: `^whev_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Last-Event-ID` | Optional | string | Webhook event cursor received from the previous SSE connection. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
@@ -218,6 +225,9 @@ Signature: `stream(params?: WebhookEventsStreamParams, options?: _SdkWithoutIdem
 
 #### webhookEvents.stream input event_type [] values
 
+- `"api_key.created"`
+- `"api_key.revoked"`
+- `"api_key.updated"`
 - `"balance.updated"`
 - `"balance_transaction.created"`
 - `"balance_transaction.updated"`
@@ -251,20 +261,16 @@ Signature: `stream(params?: WebhookEventsStreamParams, options?: _SdkWithoutIdem
 - `"customer_deletion_request.processing"`
 - `"customer_deletion_request.rejected"`
 - `"customer_email_preferences.updated"`
-- `"delivery_location_set.activated"`
 - `"delivery_location_set.archived"`
 - `"delivery_location_set.created"`
-- `"delivery_location_set.deactivated"`
 - `"delivery_location_set.updated"`
 - `"delivery_method.activated"`
 - `"delivery_method.archived"`
 - `"delivery_method.created"`
 - `"delivery_method.deactivated"`
 - `"delivery_method.updated"`
-- `"delivery_profile.activated"`
 - `"delivery_profile.archived"`
 - `"delivery_profile.created"`
-- `"delivery_profile.deactivated"`
 - `"delivery_profile.updated"`
 - `"delivery_rate_callback.activated"`
 - `"delivery_rate_callback.archived"`
@@ -273,10 +279,8 @@ Signature: `stream(params?: WebhookEventsStreamParams, options?: _SdkWithoutIdem
 - `"delivery_rate_callback.updated"`
 - `"delivery_revocation.created"`
 - `"delivery_selection.committed"`
-- `"delivery_zone.activated"`
 - `"delivery_zone.archived"`
 - `"delivery_zone.created"`
-- `"delivery_zone.deactivated"`
 - `"delivery_zone.updated"`
 - `"dispute.created"`
 - `"dispute.inquiry_closed"`
@@ -303,6 +307,7 @@ Signature: `stream(params?: WebhookEventsStreamParams, options?: _SdkWithoutIdem
 - `"gift_card_redemption.updated"`
 - `"gift_card_transaction.created"`
 - `"inventory_count.applied"`
+- `"inventory_count.updated"`
 - `"inventory_level.shortage_detected"`
 - `"inventory_level.updated"`
 - `"inventory_receipt.created"`
@@ -314,11 +319,13 @@ Signature: `stream(params?: WebhookEventsStreamParams, options?: _SdkWithoutIdem
 - `"inventory_reservation.created"`
 - `"inventory_reservation.hold_expired"`
 - `"inventory_reservation.released"`
+- `"inventory_reservation.updated"`
 - `"inventory_transfer.closed"`
 - `"inventory_transfer.departed"`
 - `"inventory_transfer.lost"`
 - `"inventory_transfer.received"`
 - `"inventory_transfer.returned"`
+- `"inventory_transfer.updated"`
 - `"invoice.collection_block_resolved"`
 - `"invoice.collection_blocked"`
 - `"invoice.created"`
@@ -396,6 +403,11 @@ Signature: `stream(params?: WebhookEventsStreamParams, options?: _SdkWithoutIdem
 - `"payment_review.closed"`
 - `"payment_review.opened"`
 - `"payment_review.reopened"`
+- `"payment_split.canceled"`
+- `"payment_split.created"`
+- `"payment_split.failed"`
+- `"payment_split.succeeded"`
+- `"payment_split.updated"`
 - `"payout.canceled"`
 - `"payout.created"`
 - `"payout.failed"`
@@ -407,6 +419,13 @@ Signature: `stream(params?: WebhookEventsStreamParams, options?: _SdkWithoutIdem
 - `"payout_destination.disabled"`
 - `"payout_destination.updated"`
 - `"payout_settings.updated"`
+- `"platform_fee.canceled"`
+- `"platform_fee.created"`
+- `"platform_fee.succeeded"`
+- `"platform_fee.updated"`
+- `"platform_fee_payout.created"`
+- `"platform_fee_payout.failed"`
+- `"platform_fee_payout.succeeded"`
 - `"price_list.archived"`
 - `"price_list.created"`
 - `"price_list.updated"`
@@ -422,6 +441,9 @@ Signature: `stream(params?: WebhookEventsStreamParams, options?: _SdkWithoutIdem
 - `"promotion_code.archived"`
 - `"promotion_code.created"`
 - `"promotion_code.updated"`
+- `"reader.archived"`
+- `"reader.created"`
+- `"reader.updated"`
 - `"refund.created"`
 - `"refund.failed"`
 - `"refund.partially_succeeded"`

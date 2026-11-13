@@ -16,7 +16,7 @@ final class ProductsDeleteInput extends Model {
      */
     public function getProductId(): string { return $this->get('product_id'); }
     public function hasProductId(): bool { return $this->has('product_id'); }
-    /** Optional product version last read by the caller. Format: uint64. minimum: 1.
+    /** Optional product version last read by the caller. Format: uint64. minimum: 1. maximum: 9007199254740991.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */

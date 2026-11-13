@@ -5,9 +5,11 @@ namespace Flint;
  * @property-read string|null $buyer_note
  * @property-read string $catalog_price_behavior
  * @property-read string $customer_id
+ * @property-read array{'delivery_method_id': string, 'destination': SubscriptionDeliveryDestinationRequestInput|array<array-key, mixed>|\stdClass, 'expected_amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'inventory_reservation_ids'?: list<string>, 'recipient'?: DeliverySelectionRecipientRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object|null $delivery
  * @property-read array{'address': AddressRequestInput|array<array-key, mixed>|\stdClass, 'recipient'?: OrderDeliveryDestinationRecipientRequestInput|array<array-key, mixed>|\stdClass}|object|null $delivery_destination
  * @property-read int $expected_version
  * @property-read string|null $external_reference_id
+ * @property-read array{'location_id': string}|object|null $handover
  * @property-read string|null $internal_note
  * @property-read InventoryRoutingSourceRequestInput|array<array-key, mixed>|\stdClass $inventory_routing_source
  * @property-read array<array-key, string|null>|\stdClass|null $metadata
@@ -15,7 +17,7 @@ namespace Flint;
  * @property-read OrderTaxUpdateRequestInput|array<array-key, mixed>|\stdClass $tax
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrdersUpdateParams extends Model {
-    /** @param array{'buyer_note'?: string|null, 'catalog_price_behavior'?: string, 'customer_id'?: string, 'delivery_destination'?: array{'address': AddressRequestInput|array<array-key, mixed>|\stdClass, 'recipient'?: OrderDeliveryDestinationRecipientRequestInput|array<array-key, mixed>|\stdClass}|object|null, 'expected_version'?: int, 'external_reference_id'?: string|null, 'internal_note'?: string|null, 'inventory_routing_source'?: InventoryRoutingSourceRequestInput|array<array-key, mixed>|\stdClass, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'requested_tip'?: array{'amount_money': array{'amount': string, 'currency': string}|object, 'calculation_type': string, 'description'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'name'?: string, 'percent'?: int|float}|object|array{'amount_money'?: array{'amount': string, 'currency': string}|object, 'calculation_type': string, 'description'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'name'?: string, 'percent': int|float}|object|null, 'tax'?: OrderTaxUpdateRequestInput|array<array-key, mixed>|\stdClass, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
+    /** @param array{'buyer_note'?: string|null, 'catalog_price_behavior'?: string, 'customer_id'?: string, 'delivery'?: array{'delivery_method_id': string, 'destination': SubscriptionDeliveryDestinationRequestInput|array<array-key, mixed>|\stdClass, 'expected_amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'inventory_reservation_ids'?: list<string>, 'recipient'?: DeliverySelectionRecipientRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object|null, 'delivery_destination'?: array{'address': AddressRequestInput|array<array-key, mixed>|\stdClass, 'recipient'?: OrderDeliveryDestinationRecipientRequestInput|array<array-key, mixed>|\stdClass}|object|null, 'expected_version'?: int, 'external_reference_id'?: string|null, 'handover'?: array{'location_id': string}|object|null, 'internal_note'?: string|null, 'inventory_routing_source'?: InventoryRoutingSourceRequestInput|array<array-key, mixed>|\stdClass, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'requested_tip'?: array{'amount_money': array{'amount': string, 'currency': string}|object, 'calculation_type': string, 'description'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'name'?: string, 'percent'?: int|float}|object|array{'amount_money'?: array{'amount': string, 'currency': string}|object, 'calculation_type': string, 'description'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'name'?: string, 'percent': int|float}|object|null, 'tax'?: OrderTaxUpdateRequestInput|array<array-key, mixed>|\stdClass, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrdersUpdateParams')); }
     /** Buyer-provided note about this order, such as a gift message or purchase preference. Send null to clear it. minLength: 1. maxLength: 1000.
      * @return string|null
@@ -35,13 +37,19 @@ final class OrdersUpdateParams extends Model {
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
+    /** Complete replacement delivery preference. Omit to leave unchanged. Requires expected_version, orders-write and delivery-write. Send null to clear a provisional direct-order selection, its charge and hold. Draft invoice orders are allowed until issue; checkout-owned, subscription-owned, paid and locked orders are refused. Change delivery separately from delivery_destination, handover and shipping charge calculations. anyOf[1] (Value): {@see OrderDeliveryRequestInput}. Complete delivery preference to quote and select together with the order's delivery charge and inventory hold. anyOf[2] (Value): null.
+     * @return array{'delivery_method_id': string, 'destination': SubscriptionDeliveryDestinationRequestInput|array<array-key, mixed>|\stdClass, 'expected_amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'inventory_reservation_ids'?: list<string>, 'recipient'?: DeliverySelectionRecipientRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object|null
+     * @throws SdkError When delivery is omitted; use hasDelivery() or valueOrDefault().
+     */
+    public function getDelivery(): mixed { return $this->get('delivery'); }
+    public function hasDelivery(): bool { return $this->has('delivery'); }
     /** Complete replacement destination. Allowed while the order is open and unpaid and no delivery selection controls it. A merchant may also correct a paid subscription signup or renewal before shipment by sending expected_version, when the committed delivery methods remain eligible and shipping and tax totals stay the same. A paid destination cannot be cleared. Send null to clear an unpaid order's delivery destination. anyOf[1] (Value): {@see OrderDeliveryDestinationRequestInput}. The delivery destination you set when creating or updating an order, with an address and an optional recipient. anyOf[2] (Value): null.
      * @return array{'address': AddressRequestInput|array<array-key, mixed>|\stdClass, 'recipient'?: OrderDeliveryDestinationRecipientRequestInput|array<array-key, mixed>|\stdClass}|object|null
      * @throws SdkError When delivery_destination is omitted; use hasDeliveryDestination() or valueOrDefault().
      */
     public function getDeliveryDestination(): mixed { return $this->get('delivery_destination'); }
     public function hasDeliveryDestination(): bool { return $this->has('delivery_destination'); }
-    /** Order version from the last order read. Required when correcting a paid delivery destination. Optional for other updates; when supplied, the update fails if the order changed. Format: int64. minimum: 1.
+    /** Order version from the last order read. Required when sending delivery or correcting a paid delivery destination. Optional for other updates; when supplied, the update fails if the order changed. Format: int64. minimum: 1.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */
@@ -53,6 +61,12 @@ final class OrdersUpdateParams extends Model {
      */
     public function getExternalReferenceId(): string|null { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
+    /** Carry-out handover to set or replace. Allowed while the order is open, nothing is paid, and no checkout session or delivery selection controls its delivery. Can't be combined with delivery_destination. Send null to clear it. anyOf[1] (Value): {@see OrderHandoverRequestInput}. Every physical item is handed to the buyer at this location when the order is paid. Replaces a delivery selection. anyOf[2] (Value): null.
+     * @return array{'location_id': string}|object|null
+     * @throws SdkError When handover is omitted; use hasHandover() or valueOrDefault().
+     */
+    public function getHandover(): mixed { return $this->get('handover'); }
+    public function hasHandover(): bool { return $this->has('handover'); }
     /** Internal note about this order, visible only to the merchant. Send null to clear it. minLength: 1. maxLength: 1000.
      * @return string|null
      * @throws SdkError When internal_note is omitted; use hasInternalNote() or valueOrDefault().
@@ -71,13 +85,13 @@ final class OrdersUpdateParams extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Requested tip to set or replace. Send null to clear the current requested tip. anyOf[1] (Value): {@see CreateOrderTipInput}. Requested tip expressed as either a flat amount or a percentage. Send exactly one of amount_money or percent. anyOf[2] (Value): null.
+    /** Requested tip to set or replace. Send null to clear the current requested tip. Refused with ACTION_NOT_ALLOWED and reason payment_collected once a payment's capture has set its own tip. anyOf[1] (Value): {@see CreateOrderTipInput}. Requested tip expressed as either a flat amount or a percentage. Send exactly one of amount_money or percent. anyOf[2] (Value): null.
      * @return array{'amount_money': array{'amount': string, 'currency': string}|object, 'calculation_type': string, 'description'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'name'?: string, 'percent'?: int|float}|object|array{'amount_money'?: array{'amount': string, 'currency': string}|object, 'calculation_type': string, 'description'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'name'?: string, 'percent': int|float}|object|null
      * @throws SdkError When requested_tip is omitted; use hasRequestedTip() or valueOrDefault().
      */
     public function getRequestedTip(): mixed { return $this->get('requested_tip'); }
     public function hasRequestedTip(): bool { return $this->has('requested_tip'); }
-    /** Tax settings for the order. Changes to an order's tax settings: whether tax is enabled, the calculation, the location, and per-line-item or per-charge calculations.
+    /** Tax settings for the order. Changes to an order's tax settings: whether tax is enabled, the calculation, the location, the exemption selection, and per-line-item or per-charge calculations.
      * @return OrderTaxUpdateRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When tax is omitted; use hasTax() or valueOrDefault().
      */

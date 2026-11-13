@@ -8,12 +8,15 @@ namespace Flint;
  * @property-read int $contract_term_months
  * @property-read string|\DateTimeInterface $created_at
  * @property-read string $currency
+ * @property-read string|null $delivery_interval
+ * @property-read int|null $delivery_interval_count
  * @property-read list<SubscriptionDeliveryMethodCountsInput|array<array-key, mixed>|\stdClass> $delivery_method_subscription_counts
  * @property-read bool $delivery_required
  * @property-read string $description
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $early_termination_fee_money
  * @property-read array{'cycle_count': int, 'type': string}|object|null $end_after
  * @property-read string $external_reference_id
+ * @property-read bool $gifts_enabled
  * @property-read list<ImageAttachmentInput|array<array-key, mixed>|\stdClass> $images
  * @property-read InventoryRoutingSourceInput|array<array-key, mixed>|\stdClass $inventory_routing_source
  * @property-read list<SubscriptionPlanLineItemInput|array<array-key, mixed>|\stdClass> $line_items
@@ -31,7 +34,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionPlanInput extends Model {
-    /** @param array{'billing_interval': string, 'billing_interval_count': int, 'billing_interval_options': list<SubscriptionIntervalOptionInput|array<array-key, mixed>|\stdClass>, 'contract_term_months'?: int, 'created_at': string|\DateTimeInterface, 'currency': string, 'delivery_method_subscription_counts': list<SubscriptionDeliveryMethodCountsInput|array<array-key, mixed>|\stdClass>, 'delivery_required': bool, 'description'?: string, 'early_termination_fee_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'end_after': array{'cycle_count': int, 'type': string}|object|null, 'external_reference_id'?: string, 'images': list<ImageAttachmentInput|array<array-key, mixed>|\stdClass>, 'inventory_routing_source'?: InventoryRoutingSourceInput|array<array-key, mixed>|\stdClass, 'line_items'?: list<SubscriptionPlanLineItemInput|array<array-key, mixed>|\stdClass>, 'merchant_id': string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'name': string, 'plan_change_options': list<SubscriptionPlanChangeOptionInput|array<array-key, mixed>|\stdClass>, 'quantity_options': list<int>, 'setup_fee_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'subscription_delivery_method_ids': list<string>, 'subscription_plan_id': string, 'trial_period_days'?: int, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
+    /** @param array{'billing_interval': string, 'billing_interval_count': int, 'billing_interval_options': list<SubscriptionIntervalOptionInput|array<array-key, mixed>|\stdClass>, 'contract_term_months'?: int, 'created_at': string|\DateTimeInterface, 'currency': string, 'delivery_interval': string|null, 'delivery_interval_count': int|null, 'delivery_method_subscription_counts': list<SubscriptionDeliveryMethodCountsInput|array<array-key, mixed>|\stdClass>, 'delivery_required': bool, 'description'?: string, 'early_termination_fee_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'end_after': array{'cycle_count': int, 'type': string}|object|null, 'external_reference_id'?: string, 'gifts_enabled': bool, 'images': list<ImageAttachmentInput|array<array-key, mixed>|\stdClass>, 'inventory_routing_source'?: InventoryRoutingSourceInput|array<array-key, mixed>|\stdClass, 'line_items'?: list<SubscriptionPlanLineItemInput|array<array-key, mixed>|\stdClass>, 'merchant_id': string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'name': string, 'plan_change_options': list<SubscriptionPlanChangeOptionInput|array<array-key, mixed>|\stdClass>, 'quantity_options': list<int>, 'setup_fee_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'subscription_delivery_method_ids': list<string>, 'subscription_plan_id': string, 'trial_period_days'?: int, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionPlanInput')); }
     /** Value enum: "daily", "weekly", "monthly", "yearly".
      * @return string
@@ -45,7 +48,7 @@ final class SubscriptionPlanInput extends Model {
      */
     public function getBillingIntervalCount(): int { return $this->get('billing_interval_count'); }
     public function hasBillingIntervalCount(): bool { return $this->has('billing_interval_count'); }
-    /** Offered billing interval and count pairs, including the plan's default pair. Every option bills the same line prices once per period. Use separate plans for different prices per interval. maxItems: 12. uniqueItems: true. [] (Value): {@see SubscriptionIntervalOptionInput}. A billing cadence offered by a subscription plan or offer. Every option bills the same line prices once per period; prices are not scaled by the interval. For a different price per interval, create separate plans.
+    /** Offered billing interval and count pairs, including the plan's default pair. Line prices are per delivery. Each option charges for all deliveries in its period. Use separate plans or promotions for different prices per interval. maxItems: 12. uniqueItems: true. [] (Value): {@see SubscriptionIntervalOptionInput}. A billing cadence offered by a subscription plan or offer. Every option bills the same line prices once per period; prices are not scaled by the interval. For a different price per interval, create separate plans.
      * @return list<SubscriptionIntervalOptionInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When billing_interval_options is omitted; use hasBillingIntervalOptions() or valueOrDefault().
      */
@@ -69,6 +72,18 @@ final class SubscriptionPlanInput extends Model {
      */
     public function getCurrency(): string { return $this->get('currency'); }
     public function hasCurrency(): bool { return $this->has('currency'); }
+    /** Delivery cadence. Null when no separate delivery cadence is set; one delivery is made per billing period. Every billing option must be a whole multiple in the same unit family (days/weeks or months/years), with 1 to 24 deliveries per period. Existing subscriptions keep their frozen cadence. Value enum: "daily", "weekly", "monthly", "yearly", null.
+     * @return string|null
+     * @throws SdkError When delivery_interval is omitted; use hasDeliveryInterval() or valueOrDefault().
+     */
+    public function getDeliveryInterval(): string|null { return $this->get('delivery_interval'); }
+    public function hasDeliveryInterval(): bool { return $this->has('delivery_interval'); }
+    /** Number of delivery intervals between deliveries. Null when no separate delivery cadence is set. Format: int32. minimum: 1.
+     * @return int|null
+     * @throws SdkError When delivery_interval_count is omitted; use hasDeliveryIntervalCount() or valueOrDefault().
+     */
+    public function getDeliveryIntervalCount(): int|null { return $this->get('delivery_interval_count'); }
+    public function hasDeliveryIntervalCount(): bool { return $this->has('delivery_interval_count'); }
     /**  [] (Value): {@see SubscriptionDeliveryMethodCountsInput}. Subscription counts by status for one delivery method.
      * @return list<SubscriptionDeliveryMethodCountsInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When delivery_method_subscription_counts is omitted; use hasDeliveryMethodSubscriptionCounts() or valueOrDefault().
@@ -105,6 +120,12 @@ final class SubscriptionPlanInput extends Model {
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
+    /** Whether checkout buyers can name a gift recipient. Checkout sessions freeze it when they are created. Defaults to false. You can set gift_recipient on a subscription through the API either way.
+     * @return bool
+     * @throws SdkError When gifts_enabled is omitted; use hasGiftsEnabled() or valueOrDefault().
+     */
+    public function getGiftsEnabled(): bool { return $this->get('gifts_enabled'); }
+    public function hasGiftsEnabled(): bool { return $this->has('gifts_enabled'); }
     /**  [] (Value): {@see ImageAttachmentInput}. An image attached to a resource, with its display properties and attachment metadata.
      * @return list<ImageAttachmentInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When images is omitted; use hasImages() or valueOrDefault().

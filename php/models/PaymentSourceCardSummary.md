@@ -9,6 +9,13 @@ Response model.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `brand` | Optional | string | Values: `"visa"`, `"mastercard"`, `"amex"`, `"discover"`, `"diners"`, `"jcb"`, `"unionpay"`. |
+| `card_present` | Optional | [PaymentSourceCardPresentDetails](../models/PaymentSourceCardPresentDetails.md#paymentsourcecardpresentdetails) | Details of a card read on a reader, present once the card was read. Card-present cards are not saved, so payment_method_id is absent. Card and wallet details recorded when a payment is presented on a reader. `card_present`: [field definitions](../models/PaymentSourceCardSummary.md#paymentsourcecardsummarycard_present). |
 | `last4` | Optional | string |  |
 | `payment_method_id` | Optional | string |  |
+
+### PaymentSourceCardSummary.card_present
+
+Details of a card read on a reader, present once the card was read. Card-present cards are not saved, so payment_method_id is absent. Card and wallet details recorded when a payment is presented on a reader.
+
+Field definitions: [shared fields](PaymentSourceCardPresentDetailsInput.md#paymentsourcecardpresentdetailsinput).
 

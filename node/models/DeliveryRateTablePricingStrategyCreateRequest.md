@@ -10,6 +10,6 @@ Rate table pricing strategy you supply when creating a delivery method: a list o
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `rates` | Required | Array of [DeliveryPricingRateCreateRequest](../models/DeliveryPricingRateCreateRequest.md#deliverypricingratecreaterequest) |  |
-| `unmatched_behavior` | Optional | string | Default: `"unavailable"`. Values: `"unavailable"`. |
+| `rates` | Required | Array of [DeliveryPricingRateCreateRequest](../models/DeliveryPricingRateCreateRequest.md#deliverypricingratecreaterequest) | One to 100 rates. Flint checks them from the highest priority to the lowest and uses the first match. minItems: `1`. maxItems: `100`. |
+| `unmatched_behavior` | Optional | string | What happens when no rate matches. Default: `"unavailable"`. Values: `"unavailable"`. |
 

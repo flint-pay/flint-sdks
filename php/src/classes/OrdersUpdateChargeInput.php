@@ -41,7 +41,7 @@ final class OrdersUpdateChargeInput extends Model {
      */
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
-    /** The request body for: Update order charge.
+    /** The request body for: Update order charge. minProperties: 1.
      * @return array{'amount_money'?: mixed, 'calculation_basis'?: string, 'description'?: string|null, 'expected_version'?: int, 'fulfillment_id'?: string|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'name'?: string, 'percent'?: int|float, 'tax'?: mixed, 'type'?: string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

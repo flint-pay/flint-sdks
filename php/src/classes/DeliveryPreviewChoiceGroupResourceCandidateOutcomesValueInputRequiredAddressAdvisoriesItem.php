@@ -9,7 +9,7 @@ namespace Flint;
 final class DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueInputRequiredAddressAdvisoriesItem extends Model {
     /** @param array{'role': string, 'suggested_address'?: mixed, 'verification_state': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueInputRequiredAddressAdvisoriesItem')); }
-    /** Value enum: "destination_address", "buyer_location".
+    /** Which address the advisory is about. Value enum: "destination_address", "buyer_location".
      * @return string
      */
     public function getRole(): string { return $this->get('role'); }
@@ -19,7 +19,7 @@ final class DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueInputRequire
      */
     public function getSuggestedAddress(): ?DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueInputRequiredAddressAdvisoriesItemSuggestedAddress { return $this->get('suggested_address'); }
     public function hasSuggestedAddress(): bool { return $this->has('suggested_address'); }
-    /** Value enum: "needs_review", "unverifiable".
+    /** How far address verification got. Value enum: "needs_review", "unverifiable".
      * @return string
      */
     public function getVerificationState(): string { return $this->get('verification_state'); }

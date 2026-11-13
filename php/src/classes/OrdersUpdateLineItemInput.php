@@ -41,7 +41,7 @@ final class OrdersUpdateLineItemInput extends Model {
      */
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
-    /** The request body for: Update line item.
+    /** The request body for: Update line item. minProperties: 1.
      * @return array{'description'?: string|null, 'expected_ship_date'?: string|null, 'expected_version'?: int, 'gift_card_face_value_money'?: mixed, 'gift_card_recipient'?: array{'email': string, 'message'?: string|null, 'name'?: string|null, 'send_at'?: string|\DateTimeInterface}|object|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'modifiers'?: list<mixed>, 'name'?: string, 'quantity'?: int, 'subscription'?: array{'billing_interval': string, 'billing_interval_count': int, 'subscription_offer_id': string}|object|null, 'tax'?: mixed, 'unit_price_money'?: mixed}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

@@ -9,7 +9,7 @@ namespace Flint;
 final class SubscriptionDeliveryMigrationsCreateParams extends Model {
     /** @param array{'from_delivery_method_id': string, 'subscription_plan_id'?: string, 'to_delivery_method_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionDeliveryMigrationsCreateParams')); }
-    /** minLength: 1. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+    /** ID of the delivery method whose subscriptions to move. One migration can run for a method at a time. minLength: 1. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
      * @return string
      * @throws SdkError When from_delivery_method_id is omitted; use hasFromDeliveryMethodId() or valueOrDefault().
      */
@@ -21,7 +21,7 @@ final class SubscriptionDeliveryMigrationsCreateParams extends Model {
      */
     public function getSubscriptionPlanId(): string { return $this->get('subscription_plan_id'); }
     public function hasSubscriptionPlanId(): bool { return $this->has('subscription_plan_id'); }
-    /** minLength: 1. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+    /** ID of the active delivery method to move them to. A subscription the new method can't serve is reported as a failure and keeps its current method. minLength: 1. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
      * @return string
      * @throws SdkError When to_delivery_method_id is omitted; use hasToDeliveryMethodId() or valueOrDefault().
      */

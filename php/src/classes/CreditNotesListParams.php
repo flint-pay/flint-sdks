@@ -41,13 +41,13 @@ final class CreditNotesListParams extends Model {
      */
     public function getCreatedBefore(): string|\DateTimeInterface { return $this->get('created_before'); }
     public function hasCreatedBefore(): bool { return $this->has('created_before'); }
-    /** Filter by invoice. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+    /** Filter by invoice. pattern: ^inv_[0-9A-HJKMNP-TV-Z]{26}$. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
      * @return string
      * @throws SdkError When invoice_id is omitted; use hasInvoiceId() or valueOrDefault().
      */
     public function getInvoiceId(): string { return $this->get('invoice_id'); }
     public function hasInvoiceId(): bool { return $this->has('invoice_id'); }
-    /** Filter by the source invoice's current customer_id. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+    /** Filter by the source invoice's current customer_id. pattern: ^cus_[0-9A-HJKMNP-TV-Z]{26}$. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */

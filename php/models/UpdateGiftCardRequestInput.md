@@ -4,6 +4,8 @@
 
 The request body for: Update a gift card.
 
+minProperties: `1`.
+
 Request input.
 
 | Field | Presence | Type | Description |

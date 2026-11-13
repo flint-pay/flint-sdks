@@ -1,1 +1,1 @@
-{"shared":"TaxCalculationCallbackUpdatedEvent","dependencies":["SharedCodec1526","SharedCodec1531","SharedCodec18","SharedCodec23","SharedCodec24","SharedCodec25","SharedCodec26","TaxCalculationCallback","TaxCalculationCallbackConfiguration","TaxCalculationCallbackUpdatedEvent"]}
+{"shared":"TaxCalculationCallbackUpdatedEvent","dependencies":["SharedCodec10","SharedCodec1658","SharedCodec1663","SharedCodec6","SharedCodec7","SharedCodec8","SharedCodec9","TaxCalculationCallback","TaxCalculationCallbackConfiguration","TaxCalculationCallbackUpdatedEvent"]}

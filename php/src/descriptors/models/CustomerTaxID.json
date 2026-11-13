@@ -1,0 +1,1 @@
+{"shared":"CustomerTaxID","phpRepresentation":{"kind":"record","fields":{"country":{"kind":"value","type":"string"},"identifier_type":{"kind":"value","type":"string"},"region":{"kind":"nullable","value":{"kind":"value","type":"string"}},"value":{"kind":"value","type":"string"}}},"dependencies":["CustomerTaxID"]}

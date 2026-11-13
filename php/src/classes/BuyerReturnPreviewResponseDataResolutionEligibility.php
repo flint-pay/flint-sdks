@@ -6,11 +6,12 @@ namespace Flint;
  * @property-read list<BuyerReturnPreviewResponseDataResolutionEligibilityLineItemsItem> $line_items
  * @property-read string $order_id
  * @property-read BuyerReturnPreviewResponseDataResolutionEligibilityPolicyEvaluation $policy_evaluation
+ * @property-read ReturnRefundEstimate|null $refund_estimate
  * @property-read BuyerReturnPreviewResponseDataResolutionEligibilitySelectionAllRemainingFulfilled|BuyerReturnPreviewResponseDataResolutionEligibilitySelectionLineItems|\stdClass $selection
  * @property-read string $status
  * Presence-aware response; omitted optional fields return null. */
 final class BuyerReturnPreviewResponseDataResolutionEligibility extends Model {
-    /** @param array{'evaluated_at': string, 'line_items': list<mixed>, 'order_id': string, 'policy_evaluation': mixed, 'selection': mixed, 'status': string, ...}|object $values */
+    /** @param array{'evaluated_at': string, 'line_items': list<mixed>, 'order_id': string, 'policy_evaluation': mixed, 'refund_estimate': mixed, 'selection': mixed, 'status': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerReturnPreviewResponseDataResolutionEligibility')); }
     /** RFC3339 timestamp. Format: date-time.
      * @return string
@@ -32,6 +33,11 @@ final class BuyerReturnPreviewResponseDataResolutionEligibility extends Model {
      */
     public function getPolicyEvaluation(): BuyerReturnPreviewResponseDataResolutionEligibilityPolicyEvaluation { return $this->get('policy_evaluation'); }
     public function hasPolicyEvaluation(): bool { return $this->has('policy_evaluation'); }
+    /**  anyOf[1] (Value): {@see ReturnRefundEstimate}. Estimate for selected eligible quantities requested as refund, or with no requested resolution when refund is allowed. Null when no selected line is eligible for a refund. The store's inspection and its final decision can change the refund. Nothing is reserved. anyOf[2] (Value): null.
+     * @return ReturnRefundEstimate|null
+     */
+    public function getRefundEstimate(): ReturnRefundEstimate|null { return $this->get('refund_estimate'); }
+    public function hasRefundEstimate(): bool { return $this->has('refund_estimate'); }
     /** The selection the preview was run for. Which order lines to check for return eligibility: all remaining fulfilled lines, or a specific list of lines. line_items (Optional): Array of {@see ReturnEligibilityLineItemRequest}. The lines to check or return, each naming an order line item. line_items[] (Value): {@see ReturnEligibilityLineItemRequest}. An order line and quantity to check. return_reason_id is optional here; when you send it, Flint checks that the reason is active and applies to the line. selection_type (Required): string. How the selection picks units. Value enum: "all_remaining_fulfilled", "line_items". oneOf[1] (Value): {@see ReturnEligibilitySelectionAllRemainingFulfilled}. The `all_remaining_fulfilled` variant of `ReturnEligibilitySelection`. oneOf[2] (Value): {@see ReturnEligibilitySelectionLineItems}. The `line_items` variant of `ReturnEligibilitySelection`.
      * @return BuyerReturnPreviewResponseDataResolutionEligibilitySelectionAllRemainingFulfilled|BuyerReturnPreviewResponseDataResolutionEligibilitySelectionLineItems|\stdClass
      */

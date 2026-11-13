@@ -1,0 +1,1 @@
+{"shared":"ReaderConnectionSession","phpRepresentation":{"kind":"record","fields":{"client_session":{"kind":"entity","name":"ReaderConnectionSessionClientSession"},"location_id":{"kind":"value","type":"string"},"reader_id":{"kind":"value","type":"string"}}},"dependencies":["ReaderConnectionSession","ReaderConnectionSessionClientSession","ReaderConnectionSessionStripe"]}

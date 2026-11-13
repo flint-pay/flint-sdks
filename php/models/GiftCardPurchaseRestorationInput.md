@@ -8,6 +8,7 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `order_id` | Required | string | ID of the original purchase order whose line item sold the gift card. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
 | `order_line_item_id` | Required | string | ID of the order line item that sold the gift card. Example: `"li_01KEZF7C008YPRCK7VDKTGWR31"`. |
 | `original_gift_card_id` | Required | string | ID of the gift card the purchase first issued, whose value a purchase refund or reversal removed. Example: `"gc_01KEZF7C00RT1618WYBM1Y94CG"`. |
 | `original_gift_card_load_id` | Required | string | ID of the load on the original card that the refund or reversal removed value from. Example: `"gcl_01KEZF7C00YJED2857SE0J6KWC"`. |

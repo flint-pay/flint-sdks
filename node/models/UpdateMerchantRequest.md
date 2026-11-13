@@ -2,7 +2,7 @@
 
 ## UpdateMerchantRequest
 
-The request body for: Update merchant.
+The request body for: Update merchant. minProperties: `1`.
 
 
 

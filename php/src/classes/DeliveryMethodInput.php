@@ -94,7 +94,7 @@ final class DeliveryMethodInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Counts of subscriptions by status: active, past due, and paused.
+    /** How many subscriptions use this method, by status. Counts of subscriptions by status: active, past due, and paused.
      * @return SubscriptionCountsInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When subscription_counts is omitted; use hasSubscriptionCounts() or valueOrDefault().
      */

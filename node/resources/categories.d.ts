@@ -4,12 +4,14 @@ import type {
     CategoriesDeleteParams,
     CategoriesGetParams,
     CategoriesListParams,
-    CategoriesUpdateParams
-} from '../declarations/types-4.js';
-import type { Category, CategoryListResponse, CategoryResponse } from '../declarations/types-5.js';
+    CategoriesUpdateParams,
+    Category,
+    CategoryListResponse,
+    CategoryResponse
+} from '../declarations/types-5.js';
 import type { ClientOptions } from '../declarations/types-6.js';
-import type { RequestOptions } from '../declarations/types-51.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+import type { RequestOptions } from '../declarations/types-53.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -26,27 +28,29 @@ export type {
 } from '../runtime.js';
 export type {
     CategoriesCreateParams,
+    Category,
+    CategoryResponse,
     CategoriesDeleteParams,
     CategoriesGetParams,
     CategoriesListParams,
+    CategoryListResponse,
     CategoriesUpdateParams
-} from '../declarations/types-4.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
-export type { Category, CategoryResponse, CategoryListResponse } from '../declarations/types-5.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+} from '../declarations/types-5.js';
+export type { RequestOptions } from '../declarations/types-53.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
 export type { ClientOptions } from '../declarations/types-6.js';
 export type { CreateCategoryRequestInput } from '../declarations/types-7.js';
-export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-36.js';
-export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-13.js';
-export type { NextAction, MoneyValue } from '../declarations/types-37.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
-export type { UpdateCategoryRequestInput } from '../declarations/types-63.js';
-export type { DisputesAcceptParams } from '../declarations/types-22.js';
-export { makeCreateCategoryRequest } from '../declarations/types-68.js';
-export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-74.js';
-export { makeMoneyValue } from '../declarations/types-75.js';
-export { makeUpdateCategoryRequest } from '../declarations/types-79.js';
+export type { MetadataRequestInput, NextAction, MoneyValue } from '../declarations/types-38.js';
+export type { AuthMode } from '../declarations/types-1.js';
+export type { Credentials } from '../declarations/types-14.js';
+export type { MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-37.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
+export type { UpdateCategoryRequestInput } from '../declarations/types-66.js';
+export type { DisputesAcceptParams } from '../declarations/types-23.js';
+export { makeCreateCategoryRequest } from '../declarations/types-71.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-78.js';
+export { makeUpdateCategoryRequest } from '../declarations/types-83.js';
 export interface CategoriesResource {
     /**
  * Creates a reusable category. If handle is omitted, Flint derives it from the name and never

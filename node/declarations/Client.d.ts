@@ -1,8 +1,8 @@
 import type { Result, WithResponseInfo, InputValue, WebhookHeaders as _SdkWebhookHeaders } from '../runtime.js';
 import type { ClientOptions } from './types-6.js';
-import type { VerifiedWebhook } from './types-65.js';
-import type { WebhookVerificationOptions } from './types-66.js';
-import type { verifyWebhook, verifyWebhookAsync } from './types-80.js';
+import type { VerifiedWebhook } from './types-68.js';
+import type { WebhookVerificationOptions } from './types-69.js';
+import type { verifyWebhook, verifyWebhookAsync } from './types-84.js';
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {
     constructor(options?: ClientOptions);
@@ -33,6 +33,7 @@ export declare class Client {
     readonly deliveryQuotes: import('../resources/deliveryQuotes.js').DeliveryQuotesResource;
     readonly deliveryRateCallbacks: import('../resources/deliveryRateCallbacks.js').DeliveryRateCallbacksResource;
     readonly deliveryRevocations: import('../resources/deliveryRevocations.js').DeliveryRevocationsResource;
+    readonly deliverySelections: import('../resources/deliverySelections.js').DeliverySelectionsResource;
     readonly deliveryZones: import('../resources/deliveryZones.js').DeliveryZonesResource;
     readonly demoSessions: import('../resources/demoSessions.js').DemoSessionsResource;
     readonly devices: import('../resources/devices.js').DevicesResource;
@@ -70,6 +71,7 @@ export declare class Client {
     readonly merchantBillingBalances: import('../resources/merchantBillingBalances.js').MerchantBillingBalancesResource;
     readonly merchantBillingEntries: import('../resources/merchantBillingEntries.js').MerchantBillingEntriesResource;
     readonly merchantBillingInvoices: import('../resources/merchantBillingInvoices.js').MerchantBillingInvoicesResource;
+    readonly merchantSignups: import('../resources/merchantSignups.js').MerchantSignupsResource;
     readonly modifierGroups: import('../resources/modifierGroups.js').ModifierGroupsResource;
     readonly modifierSets: import('../resources/modifierSets.js').ModifierSetsResource;
     readonly oauth: import('../resources/oauth.js').OauthResource;
@@ -85,13 +87,19 @@ export declare class Client {
     readonly paymentMethodDomains: import('../resources/paymentMethodDomains.js').PaymentMethodDomainsResource;
     readonly paymentMethods: import('../resources/paymentMethods.js').PaymentMethodsResource;
     readonly paymentReviews: import('../resources/paymentReviews.js').PaymentReviewsResource;
+    readonly paymentSplits: import('../resources/paymentSplits.js').PaymentSplitsResource;
     readonly payoutDestinations: import('../resources/payoutDestinations.js').PayoutDestinationsResource;
     readonly payoutSettings: import('../resources/payoutSettings.js').PayoutSettingsResource;
     readonly payouts: import('../resources/payouts.js').PayoutsResource;
+    readonly platformFeeBalanceTransactions: import('../resources/platformFeeBalanceTransactions.js').PlatformFeeBalanceTransactionsResource;
+    readonly platformFeeBalances: import('../resources/platformFeeBalances.js').PlatformFeeBalancesResource;
+    readonly platformFeePayouts: import('../resources/platformFeePayouts.js').PlatformFeePayoutsResource;
+    readonly platformFees: import('../resources/platformFees.js').PlatformFeesResource;
     readonly priceLists: import('../resources/priceLists.js').PriceListsResource;
     readonly products: import('../resources/products.js').ProductsResource;
     readonly promotionCodes: import('../resources/promotionCodes.js').PromotionCodesResource;
     readonly promotions: import('../resources/promotions.js').PromotionsResource;
+    readonly readers: import('../resources/readers.js').ReadersResource;
     readonly refunds: import('../resources/refunds.js').RefundsResource;
     readonly reportDownloads: import('../resources/reportDownloads.js').ReportDownloadsResource;
     readonly reports: import('../resources/reports.js').ReportsResource;

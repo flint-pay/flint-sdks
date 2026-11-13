@@ -2,7 +2,7 @@
 
 ## UpdateTicketRequest
 
-The attendee name to set or clear.
+The attendee name to set or clear. minProperties: `1`.
 
 
 

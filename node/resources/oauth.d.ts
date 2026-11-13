@@ -10,10 +10,10 @@ import type {
     OauthReauthorizeCLIDeviceParams,
     OauthRevokeTokenParams,
     OauthRevokeTokenResponse
-} from '../declarations/types-38.js';
-import type { PartnerAuthorizePreview, PartnerAuthorizePreviewResponse } from '../declarations/types-42.js';
-import type { RequestOptions } from '../declarations/types-51.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+} from '../declarations/types-39.js';
+import type { PartnerAuthorizePreview, PartnerAuthorizePreviewResponse } from '../declarations/types-44.js';
+import type { RequestOptions } from '../declarations/types-53.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -37,10 +37,11 @@ export type {
     OauthReauthorizeCLIDeviceParams,
     OauthRevokeTokenParams,
     OauthRevokeTokenResponse,
+    OAuthTokenRequestRefreshTokenInput,
     OAuthTokenRequestTokenExchangeInput
-} from '../declarations/types-38.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
+} from '../declarations/types-39.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
+export type { RequestOptions } from '../declarations/types-53.js';
 export type {
     CLIDeviceResponse,
     CLIContextsResponse,
@@ -48,23 +49,25 @@ export type {
     CLIContextsRequestInput,
     CLIReauthorizeRequestInput
 } from '../declarations/types-4.js';
-export type { PartnerAuthorizePreview, PartnerAuthorizePreviewResponse, PartnerAppPermissionManifestEntry } from '../declarations/types-42.js';
+export type { PartnerAuthorizePreview, PartnerAuthorizePreviewResponse } from '../declarations/types-44.js';
 export type { ClientOptions } from '../declarations/types-6.js';
-export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-13.js';
+export type { AuthMode } from '../declarations/types-1.js';
+export type { Credentials } from '../declarations/types-14.js';
 export type {
     OAuthTokenRequestInput,
     OAuthTokenRequestAuthorizationCodeInput,
     OAuthTokenRequestClientCredentialsInput,
-    OAuthTokenRequestRefreshTokenInput,
     OAuthTokenRequestDeviceCodeInput,
-    NextAction,
     MoneyValue,
+    NextAction,
     OAuthRevokeRequestInput
-} from '../declarations/types-37.js';
+} from '../declarations/types-38.js';
 export type { ContextSummary } from '../declarations/types-7.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
-export { makeCLIContextsRequest, makeCLIDeviceRequest, makeCLIReauthorizeRequest } from '../declarations/types-67.js';
+export type { PartnerAppPaymentSplits, PartnerAppPermissionManifestEntry } from '../declarations/types-43.js';
+export type { PlatformFeeCap } from '../declarations/types-48.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
+export { makeCLIContextsRequest, makeCLIDeviceRequest, makeCLIReauthorizeRequest } from '../declarations/types-70.js';
 export {
     makeMoneyValue,
     makeOAuthRevokeRequest,
@@ -74,7 +77,7 @@ export {
     makeOAuthTokenRequestDeviceCode,
     makeOAuthTokenRequestRefreshToken,
     makeOAuthTokenRequestTokenExchange
-} from '../declarations/types-75.js';
+} from '../declarations/types-78.js';
 export interface OauthResource {
     /**
  * First-party public client flint-cli. Uses application/x-www-form-urlencoded and flat OAuth JSON.
@@ -82,11 +85,10 @@ export interface OauthResource {
  * Authorization in the Flint error envelope. No client secret or HTTP Basic authentication.
  * Requests are not replayed through idempotency caching. Send session_mode=contexts for a session
  * that supports additive reauthorization. The required scope field contains the full requested set
- * as space-separated names. Normal login sends the unchanged x-flint-cli-bootstrap-scopes; login
- * with extra permissions sends the desired baseline and additions. No scopes are implicitly added.
- * The browser may approve a subset per context; token scope reports the approved set. Unknown
- * scopes return HTTP 400 invalid_scope. Selected scopes are checked against the selected merchant
- * and environment before approval.
+ * as space-separated names. Login sends the scopes it needs, and login with extra permissions
+ * sends those plus the additions. No scopes are implicitly added. The browser may approve a subset
+ * per context; token scope reports the approved set. Unknown scopes return HTTP 400 invalid_scope.
+ * Selected scopes are checked against the selected merchant and environment before approval.
  *
  * `POST /v1/oauth/device/authorize`
  * @see https://developers.withflintpay.com/docs/api/cli-oauth#authorizeCLIDevice
@@ -164,8 +166,8 @@ export interface OauthResource {
  * @see https://developers.withflintpay.com/docs/api/oauth#exchangeOAuthToken
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
- * client.oauth.exchangeToken({grant_type: "authorization_code", code: "example", redirect_uri:
- * "example", code_verifier: "examplexxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"})
+ * client.oauth.exchangeToken({grant_type: "authorization_code", code: "example", code_verifier:
+ * "examplexxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"})
  */
     exchangeToken(params: OauthExchangeTokenParams, options?: _SdkWithoutIdempotency<RequestOptions<never>>): Promise<WithResponseInfo<OAuthTokenResponse, OAuthTokenResponse>>;
     /**

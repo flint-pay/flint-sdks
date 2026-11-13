@@ -8,6 +8,6 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `delivery_window_id` | Optional | string | minLength: `1`. |
+| `delivery_window_id` | Optional | string | ID from the option's offered_windows. Required when window_selection is offered; omit it otherwise. minLength: `1`. |
 | `instructions` | Optional | string | Buyer instructions for the selected option, without leading or trailing whitespace. Send this field only when buyer_instructions.enabled is true. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. minLength: `1`. maxLength: `2000`. |
 

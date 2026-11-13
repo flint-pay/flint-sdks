@@ -17,7 +17,8 @@
 
 anyOf SubscriptionDeliveryDestinationInputAddress: Declared schema SubscriptionDeliveryDestinationInputAddress. The `address` variant of `SubscriptionDeliveryDestinationInput`..
 
-No additional constraints.
+- Constraints for `address`: Delivery address. Flint saves a copy with the subscription.
+- Constraints for `type`: Selects a new address as the destination. Values: `"address"`.
 
 ### SubscriptionServiceLocationInputAddress variant 2: `type` = `"address"`
 

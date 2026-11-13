@@ -5,10 +5,10 @@ namespace Flint;
  * @property-read array{'city': string, 'country': string, 'line1': string, 'line2'?: string|null, 'postal_code'?: string|null, 'state'?: string|null}|object|null $address
  * @property-read string|null $curbside_instructions
  * @property-read string|\DateTimeInterface|null $customer_arrived_at
- * @property-read string|\DateTimeInterface|null $expires_at
  * @property-read string|null $instructions
  * @property-read string|null $location_name
  * @property-read string|\DateTimeInterface|null $picked_up_at
+ * @property-read string|\DateTimeInterface|null $pickup_due_at
  * @property-read int|null $pickup_window_duration_seconds
  * @property-read int|null $prep_time_duration_seconds
  * @property-read string|\DateTimeInterface|null $ready_at
@@ -18,7 +18,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface|null $window_start_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class UpdatePickupFulfillmentDetailsInput extends Model {
-    /** @param array{'address'?: array{'city': string, 'country': string, 'line1': string, 'line2'?: string|null, 'postal_code'?: string|null, 'state'?: string|null}|object|null, 'curbside_instructions'?: string|null, 'customer_arrived_at'?: string|\DateTimeInterface|null, 'expires_at'?: string|\DateTimeInterface|null, 'instructions'?: string|null, 'location_name'?: string|null, 'picked_up_at'?: string|\DateTimeInterface|null, 'pickup_window_duration_seconds'?: int|null, 'prep_time_duration_seconds'?: int|null, 'ready_at'?: string|\DateTimeInterface|null, 'timezone'?: string, 'vehicle_description'?: string|null, 'window_end_at'?: string|\DateTimeInterface|null, 'window_start_at'?: string|\DateTimeInterface|null}|object $values */
+    /** @param array{'address'?: array{'city': string, 'country': string, 'line1': string, 'line2'?: string|null, 'postal_code'?: string|null, 'state'?: string|null}|object|null, 'curbside_instructions'?: string|null, 'customer_arrived_at'?: string|\DateTimeInterface|null, 'instructions'?: string|null, 'location_name'?: string|null, 'picked_up_at'?: string|\DateTimeInterface|null, 'pickup_due_at'?: string|\DateTimeInterface|null, 'pickup_window_duration_seconds'?: int|null, 'prep_time_duration_seconds'?: int|null, 'ready_at'?: string|\DateTimeInterface|null, 'timezone'?: string, 'vehicle_description'?: string|null, 'window_end_at'?: string|\DateTimeInterface|null, 'window_start_at'?: string|\DateTimeInterface|null}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdatePickupFulfillmentDetailsInput')); }
     /** Address where the buyer collects the order. anyOf[1] (Value): {@see AddressRequestInput}. A complete postal address. State and postal_code are required for US addresses and optional for other countries. Send null or omit line2, state, and postal_code when the address has none. anyOf[2] (Value): null.
      * @return array{'city': string, 'country': string, 'line1': string, 'line2'?: string|null, 'postal_code'?: string|null, 'state'?: string|null}|object|null
@@ -38,12 +38,6 @@ final class UpdatePickupFulfillmentDetailsInput extends Model {
      */
     public function getCustomerArrivedAt(): string|\DateTimeInterface|null { return $this->get('customer_arrived_at'); }
     public function hasCustomerArrivedAt(): bool { return $this->has('customer_arrived_at'); }
-    /** Deadline after which an uncollected pickup should enter merchant review. Send null to clear it. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     * @return string|\DateTimeInterface|null
-     * @throws SdkError When expires_at is omitted; use hasExpiresAt() or valueOrDefault().
-     */
-    public function getExpiresAt(): string|\DateTimeInterface|null { return $this->get('expires_at'); }
-    public function hasExpiresAt(): bool { return $this->has('expires_at'); }
     /** Pickup instructions for the buyer, such as where to go on arrival. Send null to clear it. minLength: 1.
      * @return string|null
      * @throws SdkError When instructions is omitted; use hasInstructions() or valueOrDefault().
@@ -62,6 +56,12 @@ final class UpdatePickupFulfillmentDetailsInput extends Model {
      */
     public function getPickedUpAt(): string|\DateTimeInterface|null { return $this->get('picked_up_at'); }
     public function hasPickedUpAt(): bool { return $this->has('picked_up_at'); }
+    /** Time by which the buyer should collect the order. Passing it does not change status or emit an event automatically; the merchant decides how to follow up. Send null to clear it. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     * @return string|\DateTimeInterface|null
+     * @throws SdkError When pickup_due_at is omitted; use hasPickupDueAt() or valueOrDefault().
+     */
+    public function getPickupDueAt(): string|\DateTimeInterface|null { return $this->get('pickup_due_at'); }
+    public function hasPickupDueAt(): bool { return $this->has('pickup_due_at'); }
     /** Width of the promised pickup window, from 0 to 86400 seconds. Format: int64. minimum: 0. maximum: 86400.
      * @return int|null
      * @throws SdkError When pickup_window_duration_seconds is omitted; use hasPickupWindowDurationSeconds() or valueOrDefault().

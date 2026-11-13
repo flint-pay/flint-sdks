@@ -8,9 +8,9 @@ namespace Flint;
  * @property-read ?string $courier_provider_name
  * @property-read ?string $courier_support_phone
  * @property-read ?string $delivered_at
+ * @property-read ?string $delivery_due_at
  * @property-read ?string $dispatched_at
  * @property-read ?string $dropoff_notes
- * @property-read ?string $expires_at
  * @property-read ?string $instructions
  * @property-read ?bool $no_contact
  * @property-read ?int $prep_time_duration_seconds
@@ -21,7 +21,7 @@ namespace Flint;
  * @property-read ?string $window_start_at
  * Presence-aware response; omitted optional fields return null. */
 final class BuyerDeliveryFulfillmentDetails extends Model {
-    /** @param array{'carrier'?: string, 'courier_pickup_at'?: string, 'courier_pickup_window_duration_seconds'?: int, 'courier_provider_name'?: string, 'courier_support_phone'?: string, 'delivered_at'?: string, 'dispatched_at'?: string, 'dropoff_notes'?: string, 'expires_at'?: string, 'instructions'?: string, 'no_contact'?: bool, 'prep_time_duration_seconds'?: int, 'ready_at'?: string, 'timezone'?: string, 'tracking_url'?: string, 'window_end_at'?: string, 'window_start_at'?: string, ...}|object $values */
+    /** @param array{'carrier'?: string, 'courier_pickup_at'?: string, 'courier_pickup_window_duration_seconds'?: int, 'courier_provider_name'?: string, 'courier_support_phone'?: string, 'delivered_at'?: string, 'delivery_due_at'?: string, 'dispatched_at'?: string, 'dropoff_notes'?: string, 'instructions'?: string, 'no_contact'?: bool, 'prep_time_duration_seconds'?: int, 'ready_at'?: string, 'timezone'?: string, 'tracking_url'?: string, 'window_end_at'?: string, 'window_start_at'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerDeliveryFulfillmentDetails')); }
     /** Carrier responsible for the local delivery.
      * @return ?string
@@ -53,6 +53,11 @@ final class BuyerDeliveryFulfillmentDetails extends Model {
      */
     public function getDeliveredAt(): ?string { return $this->get('delivered_at'); }
     public function hasDeliveredAt(): bool { return $this->has('delivered_at'); }
+    /** Time by which the order should be delivered. Passing it does not change status or emit an event automatically; the merchant decides how to follow up. Format: date-time.
+     * @return ?string
+     */
+    public function getDeliveryDueAt(): ?string { return $this->get('delivery_due_at'); }
+    public function hasDeliveryDueAt(): bool { return $this->has('delivery_due_at'); }
     /** When the delivery was dispatched, in RFC3339 format. Format: date-time.
      * @return ?string
      */
@@ -63,11 +68,6 @@ final class BuyerDeliveryFulfillmentDetails extends Model {
      */
     public function getDropoffNotes(): ?string { return $this->get('dropoff_notes'); }
     public function hasDropoffNotes(): bool { return $this->has('dropoff_notes'); }
-    /** Deadline after which an undelivered job should enter merchant review. Format: date-time.
-     * @return ?string
-     */
-    public function getExpiresAt(): ?string { return $this->get('expires_at'); }
-    public function hasExpiresAt(): bool { return $this->has('expires_at'); }
     /** Omitted for a checkout session credential that doesn't act for the customer the buyer verified.
      * @return ?string
      */

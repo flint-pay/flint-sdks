@@ -10,6 +10,7 @@ const elements = {
   next_step: "create_confirmation_token",
   payment_method_creation: "manual",
   payment_method_types: ["us_bank_account"],
+  payment_options: ["us_bank_account"],
   submit_to: "confirm_payment_intent",
   payment_method_options: {
     us_bank_account: {
@@ -32,6 +33,7 @@ const envelope = {
     last_payment_error: null,
     statement_descriptor: null,
     customer_presence: "present",
+    refund_expires_at: null,
     payment_collection: {
       stripe: {
         account_id: "acct_synthetic",

@@ -16,7 +16,7 @@ final class CustomersCreateTaxExemptionInput extends Model {
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** The request body for: Create a customer tax exemption. Example: {"coverage":{"country":"US","states":["TX"],"type":"states"},"reason":"resale","start_date":"2026-01-01"}.
+    /** The request body for: Create a customer tax exemption.
      * @return array{'certificate_number'?: string|null, 'coverage': mixed, 'description'?: string|null, 'end_date'?: string|null, 'evidence_reference'?: string|null, 'metadata'?: mixed, 'reason': string, 'start_date': string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

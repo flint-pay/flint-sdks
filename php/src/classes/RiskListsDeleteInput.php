@@ -16,7 +16,7 @@ final class RiskListsDeleteInput extends Model {
      */
     public function getRiskListId(): string { return $this->get('risk_list_id'); }
     public function hasRiskListId(): bool { return $this->has('risk_list_id'); }
-    /** Optional risk list version last read by the caller. Format: uint64. minimum: 1.
+    /** Optional risk list version last read by the caller. Format: uint64. minimum: 1. maximum: 9007199254740991.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */

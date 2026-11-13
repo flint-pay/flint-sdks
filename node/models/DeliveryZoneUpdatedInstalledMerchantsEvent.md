@@ -12,7 +12,7 @@ Fields shared by partner webhook payloads.
 | --- | --- | --- | --- |
 | `api_version` | Required | string | API version used to render this delivery attempt. The older of the event version and the endpoint version when the attempt runs, with default resolved to the merchant pin. Format: `date`. Example: `"2026-08-02"`. |
 | `created_at` | Required | string | When Flint recorded the event. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
-| `data` | Required | object | The resource snapshot recorded for this event and rendered at the delivery API version. `data`: [field definitions](../models/DeliveryZoneActivatedInstalledMerchantsEvent.md#deliveryzoneactivatedinstalledmerchantseventdata). |
+| `data` | Required | object | The resource snapshot recorded for this event and rendered at the delivery API version. `data`: [field definitions](../models/DeliveryZoneArchivedInstalledMerchantsEvent.md#deliveryzonearchivedinstalledmerchantseventdata). |
 | `event_source` | Required | string | The origin of the event. Selects the webhook envelope and the fields in source. Values: `"installed_merchants"`. |
 | `event_type` | Required | string | The resource change or condition this event announces. Values: `"delivery_zone.updated"`. |
 | `partner_app_id` | Required | string | ID of the partner app that owns the receiving endpoint. Example: `"papp_01KEZF7C00Y8VMXYZ1GNPP3WHV"`. |
@@ -23,7 +23,7 @@ Fields shared by partner webhook payloads.
 
 ### DeliveryZoneUpdatedInstalledMerchantsEvent.data
 
-Field definitions: [DeliveryZoneActivatedInstalledMerchantsEvent.data](../models/DeliveryZoneActivatedInstalledMerchantsEvent.md#deliveryzoneactivatedinstalledmerchantseventdata).
+Field definitions: [DeliveryZoneArchivedInstalledMerchantsEvent.data](../models/DeliveryZoneArchivedInstalledMerchantsEvent.md#deliveryzonearchivedinstalledmerchantseventdata).
 
 ### DeliveryZoneUpdatedInstalledMerchantsEvent.source
 

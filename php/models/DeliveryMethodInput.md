@@ -2,7 +2,7 @@
 
 ## DeliveryMethodInput
 
-A configured shipping, pickup, local delivery, or service option.
+A configured shipping, pickup, or local delivery option.
 
 Request input.
 
@@ -20,7 +20,7 @@ Request input.
 | `name` | Required | string | Merchant-facing method name. |
 | `recommendation_priority` | Optional | integer | Marks this method as recommended. Within each choice group, the available method with the lowest value is recommended and listed first. Ties go to the lower display_position, then the method ID. Null never recommends the method. Format: `int32`. |
 | `status` | Required | string | Current method lifecycle status. Values: `"active"`, `"inactive"`, `"archived"`. |
-| `subscription_counts` | Required | [SubscriptionCountsInput](../models/SubscriptionCountsInput.md#subscriptioncountsinput) | Counts of subscriptions by status: active, past due, and paused. |
+| `subscription_counts` | Required | [SubscriptionCountsInput](../models/SubscriptionCountsInput.md#subscriptioncountsinput) | How many subscriptions use this method, by status. Counts of subscriptions by status: active, past due, and paused. |
 | `type` | Required | string | Delivery mode this method offers. Values: `"shipment"`, `"local_delivery"`, `"pickup"`. |
 | `updated_at` | Required | string | Time the method last changed. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `version` | Required | integer | Optimistic-concurrency version for method writes. Format: `uint64`. minimum: `1`. |

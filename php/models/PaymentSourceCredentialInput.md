@@ -13,13 +13,15 @@ Request input.
 | `customer_presence` | Conditional | string | Whether the customer is present for this payment. Defaults to present. Send absent to charge a saved card while the customer is away, such as for a no-show fee, damages, or a top-up. Flint then sends the charge to the card network as merchant-initiated, using the card's stored credential, so the bank can't ask the customer to authenticate. absent can be sent only with an API key or partner token, and only for a saved card whose usage is off_session; a card the customer saved for checkout only returns 409 ACTION_NOT_ALLOWED with reason payment_method_not_reusable. If the bank still requires authentication, the payment fails with status requires_payment_method and last_payment_error.code authentication_required. Ask the customer to pay while present instead of retrying. Default: `"present"`. Values: `"present"`, `"absent"`. |
 | `payment_method_id` | Conditional | string | Saved Flint payment method ID belonging to the customer making this payment. minLength: `1`. Example: `"pm_01KEZF7C0034B248TXXE4NXYFZ"`. |
 | `stripe` | Conditional | object | Stripe credential collected for this payment. `stripe`: [field definitions](../models/ConfirmPaymentIntentRequestInput.md#confirmpaymentintentrequestinput-variant-3stripe). |
+| `reader_id` | Conditional | string | Active reader in this merchant and environment. Requires payments.readers.write in addition to this operation’s scopes. minLength: `1`. pattern: `^rdr_[0-9A-HJKMNP-TV-Z]{26}$`. Example: `"rdr_01KEZF7C007JA0G24M7SD6P46C"`. |
+| `tip` | Conditional | [ReaderPaymentSourceTipInput](../models/ReaderPaymentSourceTipInput.md#readerpaymentsourcetipinput) | Optional tip collection on a supported smart reader. Tip collection settings for a payment presented on a smart reader. |
 
 ### PaymentSourceCredentialInput variant 1: `credential_type` = `"token"`
 
 oneOf with credential_type: "token": The `token` variant of `PaymentSourceCredential`..
 
 - Required: `token`.
-- Undeclared: `customer_presence`, `payment_method_id`, `stripe`.
+- Undeclared: `customer_presence`, `payment_method_id`, `stripe`, `reader_id`, `tip`.
 - Constraints for `credential_type`: Values: `"token"`.
 
 ### PaymentSourceCredentialInput variant 2: `credential_type` = `"payment_method"`
@@ -28,7 +30,7 @@ oneOf with credential_type: "payment_method": The `payment_method` variant of `P
 
 - Required: `payment_method_id`.
 - Optional: `customer_presence`.
-- Undeclared: `token`, `stripe`.
+- Undeclared: `token`, `stripe`, `reader_id`, `tip`.
 - Constraints for `credential_type`: Values: `"payment_method"`.
 
 ### PaymentSourceCredentialInput variant 3: `credential_type` = `"stripe_confirmation_token"`
@@ -36,8 +38,17 @@ oneOf with credential_type: "payment_method": The `payment_method` variant of `P
 oneOf with credential_type: "stripe_confirmation_token": The `stripe_confirmation_token` variant of `PaymentSourceCredential`..
 
 - Required: `stripe`.
-- Undeclared: `token`, `customer_presence`, `payment_method_id`.
+- Undeclared: `token`, `customer_presence`, `payment_method_id`, `reader_id`, `tip`.
 - Constraints for `credential_type`: Values: `"stripe_confirmation_token"`.
+
+### PaymentSourceCredentialInput variant 4: `credential_type` = `"reader"`
+
+oneOf with credential_type: "reader": The `reader` variant of `PaymentSourceCredential`..
+
+- Required: `reader_id`.
+- Optional: `tip`.
+- Undeclared: `token`, `customer_presence`, `payment_method_id`, `stripe`.
+- Constraints for `credential_type`: Selects payment collection on a reader. Values: `"reader"`.
 
 ### PaymentSourceCredentialInput variant 3.stripe
 

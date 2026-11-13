@@ -9,18 +9,19 @@ namespace Flint;
  * @property-read string $payment_method_creation
  * @property-read ?array<array-key, mixed> $payment_method_options
  * @property-read list<string> $payment_method_types
+ * @property-read list<string> $payment_options
  * @property-read ?list<SelectableOrderPaymentIntent> $selectable_payment_intents
  * @property-read string $submit_to
  * Presence-aware response; omitted optional fields return null. */
 final class PaymentCollectionStripeElements extends Model {
-    /** @param array{'amount_money'?: mixed, 'digital_wallets'?: list<string>, 'mode': string, 'next_step': string, 'payment_method_creation': string, 'payment_method_options'?: \stdClass, 'payment_method_types': list<string>, 'selectable_payment_intents'?: list<object{'amount_money': mixed, 'last_payment_error'?: mixed, 'payment_collection'?: mixed, 'payment_intent_id': string, 'status': string, 'tip_money': mixed}>, 'submit_to': string, ...}|object $values */
+    /** @param array{'amount_money'?: mixed, 'digital_wallets'?: list<string>, 'mode': string, 'next_step': string, 'payment_method_creation': string, 'payment_method_options'?: \stdClass, 'payment_method_types': list<string>, 'payment_options': list<string>, 'selectable_payment_intents'?: list<object{'amount_money': mixed, 'last_payment_error'?: mixed, 'payment_collection'?: mixed, 'payment_intent_id': string, 'status': string, 'tip_money': mixed}>, 'submit_to': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentCollectionStripeElements')); }
     /** Amount and currency used to initialize the payment form. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return ?MoneyValue
      */
     public function getAmountMoney(): ?MoneyValue { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** Digital wallets that the payment form can offer. [] (Value): string.
+    /** Deprecated: use payment_options. Digital wallets that the payment form can offer. Removed in a later release. [] (Value): string.
      * @return ?list<string>
      */
     public function getDigitalWallets(): ?array { return $this->get('digital_wallets'); }
@@ -45,11 +46,16 @@ final class PaymentCollectionStripeElements extends Model {
      */
     public function getPaymentMethodOptions(): ?array { return $this->get('payment_method_options'); }
     public function hasPaymentMethodOptions(): bool { return $this->has('payment_method_options'); }
-    /** Payment method types that the payment form can offer. [] (Value): string.
+    /** Deprecated: use payment_options. Processor payment method types that the payment form can offer. Removed in a later release. [] (Value): string.
      * @return list<string>
      */
     public function getPaymentMethodTypes(): array { return $this->get('payment_method_types'); }
     public function hasPaymentMethodTypes(): bool { return $this->has('payment_method_types'); }
+    /** Payment options the payment form can offer, in display order. Skip values you don't recognize. Stripe Elements takes processor payment method types: pass card for card, apple_pay, and google_pay; us_bank_account for ach_debit; and affirm for affirm. Set the Payment Element's wallets option so it shows only the wallets listed. [] enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit". [] (Value): string.  Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit".
+     * @return list<string>
+     */
+    public function getPaymentOptions(): array { return $this->get('payment_options'); }
+    public function hasPaymentOptions(): bool { return $this->has('payment_options'); }
     /** Order payment intents that the buyer can select for collection. [] (Value): {@see SelectableOrderPaymentIntent}. A payment intent on an order the caller can pick, with its amount, status, and last payment error.
      * @return ?list<SelectableOrderPaymentIntent>
      */

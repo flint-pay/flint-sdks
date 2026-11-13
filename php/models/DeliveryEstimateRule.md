@@ -8,7 +8,7 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `schedule_window` | Optional | [DeliveryScheduleWindowRule](../models/DeliveryScheduleWindowRule.md#deliveryschedulewindowrule) | Estimate rule for a scheduled-window delivery method, defined by its `availability` schedule. |
-| `transit_time` | Optional | [DeliveryTransitTimeRule](../models/DeliveryTransitTimeRule.md#deliverytransittimerule) | Estimate rule giving a delivery method's handling time and transit time as ranges of business days. |
-| `type` | Required | string | Values: `"none"`, `"transit_time"`, `"schedule_window"`. |
+| `schedule_window` | Optional | [DeliveryScheduleWindowRule](../models/DeliveryScheduleWindowRule.md#deliveryschedulewindowrule) | Weekly schedule of delivery windows. Set only when `type` is `schedule_window`. Estimate rule for a scheduled-window delivery method, defined by its `availability` schedule. |
+| `transit_time` | Optional | [DeliveryTransitTimeRule](../models/DeliveryTransitTimeRule.md#deliverytransittimerule) | Handling and transit time. Set only when `type` is `transit_time`. Estimate rule giving a delivery method's handling time and transit time as ranges of business days. |
+| `type` | Required | string | How Flint estimates timing. Set the property named by this value. Values: `"none"`, `"transit_time"`, `"schedule_window"`. |
 

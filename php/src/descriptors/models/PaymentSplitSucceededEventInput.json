@@ -1,0 +1,1 @@
+{"shared":"PaymentSplitSucceededEvent","dependencies":["MoneyValue","PaymentSplit","PaymentSplitReversal","PaymentSplitSucceededEvent","ResourceReference","ResourceType","SharedCodec10","SharedCodec1241","SharedCodec1245","SharedCodec6","SharedCodec7","SharedCodec8","SharedCodec9"]}

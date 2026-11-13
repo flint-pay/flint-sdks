@@ -1,1 +1,0 @@
-{"shared":"PaymentClientAction","phpRepresentation":{"kind":"record","fields":{"stripe":{"kind":"entity","name":"StripePaymentClientAction"}}},"dependencies":["PaymentClientAction","StripePaymentClientAction","StripePaymentIntentClientAction","StripeSetupIntentClientAction"]}

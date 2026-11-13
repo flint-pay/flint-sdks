@@ -8,19 +8,19 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `data` | Required | [BuyerCheckoutSessionWithSecret](../models/BuyerCheckoutSessionWithSecret.md#buyercheckoutsessionwithsecret) | The buyer checkout session and its checkout credential, created from the payment link. The checkout session with any newly issued checkout credential. Hosted launches return url without checkout_auth_token. Embedded launches return checkout_auth_token without url. Customer binding confirmation returns its newly issued credential for either surface. A session in which a buyer completes an order's payment. A session in which a buyer completes an order's payment. `data`: [field definitions](../models/ResolvePaymentLinkResponse.md#resolvepaymentlinkresponsedata). |
+| `data` | Required | [BuyerCheckoutSessionWithSecret](../models/BuyerCheckoutSessionWithSecret.md#buyercheckoutsessionwithsecret) | The buyer checkout session and its checkout credential, created from the payment link. The checkout session with any newly issued checkout credential. Hosted launches return url without checkout_auth_token. Headless launches return checkout_auth_token without url. Customer binding confirmation returns its newly issued credential for either surface. A session in which a buyer completes an order's payment. A session in which a buyer completes an order's payment. `data`: [field definitions](../models/ResolvePaymentLinkResponse.md#resolvepaymentlinkresponsedata). |
 | `meta` | Optional | [ResponseMeta](../models/ResponseMeta.md#responsemeta) | Additional information about this response. Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings. `meta`: [field definitions](../models/DisputeResponse.md#disputeresponsemeta). |
 | `request_id` | Required | string | Identifier of this API request, used to correlate logs and support requests. maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 ### ResolvePaymentLinkResponse.data
 
-The buyer checkout session and its checkout credential, created from the payment link. The checkout session with any newly issued checkout credential. Hosted launches return url without checkout_auth_token. Embedded launches return checkout_auth_token without url. Customer binding confirmation returns its newly issued credential for either surface. A session in which a buyer completes an order's payment.
+The buyer checkout session and its checkout credential, created from the payment link. The checkout session with any newly issued checkout credential. Hosted launches return url without checkout_auth_token. Headless launches return checkout_auth_token without url. Customer binding confirmation returns its newly issued credential for either surface. A session in which a buyer completes an order's payment.
 
-Field definitions: [shared fields](BuyerReturnResolutionCheckoutSessionResponse.md#buyerreturnresolutioncheckoutsessionresponsedata).
+Field definitions: [shared fields](BuyerCheckoutSessionLaunchResponse.md#buyercheckoutsessionlaunchresponsedata).
 
 ### ResolvePaymentLinkResponse.data.active_payment_attempt
 
-Field definitions: [BuyerReturnResolutionCheckoutSessionResponse.data.active_payment_attempt](../models/BuyerReturnResolutionCheckoutSessionResponse.md#buyerreturnresolutioncheckoutsessionresponsedataactive_payment_attempt).
+Field definitions: [BuyerCheckoutSessionLaunchResponse.data.active_payment_attempt](../models/BuyerCheckoutSessionLaunchResponse.md#buyercheckoutsessionlaunchresponsedataactive_payment_attempt).
 
 ### ResolvePaymentLinkResponse.data.buyer_contact
 

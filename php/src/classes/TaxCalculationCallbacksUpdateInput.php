@@ -16,7 +16,7 @@ final class TaxCalculationCallbacksUpdateInput extends Model {
      */
     public function getTaxCalculationCallbackId(): string { return $this->get('tax_calculation_callback_id'); }
     public function hasTaxCalculationCallbackId(): bool { return $this->has('tax_calculation_callback_id'); }
-    /** The request body for: Update a tax calculation callback. Example: {"expected_version":1,"status":"active"}.
+    /** The request body for: Update a tax calculation callback. minProperties: 1. Example: {"expected_version":1,"status":"active"}.
      * @return mixed
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

@@ -49,8 +49,8 @@ test("buyer fulfillment event helpers require an order before dispatch in Node a
   }
   assert.deepEqual(requests, []);
   const page = await client.me.listFulfillmentEvents({
-    order_id: "ord_test",
-    fulfillment_id: "ful_test",
+    order_id: "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+    fulfillment_id: "ful_01ARZ3NDEKTSV4RRFFQ69G5FAV",
     page_size: 25,
   });
   assert.deepEqual(page.data, []);
@@ -75,7 +75,7 @@ foreach ($methods as $method) {
         if (!$rejected) throw new \RuntimeException($method . ' accepted a missing order ID');
     }
 }
-$page = $client->me->listFulfillmentEvents(['order_id' => 'ord_test', 'fulfillment_id' => 'ful_test', 'page_size' => 25]);
+$page = $client->me->listFulfillmentEvents(['order_id' => 'ord_01ARZ3NDEKTSV4RRFFQ69G5FAV', 'fulfillment_id' => 'ful_01ARZ3NDEKTSV4RRFFQ69G5FAV', 'page_size' => 25]);
 if ($page->data !== []) throw new \RuntimeException('Expected an empty fulfillment event page');
 $client->close();
 `;
@@ -84,8 +84,8 @@ $client->close();
     timeout: 30000,
   });
   assert.deepEqual(requests, [
-    "/v1/me/fulfillment-events?order_id=ord_test&fulfillment_id=ful_test&page_size=25",
-    "/v1/me/fulfillment-events?order_id=ord_test&fulfillment_id=ful_test&page_size=25",
+    "/v1/me/fulfillment-events?order_id=ord_01ARZ3NDEKTSV4RRFFQ69G5FAV&fulfillment_id=ful_01ARZ3NDEKTSV4RRFFQ69G5FAV&page_size=25",
+    "/v1/me/fulfillment-events?order_id=ord_01ARZ3NDEKTSV4RRFFQ69G5FAV&fulfillment_id=ful_01ARZ3NDEKTSV4RRFFQ69G5FAV&page_size=25",
   ]);
 });
 
@@ -97,7 +97,7 @@ test("TypeScript consumers require buyer order IDs and canonical checkout URLs",
     writeFileSync(
       fixture,
       `import { Client, errors } from "../../node/index.js";
-import type { CheckoutSessionWithSecret, InvoiceCheckoutSessionResult, BuyerInvoiceCheckoutSessionResult } from "../../node/index.js";
+import type { CheckoutSessionWithSecret, BuyerCheckoutSessionWithSecret } from "../../node/index.js";
 // @ts-expect-error The deprecated invoice checkout model is removed.
 import type { HostedCheckout } from "../../node/index.js";
 // @ts-expect-error The deprecated invoice checkout input model is removed.
@@ -108,7 +108,7 @@ const client = new Client({ customerToken: "customer-test" });
 ${methods
   .map(
     (method) => `
-client.me.${method}({ order_id: "ord_test", page_size: 25 });
+client.me.${method}({ order_id: "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV", page_size: 25 });
 // @ts-expect-error An order ID is required.
 client.me.${method}({});
 // @ts-expect-error Params cannot be omitted.
@@ -122,12 +122,12 @@ launch.checkout_auth_token;
 launch.hosted_checkout;
 // @ts-expect-error Launch metadata no longer exposes the old access wrapper.
 launch.checkout_access;
-declare const invoice: InvoiceCheckoutSessionResult;
-invoice.checkout_session.url;
+declare const invoice: CheckoutSessionWithSecret;
+invoice.url;
 // @ts-expect-error Invoice results use the canonical checkout session URL.
 invoice.hosted_checkout;
-declare const buyerInvoice: BuyerInvoiceCheckoutSessionResult;
-buyerInvoice.checkout_session.url;
+declare const buyerInvoice: BuyerCheckoutSessionWithSecret;
+buyerInvoice.url;
 // @ts-expect-error Buyer invoice results use the canonical checkout session URL.
 buyerInvoice.hosted_checkout;
 `,

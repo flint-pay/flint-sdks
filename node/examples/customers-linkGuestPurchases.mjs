@@ -10,7 +10,7 @@ const idempotencyKey = crypto.randomUUID();
 const result = await client.customers.linkGuestPurchases(
   "cus_01KEZF7C006X9JK6NZNA2SM9XD",
   {
-    customer_verification_id: "cver_01KEZF7C00E7S01991S7457CVK",
+    customer_verification_id: "cver_01ARZ3NDEKTSV4RRFFQ69G5FAV",
   },
   { idempotencyKey: idempotencyKey },
 );

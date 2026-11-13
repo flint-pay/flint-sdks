@@ -1,0 +1,1 @@
+{"shared":"PlatformFeePayoutResponse","dependencies":["MoneyValue","NextAction","PlatformFeePayout","PlatformFeePayoutResponse","ReadinessMerchantAccountSession","ResourceReference","ResourceType","ResponseMeta","ResponseWarning","SharedCodec1004","SharedCodec1035","SharedCodec1360","SharedCodec1397","SharedCodec3"]}

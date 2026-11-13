@@ -16,7 +16,7 @@ final class ModifierGroupsDeleteInput extends Model {
      */
     public function getModifierGroupId(): string { return $this->get('modifier_group_id'); }
     public function hasModifierGroupId(): bool { return $this->has('modifier_group_id'); }
-    /** Optional modifier group version last read by the caller. Format: uint64. minimum: 1.
+    /** Optional modifier group version last read by the caller. Format: uint64. minimum: 1. maximum: 9007199254740991.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */

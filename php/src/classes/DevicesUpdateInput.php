@@ -16,7 +16,7 @@ final class DevicesUpdateInput extends Model {
      */
     public function getDeviceId(): string { return $this->get('device_id'); }
     public function hasDeviceId(): bool { return $this->has('device_id'); }
-    /** The request body for: Update device. Example: {"expected_version":1,"metadata":{"floor":"1","register":"front_counter"},"name":"Front Counter iPad 2"}.
+    /** The request body for: Update device. minProperties: 1. Example: {"expected_version":1,"metadata":{"floor":"1","register":"front_counter"},"name":"Front Counter iPad 2"}.
      * @return array{'expected_version'?: int, 'location_id'?: string|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'name'?: string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

@@ -2,6 +2,8 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read list<OrderEditLineAddition> $add_line_items
+ * @property-read MoneyValue $added_total_money
  * @property-read list<OrderEditChargeRefund> $charge_refunds
  * @property-read string $created_at
  * @property-read ?string $note
@@ -11,14 +13,25 @@ namespace Flint;
  * @property-read list<string> $refund_ids
  * @property-read MoneyValue $refund_money
  * @property-read list<OrderEditLineRemoval> $remove_line_items
+ * @property-read MoneyValue $removed_total_money
  * @property-read string $status
  * @property-read list<string> $supported_actions
  * @property-read MoneyValue $unrefunded_money
  * Presence-aware response; omitted optional fields return null. */
 final class OrderEdit extends Model {
-    /** @param array{'charge_refunds': list<mixed>, 'created_at': string, 'note'?: string, 'order_edit_id': string, 'order_id': string, 'reason'?: string, 'refund_ids': list<string>, 'refund_money': mixed, 'remove_line_items': list<mixed>, 'status': string, 'supported_actions': list<string>, 'unrefunded_money': mixed, ...}|object $values */
+    /** @param array{'add_line_items': list<mixed>, 'added_total_money': mixed, 'charge_refunds': list<mixed>, 'created_at': string, 'note'?: string, 'order_edit_id': string, 'order_id': string, 'reason'?: string, 'refund_ids': list<string>, 'refund_money': mixed, 'remove_line_items': list<mixed>, 'removed_total_money': mixed, 'status': string, 'supported_actions': list<string>, 'unrefunded_money': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderEdit')); }
-    /** Explicit charge refunds frozen at commit. Empty when no charges were refunded. [] (Value): {@see OrderEditChargeRefund}. The refund the preview would make for one order charge.
+    /** Added order lines, in request order, with their quantities and values frozen at commit. Empty when the edit added nothing. [] (Value): {@see OrderEditLineAddition}. An order line added by the enclosing edit, with its value frozen at commit.
+     * @return list<OrderEditLineAddition>
+     */
+    public function getAddLineItems(): array { return $this->get('add_line_items'); }
+    public function hasAddLineItems(): bool { return $this->has('add_line_items'); }
+    /** The cost of the added lines: the sum of add_line_items[].total_money. Zero when the edit added nothing. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValue
+     */
+    public function getAddedTotalMoney(): MoneyValue { return $this->get('added_total_money'); }
+    public function hasAddedTotalMoney(): bool { return $this->has('added_total_money'); }
+    /** Charges released by this edit, frozen at commit. Empty when no charges were released. [] (Value): {@see OrderEditChargeRefund}. The value an edit releases from one order charge, and the part refunded to the buyer.
      * @return list<OrderEditChargeRefund>
      */
     public function getChargeRefunds(): array { return $this->get('charge_refunds'); }
@@ -53,7 +66,7 @@ final class OrderEdit extends Model {
      */
     public function getRefundIds(): array { return $this->get('refund_ids'); }
     public function hasRefundIds(): bool { return $this->has('refund_ids'); }
-    /** Total money to refund for removed units and charges. May be zero; a zero-value edit creates no refund. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Money to refund after the removed value and released charges pay for added lines. May be zero; an edit with no refund money creates no refund. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getRefundMoney(): MoneyValue { return $this->get('refund_money'); }
@@ -63,6 +76,11 @@ final class OrderEdit extends Model {
      */
     public function getRemoveLineItems(): array { return $this->get('remove_line_items'); }
     public function hasRemoveLineItems(): bool { return $this->has('remove_line_items'); }
+    /** The value of the removed units: the sum of remove_line_items[].total_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValue
+     */
+    public function getRemovedTotalMoney(): MoneyValue { return $this->get('removed_total_money'); }
+    public function hasRemovedTotalMoney(): bool { return $this->has('removed_total_money'); }
     /** Whether this edit has committed. Refund processing has its own status on each refund. Value enum: "completed".
      * @return string
      */

@@ -88,7 +88,7 @@ Signature: `delete(string|Model $risk_rule_id, array|Model|null $params = null, 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `risk_rule_id` | Required | string | Flint risk rule ID. |
-| `expected_version` | Optional | integer | Optional risk rule version last read by the caller. Format: `int64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Optional risk rule version last read by the caller. Format: `int64`. minimum: `1`. maximum: `9007199254740991`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -162,6 +162,7 @@ Returned payload: [RiskRule](../models/RiskRule.md#riskrule).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -208,6 +209,7 @@ Returned payload: [RiskAttributeRegistry](../models/RiskAttributeRegistry.md#ris
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -261,6 +263,7 @@ Returned payload: [RiskRuleListResponse](../models/RiskRuleListResponse.md#riskr
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -301,7 +304,7 @@ Signature: `update(string|Model $risk_rule_id, array|Model $params, ?RequestOpti
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
-| `body` | Required | [UpdateRiskRuleRequestInput](../models/UpdateRiskRuleRequestInput.md#updateriskrulerequestinput) | The request body for: Update a risk rule. |
+| `body` | Required | [UpdateRiskRuleRequestInput](../models/UpdateRiskRuleRequestInput.md#updateriskrulerequestinput) | The request body for: Update a risk rule. minProperties: `1`. |
 
 Body model: [UpdateRiskRuleRequestInput](../models/UpdateRiskRuleRequestInput.md#updateriskrulerequestinput).
 

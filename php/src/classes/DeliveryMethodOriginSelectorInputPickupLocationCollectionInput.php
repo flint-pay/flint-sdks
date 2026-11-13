@@ -16,19 +16,19 @@ final class DeliveryMethodOriginSelectorInputPickupLocationCollectionInput exten
      */
     public function getDeliveryLocationSetId(): string { return $this->get('delivery_location_set_id'); }
     public function hasDeliveryLocationSetId(): bool { return $this->has('delivery_location_set_id'); }
-    /** minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+    /** ID of the Location delivery starts from. Required for `fixed_location` and not allowed otherwise. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When location_id is omitted; use hasLocationId() or valueOrDefault().
      */
     public function getLocationId(): string { return $this->get('location_id'); }
     public function hasLocationId(): bool { return $this->has('location_id'); }
-    /** Inline Location IDs for a set managed by this delivery method. Send either location_ids or delivery_location_set_id, never both. Use 1 to 25 unique Locations for allocated_origin_group or 1 to 1,000 for pickup_location_collection. Reads return these Location IDs without exposing the managed set. minItems: 1. maxItems: 1000. uniqueItems: true. [] (Value): string. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+    /** Inline Location IDs for a set managed by this delivery method. Send either location_ids or delivery_location_set_id, never both. Use 1 to 25 unique Locations for allocated_origin_group or 1 to 1,000 for pickup_location_collection. Reads return these Location IDs without exposing the managed set. IDs of the Locations in the group. minItems: 1. maxItems: 1000. uniqueItems: true. [] (Value): string. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return list<string>
      * @throws SdkError When location_ids is omitted; use hasLocationIds() or valueOrDefault().
      */
     public function getLocationIds(): array { return $this->get('location_ids'); }
     public function hasLocationIds(): bool { return $this->has('location_ids'); }
-    /** Value enum: "pickup_location_collection".
+    /** Where delivery starts. Value enum: "pickup_location_collection".
      * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */

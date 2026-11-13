@@ -15,7 +15,7 @@ namespace Flint;
 final class UpdateDeliveryMethodRequestInput extends Model {
     /** @param mixed $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdateDeliveryMethodRequestInput')); }
-    /** Only the keys you send change; keys you leave out keep their current values. Each key you send replaces that part of the configuration whole. Null removes an optional key, as each field describes. Arrays can't be null: send [] to clear recipient_requirements or quote_input_fields. pricing.rate_table.rates is an owned child collection: include delivery_rate_id to keep a rate, leave out the ID to create one, and leave out a rate to remove it. The result must be a configuration you could create, including pickup_mode for pickup methods. Requires expected_version. An empty configuration is invalid. Only the keys you send change; keys you leave out keep their current values. Each key you send replaces that part of the configuration whole. Null removes an optional key, as each field describes. Arrays can't be null: send [] to clear recipient_requirements or quote_input_fields. pricing.rate_table.rates is an owned child collection: include delivery_rate_id to keep a rate, leave out the ID to create one, and leave out a rate to remove it. The result must be a configuration you could create, including pickup_mode for pickup methods. Requires expected_version. An empty configuration is invalid. minProperties: 1.
+    /** Patch object: fields you send are applied, fields you omit are unchanged. Each key you send replaces that part of the configuration as a whole, so send every field you want to keep in pricing, origin, eligibility, and the other objects. Null removes an optional key, as each field describes. Arrays can't be null: send [] to clear recipient_requirements or quote_input_fields. pricing.rate_table.rates is an owned child collection: include delivery_rate_id to keep a rate, leave out the ID to create one, and leave out a rate to remove it. The result must be a configuration you could create, including pickup_mode for pickup methods. An empty configuration is invalid. Publishes a new immutable revision, even when the values are unchanged, and requires expected_version. Patch object: fields you send are applied, fields you omit are unchanged. Each key you send replaces that part of the configuration as a whole, so send every field you want to keep in pricing, origin, eligibility, and the other objects. Null removes an optional key, as each field describes. Arrays can't be null: send [] to clear recipient_requirements or quote_input_fields. pricing.rate_table.rates is an owned child collection: include delivery_rate_id to keep a rate, leave out the ID to create one, and leave out a rate to remove it. The result must be a configuration you could create, including pickup_mode for pickup methods. An empty configuration is invalid. Publishes a new immutable revision, even when the values are unchanged, and requires expected_version. minProperties: 1.
      * @return DeliveryMethodConfigurationPatchRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When configuration is omitted; use hasConfiguration() or valueOrDefault().
      */
@@ -27,13 +27,13 @@ final class UpdateDeliveryMethodRequestInput extends Model {
      */
     public function getDescription(): string|null { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** Format: int32.
+    /** Position in which this method displays among the others. Lower values display first. Format: int32.
      * @return int
      * @throws SdkError When display_position is omitted; use hasDisplayPosition() or valueOrDefault().
      */
     public function getDisplayPosition(): int { return $this->get('display_position'); }
     public function hasDisplayPosition(): bool { return $this->has('display_position'); }
-    /** Current resource version. Required for configuration, owned-rate replacement, and quote-pinned method presentation; optional for other scalar and status updates. Required when any of these fields is present: configuration, name, description, display_position, recommendation_priority. Format: uint64. minimum: 1.
+    /** Current resource version. Required when the request carries a revision field: configuration, name, description, display_position, recommendation_priority. A revision field publishes a new immutable revision even when its value is unchanged. Optional for other fields, which advance version and keep the current revision. Format: uint64. minimum: 1.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */
@@ -51,7 +51,7 @@ final class UpdateDeliveryMethodRequestInput extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** minLength: 1.
+    /** Name of the method. Buyers see it as the option name at checkout. minLength: 1.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
@@ -63,7 +63,7 @@ final class UpdateDeliveryMethodRequestInput extends Model {
      */
     public function getRecommendationPriority(): int|null { return $this->get('recommendation_priority'); }
     public function hasRecommendationPriority(): bool { return $this->has('recommendation_priority'); }
-    /** Value enum: "inactive", "active".
+    /** Whether the method is in use. Send it alone, with `expected_version`; combining it with another field returns `400 INVALID_REQUEST` with the detail `NOT_ALLOWED` on `status`. Value enum: "inactive", "active".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */

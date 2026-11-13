@@ -13,7 +13,7 @@ A purchasable customization choice.
 | `created_at` | Optional | string | When the modifier was created, as an RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `default_quantity` | Optional | integer | Whole-number quantity selected by default. Used only when the choice is available and selected_by_default is true. A modifier set can override this value; fractional quantities are not supported. Format: `int64`. |
 | `line_item_tax_category` | Optional | string | Flint line-item tax category. Values: [12 declared values](#modifier-line_item_tax_category-values). |
-| `metadata` | Optional | [MetadataMap](../models/MetadataMap.md#metadatamap) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/CreateOrderLineItem.md#createorderlineitem-variant-1metadata). |
+| `metadata` | Optional | [MetadataMap](../models/MetadataMap.md#metadatamap) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/CreateOrderLineItem.md#createorderlineitemmetadata). |
 | `modifier_group_id` | Optional | string | Identifier of the group that owns this modifier. For an inline group, read the group through its modifier set. Example: `"mg_01KEZF7C00XKJJATARG7KDBYM9"`. |
 | `modifier_id` | Required | string | Stable identifier of the modifier. In a replacement request, include it to retain a modifier or omit it to create one. Example: `"mod_01KEZF7C00SAWDZBQJX5H0XW1S"`. |
 | `name` | Required | string | Name of the choice shown to buyers. |
@@ -43,7 +43,7 @@ A purchasable customization choice.
 
 ### Modifier.metadata
 
-Field definitions: [CreateOrderLineItem variant 1.metadata](../models/CreateOrderLineItem.md#createorderlineitem-variant-1metadata).
+Field definitions: [CreateOrderLineItem.metadata](../models/CreateOrderLineItem.md#createorderlineitemmetadata).
 
 ### Modifier.unit_price_delta_money
 

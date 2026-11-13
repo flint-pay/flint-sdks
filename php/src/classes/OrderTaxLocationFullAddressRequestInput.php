@@ -10,7 +10,7 @@ namespace Flint;
  * @property-read string $state
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrderTaxLocationFullAddressRequestInput extends Model {
-    /** @param array{'city': string, 'country': string, 'line1': string, 'line2'?: string, 'postal_code': string, 'state': string}|object $values */
+    /** @param array{'city': string, 'country': string, 'line1': string, 'line2'?: string, 'postal_code'?: string, 'state'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderTaxLocationFullAddressRequestInput')); }
     /** City. minLength: 1. pattern: \S.
      * @return string
@@ -18,7 +18,7 @@ final class OrderTaxLocationFullAddressRequestInput extends Model {
      */
     public function getCity(): string { return $this->get('city'); }
     public function hasCity(): bool { return $this->has('city'); }
-    /** ISO 3166-1 alpha-2 country code. External tax accepts any ISO country; automatic tax supports only CA, US. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example: "US".
+    /** ISO 3166-1 alpha-2 country code. External tax accepts any ISO country; automatic tax supports only AT, AU, BE, BG, CA, CY, CZ, DE, DK, EE, ES, FI, FR, GB, GR, HR, HU, IE, IT, LT, LU, LV, MT, NL, NZ, PL, PT, RO, SE, SI, SK, US. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example: "US".
      * @return string
      * @throws SdkError When country is omitted; use hasCountry() or valueOrDefault().
      */
@@ -36,13 +36,13 @@ final class OrderTaxLocationFullAddressRequestInput extends Model {
      */
     public function getLine2(): string { return $this->get('line2'); }
     public function hasLine2(): bool { return $this->has('line2'); }
-    /** Postal code. minLength: 1. pattern: \S.
+    /** Postal code. A full address in Ireland may omit it; every other address needs one. minLength: 1. pattern: \S.
      * @return string
      * @throws SdkError When postal_code is omitted; use hasPostalCode() or valueOrDefault().
      */
     public function getPostalCode(): string { return $this->get('postal_code'); }
     public function hasPostalCode(): bool { return $this->has('postal_code'); }
-    /** Two-letter US state code, such as `WA`. minLength: 1. pattern: \S.
+    /** State or province code, such as `WA` or `ON`. Required for US and Canadian full addresses; omit it elsewhere when the address has none. minLength: 1. pattern: \S.
      * @return string
      * @throws SdkError When state is omitted; use hasState() or valueOrDefault().
      */

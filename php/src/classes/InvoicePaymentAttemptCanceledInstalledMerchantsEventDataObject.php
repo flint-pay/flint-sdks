@@ -31,7 +31,7 @@ final class InvoicePaymentAttemptCanceledInstalledMerchantsEventDataObject exten
      */
     public function getCancellationRequestedAt(): ?string { return $this->get('cancellation_requested_at'); }
     public function hasCancellationRequestedAt(): bool { return $this->has('cancellation_requested_at'); }
-    /** The hosted or embedded checkout session the buyer pays through. Absent for automatic charges.
+    /** The hosted or headless checkout session the buyer pays through. Absent for automatic charges.
      * @return ?string
      */
     public function getCheckoutSessionId(): ?string { return $this->get('checkout_session_id'); }

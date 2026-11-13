@@ -35,13 +35,13 @@ Current geographic eligibility conditions. A reusable geographic predicate conta
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `all` | Conditional | Array of (object and Alternative shapes (see declared variants)) | minItems: `1`. maxItems: `100`. Items: A reusable geographic predicate containing only country, state, postal_code, and radius conditions. `all[]`: [declared alternatives](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationall). |
-| `any` | Conditional | Array of (object and Alternative shapes (see declared variants)) | minItems: `1`. maxItems: `100`. Items: A reusable geographic predicate containing only country, state, postal_code, and radius conditions. `any[]`: [declared alternatives](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationall). |
-| `country` | Conditional | object | A delivery eligibility condition that matches when the address country is one of `values`. `country`: [field definitions](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallcountry). |
-| `not` | Conditional | object and Alternative shapes (see declared variants) | A reusable geographic predicate containing only country, state, postal_code, and radius conditions. `not`: [declared alternatives](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationall). |
-| `postal_code` | Conditional | object | A delivery eligibility condition that matches the address postal code against exact or prefix `values`. `postal_code`: [field definitions](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallpostal_code). |
-| `radius` | Conditional | object | Eligibility condition that matches when the destination or buyer location is within `maximum_distance` of an origin, measured in a straight line. `radius`: [field definitions](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallradius). |
-| `state` | Conditional | object | Eligibility condition that matches when the destination or buyer location is in one of the listed states or provinces, given as ISO 3166-2 codes. `state`: [field definitions](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallstate). |
+| `all` | Conditional | Array of (object and Alternative shapes (see declared variants)) | Matches when every nested expression matches. minItems: `1`. maxItems: `100`. Items: A reusable geographic predicate containing only country, state, postal_code, and radius conditions. `all[]`: [declared alternatives](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationall). |
+| `any` | Conditional | Array of (object and Alternative shapes (see declared variants)) | Matches when at least one nested expression matches. minItems: `1`. maxItems: `100`. Items: A reusable geographic predicate containing only country, state, postal_code, and radius conditions. `any[]`: [declared alternatives](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationall). |
+| `country` | Conditional | object | Matches when the address is in one of the listed countries. A delivery eligibility condition that matches when the address country is one of `values`. `country`: [field definitions](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallcountry). |
+| `not` | Conditional | object and Alternative shapes (see declared variants) | Matches when the nested expression does not match. A reusable geographic predicate containing only country, state, postal_code, and radius conditions. `not`: [declared alternatives](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationallallnot). |
+| `postal_code` | Conditional | object | Matches when the address postal code matches one of the listed codes. A delivery eligibility condition that matches the address postal code against exact or prefix `values`. `postal_code`: [field definitions](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallnotpostal_code). |
+| `radius` | Conditional | object | Matches when the address is within a set distance of an origin. Eligibility condition that matches when the destination or buyer location is within `maximum_distance` of an origin, measured in a straight line. `radius`: [field definitions](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallnotradius). |
+| `state` | Conditional | object | Matches when the address is in one of the listed states or provinces. Eligibility condition that matches when the destination or buyer location is in one of the listed states or provinces, given as ISO 3166-2 codes. `state`: [field definitions](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallnotstate). |
 
 ### DeliveryZoneResponse.data.configuration variant 1
 
@@ -98,13 +98,13 @@ A reusable geographic predicate containing only country, state, postal_code, and
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `all` | Conditional | Array of (object and Alternative shapes (see declared variants)) | minItems: `1`. maxItems: `100`. `all[]`: [declared alternatives](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationallall). |
-| `any` | Conditional | Array of (object and Alternative shapes (see declared variants)) | minItems: `1`. maxItems: `100`. `any[]`: [declared alternatives](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationallall). |
-| `country` | Conditional | object | A delivery eligibility condition that matches when the address country is one of `values`. `country`: [field definitions](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallcountry). |
-| `not` | Conditional | object and Alternative shapes (see declared variants) | A reusable geographic predicate containing only country, state, postal_code, and radius conditions. `not`: [declared alternatives](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationallall). |
-| `postal_code` | Conditional | object | A delivery eligibility condition that matches the address postal code against exact or prefix `values`. `postal_code`: [field definitions](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallpostal_code). |
-| `radius` | Conditional | object | Eligibility condition that matches when the destination or buyer location is within `maximum_distance` of an origin, measured in a straight line. `radius`: [field definitions](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallradius). |
-| `state` | Conditional | object | Eligibility condition that matches when the destination or buyer location is in one of the listed states or provinces, given as ISO 3166-2 codes. `state`: [field definitions](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallstate). |
+| `all` | Conditional | Array of (object and Alternative shapes (see declared variants)) | Matches when every nested expression matches. minItems: `1`. maxItems: `100`. `all[]`: [declared alternatives](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationallall). |
+| `any` | Conditional | Array of (object and Alternative shapes (see declared variants)) | Matches when at least one nested expression matches. minItems: `1`. maxItems: `100`. `any[]`: [declared alternatives](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationallall). |
+| `country` | Conditional | object | Matches when the address is in one of the listed countries. A delivery eligibility condition that matches when the address country is one of `values`. `country`: [field definitions](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallcountry). |
+| `not` | Conditional | object and Alternative shapes (see declared variants) | Matches when the nested expression does not match. A reusable geographic predicate containing only country, state, postal_code, and radius conditions. `not`: [declared alternatives](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationallallnot). |
+| `postal_code` | Conditional | object | Matches when the address postal code matches one of the listed codes. A delivery eligibility condition that matches the address postal code against exact or prefix `values`. `postal_code`: [field definitions](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallnotpostal_code). |
+| `radius` | Conditional | object | Matches when the address is within a set distance of an origin. Eligibility condition that matches when the destination or buyer location is within `maximum_distance` of an origin, measured in a straight line. `radius`: [field definitions](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallnotradius). |
+| `state` | Conditional | object | Matches when the address is in one of the listed states or provinces. Eligibility condition that matches when the destination or buyer location is in one of the listed states or provinces, given as ISO 3166-2 codes. `state`: [field definitions](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallnotstate). |
 
 ### DeliveryZoneResponse.data.configuration.all[] variant 1
 
@@ -161,13 +161,13 @@ A reusable geographic predicate containing only country, state, postal_code, and
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `all` | Conditional | Array of (object and Alternative shapes (see declared variants)) | minItems: `1`. maxItems: `100`. Items: A reusable geographic predicate containing only country, state, postal_code, and radius conditions. `all[]`: [field definitions](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationall). |
-| `any` | Conditional | Array of (object and Alternative shapes (see declared variants)) | minItems: `1`. maxItems: `100`. Items: A reusable geographic predicate containing only country, state, postal_code, and radius conditions. `any[]`: [field definitions](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationall). |
-| `country` | Conditional | object | A delivery eligibility condition that matches when the address country is one of `values`. `country`: [field definitions](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallcountry). |
-| `not` | Conditional | object and Alternative shapes (see declared variants) | A reusable geographic predicate containing only country, state, postal_code, and radius conditions. `not`: [field definitions](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationall). |
-| `postal_code` | Conditional | object | A delivery eligibility condition that matches the address postal code against exact or prefix `values`. `postal_code`: [field definitions](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallpostal_code). |
-| `radius` | Conditional | object | Eligibility condition that matches when the destination or buyer location is within `maximum_distance` of an origin, measured in a straight line. `radius`: [field definitions](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallradius). |
-| `state` | Conditional | object | Eligibility condition that matches when the destination or buyer location is in one of the listed states or provinces, given as ISO 3166-2 codes. `state`: [field definitions](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallstate). |
+| `all` | Conditional | Array of (object and Alternative shapes (see declared variants)) | Matches when every nested expression matches. minItems: `1`. maxItems: `100`. Items: A reusable geographic predicate containing only country, state, postal_code, and radius conditions. `all[]`: [field definitions](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationall). |
+| `any` | Conditional | Array of (object and Alternative shapes (see declared variants)) | Matches when at least one nested expression matches. minItems: `1`. maxItems: `100`. Items: A reusable geographic predicate containing only country, state, postal_code, and radius conditions. `any[]`: [field definitions](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationall). |
+| `country` | Conditional | object | Matches when the address is in one of the listed countries. A delivery eligibility condition that matches when the address country is one of `values`. `country`: [field definitions](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallcountry). |
+| `not` | Conditional | object and Alternative shapes (see declared variants) | Matches when the nested expression does not match. A reusable geographic predicate containing only country, state, postal_code, and radius conditions. `not`: [declared alternatives](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationallallnot). |
+| `postal_code` | Conditional | object | Matches when the address postal code matches one of the listed codes. A delivery eligibility condition that matches the address postal code against exact or prefix `values`. `postal_code`: [field definitions](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallnotpostal_code). |
+| `radius` | Conditional | object | Matches when the address is within a set distance of an origin. Eligibility condition that matches when the destination or buyer location is within `maximum_distance` of an origin, measured in a straight line. `radius`: [field definitions](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallnotradius). |
+| `state` | Conditional | object | Matches when the address is in one of the listed states or provinces. Eligibility condition that matches when the destination or buyer location is in one of the listed states or provinces, given as ISO 3166-2 codes. `state`: [field definitions](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallnotstate). |
 
 ### DeliveryZoneResponse.data.configuration.all[].all[] variant 1
 
@@ -232,29 +232,156 @@ Field definitions: [DeliveryMethodResponse.data.configuration.eligibility.all[].
 
 ### DeliveryZoneResponse.data.configuration.all[].all[].not
 
+Matches when the nested expression does not match. A reusable geographic predicate containing only country, state, postal_code, and radius conditions.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `all` | Conditional | Array of (object and Alternative shapes (see declared variants)) | Matches when every nested expression matches. minItems: `1`. maxItems: `100`. Items: A reusable geographic predicate containing only country, state, postal_code, and radius conditions. `all[]`: [field definitions](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationall). |
+| `any` | Conditional | Array of (object and Alternative shapes (see declared variants)) | Matches when at least one nested expression matches. minItems: `1`. maxItems: `100`. Items: A reusable geographic predicate containing only country, state, postal_code, and radius conditions. `any[]`: [field definitions](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationall). |
+| `country` | Conditional | object | Matches when the address is in one of the listed countries. A delivery eligibility condition that matches when the address country is one of `values`. `country`: [field definitions](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallcountry). |
+| `not` | Conditional | object and Alternative shapes (see declared variants) | Matches when the nested expression does not match. A reusable geographic predicate containing only country, state, postal_code, and radius conditions. `not`: [field definitions](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationallallnot). |
+| `postal_code` | Conditional | object | Matches when the address postal code matches one of the listed codes. A delivery eligibility condition that matches the address postal code against exact or prefix `values`. `postal_code`: [field definitions](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallnotpostal_code). |
+| `radius` | Conditional | object | Matches when the address is within a set distance of an origin. Eligibility condition that matches when the destination or buyer location is within `maximum_distance` of an origin, measured in a straight line. `radius`: [field definitions](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallnotradius). |
+| `state` | Conditional | object | Matches when the address is in one of the listed states or provinces. Eligibility condition that matches when the destination or buyer location is in one of the listed states or provinces, given as ISO 3166-2 codes. `state`: [field definitions](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallnotstate). |
+
+### DeliveryZoneResponse.data.configuration.all[].all[].not variant 1
+
+oneOf variant 1.
+
+- Required: `all`.
+- Optional: `any`, `country`, `not`, `postal_code`, `radius`, `state`.
+
+### DeliveryZoneResponse.data.configuration.all[].all[].not variant 2
+
+oneOf variant 2.
+
+- Required: `any`.
+- Optional: `all`, `country`, `not`, `postal_code`, `radius`, `state`.
+
+### DeliveryZoneResponse.data.configuration.all[].all[].not variant 3
+
+oneOf variant 3.
+
+- Required: `not`.
+- Optional: `all`, `any`, `country`, `postal_code`, `radius`, `state`.
+
+### DeliveryZoneResponse.data.configuration.all[].all[].not variant 4
+
+oneOf variant 4.
+
+- Required: `country`.
+- Optional: `all`, `any`, `not`, `postal_code`, `radius`, `state`.
+
+### DeliveryZoneResponse.data.configuration.all[].all[].not variant 5
+
+oneOf variant 5.
+
+- Required: `state`.
+- Optional: `all`, `any`, `country`, `not`, `postal_code`, `radius`.
+
+### DeliveryZoneResponse.data.configuration.all[].all[].not variant 6
+
+oneOf variant 6.
+
+- Required: `postal_code`.
+- Optional: `all`, `any`, `country`, `not`, `radius`, `state`.
+
+### DeliveryZoneResponse.data.configuration.all[].all[].not variant 7
+
+oneOf variant 7.
+
+- Required: `radius`.
+- Optional: `all`, `any`, `country`, `not`, `postal_code`, `state`.
+
+### DeliveryZoneResponse.data.configuration.all[].all[].not.all[]
+
 Field definitions: [DeliveryZoneResponse.data.configuration.all[]](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationall).
+
+### DeliveryZoneResponse.data.configuration.all[].all[].not.any[]
+
+Field definitions: [DeliveryZoneResponse.data.configuration.all[]](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationall).
+
+### DeliveryZoneResponse.data.configuration.all[].all[].not.country
+
+Field definitions: [DeliveryMethodResponse.data.configuration.eligibility.all[].all[].country](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallcountry).
+
+### DeliveryZoneResponse.data.configuration.all[].all[].not.not
+
+Field definitions: [DeliveryZoneResponse.data.configuration.all[].all[].not](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationallallnot).
+
+### DeliveryZoneResponse.data.configuration.all[].all[].not.postal_code
+
+Field definitions: [DeliveryMethodResponse.data.configuration.eligibility.all[].all[].not.postal_code](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallnotpostal_code).
+
+### DeliveryZoneResponse.data.configuration.all[].all[].not.radius
+
+Field definitions: [DeliveryMethodResponse.data.configuration.eligibility.all[].all[].not.radius](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallnotradius).
+
+### DeliveryZoneResponse.data.configuration.all[].all[].not.state
+
+Field definitions: [DeliveryMethodResponse.data.configuration.eligibility.all[].all[].not.state](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallnotstate).
+
+### DeliveryZoneResponse.data.configuration.all[].all[].not.all[] fields 1
+
+Field definitions: [DeliveryZoneResponse.data.configuration.all[]](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationall).
+
+### DeliveryZoneResponse.data.configuration.all[].all[].not.not fields 1
+
+Field definitions: [DeliveryZoneResponse.data.configuration.all[].all[].not](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationallallnot).
+
+### DeliveryZoneResponse.data.configuration.all[].all[].not.all[] fields 2
+
+Field definitions: [DeliveryZoneResponse.data.configuration.all[]](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationall).
+
+### DeliveryZoneResponse.data.configuration.all[].all[].not.not fields 2
+
+Field definitions: [DeliveryZoneResponse.data.configuration.all[].all[].not](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationallallnot).
+
+### DeliveryZoneResponse.data.configuration.all[].all[].not.all[] fields 3
+
+Field definitions: [DeliveryZoneResponse.data.configuration.all[]](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationall).
+
+### DeliveryZoneResponse.data.configuration.all[].all[].not.not fields 3
+
+Field definitions: [DeliveryZoneResponse.data.configuration.all[].all[].not](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationallallnot).
+
+### DeliveryZoneResponse.data.configuration.all[].all[].not.all[] fields 4
+
+Field definitions: [DeliveryZoneResponse.data.configuration.all[]](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationall).
+
+### DeliveryZoneResponse.data.configuration.all[].all[].not.not fields 4
+
+Field definitions: [DeliveryZoneResponse.data.configuration.all[].all[].not](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationallallnot).
+
+### DeliveryZoneResponse.data.configuration.all[].all[].not.all[] fields 5
+
+Field definitions: [DeliveryZoneResponse.data.configuration.all[]](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationall).
+
+### DeliveryZoneResponse.data.configuration.all[].all[].not.not fields 5
+
+Field definitions: [DeliveryZoneResponse.data.configuration.all[].all[].not](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationallallnot).
+
+### DeliveryZoneResponse.data.configuration.all[].all[].not.all[] fields 6
+
+Field definitions: [DeliveryZoneResponse.data.configuration.all[]](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationall).
+
+### DeliveryZoneResponse.data.configuration.all[].all[].not.not fields 6
+
+Field definitions: [DeliveryZoneResponse.data.configuration.all[].all[].not](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationallallnot).
 
 ### DeliveryZoneResponse.data.configuration.all[].all[].postal_code
 
-Field definitions: [DeliveryMethodResponse.data.configuration.eligibility.all[].all[].postal_code](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallpostal_code).
+Field definitions: [DeliveryMethodResponse.data.configuration.eligibility.all[].all[].not.postal_code](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallnotpostal_code).
 
 ### DeliveryZoneResponse.data.configuration.all[].all[].radius
 
-Field definitions: [DeliveryMethodResponse.data.configuration.eligibility.all[].all[].radius](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallradius).
+Field definitions: [DeliveryMethodResponse.data.configuration.eligibility.all[].all[].not.radius](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallnotradius).
 
 ### DeliveryZoneResponse.data.configuration.all[].all[].state
 
-Field definitions: [DeliveryMethodResponse.data.configuration.eligibility.all[].all[].state](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallstate).
+Field definitions: [DeliveryMethodResponse.data.configuration.eligibility.all[].all[].not.state](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallnotstate).
 
 ### DeliveryZoneResponse.data.configuration.all[].all[].all[] fields 1
-
-Field definitions: [DeliveryZoneResponse.data.configuration.all[]](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationall).
-
-### DeliveryZoneResponse.data.configuration.all[].all[].any[] fields 1
-
-Field definitions: [DeliveryZoneResponse.data.configuration.all[]](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationall).
-
-### DeliveryZoneResponse.data.configuration.all[].all[].not fields 1
 
 Field definitions: [DeliveryZoneResponse.data.configuration.all[]](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationall).
 
@@ -262,23 +389,7 @@ Field definitions: [DeliveryZoneResponse.data.configuration.all[]](../models/Del
 
 Field definitions: [DeliveryZoneResponse.data.configuration.all[]](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationall).
 
-### DeliveryZoneResponse.data.configuration.all[].all[].any[] fields 2
-
-Field definitions: [DeliveryZoneResponse.data.configuration.all[]](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationall).
-
-### DeliveryZoneResponse.data.configuration.all[].all[].not fields 2
-
-Field definitions: [DeliveryZoneResponse.data.configuration.all[]](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationall).
-
 ### DeliveryZoneResponse.data.configuration.all[].all[].all[] fields 3
-
-Field definitions: [DeliveryZoneResponse.data.configuration.all[]](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationall).
-
-### DeliveryZoneResponse.data.configuration.all[].all[].any[] fields 3
-
-Field definitions: [DeliveryZoneResponse.data.configuration.all[]](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationall).
-
-### DeliveryZoneResponse.data.configuration.all[].all[].not fields 3
 
 Field definitions: [DeliveryZoneResponse.data.configuration.all[]](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationall).
 
@@ -286,35 +397,11 @@ Field definitions: [DeliveryZoneResponse.data.configuration.all[]](../models/Del
 
 Field definitions: [DeliveryZoneResponse.data.configuration.all[]](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationall).
 
-### DeliveryZoneResponse.data.configuration.all[].all[].any[] fields 4
-
-Field definitions: [DeliveryZoneResponse.data.configuration.all[]](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationall).
-
-### DeliveryZoneResponse.data.configuration.all[].all[].not fields 4
-
-Field definitions: [DeliveryZoneResponse.data.configuration.all[]](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationall).
-
 ### DeliveryZoneResponse.data.configuration.all[].all[].all[] fields 5
 
 Field definitions: [DeliveryZoneResponse.data.configuration.all[]](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationall).
 
-### DeliveryZoneResponse.data.configuration.all[].all[].any[] fields 5
-
-Field definitions: [DeliveryZoneResponse.data.configuration.all[]](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationall).
-
-### DeliveryZoneResponse.data.configuration.all[].all[].not fields 5
-
-Field definitions: [DeliveryZoneResponse.data.configuration.all[]](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationall).
-
 ### DeliveryZoneResponse.data.configuration.all[].all[].all[] fields 6
-
-Field definitions: [DeliveryZoneResponse.data.configuration.all[]](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationall).
-
-### DeliveryZoneResponse.data.configuration.all[].all[].any[] fields 6
-
-Field definitions: [DeliveryZoneResponse.data.configuration.all[]](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationall).
-
-### DeliveryZoneResponse.data.configuration.all[].all[].not fields 6
 
 Field definitions: [DeliveryZoneResponse.data.configuration.all[]](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationall).
 
@@ -328,19 +415,19 @@ Field definitions: [DeliveryMethodResponse.data.configuration.eligibility.all[].
 
 ### DeliveryZoneResponse.data.configuration.all[].not
 
-Declared alternatives: [DeliveryZoneResponse.data.configuration.all[].all[]](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationallall).
+Declared alternatives: [DeliveryZoneResponse.data.configuration.all[].all[].not](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationallallnot).
 
 ### DeliveryZoneResponse.data.configuration.all[].postal_code
 
-Field definitions: [DeliveryMethodResponse.data.configuration.eligibility.all[].all[].postal_code](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallpostal_code).
+Field definitions: [DeliveryMethodResponse.data.configuration.eligibility.all[].all[].not.postal_code](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallnotpostal_code).
 
 ### DeliveryZoneResponse.data.configuration.all[].radius
 
-Field definitions: [DeliveryMethodResponse.data.configuration.eligibility.all[].all[].radius](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallradius).
+Field definitions: [DeliveryMethodResponse.data.configuration.eligibility.all[].all[].not.radius](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallnotradius).
 
 ### DeliveryZoneResponse.data.configuration.all[].state
 
-Field definitions: [DeliveryMethodResponse.data.configuration.eligibility.all[].all[].state](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallstate).
+Field definitions: [DeliveryMethodResponse.data.configuration.eligibility.all[].all[].not.state](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallnotstate).
 
 ### DeliveryZoneResponse.data.configuration.any[]
 
@@ -352,19 +439,19 @@ Field definitions: [DeliveryMethodResponse.data.configuration.eligibility.all[].
 
 ### DeliveryZoneResponse.data.configuration.not
 
-Declared alternatives: [DeliveryZoneResponse.data.configuration.all[]](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationall).
+Declared alternatives: [DeliveryZoneResponse.data.configuration.all[].all[].not](../models/DeliveryZoneResponse.md#deliveryzoneresponsedataconfigurationallallnot).
 
 ### DeliveryZoneResponse.data.configuration.postal_code
 
-Field definitions: [DeliveryMethodResponse.data.configuration.eligibility.all[].all[].postal_code](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallpostal_code).
+Field definitions: [DeliveryMethodResponse.data.configuration.eligibility.all[].all[].not.postal_code](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallnotpostal_code).
 
 ### DeliveryZoneResponse.data.configuration.radius
 
-Field definitions: [DeliveryMethodResponse.data.configuration.eligibility.all[].all[].radius](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallradius).
+Field definitions: [DeliveryMethodResponse.data.configuration.eligibility.all[].all[].not.radius](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallnotradius).
 
 ### DeliveryZoneResponse.data.configuration.state
 
-Field definitions: [DeliveryMethodResponse.data.configuration.eligibility.all[].all[].state](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallstate).
+Field definitions: [DeliveryMethodResponse.data.configuration.eligibility.all[].all[].not.state](../models/DeliveryMethodResponse.md#deliverymethodresponsedataconfigurationeligibilityallallnotstate).
 
 ### DeliveryZoneResponse.data.metadata
 

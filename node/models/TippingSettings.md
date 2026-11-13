@@ -44,5 +44,5 @@ anyOf variant 2.
 
 Monetary amount represented as integer minor units plus an ISO 4217 currency code.
 
-Field definitions: [shared fields](CreateGiftCardLoadRequest.md#creategiftcardloadrequestvalue_money).
+Field definitions: [shared fields](CapturePaymentIntentRequest.md#capturepaymentintentrequestsplitsamount_money).
 

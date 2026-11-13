@@ -10,19 +10,19 @@ namespace Flint;
 final class DeliveryInventoryAssignmentRequestInput extends Model {
     /** @param array{'demand_key': string, 'inventory_item_id': string, 'location_id': string, 'quantity': int}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryInventoryAssignmentRequestInput')); }
-    /** minLength: 1.
+    /** Key of the inventory demand this assignment serves. minLength: 1.
      * @return string
      * @throws SdkError When demand_key is omitted; use hasDemandKey() or valueOrDefault().
      */
     public function getDemandKey(): string { return $this->get('demand_key'); }
     public function hasDemandKey(): bool { return $this->has('demand_key'); }
-    /** minLength: 1. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
+    /** ID of the inventory item assigned. minLength: 1. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
      * @return string
      * @throws SdkError When inventory_item_id is omitted; use hasInventoryItemId() or valueOrDefault().
      */
     public function getInventoryItemId(): string { return $this->get('inventory_item_id'); }
     public function hasInventoryItemId(): bool { return $this->has('inventory_item_id'); }
-    /** minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+    /** ID of the Location the stock is assigned from. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When location_id is omitted; use hasLocationId() or valueOrDefault().
      */

@@ -11,10 +11,11 @@ A record of an API request and its response.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `api_request_log_id` | Required | string | Stable identifier of this log entry. Example: `"rlog_01KEZF7C008XJCH6BHA224X46F"`. |
-| `caller` | Optional | [ResourceReference](../models/ResourceReference.md#resourcereference) | The public resource that made this request. Absent when Flint cannot attribute the request. A reference to another resource by `resource_type` and `resource_id`. |
+| `caller` | Optional | [ResourceReference](../models/ResourceReference.md#resourcereference) | Who made this request. An API key, workload token, or partner app token records that API key, workload identity, or partner app installation. A Dashboard write, CLI login, or onboarding session records the user. A buyer checkout request records the checkout session. A buyer account request records the customer session. A request made with invoice access records the invoice. Absent when Flint cannot attribute the request. A reference to another resource by `resource_type` and `resource_id`. |
 | `client_request_id` | Optional | string | The caller's X-Request-Id, matched exactly and case-sensitively. Absent when the caller sent none. minLength: `1`. maxLength: `128`. pattern: `^[\x21-\x7E]+$`. Example: `"checkout-1842"`. |
 | `client_trace_id` | Optional | string | The trace ID from a valid W3C traceparent, for correlation with the caller's tracing. Flint starts its own trace. Absent when no valid traceparent was sent. pattern: `^[0-9a-f]{32}$`. Example: `"0123456789abcdef0123456789abcdef"`. |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
+| `customer_id` | Optional | string | The customer whose customer session made this request; `caller` is the session. Absent for every other caller. pattern: `^cus_[0-9A-HJKMNP-TV-Z]{26}$`. Example: `"cus_01KEZF7C006X9JK6NZNA2SM9XD"`. |
 | `error_code` | Optional | string | The response's top-level error `code`. Absent for successful requests. |
 | `error_summary` | Optional | string | A concise explanation of why the request failed. |
 | `error_type` | Optional | string | The error envelope's `type` for this response. Values: [11 declared values](#apirequestlog-error_type-values). |
@@ -29,7 +30,7 @@ A record of an API request and its response.
 | `requested_api_version` | Optional | string | The API version Flint resolved for the request. |
 | `requested_api_version_source` | Optional | string | Where `requested_api_version` came from. Absent when Flint did not record one. Values: `"header"`, `"partner_app"`, `"merchant"`, `"current"`. |
 | `resource_id` | Optional | string | The ID of the resource the request is about, when Flint can attribute it to one. A failed create can have a `resource_type` and no ID. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
-| `resource_type` | Optional | string | The kind of resource the request is about, when Flint can attribute it to one. Example: `"order"`. Values: [146 declared values](#apirequestlog-resource_type-values). |
+| `resource_type` | Optional | string | The kind of resource the request is about, when Flint can attribute it to one. Example: `"order"`. Values: [153 declared values](#apirequestlog-resource_type-values). |
 | `retry` | Optional | string | Whether sending this request again can succeed, and how. It depends only on code and details[0].reason; the errors reference lists the value for each. Values: `"same_request"`, `"after_refresh"`, `"none"`. |
 | `route_pattern` | Required | string | The matched route as a method and path template, such as `POST /v1/orders`. |
 | `served_api_version` | Optional | string | The API version Flint used to encode the response. |
@@ -70,6 +71,7 @@ A record of an API request and its response.
 - `"customer_session"`
 - `"customer_tax_exemption"`
 - `"customer_verification"`
+- `"delivery_choice_group"`
 - `"delivery_location_set"`
 - `"delivery_method"`
 - `"delivery_profile"`
@@ -124,6 +126,7 @@ A record of an API request and its response.
 - `"merchant_billing_balance"`
 - `"merchant_billing_entry"`
 - `"merchant_billing_invoice"`
+- `"merchant_signup"`
 - `"modifier"`
 - `"modifier_group"`
 - `"modifier_set"`
@@ -145,9 +148,13 @@ A record of an API request and its response.
 - `"payment_method"`
 - `"payment_method_domain"`
 - `"payment_review"`
+- `"payment_split"`
 - `"payout"`
 - `"payout_destination"`
 - `"payout_settings"`
+- `"platform_fee"`
+- `"platform_fee_balance_transaction"`
+- `"platform_fee_payout"`
 - `"price_list"`
 - `"price_list_price"`
 - `"product"`
@@ -157,6 +164,7 @@ A record of an API request and its response.
 - `"promotion"`
 - `"promotion_code"`
 - `"purchase_refund_allocation"`
+- `"reader"`
 - `"refund"`
 - `"refund_allocation"`
 - `"refund_line_item_adjustment"`

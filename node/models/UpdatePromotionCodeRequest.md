@@ -2,7 +2,7 @@
 
 ## UpdatePromotionCodeRequest
 
-The request body for: Update promotion code.
+The request body for: Update promotion code. minProperties: `1`.
 
 
 

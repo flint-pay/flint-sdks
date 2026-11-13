@@ -12,5 +12,4 @@ const result = await client.deliveryRateCallbacks.rotateSecret(
   {},
   { idempotencyKey: idempotencyKey },
 );
-console.log(result.delivery_rate_callback_id);
-console.log(result.key_id);
+console.log(result);

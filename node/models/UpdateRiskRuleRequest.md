@@ -2,7 +2,7 @@
 
 ## UpdateRiskRuleRequest
 
-The request body for: Update a risk rule.
+The request body for: Update a risk rule. minProperties: `1`.
 
 
 

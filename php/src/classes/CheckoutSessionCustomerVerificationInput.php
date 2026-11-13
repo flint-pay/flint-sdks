@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read bool $can_use_email_code
  * @property-read string $channel
  * @property-read string $checkout_session_customer_verification_id
  * @property-read string $checkout_session_id
@@ -13,8 +14,14 @@ namespace Flint;
  * @property-read list<string> $supported_actions
  * Presence-aware input; omitted fields throw when accessed. */
 final class CheckoutSessionCustomerVerificationInput extends Model {
-    /** @param array{'channel': string, 'checkout_session_customer_verification_id': string, 'checkout_session_id': string, 'created_at': string|\DateTimeInterface, 'email'?: string, 'expires_at': string|\DateTimeInterface, 'phone_last_digits'?: string, 'purpose': string, 'supported_actions': list<string>, ...}|object $values */
+    /** @param array{'can_use_email_code'?: bool, 'channel': string, 'checkout_session_customer_verification_id': string, 'checkout_session_id': string, 'created_at': string|\DateTimeInterface, 'email'?: string, 'expires_at': string|\DateTimeInterface, 'phone_last_digits'?: string, 'purpose': string, 'supported_actions': list<string>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutSessionCustomerVerificationInput')); }
+    /** Whether an emailed code would open saved details for this buyer in this checkout: cards saved by email at this merchant, or a Flint wallet where the checkout offers one. Offer the emailed code only when true. Set only for channel sms with purpose use_saved_payment_methods.
+     * @return bool
+     * @throws SdkError When can_use_email_code is omitted; use hasCanUseEmailCode() or valueOrDefault().
+     */
+    public function getCanUseEmailCode(): bool { return $this->get('can_use_email_code'); }
+    public function hasCanUseEmailCode(): bool { return $this->has('can_use_email_code'); }
     /** How the code reached the buyer: email or sms. Value enum: "email", "sms".
      * @return string
      * @throws SdkError When channel is omitted; use hasChannel() or valueOrDefault().
@@ -39,7 +46,7 @@ final class CheckoutSessionCustomerVerificationInput extends Model {
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** The address the code is for, lowercased: the email the buyer typed, or for an emailed confirm_saved_payment_method code, the customer's email masked to its first character and domain, such as a•••@example.com. Omitted for a texted confirm_saved_payment_method code.
+    /** The address the code is for, lowercased: the email the buyer typed, or for an emailed confirm_saved_payment_method code, the customer's email masked to its first character and domain, such as a•••@example.com. Omitted for a texted confirm_saved_payment_method code. Only the create response carries the email as typed. Reads mask every email this way.
      * @return string
      * @throws SdkError When email is omitted; use hasEmail() or valueOrDefault().
      */

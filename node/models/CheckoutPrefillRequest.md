@@ -14,4 +14,5 @@ Contact details and addresses to fill in for the buyer, who can change them. For
 | `email` | Optional | string | The buyer's email address to fill in. minLength: `1`. |
 | `phone` | Optional | string | The buyer's phone number to fill in. minLength: `1`. |
 | `shipping_address` | Optional | [AddressRequest](../models/AddressRequest.md#addressrequest) | The shipping address to fill in. A complete postal address. State and postal_code are required for US addresses and optional for other countries. Send null or omit line2, state, and postal_code when the address has none. |
+| `shipping_recipient_name` | Optional | string | The name of the person receiving the delivery, to fill in with the shipping address. minLength: `1`. maxLength: `200`. |
 

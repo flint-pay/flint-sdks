@@ -8,13 +8,13 @@ namespace Flint;
 final class DeliveryRadiusOriginInput extends Model {
     /** @param array{'location_id'?: string, 'method_origin'?: bool}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryRadiusOriginInput')); }
-    /** minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+    /** ID of the Location to measure from. Send either `location_id` or `method_origin`. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When location_id is omitted; use hasLocationId() or valueOrDefault().
      */
     public function getLocationId(): string { return $this->get('location_id'); }
     public function hasLocationId(): bool { return $this->has('location_id'); }
-    /** method_origin
+    /** Send `true` to measure from the origin of the delivery method. Send either `location_id` or `method_origin`.
      * @return bool
      * @throws SdkError When method_origin is omitted; use hasMethodOrigin() or valueOrDefault().
      */

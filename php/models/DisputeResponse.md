@@ -41,6 +41,7 @@ Resource, collection, or operation result returned by this request. A challenge 
 | `reason` | Required | string | Why the payment was disputed. A reason Flint doesn't recognize is `other`. Values: [12 declared values](DisputeInput.md#disputeinput-reason-values). |
 | `recommended_evidence_types` | Required | Array of string | Evidence types that usually answer this reason, chosen by Flint, most useful first. Use the ones that fit what you sold. Empty when Flint has no recommendation, including bank returns. Chosen from the stored reason and case_type; in a webhook, frozen when Flint records the change. Items values: [11 declared values](DisputeInput.md#disputeinput-recommended_evidence_types--values). |
 | `response_unavailable_reason` | Optional | string | Why a response is unavailable when can_respond_with_evidence is false. Absent when no reason is reported. Current values are bank_return_not_contestable and response_window_unavailable. response_window_unavailable means no evidence deadline was supplied. Values: `"bank_return_not_contestable"`, `"response_window_unavailable"`. |
+| `split_reversals` | Optional | Array of [SplitReversalReference](../models/SplitReversalReference.md#splitreversalreference) | Fixed seller allocations on the payment, each naming its payment split and reversal. Present only when the payment has splits; an empty array means no seller share was allocated. Read PaymentSplit.reversals for status, shortfall, and reinstated amounts. `split_reversals[]`: [field definitions](../models/DisputeResponse.md#disputeresponsedatasplit_reversals). |
 | `status` | Required | string | Where the dispute stands. `needs_response` and `inquiry_needs_response` ask you to respond; `inquiry_closed`, `won`, `lost`, and `prevented` are final. Values: `"inquiry_needs_response"`, `"inquiry_under_review"`, `"inquiry_closed"`, `"needs_response"`, `"under_review"`, `"won"`, `"lost"`, `"prevented"`, `"other"`. |
 | `status_changed_at` | Optional | string | Recorded time of the current status. On first observation this is the dispute creation time. Later status changes use the provider event time when available, or the time Flint observed the change. This may not be the exact decision or submission time. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `supported_actions` | Required | Array of string | Lifecycle actions Flint accepts now. Evaluated when the dispute is read; in a webhook payload, as of when Flint recorded the change. It turns empty once evidence_due_at has passed, with no event. Items values: `"accept"`. |
@@ -82,7 +83,7 @@ Present only when `expand` includes `order`; `null` when expanded and there is n
 | --- | --- | --- | --- |
 | `buyer_contact` | Conditional | [CheckoutBuyerContact](../models/CheckoutBuyerContact.md#checkoutbuyercontact) | Buyer contact recorded on the order, including guest contact when retained. Omitted when the order has no recorded contact. Buyer contact supplied with payment or saved during checkout. `buyer_contact`: [field definitions](../models/DisputeResponse.md#disputeresponsedataorder-variant-1buyer_contact). |
 | `closed_at` | Conditional | string | When the order closed. Present exactly when status is closed. Set once at the transition and never changed. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
-| `closed_reason` | Conditional | string | Why the order closed. Present exactly when status is closed. Set once at closure. Unrecognized reasons are returned as other; new values may be added. Values: `"paid"`, `"closed_by_merchant"`, `"checkout_expired"`, `"written_off"`, `"superseded"`, `"return_resolution_canceled"`, `"other"`. |
+| `closed_reason` | Conditional | string | Why the order closed. Present exactly when status is closed. Set once at closure. Unrecognized reasons are returned as other; new values may be added. Values: `"invoice_voided"`, `"paid"`, `"closed_by_merchant"`, `"checkout_expired"`, `"written_off"`, `"superseded"`, `"return_resolution_canceled"`, `"other"`. |
 | `created_at` | Conditional | string | When the order was created, in RFC3339 format. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `customer_id` | Conditional | string | Customer associated with the order, when one is set. Example: `"cus_01KEZF7C006X9JK6NZNA2SM9XD"`. |
 | `deferred_promotions` | Conditional | Array of [DeferredPromotion](../models/DeferredPromotion.md#deferredpromotion) | Promotions accepted at subscription signup. They attach when the subscription is provisioned and first discount its first charged cycle. They do not discount this order and are separate from discounts and order totals. Always present; empty when no promotions are deferred. `deferred_promotions[]`: [field definitions](../models/DisputeResponse.md#disputeresponsedataorder-variant-1deferred_promotions). |
@@ -94,8 +95,8 @@ Present only when `expand` includes `order`; `null` when expanded and there is n
 | `payment_intent_ids` | Conditional | Array of string | Payment intents associated with the order. Items: Example: `"pi_01KEZF7C00G8H9D509YEV22P7R"`. |
 | `payment_status` | Conditional | string | Collection progress. An invoice write-off also completes collection without receiving the written-off amount. Values: `"unpaid"`, `"partially_paid"`, `"paid"`. |
 | `pricing_amounts` | Conditional | [PricingAmounts](../models/PricingAmounts.md#pricingamounts) | Order totals before accounting for collected payments and refunds. The money totals for an order or invoice: subtotal, discounts, charges, tax, requested tip, and total. |
-| `refund_status` | Conditional | string | Refund progress for collected money. Values: `"none"`, `"partially_refunded"`, `"refunded"`. |
-| `settlement_amounts` | Conditional | [OrderSettlementAmounts](../models/OrderSettlementAmounts.md#ordersettlementamounts) | Payments, refunds, credits, and amounts still owed for the order. The bill settlement amounts plus order overpayments, settled tips, and debt discharged by final capture. Money collected, returned, waived, and still owed on a bill. Money collected, returned, waived, and still owed on a bill. |
+| `refund_status` | Conditional | string | Refund progress for collected money. Refunds with `reason` `payment_returned` return money the order never received and don't count. Values: `"none"`, `"partially_refunded"`, `"refunded"`. |
+| `settlement_amounts` | Conditional | [OrderSettlementAmounts](../models/OrderSettlementAmounts.md#ordersettlementamounts) | Payments, refunds, credits, and amounts still owed for the order. The bill settlement amounts plus order overpayments, settled tips, debt discharged by final capture, and value order edits removed. Money collected, returned, waived, and still owed on a bill. Money collected, returned, waived, and still owed on a bill. |
 | `status` | Conditional | string | Whether the order still accepts changes and new payments. Refunds, fulfillment, disputes, returns, and metadata or note edits continue on a closed order. Values: `"open"`, `"closed"`. |
 | `supported_actions` | Conditional | Array of string | Lifecycle actions Flint accepts on the order now, independent of permissions. Items values: `"close"`, `"pay"`, `"resolve_inventory_exception"`. |
 | `updated_at` | Conditional | string | When the order was last updated, in RFC3339 format. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
@@ -132,10 +133,11 @@ Present only when `expand` includes `payment_intent`; `null` when expanded and t
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Conditional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The amount requested from the buyer, including any tip_money. Capturing doesn't change it: after a partial capture it still shows the requested amount, and captured_money shows what was collected. On a standalone payment intent, PATCH can change it only before the first confirmation attempt. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `amount_money` | Conditional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The amount requested from the buyer, including any tip_money. Capturing doesn't change it: after a partial capture it still shows the requested amount, and captured_money shows what was collected. On a standalone payment intent, PATCH can change it only before the first confirmation attempt. An amount_money or tip_money change that leaves too little for stored splits returns LIMIT_EXCEEDED at the changed field with minimum_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `capture_method` | Conditional | string | When money is collected. Defaults to automatic. Values: `"automatic"`, `"manual"`. |
 | `created_at` | Conditional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `customer_id` | Conditional | string | Customer linked to this payment intent. Example: `"cus_01KEZF7C006X9JK6NZNA2SM9XD"`. |
+| `dispute_status` | Conditional | string | Dispute state of this payment. none means no dispute or inquiry is open or recorded. The inquiry_ values track an issuer inquiry or early warning that isn't a chargeback. Read the dispute with GET /v1/disputes for its deadline and evidence. Values: [10 declared values](#disputeresponsedatapayment_intent-dispute_status-values). |
 | `order_id` | Conditional | string | Order this payment intent belongs to. Create it through the order and confirm it with POST /v1/orders/{order_id}/pay. Capture and cancel use POST /v1/payment-intents/{payment_intent_id}/capture or /cancel for every payment intent. Order-owned intents accept PATCH for metadata and external_reference_id. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
 | `payment_intent_id` | Conditional | string | Flint payment intent ID. Example: `"pi_01KEZF7C00G8H9D509YEV22P7R"`. |
 | `payment_source` | Conditional | [PaymentSourceSummary](../models/PaymentSourceSummary.md#paymentsourcesummary) | Summary of the card or bank account used for the payment. Absent until a payment source is attached. A summary of the payment source used for a payment, by funding-method family, with card or bank account display details. |
@@ -144,19 +146,42 @@ Present only when `expand` includes `payment_intent`; `null` when expanded and t
 | `updated_at` | Conditional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `version` | Conditional | integer | Persisted version of this resource's owned state. Expanded resources and external observations can change independently. Format: `uint64`. minimum: `1`. |
 
+#### DisputeResponse.data.payment_intent dispute_status values
+
+- `"none"`
+- `"inquiry_needs_response"`
+- `"inquiry_under_review"`
+- `"inquiry_closed"`
+- `"needs_response"`
+- `"under_review"`
+- `"won"`
+- `"lost"`
+- `"prevented"`
+- `"other"`
+
 ### DisputeResponse.data.payment_intent variant 1
 
 anyOf ExpandedPaymentIntentSummary: A payment intent's summary fields, including amount, status, and capture method, returned when the payment intent is expanded..
 
-- Required: `amount_money`, `payment_intent_id`, `status`, `version`.
+- Required: `amount_money`, `dispute_status`, `payment_intent_id`, `status`, `version`.
 - Optional: `capture_method`, `created_at`, `customer_id`, `order_id`, `payment_source`, `refund_status`, `updated_at`.
 
 ### DisputeResponse.data.payment_intent variant 2
 
 anyOf variant 2.
 
-- Undeclared: `amount_money`, `capture_method`, `created_at`, `customer_id`, `order_id`, `payment_intent_id`, `payment_source`, `refund_status`, `status`, `updated_at`, `version`.
+- Undeclared: `amount_money`, `capture_method`, `created_at`, `customer_id`, `dispute_status`, `order_id`, `payment_intent_id`, `payment_source`, `refund_status`, `status`, `updated_at`, `version`.
 - Value shape: null. Present only when `expand` includes `payment_intent`; `null` when expanded and there is no related payment intent. 
+
+### DisputeResponse.data.split_reversals[]
+
+A fixed allocation referencing a read-only reversal nested in a payment split. This reference has no independent lifecycle or write routes.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `amount_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The amount fixed at allocation, unchanged by recovery or reinstatement. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `payment_split_id` | Required | string | The split whose seller share was allocated. Example: `"psplit_01KEZF7C00Y5HA4Z8D4KRA07K8"`. |
+| `payment_split_reversal_id` | Required | string | The reversal in PaymentSplit.reversals that records recovery status. Example: `"psrev_01KEZF7C00XC1HA7S8YCQJDBDM"`. |
 
 ### DisputeResponse.meta
 
@@ -176,7 +201,7 @@ A non-blocking condition reported with a response. The `code` identifies the con
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `capability` | Optional | string | Merchant capability for merchant_onboarding_deadline, merchant_capability_pending, or merchant_capability_inactive. Allowed for `merchant_onboarding_deadline`, `merchant_capability_pending`, `merchant_capability_inactive` warnings. Values: [8 declared values](#disputeresponsemetawarnings-capability-values). |
-| `code` | Required | string | Warning code. Clients must accept values added in future releases. Values: [13 declared values](ResponseWarningInput.md#responsewarninginput-code-values). |
+| `code` | Required | string | Warning code. Clients must accept values added in future releases. Values: [12 declared values](ResponseWarningInput.md#responsewarninginput-code-values). |
 | `due_at` | Optional | string | Time by which the merchant must submit onboarding requirements, as an RFC 3339 UTC timestamp. Present only for merchant_onboarding_deadline or merchant_onboarding_past_due when a submission deadline is set. Allowed for `merchant_onboarding_past_due`, `merchant_onboarding_deadline` warnings. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `message` | Required | string | Description of the non-blocking condition. |
 | `next_actions` | Optional | Array of [NextAction](../models/NextAction.md#nextaction) | Suggested actions for addressing the warning. Allowed for `merchant_onboarding_past_due`, `merchant_onboarding_deadline`, `merchant_capability_pending`, `merchant_capability_inactive`, `payout_settings_reconciling` warnings. `next_actions[]`: [field definitions](../models/DisputeResponse.md#disputeresponsemetawarningsnext_actions). |
@@ -184,10 +209,9 @@ A non-blocking condition reported with a response. The `code` identifies the con
 | `previous_stage` | Optional | string | Previous risk rule evaluation stage for rule_evaluation_stage_changed. Allowed for `rule_evaluation_stage_changed` warnings. Values: `"pre_authorization"`, `"post_authorization"`. |
 | `promotion_code` | Optional | string | Promotion code that was accepted but did not apply, on a promotion_declined warning, or the code of a removed promotion discount, on a promotion_removed warning. Allowed for `promotion_declined`, `promotion_removed` warnings. |
 | `reason` | Optional | string | Stable Flint reason code. On a promotion_declined or promotion_removed warning this is the promotion decline reason (for example superseded_by_better_offer); an unrecognized value falls back to not_eligible. See the Promotions reference for the full list. Allowed for `promotion_declined`, `promotion_removed` warnings. Values: [24 declared values](PromotionCandidateInput.md#promotioncandidateinput-promotion_decline_reason-values). |
-| `removed_scopes` | Optional | Array of string | Requested scopes excluded from the issued API key for api_key_scopes_reduced. Allowed for `api_key_scopes_reduced` warnings. Items values: [96 declared values](APIKeyInput.md#apikeyinput-scopes--values). |
 | `resets_at` | Optional | string | End of the original order reservation's usage period, at the start of a New York calendar month, as an RFC 3339 UTC timestamp. Replays preserve this original reset time. Allowed for `external_paid_orders_over_allowance` warnings. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `resource_id` | Optional | string | Resource ID, paired with resource_type when the warning identifies a resource. Allowed for `billing_interval_options_same_price`, `merchant_onboarding_past_due`, `merchant_onboarding_deadline`, `merchant_capability_pending`, `merchant_capability_inactive`, `payout_settings_reconciling`, `promotion_declined`, `promotion_removed`, `risk_rule_limit_reached`, `rule_evaluation_stage_changed`, `external_paid_orders_over_allowance`, `replacement_codes_unavailable` warnings. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
-| `resource_type` | Optional | string | Type of the resource identified by resource_id. Allowed for `billing_interval_options_same_price`, `merchant_onboarding_past_due`, `merchant_onboarding_deadline`, `merchant_capability_pending`, `merchant_capability_inactive`, `payout_settings_reconciling`, `promotion_declined`, `promotion_removed`, `risk_rule_limit_reached`, `rule_evaluation_stage_changed`, `external_paid_orders_over_allowance`, `replacement_codes_unavailable` warnings. Example: `"order"`. Values: [146 declared values](APIRequestLogInput.md#apirequestloginput-resource_type-values). |
+| `resource_type` | Optional | string | Type of the resource identified by resource_id. Allowed for `billing_interval_options_same_price`, `merchant_onboarding_past_due`, `merchant_onboarding_deadline`, `merchant_capability_pending`, `merchant_capability_inactive`, `payout_settings_reconciling`, `promotion_declined`, `promotion_removed`, `risk_rule_limit_reached`, `rule_evaluation_stage_changed`, `external_paid_orders_over_allowance`, `replacement_codes_unavailable` warnings. Example: `"order"`. Values: [153 declared values](APIRequestLogInput.md#apirequestloginput-resource_type-values). |
 | `severity` | Required | string | Warning severity. Values: `"warning"`, `"critical"`. |
 | `stage` | Optional | string | New risk rule evaluation stage for rule_evaluation_stage_changed. Allowed for `rule_evaluation_stage_changed` warnings. Values: `"pre_authorization"`, `"post_authorization"`. |
 | `would_have_applied_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Discount amount this promotion would have applied had it won, on a promotion_declined warning, or the amount a removed promotion discount applied before removal, on a promotion_removed warning. Allowed for `promotion_declined`, `promotion_removed` warnings. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
@@ -215,7 +239,7 @@ A follow-up action. When target_resource is present, send its resource_id in the
 | `reason_code` | Optional | string | Machine-readable reason this action is suggested. |
 | `reason_message` | Optional | string | Explanation of why this action is suggested. |
 | `required_fields` | Optional | Array of string | Field names that must be supplied to perform this action. |
-| `required_scope` | Optional | string | API key scope required to call the public endpoint in url, when the action points at another Flint API endpoint. Values: [96 declared values](APIKeyInput.md#apikeyinput-scopes--values). |
+| `required_scope` | Optional | string | API key scope required to call the public endpoint in url, when the action points at another Flint API endpoint. Values: [102 declared values](APIKeyInput.md#apikeyinput-scopes--values). |
 | `requires_human_confirmation` | Optional | boolean | Whether a person must approve the action before it is performed. |
 | `suggested_delay_milliseconds` | Optional | integer | Suggested wait before performing the action, in milliseconds. Format: `int32`. |
 | `target_resource` | Optional | [ResourceReference](../models/ResourceReference.md#resourcereference) | Resource whose ID to send in the target request field named {resource_type}_id when url cannot carry the target. A reference to another resource by `resource_type` and `resource_id`. `target_resource`: [field definitions](../models/DisputeResponse.md#disputeresponsemetawarningsnext_actionstarget_resource). |

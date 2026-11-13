@@ -8,10 +8,11 @@ namespace Flint;
  * @property-read string $customer_id
  * @property-read string $email_change_request_id
  * @property-read string $expires_at
+ * @property-read ?string $flint_wallet_outcome
  * @property-read string $new_email
  * Presence-aware response; omitted optional fields return null. */
 final class EmailChangeRequest extends Model {
-    /** @param array{'confirmed': bool, 'created_at': string, 'current_email_confirmation_required': bool, 'customer_id': string, 'email_change_request_id': string, 'expires_at': string, 'new_email': string, ...}|object $values */
+    /** @param array{'confirmed': bool, 'created_at': string, 'current_email_confirmation_required': bool, 'customer_id': string, 'email_change_request_id': string, 'expires_at': string, 'flint_wallet_outcome'?: string, 'new_email': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('EmailChangeRequest')); }
     /** Whether both addresses have been confirmed, which completes the change.
      * @return bool
@@ -43,6 +44,11 @@ final class EmailChangeRequest extends Model {
      */
     public function getExpiresAt(): string { return $this->get('expires_at'); }
     public function hasExpiresAt(): bool { return $this->has('expires_at'); }
+    /** Returned only by confirm, to customer sessions that can access cards saved with Flint after a live email-code sign-in at a Flint-hosted account. Omitted when the previous email had no saved cards. Never returned to merchant credentials. Value enum: "moved", "kept", "new_email_has_wallet".
+     * @return ?string
+     */
+    public function getFlintWalletOutcome(): ?string { return $this->get('flint_wallet_outcome'); }
+    public function hasFlintWalletOutcome(): bool { return $this->has('flint_wallet_outcome'); }
     /** The address the email is changing to.
      * @return string
      */

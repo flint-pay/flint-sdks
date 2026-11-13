@@ -11,6 +11,7 @@ namespace Flint;
  * @property-read ?array<array-key, string> $metadata
  * @property-read list<DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemBundleModifiersItemCatalog|DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemBundleModifiersItemText|\stdClass>|null $modifiers
  * @property-read ?string $name
+ * @property-read ?string $product_id
  * @property-read ?int $quantity
  * @property-read ?DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemBundleSubscription $subscription
  * @property-read ?DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemBundleTax $tax
@@ -21,7 +22,7 @@ namespace Flint;
  * @property-read ?string $variant_id
  * Presence-aware response; omitted optional fields return null. */
 final class DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemBundle extends Model {
-    /** @param array{'bundle_id': string, 'description'?: string, 'fulfillment'?: mixed, 'gift_card_purchase'?: mixed, 'image'?: mixed, 'inventory_demands'?: list<mixed>, 'metadata'?: mixed, 'modifiers'?: list<\stdClass>, 'name'?: string, 'quantity'?: int, 'subscription'?: mixed, 'tax'?: mixed, 'type': string, 'unit_dimensions'?: mixed, 'unit_price_money'?: mixed, 'unit_weight'?: mixed, 'variant_id'?: string, ...}|object $values */
+    /** @param array{'bundle_id': string, 'description'?: string, 'fulfillment'?: mixed, 'gift_card_purchase'?: mixed, 'image'?: mixed, 'inventory_demands'?: list<mixed>, 'metadata'?: mixed, 'modifiers'?: list<\stdClass>, 'name'?: string, 'product_id'?: string, 'quantity'?: int, 'subscription'?: mixed, 'tax'?: mixed, 'type': string, 'unit_dimensions'?: mixed, 'unit_price_money'?: mixed, 'unit_weight'?: mixed, 'variant_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemBundle')); }
     /** ID of the bundle to add. A catalog line item sends this or `variant_id`; a custom line item sends neither.
      * @return string
@@ -68,6 +69,11 @@ final class DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemBundle extend
      */
     public function getName(): ?string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
+    /** Parent product of variant_id, resolved by the preview. Required for variant lines; absent on bundle and custom lines, which have no parent product.
+     * @return ?string
+     */
+    public function getProductId(): ?string { return $this->get('product_id'); }
+    public function hasProductId(): bool { return $this->has('product_id'); }
     /** Number of units, from 1 through 9999. The extended line subtotal, including modifiers, must satisfy the order money ceiling. Format: int64. minimum: 1. maximum: 9999. Default: 1.
      * @return ?int
      */

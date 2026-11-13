@@ -8,7 +8,7 @@ namespace Flint;
 final class PendingPaymentActionSubject extends Model {
     /** @param array{'payment_intent'?: mixed, 'setup_payment_source'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PendingPaymentActionSubject')); }
-    /** PaymentIntent that requires buyer authentication. It can be a standalone intent or an order-owned payment leg. The payment intent that needs buyer authentication in a pending payment action.
+    /** PaymentIntent that requires buyer authentication or card presentment. It can be a standalone intent or an order-owned payment leg. The payment intent that needs buyer authentication in a pending payment action.
      * @return ?PendingPaymentActionPaymentIntentSubject
      */
     public function getPaymentIntent(): ?PendingPaymentActionPaymentIntentSubject { return $this->get('payment_intent'); }

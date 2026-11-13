@@ -1,1 +1,1 @@
-{"shared":"CapturePaymentIntentRequest","dependencies":["CapturePaymentIntentRequest","MoneyValue"]}
+{"shared":"CapturePaymentIntentRequest","dependencies":["CapturePaymentIntentRequest","CapturePaymentSplitRequest","MoneyValue","PlatformFeeRequest","SharedCodec141"]}

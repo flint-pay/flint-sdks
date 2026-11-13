@@ -13,31 +13,31 @@ namespace Flint;
 final class DeliveryQuoteMethodResourceInput extends Model {
     /** @param array{'delivery_method_id': string, 'delivery_method_revision_id': string, 'description'?: string, 'display_position': int, 'name': string, 'recommendation_priority'?: int, 'type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryQuoteMethodResourceInput')); }
-    /** Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+    /** ID of the delivery method. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
      * @return string
      * @throws SdkError When delivery_method_id is omitted; use hasDeliveryMethodId() or valueOrDefault().
      */
     public function getDeliveryMethodId(): string { return $this->get('delivery_method_id'); }
     public function hasDeliveryMethodId(): bool { return $this->has('delivery_method_id'); }
-    /** Example: "dmetr_01KEZF7C001ZF9D92DY1G51GV9".
+    /** ID of the method revision that was evaluated. Example: "dmetr_01KEZF7C001ZF9D92DY1G51GV9".
      * @return string
      * @throws SdkError When delivery_method_revision_id is omitted; use hasDeliveryMethodRevisionId() or valueOrDefault().
      */
     public function getDeliveryMethodRevisionId(): string { return $this->get('delivery_method_revision_id'); }
     public function hasDeliveryMethodRevisionId(): bool { return $this->has('delivery_method_revision_id'); }
-    /** description
+    /** Buyer-visible description of the method. Omitted when it has none.
      * @return string
      * @throws SdkError When description is omitted; use hasDescription() or valueOrDefault().
      */
     public function getDescription(): string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** Format: int32.
+    /** Position in which this method displays among the others. Lower values display first. Format: int32.
      * @return int
      * @throws SdkError When display_position is omitted; use hasDisplayPosition() or valueOrDefault().
      */
     public function getDisplayPosition(): int { return $this->get('display_position'); }
     public function hasDisplayPosition(): bool { return $this->has('display_position'); }
-    /** name
+    /** Buyer-visible name of the method.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
@@ -49,7 +49,7 @@ final class DeliveryQuoteMethodResourceInput extends Model {
      */
     public function getRecommendationPriority(): int { return $this->get('recommendation_priority'); }
     public function hasRecommendationPriority(): bool { return $this->has('recommendation_priority'); }
-    /** Value enum: "shipment", "pickup", "local_delivery".
+    /** Delivery type of the method. Value enum: "shipment", "pickup", "local_delivery".
      * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */

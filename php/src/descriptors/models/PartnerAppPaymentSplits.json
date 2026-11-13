@@ -1,0 +1,1 @@
+{"shared":"PartnerAppPaymentSplits","phpRepresentation":{"kind":"record","fields":{"seller_terms_url":{"kind":"value","type":"string"}}},"dependencies":["PartnerAppPaymentSplits"]}

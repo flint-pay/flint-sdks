@@ -3,6 +3,6 @@ declare(strict_types=1);
 namespace Flint;
 /** Presence-aware input; omitted fields throw when accessed. */
 final class OrderPaymentIntentSelectionInput extends Model {
-    /** @param array{'credential_type': string, 'payment_intent_id': string, 'token': string}|object|array{'credential_type': string, 'payment_intent_id': string, 'payment_method_id': string}|object|array{'credential_type': string, 'payment_intent_id': string, 'stripe': array{'confirmation_token': string}|object}|object|array{'credential_type': string, 'payment_intent_id': string}|object $values */
+    /** @param array{'credential_type': string, 'payment_intent_id': string, 'token': string}|object|array{'credential_type': string, 'payment_intent_id': string, 'payment_method_id': string}|object|array{'credential_type': string, 'payment_intent_id': string, 'stripe': array{'confirmation_token': string}|object}|object|array{'credential_type': string, 'payment_intent_id': string}|object|array{'credential_type': string, 'payment_intent_id': string, 'reader_id': string, 'tip'?: ReaderPaymentSourceTipInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(mixed $values, array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderPaymentIntentSelectionInput')); }
 }

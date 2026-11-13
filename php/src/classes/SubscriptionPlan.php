@@ -8,12 +8,15 @@ namespace Flint;
  * @property-read ?int $contract_term_months
  * @property-read string $created_at
  * @property-read string $currency
+ * @property-read string|null $delivery_interval
+ * @property-read int|null $delivery_interval_count
  * @property-read list<SubscriptionDeliveryMethodCounts> $delivery_method_subscription_counts
  * @property-read bool $delivery_required
  * @property-read ?string $description
  * @property-read ?MoneyValue $early_termination_fee_money
  * @property-read SubscriptionEndAfterCycles|null $end_after
  * @property-read ?string $external_reference_id
+ * @property-read bool $gifts_enabled
  * @property-read list<ImageAttachment> $images
  * @property-read ?InventoryRoutingSource $inventory_routing_source
  * @property-read list<SubscriptionPlanLineItemsItemVariant|SubscriptionPlanLineItemsItemBundle|SubscriptionPlanLineItemsItemCustom|\stdClass>|null $line_items
@@ -31,7 +34,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class SubscriptionPlan extends Model {
-    /** @param array{'billing_interval': string, 'billing_interval_count': int, 'billing_interval_options': list<mixed>, 'contract_term_months'?: int, 'created_at': string, 'currency': string, 'delivery_method_subscription_counts': list<mixed>, 'delivery_required': bool, 'description'?: string, 'early_termination_fee_money'?: mixed, 'end_after': mixed, 'external_reference_id'?: string, 'images': list<mixed>, 'inventory_routing_source'?: mixed, 'line_items'?: list<mixed>, 'merchant_id': string, 'metadata'?: mixed, 'name': string, 'plan_change_options': list<mixed>, 'quantity_options': list<int>, 'setup_fee_money'?: mixed, 'status': string, 'subscription_delivery_method_ids': list<string>, 'subscription_plan_id': string, 'trial_period_days'?: int, 'updated_at': string, 'version': int, ...}|object $values */
+    /** @param array{'billing_interval': string, 'billing_interval_count': int, 'billing_interval_options': list<mixed>, 'contract_term_months'?: int, 'created_at': string, 'currency': string, 'delivery_interval': string|null, 'delivery_interval_count': int|null, 'delivery_method_subscription_counts': list<mixed>, 'delivery_required': bool, 'description'?: string, 'early_termination_fee_money'?: mixed, 'end_after': mixed, 'external_reference_id'?: string, 'gifts_enabled': bool, 'images': list<mixed>, 'inventory_routing_source'?: mixed, 'line_items'?: list<mixed>, 'merchant_id': string, 'metadata'?: mixed, 'name': string, 'plan_change_options': list<mixed>, 'quantity_options': list<int>, 'setup_fee_money'?: mixed, 'status': string, 'subscription_delivery_method_ids': list<string>, 'subscription_plan_id': string, 'trial_period_days'?: int, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionPlan')); }
     /** Value enum: "daily", "weekly", "monthly", "yearly".
      * @return string
@@ -43,7 +46,7 @@ final class SubscriptionPlan extends Model {
      */
     public function getBillingIntervalCount(): int { return $this->get('billing_interval_count'); }
     public function hasBillingIntervalCount(): bool { return $this->has('billing_interval_count'); }
-    /** Offered billing interval and count pairs, including the plan's default pair. Every option bills the same line prices once per period. Use separate plans for different prices per interval. maxItems: 12. uniqueItems: true. [] (Value): {@see SubscriptionIntervalOption}. A billing cadence offered by a subscription plan or offer. Every option bills the same line prices once per period; prices are not scaled by the interval. For a different price per interval, create separate plans.
+    /** Offered billing interval and count pairs, including the plan's default pair. Line prices are per delivery. Each option charges for all deliveries in its period. Use separate plans or promotions for different prices per interval. maxItems: 12. uniqueItems: true. [] (Value): {@see SubscriptionIntervalOption}. A billing cadence offered by a subscription plan or offer. Every option bills the same line prices once per period; prices are not scaled by the interval. For a different price per interval, create separate plans.
      * @return list<SubscriptionIntervalOption>
      */
     public function getBillingIntervalOptions(): array { return $this->get('billing_interval_options'); }
@@ -63,6 +66,16 @@ final class SubscriptionPlan extends Model {
      */
     public function getCurrency(): string { return $this->get('currency'); }
     public function hasCurrency(): bool { return $this->has('currency'); }
+    /** Delivery cadence. Null when no separate delivery cadence is set; one delivery is made per billing period. Every billing option must be a whole multiple in the same unit family (days/weeks or months/years), with 1 to 24 deliveries per period. Existing subscriptions keep their frozen cadence. Value enum: "daily", "weekly", "monthly", "yearly", null.
+     * @return string|null
+     */
+    public function getDeliveryInterval(): string|null { return $this->get('delivery_interval'); }
+    public function hasDeliveryInterval(): bool { return $this->has('delivery_interval'); }
+    /** Number of delivery intervals between deliveries. Null when no separate delivery cadence is set. Format: int32. minimum: 1.
+     * @return int|null
+     */
+    public function getDeliveryIntervalCount(): int|null { return $this->get('delivery_interval_count'); }
+    public function hasDeliveryIntervalCount(): bool { return $this->has('delivery_interval_count'); }
     /**  [] (Value): {@see SubscriptionDeliveryMethodCounts}. Subscription counts by status for one delivery method.
      * @return list<SubscriptionDeliveryMethodCounts>
      */
@@ -93,6 +106,11 @@ final class SubscriptionPlan extends Model {
      */
     public function getExternalReferenceId(): ?string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
+    /** Whether checkout buyers can name a gift recipient. Checkout sessions freeze it when they are created. Defaults to false. You can set gift_recipient on a subscription through the API either way.
+     * @return bool
+     */
+    public function getGiftsEnabled(): bool { return $this->get('gifts_enabled'); }
+    public function hasGiftsEnabled(): bool { return $this->has('gifts_enabled'); }
     /**  [] (Value): {@see ImageAttachment}. An image attached to a resource, with its display properties and attachment metadata.
      * @return list<ImageAttachment>
      */

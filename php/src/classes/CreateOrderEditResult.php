@@ -14,7 +14,7 @@ final class CreateOrderEditResult extends Model {
      */
     public function getOrder(): Order { return $this->get('order'); }
     public function hasOrder(): bool { return $this->has('order'); }
-    /** The committed edit, even when refund processing is pending. Nested child of an order: an immutable, completed removal with frozen refund amounts. Refund completion is tracked on the refunds.
+    /** The committed edit, even when refund processing is pending. Nested child of an order: immutable, completed item changes with frozen values and refund amounts. Refund completion is tracked on the refunds.
      * @return OrderEdit
      */
     public function getOrderEdit(): OrderEdit { return $this->get('order_edit'); }

@@ -2,7 +2,7 @@
 
 ## UpdatePackageRequest
 
-The request body for: Update package.
+The request body for: Update package. minProperties: `1`.
 
 
 

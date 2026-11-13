@@ -1,1 +1,1 @@
-{"shared":"CreateCustomerTaxExemptionRequest","dependencies":["CreateCustomerTaxExemptionRequest","CustomerTaxExemptionCoverageRequest","MetadataRequest","SharedCodec440","SharedCodec441","SharedCodec442","SharedCodec443"]}
+{"shared":"CreateCustomerTaxExemptionRequest","dependencies":["CreateCustomerTaxExemptionRequest","CustomerTaxExemptionCoverageRequest","MetadataRequest","SharedCodec488","SharedCodec489","SharedCodec490","SharedCodec491"]}

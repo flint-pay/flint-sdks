@@ -5,13 +5,14 @@ namespace Flint;
  * @property-read string $direction
  * @property-read string $external_reference_id
  * @property-read string $external_system
+ * @property-read string $fulfillment_id
  * @property-read MetadataRequestInput|array<array-key, mixed>|\stdClass $metadata
  * @property-read list<PackageCreateRequestInput|array<array-key, mixed>|\stdClass> $packages
  * @property-read string $return_id
  * @property-read list<ReturnShipmentLineItemAllocationRequestInput|array<array-key, mixed>|\stdClass> $return_line_items
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateShipmentRequestInput extends Model {
-    /** @param array{'direction': string, 'external_reference_id'?: string, 'external_system'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'packages'?: list<PackageCreateRequestInput|array<array-key, mixed>|\stdClass>, 'return_id'?: string, 'return_line_items'?: list<ReturnShipmentLineItemAllocationRequestInput|array<array-key, mixed>|\stdClass>}|object|array{'direction': string, 'external_reference_id'?: string, 'external_system'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'packages'?: list<PackageCreateRequestInput|array<array-key, mixed>|\stdClass>, 'return_id': string, 'return_line_items': list<ReturnShipmentLineItemAllocationRequestInput|array<array-key, mixed>|\stdClass>}|object $values */
+    /** @param array{'direction': string, 'external_reference_id'?: string, 'external_system'?: string, 'fulfillment_id': string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'packages'?: list<PackageCreateRequestInput|array<array-key, mixed>|\stdClass>, 'return_id'?: string, 'return_line_items'?: list<ReturnShipmentLineItemAllocationRequestInput|array<array-key, mixed>|\stdClass>}|object|array{'direction': string, 'external_reference_id'?: string, 'external_system'?: string, 'fulfillment_id'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'packages'?: list<PackageCreateRequestInput|array<array-key, mixed>|\stdClass>, 'return_id': string, 'return_line_items': list<ReturnShipmentLineItemAllocationRequestInput|array<array-key, mixed>|\stdClass>}|object $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateShipmentRequestInput')); }
     /** Whether the shipment sends items to the buyer or returns items to the merchant. Value enum: "outbound", "return".
      * @return string
@@ -31,13 +32,19 @@ final class CreateShipmentRequestInput extends Model {
      */
     public function getExternalSystem(): string { return $this->get('external_system'); }
     public function hasExternalSystem(): bool { return $this->has('external_system'); }
+    /** Shipment fulfillment that owns an outbound shipment. Required when direction is outbound; forbidden when direction is return. minLength: 1. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
+     * @return string
+     * @throws SdkError When fulfillment_id is omitted; use hasFulfillmentId() or valueOrDefault().
+     */
+    public function getFulfillmentId(): string { return $this->get('fulfillment_id'); }
+    public function hasFulfillmentId(): bool { return $this->has('fulfillment_id'); }
     /** Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: 50.
      * @return MetadataRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Creates packages atomically with an outbound shipment. Items are optional per package. Created packages are included in the response. minItems: 1. maxItems: 20. [] (Value): {@see PackageCreateRequestInput}. The request body for: Create package.
+    /** Creates packages atomically with an outbound shipment. Items are optional per package. Created packages are included in the response. minItems: 1. maxItems: 20. [] (Value): {@see PackageCreateRequestInput}. Package to create inline with its enclosing shipment or fulfillment. Set status to created before handoff, or shipped to report handoff during creation.
      * @return list<PackageCreateRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When packages is omitted; use hasPackages() or valueOrDefault().
      */

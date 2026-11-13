@@ -82,5 +82,5 @@ oneOf with funding_source_type: "import": The `import` variant of `GiftCardFundi
 
 The face value the load adds to the card. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
 
-Field definitions: [shared fields](CreateGiftCardLoadRequest.md#creategiftcardloadrequestvalue_money).
+Field definitions: [shared fields](CapturePaymentIntentRequest.md#capturepaymentintentrequestsplitsamount_money).
 

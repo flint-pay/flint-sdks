@@ -8,10 +8,12 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `canceled_subscription_ids` | Required | Array of string | Subscription IDs whose immediate cancellation completed for this request, sorted by ID. Empty when none have completed. Read the request again while processing to see progress. |
 | `customer_deletion_request_id` | Required | string | Stable ID of the tracked deletion request. Use it to retrieve the review and erasure status. |
 | `customer_id` | Required | string | ID of the customer the request would erase. |
 | `decided_at` | Required | string or null | Time of the most recent approve or reject decision. `null` when the request is pending_review or when a pre-existing decision time cannot be determined. Approval sets this before asynchronous erasure finishes; retry approval sets it again. Format: `date-time`. |
 | `decision_reason` | Required | string or null | Merchant's plain-text explanation for rejecting the request, visible to the buyer. `null` when no reason was provided or the customer's personal data has since been erased. |
+| `removed_payment_method_ids` | Required | Array of string | Payment method IDs whose archival completed for this request, sorted by ID. Empty when none have completed. Read the request again while processing to see progress. |
 | `requested_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `requested_by` | Required | string or null | Who opened the request: buyer from the buyer account, or merchant on the buyer's behalf. `null` when the source of a pre-existing request cannot be determined. Values: `"buyer"`, `"merchant"`, `null`. |
 | `resolved_at` | Optional | string | Unlike decided_at, which records the merchant's decision, this is the time of the most recent resolved outcome: rejected, completed, or failed. Absent while pending_review or processing. Cleared when a failed request is approved again. Format: `date-time`. |

@@ -1,24 +1,23 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { CancelReturnResolutionResponse } from '../declarations/types-4.js';
-import type { CheckoutSessionWithSecret, ClientOptions } from '../declarations/types-6.js';
+import type { ClientOptions } from '../declarations/types-6.js';
 import type { ConfirmReturnResolutionResponse } from '../declarations/types-7.js';
-import type { GetOrCreateReturnResolutionCheckoutSessionResponse, GetReturnResolutionResponse } from '../declarations/types-25.js';
-import type { ListReturnResolutionsResponse } from '../declarations/types-34.js';
-import type { ReleaseReturnResolutionResponse } from '../declarations/types-50.js';
-import type { RequestOptions, RetryReturnResolutionResponse } from '../declarations/types-51.js';
+import type { GetReturnResolutionResponse } from '../declarations/types-25.js';
+import type { ListReturnResolutionsResponse } from '../declarations/types-35.js';
+import type { ReleaseReturnResolutionResponse, RequestOptions } from '../declarations/types-53.js';
+import type { RetryReturnResolutionResponse } from '../declarations/types-54.js';
+import type { ReturnResolution } from '../declarations/types-56.js';
 import type {
-    ReturnResolution,
     ReturnResolutionsCancelParams,
     ReturnResolutionsConfirmParams,
-    ReturnResolutionsCreateCheckoutSessionParams,
     ReturnResolutionsGetParams,
     ReturnResolutionsListParams,
     ReturnResolutionsReleaseParams,
     ReturnResolutionsRetryParams,
     ReturnResolutionsUpdateParams
-} from '../declarations/types-54.js';
-import type { UpdateReturnResolutionResponse } from '../declarations/types-65.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+} from '../declarations/types-57.js';
+import type { UpdateReturnResolutionResponse } from '../declarations/types-68.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -35,175 +34,89 @@ export type {
 } from '../runtime.js';
 export type {
     ReturnResolutionsCancelParams,
-    ReturnResolution,
     ReturnResolutionsConfirmParams,
-    ReturnResolutionsCreateCheckoutSessionParams,
     ReturnResolutionsGetParams,
     ReturnResolutionsListParams,
     ReturnResolutionsReleaseParams,
     ReturnResolutionsRetryParams,
     ReturnResolutionsUpdateParams,
-    ReturnResolutionAdjustment,
     ReturnResolutionExecutionBlocker,
-    ReturnResolutionLineItem,
-    ReturnReplacementLineItem
-} from '../declarations/types-54.js';
+    ReturnResolutionLineItem
+} from '../declarations/types-57.js';
 export type {
     RequestOptions,
-    RetryReturnResolutionResponse,
-    ResourceReference,
-    ResponseMeta,
-    ResponseWarning,
-    RetryReturnResolutionRequestInput
-} from '../declarations/types-51.js';
-export type { CancelReturnResolutionResponse, CancelReturnResolutionRequestInput, CancelReturnRequestInput } from '../declarations/types-4.js';
-export type { ConfirmReturnResolutionResponse, ConfirmReturnResolutionRequestInput } from '../declarations/types-7.js';
-export type {
-    CheckoutSessionWithSecret,
-    ClientOptions,
-    CheckoutSubscriptionTerms,
-    CheckoutSubscriptionRecurringShipping,
-    CheckoutSessionTax,
-    CheckoutTheme,
-    CheckoutTipConfig,
-    CheckoutSessionLaunchResponse
-} from '../declarations/types-6.js';
-export type {
-    GetOrCreateReturnResolutionCheckoutSessionResponse,
-    GetReturnResolutionResponse,
-    GetOrCreateReturnResolutionCheckoutSessionRequestInput
-} from '../declarations/types-25.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
-export type {
-    ListReturnResolutionsResponse,
-    LegalSettings,
-    LineItemFulfillmentRequestModelInput,
-    LineItemFulfillmentOriginRequestModelInput
-} from '../declarations/types-34.js';
-export type {
     ReleaseReturnResolutionResponse,
-    Refund,
     RefundLineItemAllocation,
-    RefundLineItemAdjustmentRefund,
-    RefundLineItemAdjustment,
-    RefundAdjustmentReason,
     RefundLineItemAutomaticRefund,
     RefundLineItemModifierAllocation,
     RefundTaxBreakdownRefund,
     RefundTenderAllocation,
     RefundUnissuedGiftCardRecovery,
     ReleaseReturnResolutionRequestInput
-} from '../declarations/types-50.js';
+} from '../declarations/types-53.js';
+export type { ReturnResolution, ReturnResolutionAdjustment, ReturnReplacementLineItem } from '../declarations/types-56.js';
+export type { CancelReturnResolutionResponse, CancelReturnResolutionRequestInput, CancelReturnRequestInput } from '../declarations/types-4.js';
+export type { ConfirmReturnResolutionResponse, ConfirmReturnResolutionRequestInput } from '../declarations/types-7.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
+export type { GetReturnResolutionResponse } from '../declarations/types-25.js';
+export type {
+    ListReturnResolutionsResponse,
+    LineItemFulfillmentRequestModelInput,
+    LineItemFulfillmentOriginRequestModelInput
+} from '../declarations/types-35.js';
+export type {
+    RetryReturnResolutionResponse,
+    ReturnActor,
+    ResourceReference,
+    ResponseMeta,
+    ResponseWarning,
+    RetryReturnResolutionRequestInput
+} from '../declarations/types-54.js';
 export type {
     UpdateReturnResolutionResponse,
     UpdateReturnResolutionRequestInput,
     UpdateReturnResolutionAdjustmentRequestInput,
     UpdateReturnResolutionLineItemRequestInput,
     UpdateReturnResolutionLineItemRequest
-} from '../declarations/types-65.js';
-export type { AuthMode, Address } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-13.js';
-export type { MoneyValue, NextAction, MoneyValueInput } from '../declarations/types-37.js';
-export type { ReturnActor } from '../declarations/types-52.js';
-export type { MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-36.js';
-export type {
-    ExpandedPaymentIntentSummary,
-    ExpandedCustomerSummary,
-    ExpandedOrderSummary,
-    ErrorRemediation,
-    ExpandedInvoiceSummary,
-    ExpandedPaymentLinkSummary
-} from '../declarations/types-23.js';
+} from '../declarations/types-68.js';
+export type { ClientOptions } from '../declarations/types-6.js';
+export type { AuthMode } from '../declarations/types-1.js';
+export type { Credentials } from '../declarations/types-14.js';
+export type { MoneyValue, NextAction, MoneyValueInput } from '../declarations/types-38.js';
+export type { MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-37.js';
+export type { ExpandedPaymentIntentSummary, ExpandedCustomerSummary, ExpandedOrderSummary } from '../declarations/types-24.js';
 export type {
     PaymentSourceSummary,
-    PendingPaymentAction,
-    PendingPaymentActionPaymentIntentSubject,
-    PendingPaymentActionSetupPaymentSourceSubject
-} from '../declarations/types-46.js';
-export type { PaymentSourceAchDebitSummary, PaymentSourceCardSummary, PaymentRefund } from '../declarations/types-45.js';
+    PaymentSourceAchDebitSummary,
+    PaymentSourceCardSummary,
+    PaymentSourceCardPresentDetails,
+    PaymentRefund
+} from '../declarations/types-47.js';
 export type {
-    CategoryReference,
-    CheckoutBuyerContact,
-    CheckoutRedirectsRequestInput,
-    CheckoutSession,
-    CheckoutBuyerFields,
-    CheckoutCustomTextConfig,
-    CheckoutCustomerPrefill,
-    CheckoutDerivedDeliveryResource,
-    CheckoutGiftCardChallenge,
-    CheckoutMerchantSupport,
-    CheckoutPaymentMethodSave,
-    CheckoutPaymentConfig,
-    CheckoutPrefill,
-    CheckoutProblemResource,
-    CheckoutPromotionConfig,
-    CheckoutRedirects
-} from '../declarations/types-5.js';
-export type { SelectedProductOption, SettlementAmounts, SelectableOrderPaymentIntent } from '../declarations/types-56.js';
-export type {
-    DeferredPromotion,
-    DeliveryAddressAdvisoryResource,
-    DeliveryCandidateOutcomeResource,
-    DeliveryInputRequirement,
-    DeliveryInputConstraint,
-    DeliveryArrivalEstimate,
-    DeliveryCandidateOutcomeResourceAvailable,
-    DeliveryCandidateOutcomeResourceUnavailable,
-    DeliveryCandidateOutcomeResourceInputRequired,
-    DeliveryCandidateOutcomeResourceCannotCalculate,
-    DeliveryCandidateOutcomeResourceRequiresCheckoutContext,
-    DeliveryEligibilityMismatch
-} from '../declarations/types-16.js';
-export type { PricingAmounts, PendingPaymentActionSubject } from '../declarations/types-47.js';
-export type { OrderSettlementAmounts } from '../declarations/types-40.js';
-export type { OrderGiftCardAllocation, OrderPaymentAttempt, OrderPaymentAttemptPaymentMethodSave } from '../declarations/types-39.js';
-export type {
-    PaymentAttemptGiftCardRedemption,
-    PaymentErrorSummary,
-    PaymentAttemptPaymentIntent,
-    PaymentClientAction,
-    PaymentCollection,
-    PaymentCollectionStripe,
-    PaymentCollectionStripeElements
-} from '../declarations/types-43.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
-export type { StripePaymentClientAction, StripeSetupIntentClientAction } from '../declarations/types-57.js';
-export type {
-    CustomFieldAnswer,
-    CustomFieldAnswerText,
-    CustomFieldAnswerTextarea,
-    CustomFieldAnswerDropdown,
-    CustomFieldAnswerCheckbox
-} from '../declarations/types-14.js';
-export type {
-    DeliveryQuoteChoiceGroupResource,
-    DeliveryQuoteExecutionLegResource,
-    DeliveryQuoteLineItemResource
-} from '../declarations/types-19.js';
-export type { DeliveryWindowRequest, DeliveryShipmentDetails } from '../declarations/types-21.js';
-export type { DeliveryOptionProjection, DeliveryPlan, DeliveryPickupDetails } from '../declarations/types-18.js';
-export type { BuyerInstructionsConfig } from '../declarations/types-2.js';
-export type { DeliveryLocationSummaryResource, DeliveryMerchantDiagnostic } from '../declarations/types-17.js';
-export type { DeliveryRecipientRequirement } from '../declarations/types-20.js';
-export type { Image } from '../declarations/types-27.js';
-export type { SubscriptionIntervalOption } from '../declarations/types-58.js';
+    Refund,
+    RefundLineItemAdjustmentRefund,
+    RefundLineItemAdjustment,
+    RefundAdjustmentReason,
+    ReadinessMerchantAccountSession
+} from '../declarations/types-52.js';
+export type { CategoryReference, CheckoutBuyerContact } from '../declarations/types-5.js';
+export type { SelectedProductOption, SettlementAmounts, SplitReversalReference } from '../declarations/types-59.js';
+export type { DeferredPromotion } from '../declarations/types-16.js';
+export type { PricingAmounts } from '../declarations/types-49.js';
+export type { OrderSettlementAmounts } from '../declarations/types-41.js';
+export type { OrderGiftCardAllocation } from '../declarations/types-40.js';
 export type {
     UpdateReturnReplacementLineItemRequestInput,
     UpdateReturnReplacementLineItemInputVariantInput,
     UpdateReturnReplacementLineItemInputBundleInput,
     UpdateReturnReplacementLineItemInputCustomInput
-} from '../declarations/types-64.js';
-export { makeCancelReturnRequest, makeCancelReturnResolutionRequest, makeCheckoutRedirectsRequest } from '../declarations/types-67.js';
-export { makeConfirmReturnResolutionRequest } from '../declarations/types-68.js';
-export { makeDeliveryWindowRequest } from '../declarations/types-72.js';
-export { makeGetOrCreateReturnResolutionCheckoutSessionRequest } from '../declarations/types-73.js';
-export {
-    makeLineItemFulfillmentOriginRequestModel,
-    makeLineItemFulfillmentRequestModel,
-    makeMetadataPatchRequest
-} from '../declarations/types-74.js';
-export { makeMoneyValue } from '../declarations/types-75.js';
-export { makeReleaseReturnResolutionRequest, makeRetryReturnResolutionRequest } from '../declarations/types-77.js';
+} from '../declarations/types-67.js';
+export { makeCancelReturnRequest, makeCancelReturnResolutionRequest } from '../declarations/types-70.js';
+export { makeConfirmReturnResolutionRequest } from '../declarations/types-71.js';
+export { makeLineItemFulfillmentOriginRequestModel, makeLineItemFulfillmentRequestModel } from '../declarations/types-77.js';
+export { makeMetadataPatchRequest, makeMoneyValue } from '../declarations/types-78.js';
+export { makeReleaseReturnResolutionRequest } from '../declarations/types-80.js';
+export { makeRetryReturnResolutionRequest } from '../declarations/types-81.js';
 export {
     makeUpdateReturnReplacementLineItemInputBundle,
     makeUpdateReturnReplacementLineItemInputCustom,
@@ -212,7 +125,7 @@ export {
     makeUpdateReturnResolutionAdjustmentRequest,
     makeUpdateReturnResolutionLineItemRequest,
     makeUpdateReturnResolutionRequest
-} from '../declarations/types-80.js';
+} from '../declarations/types-84.js';
 export interface ReturnResolutionsResource {
     /**
  * Cancel a resolution and release the line value it reserved. A failed resolution can be canceled
@@ -246,28 +159,6 @@ export interface ReturnResolutionsResource {
  * idempotencyKey: idempotencyKey })
  */
     confirm(return_resolution_id: InputValue<string>, params?: ReturnResolutionsConfirmParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<ReturnResolution, ConfirmReturnResolutionResponse>>;
-    /**
- * Create or reuse a hosted or embedded checkout session for the buyer's balance on a replacement
- * order linked to this return resolution. The response is `200` when it reuses an existing session
- * and `201` when it creates one. Omit surface to use hosted. The same surface reuses the open
- * session; changing surface replaces an idle session and is refused while a payment is in
- * progress. Use redirects to set where the buyer goes after paying or canceling. The return_url
- * field is an alias for redirects.success_url on hosted checkout or payment_return_url on embedded
- * checkout and must be an address of the merchant's customer account. A reused session takes a new
- * success destination only until a payment starts, then keeps its existing destination.
- *
- * `POST /v1/return-resolutions/{return_resolution_id}/checkout-sessions`
- * @param return_resolution_id Flint return resolution id.
- * @see
- * https://developers.withflintpay.com/docs/api/return-resolutions#createReturnResolutionCheckoutSession
- * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
- * @example
- * // Persist this key with the action before sending; reuse it for every resubmission.
- * const idempotencyKey = crypto.randomUUID();
- * client.returnResolutions.createCheckoutSession("retres_01KEZF7C00C7RZJN31W9SGMEQ3", undefined, {
- * idempotencyKey: idempotencyKey })
- */
-    createCheckoutSession(return_resolution_id: InputValue<string>, params?: ReturnResolutionsCreateCheckoutSessionParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<CheckoutSessionWithSecret, GetOrCreateReturnResolutionCheckoutSessionResponse>>;
     /**
  * Retrieve one resolution with its amounts, adjustments, execution blockers, and linked refunds,
  * payments, and replacement order. Supports expand for those links.

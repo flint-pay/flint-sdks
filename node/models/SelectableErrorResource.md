@@ -15,7 +15,7 @@ A resource the caller can select for a request field.
 | `last_payment_error` | Optional | [PaymentErrorSummary](../models/PaymentErrorSummary.md#paymenterrorsummary) | Most recent payment failure when available. A summary of why a payment attempt failed, with a normalized error code, a message, the failure time, and remediation. |
 | `payment_collection` | Optional | [PaymentCollection](../models/PaymentCollection.md#paymentcollection) | Payment collection details when available. Client-side details for collecting payment from the buyer, such as the Stripe settings to initialize Stripe.js. |
 | `resource_id` | Required | string | Public Flint ID to submit in the refused request field. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
-| `resource_type` | Required | string | Stable public resource name for this choice. Example: `"order"`. Values: [146 declared values](APIRequestLog.md#apirequestlog-resource_type-values). |
+| `resource_type` | Required | string | Stable public resource name for this choice. Example: `"order"`. Values: [153 declared values](APIRequestLog.md#apirequestlog-resource_type-values). |
 | `status` | Optional | string | Current public status when available. |
 | `supported_actions` | Optional | Array of string | Actions offered for this resource when the request was refused. An empty array means no action is offered; an omitted field means actions were not reported. |
 | `tip_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Tip for this choice when available. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `tip_money`: [field definitions](../models/SelectableErrorResource.md#selectableerrorresourcetip_money). |

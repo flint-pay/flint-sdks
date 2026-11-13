@@ -1,0 +1,1 @@
+{"shared":"ReaderConnectionSessionStripe","phpRepresentation":{"kind":"record","fields":{"connection_token":{"kind":"value","type":"string"},"location_id":{"kind":"value","type":"string"}}},"dependencies":["ReaderConnectionSessionStripe"]}

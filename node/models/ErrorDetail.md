@@ -18,12 +18,12 @@ One specific failure within an error, with a `code` and `message` plus fields th
 | `blocking_resource_count` | Optional | integer | Total number of blocking resources when a dependency refusal publishes a count. blocking_resources lists up to 25 of them. Invoice ownership conflicts use current_resource instead. Format: `int64`. |
 | `blocking_resources` | Optional | Array of [ErrorResourceReference](../models/ErrorResourceReference.md#errorresourcereference) | Resources that must transition or be corrected before the operation can succeed. Dependency conflicts list up to 25 resources, with blocking_resource_count as the total when present. OPERATION_IN_PROGRESS identifies work Flint is finishing, and PAYMENT_ATTEMPT_ACTIVE identifies the active attempt. Buyer credentials do not receive merchant-only blocking resources. On ACTION_NOT_ALLOWED with reason in_progress, a subscription payment retry is included when the buyer can read it. Manual payment conflicts identify their owning invoices. |
 | `bundle_component_id` | Optional | string | Bundle component whose inventory demand cannot be satisfied. Present on INVENTORY_INSUFFICIENT when the demand belongs to a bundle component. Example: `"bunc_01KEZF7C00CQASEZGAPEANTGD1"`. |
-| `capability` | Optional | string | Flint capability associated with this error, when applicable. Values: [9 declared values](#errordetail-capability-values). |
+| `capability` | Optional | string | Flint capability associated with this error, when applicable. Values: [10 declared values](#errordetail-capability-values). |
 | `captured_physical_version` | Optional | integer | Physical basis submitted with the observation, or saved on the count line when apply refuses it. Read the current level and physically recount this item before replacing the basis. Format: `int64`. minimum: `0`. |
-| `closed_reason` | Optional | string | How the inventory reservation ended on ACTION_NOT_ALLOWED with reason terminal_status. Values: `"consumed"`, `"released"`, `"expired"`, `"reallocated"`, `"mixed"`. |
+| `closed_reason` | Optional | string | How the inventory reservation ended on ACTION_NOT_ALLOWED with reason terminal_status. Values: `"consumed"`, `"released"`, `"expired"`, `"reallocated"`, `"mixed"`, `"adopted"`. |
 | `code` | Required | string and ([ErrorDetailCode](../models/ErrorDetailCode.md#errordetailcode) or string) | On INVALID_REQUEST, one of the detail codes; on every other error, repeats the top-level code. Values: [44 declared values](#errordetail-code-values). `code`: [declared alternatives](../models/ErrorDetail.md#errordetailcode-fields-1). |
 | `conflict_type` | Optional | string | Which inventory count check failed for this line. Sent on VERSION_CONFLICT for physical observations or stale source observation sequences. Values: `"physical_version"`, `"source_observation_sequence"`. |
-| `conflicting_fields` | Optional | Array of string | Request field paths that conflict with each other or with the rest of the request. Sent on INVALID_REQUEST with detail NOT_ALLOWED for conflicting payment inputs, and with detail INVALID_VALUE when entries in one product create repeat an option name, identifier, or selected option combination. |
+| `conflicting_fields` | Optional | Array of string | The other request inputs in a conflict, as param-form paths; never the detail's own param. Sent on INVALID_REQUEST with detail NOT_ALLOWED when inputs can't be sent together: param is the input to remove, and conflicting_fields lists the inputs it conflicts with, such as the type or mode field whose value excludes it. Also sent with detail INVALID_VALUE when entries in one product create repeat an option name, identifier, or selected option combination. |
 | `current_api_version` | Optional | string | Current API version pin on VERSION_CONFLICT when expected_api_version is stale. |
 | `current_count` | Optional | integer | The current resource count. On LIMIT_REACHED with reason product_variants, the product's non-archived variant count. Format: `int64`. |
 | `current_delivery_selection_id` | Optional | string or null | Current effective delivery selection ID on VERSION_CONFLICT when expected_delivery_selection_id is stale. `null` when no delivery selection is current. Example: `"dsel_01KEZF7C00QC35XBXVXQSCEB2D"`. |
@@ -40,8 +40,8 @@ One specific failure within an error, with a `code` and `message` plus fields th
 | `demand_key` | Optional | string | Key of the inventory demand this failure concerns. Sent on INVENTORY_INSUFFICIENT, and on INVENTORY_INSUFFICIENT with reason location_ineligible when one demand cannot use the Location. |
 | `eligibility_reason` | Optional | string | On INVENTORY_INSUFFICIENT with reason location_ineligible, why the Location in location_id cannot supply the demand. Values: [6 declared values](#errordetail-eligibility_reason-values). |
 | `expected_attempt_outstanding_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | On VERSION_CONFLICT when you resume a payment attempt, the outstanding balance the attempt started with. expected_outstanding_money must match it. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `expected_attempt_outstanding_money`: [field definitions](../models/ErrorDetail.md#errordetailexpected_attempt_outstanding_money). |
-| `failure_category` | Optional | string | Delivery pricing failure category on ACTION_NOT_ALLOWED with reason method_unavailable, destination_not_served, or configuration_required, when the rate cannot be calculated. Values: [16 declared values](DeliveryCandidateOutcomeResource.md#deliverycandidateoutcomeresource-failure_category-values). |
-| `failure_code` | Optional | string | Decline reason for a failed payment, from the same vocabulary as the payment's last_payment_error.code. Unrecognized provider reasons are payment_failed. Values: [22 declared values](#errordetail-failure_code-values). |
+| `failure_category` | Optional | string | Delivery pricing failure category on ACTION_NOT_ALLOWED with reason method_unavailable, destination_not_served, or configuration_required, when the rate cannot be calculated, and the merchant callback failure category on EXTERNAL_SERVICE_ERROR with reason rate_callback_failed or tax_callback_failed. Values: [16 declared values](DeliveryCandidateOutcomeResource.md#deliverycandidateoutcomeresource-failure_category-values). |
+| `failure_code` | Optional | string | Decline reason for a failed payment, from the same vocabulary as the payment's last_payment_error.code. Unrecognized provider reasons are payment_failed. Values: [27 declared values](#errordetail-failure_code-values). |
 | `inactive_message` | Optional | string | Merchant-provided buyer-facing text on ACTION_NOT_ALLOWED with reason unsupported_state, not_offered, or terminal_status. Present only when the merchant set an inactive message. |
 | `inventory_count_line_id` | Optional | string | Inventory count line this conflict concerns. Sent on VERSION_CONFLICT for physical observations or stale source observation sequences. Example: `"invcln_01KEZF7C00BJK1S36219KK040Q"`. |
 | `inventory_item_id` | Optional | string | Inventory item this failure concerns. Omitted for buyer credentials. Sent on INVENTORY_INSUFFICIENT and on VERSION_CONFLICT for physical observations or stale source observation sequences. Example: `"invi_01KEZF7C00A6YEM25MTHW2MPZY"`. |
@@ -64,7 +64,7 @@ One specific failure within an error, with a `code` and `message` plus fields th
 | `payout_terms_expires_at` | Optional | string | RFC 3339 timestamp in UTC when new account payout terms end on ACTION_NOT_ALLOWED with reason payout_frequency or payout_delay. Sent at second precision. Choose an allowed schedule or delay, or make the change after this time. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `previous_key_expires_at` | Optional | string | RFC 3339 timestamp when the previous signing key expires on ACTION_NOT_ALLOWED with reason in_progress. Retry after this time, or revoke the current key before rotating if it leaked. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `quota` | Optional | [QuotaDetails](../models/QuotaDetails.md#quotadetails) | Structured resource quota state when the error is caused by quota exhaustion. Storage usage and limits for a resource, returned in the error details when an image quota is exhausted. |
-| `reason` | Optional | string | Stable Flint reason associated with this error. When code is ACTION_NOT_ALLOWED, one of: advance_limit_exceeded, already_applied, archived, authorization_expired, bank_return_not_contestable, cancellation_scheduled, configuration_required, credit_exceeds_charge, credit_note_tax_reconciliation_required, customer_account_mode_conflict, delivery_hold, delivery_requirement_changes, dependency_revoked, derived_from_packages, destination_not_served, disclosure_changed, dispute_payment_unavailable, end_after_reached, environment_not_granted, existing_order_checkout, external_billing_schedule, field_locked, first_period_unpaid, frozen_at_not_later, image_ingestion_restart_required, in_progress, inventory_wait, invoice_finalized, managed_by_owner, managed_externally, merchant_hosted_customer_accounts, merchant_managed_email, method_unavailable, minimum_charge, mixed_tax_treatment, not_itemized, not_offered, not_paused, offer_subscription, on_hold, order_owned, out_of_order, paid_period_required, payload_expired, payment_collected, payment_disputed, payment_method_not_reusable, payment_required, payout_defaults_managed_externally, payout_delay, payout_frequency, period_end_unavailable, plan_change_scheduled, platform_capability_inactive, platform_onboarding_required, platform_pending_review, platform_rejected, previous_refund_failed, quantity_not_carried, reconciliation_required, refund_created, refund_unavailable, refund_window_expired, restricted, return_checkout, return_owned, return_tax_mismatch, secret_not_issued, status_not_reached, stock_at_risk, store_credit_unavailable, subscription_owned, subscription_terms_locked, terminal_status, test_event, trial_in_progress, unsupported_state, variant_not_targeted, verification_required. When code is ALREADY_EXISTS, one of: dashboard_sign_in_required, hardware_fingerprint_already_exists. When code is CONCURRENT_MODIFICATION, one of: credit_note_refund_retry_exhausted. When code is DELIVERY_REQUOTE_REQUIRED, one of: calculation_expired, caller_rates_required, destination_changed, option_expired, quote_expired, quote_revoked, quote_stale, selection_changed, selection_expired, window_expired. When code is EXTERNAL_SERVICE_ERROR, one of: issuer_unavailable, outcome_unknown, rate_callback_failed, rate_unavailable. When code is FORBIDDEN, one of: checkout_launch_token_restricted, checkout_recovery_attempt_mismatch, checkout_recovery_restricted, checkout_session_order_mismatch, checkout_session_payment_required, context_mismatch, demo_session_route_not_allowed, direct_owner_required, environment_grant_required, environment_mismatch, expansion_not_permitted, full_access_required, linked_key_not_allowed, live_mode_required, merchant_access_required, merchant_credential_required, merchant_role_insufficient, not_checkout_session, not_permitted, organization_membership_required, organization_role_insufficient, owner_workflow_required, request_blocked, role_not_assignable, sandbox_not_accessible, sandbox_selection_forbidden, self_role_edit_forbidden, test_mode_required. When code is GIFT_CARD_CHALLENGE_REQUIRED, one of: page_origin_required, proof_rejected, proof_required. When code is IDEMPOTENCY_KEY_REUSED, one of: transport_mismatch. When code is INSUFFICIENT_SCOPE, one of: install_scope_not_granted, scope_not_granted, scope_not_held. When code is INTERNAL_ERROR, one of: repair_required. When code is INVALID_CREDENTIAL, one of: expired, malformed, mode_mismatch, revoked, session_ended, unknown, wrong_credential_type. When code is INVENTORY_INSUFFICIENT, one of: location_ineligible, location_limit. When code is LIMIT_EXCEEDED, one of: buyer_daily, card_balance, card_daily, insufficient_available_value, merchant_adjustments_daily, merchant_imports_daily. When code is LIMIT_REACHED, one of: checkout_tax_calculations, consecutive_skips, customer_tax_exemptions, daily_demo_sessions, daily_gift_card_purchases, delivery_selection_replacements, enabled_risk_rules, external_paid_orders, image_storage, monthly_tax_calculations, partner_app_credentials, partner_app_install_links, payment_intents_per_order, payment_link_completions, payment_retries_per_period, pending_reports, price_list_prices, product_variants, receipt_recipients, saved_card_codes, test_clock_subscriptions, verification_attempts, verification_codes, webhook_event_streams, workload_identities. When code is MERCHANT_NOT_READY, one of: account_sessions_unavailable, account_setup_repair_required, account_setup_unavailable, billing_suspended, capability_blocked, capability_not_requested, capability_pending, capability_unavailable, default_environment_required, disabled_by_merchant_settings, disabled_by_platform_policy, merchant_account_action_required, merchant_payments_disabled, onboarding_required, payment_account_context_invalid, payment_account_setup_incomplete, payment_option_access_not_provisioned, payment_option_activation_pending, payment_option_not_available, payment_option_not_in_plan, platform_funding_unavailable, platform_review, pricing_not_authorized, processing_not_enabled, processing_restricted, processor_not_configured, requirements_due, tax_category_required. When code is OPERATION_IN_PROGRESS, one of: delivery_selection_materializing. When code is PAYMENT_OPTION_UNAVAILABLE, one of: action_window_too_short, amount_out_of_range, capability_blocked, capability_pending, disabled_by_merchant_settings, disabled_by_platform_policy, merchant_account_action_required, merchant_payments_disabled, payment_account_context_invalid, payment_account_setup_incomplete, payment_option_access_not_provisioned, payment_option_activation_pending, payment_option_not_available, payment_option_not_in_plan, platform_funding_unavailable, requirements_due, risk_action_unsupported, transaction_purpose_unresolved. When code is PAYMENT_PROCESSING_UNAVAILABLE, one of: platform_funding_unavailable. When code is PROMOTION_DECLINED, one of: already_applied, automatic_disabled, buy_item_missing, code_invalid, code_required, codes_disabled, currency_mismatch, customer_limit_reached, customer_mismatch, customer_required, exhausted, expired, inactive, max_promotions_reached, minimum_not_met, no_discountable_balance, not_combinable, not_eligible, not_yet_started, recurrence_completed, superseded, superseded_by_better_offer, superseded_by_higher_priority, unknown_type. When code is RESOURCE_IN_USE, one of: selected_by_active_variants. When code is RESOURCE_NOT_FOUND, one of: email_missing. When code is SERVICE_UNAVAILABLE, one of: outcome_unknown, processor_unavailable, repair_required. Additional reasons may be added. Values: [230 declared values](#errordetail-reason-values). |
+| `reason` | Optional | string | Stable Flint reason associated with this error. When code is ACTION_NOT_ALLOWED, one of: advance_limit_exceeded, already_applied, archived, authorization_expired, bank_return_not_contestable, cancellation_scheduled, choice_group_unavailable, configuration_required, confirmation_token_unusable, credit_exceeds_charge, credit_note_tax_reconciliation_required, customer_account_mode_conflict, delivery_hold, delivery_requirement_changes, dependency_revoked, derived_from_packages, destination_not_served, disclosure_changed, dispute_payment_unavailable, end_after_reached, environment_not_granted, existing_order_checkout, external_billing_schedule, field_locked, first_period_unpaid, frozen_at_not_later, image_ingestion_restart_required, in_progress, inventory_wait, invoice_finalized, jwt_signing_not_enabled, managed_by_owner, managed_externally, merchant_hosted_customer_accounts, merchant_managed_email, method_unavailable, minimum_charge, mixed_tax_treatment, not_itemized, not_offered, not_paused, offer_subscription, on_hold, order_owned, out_of_order, owner_identity_conflict, paid_period_required, payload_expired, payment_collected, payment_disputed, payment_method_not_reusable, payment_required, payment_split_consent_required, payout_defaults_managed_externally, payout_delay, payout_frequency, period_end_unavailable, plan_change_scheduled, platform_capability_inactive, platform_fee_consent_required, platform_onboarding_required, platform_pending_review, platform_rejected, prepaid_deliveries_remaining, previous_refund_failed, provider_action_unsupported, quantity_not_carried, reader_offline, reader_type_not_supported, reader_unavailable, reconciliation_required, refund_created, refund_unavailable, refund_window_expired, restricted, return_checkout, return_owned, return_tax_mismatch, sandbox_reset_failed, secret_not_issued, seller_not_ready, simulated_reader_required, status_not_reached, stock_at_risk, store_credit_unavailable, subscription_owned, subscription_terms_locked, terminal_status, test_event, trial_in_progress, unsupported_state, variant_not_targeted, verification_required. When code is ALREADY_EXISTS, one of: dashboard_sign_in_required, device_reader_already_exists, hardware_fingerprint_already_exists. When code is CONCURRENT_MODIFICATION, one of: credit_note_refund_retry_exhausted. When code is DELIVERY_REQUOTE_REQUIRED, one of: calculation_expired, caller_rates_required, destination_changed, input_required, option_expired, quote_expired, quote_revoked, quote_stale, selection_changed, selection_expired, window_expired. When code is EXTERNAL_SERVICE_ERROR, one of: issuer_unavailable, outcome_unknown, rate_callback_failed, rate_unavailable, tax_callback_failed. When code is FORBIDDEN, one of: checkout_launch_token_restricted, checkout_recovery_attempt_mismatch, checkout_recovery_restricted, checkout_session_order_mismatch, checkout_session_payment_required, context_mismatch, demo_session_route_not_allowed, direct_owner_required, environment_grant_required, environment_mismatch, expansion_not_permitted, full_access_required, linked_key_not_allowed, live_mode_required, merchant_access_required, merchant_credential_required, merchant_role_insufficient, not_checkout_session, not_permitted, organization_membership_required, organization_role_insufficient, owner_workflow_required, request_blocked, role_not_assignable, sandbox_not_accessible, sandbox_selection_forbidden, self_role_edit_forbidden, test_mode_required. When code is GIFT_CARD_CHALLENGE_REQUIRED, one of: page_origin_required, proof_rejected, proof_required. When code is IDEMPOTENCY_KEY_REUSED, one of: transport_mismatch. When code is INSUFFICIENT_SCOPE, one of: install_scope_not_granted, scope_not_granted, scope_not_held. When code is INTERNAL_ERROR, one of: repair_required. When code is INVALID_CREDENTIAL, one of: expired, malformed, mode_mismatch, revoked, session_ended, unknown, wrong_credential_type. When code is INVENTORY_INSUFFICIENT, one of: location_ineligible, location_limit. When code is LIMIT_EXCEEDED, one of: buyer_daily, card_balance, card_daily, insufficient_available_value, merchant_adjustments_daily, merchant_imports_daily, order_edit_balance_due. When code is LIMIT_REACHED, one of: active_readers, checkout_tax_calculations, consecutive_skips, customer_tax_exemptions, daily_demo_sessions, daily_gift_card_purchases, delivery_selection_replacements, enabled_risk_rules, external_paid_orders, image_storage, merchant_signups, monthly_tax_calculations, owned_merchants, partner_app_credentials, partner_app_install_links, payment_intents_per_order, payment_link_completions, payment_retries_per_period, pending_reports, price_list_prices, product_variants, receipt_recipients, saved_card_codes, test_clock_subscriptions, verification_attempts, verification_codes, webhook_event_streams, webhook_listener_signatures_daily, workload_identities. When code is MERCHANT_NOT_READY, one of: account_sessions_unavailable, account_setup_repair_required, account_setup_unavailable, billing_suspended, capability_blocked, capability_not_requested, capability_pending, capability_unavailable, default_environment_required, disabled_by_merchant_settings, disabled_by_platform_policy, merchant_account_action_required, merchant_payments_disabled, onboarding_required, payment_account_context_invalid, payment_account_setup_incomplete, payment_option_access_not_provisioned, payment_option_activation_pending, payment_option_not_available, payment_option_not_in_plan, payment_splits_unavailable, platform_funding_unavailable, platform_review, pricing_not_authorized, processing_not_enabled, processing_restricted, processor_not_configured, requirements_due, tax_category_required. When code is OPERATION_IN_PROGRESS, one of: delivery_selection_materializing, reader_busy, sandbox_resetting. When code is PAYMENT_OPTION_UNAVAILABLE, one of: action_window_too_short, amount_out_of_range, capability_blocked, capability_pending, disabled_by_merchant_settings, disabled_by_platform_policy, merchant_account_action_required, merchant_payments_disabled, payment_account_context_invalid, payment_account_setup_incomplete, payment_option_access_not_provisioned, payment_option_activation_pending, payment_option_not_available, payment_option_not_in_plan, platform_funding_unavailable, requirements_due, risk_action_unsupported, transaction_purpose_unresolved. When code is PAYMENT_PROCESSING_UNAVAILABLE, one of: platform_funding_unavailable. When code is PROMOTION_DECLINED, one of: already_applied, automatic_disabled, buy_item_missing, code_invalid, code_required, codes_disabled, currency_mismatch, customer_limit_reached, customer_mismatch, customer_required, exhausted, expired, inactive, max_promotions_reached, minimum_not_met, no_discountable_balance, not_combinable, not_eligible, not_yet_started, recurrence_completed, superseded, superseded_by_better_offer, superseded_by_higher_priority, unknown_type. When code is RESOURCE_IN_USE, one of: selected_by_active_variants. When code is RESOURCE_NOT_FOUND, one of: email_missing, resource_in_different_environment. When code is SERVICE_UNAVAILABLE, one of: outcome_unknown, processor_unavailable, repair_required. Additional reasons may be added. Values: [256 declared values](#errordetail-reason-values). |
 | `remediation` | Optional | [ErrorRemediation](../models/ErrorRemediation.md#errorremediation) | Recovery guidance for this failure: whether retrying can succeed and what to do next. Omitted on the details of INVALID_REQUEST, where the error's own remediation applies to every input. Recovery guidance for an error: whether and how to `retry`, plus next steps and suggested actions. |
 | `requested_quantity` | Optional | integer | Whole-number quantity submitted by the caller when a quantity-bearing operation conflicts with current capacity; fractional quantities are not supported. Format: `int64`. |
 | `requoted_shipping_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Shipping total computed for the new destination, when available. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `requoted_shipping_money`: [field definitions](../models/ErrorDetail.md#errordetailrequoted_shipping_money). |
@@ -117,6 +117,7 @@ One specific failure within an error, with a `code` and `message` plus fields th
 - `"manage_payout_destinations"`
 - `"manage_payout_settings"`
 - `"merchant_onboarding"`
+- `"create_merchants"`
 
 #### ErrorDetail code values
 
@@ -177,6 +178,8 @@ One specific failure within an error, with a `code` and `message` plus fields th
 #### ErrorDetail failure_code values
 
 - `"card_declined"`
+- `"card_declined_do_not_retry"`
+- `"card_details_outdated"`
 - `"insufficient_funds"`
 - `"bank_account_closed"`
 - `"bank_account_not_found"`
@@ -197,6 +200,9 @@ One specific failure within an error, with a `code` and `message` plus fields th
 - `"payment_not_completed"`
 - `"payment_action_expired"`
 - `"payment_method_temporarily_unavailable"`
+- `"incorrect_pin"`
+- `"pin_try_exceeded"`
+- `"pin_required"`
 - `"payment_failed"`
 
 #### ErrorDetail reason values
@@ -205,6 +211,7 @@ One specific failure within an error, with a `code` and `message` plus fields th
 - `"account_setup_repair_required"`
 - `"account_setup_unavailable"`
 - `"action_window_too_short"`
+- `"active_readers"`
 - `"advance_limit_exceeded"`
 - `"already_applied"`
 - `"amount_out_of_range"`
@@ -230,10 +237,12 @@ One specific failure within an error, with a `code` and `message` plus fields th
 - `"checkout_session_order_mismatch"`
 - `"checkout_session_payment_required"`
 - `"checkout_tax_calculations"`
+- `"choice_group_unavailable"`
 - `"code_invalid"`
 - `"code_required"`
 - `"codes_disabled"`
 - `"configuration_required"`
+- `"confirmation_token_unusable"`
 - `"consecutive_skips"`
 - `"context_mismatch"`
 - `"credit_exceeds_charge"`
@@ -258,6 +267,7 @@ One specific failure within an error, with a `code` and `message` plus fields th
 - `"derived_from_packages"`
 - `"destination_changed"`
 - `"destination_not_served"`
+- `"device_reader_already_exists"`
 - `"direct_owner_required"`
 - `"disabled_by_merchant_settings"`
 - `"disabled_by_platform_policy"`
@@ -284,11 +294,13 @@ One specific failure within an error, with a `code` and `message` plus fields th
 - `"image_storage"`
 - `"in_progress"`
 - `"inactive"`
+- `"input_required"`
 - `"install_scope_not_granted"`
 - `"insufficient_available_value"`
 - `"inventory_wait"`
 - `"invoice_finalized"`
 - `"issuer_unavailable"`
+- `"jwt_signing_not_enabled"`
 - `"linked_key_not_allowed"`
 - `"live_mode_required"`
 - `"location_ineligible"`
@@ -306,6 +318,7 @@ One specific failure within an error, with a `code` and `message` plus fields th
 - `"merchant_managed_email"`
 - `"merchant_payments_disabled"`
 - `"merchant_role_insufficient"`
+- `"merchant_signups"`
 - `"method_unavailable"`
 - `"minimum_charge"`
 - `"minimum_not_met"`
@@ -325,11 +338,14 @@ One specific failure within an error, with a `code` and `message` plus fields th
 - `"on_hold"`
 - `"onboarding_required"`
 - `"option_expired"`
+- `"order_edit_balance_due"`
 - `"order_owned"`
 - `"organization_membership_required"`
 - `"organization_role_insufficient"`
 - `"out_of_order"`
 - `"outcome_unknown"`
+- `"owned_merchants"`
+- `"owner_identity_conflict"`
 - `"owner_workflow_required"`
 - `"page_origin_required"`
 - `"paid_period_required"`
@@ -349,6 +365,8 @@ One specific failure within an error, with a `code` and `message` plus fields th
 - `"payment_option_not_in_plan"`
 - `"payment_required"`
 - `"payment_retries_per_period"`
+- `"payment_split_consent_required"`
+- `"payment_splits_unavailable"`
 - `"payout_defaults_managed_externally"`
 - `"payout_delay"`
 - `"payout_frequency"`
@@ -356,11 +374,13 @@ One specific failure within an error, with a `code` and `message` plus fields th
 - `"period_end_unavailable"`
 - `"plan_change_scheduled"`
 - `"platform_capability_inactive"`
+- `"platform_fee_consent_required"`
 - `"platform_funding_unavailable"`
 - `"platform_onboarding_required"`
 - `"platform_pending_review"`
 - `"platform_rejected"`
 - `"platform_review"`
+- `"prepaid_deliveries_remaining"`
 - `"previous_refund_failed"`
 - `"price_list_prices"`
 - `"pricing_not_authorized"`
@@ -371,12 +391,17 @@ One specific failure within an error, with a `code` and `message` plus fields th
 - `"product_variants"`
 - `"proof_rejected"`
 - `"proof_required"`
+- `"provider_action_unsupported"`
 - `"quantity_not_carried"`
 - `"quote_expired"`
 - `"quote_revoked"`
 - `"quote_stale"`
 - `"rate_callback_failed"`
 - `"rate_unavailable"`
+- `"reader_busy"`
+- `"reader_offline"`
+- `"reader_type_not_supported"`
+- `"reader_unavailable"`
 - `"receipt_recipients"`
 - `"reconciliation_required"`
 - `"recurrence_completed"`
@@ -386,6 +411,7 @@ One specific failure within an error, with a `code` and `message` plus fields th
 - `"repair_required"`
 - `"request_blocked"`
 - `"requirements_due"`
+- `"resource_in_different_environment"`
 - `"restricted"`
 - `"return_checkout"`
 - `"return_owned"`
@@ -394,6 +420,8 @@ One specific failure within an error, with a `code` and `message` plus fields th
 - `"risk_action_unsupported"`
 - `"role_not_assignable"`
 - `"sandbox_not_accessible"`
+- `"sandbox_reset_failed"`
+- `"sandbox_resetting"`
 - `"sandbox_selection_forbidden"`
 - `"saved_card_codes"`
 - `"scope_not_granted"`
@@ -403,7 +431,9 @@ One specific failure within an error, with a `code` and `message` plus fields th
 - `"selection_changed"`
 - `"selection_expired"`
 - `"self_role_edit_forbidden"`
+- `"seller_not_ready"`
 - `"session_ended"`
+- `"simulated_reader_required"`
 - `"status_not_reached"`
 - `"stock_at_risk"`
 - `"store_credit_unavailable"`
@@ -412,6 +442,7 @@ One specific failure within an error, with a `code` and `message` plus fields th
 - `"superseded"`
 - `"superseded_by_better_offer"`
 - `"superseded_by_higher_priority"`
+- `"tax_callback_failed"`
 - `"tax_category_required"`
 - `"terminal_status"`
 - `"test_clock_subscriptions"`
@@ -428,6 +459,7 @@ One specific failure within an error, with a `code` and `message` plus fields th
 - `"verification_codes"`
 - `"verification_required"`
 - `"webhook_event_streams"`
+- `"webhook_listener_signatures_daily"`
 - `"window_expired"`
 - `"workload_identities"`
 - `"wrong_credential_type"`

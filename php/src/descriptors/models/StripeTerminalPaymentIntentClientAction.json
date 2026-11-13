@@ -1,0 +1,1 @@
+{"shared":"StripeTerminalPaymentIntentClientAction","phpRepresentation":{"kind":"record","fields":{"client_secret":{"kind":"value","type":"string"},"stripe_terminal_sdk_call":{"kind":"value","type":"string"}}},"dependencies":["StripeTerminalPaymentIntentClientAction"]}

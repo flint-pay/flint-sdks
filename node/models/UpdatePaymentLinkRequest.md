@@ -2,7 +2,7 @@
 
 ## UpdatePaymentLinkRequest
 
-The request body for: Update payment link.
+The request body for: Update payment link. minProperties: `1`.
 
 
 

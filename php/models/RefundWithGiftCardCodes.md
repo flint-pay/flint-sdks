@@ -16,30 +16,33 @@ Response model.
 | `customer` | Optional | [ExpandedCustomerSummary](../models/ExpandedCustomerSummary.md#expandedcustomersummary) or null |  |
 | `customer_id` | Optional | string | ID of the customer on the refunded order or payment. Absent when neither has one. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
-| `failure_reason` | Optional | string | Why a refund failed or a payment refund was canceled. Failed and canceled amounts become refundable again. Fix the cause, then create a new refund with a new idempotency key. Unknown provider values are returned as refund_failed. Values: [10 declared values](BuyerRefundInput.md#buyerrefundinput-failure_reason-values). |
+| `failure_reason` | Optional | string | Why a refund failed or a payment refund was canceled. Failed and canceled amounts become refundable again, except a refund with reason payment_returned that failed with payment_disputed: the buyer won a dispute on the charge, so nothing is left to refund. Fix the cause, then create a new refund with a new idempotency key. Unknown provider values are returned as refund_failed. Values: [10 declared values](BuyerPaymentRefundInput.md#buyerpaymentrefundinput-failure_reason-values). |
 | `gift_card_codes` | Optional | Array of ([RefundWithGiftCardCodesGiftCardCodesItem](../models/RefundWithGiftCardCodesGiftCardCodesItem.md#refundwithgiftcardcodesgiftcardcodesitem) and object) | New gift card codes recovered only within 24 hours of the original command and only while each code remains current. Omitted after the recovery window and never returned by ordinary refund reads or events. |
 | `idempotency_key` | Optional | string | The caller's Idempotency-Key when this refund was created, including refunds created by issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost response. |
+| `initiated_by` | Required | string | Who decided to make this refund: `merchant` for you or your integration, `flint` for a refund Flint made on its own to return a payment it couldn't accept. Unlike a Return's `initiated_by`, it doesn't say which credential asked. Read-only. Values: `"merchant"`, `"flint"`. |
 | `invoice_id` | Optional | string | ID of the invoice whose credit note this refund paid out. Present only on refunds issued through a credit note. |
 | `line_item_allocations` | Optional | Array of ([RefundWithGiftCardCodesLineItemAllocationsItem](../models/RefundWithGiftCardCodesLineItemAllocationsItem.md#refundwithgiftcardcodeslineitemallocationsitem) and [RefundLineItemAllocation](../models/RefundLineItemAllocation.md#refundlineitemallocation)) | How the refund applied to each order line item it covered, with quantity, tax, and adjustments. |
 | `merchant_id` | Required | string | ID of the merchant this resource belongs to. |
 | `metadata` | Optional | Map of string | Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/RefundWithGiftCardCodes.md#refundwithgiftcardcodesmetadata). |
 | `order` | Optional | [ExpandedOrderSummary](../models/ExpandedOrderSummary.md#expandedordersummary) or null |  |
 | `order_edit_id` | Optional | string | ID of the paid-order edit that created this refund. Present only on refunds issued through an order edit. |
-| `order_id` | Optional | string | ID of the order the refund was issued against. Absent for a refund of a payment that has no order, and for a standalone gift card refund. |
+| `order_id` | Optional | string | ID of the order the refund was issued against. For a refund with `reason` `payment_returned`, the order the returned payment was for; the order never received this money. Absent for a refund of a payment that has no order, and for a standalone gift card refund. |
 | `payment_intent` | Optional | [ExpandedPaymentIntentSummary](../models/ExpandedPaymentIntentSummary.md#expandedpaymentintentsummary) or null |  |
 | `payment_intent_id` | Optional | string | ID of the payment the refund was issued against, when it targeted one payment. `payment_refunds` lists every payment it returned money through. |
 | `payment_refunds` | Optional | Array of ([RefundWithGiftCardCodesPaymentRefundsItem](../models/RefundWithGiftCardCodesPaymentRefundsItem.md#refundwithgiftcardcodespaymentrefundsitem) and [PaymentRefund](../models/PaymentRefund.md#paymentrefund)) | The part of the refund returned through each payment, with its own status. Absent when the refund was all gift card credit or store credit. |
 | `payment_review_id` | Optional | string | ID of the payment review whose decline created this refund. Present only on refunds issued for a declined review. |
+| `pending_reason` | Required | (string or null) or null | Values: `"manual_review"`, `null`. `pending_reason`: [declared alternatives](../models/RefundWithGiftCardCodes.md#refundwithgiftcardcodespending_reason). |
 | `processed_by` | Required | string | Who moved or is moving the money for this refund. Flint processes refunds through a processor or a gift card; merchant means the merchant returned the money outside Flint and recorded it here. Existing refunds are processed by Flint. Values: `"flint"`, `"merchant"`. |
-| `reason` | Required | (string or null) or null | Values: [14 declared values](RefundInput.md#refundinput-reason-values). `reason`: [declared alternatives](../models/RefundWithGiftCardCodes.md#refundwithgiftcardcodesreason). |
+| `reason` | Required | (string or null) or null | Values: [15 declared values](RefundInput.md#refundinput-reason-values). `reason`: [declared alternatives](../models/RefundWithGiftCardCodes.md#refundwithgiftcardcodesreason). |
 | `reason_message` | Optional | string | Note explaining the refund, up to 1,024 characters. |
 | `refund_id` | Required | string | Unique identifier for this refund, prefixed `ref_`. |
+| `refund_platform_fee` | Required | boolean | Whether the request asked to return the platform fee on the payments this refund refunds (refund_platform_fee). Each payment refund's refunded_platform_fee_money is what it returns. |
 | `refund_reference` | Optional | string | The merchant's opaque check, wire, or other reference for money returned outside Flint, preserved exactly. Present only when processed_by is merchant and a reference was supplied. external_reference_id is the merchant's own refund ID. minLength: `1`. maxLength: `255`. |
 | `refunded_at` | Optional | string | When the merchant reports that the money was returned outside Flint. Present only when processed_by is merchant. Format: `date-time`. |
 | `refunded_tip_money` | Required | [RefundWithGiftCardCodesRefundedTipMoney](../models/RefundWithGiftCardCodesRefundedTipMoney.md#refundwithgiftcardcodesrefundedtipmoney) | Share of `amount_money` that refunds tips. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `return_id` | Optional | string | ID of the return this refund paid out. Present only on refunds issued by a return. |
 | `return_resolution_id` | Optional | string | ID of the return resolution that issued this refund. Present only on refunds issued by a return. |
-| `status` | Required | string | Summary of payment_refunds and tender_allocations. Only failed is final: succeeded and partially_succeeded can still change when a bank rejects a refund after accepting it. Follow refund.created when it is accepted, refund.succeeded, refund.partially_succeeded, or refund.failed when its outcome changes, and refund.updated for other changes. Values: `"pending"`, `"succeeded"`, `"partially_succeeded"`, `"failed"`. |
+| `status` | Required | string | Summary of payment_refunds and tender_allocations. Only failed is final: succeeded and partially_succeeded can still change when a bank rejects a refund after accepting it. A refund Flint made to return a payment it couldn't accept goes from succeeded back to pending, with pending_reason manual_review, when a bank reverses it. Follow refund.created when it is accepted, refund.succeeded, refund.partially_succeeded, or refund.failed when its outcome changes, and refund.updated for other changes. Values: `"pending"`, `"succeeded"`, `"partially_succeeded"`, `"failed"`. |
 | `succeeded_at` | Optional | string | When `status` first became `succeeded`. For a refund with `payment_refunds` or `tender_allocations`, it's when the last of them first succeeded, so it equals the latest `succeeded_at` among them. For a refund Flint processes, it's when Flint recorded the outcome; with `processed_by` `merchant`, it equals `refunded_at`. Present only while `status` is `succeeded`; absent for every other status, including `partially_succeeded` and a refund that failed after it succeeded. A refund that succeeds again shows its first success time. Format: `date-time`. |
 | `tax_breakdown_refunds` | Optional | Array of ([RefundWithGiftCardCodesTaxBreakdownRefundsItem](../models/RefundWithGiftCardCodesTaxBreakdownRefundsItem.md#refundwithgiftcardcodestaxbreakdownrefundsitem) and [RefundTaxBreakdownRefund](../models/RefundTaxBreakdownRefund.md#refundtaxbreakdownrefund)) | Tax reversed on order-level charges and flat taxes, one entry per tax breakdown. Tax reversed on line items is in `line_item_allocations[].tax_breakdown_refunds`. |
 | `tender_allocations` | Optional | Array of ([RefundWithGiftCardCodesTenderAllocationsItem](../models/RefundWithGiftCardCodesTenderAllocationsItem.md#refundwithgiftcardcodestenderallocationsitem) and [RefundTenderAllocation](../models/RefundTenderAllocation.md#refundtenderallocation)) | Every tender the refund drew from, payment or gift card, with its amount, tip share, status, and destination. |
@@ -51,13 +54,27 @@ Response model.
 
 Value shape: Map of string. Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. 
 
+### RefundWithGiftCardCodes.pending_reason
+
+### RefundWithGiftCardCodes.pending_reason variant 1
+
+anyOf variant 1.
+
+- Value shape: (string or null). Why a pending refund is waiting. `null` when `status` isn't `pending`, or when the refund is on its way without review. Values: `"manual_review"`, `null`.
+
+### RefundWithGiftCardCodes.pending_reason variant 2
+
+anyOf variant 2.
+
+- Value shape: null.  
+
 ### RefundWithGiftCardCodes.reason
 
 ### RefundWithGiftCardCodes.reason variant 1
 
 anyOf variant 1.
 
-- Value shape: (string or null). Why the refund was issued. It never changes how the money moves. The buyer's refund receipt shows it only for `requested_by_customer`, `duplicate`, `defective_product`, `wrong_item_shipped`, `never_received`, `not_as_described`, `arrived_too_late`, `accidental_order`, and `out_of_stock`. `null` when no reason was recorded. Values: `"duplicate"`, `"fraudulent"`, `"requested_by_customer"`, `"defective_product"`, `"wrong_item_shipped"`, `"never_received"`, `"not_as_described"`, `"arrived_too_late"`, `"customer_changed_mind"`, `"better_price_found"`, `"accidental_order"`, `"other"`, `"out_of_stock"`, `null`.
+- Value shape: (string or null). Why the refund was issued. It never changes how the money moves. The buyer's refund receipt shows it only for `requested_by_customer`, `duplicate`, `defective_product`, `wrong_item_shipped`, `never_received`, `not_as_described`, `arrived_too_late`, `accidental_order`, and `out_of_stock`. Only Flint sets `payment_returned`, and it can't be sent in requests. `null` when no reason was recorded. Values: `"duplicate"`, `"fraudulent"`, `"requested_by_customer"`, `"defective_product"`, `"wrong_item_shipped"`, `"never_received"`, `"not_as_described"`, `"arrived_too_late"`, `"customer_changed_mind"`, `"better_price_found"`, `"accidental_order"`, `"other"`, `"out_of_stock"`, `"payment_returned"`, `null`.
 
 ### RefundWithGiftCardCodes.reason variant 2
 

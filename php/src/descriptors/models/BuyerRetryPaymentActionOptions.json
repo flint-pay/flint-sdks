@@ -1,0 +1,1 @@
+{"shared":"BuyerRetryPaymentActionOptions","phpRepresentation":{"kind":"record","fields":{"active_subscription_payment_retry_id":{"kind":"value","type":"string"},"max_retries":{"kind":"value","type":"int"},"remaining_retries":{"kind":"value","type":"int"}}},"dependencies":["BuyerRetryPaymentActionOptions"]}

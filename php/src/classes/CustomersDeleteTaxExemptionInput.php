@@ -23,7 +23,7 @@ final class CustomersDeleteTaxExemptionInput extends Model {
      */
     public function getCustomerTaxExemptionId(): string { return $this->get('customer_tax_exemption_id'); }
     public function hasCustomerTaxExemptionId(): bool { return $this->has('customer_tax_exemption_id'); }
-    /** Resource version last read by the caller. Omit to archive the current record. Format: uint64. minimum: 1.
+    /** Resource version last read by the caller. Omit to archive the current record. Format: uint64. minimum: 1. maximum: 9007199254740991.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */

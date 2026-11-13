@@ -14,7 +14,7 @@ namespace Flint;
 final class ReturnsListLineItemsParams extends Model {
     /** @param array{'fulfillment_id'?: string, 'merchandise_status'?: list<string>|string, 'order_line_item_id'?: string, 'page_size'?: int, 'page_token'?: string, 'resolution_status'?: list<string>|string, 'return_reason_id'?: string, 'status'?: list<string>|string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnsListLineItemsParams')); }
-    /** Filter by fulfillment id. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
+    /** Filter by fulfillment id. pattern: ^ful_[0-9A-HJKMNP-TV-Z]{26}$. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
      * @return string
      * @throws SdkError When fulfillment_id is omitted; use hasFulfillmentId() or valueOrDefault().
      */
@@ -26,7 +26,7 @@ final class ReturnsListLineItemsParams extends Model {
      */
     public function getMerchandiseStatus(): mixed { return $this->get('merchandise_status'); }
     public function hasMerchandiseStatus(): bool { return $this->has('merchandise_status'); }
-    /** Filter by order line item id. Example: "li_01KEZF7C008YPRCK7VDKTGWR31".
+    /** Filter by order line item id. pattern: ^li_[0-9A-HJKMNP-TV-Z]{26}$. Example: "li_01KEZF7C008YPRCK7VDKTGWR31".
      * @return string
      * @throws SdkError When order_line_item_id is omitted; use hasOrderLineItemId() or valueOrDefault().
      */
@@ -50,7 +50,7 @@ final class ReturnsListLineItemsParams extends Model {
      */
     public function getResolutionStatus(): mixed { return $this->get('resolution_status'); }
     public function hasResolutionStatus(): bool { return $this->has('resolution_status'); }
-    /** Filter by return reason id. Example: "rrsn_01KEZF7C00SEE2T4EYP1NXAH3E".
+    /** Filter by return reason id. pattern: ^rrsn_[0-9A-HJKMNP-TV-Z]{26}$. Example: "rrsn_01KEZF7C00SEE2T4EYP1NXAH3E".
      * @return string
      * @throws SdkError When return_reason_id is omitted; use hasReturnReasonId() or valueOrDefault().
      */

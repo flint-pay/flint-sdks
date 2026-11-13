@@ -8,10 +8,11 @@ namespace Flint;
  * @property-read string $customer_id
  * @property-read string $email_change_request_id
  * @property-read string|\DateTimeInterface $expires_at
+ * @property-read string $flint_wallet_outcome
  * @property-read string $new_email
  * Presence-aware input; omitted fields throw when accessed. */
 final class EmailChangeRequestInput extends Model {
-    /** @param array{'confirmed': bool, 'created_at': string|\DateTimeInterface, 'current_email_confirmation_required': bool, 'customer_id': string, 'email_change_request_id': string, 'expires_at': string|\DateTimeInterface, 'new_email': string, ...}|object $values */
+    /** @param array{'confirmed': bool, 'created_at': string|\DateTimeInterface, 'current_email_confirmation_required': bool, 'customer_id': string, 'email_change_request_id': string, 'expires_at': string|\DateTimeInterface, 'flint_wallet_outcome'?: string, 'new_email': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('EmailChangeRequestInput')); }
     /** Whether both addresses have been confirmed, which completes the change.
      * @return bool
@@ -49,6 +50,12 @@ final class EmailChangeRequestInput extends Model {
      */
     public function getExpiresAt(): string|\DateTimeInterface { return $this->get('expires_at'); }
     public function hasExpiresAt(): bool { return $this->has('expires_at'); }
+    /** Returned only by confirm, to customer sessions that can access cards saved with Flint after a live email-code sign-in at a Flint-hosted account. Omitted when the previous email had no saved cards. Never returned to merchant credentials. Value enum: "moved", "kept", "new_email_has_wallet".
+     * @return string
+     * @throws SdkError When flint_wallet_outcome is omitted; use hasFlintWalletOutcome() or valueOrDefault().
+     */
+    public function getFlintWalletOutcome(): string { return $this->get('flint_wallet_outcome'); }
+    public function hasFlintWalletOutcome(): bool { return $this->has('flint_wallet_outcome'); }
     /** The address the email is changing to.
      * @return string
      * @throws SdkError When new_email is omitted; use hasNewEmail() or valueOrDefault().

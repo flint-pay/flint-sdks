@@ -1,1 +1,1 @@
-{"shared":"TaxSettings","dependencies":["TaxSettings"]}
+{"shared":"TaxSettings","dependencies":["TaxDefaultCalculation","TaxSettings"]}

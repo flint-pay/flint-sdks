@@ -54,7 +54,7 @@ final class DeliveryMethodConfigurationCreateRequestInput extends Model {
      */
     public function getOrigin(): mixed { return $this->get('origin'); }
     public function hasOrigin(): bool { return $this->has('origin'); }
-    /** The pricing strategy you supply when creating a delivery method. Set `type` and the matching property.
+    /** How Flint calculates the delivery charge. The pricing strategy you supply when creating a delivery method. Set `type` and the matching property.
      * @return DeliveryPricingStrategyCreateRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When pricing is omitted; use hasPricing() or valueOrDefault().
      */

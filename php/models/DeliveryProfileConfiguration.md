@@ -2,7 +2,7 @@
 
 ## DeliveryProfileConfiguration
 
-Whether delivery planning applies to items under a delivery profile, and if so the allowed delivery types, resolution mode, origin policy, packing rules, weight, and dimensions.
+Whether delivery planning applies to items under a delivery profile, and if so the allowed delivery types, resolution mode, origin policy, and grouping and splitting rules.
 
 Response model.
 
@@ -19,8 +19,5 @@ Response model.
 
 Required for quote resolution and forbidden for none or manual resolution. fixed_location requires location_id. inventory_routing forbids location_id and applies only to tracked inventory. method_origin forbids location_id. Where items under a delivery profile ship or leave from: a fixed Location (`location_id`), inventory routing, or the origin set on the delivery method.
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `location_id` | Optional | string | Example: `"loc_01KEZF7C00CMHRRYA3MV996JB2"`. |
-| `type` | Required | string | Values: `"fixed_location"`, `"inventory_routing"`, `"method_origin"`. |
+Field definitions: [shared fields](DeliveryProfileOriginPolicyInput.md#deliveryprofileoriginpolicyinput).
 

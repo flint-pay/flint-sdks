@@ -34,7 +34,7 @@ final class InventoryAllocationPoliciesUpdateInput extends Model {
      */
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
-    /** The request body for: Update inventory allocation policy. Example: {"configuration":{"location_groups":[{"group_priority":1,"location_id":"loc_01K0P7W6A4N9F3J2T8Q5R1C6XM"},{"group_priority":2,"location_id":"loc_01K0P7W6A4N9F3J2T8Q5R1C6YN"}],"maximum_locations_per_assignment":3,"splitting_behavior":"split_when_required","within_group_order":"location_id_ascending"},"expected_version":2}.
+    /** The request body for: Update inventory allocation policy. minProperties: 1. Example: {"configuration":{"location_groups":[{"group_priority":1,"location_id":"loc_01K0P7W6A4N9F3J2T8Q5R1C6XM"},{"group_priority":2,"location_id":"loc_01K0P7W6A4N9F3J2T8Q5R1C6YN"}],"maximum_locations_per_assignment":3,"splitting_behavior":"split_when_required","within_group_order":"location_id_ascending"},"expected_version":2}.
      * @return array{'configuration'?: mixed, 'expected_version'?: int, 'external_reference_id'?: string|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'name'?: string, 'status'?: string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

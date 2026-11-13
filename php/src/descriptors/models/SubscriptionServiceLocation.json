@@ -1,1 +1,1 @@
-{"shared":"SubscriptionServiceLocation","phpRepresentation":{"kind":"record","fields":{"address":{"kind":"entity","name":"Address"},"customer_address_id":{"kind":"value","type":"string"}}},"dependencies":["Address","SubscriptionServiceLocation"]}
+{"shared":"SubscriptionServiceLocation","phpRepresentation":{"kind":"record","fields":{"address":{"kind":"entity","name":"Address"},"customer_address_id":{"kind":"value","type":"string"},"customer_id":{"kind":"nullable","value":{"kind":"value","type":"string"}}}},"dependencies":["Address","SubscriptionServiceLocation"]}

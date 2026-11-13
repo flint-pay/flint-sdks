@@ -23,6 +23,10 @@ Field definitions: [shared fields](DeliveryProfileResponse.md#deliveryprofileres
 
 Field definitions: [CollectInvoiceResponse.data.invoice.metadata](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoicemetadata).
 
+### DeliveryProfileListResponse.data[].unconfigured_assignment
+
+Declared alternatives: [DeliveryProfileResponse.data.unconfigured_assignment](../models/DeliveryProfileResponse.md#deliveryprofileresponsedataunconfigured_assignment).
+
 ### DeliveryProfileListResponse.meta
 
 Field definitions: [DisputeResponse.meta](../models/DisputeResponse.md#disputeresponsemeta).

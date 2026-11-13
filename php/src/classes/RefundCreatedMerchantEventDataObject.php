@@ -10,6 +10,7 @@ namespace Flint;
  * @property-read ?string $external_reference_id
  * @property-read ?string $failure_reason
  * @property-read ?string $idempotency_key
+ * @property-read string $initiated_by
  * @property-read ?string $invoice_id
  * @property-read ?list<RefundLineItemAllocation> $line_item_allocations
  * @property-read string $merchant_id
@@ -21,10 +22,12 @@ namespace Flint;
  * @property-read ?string $payment_intent_id
  * @property-read ?list<PaymentRefund> $payment_refunds
  * @property-read ?string $payment_review_id
+ * @property-read string|null $pending_reason
  * @property-read string $processed_by
  * @property-read string|null $reason
  * @property-read ?string $reason_message
  * @property-read string $refund_id
+ * @property-read bool $refund_platform_fee
  * @property-read ?string $refund_reference
  * @property-read ?string $refunded_at
  * @property-read MoneyValue $refunded_tip_money
@@ -39,7 +42,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class RefundCreatedMerchantEventDataObject extends Model {
-    /** @param array{'amount_money': mixed, 'created_at': string, 'credit_note_id'?: string, 'customer'?: mixed, 'customer_id'?: string, 'external_reference_id'?: string, 'failure_reason'?: string, 'idempotency_key'?: string, 'invoice_id'?: string, 'line_item_allocations'?: list<mixed>, 'merchant_id': string, 'metadata'?: mixed, 'order'?: mixed, 'order_edit_id'?: string, 'order_id'?: string, 'payment_intent'?: mixed, 'payment_intent_id'?: string, 'payment_refunds'?: list<mixed>, 'payment_review_id'?: string, 'processed_by': string, 'reason': string|null, 'reason_message'?: string, 'refund_id': string, 'refund_reference'?: string, 'refunded_at'?: string, 'refunded_tip_money': mixed, 'return_id'?: string, 'return_resolution_id'?: string, 'status': string, 'succeeded_at'?: string, 'tax_breakdown_refunds'?: list<mixed>, 'tender_allocations'?: list<mixed>, 'unissued_gift_card_recoveries'?: list<mixed>, 'updated_at': string, 'version': int, ...}|object $values */
+    /** @param array{'amount_money': mixed, 'created_at': string, 'credit_note_id'?: string, 'customer'?: mixed, 'customer_id'?: string, 'external_reference_id'?: string, 'failure_reason'?: string, 'idempotency_key'?: string, 'initiated_by': string, 'invoice_id'?: string, 'line_item_allocations'?: list<mixed>, 'merchant_id': string, 'metadata'?: mixed, 'order'?: mixed, 'order_edit_id'?: string, 'order_id'?: string, 'payment_intent'?: mixed, 'payment_intent_id'?: string, 'payment_refunds'?: list<mixed>, 'payment_review_id'?: string, 'pending_reason': string|null, 'processed_by': string, 'reason': string|null, 'reason_message'?: string, 'refund_id': string, 'refund_platform_fee': bool, 'refund_reference'?: string, 'refunded_at'?: string, 'refunded_tip_money': mixed, 'return_id'?: string, 'return_resolution_id'?: string, 'status': string, 'succeeded_at'?: string, 'tax_breakdown_refunds'?: list<mixed>, 'tender_allocations'?: list<mixed>, 'unissued_gift_card_recoveries'?: list<mixed>, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RefundCreatedMerchantEventDataObject')); }
     /** Total refunded across all tenders, including `refunded_tip_money`. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
@@ -71,7 +74,7 @@ final class RefundCreatedMerchantEventDataObject extends Model {
      */
     public function getExternalReferenceId(): ?string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Why a refund failed or a payment refund was canceled. Failed and canceled amounts become refundable again. Fix the cause, then create a new refund with a new idempotency key. Unknown provider values are returned as refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card", "insufficient_funds", "insufficient_available_balance", "declined", "merchant_request", "payment_disputed", "payment_refund_failed", "payment_refund_not_attempted", "refund_failed".
+    /** Why a refund failed or a payment refund was canceled. Failed and canceled amounts become refundable again, except a refund with reason payment_returned that failed with payment_disputed: the buyer won a dispute on the charge, so nothing is left to refund. Fix the cause, then create a new refund with a new idempotency key. Unknown provider values are returned as refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card", "insufficient_funds", "insufficient_available_balance", "declined", "merchant_request", "payment_disputed", "payment_refund_failed", "payment_refund_not_attempted", "refund_failed".
      * @return ?string
      */
     public function getFailureReason(): ?string { return $this->get('failure_reason'); }
@@ -81,6 +84,11 @@ final class RefundCreatedMerchantEventDataObject extends Model {
      */
     public function getIdempotencyKey(): ?string { return $this->get('idempotency_key'); }
     public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
+    /** Who decided to make this refund: `merchant` for you or your integration, `flint` for a refund Flint made on its own to return a payment it couldn't accept. Unlike a Return's `initiated_by`, it doesn't say which credential asked. Read-only. Value enum: "merchant", "flint".
+     * @return string
+     */
+    public function getInitiatedBy(): string { return $this->get('initiated_by'); }
+    public function hasInitiatedBy(): bool { return $this->has('initiated_by'); }
     /** ID of the invoice whose credit note this refund paid out. Present only on refunds issued through a credit note.
      * @return ?string
      */
@@ -111,7 +119,7 @@ final class RefundCreatedMerchantEventDataObject extends Model {
      */
     public function getOrderEditId(): ?string { return $this->get('order_edit_id'); }
     public function hasOrderEditId(): bool { return $this->has('order_edit_id'); }
-    /** ID of the order the refund was issued against. Absent for a refund of a payment that has no order, and for a standalone gift card refund.
+    /** ID of the order the refund was issued against. For a refund with `reason` `payment_returned`, the order the returned payment was for; the order never received this money. Absent for a refund of a payment that has no order, and for a standalone gift card refund.
      * @return ?string
      */
     public function getOrderId(): ?string { return $this->get('order_id'); }
@@ -136,12 +144,17 @@ final class RefundCreatedMerchantEventDataObject extends Model {
      */
     public function getPaymentReviewId(): ?string { return $this->get('payment_review_id'); }
     public function hasPaymentReviewId(): bool { return $this->has('payment_review_id'); }
+    /** Why a pending refund is waiting. `null` when `status` isn't `pending`, or when the refund is on its way without review. Value enum: "manual_review", null.
+     * @return string|null
+     */
+    public function getPendingReason(): string|null { return $this->get('pending_reason'); }
+    public function hasPendingReason(): bool { return $this->has('pending_reason'); }
     /** Who moved or is moving the money for this refund. Flint processes refunds through a processor or a gift card; merchant means the merchant returned the money outside Flint and recorded it here. Existing refunds are processed by Flint. Value enum: "flint", "merchant".
      * @return string
      */
     public function getProcessedBy(): string { return $this->get('processed_by'); }
     public function hasProcessedBy(): bool { return $this->has('processed_by'); }
-    /** Why the refund was issued. It never changes how the money moves. The buyer's refund receipt shows it only for `requested_by_customer`, `duplicate`, `defective_product`, `wrong_item_shipped`, `never_received`, `not_as_described`, `arrived_too_late`, `accidental_order`, and `out_of_stock`. `null` when no reason was recorded. Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found", "accidental_order", "other", "out_of_stock", null.
+    /** Why the refund was issued. It never changes how the money moves. The buyer's refund receipt shows it only for `requested_by_customer`, `duplicate`, `defective_product`, `wrong_item_shipped`, `never_received`, `not_as_described`, `arrived_too_late`, `accidental_order`, and `out_of_stock`. Only Flint sets `payment_returned`, and it can't be sent in requests. `null` when no reason was recorded. Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found", "accidental_order", "other", "out_of_stock", "payment_returned", null.
      * @return string|null
      */
     public function getReason(): string|null { return $this->get('reason'); }
@@ -156,6 +169,11 @@ final class RefundCreatedMerchantEventDataObject extends Model {
      */
     public function getRefundId(): string { return $this->get('refund_id'); }
     public function hasRefundId(): bool { return $this->has('refund_id'); }
+    /** Whether the request asked to return the platform fee on the payments this refund refunds (refund_platform_fee). Each payment refund's refunded_platform_fee_money is what it returns.
+     * @return bool
+     */
+    public function getRefundPlatformFee(): bool { return $this->get('refund_platform_fee'); }
+    public function hasRefundPlatformFee(): bool { return $this->has('refund_platform_fee'); }
     /** The merchant's opaque check, wire, or other reference for money returned outside Flint, preserved exactly. Present only when processed_by is merchant and a reference was supplied. external_reference_id is the merchant's own refund ID. minLength: 1. maxLength: 255.
      * @return ?string
      */
@@ -181,7 +199,7 @@ final class RefundCreatedMerchantEventDataObject extends Model {
      */
     public function getReturnResolutionId(): ?string { return $this->get('return_resolution_id'); }
     public function hasReturnResolutionId(): bool { return $this->has('return_resolution_id'); }
-    /** Summary of payment_refunds and tender_allocations. Only failed is final: succeeded and partially_succeeded can still change when a bank rejects a refund after accepting it. Follow refund.created when it is accepted, refund.succeeded, refund.partially_succeeded, or refund.failed when its outcome changes, and refund.updated for other changes. Value enum: "pending", "succeeded", "partially_succeeded", "failed".
+    /** Summary of payment_refunds and tender_allocations. Only failed is final: succeeded and partially_succeeded can still change when a bank rejects a refund after accepting it. A refund Flint made to return a payment it couldn't accept goes from succeeded back to pending, with pending_reason manual_review, when a bank reverses it. Follow refund.created when it is accepted, refund.succeeded, refund.partially_succeeded, or refund.failed when its outcome changes, and refund.updated for other changes. Value enum: "pending", "succeeded", "partially_succeeded", "failed".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }

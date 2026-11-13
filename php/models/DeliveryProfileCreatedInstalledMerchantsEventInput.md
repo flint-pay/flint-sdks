@@ -25,11 +25,11 @@ Request input.
 
 The resource snapshot recorded for this event and rendered at the delivery API version.
 
-Field definitions: [shared fields](DeliveryProfileActivatedInstalledMerchantsEventInput.md#deliveryprofileactivatedinstalledmerchantseventinputdata).
+Field definitions: [shared fields](DeliveryProfileArchivedInstalledMerchantsEventInput.md#deliveryprofilearchivedinstalledmerchantseventinputdata).
 
 ### DeliveryProfileCreatedInstalledMerchantsEventInput.data.object
 
-Field definitions: [DeliveryProfileActivatedInstalledMerchantsEventInput.data.object](../models/DeliveryProfileActivatedInstalledMerchantsEventInput.md#deliveryprofileactivatedinstalledmerchantseventinputdataobject).
+Field definitions: [DeliveryProfileArchivedInstalledMerchantsEventInput.data.object](../models/DeliveryProfileArchivedInstalledMerchantsEventInput.md#deliveryprofilearchivedinstalledmerchantseventinputdataobject).
 
 ### DeliveryProfileCreatedInstalledMerchantsEventInput.source
 

@@ -72,32 +72,34 @@ const result = await client.onboarding.advance(undefined, { idempotencyKey: idem
 
 [Complete runnable example](../examples/onboarding-advance.mjs)
 
-### onboarding.createAPIKey
+### onboarding.createAccessLink
 
-Creates the first long-lived sandbox API key. The credential selects the environment; the onboarding session token acts in the merchant's default sandbox.
+Creates a link into Flint-hosted onboarding for the authenticated merchant environment, for products that don't embed Connect.js. The page opens Account Onboarding and Notification Banner in the credential's mode, names the business, and for a partner app install token names the app. The link opens once, within 5 minutes, into a browser session of at most an hour, and every refresh of the page rechecks the credential that created it: revoking the API key, CLI login, or install, or authorizing the app again, ends the page. When the person exits or finishes, or opens a used or expired link, the page offers one action: back to return_url. The url is a bearer credential that lets whoever opens it enter identity and bank details for the merchant. Create it only for a person you just authenticated and authorized for this merchant, redirect them to it at once, and never email or log it. Takes the credentials of POST /v1/merchant-account-sessions. A partner app install token works in live mode only while its app's merchant_onboarding platform capability is active; otherwise it gets 409 ACTION_NOT_ALLOWED with the reason its platform status gives: platform_onboarding_required, platform_pending_review, platform_rejected, or platform_capability_inactive. A same-key, same-input retry replays the original link for 24 hours without extending its lifetime or replenishing its open. Use a new key for a new link.
 
-`POST /v1/onboarding/api-key`
+`POST /v1/onboarding/access-links`
 
-Signature: `createAPIKey(params: OnboardingCreateAPIKeyParams, options?: RequestOptions<"onboarding">)`
+Signature: `createAccessLink(params: OnboardingCreateAccessLinkParams, options?: RequestOptions<"merchant" | "onboarding">)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `body` | Required | [DeveloperInitialAPIKeyRequestInput](../models/DeveloperInitialAPIKeyRequest.md#developerinitialapikeyrequest) | The request body for: Create onboarding API key. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `body` | Required | [CreateOnboardingAccessLinkRequestInput](../models/CreateOnboardingAccessLinkRequest.md#createonboardingaccesslinkrequest) | Where Flint's hosted onboarding page sends the person when they exit, finish, or open a used or expired link. |
 
-Body model: [DeveloperInitialAPIKeyRequestInput](../models/DeveloperInitialAPIKeyRequest.md#developerinitialapikeyrequest).
+Body model: [CreateOnboardingAccessLinkRequestInput](../models/CreateOnboardingAccessLinkRequest.md#createonboardingaccesslinkrequest).
 
-#### onboarding.createAPIKey body fields
+#### onboarding.createAccessLink body fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `name` | Required | string | minLength: `1`. maxLength: `100`. |
-| `scopes` | Optional | Array of string | Items: minLength: `1`. |
+| `return_url` | Required | string | An absolute https URL without credentials, up to 2,048 characters. Query strings and fragments are allowed. For a partner app install token, its origin must be the origin of the app's merchant_action_url or of one of its redirect URIs. Format: `uri`. minLength: `1`. maxLength: `2048`. |
 
 #### Response
 
-Returned payload: [APIKeyWithSecret](../models/APIKeyWithSecret.md#apikeywithsecret).
+Returned payload: [AccessLink](../models/AccessLink.md#accesslink).
 
 #### Errors
 
@@ -106,6 +108,7 @@ Returned payload: [APIKeyWithSecret](../models/APIKeyWithSecret.md#apikeywithsec
 | 400 | InvalidRequestError |
 | 401 | AuthenticationError |
 | 403 | PermissionError |
+| 404 | NotFoundError |
 | 409 | ConflictError |
 | 413 | ApiError |
 | 415 | ApiError |
@@ -123,7 +126,7 @@ Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#res
 
 Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
 
-Authentication modes: `onboarding`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -131,10 +134,10 @@ Authentication modes: `onboarding`. [Credential setup](../RUNTIME.md#authenticat
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.onboarding.createAPIKey({name: "First backend integration", scopes: ["commerce.orders.read", "commerce.orders.write", "customers.read", "customers.write"]}, { idempotencyKey: idempotencyKey });
+const result = await client.onboarding.createAccessLink({return_url: "https://classboard.example/settings/payments"}, { idempotencyKey: idempotencyKey });
 ```
 
-[Complete runnable example](../examples/onboarding-createAPIKey.mjs)
+[Complete runnable example](../examples/onboarding-createAccessLink.mjs)
 
 ### onboarding.getState
 
@@ -195,13 +198,13 @@ Signature: `start(params: OnboardingStartParams, options?: RequestOptions<never>
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `body` | Required | [OnboardingStartRequestInput](../models/OnboardingStartRequest.md#onboardingstartrequest) | The request body for: Start onboarding flow. |
+| `body` | Required | [OnboardingStartRequestInput](../models/OnboardingStartRequestInput.md#onboardingstartrequestinput) | The request body for: Start onboarding flow. |
 
-Body model: [OnboardingStartRequestInput](../models/OnboardingStartRequest.md#onboardingstartrequest).
+Body model: [OnboardingStartRequestInput](../models/OnboardingStartRequestInput.md#onboardingstartrequestinput).
 
 #### onboarding.start body fields
 
-Field definitions: [shared fields](../models/OnboardingStartRequest.md#onboardingstartrequest).
+Field definitions: [shared fields](../models/OnboardingStartRequestInput.md#onboardingstartrequestinput).
 
 #### Response
 

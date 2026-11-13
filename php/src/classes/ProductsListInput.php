@@ -87,7 +87,7 @@ final class ProductsListInput extends Model {
      */
     public function getQuery(): string { return $this->get('query'); }
     public function hasQuery(): bool { return $this->has('query'); }
-    /** Filter products with at least one non-deleted variant assigned to this delivery profile. Example: "dprof_01KEZF7C0020J13FQYNY9854R0".
+    /** Filter products with at least one non-deleted variant assigned to this delivery profile. pattern: ^dprof_[0-9A-HJKMNP-TV-Z]{26}$. Example: "dprof_01KEZF7C0020J13FQYNY9854R0".
      * @return string
      * @throws SdkError When delivery_profile_id is omitted; use hasDeliveryProfileId() or valueOrDefault().
      */

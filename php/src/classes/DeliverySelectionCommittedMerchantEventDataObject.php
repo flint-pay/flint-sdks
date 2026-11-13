@@ -9,10 +9,8 @@ namespace Flint;
  * @property-read list<DeliverySelectionChoiceResource> $choices
  * @property-read ?string $created_at
  * @property-read string $delivery_quote_id
- * @property-read ?int $delivery_quote_version
  * @property-read string $delivery_selection_id
  * @property-read ?Address $destination_address
- * @property-read ?int $eligibility_context_version
  * @property-read string $expires_at
  * @property-read list<DeliveryInputRequirement> $input_requirements
  * @property-read ?string $instructions
@@ -24,9 +22,10 @@ namespace Flint;
  * @property-read ?DeliveryRecipientResource $recipient
  * @property-read ?string $redacted_at
  * @property-read string $status
+ * @property-read list<string> $supported_actions
  * Presence-aware response; omitted optional fields return null. */
 final class DeliverySelectionCommittedMerchantEventDataObject extends Model {
-    /** @param array{'amount_money': mixed, 'buyer_location'?: mixed, 'calculation_expires_at'?: string, 'checkout_session_id'?: string, 'choices': list<mixed>, 'created_at'?: string, 'delivery_quote_id': string, 'delivery_quote_version'?: int, 'delivery_selection_id': string, 'destination_address'?: mixed, 'eligibility_context_version'?: int, 'expires_at': string, 'input_requirements': list<mixed>, 'instructions'?: string, 'lifecycle_events'?: list<mixed>, 'lifecycle_updated_at'?: string, 'limiting_deadline_reason'?: string, 'order_id'?: string, 'private_data_status'?: string, 'recipient'?: mixed, 'redacted_at'?: string, 'status': string, ...}|object $values */
+    /** @param array{'amount_money': mixed, 'buyer_location'?: mixed, 'calculation_expires_at'?: string, 'checkout_session_id'?: string, 'choices': list<mixed>, 'created_at'?: string, 'delivery_quote_id': string, 'delivery_selection_id': string, 'destination_address'?: mixed, 'expires_at': string, 'input_requirements': list<mixed>, 'instructions'?: string, 'lifecycle_events'?: list<mixed>, 'lifecycle_updated_at'?: string, 'limiting_deadline_reason'?: string, 'order_id'?: string, 'private_data_status'?: string, 'recipient'?: mixed, 'redacted_at'?: string, 'status': string, 'supported_actions': list<string>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliverySelectionCommittedMerchantEventDataObject')); }
     /** Delivery charge committed by this selection. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
@@ -63,11 +62,6 @@ final class DeliverySelectionCommittedMerchantEventDataObject extends Model {
      */
     public function getDeliveryQuoteId(): string { return $this->get('delivery_quote_id'); }
     public function hasDeliveryQuoteId(): bool { return $this->has('delivery_quote_id'); }
-    /** Quote version from which this selection was created. Always present with an API key or dashboard credential. Format: uint64. minimum: 0.
-     * @return ?int
-     */
-    public function getDeliveryQuoteVersion(): ?int { return $this->get('delivery_quote_version'); }
-    public function hasDeliveryQuoteVersion(): bool { return $this->has('delivery_quote_version'); }
     /** Stable delivery selection ID.
      * @return string
      */
@@ -78,17 +72,12 @@ final class DeliverySelectionCommittedMerchantEventDataObject extends Model {
      */
     public function getDestinationAddress(): ?Address { return $this->get('destination_address'); }
     public function hasDestinationAddress(): bool { return $this->has('destination_address'); }
-    /** Checkout eligibility context version evaluated by this selection. Always present with an API key or dashboard credential. Format: uint64. minimum: 0.
-     * @return ?int
-     */
-    public function getEligibilityContextVersion(): ?int { return $this->get('eligibility_context_version'); }
-    public function hasEligibilityContextVersion(): bool { return $this->has('eligibility_context_version'); }
     /** Deadline after which this provisional selection can no longer be committed. Format: date-time.
      * @return string
      */
     public function getExpiresAt(): string { return $this->get('expires_at'); }
     public function hasExpiresAt(): bool { return $this->has('expires_at'); }
-    /** Inputs this selection still needs before payment: each recipient field a chosen option requires that the selection does not include. Each entry repeats the quote's requirement for that option, with the same delivery_input_requirement_id. Payment fails with ACTION_NOT_ALLOWED, reason configuration_required, and the delivery_selection reference until a new delivery selection includes them. Empty when nothing is missing, and always empty unless status is selected. [] (Value): {@see DeliveryInputRequirement}. An input a delivery method needs, such as an address field or time window, with its `field_path`, purpose, and constraint.
+    /** Inputs this selection still needs before payment: each destination_address member a chosen shipment or local delivery needs that the stored address lacks (line1, city, and country, plus state and postal_code in the US), and each recipient field a chosen option requires that the selection does not include. Each entry repeats the quote's requirement for that option, with the same delivery_input_requirement_id. Payment fails with ACTION_NOT_ALLOWED, reason configuration_required, and the delivery_selection reference until a new delivery selection includes them. Empty when nothing is missing, and always empty unless status is selected. [] (Value): {@see DeliveryInputRequirement}. An input a delivery method needs, such as an address field or time window, with its `field_path`, purpose, and constraint.
      * @return list<DeliveryInputRequirement>
      */
     public function getInputRequirements(): array { return $this->get('input_requirements'); }
@@ -108,7 +97,7 @@ final class DeliverySelectionCommittedMerchantEventDataObject extends Model {
      */
     public function getLifecycleUpdatedAt(): ?string { return $this->get('lifecycle_updated_at'); }
     public function hasLifecycleUpdatedAt(): bool { return $this->has('lifecycle_updated_at'); }
-    /** Constraint that determined the selection expiry. Always present with an API key or dashboard credential. Value enum: "selection_guarantee_expiry", "calculation_expiry", "selection_maximum_lifetime", "inventory_reservation_expiry", "tax_validity_expiry", "checkout_session_expiry".
+    /** The deadline that set expires_at: the earliest of the chosen options' guarantee, the calculation expiry, and the maximum selection lifetime. A tie between the calculation and the guarantee reports calculation_expiry. Always present with an API key or dashboard credential. - `selection_guarantee_expiry`: The earliest guarantee among the chosen options and delivery windows comes first. When the selection holds stock, the hold ends at this deadline too. - `calculation_expiry`: The calculation the selection was priced against expires first. It ends no later than the checkout session's expires_at, and earlier when an applied promotion ends first. - `selection_maximum_lifetime`: The selection reaches the longest a provisional selection can last, 24 hours after it was created. Value enum: "selection_guarantee_expiry", "calculation_expiry", "selection_maximum_lifetime".
      * @return ?string
      */
     public function getLimitingDeadlineReason(): ?string { return $this->get('limiting_deadline_reason'); }
@@ -133,9 +122,14 @@ final class DeliverySelectionCommittedMerchantEventDataObject extends Model {
      */
     public function getRedactedAt(): ?string { return $this->get('redacted_at'); }
     public function hasRedactedAt(): bool { return $this->has('redacted_at'); }
-    /** Current selection lifecycle status. Value enum: "selected", "locked_for_payment", "committed", "superseded", "expired", "released".
+    /** Current selection lifecycle status. - `selected`: These choices are provisional and can be replaced before payment. - `locked_for_payment`: A payment attempt owns these choices. They are frozen until payment finishes. - `committed`: Payment fixed these choices on the order. - `superseded`: A newer selection replaced these choices. - `expired`: The selection is no longer usable because its deadline passed. - `released`: These choices were withdrawn. Create a new selection before paying for delivery. Value enum: "selected", "locked_for_payment", "committed", "superseded", "expired", "released".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
+    /** Contains release while status is selected and the selection belongs to a checkout session: POST /v1/delivery-selections/{delivery_selection_id}/release clears it from the checkout. Empty in every other status. Independent of caller permissions. [] enum: "release". [] (Value): string.  Value enum: "release".
+     * @return list<string>
+     */
+    public function getSupportedActions(): array { return $this->get('supported_actions'); }
+    public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
 }

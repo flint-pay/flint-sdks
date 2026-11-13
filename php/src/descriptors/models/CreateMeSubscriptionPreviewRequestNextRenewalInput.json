@@ -1,1 +1,1 @@
-{"shared":"CreateMeSubscriptionPreviewRequestNextRenewal","dependencies":["CreateMeSubscriptionPreviewRequestNextRenewal"]}
+{"shared":"CreateMeSubscriptionPreviewRequestNextRenewal","dependencies":["AddressRequest","CreateMeSubscriptionPreviewRequestNextRenewal","DeliverySelectionRecipientRequest","SharedCodec0","SharedCodec1","SharedCodec1585","SharedCodec1586","SubscriptionDeliveryDestinationRequest","SubscriptionDeliveryRequest"]}

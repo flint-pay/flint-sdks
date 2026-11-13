@@ -36,6 +36,7 @@ Returned payload: [CustomerEmailPreferences](../models/CustomerEmailPreferences.
 | 400 | InvalidRequestError |
 | 401 | AuthenticationError |
 | 403 | PermissionError |
+| 409 | ConflictError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |

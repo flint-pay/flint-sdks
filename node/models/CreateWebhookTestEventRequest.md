@@ -10,10 +10,13 @@ The request body for: Create webhook test event.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `event_type` | Required | string | Current event type to send. merchant delivers merchant events; partner_app delivers partner lifecycle events; installed_merchants delivers merchant events permitted by the install read scopes. The event catalog lists event_sources for each type. Values: [275 declared values](#createwebhooktesteventrequest-event_type-values). |
+| `event_type` | Required | string | Current event type to send. merchant delivers merchant events; partner_app delivers partner lifecycle events; installed_merchants delivers merchant events permitted by the install read scopes. The event catalog lists event_sources for each type. Values: [291 declared values](#createwebhooktesteventrequest-event_type-values). |
 
 #### CreateWebhookTestEventRequest event_type values
 
+- `"api_key.created"`
+- `"api_key.revoked"`
+- `"api_key.updated"`
 - `"balance.updated"`
 - `"balance_transaction.created"`
 - `"balance_transaction.updated"`
@@ -47,20 +50,16 @@ The request body for: Create webhook test event.
 - `"customer_deletion_request.processing"`
 - `"customer_deletion_request.rejected"`
 - `"customer_email_preferences.updated"`
-- `"delivery_location_set.activated"`
 - `"delivery_location_set.archived"`
 - `"delivery_location_set.created"`
-- `"delivery_location_set.deactivated"`
 - `"delivery_location_set.updated"`
 - `"delivery_method.activated"`
 - `"delivery_method.archived"`
 - `"delivery_method.created"`
 - `"delivery_method.deactivated"`
 - `"delivery_method.updated"`
-- `"delivery_profile.activated"`
 - `"delivery_profile.archived"`
 - `"delivery_profile.created"`
-- `"delivery_profile.deactivated"`
 - `"delivery_profile.updated"`
 - `"delivery_rate_callback.activated"`
 - `"delivery_rate_callback.archived"`
@@ -69,10 +68,8 @@ The request body for: Create webhook test event.
 - `"delivery_rate_callback.updated"`
 - `"delivery_revocation.created"`
 - `"delivery_selection.committed"`
-- `"delivery_zone.activated"`
 - `"delivery_zone.archived"`
 - `"delivery_zone.created"`
-- `"delivery_zone.deactivated"`
 - `"delivery_zone.updated"`
 - `"dispute.created"`
 - `"dispute.inquiry_closed"`
@@ -83,6 +80,7 @@ The request body for: Create webhook test event.
 - `"dispute.won"`
 - `"environment_grant.created"`
 - `"environment_grant.revoked"`
+- `"environment_grant.updated"`
 - `"fraud_warning.created"`
 - `"fraud_warning.updated"`
 - `"fulfillment.canceled"`
@@ -101,6 +99,7 @@ The request body for: Create webhook test event.
 - `"gift_card_redemption.updated"`
 - `"gift_card_transaction.created"`
 - `"inventory_count.applied"`
+- `"inventory_count.updated"`
 - `"inventory_level.shortage_detected"`
 - `"inventory_level.updated"`
 - `"inventory_receipt.created"`
@@ -112,11 +111,13 @@ The request body for: Create webhook test event.
 - `"inventory_reservation.created"`
 - `"inventory_reservation.hold_expired"`
 - `"inventory_reservation.released"`
+- `"inventory_reservation.updated"`
 - `"inventory_transfer.closed"`
 - `"inventory_transfer.departed"`
 - `"inventory_transfer.lost"`
 - `"inventory_transfer.received"`
 - `"inventory_transfer.returned"`
+- `"inventory_transfer.updated"`
 - `"invoice.collection_block_resolved"`
 - `"invoice.collection_blocked"`
 - `"invoice.created"`
@@ -198,6 +199,11 @@ The request body for: Create webhook test event.
 - `"payment_review.closed"`
 - `"payment_review.opened"`
 - `"payment_review.reopened"`
+- `"payment_split.canceled"`
+- `"payment_split.created"`
+- `"payment_split.failed"`
+- `"payment_split.succeeded"`
+- `"payment_split.updated"`
 - `"payout.canceled"`
 - `"payout.created"`
 - `"payout.failed"`
@@ -209,6 +215,13 @@ The request body for: Create webhook test event.
 - `"payout_destination.disabled"`
 - `"payout_destination.updated"`
 - `"payout_settings.updated"`
+- `"platform_fee.canceled"`
+- `"platform_fee.created"`
+- `"platform_fee.succeeded"`
+- `"platform_fee.updated"`
+- `"platform_fee_payout.created"`
+- `"platform_fee_payout.failed"`
+- `"platform_fee_payout.succeeded"`
 - `"price_list.archived"`
 - `"price_list.created"`
 - `"price_list.updated"`
@@ -224,6 +237,9 @@ The request body for: Create webhook test event.
 - `"promotion_code.archived"`
 - `"promotion_code.created"`
 - `"promotion_code.updated"`
+- `"reader.archived"`
+- `"reader.created"`
+- `"reader.updated"`
 - `"refund.created"`
 - `"refund.failed"`
 - `"refund.partially_succeeded"`

@@ -13,8 +13,8 @@ import type {
     BundlesUpdateParams
 } from '../declarations/types-1.js';
 import type { ClientOptions } from '../declarations/types-6.js';
-import type { RequestOptions } from '../declarations/types-51.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+import type { RequestOptions } from '../declarations/types-53.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -41,15 +41,17 @@ export type {
     BundlesListParams,
     BundleListResponse,
     BundlesUpdateParams,
+    AuthMode,
     BundleComponentVariantSummary
 } from '../declarations/types-1.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+export type { RequestOptions } from '../declarations/types-53.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
 export type { ClientOptions } from '../declarations/types-6.js';
 export type { CreateBundleRequestInput, CreateBundleComponentRequestInput, CreateBundleComponentRequest } from '../declarations/types-7.js';
-export type { ImageRequestInput, ImageInputSourceURLInput, ImageInputFileInput, ImageAttachment } from '../declarations/types-27.js';
-export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-36.js';
+export type { ImageRequestInput } from '../declarations/types-28.js';
+export type { ImageInputSourceURLInput, ImageInputFileInput, ImageAttachment } from '../declarations/types-27.js';
 export type {
+    MetadataRequestInput,
     MoneyValueInput,
     ModifierSet,
     ModifierSetGroup,
@@ -58,19 +60,19 @@ export type {
     MoneyValue,
     ModifierOverride,
     NextAction
-} from '../declarations/types-37.js';
-export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-13.js';
+} from '../declarations/types-38.js';
+export type { Credentials } from '../declarations/types-14.js';
 export type { CategoryReference } from '../declarations/types-5.js';
-export type { TextModifierConfig, UpdateBundleComponentRequest } from '../declarations/types-62.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
-export type { SelectedProductOption } from '../declarations/types-56.js';
-export type { UpdateBundleRequestInput, UpdateBundleComponentRequestInput } from '../declarations/types-63.js';
-export { makeCreateBundleComponentRequest, makeCreateBundleRequest } from '../declarations/types-68.js';
-export { makeImageInputFile, makeImageInputSourceURL, makeImageRequest } from '../declarations/types-73.js';
-export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-74.js';
-export { makeMoneyValue } from '../declarations/types-75.js';
-export { makeUpdateBundleComponentRequest, makeUpdateBundleRequest } from '../declarations/types-79.js';
+export type { MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-37.js';
+export type { TextModifierConfig, UpdateBundleComponentRequestInput, UpdateBundleComponentRequest } from '../declarations/types-65.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
+export type { SelectedProductOption } from '../declarations/types-59.js';
+export type { UpdateBundleRequestInput } from '../declarations/types-66.js';
+export { makeCreateBundleComponentRequest, makeCreateBundleRequest } from '../declarations/types-71.js';
+export { makeImageInputFile, makeImageInputSourceURL, makeImageRequest } from '../declarations/types-76.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-78.js';
+export { makeUpdateBundleComponentRequest, makeUpdateBundleRequest } from '../declarations/types-83.js';
 export interface BundlesResource {
     /**
  * Creates a bundle: several product variants sold as one line at a single price. Send `name` and

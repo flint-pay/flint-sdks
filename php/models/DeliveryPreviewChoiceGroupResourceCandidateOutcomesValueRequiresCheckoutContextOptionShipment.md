@@ -2,6 +2,8 @@
 
 ## DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueRequiresCheckoutContextOptionShipment
 
+Shipment details. Set only when `type` is `shipment`.
+
 Shipment-specific details of a delivery option or choice: the `service_level` and buyer `instructions`.
 
 Response model.

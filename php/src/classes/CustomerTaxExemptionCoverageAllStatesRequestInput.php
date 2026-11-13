@@ -9,7 +9,7 @@ namespace Flint;
 final class CustomerTaxExemptionCoverageAllStatesRequestInput extends Model {
     /** @param array{'country': string, 'states'?: list<string>, 'type': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerTaxExemptionCoverageAllStatesRequestInput')); }
-    /** Country covered by this exemption. Only US is accepted. Uses ISO 3166-1 alpha-2 country codes. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example: "US". Value enum: "US".
+    /** Country covered by this exemption. Only US is accepted. Uses ISO 3166-1 alpha-2 country codes. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Value enum: "US".
      * @return string
      * @throws SdkError When country is omitted; use hasCountry() or valueOrDefault().
      */

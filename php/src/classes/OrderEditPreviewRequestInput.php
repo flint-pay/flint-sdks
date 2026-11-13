@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read list<CreateOrderLineItemRequestInput|array<array-key, mixed>|\stdClass> $add_line_items
  * @property-read list<RefundChargeInput|array<array-key, mixed>|\stdClass> $charge_refunds
  * @property-read RefundDestinationsInput|array<array-key, mixed>|\stdClass $destinations
  * @property-read string $order_id
@@ -9,9 +10,15 @@ namespace Flint;
  * @property-read list<OrderEditRemovalRequestInput|array<array-key, mixed>|\stdClass> $remove_line_items
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrderEditPreviewRequestInput extends Model {
-    /** @param array{'charge_refunds'?: list<RefundChargeInput|array<array-key, mixed>|\stdClass>, 'destinations'?: RefundDestinationsInput|array<array-key, mixed>|\stdClass, 'order_id': string, 'reason'?: string, 'remove_line_items': list<OrderEditRemovalRequestInput|array<array-key, mixed>|\stdClass>}|object $values */
+    /** @param array{'add_line_items'?: list<CreateOrderLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'charge_refunds'?: list<RefundChargeInput|array<array-key, mixed>|\stdClass>, 'destinations'?: RefundDestinationsInput|array<array-key, mixed>|\stdClass, 'order_id': string, 'reason'?: string, 'remove_line_items'?: list<OrderEditRemovalRequestInput|array<array-key, mixed>|\stdClass>}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderEditPreviewRequestInput')); }
-    /** Explicit charge refunds. Omitting amount_money refunds the charge's remaining refundable amount. Charges you don't list are unchanged. [] (Value): {@see RefundChargeInput}. An order charge to refund when creating a refund, with an optional amount to refund.
+    /** Lines to add after the removals, in the same shape as POST /v1/orders/{order_id}/line-items. Only lines Flint can fulfill can be added: variant, bundle, and custom lines with a delivery requirement. Added lines are priced and taxed as usual, without promotions, and don't join the order's delivery selection. minItems: 1. maxItems: 100. [] (Value): {@see CreateOrderLineItemRequestInput}. A line item to add to an order: a catalog variant, a bundle, or a custom item with a name and unit price.
+     * @return list<CreateOrderLineItemRequestInput|array<array-key, mixed>|\stdClass>
+     * @throws SdkError When add_line_items is omitted; use hasAddLineItems() or valueOrDefault().
+     */
+    public function getAddLineItems(): array { return $this->get('add_line_items'); }
+    public function hasAddLineItems(): bool { return $this->has('add_line_items'); }
+    /** Charges to release. Omitting amount_money releases the charge's remaining refundable amount. Charges you don't list are unchanged. [] (Value): {@see RefundChargeInput}. An order charge to refund when creating a refund, with an optional amount to refund.
      * @return list<RefundChargeInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When charge_refunds is omitted; use hasChargeRefunds() or valueOrDefault().
      */
@@ -35,7 +42,7 @@ final class OrderEditPreviewRequestInput extends Model {
      */
     public function getReason(): string { return $this->get('reason'); }
     public function hasReason(): bool { return $this->has('reason'); }
-    /** Original line units to remove. Each line can appear only once. minItems: 1. maxItems: 100. [] (Value): {@see OrderEditRemovalRequestInput}. An order line and the whole units to take off it.
+    /** Original line units to remove. Each line can appear only once. Send remove_line_items, add_line_items, or both. minItems: 1. maxItems: 100. [] (Value): {@see OrderEditRemovalRequestInput}. An order line and the whole units to take off it.
      * @return list<OrderEditRemovalRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When remove_line_items is omitted; use hasRemoveLineItems() or valueOrDefault().
      */

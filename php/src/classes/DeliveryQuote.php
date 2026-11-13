@@ -10,14 +10,13 @@ namespace Flint;
  * @property-read list<DeliveryQuoteChoiceGroupResource> $choice_groups
  * @property-read string $created_at
  * @property-read string $delivery_quote_id
- * @property-read ?int $delivery_quote_version
  * @property-read string|null $delivery_revocation_id
  * @property-read ?Address $destination_address
- * @property-read ?int $eligibility_context_version
  * @property-read string $evaluated_at
  * @property-read string $evaluation_status
  * @property-read string $expires_at
  * @property-read list<DeliveryInputRequirement> $input_requirements
+ * @property-read ?list<string> $inventory_reservation_ids
  * @property-read ?list<DeliveryMerchantDiagnostic> $merchant_diagnostics
  * @property-read ?list<DeliveryQuoteMethodResource> $methods
  * @property-read ?string $order_id
@@ -30,14 +29,14 @@ namespace Flint;
  * @property-read ?string $superseded_by_delivery_quote_id
  * Presence-aware response; omitted optional fields return null. */
 final class DeliveryQuote extends Model {
-    /** @param array{'basis_delivery_quote_id'?: string, 'basis_delivery_selection_id'?: string, 'buyer_location'?: mixed, 'buyer_reasons': list<string>, 'checkout_session_id'?: string, 'choice_groups': list<mixed>, 'created_at': string, 'delivery_quote_id': string, 'delivery_quote_version'?: int, 'delivery_revocation_id': string|null, 'destination_address'?: mixed, 'eligibility_context_version'?: int, 'evaluated_at': string, 'evaluation_status': string, 'expires_at': string, 'input_requirements': list<mixed>, 'merchant_diagnostics'?: list<mixed>, 'methods'?: list<mixed>, 'order_id'?: string, 'pending_caller_rate_requests'?: list<mixed>, 'revocation_reason'?: string, 'revoked_at'?: string, 'selection_required': bool, 'stale_reason'?: string, 'status': string, 'superseded_by_delivery_quote_id'?: string, ...}|object $values */
+    /** @param array{'basis_delivery_quote_id'?: string, 'basis_delivery_selection_id'?: string, 'buyer_location'?: mixed, 'buyer_reasons': list<string>, 'checkout_session_id'?: string, 'choice_groups': list<mixed>, 'created_at': string, 'delivery_quote_id': string, 'delivery_revocation_id': string|null, 'destination_address'?: mixed, 'evaluated_at': string, 'evaluation_status': string, 'expires_at': string, 'input_requirements': list<mixed>, 'inventory_reservation_ids'?: list<string>, 'merchant_diagnostics'?: list<mixed>, 'methods'?: list<mixed>, 'order_id'?: string, 'pending_caller_rate_requests'?: list<mixed>, 'revocation_reason'?: string, 'revoked_at'?: string, 'selection_required': bool, 'stale_reason'?: string, 'status': string, 'superseded_by_delivery_quote_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryQuote')); }
-    /** basis_delivery_quote_id
+    /** The earlier delivery quote this quote was priced from. Omitted when it was not priced from one.
      * @return ?string
      */
     public function getBasisDeliveryQuoteId(): ?string { return $this->get('basis_delivery_quote_id'); }
     public function hasBasisDeliveryQuoteId(): bool { return $this->has('basis_delivery_quote_id'); }
-    /** basis_delivery_selection_id
+    /** The delivery selection this quote was priced from. Omitted when it was not priced from one.
      * @return ?string
      */
     public function getBasisDeliverySelectionId(): ?string { return $this->get('basis_delivery_selection_id'); }
@@ -47,7 +46,7 @@ final class DeliveryQuote extends Model {
      */
     public function getBuyerLocation(): DeliveryQuoteBuyerLocationAddress|DeliveryQuoteBuyerLocationCoordinate|\stdClass|null { return $this->get('buyer_location'); }
     public function hasBuyerLocation(): bool { return $this->has('buyer_location'); }
-    /** Buyer-safe reasons no delivery option was available. Merchant configuration details are never included. [] enum: "address_required", "address_incomplete", "outside_delivery_area", "no_pickup_location_nearby", "unavailable_for_these_items", "temporarily_unavailable". [] (Value): string.  Value enum: "address_required", "address_incomplete", "outside_delivery_area", "no_pickup_location_nearby", "unavailable_for_these_items", "temporarily_unavailable".
+    /** Buyer-safe reasons candidate methods did not produce an option. These may be present even when another method is available. Merchant configuration details are never included. [] enum: "address_required", "address_incomplete", "outside_delivery_area", "no_pickup_location_nearby", "unavailable_for_these_items", "temporarily_unavailable". [] (Value): string.  Value enum: "address_required", "address_incomplete", "outside_delivery_area", "no_pickup_location_nearby", "unavailable_for_these_items", "temporarily_unavailable".
      * @return list<string>
      */
     public function getBuyerReasons(): array { return $this->get('buyer_reasons'); }
@@ -57,7 +56,7 @@ final class DeliveryQuote extends Model {
      */
     public function getCheckoutSessionId(): ?string { return $this->get('checkout_session_id'); }
     public function hasCheckoutSessionId(): bool { return $this->has('checkout_session_id'); }
-    /**  [] (Value): {@see DeliveryQuoteChoiceGroupResource}. One group of order items in a delivery quote, with the delivery options the buyer can choose, its availability status, and any input still needed.
+    /** Groups of order items that each choose their own delivery option. [] (Value): {@see DeliveryQuoteChoiceGroupResource}. One group of order items in a delivery quote, with the delivery options the buyer can choose, its availability status, and any input still needed.
      * @return list<DeliveryQuoteChoiceGroupResource>
      */
     public function getChoiceGroups(): array { return $this->get('choice_groups'); }
@@ -72,12 +71,7 @@ final class DeliveryQuote extends Model {
      */
     public function getDeliveryQuoteId(): string { return $this->get('delivery_quote_id'); }
     public function hasDeliveryQuoteId(): bool { return $this->has('delivery_quote_id'); }
-    /** Version of the order's delivery details evaluated by this quote. Always present with an API key or dashboard credential. Format: uint64. minimum: 0.
-     * @return ?int
-     */
-    public function getDeliveryQuoteVersion(): ?int { return $this->get('delivery_quote_version'); }
-    public function hasDeliveryQuoteVersion(): bool { return $this->has('delivery_quote_version'); }
-    /** The delivery revocation that revoked this quote, or null when no revocation applies.
+    /** The delivery revocation that revoked this quote. `null` when no revocation applies.
      * @return string|null
      */
     public function getDeliveryRevocationId(): string|null { return $this->get('delivery_revocation_id'); }
@@ -87,17 +81,12 @@ final class DeliveryQuote extends Model {
      */
     public function getDestinationAddress(): ?Address { return $this->get('destination_address'); }
     public function hasDestinationAddress(): bool { return $this->has('destination_address'); }
-    /** Version of the checkout eligibility context evaluated by this quote. Always present with an API key or dashboard credential. Format: uint64. minimum: 0.
-     * @return ?int
-     */
-    public function getEligibilityContextVersion(): ?int { return $this->get('eligibility_context_version'); }
-    public function hasEligibilityContextVersion(): bool { return $this->has('eligibility_context_version'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** Time Flint priced this quote. Format: date-time.
      * @return string
      */
     public function getEvaluatedAt(): string { return $this->get('evaluated_at'); }
     public function hasEvaluatedAt(): bool { return $this->has('evaluated_at'); }
-    /** Value enum: "complete", "incomplete", "degraded".
+    /** How completely Flint evaluated the candidate delivery methods. Value enum: "complete", "incomplete", "degraded".
      * @return string
      */
     public function getEvaluationStatus(): string { return $this->get('evaluation_status'); }
@@ -112,12 +101,17 @@ final class DeliveryQuote extends Model {
      */
     public function getInputRequirements(): array { return $this->get('input_requirements'); }
     public function hasInputRequirements(): bool { return $this->has('input_requirements'); }
+    /** The cart reservation IDs the merchant supplied for routing credit. Omitted from checkout-credential responses; reservation quantities and details are never included. [] (Value): string.
+     * @return ?list<string>
+     */
+    public function getInventoryReservationIds(): ?array { return $this->get('inventory_reservation_ids'); }
+    public function hasInventoryReservationIds(): bool { return $this->has('inventory_reservation_ids'); }
     /** Always present with an API key or dashboard credential. [] (Value): {@see DeliveryMerchantDiagnostic}. A merchant-only diagnostic explaining why a delivery method produced no option, with its outcome, recommended action, and eligibility mismatches.
      * @return ?list<DeliveryMerchantDiagnostic>
      */
     public function getMerchantDiagnostics(): ?array { return $this->get('merchant_diagnostics'); }
     public function hasMerchantDiagnostics(): bool { return $this->has('merchant_diagnostics'); }
-    /**  [] (Value): {@see DeliveryQuoteMethodResource}. A delivery method offered in a delivery quote, with its name, type, display position, and revision.
+    /** Delivery methods evaluated for this quote. [] (Value): {@see DeliveryQuoteMethodResource}. A delivery method offered in a delivery quote, with its name, type, display position, and revision.
      * @return ?list<DeliveryQuoteMethodResource>
      */
     public function getMethods(): ?array { return $this->get('methods'); }
@@ -127,7 +121,7 @@ final class DeliveryQuote extends Model {
      */
     public function getOrderId(): ?string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /**  [] (Value): {@see DeliveryPendingCallerRateRequest}. A delivery method and choice group still waiting for a caller-supplied rate on a delivery quote.
+    /** Delivery methods that wait for your integration to supply a rate. Supply them with `method_results` in a new quote. [] (Value): {@see DeliveryPendingCallerRateRequest}. A delivery method and choice group still waiting for a caller-supplied rate on a delivery quote.
      * @return ?list<DeliveryPendingCallerRateRequest>
      */
     public function getPendingCallerRateRequests(): ?array { return $this->get('pending_caller_rate_requests'); }
@@ -137,17 +131,17 @@ final class DeliveryQuote extends Model {
      */
     public function getRevocationReason(): ?string { return $this->get('revocation_reason'); }
     public function hasRevocationReason(): bool { return $this->has('revocation_reason'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** Time the quote was revoked. Omitted until a delivery revocation revokes it. Format: date-time.
      * @return ?string
      */
     public function getRevokedAt(): ?string { return $this->get('revoked_at'); }
     public function hasRevokedAt(): bool { return $this->has('revoked_at'); }
-    /** selection_required
+    /** Whether the buyer must choose a delivery option before paying.
      * @return bool
      */
     public function getSelectionRequired(): bool { return $this->get('selection_required'); }
     public function hasSelectionRequired(): bool { return $this->has('selection_required'); }
-    /** Value enum: "checkout_changed", "selection_changed", "eligibility_changed", "inventory_changed", "authority_changed", "superseded_by_priced_quote".
+    /** Why this quote can no longer be used. Request a new quote. Omitted unless `status` is `stale`. Value enum: "checkout_changed", "selection_changed", "eligibility_changed", "inventory_changed", "authority_changed", "superseded_by_priced_quote".
      * @return ?string
      */
     public function getStaleReason(): ?string { return $this->get('stale_reason'); }

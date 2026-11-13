@@ -9,7 +9,7 @@ namespace Flint;
 final class CheckoutSessionCustomerVerificationResponse extends Model {
     /** @param array{'data': mixed, 'meta'?: mixed, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutSessionCustomerVerificationResponse')); }
-    /** Resource, collection, or operation result returned by this request. A request for a checkout verification code. A request with channel email reads the same whether or not Flint sent a code.
+    /** Resource, collection, or operation result returned by this request. A request for a checkout verification code. A request with channel email reads the same whether or not Flint sent a code. Readable with the session's checkout credential until expires_at.
      * @return CheckoutSessionCustomerVerification
      */
     public function getData(): CheckoutSessionCustomerVerification { return $this->get('data'); }

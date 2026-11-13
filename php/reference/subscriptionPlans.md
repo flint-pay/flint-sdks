@@ -27,13 +27,16 @@ Body model: [CreateSubscriptionPlanRequestInput](../models/CreateSubscriptionPla
 | --- | --- | --- | --- |
 | `billing_interval` | Required | string | Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`. |
 | `billing_interval_count` | Required | integer | Format: `int32`. |
-| `billing_interval_options` | Optional | Array of [SubscriptionIntervalOptionRequestInput](../models/SubscriptionIntervalOptionInput.md#subscriptionintervaloptioninput) | Offered billing interval and count pairs, including the plan's default pair. Every option bills the same line prices once per period. Use separate plans for different prices per interval. maxItems: `12`. uniqueItems: `true`. |
+| `billing_interval_options` | Optional | Array of [SubscriptionIntervalOptionRequestInput](../models/SubscriptionIntervalOptionInput.md#subscriptionintervaloptioninput) | Offered billing interval and count pairs, including the plan's default pair. Line prices are per delivery. Each option charges for all deliveries in its period. Use separate plans or promotions for different prices per interval. maxItems: `12`. uniqueItems: `true`. |
 | `contract_term_months` | Optional | integer | A commitment period you agree with the buyer, 1 to 120 months. Flint shows it at checkout and records it on each new subscription (contract_start_at, contract_end_at). Flint does not stop the buyer from canceling earlier. Format: `int32`. minimum: `1`. maximum: `120`. |
 | `currency` | Required | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. |
+| `delivery_interval` | Optional | string or null | Delivery cadence, set together with delivery_interval_count. Null when no separate delivery cadence is set; one delivery is made per billing period. Each billing option must be a whole multiple in the same unit family (days/weeks or months/years), with 1 to 24 deliveries per period. Existing subscriptions keep their frozen cadence. Omit both fields on PATCH to keep the cadence; send both as null to clear it. Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`, `null`. |
+| `delivery_interval_count` | Optional | integer or null | Positive number of delivery intervals between deliveries. Set or clear together with delivery_interval. Null when no separate delivery cadence is set; one delivery is made per billing period. Format: `int32`. minimum: `1`. |
 | `description` | Optional | string | minLength: `1`. |
 | `early_termination_fee_money` | Optional | [MoneyValueInput](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseFaceValueMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantgiftcardpurchasefacevaluemoney) | A fee you agree the buyer owes for canceling before the contract term ends. Flint shows it at checkout and records it on each new subscription, but never charges it. To collect it, charge the buyer yourself, for example with an order on their saved payment method. Requires contract_term_months. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `end_after` | Optional | [SubscriptionEndAfterCyclesRequestInput](../models/SubscriptionEndAfterCyclesInput.md#subscriptionendaftercyclesinput) or null | Default automatic end for new subscriptions. Counts charged billing cycles, from 1 to 1200. Send null for no automatic end. Existing subscriptions keep their recorded condition. Null when no default automatic end is set. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
+| `gifts_enabled` | Optional | boolean | Whether checkout buyers can name a gift recipient. Checkout sessions freeze it when they are created. Defaults to false. You can set gift_recipient on a subscription through the API either way. |
 | `images` | Optional | Array of [ImageRequestInput](../models/ImageRequestInput.md#imagerequestinput) | The complete desired gallery in display order. The first image is primary. Send [] to clear the gallery. minItems: `0`. maxItems: `8`. |
 | `inventory_routing_source` | Optional | [InventoryRoutingSourceRequestInput](../models/InventoryRoutingSourceRequestInput.md#inventoryroutingsourcerequestinput) | Where tracked demand from this plan is routed: a fixed Location, an allocation policy, or an immutable policy revision. Required when any line item tracks inventory. New subscriptions and payment links for the plan copy it, unless the payment link sends its own. Where you want inventory routed from: a fixed Location, an inventory allocation policy, or one policy revision, selected by `type`. |
 | `line_items` | Required | Array of [SubscriptionPlanLineItemRequestInput](../models/SubscriptionPlanLineItemRequestInput.md#subscriptionplanlineitemrequestinput) | minItems: `1`. |
@@ -114,7 +117,7 @@ Signature: `delete(string|Model $subscription_plan_id, array|Model|null $params 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `subscription_plan_id` | Required | string | Flint subscription plan ID. |
-| `expected_version` | Optional | integer | Optional subscription plan version last read by the caller. Format: `uint64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Optional subscription plan version last read by the caller. Format: `uint64`. minimum: `1`. maximum: `9007199254740991`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -188,6 +191,7 @@ Returned payload: [SubscriptionPlan](../models/SubscriptionPlan.md#subscriptionp
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -248,6 +252,7 @@ Returned payload: [SubscriptionPlanListResponse](../models/SubscriptionPlanListR
 | 400 | InvalidRequestError |
 | 401 | AuthenticationError |
 | 403 | PermissionError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -288,7 +293,7 @@ Signature: `update(string|Model $subscription_plan_id, array|Model $params, ?Req
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
-| `body` | Required | [UpdateSubscriptionPlanRequestInput](../models/UpdateSubscriptionPlanRequestInput.md#updatesubscriptionplanrequestinput) | The request body for: Update subscription plan. |
+| `body` | Required | [UpdateSubscriptionPlanRequestInput](../models/UpdateSubscriptionPlanRequestInput.md#updatesubscriptionplanrequestinput) | The request body for: Update subscription plan. minProperties: `1`. |
 
 Body model: [UpdateSubscriptionPlanRequestInput](../models/UpdateSubscriptionPlanRequestInput.md#updatesubscriptionplanrequestinput).
 
@@ -298,13 +303,16 @@ Body model: [UpdateSubscriptionPlanRequestInput](../models/UpdateSubscriptionPla
 | --- | --- | --- | --- |
 | `billing_interval` | Optional | string | Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`. |
 | `billing_interval_count` | Optional | integer | Format: `int32`. |
-| `billing_interval_options` | Optional | Array of [SubscriptionIntervalOptionRequestInput](../models/SubscriptionIntervalOptionInput.md#subscriptionintervaloptioninput) | Omission leaves the choices unchanged. Send [] to reset to the plan's default billing interval and count. Null is invalid. Every option bills the same line prices once per period. Use separate plans for different prices per interval. maxItems: `12`. uniqueItems: `true`. |
+| `billing_interval_options` | Optional | Array of [SubscriptionIntervalOptionRequestInput](../models/SubscriptionIntervalOptionInput.md#subscriptionintervaloptioninput) | Omission leaves the choices unchanged. Send [] to reset to the plan's default billing interval and count. Null is invalid. Line prices are per delivery. Each option charges for all deliveries in its period. Use separate plans or promotions for different prices per interval. maxItems: `12`. uniqueItems: `true`. |
 | `contract_term_months` | Optional | integer | A commitment period you agree with the buyer, 1 to 120 months. Flint shows it at checkout and records it on each new subscription (contract_start_at, contract_end_at). Flint does not stop the buyer from canceling earlier. Format: `int32`. minimum: `1`. maximum: `120`. |
+| `delivery_interval` | Optional | string or null | Delivery cadence, set together with delivery_interval_count. Null when no separate delivery cadence is set; one delivery is made per billing period. Each billing option must be a whole multiple in the same unit family (days/weeks or months/years), with 1 to 24 deliveries per period. Existing subscriptions keep their frozen cadence. Omit both fields on PATCH to keep the cadence; send both as null to clear it. Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`, `null`. |
+| `delivery_interval_count` | Optional | integer or null | Positive number of delivery intervals between deliveries. Set or clear together with delivery_interval. Null when no separate delivery cadence is set; one delivery is made per billing period. Format: `int32`. minimum: `1`. |
 | `description` | Optional | string or null | Omission leaves this field unchanged. Null clears it. minLength: `1`. |
 | `early_termination_fee_money` | Optional | [MoneyValueInput](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseFaceValueMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantgiftcardpurchasefacevaluemoney) | A fee you agree the buyer owes for canceling before the contract term ends. Flint shows it at checkout and records it on each new subscription, but never charges it. To collect it, charge the buyer yourself, for example with an order on their saved payment method. Requires contract_term_months. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `end_after` | Optional | [SubscriptionEndAfterCyclesRequestInput](../models/SubscriptionEndAfterCyclesInput.md#subscriptionendaftercyclesinput) or null | Default automatic end for new subscriptions. Counts charged billing cycles, from 1 to 1200. Send null for no automatic end. Existing subscriptions keep their recorded condition. Null when no default automatic end is set. |
 | `expected_version` | Optional | integer | Resource version last read by the caller. Required when replacing an owned collection. Required when any of these fields is present: images, line_items, plan_change_options. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Omission leaves this field unchanged. Null clears it. minLength: `1`. maxLength: `255`. |
+| `gifts_enabled` | Optional | boolean | Whether checkout buyers can name a gift recipient. Checkout sessions that are already open keep the setting they were created with. |
 | `images` | Optional | Array of [ImageRequestInput](../models/ImageRequestInput.md#imagerequestinput) | The complete desired gallery in display order. The first image is primary. Send [] to clear the gallery. minItems: `0`. maxItems: `8`. |
 | `inventory_routing_source` | Optional | [InventoryRoutingSourceRequestInput](../models/InventoryRoutingSourceRequestInput.md#inventoryroutingsourcerequestinput) | Replaces the plan's routing source. Subscriptions and payment links that already exist keep the source they copied. It can't be cleared. Where you want inventory routed from: a fixed Location, an inventory allocation policy, or one policy revision, selected by `type`. |
 | `line_items` | Optional | Array of [UpdateSubscriptionPlanLineItemRequestInput](../models/UpdateSubscriptionPlanLineItemRequestInput.md#updatesubscriptionplanlineitemrequestinput) | Replaces all owned plan line items atomically. Requires expected_version. Omission leaves items unchanged; an empty array or null is invalid. Include subscription_plan_line_item_id to retain an item; omit it for a new server-generated ID. Omitted members are removed. Existing subscriptions keep their snapshots. Retained catalog items with the same source keep their catalog snapshot; omitted modifiers keep their recorded choices. minItems: `1`. |

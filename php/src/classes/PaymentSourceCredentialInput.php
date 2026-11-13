@@ -3,6 +3,6 @@ declare(strict_types=1);
 namespace Flint;
 /** Presence-aware input; omitted fields throw when accessed. */
 final class PaymentSourceCredentialInput extends Model {
-    /** @param array{'credential_type': string, 'token': string}|object|array{'credential_type': string, 'customer_presence'?: string, 'payment_method_id': string}|object|array{'credential_type': string, 'stripe': array{'confirmation_token': string}|object}|object $values */
+    /** @param array{'credential_type': string, 'token': string}|object|array{'credential_type': string, 'customer_presence'?: string, 'payment_method_id': string}|object|array{'credential_type': string, 'stripe': array{'confirmation_token': string}|object}|object|array{'credential_type': string, 'reader_id': string, 'tip'?: ReaderPaymentSourceTipInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(mixed $values, array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentSourceCredentialInput')); }
 }

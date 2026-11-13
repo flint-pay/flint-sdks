@@ -8,9 +8,9 @@ import type {
     PayoutDestinationsGetParams,
     PayoutDestinationsListParams,
     PayoutDestinationsUpdateParams
-} from '../declarations/types-46.js';
-import type { RequestOptions } from '../declarations/types-51.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+} from '../declarations/types-48.js';
+import type { RequestOptions } from '../declarations/types-53.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -33,20 +33,20 @@ export type {
     PayoutDestinationsListParams,
     PayoutDestinationListResponse,
     PayoutDestinationsUpdateParams
-} from '../declarations/types-46.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+} from '../declarations/types-48.js';
+export type { RequestOptions } from '../declarations/types-53.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
 export type { ClientOptions } from '../declarations/types-6.js';
-export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-13.js';
-export type { MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-36.js';
-export type { NextAction, MoneyValue, MoneyMovementListMeta, MoneyMovementHistoryMeta } from '../declarations/types-37.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
-export type { UpdatePayoutDestinationRequestInput } from '../declarations/types-64.js';
-export type { DisputesAcceptParams } from '../declarations/types-22.js';
-export { makeMetadataPatchRequest } from '../declarations/types-74.js';
-export { makeMoneyValue } from '../declarations/types-75.js';
-export { makeUpdatePayoutDestinationRequest } from '../declarations/types-80.js';
+export type { AuthMode } from '../declarations/types-1.js';
+export type { Credentials } from '../declarations/types-14.js';
+export type { MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-37.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
+export type { NextAction, MoneyValue, MoneyMovementListMeta, MoneyMovementHistoryMeta } from '../declarations/types-38.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
+export type { UpdatePayoutDestinationRequestInput } from '../declarations/types-67.js';
+export type { DisputesAcceptParams } from '../declarations/types-23.js';
+export { makeMetadataPatchRequest, makeMoneyValue } from '../declarations/types-78.js';
+export { makeUpdatePayoutDestinationRequest } from '../declarations/types-83.js';
 export interface PayoutDestinationsResource {
     /**
  * Archives the payout destination and returns it with `status: archived`. It stays readable by ID.

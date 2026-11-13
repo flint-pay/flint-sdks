@@ -10,7 +10,7 @@ namespace Flint;
 final class OrderEditListResponse extends Model {
     /** @param array{'data': list<mixed>, 'meta'?: mixed, 'next_page_token'?: string, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderEditListResponse')); }
-    /** Resource, collection, or operation result returned by this request. [] (Value): {@see OrderEdit}. Nested child of an order: an immutable, completed removal with frozen refund amounts. Refund completion is tracked on the refunds.
+    /** Resource, collection, or operation result returned by this request. [] (Value): {@see OrderEdit}. Nested child of an order: immutable, completed item changes with frozen values and refund amounts. Refund completion is tracked on the refunds.
      * @return list<OrderEdit>
      */
     public function getData(): array { return $this->get('data'); }

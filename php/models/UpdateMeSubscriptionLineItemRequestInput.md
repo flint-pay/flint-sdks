@@ -4,6 +4,8 @@
 
 The request body for: Swap subscription variant.
 
+minProperties: `1`.
+
 Request input.
 
 | Field | Presence | Type | Description |

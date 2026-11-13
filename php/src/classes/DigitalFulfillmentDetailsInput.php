@@ -14,7 +14,7 @@ final class DigitalFulfillmentDetailsInput extends Model {
      */
     public function getDeliveredAt(): string|\DateTimeInterface { return $this->get('delivered_at'); }
     public function hasDeliveredAt(): bool { return $this->has('delivered_at'); }
-    /** URL where the recipient can access the delivered digital goods.
+    /** URL where the recipient can access the delivered digital goods. Merchant credentials receive the link when set; checkout session and invoice access credentials don't receive it after the covered lines are fully refunded.
      * @return string
      * @throws SdkError When delivery_url is omitted; use hasDeliveryUrl() or valueOrDefault().
      */

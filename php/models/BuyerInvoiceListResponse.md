@@ -57,7 +57,7 @@ Field definitions: [CollectInvoiceResponse.data.invoice.schedule_entries[]](../m
 
 ### BuyerInvoiceListResponse.data[].snapshot
 
-Field definitions: [CollectInvoiceResponse.data.invoice.snapshot](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoicesnapshot).
+Field definitions: [BuyerInvoiceResponse.data.snapshot](../models/BuyerInvoiceResponse.md#buyerinvoiceresponsedatasnapshot).
 
 ### BuyerInvoiceListResponse.meta
 

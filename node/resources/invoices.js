@@ -5,11 +5,11 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/invoices.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import r0 from '../descriptors/resources/invoices.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import settings from '../descriptors/settings.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["cancelInvoicePaymentAttempt"]:r0,["collectInvoice"]:r0,["createInvoice"]:r0,["createInvoiceCheckoutSession"]:r0,["createInvoiceLateFee"]:r0,["createInvoiceManualPayment"]:r0,["getInvoice"]:r0,["getInvoiceManualPayment"]:r0,["getInvoicePaymentAttempt"]:r0,["getInvoicePDF"]:r0,["issueInvoice"]:r0,["listInvoiceActivities"]:r0,["listInvoiceDeliveryAttempts"]:r0,["listInvoiceManualPayments"]:r0,["listInvoicePaymentAttempts"]:r0,["listInvoices"]:r0,["markInvoiceUncollectible"]:r0,["regenerateInvoicePublicLink"]:r0,["reverseInvoiceManualPayment"]:r0,["sendInvoiceReminder"]:r0,["updateInvoice"]:r0,["voidInvoice"]:r0,["waiveInvoiceLateFee"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["cancelInvoicePaymentAttempt"]:r0,["collectInvoice"]:r0,["createInvoice"]:r0,["createInvoiceLateFee"]:r0,["createInvoiceManualPayment"]:r0,["getInvoice"]:r0,["getInvoiceManualPayment"]:r0,["getInvoicePaymentAttempt"]:r0,["getInvoicePDF"]:r0,["issueInvoice"]:r0,["listInvoiceActivities"]:r0,["listInvoiceDeliveryAttempts"]:r0,["listInvoiceManualPayments"]:r0,["listInvoicePaymentAttempts"]:r0,["listInvoices"]:r0,["markInvoiceUncollectible"]:r0,["regenerateInvoicePublicLink"]:r0,["reverseInvoiceManualPayment"]:r0,["sendInvoiceReminder"]:r0,["updateInvoice"]:r0,["voidInvoice"]:r0,["waiveInvoiceLateFee"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
@@ -47,17 +47,6 @@ this.invoices = Object.freeze({
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createInvoice", result, path))),
-      createCheckoutSession: async (invoice_id, params, options) => this.#runtime.request("createInvoiceCheckoutSession", _sdkRequestInput([
-  "invoice_id"
-], [invoice_id], [
-  "Flint-Merchant-Id",
-  "Flint-Mode",
-  "Flint-Sandbox-Id"
-], true, false, params, [
-  "Idempotency-Key",
-  "Flint-Version",
-  "X-Request-Id"
-]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createInvoiceCheckoutSession", result, path))),
       createLateFee: async (invoice_id, params, options) => this.#runtime.request("createInvoiceLateFee", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
@@ -472,7 +461,6 @@ close() { return this.#runtime.close(); }
 }
 export { makeAddressRequest } from '../models/AddressRequest.js';
 export { makeAssessInvoiceLateFeeRequest } from '../models/AssessInvoiceLateFeeRequest.js';
-export { makeCheckoutRedirectsRequest } from '../models/CheckoutRedirectsRequest.js';
 export { makeCollectInvoiceRequest } from '../models/CollectInvoiceRequest.js';
 export { makeConfirmReturnResolutionRequest } from '../models/ConfirmReturnResolutionRequest.js';
 export { makeCreateInvoiceIssueRequest } from '../models/CreateInvoiceIssueRequest.js';
@@ -491,8 +479,10 @@ export { makeCreateOrderLineItemRequest } from '../models/CreateOrderLineItemReq
 export { makeCreateOrderTip } from '../models/CreateOrderTip.js';
 export { makeCreateOrderTipAmount } from '../models/CreateOrderTipAmount.js';
 export { makeCreateOrderTipPercent } from '../models/CreateOrderTipPercent.js';
+export { makeCustomerTaxExemptionCoverageAllStatesRequest } from '../models/CustomerTaxExemptionCoverageAllStatesRequest.js';
+export { makeCustomerTaxExemptionCoverageRequest } from '../models/CustomerTaxExemptionCoverageRequest.js';
+export { makeCustomerTaxExemptionCoverageStatesRequest } from '../models/CustomerTaxExemptionCoverageStatesRequest.js';
 export { makeDeliveryChargeTaxCalculationRequestModel } from '../models/DeliveryChargeTaxCalculationRequestModel.js';
-export { makeDeliveryWindowRequest } from '../models/DeliveryWindowRequest.js';
 export { makeDimensionsRequest } from '../models/DimensionsRequest.js';
 export { makeGiftCardPurchaseDetailsRequest } from '../models/GiftCardPurchaseDetailsRequest.js';
 export { makeGiftCardPurchaseRecipientRequest } from '../models/GiftCardPurchaseRecipientRequest.js';
@@ -501,7 +491,6 @@ export { makeInventoryRoutingSourceInputFixedLocation } from '../models/Inventor
 export { makeInventoryRoutingSourceInputPolicy } from '../models/InventoryRoutingSourceInputPolicy.js';
 export { makeInventoryRoutingSourceInputPolicyRevision } from '../models/InventoryRoutingSourceInputPolicyRevision.js';
 export { makeInventoryRoutingSourceRequest } from '../models/InventoryRoutingSourceRequest.js';
-export { makeInvoiceCheckoutSessionRequest } from '../models/InvoiceCheckoutSessionRequest.js';
 export { makeInvoiceCollectionInputAutomatic } from '../models/InvoiceCollectionInputAutomatic.js';
 export { makeInvoiceCollectionInputBuyerInitiated } from '../models/InvoiceCollectionInputBuyerInitiated.js';
 export { makeInvoiceCollectionInputExternal } from '../models/InvoiceCollectionInputExternal.js';
@@ -548,6 +537,10 @@ export { makeOrderTaxCalculationInputAutomatic } from '../models/OrderTaxCalcula
 export { makeOrderTaxCalculationInputExternal } from '../models/OrderTaxCalculationInputExternal.js';
 export { makeOrderTaxCalculationRequest } from '../models/OrderTaxCalculationRequest.js';
 export { makeOrderTaxComponentRequest } from '../models/OrderTaxComponentRequest.js';
+export { makeOrderTaxExemptionInputCustomer } from '../models/OrderTaxExemptionInputCustomer.js';
+export { makeOrderTaxExemptionInputNone } from '../models/OrderTaxExemptionInputNone.js';
+export { makeOrderTaxExemptionInputOrder } from '../models/OrderTaxExemptionInputOrder.js';
+export { makeOrderTaxExemptionRequest } from '../models/OrderTaxExemptionRequest.js';
 export { makeOrderTaxJurisdictionRequest } from '../models/OrderTaxJurisdictionRequest.js';
 export { makeOrderTaxLocationFullAddressRequest } from '../models/OrderTaxLocationFullAddressRequest.js';
 export { makeOrderTaxLocationInputFullAddress } from '../models/OrderTaxLocationInputFullAddress.js';

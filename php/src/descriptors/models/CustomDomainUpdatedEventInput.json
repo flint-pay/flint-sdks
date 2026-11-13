@@ -1,1 +1,1 @@
-{"shared":"CustomDomainUpdatedEvent","dependencies":["CustomDomain","CustomDomainDNSRecord","CustomDomainUpdatedEvent","SharedCodec18","SharedCodec23","SharedCodec24","SharedCodec25","SharedCodec26","SharedCodec419","SharedCodec420"]}
+{"shared":"CustomDomainUpdatedEvent","dependencies":["CustomDomain","CustomDomainDNSRecord","CustomDomainUpdatedEvent","SharedCodec10","SharedCodec467","SharedCodec468","SharedCodec6","SharedCodec7","SharedCodec8","SharedCodec9"]}

@@ -4,6 +4,9 @@ namespace Flint;
 /**
  * @property-read string|\DateTimeInterface|null $billing_at
  * @property-read string $currency
+ * @property-read int $deliveries_per_period
+ * @property-read string|null $delivery_interval
+ * @property-read int|null $delivery_interval_count
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $discount_money
  * @property-read list<SubscriptionRenewalEstimateDiscountInput|array<array-key, mixed>|\stdClass> $discounts
  * @property-read list<SubscriptionRenewalEstimateLineItemInput|array<array-key, mixed>|\stdClass> $line_items
@@ -14,7 +17,7 @@ namespace Flint;
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $total_money
  * Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionChargeEstimateInput extends Model {
-    /** @param array{'billing_at': string|\DateTimeInterface|null, 'currency': string, 'discount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'discounts': list<SubscriptionRenewalEstimateDiscountInput|array<array-key, mixed>|\stdClass>, 'line_items': list<SubscriptionRenewalEstimateLineItemInput|array<array-key, mixed>|\stdClass>, 'shipping_money': array{'amount': string, 'currency': string}|object|null, 'subscription_cycle': int, 'subtotal_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'tax_money': array{'amount': string, 'currency': string}|object|null, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'billing_at': string|\DateTimeInterface|null, 'currency': string, 'deliveries_per_period': int, 'delivery_interval': string|null, 'delivery_interval_count': int|null, 'discount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'discounts': list<SubscriptionRenewalEstimateDiscountInput|array<array-key, mixed>|\stdClass>, 'line_items': list<SubscriptionRenewalEstimateLineItemInput|array<array-key, mixed>|\stdClass>, 'shipping_money': array{'amount': string, 'currency': string}|object|null, 'subscription_cycle': int, 'subtotal_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'tax_money': array{'amount': string, 'currency': string}|object|null, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionChargeEstimateInput')); }
     /** Expected collection time. Null when billing is not scheduled. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface|null
@@ -28,6 +31,24 @@ final class SubscriptionChargeEstimateInput extends Model {
      */
     public function getCurrency(): string { return $this->get('currency'); }
     public function hasCurrency(): bool { return $this->has('currency'); }
+    /** Deliveries paid for by one billing period, from 1 to 24. One when no separate delivery cadence is set. Line prices are per delivery. Format: int32. minimum: 1. maximum: 24.
+     * @return int
+     * @throws SdkError When deliveries_per_period is omitted; use hasDeliveriesPerPeriod() or valueOrDefault().
+     */
+    public function getDeliveriesPerPeriod(): int { return $this->get('deliveries_per_period'); }
+    public function hasDeliveriesPerPeriod(): bool { return $this->has('deliveries_per_period'); }
+    /** Delivery cadence frozen from the plan. Null when no separate delivery cadence is set; one delivery is made per billing period. Value enum: "daily", "weekly", "monthly", "yearly", null.
+     * @return string|null
+     * @throws SdkError When delivery_interval is omitted; use hasDeliveryInterval() or valueOrDefault().
+     */
+    public function getDeliveryInterval(): string|null { return $this->get('delivery_interval'); }
+    public function hasDeliveryInterval(): bool { return $this->has('delivery_interval'); }
+    /** Number of delivery intervals between deliveries. Null when no separate delivery cadence is set. Format: int32. minimum: 1.
+     * @return int|null
+     * @throws SdkError When delivery_interval_count is omitted; use hasDeliveryIntervalCount() or valueOrDefault().
+     */
+    public function getDeliveryIntervalCount(): int|null { return $this->get('delivery_interval_count'); }
+    public function hasDeliveryIntervalCount(): bool { return $this->has('delivery_interval_count'); }
     /** Estimated discount total. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When discount_money is omitted; use hasDiscountMoney() or valueOrDefault().

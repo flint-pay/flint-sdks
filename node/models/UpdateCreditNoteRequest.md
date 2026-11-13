@@ -2,7 +2,7 @@
 
 ## UpdateCreditNoteRequest
 
-The request body for: Update credit note.
+The request body for: Update credit note. minProperties: `1`.
 
 
 

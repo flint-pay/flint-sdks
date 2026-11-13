@@ -5,11 +5,11 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/webhookEndpoints.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import r0 from '../descriptors/resources/webhookEndpoints.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import settings from '../descriptors/settings.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["createWebhookEndpoint"]:r0,["createWebhookTestEvent"]:r0,["deleteWebhookEndpoint"]:r0,["getWebhookEndpoint"]:r0,["listWebhookEndpoints"]:r0,["rotateWebhookEndpointSecret"]:r0,["updateWebhookEndpoint"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["createWebhookEndpoint"]:r0,["createWebhookTestEvent"]:r0,["deleteWebhookEndpoint"]:r0,["getWebhookEndpoint"]:r0,["listWebhookEndpoints"]:r0,["rotateWebhookEndpointSecret"]:r0,["signWebhookEndpointDelivery"]:r0,["updateWebhookEndpoint"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
@@ -98,6 +98,12 @@ this.webhookEndpoints = Object.freeze({
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("rotateWebhookEndpointSecret", result, path))),
+      signDelivery: async (webhook_endpoint_id, params, options) => this.#runtime.request("signWebhookEndpointDelivery", _sdkRequestInput([
+  "webhook_endpoint_id"
+], [webhook_endpoint_id], [], true, true, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("signWebhookEndpointDelivery", result, path))),
       update: async (webhook_endpoint_id, params, options) => this.#runtime.request("updateWebhookEndpoint", _sdkRequestInput([
   "webhook_endpoint_id"
 ], [webhook_endpoint_id], [], true, true, params, [
@@ -114,5 +120,6 @@ export { makeCreateWebhookEndpointRequest } from '../models/CreateWebhookEndpoin
 export { makeCreateWebhookTestEventRequest } from '../models/CreateWebhookTestEventRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
 export { makeRotateWebhookSecretRequest } from '../models/RotateWebhookSecretRequest.js';
+export { makeSignWebhookEndpointDeliveryRequest } from '../models/SignWebhookEndpointDeliveryRequest.js';
 export { makeUpdateWebhookEndpointRequest } from '../models/UpdateWebhookEndpointRequest.js';
 export { makeWebhookSigningMethod } from '../models/WebhookSigningMethod.js';

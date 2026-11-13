@@ -1,0 +1,1 @@
+{"shared":"SubscriptionTax","phpRepresentation":{"kind":"record","fields":{"calculation":{"kind":"nullable","value":{"kind":"entity","name":"SubscriptionTaxCalculation"}},"enabled":{"kind":"value","type":"bool"}}},"dependencies":["SharedCodec1563","SharedCodec1564","SubscriptionTax"]}

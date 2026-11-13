@@ -19,6 +19,7 @@ Response model.
 | `policy_adjustment_proposals` | Required | Array of ([BuyerReturnPreviewResponseDataResolutionEligibilityLineItemsItemEligibilityPolicyAdjustmentProposalsItem](../models/BuyerReturnPreviewResponseDataResolutionEligibilityLineItemsItemEligibilityPolicyAdjustmentProposalsItem.md#buyerreturnpreviewresponsedataresolutioneligibilitylineitemsitemeligibilitypolicyadjustmentproposalsitem) and [ReturnPolicyAdjustmentProposal](../models/ReturnPolicyAdjustmentProposal.md#returnpolicyadjustmentproposal)) | Fees or credits the policy proposes for this line, to add to a resolution as adjustments. |
 | `reason` | Required | string | Why the line got this result. Values: [9 declared values](#buyerreturnpreviewresponsedataresolutioneligibilitylineitemsitemeligibility-reason-values). |
 | `reason_message` | Required | string | Explanation of `reason`. |
+| `return_shipping_payer` | Required | (string or null) or null | Values: `"merchant"`, `"buyer"`, `null`. `return_shipping_payer`: [declared alternatives](../models/BuyerReturnPreviewResponseDataEligibilityEligibilityLineItemsItemEligibility.md#buyerreturnpreviewresponsedataeligibilityeligibilitylineitemsitemeligibilityreturn_shipping_payer). |
 | `status` | Required | string | Whether the policy lets the buyer return this. `review_required` means the merchant decides. Values: `"eligible"`, `"ineligible"`, `"review_required"`. |
 
 #### BuyerReturnPreviewResponseDataResolutionEligibilityLineItemsItemEligibility reason values
@@ -38,4 +39,8 @@ Response model.
 Terms the policy proposes if the line is approved. Absent when the policy can't propose any. The pinned policy decision recomputed for based_on_quantity. A decide with only approved_quantity commits these values. Policy automatic resolution selects the policy automatic_resolution_type for policy_default or the line's requested_resolution_type for buyer_requested. When buyer_requested has no requested_resolution_type, the proposal still exists without automatic_resolution_type, so resolution is manual. Manual policy resolution also has no automatic_resolution_type. An unset release_timing is filled with after_inspection when merchandise and inspection are required, after_receipt when merchandise is required without inspection, or after_approval when no merchandise is required.
 
 Field definitions: [shared fields](ReturnLineItemDecisionProposalInput.md#returnlineitemdecisionproposalinput).
+
+### BuyerReturnPreviewResponseDataResolutionEligibilityLineItemsItemEligibility.return_shipping_payer
+
+Declared alternatives: [BuyerReturnPreviewResponseDataEligibilityEligibilityLineItemsItemEligibility.return_shipping_payer](../models/BuyerReturnPreviewResponseDataEligibilityEligibilityLineItemsItemEligibility.md#buyerreturnpreviewresponsedataeligibilityeligibilitylineitemsitemeligibilityreturn_shipping_payer).
 

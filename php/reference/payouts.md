@@ -169,6 +169,7 @@ Returned payload: [Payout](../models/Payout.md#payout).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -203,12 +204,12 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. |
+| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. pattern: `^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$`. |
 | `currency` | Optional | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. |
 | `expand` | Optional | Array of string or string | Include related objects in the response. Supported expansions: original_payout, payout_destination, reversed_by_payout. Include the requested related resources using scoped batch reads for this page. Each relationship requires its existing target read scopes. Expansion changes the representation without changing pagination tokens. Limits: at most 10 unique expand paths per request. Items values: `"original_payout"`, `"payout_destination"`, `"reversed_by_payout"`. Values: `"original_payout"`, `"payout_destination"`, `"reversed_by_payout"`. |
 | `method` | Optional | Array of string or string | Filter recorded payouts by method. Flint sends only standard payouts. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"standard"`, `"instant"`, `"other"`. Values: `"standard"`, `"instant"`, `"other"`. |
 | `balance_source_type` | Optional | Array of string or string | Optional Flint balance source type filter. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"card"`, `"bank_account"`. Values: `"card"`, `"bank_account"`. |
-| `payout_destination_id` | Optional | string | Optional payout destination ID filter. |
+| `payout_destination_id` | Optional | string | Optional payout destination ID filter. pattern: `^pdest_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `external_reference_id` | Optional | string | Exact-match filter on the caller-owned external reference ID. minLength: `1`. maxLength: `255`. |
 | `query` | Optional | string | Search across payout ID, external reference ID, description, and statement descriptor. Text fields match any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the start and need the type prefix, such as po_01. |
 | `status` | Optional | Array of string or string | Optional payout status filter. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"pending"`, `"in_transit"`, `"succeeded"`, `"failed"`, `"canceled"`. Values: `"pending"`, `"in_transit"`, `"succeeded"`, `"failed"`, `"canceled"`. |
@@ -233,6 +234,7 @@ Returned payload: [PayoutListResponse](../models/PayoutListResponse.md#payoutlis
 | 400 | InvalidRequestError |
 | 401 | AuthenticationError |
 | 403 | PermissionError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |

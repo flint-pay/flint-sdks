@@ -244,6 +244,7 @@ Returned payload: [InventoryTransfer](../models/InventoryTransfer.md#inventorytr
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -280,11 +281,11 @@ Signature: `list(params?: InventoryTransfersListParams, options?: _SdkWithoutIde
 | --- | --- | --- | --- |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
-| `inventory_item_id` | Optional | string | Filter by inventory item. |
-| `origin_location_id` | Optional | string | Filter by origin Location. |
-| `destination_location_id` | Optional | string | Filter by destination Location. |
+| `inventory_item_id` | Optional | string | Filter by inventory item. pattern: `^invi_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `origin_location_id` | Optional | string | Filter by origin Location. pattern: `^loc_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `destination_location_id` | Optional | string | Filter by destination Location. pattern: `^loc_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `status` | Optional | Array of string or string | Filter by transfer status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"draft"`, `"in_transit"`, `"partially_resolved"`, `"closed"`. Values: `"draft"`, `"in_transit"`, `"partially_resolved"`, `"closed"`. |
-| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. |
+| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. pattern: `^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$`. |
 | `external_reference_id` | Optional | string | Exact, case-sensitive match on the caller-owned external reference ID. Must contain 1 to 255 characters. minLength: `1`. maxLength: `255`. |
 | `query` | Optional | string | Search by inventory_transfer_id, external_reference_id, or note. maxLength: `255`. |
 | `closed_reason` | Optional | Array of string or string | Filter by how the transfer ended. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"received"`, `"canceled"`, `"received_with_cancellation"`, `"returned"`, `"lost"`, `"mixed"`. Values: `"received"`, `"canceled"`, `"received_with_cancellation"`, `"returned"`, `"lost"`, `"mixed"`. |
@@ -310,6 +311,7 @@ Returned payload: [InventoryTransferListResponse](../models/InventoryTransferLis
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -554,7 +556,7 @@ Signature: `update(inventory_transfer_id: InputValue<string>, params: InventoryT
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
-| `body` | Required | [UpdateInventoryTransferRequestInput](../models/UpdateInventoryTransferRequest.md#updateinventorytransferrequest) | The request body for: Update inventory transfer. |
+| `body` | Required | [UpdateInventoryTransferRequestInput](../models/UpdateInventoryTransferRequest.md#updateinventorytransferrequest) | The request body for: Update inventory transfer. minProperties: `1`. |
 
 Body model: [UpdateInventoryTransferRequestInput](../models/UpdateInventoryTransferRequest.md#updateinventorytransferrequest).
 

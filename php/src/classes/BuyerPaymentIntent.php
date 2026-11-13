@@ -11,6 +11,7 @@ namespace Flint;
  * @property-read ?string $capture_method
  * @property-read ?string $captured_at
  * @property-read ?MoneyValue $captured_money
+ * @property-read ?MoneyValue $captured_tip_money
  * @property-read ?string $checkout_session_id
  * @property-read ?string $created_at
  * @property-read ?string $customer_id
@@ -29,9 +30,11 @@ namespace Flint;
  * @property-read ?MoneyValue $refunded_money
  * @property-read ?MoneyValue $released_money
  * @property-read ?string $return_id
+ * @property-read ?string $return_resolution_id
  * @property-read ?string $selected_payment_option
  * @property-read string|null $statement_descriptor
  * @property-read string $status
+ * @property-read ?string $subscription_id
  * @property-read string $support_reference
  * @property-read list<string> $supported_actions
  * @property-read MoneyValue|null $tip_money
@@ -40,7 +43,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class BuyerPaymentIntent extends Model {
-    /** @param array{'amount_money': mixed, 'authorization_expires_at'?: string, 'authorized_at'?: string, 'authorized_money'?: mixed, 'cancellation_reason'?: string, 'capturable_money'?: mixed, 'capture_method'?: string, 'captured_at'?: string, 'captured_money'?: mixed, 'checkout_session_id'?: string, 'created_at'?: string, 'customer_id'?: string, 'customer_presence': string, 'fulfillment_hold'?: mixed, 'invoice_id'?: string, 'last_payment_error': mixed, 'merchant_id'?: string, 'order_id'?: string, 'payment_flow': string, 'payment_intent_id': string, 'payment_options': list<string>, 'payment_source'?: mixed, 'receipt_email'?: string|null, 'refund_status'?: string, 'refunded_money'?: mixed, 'released_money'?: mixed, 'return_id'?: string, 'selected_payment_option'?: string, 'statement_descriptor': string|null, 'status': string, 'support_reference': string, 'supported_actions': list<string>, 'tip_money'?: mixed, 'transaction_purpose'?: string, 'updated_at'?: string, 'version': int, ...}|object $values */
+    /** @param array{'amount_money': mixed, 'authorization_expires_at'?: string, 'authorized_at'?: string, 'authorized_money'?: mixed, 'cancellation_reason'?: string, 'capturable_money'?: mixed, 'capture_method'?: string, 'captured_at'?: string, 'captured_money'?: mixed, 'captured_tip_money'?: mixed, 'checkout_session_id'?: string, 'created_at'?: string, 'customer_id'?: string, 'customer_presence': string, 'fulfillment_hold'?: mixed, 'invoice_id'?: string, 'last_payment_error': mixed, 'merchant_id'?: string, 'order_id'?: string, 'payment_flow': string, 'payment_intent_id': string, 'payment_options': list<string>, 'payment_source'?: mixed, 'receipt_email'?: string|null, 'refund_status'?: string, 'refunded_money'?: mixed, 'released_money'?: mixed, 'return_id'?: string, 'return_resolution_id'?: string, 'selected_payment_option'?: string, 'statement_descriptor': string|null, 'status': string, 'subscription_id'?: string, 'support_reference': string, 'supported_actions': list<string>, 'tip_money'?: mixed, 'transaction_purpose'?: string, 'updated_at'?: string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerPaymentIntent')); }
     /** The amount requested from the buyer, including any tip_money. Capturing doesn't change it: after a partial capture it still shows the requested amount, and captured_money shows what was collected. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
@@ -57,12 +60,12 @@ final class BuyerPaymentIntent extends Model {
      */
     public function getAuthorizedAt(): ?string { return $this->get('authorized_at'); }
     public function hasAuthorizedAt(): bool { return $this->has('authorized_at'); }
-    /** The amount the processor authorized. It always equals amount_money and doesn't change once set. Absent until the payment is authorized, and on payments canceled before authorization. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** The amount the processor authorized. It always equals amount_money and doesn't change once set, even when a capture collects more. On a payment intent canceled with cancellation_reason payment_returned, it equals the authorization Flint released instead. Absent until the payment is authorized, and on payments canceled before authorization. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return ?MoneyValue
      */
     public function getAuthorizedMoney(): ?MoneyValue { return $this->get('authorized_money'); }
     public function hasAuthorizedMoney(): bool { return $this->has('authorized_money'); }
-    /** Flint-normalized reason the payment intent was canceled. Present only while status is canceled. Unknown processor values are returned as payment_canceled. Value enum: "requested_by_customer", "duplicate", "fraudulent", "abandoned", "invoice_payment_failed", "invoice_voided", "order_closed", "payment_canceled".
+    /** Flint-normalized reason the payment intent was canceled. Present only while status is canceled. Unknown processor values are returned as payment_canceled. Value enum: "requested_by_customer", "duplicate", "fraudulent", "abandoned", "invoice_payment_failed", "invoice_voided", "order_closed", "payment_canceled", "payment_returned".
      * @return ?string
      */
     public function getCancellationReason(): ?string { return $this->get('cancellation_reason'); }
@@ -87,6 +90,11 @@ final class BuyerPaymentIntent extends Model {
      */
     public function getCapturedMoney(): ?MoneyValue { return $this->get('captured_money'); }
     public function hasCapturedMoney(): bool { return $this->has('captured_money'); }
+    /** The part of captured_money that is a tip. Absent until the payment is collected. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return ?MoneyValue
+     */
+    public function getCapturedTipMoney(): ?MoneyValue { return $this->get('captured_tip_money'); }
+    public function hasCapturedTipMoney(): bool { return $this->has('captured_tip_money'); }
     /** Flint checkout session ID associated with this payment, when present.
      * @return ?string
      */
@@ -142,7 +150,7 @@ final class BuyerPaymentIntent extends Model {
      */
     public function getPaymentIntentId(): string { return $this->get('payment_intent_id'); }
     public function hasPaymentIntentId(): bool { return $this->has('payment_intent_id'); }
-    /** Payment options the buyer can use for this payment. [] enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit". [] (Value): string.  Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit".
+    /** Payment options the buyer can use for this payment. [] enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", "card_present". [] (Value): string.  Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", "card_present".
      * @return list<string>
      */
     public function getPaymentOptions(): array { return $this->get('payment_options'); }
@@ -177,7 +185,12 @@ final class BuyerPaymentIntent extends Model {
      */
     public function getReturnId(): ?string { return $this->get('return_id'); }
     public function hasReturnId(): bool { return $this->has('return_id'); }
-    /** The payment option the most recent confirmation used. Absent until the payment intent is first confirmed.
+    /** The return resolution whose balance this payment collects. Set for exchange balances and corrections.
+     * @return ?string
+     */
+    public function getReturnResolutionId(): ?string { return $this->get('return_resolution_id'); }
+    public function hasReturnResolutionId(): bool { return $this->has('return_resolution_id'); }
+    /** The payment option the most recent confirmation used. Absent until the payment intent is first confirmed. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", "card_present".
      * @return ?string
      */
     public function getSelectedPaymentOption(): ?string { return $this->get('selected_payment_option'); }
@@ -192,6 +205,11 @@ final class BuyerPaymentIntent extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
+    /** The subscription whose billing charged this payment: its first charge, a renewal, a retry or a setup fee. Not set for the checkout payment that created a subscription.
+     * @return ?string
+     */
+    public function getSubscriptionId(): ?string { return $this->get('subscription_id'); }
+    public function hasSubscriptionId(): bool { return $this->has('subscription_id'); }
     /** Opaque payment reference to share with merchant support. Do not parse its format.
      * @return string
      */

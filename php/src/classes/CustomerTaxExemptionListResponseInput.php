@@ -10,7 +10,7 @@ namespace Flint;
 final class CustomerTaxExemptionListResponseInput extends Model {
     /** @param array{'data': list<CustomerTaxExemptionInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerTaxExemptionListResponseInput')); }
-    /** Resource, collection, or operation result returned by this request. [] (Value): {@see CustomerTaxExemptionInput}. Nested child of a customer, bounded to 100 unarchived records per customer. Archives remain retrievable by ID and through the archived status filter. Expired and archived records cannot be edited. These records store exemption evidence; saving one does not apply it to sales or change the customer's blanket tax_exempt flag.
+    /** Resource, collection, or operation result returned by this request. [] (Value): {@see CustomerTaxExemptionInput}. Nested child of a customer, bounded to 100 unarchived records per customer. Archives remain retrievable by ID and through the archived status filter. Expired and archived records cannot be edited. An active record applies to the customer's sales whose taxable destination its coverage contains, within its date range, and is snapshotted on each exempt sale. Saving one doesn't change the customer's blanket tax_exempt flag, which still takes precedence.
      * @return list<CustomerTaxExemptionInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When data is omitted; use hasData() or valueOrDefault().
      */

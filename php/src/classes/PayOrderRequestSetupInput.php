@@ -4,12 +4,14 @@ namespace Flint;
 /**
  * @property-read string $action
  * @property-read array{'email'?: string, 'phone'?: string}|object $buyer_contact
+ * @property-read string $client_action_type
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $expected_outstanding_money
  * @property-read int $expected_version
+ * @property-read string $payment_return_url
  * @property-read PaymentSourceCredentialTokenInput|array<array-key, mixed>|\stdClass $setup_payment_source
  * Presence-aware input; omitted fields throw when accessed. */
 final class PayOrderRequestSetupInput extends Model {
-    /** @param array{'action': string, 'buyer_contact'?: array{'email'?: string, 'phone'?: string}|object, 'expected_outstanding_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'expected_version'?: int, 'setup_payment_source': PaymentSourceCredentialTokenInput|array<array-key, mixed>|\stdClass}|object $values */
+    /** @param array{'action': string, 'buyer_contact'?: array{'email'?: string, 'phone'?: string}|object, 'client_action_type'?: string, 'expected_outstanding_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'expected_version'?: int, 'payment_return_url'?: string, 'setup_payment_source': PaymentSourceCredentialTokenInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PayOrderRequestSetupInput')); }
     /** Value enum: "setup".
      * @return string
@@ -23,6 +25,12 @@ final class PayOrderRequestSetupInput extends Model {
      */
     public function getBuyerContact(): array|object { return $this->get('buyer_contact'); }
     public function hasBuyerContact(): bool { return $this->has('buyer_contact'); }
+    /** How to complete the authentication step. Flint's API returns a Stripe client secret only for client_action_type stripe. A url action opens in a redirect, popup, or iframe; Stripe's authentication page receives what it needs to run the challenge, including the client secret for hosted 3DS2. If a payment is confirmed with a payment method Flint didn't approve, Flint doesn't count the charge, returns it to the buyer, and the payment intent ends canceled with cancellation_reason payment_returned. The Stripe secret can also confirm the payment with another card, so use it only with handleNextAction. Reader credentials do not support url; omit client_action_type or send stripe for reader payments. Defaults to stripe for a new confirmation; omission on a continuation keeps the existing type. Default: "stripe". Value enum: "url", "stripe".
+     * @return string
+     * @throws SdkError When client_action_type is omitted; use hasClientActionType() or valueOrDefault().
+     */
+    public function getClientActionType(): string { return $this->get('client_action_type'); }
+    public function hasClientActionType(): bool { return $this->has('client_action_type'); }
     /** The outstanding balance you reviewed. Required with checkout credentials, and with an API key or partner token when the order has an open checkout session. Optional otherwise. The amount and every computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When expected_outstanding_money is omitted; use hasExpectedOutstandingMoney() or valueOrDefault().
@@ -35,6 +43,12 @@ final class PayOrderRequestSetupInput extends Model {
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
+    /** Where Flint sends the buyer after a redirect or authentication step, adding only payment_intent_id for a payment, or payment_method_id for a setup. The completion message uses type flint.payment_action.completed and exactly that one subject key. Without it, the step ends on a Flint page that tells the parent or opener the step completed. Accepts an absolute HTTPS URL or an app return URL with a custom scheme other than http, javascript, data, file, blob, or about. Cannot contain credentials, a query, or a fragment. Test mode also accepts HTTP loopback URLs. With a checkout credential on order pay, omit payment_return_url; checkout sessions use their own configured return URL. minLength: 1. maxLength: 2048.
+     * @return string
+     * @throws SdkError When payment_return_url is omitted; use hasPaymentReturnUrl() or valueOrDefault().
+     */
+    public function getPaymentReturnUrl(): string { return $this->get('payment_return_url'); }
+    public function hasPaymentReturnUrl(): bool { return $this->has('payment_return_url'); }
     /** The `token` variant of `PaymentSourceCredential`.
      * @return PaymentSourceCredentialTokenInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When setup_payment_source is omitted; use hasSetupPaymentSource() or valueOrDefault().

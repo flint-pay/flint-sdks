@@ -2,7 +2,7 @@
 
 ## UpdateInventoryReservationRequest
 
-The request body for: Update inventory reservation.
+The request body for: Update inventory reservation. minProperties: `1`.
 
 
 

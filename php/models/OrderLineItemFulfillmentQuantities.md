@@ -9,7 +9,7 @@ Response model.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `assigned_quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Quantity owned by a non-terminal fulfillment, including a fulfillment on hold. Format: `int64`. |
-| `bundle_component_id` | Optional | string | ID of the bundle component these quantities describe. Omitted for a single item. |
+| `bundle_component_id` | Required | string or null | ID of the bundle component these quantities describe. `null` when the line isn't a bundle component. |
 | `canceled_quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Quantity owned by canceled or no_show fulfillments. Format: `int64`. |
 | `failed_quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Quantity owned by failed fulfillments that kept their quantity. Failed fulfillments that released quantity own nothing; their quantity becomes unassigned again. Format: `int64`. |
 | `fulfilled_quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Quantity owned by completed fulfillments. Format: `int64`. |

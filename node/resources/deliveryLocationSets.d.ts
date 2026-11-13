@@ -1,7 +1,7 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-6.js';
-import type { DeliveryLocationSet } from '../declarations/types-16.js';
 import type {
+    DeliveryLocationSet,
     DeliveryLocationSetListResponse,
     DeliveryLocationSetResponse,
     DeliveryLocationSetsCreateParams,
@@ -10,8 +10,8 @@ import type {
     DeliveryLocationSetsListParams,
     DeliveryLocationSetsUpdateParams
 } from '../declarations/types-17.js';
-import type { RequestOptions } from '../declarations/types-51.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+import type { RequestOptions } from '../declarations/types-53.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -28,6 +28,7 @@ export type {
 } from '../runtime.js';
 export type {
     DeliveryLocationSetsCreateParams,
+    DeliveryLocationSet,
     DeliveryLocationSetResponse,
     DeliveryLocationSetsDeleteParams,
     DeliveryLocationSetsGetParams,
@@ -37,23 +38,22 @@ export type {
     DeliveryLocationSetConfigurationInput,
     DeliveryLocationSetConfiguration
 } from '../declarations/types-17.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
-export type { DeliveryLocationSet } from '../declarations/types-16.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+export type { RequestOptions } from '../declarations/types-53.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
 export type { ClientOptions } from '../declarations/types-6.js';
 export type { CreateDeliveryLocationSetRequestInput } from '../declarations/types-8.js';
-export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-36.js';
-export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-13.js';
-export type { NextAction, MoneyValue } from '../declarations/types-37.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
-export type { UpdateDeliveryLocationSetRequestInput } from '../declarations/types-63.js';
-export type { DisputesAcceptParams } from '../declarations/types-22.js';
-export { makeCreateDeliveryLocationSetRequest } from '../declarations/types-68.js';
-export { makeDeliveryLocationSetConfiguration } from '../declarations/types-71.js';
-export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-74.js';
-export { makeMoneyValue } from '../declarations/types-75.js';
-export { makeUpdateDeliveryLocationSetRequest } from '../declarations/types-79.js';
+export type { MetadataRequestInput, NextAction, MoneyValue } from '../declarations/types-38.js';
+export type { AuthMode } from '../declarations/types-1.js';
+export type { Credentials } from '../declarations/types-14.js';
+export type { MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-37.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
+export type { UpdateDeliveryLocationSetRequestInput } from '../declarations/types-66.js';
+export type { DisputesAcceptParams } from '../declarations/types-23.js';
+export { makeCreateDeliveryLocationSetRequest } from '../declarations/types-71.js';
+export { makeDeliveryLocationSetConfiguration } from '../declarations/types-75.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-78.js';
+export { makeUpdateDeliveryLocationSetRequest } from '../declarations/types-83.js';
 export interface DeliveryLocationSetsResource {
     /**
  * Delivery location sets pin reusable sets of Locations for allocation or buyer pickup. Creation
@@ -71,9 +71,11 @@ export interface DeliveryLocationSetsResource {
  */
     create(params: DeliveryLocationSetsCreateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<DeliveryLocationSet, DeliveryLocationSetResponse>>;
     /**
- * Retires the delivery location set after checking current dependencies. The retired resource
- * remains available by ID for historical records. Deleting an already archived resource returns it
- * without changing its version or repeating effects.
+ * Retires the delivery location set. An active delivery method whose current revision still uses
+ * the location set as its origin blocks deletion: the request returns 409 RESOURCE_IN_USE with the
+ * blocking methods. Point those methods at another origin first. The retired resource remains
+ * available by ID for historical records. Deleting an already archived resource returns it without
+ * changing its version or repeating effects.
  *
  * `DELETE /v1/delivery-location-sets/{delivery_location_set_id}`
  * @param delivery_location_set_id Flint delivery location set ID.
@@ -121,8 +123,9 @@ export interface DeliveryLocationSetsResource {
      */
     listItems(params?: DeliveryLocationSetsListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<DeliveryLocationSet>;
     /**
- * Sparsely updates mutable fields. A change to pinned configuration publishes a new immutable
- * revision and requires expected_version. Archived resources can't be changed; create a new
+ * Sparsely updates mutable fields. A request that carries configuration publishes a new immutable
+ * revision, even when its values are unchanged, and requires expected_version. Other fields
+ * advance version and keep the current revision. Archived resources can't be changed; create a new
  * resource instead.
  *
  * `PATCH /v1/delivery-location-sets/{delivery_location_set_id}`

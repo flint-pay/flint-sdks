@@ -6,9 +6,7 @@ import type {
     CreditNoteAllocationListResponse,
     CreditNoteAllocationResponse,
     CreditNoteAllocationResult,
-    CreditNoteAllocationResultResponse
-} from '../declarations/types-13.js';
-import type {
+    CreditNoteAllocationResultResponse,
     CreditNoteListResponse,
     CreditNoteResponse,
     CreditNotesCreateAllocationParams,
@@ -20,13 +18,12 @@ import type {
     CreditNotesIssueParams,
     CreditNotesListAllocationsParams,
     CreditNotesListParams,
-    CreditNotesReverseAllocationParams,
-    CreditNotesUpdateParams,
-    CreditNotesVoidParams
+    CreditNotesReverseAllocationParams
 } from '../declarations/types-14.js';
+import type { CreditNotesUpdateParams, CreditNotesVoidParams } from '../declarations/types-15.js';
 import type { IssueCreditNoteResponse, IssueCreditNoteResult } from '../declarations/types-34.js';
-import type { RequestOptions } from '../declarations/types-51.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-66.js';
+import type { RequestOptions } from '../declarations/types-53.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-69.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -43,29 +40,23 @@ export type {
 } from '../runtime.js';
 export type {
     CreditNotesCreateParams,
+    CreditNote,
     CreditNoteResponse,
     CreditNotesCreateAllocationParams,
+    CreditNoteAllocationResult,
+    CreditNoteAllocationResultResponse,
     CreditNotesGetParams,
     CreditNotesGetAllocationParams,
+    CreditNoteAllocation,
+    CreditNoteAllocationResponse,
     CreditNotesGetPDFParams,
     CreditNotesGetPDFResponse,
     CreditNotesIssueParams,
     CreditNotesListAllocationsParams,
+    CreditNoteAllocationListResponse,
     CreditNotesListParams,
     CreditNoteListResponse,
     CreditNotesReverseAllocationParams,
-    CreditNotesUpdateParams,
-    CreditNotesVoidParams,
-    CreditNoteRefundRequestInput
-} from '../declarations/types-14.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference, ResourceVersionRequestInput } from '../declarations/types-51.js';
-export type {
-    CreditNote,
-    CreditNoteAllocationResult,
-    CreditNoteAllocationResultResponse,
-    CreditNoteAllocation,
-    CreditNoteAllocationResponse,
-    CreditNoteAllocationListResponse,
     CreditNoteLineItemRequestInput,
     CreditNoteCorrectionRequestModelInput,
     CreditNoteCorrectionRequestQuantityRequestInput,
@@ -75,18 +66,34 @@ export type {
     CreditNoteCorrectionRequest,
     CreditNoteCorrectionRequestQuantity,
     CreditNoteCorrectionRequestAmount,
-    CreditNoteIssueAllocationRequestInput
-} from '../declarations/types-13.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-66.js';
-export type { IssueCreditNoteResult, IssueCreditNoteResponse, IssueCreditNoteRequestInput } from '../declarations/types-34.js';
-export type { ClientOptions } from '../declarations/types-6.js';
+    CreditNoteIssueAllocationRequestInput,
+    CreditNoteRefundRequestInput
+} from '../declarations/types-14.js';
 export type {
-    CreateCreditNoteRequestInput,
-    CreateCreditNoteAllocationRequestInput,
-    ConfirmReturnResolutionRequestInput
-} from '../declarations/types-7.js';
-export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-37.js';
-export type { AuthMode, Address } from '../declarations/types-0.js';
+    RequestOptions,
+    RefundLineItemAllocation,
+    RefundLineItemAutomaticRefund,
+    RefundLineItemModifierAllocation,
+    RefundTaxBreakdownRefund,
+    RefundTenderAllocation,
+    RefundUnissuedGiftCardRecovery
+} from '../declarations/types-53.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-69.js';
+export type {
+    IssueCreditNoteResult,
+    IssueCreditNoteResponse,
+    InvoiceScheduleEntry,
+    InvoiceScheduleDueInvoiceDueDate,
+    InvoiceSnapshot,
+    InvoiceTip,
+    IssueCreditNoteRequestInput,
+    InvoicesMarkUncollectibleParams
+} from '../declarations/types-34.js';
+export type { CreditNotesUpdateParams, CreditNotesVoidParams } from '../declarations/types-15.js';
+export type { ClientOptions } from '../declarations/types-6.js';
+export type { CreateCreditNoteRequestInput, CreateCreditNoteAllocationRequestInput } from '../declarations/types-8.js';
+export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-38.js';
+export type { AuthMode, BundleComponent, BundleComponentVariantSummary } from '../declarations/types-1.js';
 export type {
     TaxIdentity,
     TaxCurrencyConversion,
@@ -94,22 +101,31 @@ export type {
     TaxJurisdiction,
     TaxBreakdownPercentage,
     TaxBreakdownFlatAmount
-} from '../declarations/types-61.js';
+} from '../declarations/types-64.js';
+export type { Address } from '../declarations/types-0.js';
+export type { DocumentTaxID, DisputesAcceptParams } from '../declarations/types-23.js';
 export type {
-    DocumentTaxID,
     ExpandedInvoiceSummary,
     ExpandedCustomerSummary,
     ExpandedOrderSummary,
     ExpandedPaymentIntentSummary
-} from '../declarations/types-23.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
+} from '../declarations/types-24.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference, ResourceVersionRequestInput } from '../declarations/types-54.js';
+export type {
+    ReadinessMerchantAccountSession,
+    Refund,
+    RefundLineItemAdjustmentRefund,
+    RefundLineItemAdjustment,
+    RefundAdjustmentReason
+} from '../declarations/types-52.js';
 export type {
     Invoice,
     InvoiceCollection,
     InvoiceCollectionBuyerInitiated,
     InvoiceCollectionAutomatic,
-    InvoiceCollectionExternal
-} from '../declarations/types-30.js';
+    InvoiceCollectionExternal,
+    InvoiceDiscount
+} from '../declarations/types-31.js';
 export type {
     InvoicePaymentPolicy,
     InvoicePaymentOptionLimit,
@@ -125,60 +141,50 @@ export type {
     InvoicePaymentTermCalculationDayOfMonth,
     InvoicePaymentTermCalculationDayOfNextMonth,
     InvoiceScheduleAmountSpecification,
-    InvoiceScheduleAmountSpecificationFixed
-} from '../declarations/types-32.js';
+    InvoiceScheduleAmountSpecificationFixed,
+    InvoiceScheduleAmountSpecificationPercentage,
+    InvoiceScheduleAmountSpecificationRemainingBalance,
+    InvoiceScheduleDue,
+    InvoiceScheduleDueAtIssue,
+    InvoiceScheduleDueDate
+} from '../declarations/types-33.js';
 export type {
     InvoiceLateFee,
     InvoiceLateFeePolicy,
     InvoiceLateFeePolicyFixed,
     InvoiceLateFeePolicyPercentage,
-    InvoiceDiscount,
     InvoiceLineItem
-} from '../declarations/types-31.js';
-export type { MetadataMap } from '../declarations/types-36.js';
+} from '../declarations/types-32.js';
+export type { MetadataMap } from '../declarations/types-37.js';
 export type { CheckoutBuyerContact, CategoryReference } from '../declarations/types-5.js';
-export type { DeferredPromotion } from '../declarations/types-16.js';
-export type { PricingAmounts } from '../declarations/types-47.js';
-export type { OrderSettlementAmounts } from '../declarations/types-40.js';
-export type { SettlementAmounts, SelectedProductOption } from '../declarations/types-56.js';
 export type {
-    InvoiceScheduleEntry,
-    InvoiceScheduleAmountSpecificationPercentage,
-    InvoiceScheduleAmountSpecificationRemainingBalance,
-    InvoiceScheduleDue,
-    InvoiceScheduleDueAtIssue,
-    InvoiceScheduleDueDate,
-    InvoiceScheduleDueInvoiceDueDate,
-    InvoiceSnapshot,
-    InvoiceTip,
-    InvoicesMarkUncollectibleParams
-} from '../declarations/types-33.js';
-export type { OrderCharge, OrderCalculatedChargeTax } from '../declarations/types-38.js';
-export type { BundleComponent, BundleComponentVariantSummary } from '../declarations/types-1.js';
+    DeferredPromotion,
+    CustomerTaxExemptionCoverage,
+    CustomerTaxExemptionCoverageAllStates,
+    CustomerTaxExemptionCoverageStates,
+    CustomerTaxID
+} from '../declarations/types-16.js';
+export type { PricingAmounts } from '../declarations/types-49.js';
+export type { OrderSettlementAmounts, OrderTaxExemption } from '../declarations/types-41.js';
+export type { SettlementAmounts, SelectedProductOption, SplitReversalReference } from '../declarations/types-59.js';
+export type { OrderCharge, OrderCalculatedChargeTax } from '../declarations/types-39.js';
 export type { Image } from '../declarations/types-27.js';
-export type { OrderLineItemModifier, OrderGiftCardAllocation } from '../declarations/types-39.js';
-export type { TextModifierRequest } from '../declarations/types-62.js';
+export type { OrderLineItemModifier, OrderGiftCardAllocation } from '../declarations/types-40.js';
+export type { TextModifierRequest, TaxReverseCharge } from '../declarations/types-65.js';
 export type {
-    Refund,
-    RefundLineItemAllocation,
-    RefundLineItemAdjustmentRefund,
-    RefundLineItemAdjustment,
-    RefundAdjustmentReason,
-    RefundLineItemAutomaticRefund,
-    RefundLineItemModifierAllocation,
-    RefundTaxBreakdownRefund,
-    RefundTenderAllocation,
-    RefundUnissuedGiftCardRecovery
-} from '../declarations/types-50.js';
-export type { PaymentSourceSummary } from '../declarations/types-46.js';
-export type { PaymentSourceAchDebitSummary, PaymentSourceCardSummary, PaymentRefund } from '../declarations/types-45.js';
-export type { UpdateCreditNoteRequestInput } from '../declarations/types-63.js';
-export type { DisputesAcceptParams } from '../declarations/types-22.js';
+    PaymentSourceSummary,
+    PaymentSourceAchDebitSummary,
+    PaymentSourceCardSummary,
+    PaymentSourceCardPresentDetails,
+    PaymentRefund
+} from '../declarations/types-47.js';
+export type { UpdateCreditNoteRequestInput } from '../declarations/types-66.js';
+export type { ConfirmReturnResolutionRequestInput } from '../declarations/types-7.js';
 export {
     makeConfirmReturnResolutionRequest,
     makeCreateCreditNoteAllocationRequest,
     makeCreateCreditNoteRequest
-} from '../declarations/types-68.js';
+} from '../declarations/types-71.js';
 export {
     makeCreditNoteCorrectionRequestAmountRequest,
     makeCreditNoteCorrectionRequestModel,
@@ -186,11 +192,12 @@ export {
     makeCreditNoteIssueAllocationRequest,
     makeCreditNoteLineItemRequest,
     makeCreditNoteRefundRequest
-} from '../declarations/types-71.js';
-export { makeIssueCreditNoteRequest } from '../declarations/types-74.js';
-export { makeMoneyValue } from '../declarations/types-75.js';
-export { makeResourceVersionRequest } from '../declarations/types-77.js';
-export { makeTextModifierRequest, makeUpdateCreditNoteRequest } from '../declarations/types-79.js';
+} from '../declarations/types-74.js';
+export { makeIssueCreditNoteRequest } from '../declarations/types-77.js';
+export { makeMoneyValue } from '../declarations/types-78.js';
+export { makeResourceVersionRequest } from '../declarations/types-81.js';
+export { makeTextModifierRequest } from '../declarations/types-82.js';
+export { makeUpdateCreditNoteRequest } from '../declarations/types-83.js';
 export interface CreditNotesResource {
     /**
  * Creates a draft credit note against an invoice that has been issued and not voided. Include

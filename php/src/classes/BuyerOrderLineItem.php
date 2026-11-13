@@ -18,6 +18,8 @@ namespace Flint;
  * @property-read MoneyValue $modifier_total_money
  * @property-read list<BuyerOrderLineItemModifier> $modifiers
  * @property-read string $name
+ * @property-read string|null $order_edit_id
+ * @property-read string $order_id
  * @property-read string $order_line_item_id
  * @property-read string|null $payment_link_line_item_key
  * @property-read ?string $product_id
@@ -43,7 +45,7 @@ namespace Flint;
  * @property-read ?string $variant_id
  * Presence-aware response; omitted optional fields return null. */
 final class BuyerOrderLineItem extends Model {
-    /** @param array{'backordered_quantity': int, 'base_subtotal_money': mixed, 'bundle_components': list<mixed>, 'bundle_id'?: string, 'categories': list<mixed>, 'description'?: string, 'discount_money': mixed, 'expected_ship_date': string|null, 'fulfillment_quantities'?: list<mixed>, 'fulfillment_requirements'?: mixed, 'gift_card_purchase'?: mixed, 'image'?: mixed, 'inventory_snapshot': mixed, 'modifier_total_money': mixed, 'modifiers': list<mixed>, 'name': string, 'order_line_item_id': string, 'payment_link_line_item_key': string|null, 'product_id'?: string, 'purchased_gift_cards': list<mixed>, 'quantity': int, 'refunded_money': mixed, 'refunded_quantity': int, 'release_date': string|null, 'removed_quantity': int, 'selected_options': list<mixed>, 'sku'?: string, 'subscription'?: mixed, 'subscription_id'?: string, 'subscription_offer'?: mixed, 'subtotal_money': mixed, 'tax'?: mixed, 'tax_money': mixed, 'total_money': mixed, 'type': string, 'unit_dimensions'?: mixed, 'unit_price_money': mixed, 'unit_weight'?: mixed, 'variant_id'?: string, ...}|object $values */
+    /** @param array{'backordered_quantity': int, 'base_subtotal_money': mixed, 'bundle_components': list<mixed>, 'bundle_id'?: string, 'categories': list<mixed>, 'description'?: string, 'discount_money': mixed, 'expected_ship_date': string|null, 'fulfillment_quantities'?: list<mixed>, 'fulfillment_requirements'?: mixed, 'gift_card_purchase'?: mixed, 'image'?: mixed, 'inventory_snapshot': mixed, 'modifier_total_money': mixed, 'modifiers': list<mixed>, 'name': string, 'order_edit_id': string|null, 'order_id': string, 'order_line_item_id': string, 'payment_link_line_item_key': string|null, 'product_id'?: string, 'purchased_gift_cards': list<mixed>, 'quantity': int, 'refunded_money': mixed, 'refunded_quantity': int, 'release_date': string|null, 'removed_quantity': int, 'selected_options': list<mixed>, 'sku'?: string, 'subscription'?: mixed, 'subscription_id'?: string, 'subscription_offer'?: mixed, 'subtotal_money': mixed, 'tax'?: mixed, 'tax_money': mixed, 'total_money': mixed, 'type': string, 'unit_dimensions'?: mixed, 'unit_price_money': mixed, 'unit_weight'?: mixed, 'variant_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerOrderLineItem')); }
     /** Tracked line units waiting for stock. Always 0 when none are backordered. Whole-number quantity; fractional quantities are not supported. Format: int64. minimum: 0.
      * @return int
@@ -125,6 +127,16 @@ final class BuyerOrderLineItem extends Model {
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
+    /** The edit that added this line. Null when the line was not added by an order edit.
+     * @return string|null
+     */
+    public function getOrderEditId(): string|null { return $this->get('order_edit_id'); }
+    public function hasOrderEditId(): bool { return $this->has('order_edit_id'); }
+    /** Order that owns this record or its referenced line item and charge.
+     * @return string
+     */
+    public function getOrderId(): string { return $this->get('order_id'); }
+    public function hasOrderId(): bool { return $this->has('order_id'); }
     /** Unique identifier for this order line item, prefixed `li_`.
      * @return string
      */
@@ -135,7 +147,7 @@ final class BuyerOrderLineItem extends Model {
      */
     public function getPaymentLinkLineItemKey(): string|null { return $this->get('payment_link_line_item_key'); }
     public function hasPaymentLinkLineItemKey(): bool { return $this->has('payment_link_line_item_key'); }
-    /** ID of the catalog product the item was sold from.
+    /** ID of the catalog product the item was sold from. Required whenever variant_id is present. Absent on bundle and custom lines, which have no parent product.
      * @return ?string
      */
     public function getProductId(): ?string { return $this->get('product_id'); }

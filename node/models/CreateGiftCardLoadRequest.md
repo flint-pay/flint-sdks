@@ -82,8 +82,5 @@ oneOf with funding_source_type: "import": The `import` variant of `GiftCardFundi
 
 The face value the load adds to the card. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `amount` | Required | integer string | Amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. minimum: `0`. Amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. minimum: `0`. |
-| `currency` | Required | string | ISO 4217 currency code for this amount. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. |
+Field definitions: [shared fields](CapturePaymentIntentRequest.md#capturepaymentintentrequestsplitsamount_money).
 

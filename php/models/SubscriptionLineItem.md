@@ -24,6 +24,7 @@ Response model.
 | `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
 | `selected_options` | Optional | Array of [SelectedProductOption](../models/SelectedProductOption.md#selectedproductoption) | `selected_options[]`: [field definitions](../models/OrderResponse.md#orderresponsedataline_itemsbundle_componentsvariantselected_options). |
 | `sku` | Optional | string |  |
+| `subscription_id` | Required | string | Subscription that owns this line, including frozen lines in a scheduled plan change. |
 | `subscription_line_item_id` | Optional | string | Unique identifier for this subscription line item, prefixed `sli_`. |
 | `subscription_offer_id` | Optional | string |  |
 | `subscription_plan_line_item_id` | Optional | string |  |

@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read string $order_id
  * @property-read string $order_line_item_id
  * @property-read string $original_gift_card_id
  * @property-read string $original_gift_card_load_id
@@ -9,8 +10,13 @@ namespace Flint;
  * @property-read int $unit_ordinal
  * Presence-aware response; omitted optional fields return null. */
 final class GiftCardPurchaseRestoration extends Model {
-    /** @param array{'order_line_item_id': string, 'original_gift_card_id': string, 'original_gift_card_load_id': string, 'purchase_refund_allocation_id': string, 'unit_ordinal': int, ...}|object $values */
+    /** @param array{'order_id': string, 'order_line_item_id': string, 'original_gift_card_id': string, 'original_gift_card_load_id': string, 'purchase_refund_allocation_id': string, 'unit_ordinal': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardPurchaseRestoration')); }
+    /** ID of the original purchase order whose line item sold the gift card.
+     * @return string
+     */
+    public function getOrderId(): string { return $this->get('order_id'); }
+    public function hasOrderId(): bool { return $this->has('order_id'); }
     /** ID of the order line item that sold the gift card.
      * @return string
      */

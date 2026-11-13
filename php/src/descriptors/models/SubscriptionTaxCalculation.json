@@ -1,0 +1,1 @@
+{"shared":"SubscriptionTaxCalculationRequest","phpRepresentation":{"kind":"record","fields":{"components_source":{"kind":"value","type":"string"},"mode":{"kind":"value","type":"string"}}},"dependencies":["SubscriptionTaxCalculationRequest"]}

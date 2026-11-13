@@ -4,6 +4,8 @@
 
 Change one price or its quantity schedule. Omitted fields remain unchanged.
 
+minProperties: `1`.
+
 Request input.
 
 | Field | Presence | Type | Description |

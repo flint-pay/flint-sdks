@@ -14,6 +14,7 @@ namespace Flint;
  * @property-read string $inventory_item_id
  * @property-read string $inventory_reservation_line_id
  * @property-read string $location_id
+ * @property-read ?string $order_id
  * @property-read ?string $order_line_item_id
  * @property-read int $reallocated_quantity
  * @property-read int $released_from_backordered_quantity
@@ -21,7 +22,7 @@ namespace Flint;
  * @property-read int $released_from_held_quantity
  * Presence-aware response; omitted optional fields return null. */
 final class InventoryReservationLine extends Model {
-    /** @param array{'allocated_quantity': int, 'at_risk_committed_quantity': int, 'at_risk_held_quantity': int, 'backordered_quantity': int, 'bundle_component_id'?: string, 'committed_quantity': int, 'consumed_quantity': int, 'demand_key': string, 'held_quantity': int, 'inventory_item_id': string, 'inventory_reservation_line_id': string, 'location_id': string, 'order_line_item_id'?: string, 'reallocated_quantity': int, 'released_from_backordered_quantity': int, 'released_from_committed_quantity': int, 'released_from_held_quantity': int, ...}|object $values */
+    /** @param array{'allocated_quantity': int, 'at_risk_committed_quantity': int, 'at_risk_held_quantity': int, 'backordered_quantity': int, 'bundle_component_id'?: string, 'committed_quantity': int, 'consumed_quantity': int, 'demand_key': string, 'held_quantity': int, 'inventory_item_id': string, 'inventory_reservation_line_id': string, 'location_id': string, 'order_id'?: string, 'order_line_item_id'?: string, 'reallocated_quantity': int, 'released_from_backordered_quantity': int, 'released_from_committed_quantity': int, 'released_from_held_quantity': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryReservationLine')); }
     /** Whole-number quantity; fractional quantities are not supported. Format: int64.
      * @return int
@@ -83,6 +84,11 @@ final class InventoryReservationLine extends Model {
      */
     public function getLocationId(): string { return $this->get('location_id'); }
     public function hasLocationId(): bool { return $this->has('location_id'); }
+    /** Order that owns this record or its referenced line item and charge.
+     * @return ?string
+     */
+    public function getOrderId(): ?string { return $this->get('order_id'); }
+    public function hasOrderId(): bool { return $this->has('order_id'); }
     /** ID of the order line item this line covers. Absent unless an order holds the reservation.
      * @return ?string
      */

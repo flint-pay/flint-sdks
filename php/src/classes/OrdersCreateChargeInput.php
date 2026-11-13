@@ -5,10 +5,10 @@ namespace Flint;
  * @internal
  *
  * @property-read string $order_id
- * @property-read array{'charge': mixed, 'expected_version'?: int}|object $body
+ * @property-read array{'charge': mixed, 'expected_order_version'?: int}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrdersCreateChargeInput extends Model {
-    /** @param array{'order_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': array{'charge': mixed, 'expected_version'?: int}|object}|object $values */
+    /** @param array{'order_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': array{'charge': mixed, 'expected_order_version'?: int}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrdersCreateChargeInput')); }
     /** Flint order ID. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
@@ -35,7 +35,7 @@ final class OrdersCreateChargeInput extends Model {
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
     /** The request body for: Add order charge.
-     * @return array{'charge': mixed, 'expected_version'?: int}|object
+     * @return array{'charge': mixed, 'expected_order_version'?: int}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
     public function getBody(): array|object { return $this->get('body'); }

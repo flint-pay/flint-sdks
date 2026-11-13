@@ -5,9 +5,9 @@ namespace Flint;
  * @property-read AddressRequestInput|array<array-key, mixed>|\stdClass $address
  * @property-read string $curbside_instructions
  * @property-read string|\DateTimeInterface $customer_arrived_at
- * @property-read string|\DateTimeInterface $expires_at
  * @property-read string $instructions
  * @property-read string $location_name
+ * @property-read string|\DateTimeInterface $pickup_due_at
  * @property-read int $pickup_window_duration_seconds
  * @property-read int $prep_time_duration_seconds
  * @property-read string|\DateTimeInterface $ready_at
@@ -17,7 +17,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $window_start_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreatePickupFulfillmentDetailsInput extends Model {
-    /** @param array{'address'?: AddressRequestInput|array<array-key, mixed>|\stdClass, 'curbside_instructions'?: string, 'customer_arrived_at'?: string|\DateTimeInterface, 'expires_at'?: string|\DateTimeInterface, 'instructions'?: string, 'location_name'?: string, 'pickup_window_duration_seconds'?: int, 'prep_time_duration_seconds'?: int, 'ready_at'?: string|\DateTimeInterface, 'timezone'?: string, 'vehicle_description'?: string, 'window_end_at'?: string|\DateTimeInterface, 'window_start_at'?: string|\DateTimeInterface}|object $values */
+    /** @param array{'address'?: AddressRequestInput|array<array-key, mixed>|\stdClass, 'curbside_instructions'?: string, 'customer_arrived_at'?: string|\DateTimeInterface, 'instructions'?: string, 'location_name'?: string, 'pickup_due_at'?: string|\DateTimeInterface, 'pickup_window_duration_seconds'?: int, 'prep_time_duration_seconds'?: int, 'ready_at'?: string|\DateTimeInterface, 'timezone'?: string, 'vehicle_description'?: string, 'window_end_at'?: string|\DateTimeInterface, 'window_start_at'?: string|\DateTimeInterface}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreatePickupFulfillmentDetailsInput')); }
     /** Address where the buyer collects the order. A complete postal address. State and postal_code are required for US addresses and optional for other countries. Send null or omit line2, state, and postal_code when the address has none.
      * @return AddressRequestInput|array<array-key, mixed>|\stdClass
@@ -37,12 +37,6 @@ final class CreatePickupFulfillmentDetailsInput extends Model {
      */
     public function getCustomerArrivedAt(): string|\DateTimeInterface { return $this->get('customer_arrived_at'); }
     public function hasCustomerArrivedAt(): bool { return $this->has('customer_arrived_at'); }
-    /** Deadline after which an uncollected pickup should enter merchant review. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     * @return string|\DateTimeInterface
-     * @throws SdkError When expires_at is omitted; use hasExpiresAt() or valueOrDefault().
-     */
-    public function getExpiresAt(): string|\DateTimeInterface { return $this->get('expires_at'); }
-    public function hasExpiresAt(): bool { return $this->has('expires_at'); }
     /** Pickup instructions for the buyer, such as where to go on arrival. minLength: 1.
      * @return string
      * @throws SdkError When instructions is omitted; use hasInstructions() or valueOrDefault().
@@ -55,6 +49,12 @@ final class CreatePickupFulfillmentDetailsInput extends Model {
      */
     public function getLocationName(): string { return $this->get('location_name'); }
     public function hasLocationName(): bool { return $this->has('location_name'); }
+    /** Time by which the buyer should collect the order. Passing it does not change status or emit an event automatically; the merchant decides how to follow up. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     * @return string|\DateTimeInterface
+     * @throws SdkError When pickup_due_at is omitted; use hasPickupDueAt() or valueOrDefault().
+     */
+    public function getPickupDueAt(): string|\DateTimeInterface { return $this->get('pickup_due_at'); }
+    public function hasPickupDueAt(): bool { return $this->has('pickup_due_at'); }
     /** Width of the promised pickup window, from 0 to 86400 seconds. Format: int64. minimum: 0. maximum: 86400.
      * @return int
      * @throws SdkError When pickup_window_duration_seconds is omitted; use hasPickupWindowDurationSeconds() or valueOrDefault().

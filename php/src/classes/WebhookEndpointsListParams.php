@@ -13,7 +13,7 @@ namespace Flint;
 final class WebhookEndpointsListParams extends Model {
     /** @param array{'created_by'?: string, 'page_size'?: int, 'page_token'?: string, 'status'?: list<string>|string, 'event_sources'?: list<string>|string, 'partner_app_id'?: string, 'partner_app_install_id'?: string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WebhookEndpointsListParams')); }
-    /** Filter by the exact ID of the API key, user, partner app, or workload identity that created the endpoint. Unknown IDs return an empty list.
+    /** Filter by the exact ID of the API key, user, partner app, or workload identity that created the endpoint. Unknown IDs return an empty list. pattern: ^(key|usr|papp|wid)_[0-7][0-9A-HJKMNP-TV-Z]{25}$.
      * @return string
      * @throws SdkError When created_by is omitted; use hasCreatedBy() or valueOrDefault().
      */
@@ -43,7 +43,7 @@ final class WebhookEndpointsListParams extends Model {
      */
     public function getEventSources(): mixed { return $this->get('event_sources'); }
     public function hasEventSources(): bool { return $this->has('event_sources'); }
-    /** Filter by partner app ID for partner-source webhook endpoints. Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
+    /** Filter by partner app ID for partner-source webhook endpoints. pattern: ^papp_[0-9A-HJKMNP-TV-Z]{26}$. Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
      * @return string
      * @throws SdkError When partner_app_id is omitted; use hasPartnerAppId() or valueOrDefault().
      */

@@ -1,18 +1,17 @@
 import type { WithResponseInfo } from '../runtime.js';
-import type { APIKeyWithSecret } from '../declarations/types-0.js';
+import type { AccessLink, AccessLinkResponse } from '../declarations/types-0.js';
 import type { ClientOptions } from '../declarations/types-6.js';
-import type { CreateAPIKeyResponse } from '../declarations/types-7.js';
 import type {
     OnboardingAdvanceParams,
     OnboardingAdvanceRequest,
     OnboardingAdvanceRequestInput,
-    OnboardingCreateAPIKeyParams,
+    OnboardingCreateAccessLinkParams,
     OnboardingGetStateParams,
     OnboardingProfile,
     OnboardingProfileRequest,
     OnboardingProfileRequestInput,
+    OnboardingSessionAuthContext,
     OnboardingStartParams,
-    OnboardingStartRequest,
     OnboardingStartRequestInput,
     OnboardingStartResponse,
     OnboardingStartResult,
@@ -23,9 +22,9 @@ import type {
     OnboardingVerifyEmailRequestInput,
     OnboardingVerifyEmailResponse,
     OnboardingVerifyEmailResult
-} from '../declarations/types-38.js';
-import type { RequestOptions } from '../declarations/types-51.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+} from '../declarations/types-39.js';
+import type { RequestOptions } from '../declarations/types-53.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -44,7 +43,7 @@ export type {
     OnboardingAdvanceParams,
     OnboardingState,
     OnboardingStateResponse,
-    OnboardingCreateAPIKeyParams,
+    OnboardingCreateAccessLinkParams,
     OnboardingGetStateParams,
     OnboardingStartParams,
     OnboardingStartResult,
@@ -57,32 +56,35 @@ export type {
     OnboardingProfile,
     OnboardingProfileRequest,
     OnboardingProfileRequestInput,
-    OnboardingStartRequest,
+    OnboardingSessionAuthContext,
     OnboardingStartRequestInput,
     OnboardingVerifyEmailRequest,
     OnboardingVerifyEmailRequestInput
-} from '../declarations/types-38.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
-export type { APIKeyWithSecret, AuthMode, APIKey, Address } from '../declarations/types-0.js';
-export type { CreateAPIKeyResponse } from '../declarations/types-7.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+} from '../declarations/types-39.js';
+export type { RequestOptions } from '../declarations/types-53.js';
+export type { AccessLink, AccessLinkResponse, Address } from '../declarations/types-0.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
 export type { ClientOptions } from '../declarations/types-6.js';
-export type { Credentials } from '../declarations/types-13.js';
-export type { ReadinessAction, ReadinessMerchantAccountSession, ReadinessRequirements, ReadinessAxis } from '../declarations/types-49.js';
-export type { NextAction, MoneyValue } from '../declarations/types-37.js';
-export type { DeveloperInitialAPIKeyRequestInput, DisputesAcceptParams, DeveloperInitialAPIKeyRequest } from '../declarations/types-22.js';
-export type { Merchant, MetadataMap, MerchantReadiness } from '../declarations/types-36.js';
+export type { AuthMode } from '../declarations/types-1.js';
+export type { Credentials } from '../declarations/types-14.js';
+export type { ReadinessAction, ReadinessMerchantAccountSession, ReadinessRequirements, ReadinessAxis } from '../declarations/types-52.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
+export type { NextAction, MoneyValue } from '../declarations/types-38.js';
+export type { CreateOnboardingAccessLinkRequestInput, CreateOnboardingAccessLinkRequest } from '../declarations/types-10.js';
+export type { Merchant } from '../declarations/types-36.js';
 export type { ImageAttachment } from '../declarations/types-27.js';
+export type { MetadataMap, MerchantReadiness } from '../declarations/types-37.js';
 export type { CapabilityReadiness } from '../declarations/types-4.js';
-export type { User } from '../declarations/types-65.js';
-export { makeDeveloperInitialAPIKeyRequest } from '../declarations/types-72.js';
+export type { User } from '../declarations/types-68.js';
+export type { DisputesAcceptParams } from '../declarations/types-23.js';
+export { makeCreateOnboardingAccessLinkRequest } from '../declarations/types-73.js';
 export {
     makeMoneyValue,
     makeOnboardingAdvanceRequest,
     makeOnboardingProfileRequest,
     makeOnboardingStartRequest,
     makeOnboardingVerifyEmailRequest
-} from '../declarations/types-75.js';
+} from '../declarations/types-78.js';
 export interface OnboardingResource {
     /**
  * Submits whatever the caller currently knows, re-evaluates onboarding, reconciles onboarding
@@ -104,20 +106,34 @@ export interface OnboardingResource {
  */
     advance(params?: OnboardingAdvanceParams, options?: RequestOptions<"merchant" | "onboarding">): Promise<WithResponseInfo<OnboardingState, OnboardingStateResponse>>;
     /**
- * Creates the first long-lived sandbox API key. The credential selects the environment; the
- * onboarding session token acts in the merchant's default sandbox.
+ * Creates a link into Flint-hosted onboarding for the authenticated merchant environment, for
+ * products that don't embed Connect.js. The page opens Account Onboarding and Notification Banner
+ * in the credential's mode, names the business, and for a partner app install token names the app.
+ * The link opens once, within 5 minutes, into a browser session of at most an hour, and every
+ * refresh of the page rechecks the credential that created it: revoking the API key, CLI login, or
+ * install, or authorizing the app again, ends the page. When the person exits or finishes, or
+ * opens a used or expired link, the page offers one action: back to return_url. The url is a
+ * bearer credential that lets whoever opens it enter identity and bank details for the merchant.
+ * Create it only for a person you just authenticated and authorized for this merchant, redirect
+ * them to it at once, and never email or log it. Takes the credentials of
+ * `client.merchantAccountSessions.create`. A partner app install token works in live mode only
+ * while its app's merchant_onboarding platform capability is active; otherwise it gets 409
+ * ACTION_NOT_ALLOWED with the reason its platform status gives: platform_onboarding_required,
+ * platform_pending_review, platform_rejected, or platform_capability_inactive. A same-key,
+ * same-input retry replays the original link for 24 hours without extending its lifetime or
+ * replenishing its open. Use a new key for a new link.
  *
- * `POST /v1/onboarding/api-key`
- * @see https://developers.withflintpay.com/docs/api/onboarding#createOnboardingAPIKey
+ * `POST /v1/onboarding/access-links`
+ * @see
+ * https://developers.withflintpay.com/docs/api/merchant-account-sessions#createOnboardingAccessLink
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.onboarding.createAPIKey({name: "First backend integration", scopes:
- * ["commerce.orders.read", "commerce.orders.write", "customers.read", "customers.write"]}, {
- * idempotencyKey: idempotencyKey })
+ * client.onboarding.createAccessLink({return_url: "https://classboard.example/settings/payments"},
+ * { idempotencyKey: idempotencyKey })
  */
-    createAPIKey(params: OnboardingCreateAPIKeyParams, options?: RequestOptions<"onboarding">): Promise<WithResponseInfo<APIKeyWithSecret, CreateAPIKeyResponse>>;
+    createAccessLink(params: OnboardingCreateAccessLinkParams, options?: RequestOptions<"merchant" | "onboarding">): Promise<WithResponseInfo<AccessLink, AccessLinkResponse>>;
     /**
  * Returns the consolidated onboarding state machine, including the primary next step for agents or
  * humans. This endpoint is read-only. The credential selects the environment; the onboarding

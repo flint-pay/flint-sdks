@@ -201,7 +201,7 @@ final class PaymentLinkInput extends Model {
      */
     public function getPromotionConfig(): mixed { return $this->get('promotion_config'); }
     public function hasPromotionConfig(): bool { return $this->has('promotion_config'); }
-    /** Where checkout sessions started from this payment link send the buyer after payment, cancellation, or expiration. Where hosted checkout sends the buyer. Not allowed when surface is embedded; use payment_return_url.
+    /** Where checkout sessions started from this payment link send the buyer after payment, cancellation, or expiration. Where hosted checkout sends the buyer. Not allowed when surface is headless; use payment_return_url.
      * @return CheckoutRedirectsInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When redirects is omitted; use hasRedirects() or valueOrDefault().
      */

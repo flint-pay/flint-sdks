@@ -1,0 +1,1 @@
+{"shared":"PaymentIntentOvercapture","phpRepresentation":{"kind":"record","fields":{"maximum_capturable_money":{"kind":"entity","name":"MoneyValue"},"status":{"kind":"value","type":"string"}}},"dependencies":["MoneyValue","PaymentIntentOvercapture"]}

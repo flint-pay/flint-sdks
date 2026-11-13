@@ -2,10 +2,12 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read list<string> $canceled_subscription_ids
  * @property-read string $customer_deletion_request_id
  * @property-read string $customer_id
  * @property-read string|null $decided_at
  * @property-read string|null $decision_reason
+ * @property-read list<string> $removed_payment_method_ids
  * @property-read string $requested_at
  * @property-read string|null $requested_by
  * @property-read ?string $resolved_at
@@ -15,8 +17,13 @@ namespace Flint;
  * @property-read list<string> $supported_actions
  * Presence-aware response; omitted optional fields return null. */
 final class CustomerDeletionRequestFailedEventDataObject extends Model {
-    /** @param array{'customer_deletion_request_id': string, 'customer_id': string, 'decided_at': string|null, 'decision_reason': string|null, 'requested_at': string, 'requested_by': string|null, 'resolved_at'?: string, 'response_due_at': string, 'retention_policy': string, 'status': string, 'supported_actions': list<string>, ...}|object $values */
+    /** @param array{'canceled_subscription_ids': list<string>, 'customer_deletion_request_id': string, 'customer_id': string, 'decided_at': string|null, 'decision_reason': string|null, 'removed_payment_method_ids': list<string>, 'requested_at': string, 'requested_by': string|null, 'resolved_at'?: string, 'response_due_at': string, 'retention_policy': string, 'status': string, 'supported_actions': list<string>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerDeletionRequestFailedEventDataObject')); }
+    /** Subscription IDs whose immediate cancellation completed for this request, sorted by ID. Empty when none have completed. Read the request again while processing to see progress. [] (Value): string.
+     * @return list<string>
+     */
+    public function getCanceledSubscriptionIds(): array { return $this->get('canceled_subscription_ids'); }
+    public function hasCanceledSubscriptionIds(): bool { return $this->has('canceled_subscription_ids'); }
     /** Stable ID of the tracked deletion request. Use it to retrieve the review and erasure status.
      * @return string
      */
@@ -37,6 +44,11 @@ final class CustomerDeletionRequestFailedEventDataObject extends Model {
      */
     public function getDecisionReason(): string|null { return $this->get('decision_reason'); }
     public function hasDecisionReason(): bool { return $this->has('decision_reason'); }
+    /** Payment method IDs whose archival completed for this request, sorted by ID. Empty when none have completed. Read the request again while processing to see progress. [] (Value): string.
+     * @return list<string>
+     */
+    public function getRemovedPaymentMethodIds(): array { return $this->get('removed_payment_method_ids'); }
+    public function hasRemovedPaymentMethodIds(): bool { return $this->has('removed_payment_method_ids'); }
     /** RFC3339 timestamp. Format: date-time.
      * @return string
      */

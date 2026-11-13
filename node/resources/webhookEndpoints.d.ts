@@ -1,6 +1,7 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-6.js';
-import type { RequestOptions } from '../declarations/types-51.js';
+import type { RequestOptions } from '../declarations/types-53.js';
+import type { SignedWebhookEndpointDelivery, SignedWebhookEndpointDeliveryResponse } from '../declarations/types-59.js';
 import type {
     WebhookDeliveryAction,
     WebhookDeliveryActionResponse,
@@ -15,9 +16,10 @@ import type {
     WebhookEndpointsGetParams,
     WebhookEndpointsListParams,
     WebhookEndpointsRotateSecretParams,
+    WebhookEndpointsSignDeliveryParams,
     WebhookEndpointsUpdateParams,
     _SdkWithoutIdempotency
-} from '../declarations/types-66.js';
+} from '../declarations/types-69.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -47,22 +49,31 @@ export type {
     WebhookEndpointsListParams,
     WebhookEndpointListResponse,
     WebhookEndpointsRotateSecretParams,
+    WebhookEndpointsSignDeliveryParams,
     WebhookEndpointsUpdateParams,
     WebhookSigningMethodInput
-} from '../declarations/types-66.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
+} from '../declarations/types-69.js';
+export type { RequestOptions } from '../declarations/types-53.js';
+export type {
+    SignedWebhookEndpointDelivery,
+    SignedWebhookEndpointDeliveryResponse,
+    SignWebhookEndpointDeliveryRequestInput,
+    SignWebhookEndpointDeliveryRequest
+} from '../declarations/types-59.js';
 export type { ClientOptions } from '../declarations/types-6.js';
-export type { CreateWebhookEndpointRequestInput, Credentials, CreateWebhookTestEventRequestInput } from '../declarations/types-13.js';
-export type { AuthMode } from '../declarations/types-0.js';
-export type { NextAction, MoneyValue } from '../declarations/types-37.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
-export type { RotateWebhookSecretRequestInput } from '../declarations/types-56.js';
-export type { UpdateWebhookEndpointRequestInput } from '../declarations/types-65.js';
-export type { DisputesAcceptParams } from '../declarations/types-22.js';
-export { makeCreateWebhookEndpointRequest, makeCreateWebhookTestEventRequest } from '../declarations/types-71.js';
-export { makeMoneyValue } from '../declarations/types-75.js';
-export { makeRotateWebhookSecretRequest } from '../declarations/types-78.js';
-export { makeUpdateWebhookEndpointRequest, makeWebhookSigningMethod } from '../declarations/types-80.js';
+export type { CreateWebhookEndpointRequestInput, Credentials, CreateWebhookTestEventRequestInput } from '../declarations/types-14.js';
+export type { AuthMode } from '../declarations/types-1.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
+export type { NextAction, MoneyValue } from '../declarations/types-38.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
+export type { RotateWebhookSecretRequestInput } from '../declarations/types-58.js';
+export type { UpdateWebhookEndpointRequestInput } from '../declarations/types-68.js';
+export type { DisputesAcceptParams } from '../declarations/types-23.js';
+export { makeCreateWebhookEndpointRequest, makeCreateWebhookTestEventRequest } from '../declarations/types-74.js';
+export { makeMoneyValue } from '../declarations/types-78.js';
+export { makeRotateWebhookSecretRequest } from '../declarations/types-81.js';
+export { makeSignWebhookEndpointDeliveryRequest } from '../declarations/types-82.js';
+export { makeUpdateWebhookEndpointRequest, makeWebhookSigningMethod } from '../declarations/types-84.js';
 export interface WebhookEndpointsResource {
     /**
  * Creates a webhook endpoint. signing_methods defaults to ["jwt"]. A shared secret is issued and
@@ -179,6 +190,27 @@ export interface WebhookEndpointsResource {
  * idempotencyKey: idempotencyKey })
  */
     rotateSecret(webhook_endpoint_id: InputValue<string>, params?: WebhookEndpointsRotateSecretParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<WebhookEndpointWithSecret, WebhookEndpointWithSecretResponse>>;
+    /**
+ * Sandbox only. Returns the exact delivery body and headers for an authorized sandbox endpoint
+ * without dispatching it. Requires webhooks.write and permission to read the event's resource. JWT
+ * signing must be enabled. Each call reauthorizes and creates a fresh five-minute bearer frame;
+ * receivers deduplicate webhook-id. Limited to one request per 200 ms and 10,000 per UTC day per
+ * endpoint, plus external-provider-action API quotas. The 200 ms throttle returns 429 with
+ * Retry-After; daily exhaustion returns 409 LIMIT_REACHED with limit and resets_at and no
+ * Retry-After. Signing fails closed if the shared quota store is unavailable. Responses are not
+ * cached or retained for idempotency. Previously issued JWTs remain usable until expiry after
+ * endpoint changes.
+ *
+ * `POST /v1/webhook-endpoints/{webhook_endpoint_id}/sign-delivery`
+ * @param webhook_endpoint_id The caller's own merchant event-delivery endpoint in the selected
+ * sandbox.
+ * @see https://developers.withflintpay.com/docs/api/webhooks#signWebhookEndpointDelivery
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
+ * @example
+ * client.webhookEndpoints.signDelivery("whep_01KEZF7C006FXYTAJRZCGCBJTN", {webhook_event_id:
+ * "whev_01KEZF7C00BW7XQJ98PQ8EHA81"})
+ */
+    signDelivery(webhook_endpoint_id: InputValue<string>, params: WebhookEndpointsSignDeliveryParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<SignedWebhookEndpointDelivery, SignedWebhookEndpointDeliveryResponse>>;
     /**
  * Updates a webhook endpoint's URL, description, status, subscribed events, event sources, signing
  * methods, or pinned API version. Only the fields you send change. Sending `enabled_events`,

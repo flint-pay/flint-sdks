@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read list<PartnerAppPlatformCapability> $capabilities
+ * @property-read PartnerAppPlatformCurrentTerms $current_terms
  * @property-read ?PartnerAppPlatformLimits $limits
  * @property-read list<string> $requirements
  * @property-read ?PartnerAppPlatformReserve $reserve
@@ -10,13 +11,18 @@ namespace Flint;
  * @property-read PartnerAppPlatformTermsAcceptance|null $terms_acceptance
  * Presence-aware response; omitted optional fields return null. */
 final class PartnerAppPlatform extends Model {
-    /** @param array{'capabilities': list<mixed>, 'limits'?: mixed, 'requirements': list<string>, 'reserve'?: mixed, 'status': string, 'terms_acceptance': mixed, ...}|object $values */
+    /** @param array{'capabilities': list<mixed>, 'current_terms': mixed, 'limits'?: mixed, 'requirements': list<string>, 'reserve'?: mixed, 'status': string, 'terms_acceptance': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PartnerAppPlatform')); }
     /** One entry per platform capability, in the same order for every app. [] (Value): {@see PartnerAppPlatformCapability}. One platform capability and whether the app can use it in live mode.
      * @return list<PartnerAppPlatformCapability>
      */
     public function getCapabilities(): array { return $this->get('capabilities'); }
     public function hasCapabilities(): bool { return $this->has('capabilities'); }
+    /** The platform terms version Flint accepts now. Send its platform_terms_version to accept-platform-terms. The app has accepted it when terms_acceptance.platform_terms_version is the same. The current version of Flint's platform terms: the only version accept-platform-terms accepts.
+     * @return PartnerAppPlatformCurrentTerms
+     */
+    public function getCurrentTerms(): PartnerAppPlatformCurrentTerms { return $this->get('current_terms'); }
+    public function hasCurrentTerms(): bool { return $this->has('current_terms'); }
     /** The platform's live merchant and monthly volume limits, present once Flint has approved or limited the app. Limits are soft: crossing one never refuses or interrupts a payment or an onboarding step. Flint staff are alerted and may limit or pause the app. Soft limits on the platform's live use, and its usage against them.
      * @return ?PartnerAppPlatformLimits
      */

@@ -1,9 +1,7 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-6.js';
+import type { DeliveryProfile, DeliveryProfileAssignment, DeliveryProfileAssignmentResponse } from '../declarations/types-19.js';
 import type {
-    DeliveryProfile,
-    DeliveryProfileAssignment,
-    DeliveryProfileAssignmentResponse,
     DeliveryProfileListResponse,
     DeliveryProfileResponse,
     DeliveryProfilesAssignToUnconfiguredParams,
@@ -12,9 +10,9 @@ import type {
     DeliveryProfilesGetParams,
     DeliveryProfilesListParams,
     DeliveryProfilesUpdateParams
-} from '../declarations/types-19.js';
-import type { RequestOptions } from '../declarations/types-51.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+} from '../declarations/types-20.js';
+import type { RequestOptions } from '../declarations/types-53.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -31,42 +29,47 @@ export type {
 } from '../runtime.js';
 export type {
     DeliveryProfilesAssignToUnconfiguredParams,
-    DeliveryProfileAssignment,
-    DeliveryProfileAssignmentResponse,
     DeliveryProfilesCreateParams,
-    DeliveryProfile,
     DeliveryProfileResponse,
     DeliveryProfilesDeleteParams,
     DeliveryProfilesGetParams,
     DeliveryProfilesListParams,
     DeliveryProfileListResponse,
     DeliveryProfilesUpdateParams,
+    DeliveryProfileUnconfiguredAssignment,
     DeliveryProfileConfigurationRequestInput,
     DeliveryProfileOriginPolicyRequestInput,
     DeliveryProfileOriginPolicyInputFixedLocationInput,
     DeliveryProfileOriginPolicyInputInventoryRoutingInput,
     DeliveryProfileOriginPolicyInputMethodOriginInput,
+    DeliveryProfileOriginPolicy,
+    DeliveryProfileDiagnostics
+} from '../declarations/types-20.js';
+export type { RequestOptions } from '../declarations/types-53.js';
+export type {
+    DeliveryProfileAssignment,
+    DeliveryProfileAssignmentResponse,
+    DeliveryProfile,
     DeliveryProfileConfigurationInputNoneInput,
     DeliveryProfileConfigurationInputRequiredInput,
     DeliveryProfileConfigurationInputQuoteInput,
     DeliveryProfileConfigurationInputManualInput,
-    DeliveryProfileConfiguration,
-    DeliveryProfileOriginPolicy,
-    DeliveryProfileDiagnostics
+    DeliveryProfileConfiguration
 } from '../declarations/types-19.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
 export type { ClientOptions } from '../declarations/types-6.js';
-export type { AssignToUnconfiguredDeliveryProfileRequestInput, AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-13.js';
-export type { NextAction, MoneyValue } from '../declarations/types-37.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
+export type { AssignToUnconfiguredDeliveryProfileRequestInput } from '../declarations/types-0.js';
+export type { AuthMode } from '../declarations/types-1.js';
+export type { Credentials } from '../declarations/types-14.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
+export type { NextAction, MoneyValue, MetadataRequestInput } from '../declarations/types-38.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
 export type { CreateDeliveryProfileRequestInput } from '../declarations/types-8.js';
-export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-36.js';
-export type { UpdateDeliveryProfileRequestInput } from '../declarations/types-63.js';
+export type { MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-37.js';
+export type { UpdateDeliveryProfileRequestInput } from '../declarations/types-66.js';
 export type { DeliveryLocationSetsDeleteParams } from '../declarations/types-17.js';
-export { makeAssignToUnconfiguredDeliveryProfileRequest } from '../declarations/types-67.js';
-export { makeCreateDeliveryProfileRequest } from '../declarations/types-68.js';
+export { makeAssignToUnconfiguredDeliveryProfileRequest } from '../declarations/types-70.js';
+export { makeCreateDeliveryProfileRequest } from '../declarations/types-72.js';
 export {
     makeDeliveryProfileConfigurationInputManual,
     makeDeliveryProfileConfigurationInputNone,
@@ -77,14 +80,22 @@ export {
     makeDeliveryProfileOriginPolicyInputInventoryRouting,
     makeDeliveryProfileOriginPolicyInputMethodOrigin,
     makeDeliveryProfileOriginPolicyRequest
-} from '../declarations/types-72.js';
-export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-74.js';
-export { makeMoneyValue } from '../declarations/types-75.js';
-export { makeUpdateDeliveryProfileRequest } from '../declarations/types-79.js';
+} from '../declarations/types-75.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-78.js';
+export { makeUpdateDeliveryProfileRequest } from '../declarations/types-83.js';
 export interface DeliveryProfilesResource {
     /**
- * Assigns this active delivery profile to physical product variants and bundle components that do
- * not have a delivery profile.
+ * Assigns this active delivery profile to physical product variants and bundle components that
+ * don't have one. Flint accepts the request with `202`, then assigns the profile in batches after
+ * responding. To know when it's done, poll `client.deliveryProfiles.get`, waiting at least
+ * `Retry-After` seconds between reads, until `unconfigured_assignment.status` is `completed`,
+ * `canceled`, or `failed`. Each item keeps `delivery_configuration_status` `action_required` until
+ * its batch commits, and each batch sends the `updated` events of the variants, products, and
+ * bundles it changes. An item that gets a profile from another write first keeps it. A newer
+ * assignment takes over from one still running, and the earlier one becomes `canceled` with
+ * `cancellation_reason` `superseded`. If the profile is archived before the assignment finishes,
+ * it becomes `canceled` with `cancellation_reason` `delivery_profile_archived` and the remaining
+ * items stay unconfigured.
  *
  * `POST /v1/delivery-profiles/{delivery_profile_id}/assign-to-unconfigured`
  * @param delivery_profile_id Flint delivery profile ID.
@@ -113,7 +124,9 @@ export interface DeliveryProfilesResource {
  */
     create(params: DeliveryProfilesCreateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<DeliveryProfile, DeliveryProfileResponse>>;
     /**
- * Retires the delivery profile after checking current dependencies. The retired resource remains
+ * Retires the delivery profile. Product variants, bundle components, or a catalog default that
+ * still use the profile block deletion: the request returns 409 RESOURCE_IN_USE with the blocking
+ * references. Assign those items to another delivery profile first. The retired resource remains
  * available by ID for historical records. Deleting an already archived resource returns it without
  * changing its version or repeating effects.
  *
@@ -162,8 +175,9 @@ export interface DeliveryProfilesResource {
  * Sparsely updates mutable fields. Send is_default true to make this active profile the physical
  * catalog default, together with any other mutable fields in one atomic update. Sending only
  * is_default true for the current default leaves its version unchanged and emits no events. A
- * change to pinned configuration publishes a new immutable revision and requires expected_version.
- * Archived resources can't be changed; create a new resource instead.
+ * request that carries configuration publishes a new immutable revision, even when its values are
+ * unchanged, and requires expected_version. Other fields advance version and keep the current
+ * revision. Archived resources can't be changed; create a new resource instead.
  *
  * `PATCH /v1/delivery-profiles/{delivery_profile_id}`
  * @param delivery_profile_id Flint delivery profile ID.

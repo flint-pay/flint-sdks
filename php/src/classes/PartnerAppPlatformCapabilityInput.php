@@ -9,7 +9,7 @@ namespace Flint;
 final class PartnerAppPlatformCapabilityInput extends Model {
     /** @param array{'capability': string, 'inactive_reason'?: string, 'status': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PartnerAppPlatformCapabilityInput')); }
-    /** The platform capability. Value enum: "platform_fees", "merchant_onboarding".
+    /** The platform capability. Value enum: "platform_fees", "merchant_onboarding", "create_merchants", "payment_splits".
      * @return string
      * @throws SdkError When capability is omitted; use hasCapability() or valueOrDefault().
      */

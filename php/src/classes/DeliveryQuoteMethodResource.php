@@ -13,27 +13,27 @@ namespace Flint;
 final class DeliveryQuoteMethodResource extends Model {
     /** @param array{'delivery_method_id': string, 'delivery_method_revision_id': string, 'description'?: string, 'display_position': int, 'name': string, 'recommendation_priority'?: int, 'type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryQuoteMethodResource')); }
-    /** delivery_method_id
+    /** ID of the delivery method.
      * @return string
      */
     public function getDeliveryMethodId(): string { return $this->get('delivery_method_id'); }
     public function hasDeliveryMethodId(): bool { return $this->has('delivery_method_id'); }
-    /** delivery_method_revision_id
+    /** ID of the method revision that was evaluated.
      * @return string
      */
     public function getDeliveryMethodRevisionId(): string { return $this->get('delivery_method_revision_id'); }
     public function hasDeliveryMethodRevisionId(): bool { return $this->has('delivery_method_revision_id'); }
-    /** description
+    /** Buyer-visible description of the method. Omitted when it has none.
      * @return ?string
      */
     public function getDescription(): ?string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** Format: int32.
+    /** Position in which this method displays among the others. Lower values display first. Format: int32.
      * @return int
      */
     public function getDisplayPosition(): int { return $this->get('display_position'); }
     public function hasDisplayPosition(): bool { return $this->has('display_position'); }
-    /** name
+    /** Buyer-visible name of the method.
      * @return string
      */
     public function getName(): string { return $this->get('name'); }
@@ -43,7 +43,7 @@ final class DeliveryQuoteMethodResource extends Model {
      */
     public function getRecommendationPriority(): ?int { return $this->get('recommendation_priority'); }
     public function hasRecommendationPriority(): bool { return $this->has('recommendation_priority'); }
-    /** Value enum: "shipment", "pickup", "local_delivery".
+    /** Delivery type of the method. Value enum: "shipment", "pickup", "local_delivery".
      * @return string
      */
     public function getType(): string { return $this->get('type'); }

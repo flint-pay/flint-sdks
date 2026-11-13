@@ -10,20 +10,20 @@
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `unit` | Required | string | Values: `"meter"`, `"kilometer"`, `"mile"`. |
+| `unit` | Required | string | Unit of `value`. Values: `"meter"`, `"kilometer"`, `"mile"`. |
 | `value` | Required | number |  |
 
 ### DeliveryDistance variant 1
 
 anyOf variant 1: Declared schema DeliveryDistance. A distance as a `value` in meters, kilometers, or miles..
 
-No additional constraints.
+- Constraints for `value`: Distance, in `unit`.
 
 ### DeliveryDistance variant 2
 
 anyOf variant 2: Declared schema DeliveryDistanceRequest. A distance as a `value` in meters, kilometers, or miles..
 
-No additional constraints.
+- Constraints for `value`: Distance, in `unit`.
 
 ### DeliveryDistance variant 3
 

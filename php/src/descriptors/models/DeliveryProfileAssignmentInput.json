@@ -1,1 +1,1 @@
-{"shared":"DeliveryProfileAssignment","dependencies":["DeliveryProfileAssignment"]}
+{"shared":"DeliveryProfileAssignment","dependencies":["DeliveryProfileAssignment","DeliveryProfileUnconfiguredAssignment"]}

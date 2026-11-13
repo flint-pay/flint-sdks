@@ -8,13 +8,13 @@ namespace Flint;
 final class OrderDeliveryDestinationRecipientInput extends Model {
     /** @param array{'name'?: string, 'phone'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderDeliveryDestinationRecipientInput')); }
-    /** maxLength: 255.
+    /** Name of the person receiving the order. maxLength: 255.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** maxLength: 30.
+    /** Phone number for contacting the recipient about the delivery. maxLength: 30.
      * @return string
      * @throws SdkError When phone is omitted; use hasPhone() or valueOrDefault().
      */

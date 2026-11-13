@@ -23,7 +23,7 @@ final class OrdersDeleteChargeInput extends Model {
      */
     public function getOrderChargeId(): string { return $this->get('order_charge_id'); }
     public function hasOrderChargeId(): bool { return $this->has('order_charge_id'); }
-    /** Order version from the last order read. The mutation fails if the order changed. Format: int64. minimum: 1.
+    /** Order version from the last order read. The mutation fails if the order changed. Format: int64. minimum: 1. maximum: 9007199254740991.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */

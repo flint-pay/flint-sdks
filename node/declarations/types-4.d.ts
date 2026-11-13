@@ -1,17 +1,408 @@
+import type { CategoryReference, CapturePaymentSplitRequestInput } from './types-5.js';
+import type { Image } from './types-27.js';
+import type { MoneyValue, MoneyValueInput } from './types-38.js';
+import type { OrderLineItemTax } from './types-40.js';
+import type { SelectedProductOption } from './types-59.js';
+import type { SubscriptionPlanSwapVariant, SubscriptionPlanChangePreview, SubscriptionPreview } from './types-62.js';
+import type { ResponseMeta } from './types-54.js';
+import type { SubscriptionQuantityChangePreview, SubscriptionRenewalPreview } from './types-63.js';
+import type { BuyerOrder, BuyerOrderPaymentAttempt, BuyerExpandedSubscriptionPlanSummary } from './types-2.js';
+import type { BuyerSubscription, BuyerSubscriptionLineItem } from './types-3.js';
 import type { Address, AcceptFulfillmentRequestInput, ApplyInventoryCountRequestInput } from './types-0.js';
-import type { ResponseMeta } from './types-51.js';
-import type { MoneyValue, MoneyValueInput } from './types-37.js';
-import type { TipPaymentIntentAllocation, TipValueSettlementAllocation } from './types-62.js';
-import type { ContextSummary, CreateCategoryRequestInput } from './types-7.js';
-import type { DeliveryWindowRequest, DeliveryWindowRequestInput } from './types-21.js';
-import type { InventoryProvenanceRequest, InventoryProvenanceRequestInput } from './types-28.js';
-import type { PayOrderResponse } from './types-43.js';
-import type { GetReturnDispositionResponse, GetReturnResponse, GetReturnResolutionResponse, GiftCard } from './types-25.js';
-import type { ReadinessAction, ReadinessRequirements } from './types-49.js';
-import type { GiftCardTransaction } from './types-26.js';
-import type { InputValue } from '../runtime.js';
-import type { DisputesAcceptParams } from './types-22.js';
-import type { UpdateCategoryRequestInput } from './types-63.js';
+import type { TipPaymentIntentAllocation, TipValueSettlementAllocation } from './types-65.js';
+import type { ContextSummary } from './types-7.js';
+import type { DeliveryWindowRequest, DeliveryWindowRequestInput } from './types-22.js';
+import type { InventoryProvenanceRequest, InventoryProvenanceRequestInput } from './types-29.js';
+import type { PayOrderResponse } from './types-44.js';
+import type { GetReturnDispositionResponse, GetReturnResolutionResponse } from './types-25.js';
+import type { GetReturnResponse } from './types-26.js';
+import type { ReadinessAction, ReadinessRequirements } from './types-52.js';
+import type { PlatformFeeRequest, PlatformFeeRequestInput } from './types-49.js';
+import type { SplitReversalRequest } from './types-60.js';
+/** A line item on a subscription plan. */
+export type BuyerSubscriptionPlanLineItemBundle = ({
+    /**
+     * Whether buyers may adjust this line quantity. Defaults to false. At most one line per plan
+     * may allow adjustment. Default: false.
+     */
+    "allow_quantity_adjustment"?: boolean;
+    /** Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". */
+    "bundle_id": string;
+    /**
+     *  [] (Value): {@link CategoryReference}. A reference to a product category by ID, handle, and
+     * name.
+     */
+    "categories"?: Array<CategoryReference>;
+    "description"?: string;
+    /** An image with its URL, size, and alt text. */
+    "image"?: Image;
+    /**
+     * Maximum buyer quantity. Defaults to 9999. Merchants may set any line quantity from 1 to
+     * 9999. Whole-number quantity; fractional quantities are not supported. Format: int32.
+     * minimum: 1. maximum: 9999. Default: 9999.
+     */
+    "max_quantity"?: number;
+    /**
+     * Minimum buyer quantity. Defaults to 1. The bounds must enclose the plan line quantity.
+     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
+     * maximum: 9999. Default: 1.
+     */
+    "min_quantity"?: number;
+    "name"?: string;
+    /** Example: "prod_01KEZF7C00BVSHCNWVH528HB66". */
+    "product_id"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "quantity": number;
+    /**
+     *  [] (Value): {@link SelectedProductOption}. An option and value chosen for a product
+     * variant, such as size Large.
+     */
+    "selected_options"?: Array<SelectedProductOption>;
+    "sku"?: string;
+    /**
+     * Unique identifier for this subscription plan line item, prefixed `spli_`. Example:
+     * "spli_01KEZF7C00H9FGC2KBRF82H87N".
+     */
+    "subscription_plan_line_item_id": string;
+    /**
+     * maxItems: 25. uniqueItems: true. [] (Value): string. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "swap_variant_ids": Array<string>;
+    /**
+     * Current sellable alternatives in swap_variant_ids order, excluding the line's own variant
+     * and variants priced in a different currency. Present on variant lines, including an empty
+     * array. maxItems: 25. [] (Value): {@link SubscriptionPlanSwapVariant}. A variant a subscriber
+     * can swap to on a plan line, with its name, options, and price.
+     */
+    "swap_variants"?: Array<SubscriptionPlanSwapVariant>;
+    /** A line item's tax category and whether it is taxable. */
+    "tax"?: OrderLineItemTax;
+    /** Value enum: "bundle". */
+    "type": "bundle" | (string & {});
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "unit_price_money"?: MoneyValue;
+    /** Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". */
+    "variant_id"?: string;
+})
+    & (({
+    /** Value enum: "bundle". */
+    "type": "bundle" | (string & {});
+    /** Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". */
+    "bundle_id": string;
+}));
+/** A line item on a subscription plan. */
+export type BuyerSubscriptionPlanLineItemCustom = ({
+    /**
+     * Whether buyers may adjust this line quantity. Defaults to false. At most one line per plan
+     * may allow adjustment. Default: false.
+     */
+    "allow_quantity_adjustment"?: boolean;
+    /** Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". */
+    "bundle_id"?: string;
+    /**
+     *  [] (Value): {@link CategoryReference}. A reference to a product category by ID, handle, and
+     * name.
+     */
+    "categories"?: Array<CategoryReference>;
+    "description"?: string;
+    /** An image with its URL, size, and alt text. */
+    "image"?: Image;
+    /**
+     * Maximum buyer quantity. Defaults to 9999. Merchants may set any line quantity from 1 to
+     * 9999. Whole-number quantity; fractional quantities are not supported. Format: int32.
+     * minimum: 1. maximum: 9999. Default: 9999.
+     */
+    "max_quantity"?: number;
+    /**
+     * Minimum buyer quantity. Defaults to 1. The bounds must enclose the plan line quantity.
+     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
+     * maximum: 9999. Default: 1.
+     */
+    "min_quantity"?: number;
+    "name": string;
+    /** Example: "prod_01KEZF7C00BVSHCNWVH528HB66". */
+    "product_id"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "quantity": number;
+    /**
+     *  [] (Value): {@link SelectedProductOption}. An option and value chosen for a product
+     * variant, such as size Large.
+     */
+    "selected_options"?: Array<SelectedProductOption>;
+    "sku"?: string;
+    /**
+     * Unique identifier for this subscription plan line item, prefixed `spli_`. Example:
+     * "spli_01KEZF7C00H9FGC2KBRF82H87N".
+     */
+    "subscription_plan_line_item_id": string;
+    /**
+     * maxItems: 25. uniqueItems: true. [] (Value): string. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "swap_variant_ids": Array<string>;
+    /**
+     * Current sellable alternatives in swap_variant_ids order, excluding the line's own variant
+     * and variants priced in a different currency. Present on variant lines, including an empty
+     * array. maxItems: 25. [] (Value): {@link SubscriptionPlanSwapVariant}. A variant a subscriber
+     * can swap to on a plan line, with its name, options, and price.
+     */
+    "swap_variants"?: Array<SubscriptionPlanSwapVariant>;
+    /** A line item's tax category and whether it is taxable. */
+    "tax"?: OrderLineItemTax;
+    /** Value enum: "custom". */
+    "type": "custom" | (string & {});
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "unit_price_money": MoneyValue;
+    /** Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". */
+    "variant_id"?: string;
+})
+    & (({
+    /** Value enum: "custom". */
+    "type": "custom" | (string & {});
+    "name": string;
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "unit_price_money": MoneyValue;
+}));
+/** A line item on a subscription plan. */
+export type BuyerSubscriptionPlanLineItemVariant = ({
+    /**
+     * Whether buyers may adjust this line quantity. Defaults to false. At most one line per plan
+     * may allow adjustment. Default: false.
+     */
+    "allow_quantity_adjustment"?: boolean;
+    /** Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". */
+    "bundle_id"?: string;
+    /**
+     *  [] (Value): {@link CategoryReference}. A reference to a product category by ID, handle, and
+     * name.
+     */
+    "categories"?: Array<CategoryReference>;
+    "description"?: string;
+    /** An image with its URL, size, and alt text. */
+    "image"?: Image;
+    /**
+     * Maximum buyer quantity. Defaults to 9999. Merchants may set any line quantity from 1 to
+     * 9999. Whole-number quantity; fractional quantities are not supported. Format: int32.
+     * minimum: 1. maximum: 9999. Default: 9999.
+     */
+    "max_quantity"?: number;
+    /**
+     * Minimum buyer quantity. Defaults to 1. The bounds must enclose the plan line quantity.
+     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
+     * maximum: 9999. Default: 1.
+     */
+    "min_quantity"?: number;
+    "name"?: string;
+    /** Example: "prod_01KEZF7C00BVSHCNWVH528HB66". */
+    "product_id"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "quantity": number;
+    /**
+     *  [] (Value): {@link SelectedProductOption}. An option and value chosen for a product
+     * variant, such as size Large.
+     */
+    "selected_options"?: Array<SelectedProductOption>;
+    "sku"?: string;
+    /**
+     * Unique identifier for this subscription plan line item, prefixed `spli_`. Example:
+     * "spli_01KEZF7C00H9FGC2KBRF82H87N".
+     */
+    "subscription_plan_line_item_id": string;
+    /**
+     * maxItems: 25. uniqueItems: true. [] (Value): string. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "swap_variant_ids": Array<string>;
+    /**
+     * Current sellable alternatives in swap_variant_ids order, excluding the line's own variant
+     * and variants priced in a different currency. Present on variant lines, including an empty
+     * array. maxItems: 25. [] (Value): {@link SubscriptionPlanSwapVariant}. A variant a subscriber
+     * can swap to on a plan line, with its name, options, and price.
+     */
+    "swap_variants"?: Array<SubscriptionPlanSwapVariant>;
+    /** A line item's tax category and whether it is taxable. */
+    "tax"?: OrderLineItemTax;
+    /** Value enum: "variant". */
+    "type": "variant" | (string & {});
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "unit_price_money"?: MoneyValue;
+    /** Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". */
+    "variant_id": string;
+})
+    & (({
+    /** Value enum: "variant". */
+    "type": "variant" | (string & {});
+    /** Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". */
+    "variant_id": string;
+}));
+/** The response for: Preview subscription. */
+export type BuyerSubscriptionPreviewResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. oneOf[1] (Value): {@link
+     * SubscriptionPreview}. Available subscription delivery methods shown to the buyer. oneOf[2]
+     * (Value): {@link SubscriptionRenewalPreview}. A preview of a subscription's next renewal and
+     * its estimated pricing. oneOf[3] (Value): {@link SubscriptionPlanChangePreview}. Estimated
+     * pricing for a subscription plan change, including the recurring item subtotal and renewal
+     * amounts. oneOf[4] (Value): {@link SubscriptionQuantityChangePreview}. Estimated pricing for
+     * a quantity change that keeps the billing period and anchor.
+     */
+    "data": ((SubscriptionPreview)
+        | (SubscriptionRenewalPreview)
+        | (SubscriptionPlanChangePreview)
+        | (SubscriptionQuantityChangePreview)
+        | (Record<string, unknown>));
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * The subscription and any immediate prorated billing outcome. A decline leaves the subscription
+ * unchanged.
+ */
+export type BuyerSubscriptionQuantityChangeResult = {
+    /**
+     * The resolved billing timing for this quantity change. Value enum: "prorated_now",
+     * "next_renewal", "period_end".
+     */
+    "billing_starts": "prorated_now" | "next_renewal" | "period_end" | (string & {});
+    /**
+     * The proration order, including a closed unpaid order on decline. Null when billing_starts is
+     * next_renewal or period_end, or the net charge is zero. anyOf[1] (Value): {@link BuyerOrder}.
+     * A customer's purchase and its payment and fulfillment progress. anyOf[2] (Value): null.
+     */
+    "order": ((BuyerOrder) | (null));
+    /**
+     * The payment attempt, including declines. Null when billing_starts is next_renewal or
+     * period_end, or the net charge is zero. anyOf[1] (Value): {@link BuyerOrderPaymentAttempt}.
+     * An attempt to pay an order. anyOf[2] (Value): null.
+     */
+    "order_payment_attempt": ((BuyerOrderPaymentAttempt) | (null));
+    /**
+     * The updated subscription, or the unchanged subscription when payment fails. A customer's
+     * recurring purchase.
+     */
+    "subscription": BuyerSubscription;
+};
+/** A response containing `BuyerSubscriptionQuantityChangeResult` data. */
+export type BuyerSubscriptionQuantityChangeResultResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. The subscription and any
+     * immediate prorated billing outcome. A decline leaves the subscription unchanged.
+     */
+    "data": BuyerSubscriptionQuantityChangeResult;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * The subscription is the primary resource and expected_version target; the result uses the same
+ * subscription and order fields as the corresponding /v1/me reads.
+ */
+export type BuyerSubscriptionRenewalResult = {
+    /** A customer's purchase and its payment and fulfillment progress. */
+    "order": BuyerOrder;
+    /**
+     *  anyOf[1] (Value): {@link BuyerOrderPaymentAttempt}. An attempt to pay an order. anyOf[2]
+     * (Value): null.
+     */
+    "order_payment_attempt": ((BuyerOrderPaymentAttempt) | (null));
+    /** A customer's recurring purchase. */
+    "subscription": BuyerSubscription;
+};
+/** A response containing `BuyerSubscriptionRenewalResult` data. */
+export type BuyerSubscriptionRenewalResultResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. The subscription is the
+     * primary resource and expected_version target; the result uses the same subscription and
+     * order fields as the corresponding /v1/me reads.
+     */
+    "data": BuyerSubscriptionRenewalResult;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `BuyerSubscription` data. */
+export type BuyerSubscriptionResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A customer's recurring
+     * purchase.
+     */
+    "data": BuyerSubscription;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** Frozen target terms that apply at the next charged renewal. */
+export type BuyerSubscriptionScheduledPlanChange = {
+    /** The frozen target billing interval. Value enum: "daily", "weekly", "monthly", "yearly". */
+    "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
+    /** Number of target billing_interval units between charges. Format: int32. */
+    "billing_interval_count": number;
+    /**
+     * Expected boundary from the current billing schedule. Null when the subscription is paused
+     * without a scheduled resume or is waiting for an external billing date. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z".
+     */
+    "effective_at": string | null;
+    /**
+     * Frozen target lines, including buyer quantity permissions and bounds. [] (Value): {@link
+     * BuyerSubscriptionLineItem}. An item included in a customer's recurring purchase.
+     */
+    "line_items": Array<BuyerSubscriptionLineItem>;
+    /**
+     * The frozen target subscription quantity. Whole-number quantity; fractional quantities are
+     * not supported. Format: int32.
+     */
+    "quantity": number;
+    /**
+     * Frozen item subtotal per target billing period, before discounts, shipping, and tax.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "recurring_subtotal_money": MoneyValue;
+    /** Who scheduled the plan change. Value enum: "buyer", "merchant". */
+    "requested_by": "buyer" | "merchant" | (string & {});
+    /** When the plan change was scheduled. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "scheduled_at": string;
+    /**
+     * The scheduled target plan summary, including archived plans. A subscription plan expanded on
+     * a buyer's order: billing interval, setup fee, trial length, status, and line items.
+     */
+    "subscription_plan": BuyerExpandedSubscriptionPlanSummary;
+    /**
+     * The scheduled target subscription plan. pattern: ^plan_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "plan_01KEZF7C004CY5ZR33XST2AASV".
+     */
+    "subscription_plan_id": string;
+};
 /** The customer address reference or address used as the buyer's subscription service location. */
 export type BuyerSubscriptionServiceLocation = {
     /**
@@ -22,6 +413,11 @@ export type BuyerSubscriptionServiceLocation = {
      * locations hold only what was provided, such as postal_code and country.
      */
     "address"?: Address;
+    /**
+     * Customer that owns customer_address_id. Null when customer_address_id is absent or withheld
+     * from the buyer projection. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id": string | null;
 };
 /** One of the buyer's event tickets, with the admission code its QR code holds. */
 export type BuyerTicket = {
@@ -198,8 +594,8 @@ export type CLIDeviceRequest = ({
     "sandbox_id"?: string;
     /**
      * Required space-separated public API scope names. Only requested scopes approved in the
-     * browser are granted. Normal login sends x-flint-cli-bootstrap-scopes; explicit requests may
-     * use x-flint-cli-allowed-scopes. Unsupported scopes return invalid_scope. minLength: 1.
+     * browser are granted. Request the scopes the CLI needs from x-flint-cli-allowed-scopes.
+     * Unsupported scopes return invalid_scope. minLength: 1.
      */
     "scope": string;
     /**
@@ -230,8 +626,8 @@ export type CLIDeviceRequestInput = ({
     "sandbox_id"?: string;
     /**
      * Required space-separated public API scope names. Only requested scopes approved in the
-     * browser are granted. Normal login sends x-flint-cli-bootstrap-scopes; explicit requests may
-     * use x-flint-cli-allowed-scopes. Unsupported scopes return invalid_scope. minLength: 1.
+     * browser are granted. Request the scopes the CLI needs from x-flint-cli-allowed-scopes.
+     * Unsupported scopes return invalid_scope. minLength: 1.
      */
     "scope": string;
     /**
@@ -256,6 +652,50 @@ export type CLIDeviceResponse = {
     "verification_uri": string;
     "verification_uri_complete": string;
 };
+/** Non-secret metadata for the calling credential, selected by auth_type. */
+export type CLILoginAuthContext = ({
+    /**
+     * Access level; scoped tokens always have restricted access. Value enum: "full", "read_only",
+     * "restricted".
+     */
+    "access": "full" | "read_only" | "restricted" | (string & {});
+    /** Credential type that selects this object's fields. Value enum: "cli_login". */
+    "auth_type": "cli_login" | (string & {});
+    /**
+     * ID of the selected CLI context. Example:
+     * "ctx_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb".
+     */
+    "context_id": string;
+    /** Merchant the credential acts for. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+    "merchant_id": string;
+    /** Whether the credential acts in test or live mode. Value enum: "test", "live". */
+    "mode": "test" | "live" | (string & {});
+    /** Name of the key, CLI context, or workload identity. */
+    "name": string;
+    /** ID of the CLI login grant. Example: "clg_01KEZF7C00F8Q8XM1TZ6Y1GB31". */
+    "oauth_grant_id": string;
+    /**
+     * ID of the CLI session. Example:
+     * "session_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa".
+     */
+    "oauth_session_id": string;
+    /**
+     * Sandbox the credential is bound to, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "sandbox_id"?: string;
+    /**
+     * Current granted API scopes, resolved at request time for full and read_only keys. []
+     * (Value): string.
+     */
+    "scopes": Array<string>;
+    /** User the session acts for. Example: "usr_01KEZF7C00YC8757ZYP9727JM0". */
+    "user_id": string;
+})
+    & ({
+    /** Value enum: "restricted". */
+    "access"?: unknown;
+});
 /** The request body for: Review CLI session consent. */
 export type CLIReauthorizeRequest = ({
     /** Example: "flint-cli". Value enum: "flint-cli". */
@@ -284,8 +724,8 @@ export type CLIReauthorizeRequest = ({
     "sandbox_id"?: string;
     /**
      * Required space-separated public API scope names. Only requested scopes approved in the
-     * browser are granted. Normal login sends x-flint-cli-bootstrap-scopes; explicit requests may
-     * use x-flint-cli-allowed-scopes. Unsupported scopes return invalid_scope. minLength: 1.
+     * browser are granted. Request the scopes the CLI needs from x-flint-cli-allowed-scopes.
+     * Unsupported scopes return invalid_scope. minLength: 1.
      */
     "scope": string;
     /** Value enum: "additive". */
@@ -321,8 +761,8 @@ export type CLIReauthorizeRequestInput = ({
     "sandbox_id"?: string;
     /**
      * Required space-separated public API scope names. Only requested scopes approved in the
-     * browser are granted. Normal login sends x-flint-cli-bootstrap-scopes; explicit requests may
-     * use x-flint-cli-allowed-scopes. Unsupported scopes return invalid_scope. minLength: 1.
+     * browser are granted. Request the scopes the CLI needs from x-flint-cli-allowed-scopes.
+     * Unsupported scopes return invalid_scope. minLength: 1.
      */
     "scope": string;
     /** Value enum: "additive". */
@@ -338,13 +778,19 @@ export type CLIReauthorizeRequestInput = ({
  * quote with caller-supplied pricing.
  */
 export type CallerSuppliedDeliveryMethodResultRequest = {
-    /** minLength: 1. Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8". */
+    /**
+     * Choice group the outcome is for. minLength: 1. Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
+     */
     "delivery_choice_group_id": string;
-    /** minLength: 1. Example: "dmetr_01KEZF7C001ZF9D92DY1G51GV9". */
+    /**
+     * Revision of the delivery method the outcome is for. minLength: 1. Example:
+     * "dmetr_01KEZF7C001ZF9D92DY1G51GV9".
+     */
     "delivery_method_revision_id": string;
     /**
-     * Your outcome for a caller-priced delivery method, selected by `type`: available with a price
-     * and windows, unavailable with a reason, or cannot calculate.
+     * Rate your integration supplies for this method and choice group. Your outcome for a
+     * caller-priced delivery method, selected by `type`: available with a price and windows,
+     * unavailable with a reason, or cannot calculate.
      */
     "outcome": CallerSuppliedDeliveryOutcomeRequest;
 };
@@ -353,13 +799,19 @@ export type CallerSuppliedDeliveryMethodResultRequest = {
  * quote with caller-supplied pricing.
  */
 export type CallerSuppliedDeliveryMethodResultRequestInput = {
-    /** minLength: 1. Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8". */
+    /**
+     * Choice group the outcome is for. minLength: 1. Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
+     */
     "delivery_choice_group_id": string;
-    /** minLength: 1. Example: "dmetr_01KEZF7C001ZF9D92DY1G51GV9". */
+    /**
+     * Revision of the delivery method the outcome is for. minLength: 1. Example:
+     * "dmetr_01KEZF7C001ZF9D92DY1G51GV9".
+     */
     "delivery_method_revision_id": string;
     /**
-     * Your outcome for a caller-priced delivery method, selected by `type`: available with a price
-     * and windows, unavailable with a reason, or cannot calculate.
+     * Rate your integration supplies for this method and choice group. Your outcome for a
+     * caller-priced delivery method, selected by `type`: available with a price and windows,
+     * unavailable with a reason, or cannot calculate.
      */
     "outcome": CallerSuppliedDeliveryOutcomeRequestInput;
 };
@@ -368,9 +820,17 @@ export type CallerSuppliedDeliveryMethodResultRequestInput = {
  * windows, unavailable with a reason, or cannot calculate.
  */
 export type CallerSuppliedDeliveryOutcomeRequest = ({
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    /**
+     * Price of the delivery. Send it with type `available`. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
     "amount_money"?: MoneyValue;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    /**
+     * Last moment this rate can be offered in the quote. It must be later than the evaluation time
+     * plus the method's minimum_option_lifetime_seconds and no later than the quote's expires_at.
+     * Send it with type available. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
     "expires_at"?: string;
     /**
      * Why Flint could not calculate the method and the action that can make calculation succeed. -
@@ -397,20 +857,33 @@ export type CallerSuppliedDeliveryOutcomeRequest = ({
         | "address_verification_failed"
         | "address_could_not_be_verified"
         | (string & {});
-    /** minLength: 1. maxLength: 500. */
+    /**
+     * Your private reference for this rate, up to 500 characters, with no leading or trailing
+     * spaces. Flint stores it with the buyer's selection and never shows it to buyers. minLength:
+     * 1. maxLength: 500.
+     */
     "merchant_reference"?: string;
     /**
-     *  [] (Value): {@link DeliveryWindowRequest}. A delivery window you supply in a
-     * caller-supplied delivery outcome, with its time range, price, and the last moment a buyer
-     * can choose it.
+     * Delivery windows the buyer can choose from. Send either `offered_windows` or both
+     * `window_start_at` and `window_end_at` with type `available`. [] (Value): {@link
+     * DeliveryWindowRequest}. A delivery window you supply in a caller-supplied delivery outcome,
+     * with its time range, price, and the last moment a buyer can choose it.
      */
     "offered_windows"?: Array<DeliveryWindowRequest>;
+    /** Whether trying again later can succeed. Send it with type `cannot_calculate`. */
     "retryable"?: boolean;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    /**
+     * Last moment a delivery selection can lock this rate for payment. It must be at or after
+     * expires_at. Send it with type available. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
     "selection_guarantee_expires_at"?: string;
-    /** minLength: 1. */
+    /** Buyer-visible service level of the rate. Send it with type `available`. minLength: 1. */
     "service_level"?: string;
-    /** Value enum: "available", "unavailable", "cannot_calculate". */
+    /**
+     * Whether the method has a rate, is unavailable, or could not be priced. Value enum:
+     * "available", "unavailable", "cannot_calculate".
+     */
     "type": "available" | "unavailable" | "cannot_calculate" | (string & {});
     /**
      * Why the method is unavailable and the action that can make it eligible. -
@@ -432,9 +905,17 @@ export type CallerSuppliedDeliveryOutcomeRequest = ({
         | "pricing_unavailable"
         | "inventory_unavailable"
         | (string & {});
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    /**
+     * End of the delivery window for this rate. When present, send it with window_start_at,
+     * including when offered_windows is supplied. Send it only with type available. Format:
+     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
     "window_end_at"?: string;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    /**
+     * Start of the delivery window for this rate. When present, send it with window_end_at,
+     * including when offered_windows is supplied. Send it only with type available. Format:
+     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
     "window_start_at"?: string;
 })
     & ((Exclude<CallerSuppliedDeliveryOutcomeRequestAvailable & object, readonly unknown[]>)
@@ -443,170 +924,214 @@ export type CallerSuppliedDeliveryOutcomeRequest = ({
     | (Record<string, unknown>));
 /** The `available` variant of `CallerSuppliedDeliveryOutcomeRequest`. */
 export type CallerSuppliedDeliveryOutcomeRequestAvailable = ({
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    /**
+     * Price of the delivery. Send it with type `available`. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
     "amount_money": MoneyValue;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    /**
+     * Last moment this rate can be offered in the quote. It must be later than the evaluation time
+     * plus the method's minimum_option_lifetime_seconds and no later than the quote's expires_at.
+     * Send it with type available. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
     "expires_at": string;
     /**
-     * Why Flint could not calculate the method and the action that can make calculation succeed. -
-     * `dependency_failure`: Retry after the dependent service recovers. - `timeout`: Retry after
-     * the timed-out dependency recovers. - `malformed_response`: Fix the callback response so it
-     * matches the documented response schema, then retry. - `pricing_failure`: Fix the method
-     * pricing configuration or matching rate, then retry. - `schedule_failure`: Fix the method
-     * schedule, timezone, or requested window, then retry. - `geography_failure`: Fix the
-     * destination, origin, or geographic configuration, then retry. - `routing_failure`: Fix
-     * inventory routing or origin assignment, then retry. - `address_verification_failed`: Correct
-     * the address fields rejected by verification, then retry. - `address_could_not_be_verified`:
-     * Confirm or correct the address, or retry when address verification is available. Value enum:
-     * "dependency_failure", "timeout", "malformed_response", "pricing_failure",
-     * "schedule_failure", "geography_failure", "routing_failure", "address_verification_failed",
-     * "address_could_not_be_verified".
+     * Your private reference for this rate, up to 500 characters, with no leading or trailing
+     * spaces. Flint stores it with the buyer's selection and never shows it to buyers. minLength:
+     * 1. maxLength: 500.
      */
-    "failure_category"?: "dependency_failure"
-        | "timeout"
-        | "malformed_response"
-        | "pricing_failure"
-        | "schedule_failure"
-        | "geography_failure"
-        | "routing_failure"
-        | "address_verification_failed"
-        | "address_could_not_be_verified"
-        | (string & {});
-    /** minLength: 1. maxLength: 500. */
     "merchant_reference"?: string;
     /**
-     *  [] (Value): {@link DeliveryWindowRequest}. A delivery window you supply in a
-     * caller-supplied delivery outcome, with its time range, price, and the last moment a buyer
-     * can choose it.
+     * Delivery windows the buyer can choose from. Send either `offered_windows` or both
+     * `window_start_at` and `window_end_at` with type `available`. [] (Value): {@link
+     * DeliveryWindowRequest}. A delivery window you supply in a caller-supplied delivery outcome,
+     * with its time range, price, and the last moment a buyer can choose it.
      */
     "offered_windows"?: Array<DeliveryWindowRequest>;
-    "retryable"?: boolean;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    /**
+     * Last moment a delivery selection can lock this rate for payment. It must be at or after
+     * expires_at. Send it with type available. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
     "selection_guarantee_expires_at": string;
-    /** minLength: 1. */
+    /** Buyer-visible service level of the rate. Send it with type `available`. minLength: 1. */
     "service_level"?: string;
-    /** Value enum: "available". */
+    /**
+     * Whether the method has a rate, is unavailable, or could not be priced. Value enum:
+     * "available".
+     */
     "type": "available" | (string & {});
     /**
-     * Why the method is unavailable and the action that can make it eligible. -
-     * `destination_not_served`: Use a destination covered by this method or choose another method.
-     * - `pickup_unavailable`: Choose an available pickup method or location. -
-     * `no_window_available`: Choose another offered window or a method with availability for the
-     * requested time. - `eligibility_no_match`: Inspect eligibility_mismatches, then change the
-     * relevant buyer facts or method eligibility rule. - `pricing_unavailable`: Add or activate a
-     * matching rate, or provide the required caller-supplied price. - `inventory_unavailable`: The
-     * origin or pickup location cannot supply the requested inventory. Reduce the quantity,
-     * replenish inventory, or choose another origin or method. Value enum:
-     * "destination_not_served", "pickup_unavailable", "no_window_available",
-     * "eligibility_no_match", "pricing_unavailable", "inventory_unavailable".
+     * End of the delivery window for this rate. When present, send it with window_start_at,
+     * including when offered_windows is supplied. Send it only with type available. Format:
+     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      */
-    "unavailable_reason"?: "destination_not_served"
-        | "pickup_unavailable"
-        | "no_window_available"
-        | "eligibility_no_match"
-        | "pricing_unavailable"
-        | "inventory_unavailable"
-        | (string & {});
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
     "window_end_at"?: string;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    /**
+     * Start of the delivery window for this rate. When present, send it with window_end_at,
+     * including when offered_windows is supplied. Send it only with type available. Format:
+     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
     "window_start_at"?: string;
 })
-    & ({
-    /** Value enum: "available". */
+    & (({
+    /**
+     * Whether the method has a rate, is unavailable, or could not be priced. Value enum:
+     * "available".
+     */
     "type": "available" | (string & {});
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    /**
+     * Price of the delivery. Send it with type `available`. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
     "amount_money": MoneyValue;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    /**
+     * Last moment this rate can be offered in the quote. It must be later than the evaluation time
+     * plus the method's minimum_option_lifetime_seconds and no later than the quote's expires_at.
+     * Send it with type available. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
     "expires_at": string;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    /**
+     * Last moment a delivery selection can lock this rate for payment. It must be at or after
+     * expires_at. Send it with type available. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
     "selection_guarantee_expires_at": string;
-});
+})
+    & (({
+    /**
+     * Start of the delivery window for this rate. When present, send it with window_end_at,
+     * including when offered_windows is supplied. Send it only with type available. Format:
+     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "window_start_at": string;
+    /**
+     * End of the delivery window for this rate. When present, send it with window_start_at,
+     * including when offered_windows is supplied. Send it only with type available. Format:
+     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "window_end_at": string;
+})
+    | ({
+    /**
+     * Delivery windows the buyer can choose from. Send either `offered_windows` or both
+     * `window_start_at` and `window_end_at` with type `available`. minItems: 1.
+     */
+    "offered_windows": unknown;
+})
+    | (Record<string, unknown>)));
 /** The `available` variant of `CallerSuppliedDeliveryOutcomeRequest`. */
 export type CallerSuppliedDeliveryOutcomeRequestAvailableInput = ({
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    /**
+     * Price of the delivery. Send it with type `available`. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
     "amount_money": MoneyValueInput;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    /**
+     * Last moment this rate can be offered in the quote. It must be later than the evaluation time
+     * plus the method's minimum_option_lifetime_seconds and no later than the quote's expires_at.
+     * Send it with type available. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
     "expires_at": string | globalThis.Date;
     /**
-     * Why Flint could not calculate the method and the action that can make calculation succeed. -
-     * `dependency_failure`: Retry after the dependent service recovers. - `timeout`: Retry after
-     * the timed-out dependency recovers. - `malformed_response`: Fix the callback response so it
-     * matches the documented response schema, then retry. - `pricing_failure`: Fix the method
-     * pricing configuration or matching rate, then retry. - `schedule_failure`: Fix the method
-     * schedule, timezone, or requested window, then retry. - `geography_failure`: Fix the
-     * destination, origin, or geographic configuration, then retry. - `routing_failure`: Fix
-     * inventory routing or origin assignment, then retry. - `address_verification_failed`: Correct
-     * the address fields rejected by verification, then retry. - `address_could_not_be_verified`:
-     * Confirm or correct the address, or retry when address verification is available. Value enum:
-     * "dependency_failure", "timeout", "malformed_response", "pricing_failure",
-     * "schedule_failure", "geography_failure", "routing_failure", "address_verification_failed",
-     * "address_could_not_be_verified".
+     * Your private reference for this rate, up to 500 characters, with no leading or trailing
+     * spaces. Flint stores it with the buyer's selection and never shows it to buyers. minLength:
+     * 1. maxLength: 500.
      */
-    "failure_category"?: "dependency_failure"
-        | "timeout"
-        | "malformed_response"
-        | "pricing_failure"
-        | "schedule_failure"
-        | "geography_failure"
-        | "routing_failure"
-        | "address_verification_failed"
-        | "address_could_not_be_verified";
-    /** minLength: 1. maxLength: 500. */
     "merchant_reference"?: string;
     /**
-     *  [] (Value): {@link DeliveryWindowRequestInput}. A delivery window you supply in a
-     * caller-supplied delivery outcome, with its time range, price, and the last moment a buyer
-     * can choose it.
+     * Delivery windows the buyer can choose from. Send either `offered_windows` or both
+     * `window_start_at` and `window_end_at` with type `available`. [] (Value): {@link
+     * DeliveryWindowRequestInput}. A delivery window you supply in a caller-supplied delivery
+     * outcome, with its time range, price, and the last moment a buyer can choose it.
      */
     "offered_windows"?: Array<DeliveryWindowRequestInput>;
-    "retryable"?: boolean;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    /**
+     * Last moment a delivery selection can lock this rate for payment. It must be at or after
+     * expires_at. Send it with type available. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
     "selection_guarantee_expires_at": string | globalThis.Date;
-    /** minLength: 1. */
+    /** Buyer-visible service level of the rate. Send it with type `available`. minLength: 1. */
     "service_level"?: string;
-    /** Value enum: "available". */
+    /**
+     * Whether the method has a rate, is unavailable, or could not be priced. Value enum:
+     * "available".
+     */
     "type": "available";
     /**
-     * Why the method is unavailable and the action that can make it eligible. -
-     * `destination_not_served`: Use a destination covered by this method or choose another method.
-     * - `pickup_unavailable`: Choose an available pickup method or location. -
-     * `no_window_available`: Choose another offered window or a method with availability for the
-     * requested time. - `eligibility_no_match`: Inspect eligibility_mismatches, then change the
-     * relevant buyer facts or method eligibility rule. - `pricing_unavailable`: Add or activate a
-     * matching rate, or provide the required caller-supplied price. - `inventory_unavailable`: The
-     * origin or pickup location cannot supply the requested inventory. Reduce the quantity,
-     * replenish inventory, or choose another origin or method. Value enum:
-     * "destination_not_served", "pickup_unavailable", "no_window_available",
-     * "eligibility_no_match", "pricing_unavailable", "inventory_unavailable".
+     * End of the delivery window for this rate. When present, send it with window_start_at,
+     * including when offered_windows is supplied. Send it only with type available. Format:
+     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      */
-    "unavailable_reason"?: "destination_not_served"
-        | "pickup_unavailable"
-        | "no_window_available"
-        | "eligibility_no_match"
-        | "pricing_unavailable"
-        | "inventory_unavailable";
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
     "window_end_at"?: string | globalThis.Date;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    /**
+     * Start of the delivery window for this rate. When present, send it with window_end_at,
+     * including when offered_windows is supplied. Send it only with type available. Format:
+     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
     "window_start_at"?: string | globalThis.Date;
 })
-    & ({
-    /** Value enum: "available". */
+    & (({
+    /**
+     * Whether the method has a rate, is unavailable, or could not be priced. Value enum:
+     * "available".
+     */
     "type": "available";
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    /**
+     * Price of the delivery. Send it with type `available`. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
     "amount_money": MoneyValueInput;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    /**
+     * Last moment this rate can be offered in the quote. It must be later than the evaluation time
+     * plus the method's minimum_option_lifetime_seconds and no later than the quote's expires_at.
+     * Send it with type available. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
     "expires_at": string | globalThis.Date;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    /**
+     * Last moment a delivery selection can lock this rate for payment. It must be at or after
+     * expires_at. Send it with type available. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
     "selection_guarantee_expires_at": string | globalThis.Date;
-});
+})
+    & (({
+    /**
+     * Start of the delivery window for this rate. When present, send it with window_end_at,
+     * including when offered_windows is supplied. Send it only with type available. Format:
+     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "window_start_at": string | globalThis.Date;
+    /**
+     * End of the delivery window for this rate. When present, send it with window_start_at,
+     * including when offered_windows is supplied. Send it only with type available. Format:
+     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "window_end_at": string | globalThis.Date;
+})
+    | ({
+    /**
+     * Delivery windows the buyer can choose from. Send either `offered_windows` or both
+     * `window_start_at` and `window_end_at` with type `available`. minItems: 1.
+     */
+    "offered_windows": unknown;
+}))
+    & (({
+    "unavailable_reason"?: never;
+})
+    & ({
+    "failure_category"?: never;
+})
+    & ({
+    "retryable"?: never;
+})));
 /** The `cannot_calculate` variant of `CallerSuppliedDeliveryOutcomeRequest`. */
 export type CallerSuppliedDeliveryOutcomeRequestCannotCalculate = ({
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "amount_money"?: MoneyValue;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "expires_at"?: string;
     /**
      * Why Flint could not calculate the method and the action that can make calculation succeed. -
      * `dependency_failure`: Retry after the dependent service recovers. - `timeout`: Retry after
@@ -632,48 +1157,25 @@ export type CallerSuppliedDeliveryOutcomeRequestCannotCalculate = ({
         | "address_verification_failed"
         | "address_could_not_be_verified"
         | (string & {});
-    /** minLength: 1. maxLength: 500. */
+    /**
+     * Your private reference for this rate, up to 500 characters, with no leading or trailing
+     * spaces. Flint stores it with the buyer's selection and never shows it to buyers. minLength:
+     * 1. maxLength: 500.
+     */
     "merchant_reference"?: string;
-    /**
-     *  [] (Value): {@link DeliveryWindowRequest}. A delivery window you supply in a
-     * caller-supplied delivery outcome, with its time range, price, and the last moment a buyer
-     * can choose it.
-     */
-    "offered_windows"?: Array<DeliveryWindowRequest>;
+    /** Whether trying again later can succeed. Send it with type `cannot_calculate`. */
     "retryable": boolean;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "selection_guarantee_expires_at"?: string;
-    /** minLength: 1. */
-    "service_level"?: string;
-    /** Value enum: "cannot_calculate". */
-    "type": "cannot_calculate" | (string & {});
     /**
-     * Why the method is unavailable and the action that can make it eligible. -
-     * `destination_not_served`: Use a destination covered by this method or choose another method.
-     * - `pickup_unavailable`: Choose an available pickup method or location. -
-     * `no_window_available`: Choose another offered window or a method with availability for the
-     * requested time. - `eligibility_no_match`: Inspect eligibility_mismatches, then change the
-     * relevant buyer facts or method eligibility rule. - `pricing_unavailable`: Add or activate a
-     * matching rate, or provide the required caller-supplied price. - `inventory_unavailable`: The
-     * origin or pickup location cannot supply the requested inventory. Reduce the quantity,
-     * replenish inventory, or choose another origin or method. Value enum:
-     * "destination_not_served", "pickup_unavailable", "no_window_available",
-     * "eligibility_no_match", "pricing_unavailable", "inventory_unavailable".
+     * Whether the method has a rate, is unavailable, or could not be priced. Value enum:
+     * "cannot_calculate".
      */
-    "unavailable_reason"?: "destination_not_served"
-        | "pickup_unavailable"
-        | "no_window_available"
-        | "eligibility_no_match"
-        | "pricing_unavailable"
-        | "inventory_unavailable"
-        | (string & {});
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "window_end_at"?: string;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "window_start_at"?: string;
+    "type": "cannot_calculate" | (string & {});
 })
-    & ({
-    /** Value enum: "cannot_calculate". */
+    & (({
+    /**
+     * Whether the method has a rate, is unavailable, or could not be priced. Value enum:
+     * "cannot_calculate".
+     */
     "type": "cannot_calculate" | (string & {});
     /**
      * Why Flint could not calculate the method and the action that can make calculation succeed. -
@@ -700,14 +1202,11 @@ export type CallerSuppliedDeliveryOutcomeRequestCannotCalculate = ({
         | "address_verification_failed"
         | "address_could_not_be_verified"
         | (string & {});
+    /** Whether trying again later can succeed. Send it with type `cannot_calculate`. */
     "retryable": boolean;
-});
+}));
 /** The `cannot_calculate` variant of `CallerSuppliedDeliveryOutcomeRequest`. */
 export type CallerSuppliedDeliveryOutcomeRequestCannotCalculateInput = ({
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "amount_money"?: MoneyValueInput;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "expires_at"?: string | globalThis.Date;
     /**
      * Why Flint could not calculate the method and the action that can make calculation succeed. -
      * `dependency_failure`: Retry after the dependent service recovers. - `timeout`: Retry after
@@ -732,82 +1231,93 @@ export type CallerSuppliedDeliveryOutcomeRequestCannotCalculateInput = ({
         | "routing_failure"
         | "address_verification_failed"
         | "address_could_not_be_verified";
-    /** minLength: 1. maxLength: 500. */
-    "merchant_reference"?: string;
     /**
-     *  [] (Value): {@link DeliveryWindowRequestInput}. A delivery window you supply in a
-     * caller-supplied delivery outcome, with its time range, price, and the last moment a buyer
-     * can choose it.
+     * Your private reference for this rate, up to 500 characters, with no leading or trailing
+     * spaces. Flint stores it with the buyer's selection and never shows it to buyers. minLength:
+     * 1. maxLength: 500.
      */
-    "offered_windows"?: Array<DeliveryWindowRequestInput>;
+    "merchant_reference"?: string;
+    /** Whether trying again later can succeed. Send it with type `cannot_calculate`. */
     "retryable": boolean;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "selection_guarantee_expires_at"?: string | globalThis.Date;
-    /** minLength: 1. */
-    "service_level"?: string;
-    /** Value enum: "cannot_calculate". */
+    /**
+     * Whether the method has a rate, is unavailable, or could not be priced. Value enum:
+     * "cannot_calculate".
+     */
+    "type": "cannot_calculate";
+})
+    & (({
+    /**
+     * Whether the method has a rate, is unavailable, or could not be priced. Value enum:
+     * "cannot_calculate".
+     */
     "type": "cannot_calculate";
     /**
-     * Why the method is unavailable and the action that can make it eligible. -
-     * `destination_not_served`: Use a destination covered by this method or choose another method.
-     * - `pickup_unavailable`: Choose an available pickup method or location. -
-     * `no_window_available`: Choose another offered window or a method with availability for the
-     * requested time. - `eligibility_no_match`: Inspect eligibility_mismatches, then change the
-     * relevant buyer facts or method eligibility rule. - `pricing_unavailable`: Add or activate a
-     * matching rate, or provide the required caller-supplied price. - `inventory_unavailable`: The
-     * origin or pickup location cannot supply the requested inventory. Reduce the quantity,
-     * replenish inventory, or choose another origin or method. Value enum:
-     * "destination_not_served", "pickup_unavailable", "no_window_available",
-     * "eligibility_no_match", "pricing_unavailable", "inventory_unavailable".
+     * Why Flint could not calculate the method and the action that can make calculation succeed. -
+     * `dependency_failure`: Retry after the dependent service recovers. - `timeout`: Retry after
+     * the timed-out dependency recovers. - `malformed_response`: Fix the callback response so it
+     * matches the documented response schema, then retry. - `pricing_failure`: Fix the method
+     * pricing configuration or matching rate, then retry. - `schedule_failure`: Fix the method
+     * schedule, timezone, or requested window, then retry. - `geography_failure`: Fix the
+     * destination, origin, or geographic configuration, then retry. - `routing_failure`: Fix
+     * inventory routing or origin assignment, then retry. - `address_verification_failed`: Correct
+     * the address fields rejected by verification, then retry. - `address_could_not_be_verified`:
+     * Confirm or correct the address, or retry when address verification is available. Value enum:
+     * "dependency_failure", "timeout", "malformed_response", "pricing_failure",
+     * "schedule_failure", "geography_failure", "routing_failure", "address_verification_failed",
+     * "address_could_not_be_verified".
      */
-    "unavailable_reason"?: "destination_not_served"
-        | "pickup_unavailable"
-        | "no_window_available"
-        | "eligibility_no_match"
-        | "pricing_unavailable"
-        | "inventory_unavailable";
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "window_end_at"?: string | globalThis.Date;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "window_start_at"?: string | globalThis.Date;
+    "failure_category": "dependency_failure"
+        | "timeout"
+        | "malformed_response"
+        | "pricing_failure"
+        | "schedule_failure"
+        | "geography_failure"
+        | "routing_failure"
+        | "address_verification_failed"
+        | "address_could_not_be_verified";
+    /** Whether trying again later can succeed. Send it with type `cannot_calculate`. */
+    "retryable": boolean;
+})
+    & (({
+    "amount_money"?: never;
 })
     & ({
-    /** Value enum: "cannot_calculate". */
-    "type": "cannot_calculate";
-    /**
-     * Why Flint could not calculate the method and the action that can make calculation succeed. -
-     * `dependency_failure`: Retry after the dependent service recovers. - `timeout`: Retry after
-     * the timed-out dependency recovers. - `malformed_response`: Fix the callback response so it
-     * matches the documented response schema, then retry. - `pricing_failure`: Fix the method
-     * pricing configuration or matching rate, then retry. - `schedule_failure`: Fix the method
-     * schedule, timezone, or requested window, then retry. - `geography_failure`: Fix the
-     * destination, origin, or geographic configuration, then retry. - `routing_failure`: Fix
-     * inventory routing or origin assignment, then retry. - `address_verification_failed`: Correct
-     * the address fields rejected by verification, then retry. - `address_could_not_be_verified`:
-     * Confirm or correct the address, or retry when address verification is available. Value enum:
-     * "dependency_failure", "timeout", "malformed_response", "pricing_failure",
-     * "schedule_failure", "geography_failure", "routing_failure", "address_verification_failed",
-     * "address_could_not_be_verified".
-     */
-    "failure_category": "dependency_failure"
-        | "timeout"
-        | "malformed_response"
-        | "pricing_failure"
-        | "schedule_failure"
-        | "geography_failure"
-        | "routing_failure"
-        | "address_verification_failed"
-        | "address_could_not_be_verified";
-    "retryable": boolean;
-});
+    "expires_at"?: never;
+})
+    & ({
+    "selection_guarantee_expires_at"?: never;
+})
+    & ({
+    "window_start_at"?: never;
+})
+    & ({
+    "window_end_at"?: never;
+})
+    & ({
+    "offered_windows"?: never;
+})
+    & ({
+    "service_level"?: never;
+})
+    & ({
+    "unavailable_reason"?: never;
+})));
 /**
  * Your outcome for a caller-priced delivery method, selected by `type`: available with a price and
  * windows, unavailable with a reason, or cannot calculate.
  */
 export type CallerSuppliedDeliveryOutcomeRequestInput = ({
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    /**
+     * Price of the delivery. Send it with type `available`. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
     "amount_money"?: MoneyValueInput;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    /**
+     * Last moment this rate can be offered in the quote. It must be later than the evaluation time
+     * plus the method's minimum_option_lifetime_seconds and no later than the quote's expires_at.
+     * Send it with type available. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
     "expires_at"?: string | globalThis.Date;
     /**
      * Why Flint could not calculate the method and the action that can make calculation succeed. -
@@ -833,20 +1343,33 @@ export type CallerSuppliedDeliveryOutcomeRequestInput = ({
         | "routing_failure"
         | "address_verification_failed"
         | "address_could_not_be_verified";
-    /** minLength: 1. maxLength: 500. */
+    /**
+     * Your private reference for this rate, up to 500 characters, with no leading or trailing
+     * spaces. Flint stores it with the buyer's selection and never shows it to buyers. minLength:
+     * 1. maxLength: 500.
+     */
     "merchant_reference"?: string;
     /**
-     *  [] (Value): {@link DeliveryWindowRequestInput}. A delivery window you supply in a
-     * caller-supplied delivery outcome, with its time range, price, and the last moment a buyer
-     * can choose it.
+     * Delivery windows the buyer can choose from. Send either `offered_windows` or both
+     * `window_start_at` and `window_end_at` with type `available`. [] (Value): {@link
+     * DeliveryWindowRequestInput}. A delivery window you supply in a caller-supplied delivery
+     * outcome, with its time range, price, and the last moment a buyer can choose it.
      */
     "offered_windows"?: Array<DeliveryWindowRequestInput>;
+    /** Whether trying again later can succeed. Send it with type `cannot_calculate`. */
     "retryable"?: boolean;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    /**
+     * Last moment a delivery selection can lock this rate for payment. It must be at or after
+     * expires_at. Send it with type available. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
     "selection_guarantee_expires_at"?: string | globalThis.Date;
-    /** minLength: 1. */
+    /** Buyer-visible service level of the rate. Send it with type `available`. minLength: 1. */
     "service_level"?: string;
-    /** Value enum: "available", "unavailable", "cannot_calculate". */
+    /**
+     * Whether the method has a rate, is unavailable, or could not be priced. Value enum:
+     * "available", "unavailable", "cannot_calculate".
+     */
     "type": "available" | "unavailable" | "cannot_calculate";
     /**
      * Why the method is unavailable and the action that can make it eligible. -
@@ -867,9 +1390,17 @@ export type CallerSuppliedDeliveryOutcomeRequestInput = ({
         | "eligibility_no_match"
         | "pricing_unavailable"
         | "inventory_unavailable";
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    /**
+     * End of the delivery window for this rate. When present, send it with window_start_at,
+     * including when offered_windows is supplied. Send it only with type available. Format:
+     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
     "window_end_at"?: string | globalThis.Date;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    /**
+     * Start of the delivery window for this rate. When present, send it with window_end_at,
+     * including when offered_windows is supplied. Send it only with type available. Format:
+     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
     "window_start_at"?: string | globalThis.Date;
 })
     & ((Exclude<CallerSuppliedDeliveryOutcomeRequestAvailableInput & object, readonly unknown[]>)
@@ -877,49 +1408,16 @@ export type CallerSuppliedDeliveryOutcomeRequestInput = ({
     | (Exclude<CallerSuppliedDeliveryOutcomeRequestCannotCalculateInput & object, readonly unknown[]>));
 /** The `unavailable` variant of `CallerSuppliedDeliveryOutcomeRequest`. */
 export type CallerSuppliedDeliveryOutcomeRequestUnavailable = ({
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "amount_money"?: MoneyValue;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "expires_at"?: string;
     /**
-     * Why Flint could not calculate the method and the action that can make calculation succeed. -
-     * `dependency_failure`: Retry after the dependent service recovers. - `timeout`: Retry after
-     * the timed-out dependency recovers. - `malformed_response`: Fix the callback response so it
-     * matches the documented response schema, then retry. - `pricing_failure`: Fix the method
-     * pricing configuration or matching rate, then retry. - `schedule_failure`: Fix the method
-     * schedule, timezone, or requested window, then retry. - `geography_failure`: Fix the
-     * destination, origin, or geographic configuration, then retry. - `routing_failure`: Fix
-     * inventory routing or origin assignment, then retry. - `address_verification_failed`: Correct
-     * the address fields rejected by verification, then retry. - `address_could_not_be_verified`:
-     * Confirm or correct the address, or retry when address verification is available. Value enum:
-     * "dependency_failure", "timeout", "malformed_response", "pricing_failure",
-     * "schedule_failure", "geography_failure", "routing_failure", "address_verification_failed",
-     * "address_could_not_be_verified".
+     * Your private reference for this rate, up to 500 characters, with no leading or trailing
+     * spaces. Flint stores it with the buyer's selection and never shows it to buyers. minLength:
+     * 1. maxLength: 500.
      */
-    "failure_category"?: "dependency_failure"
-        | "timeout"
-        | "malformed_response"
-        | "pricing_failure"
-        | "schedule_failure"
-        | "geography_failure"
-        | "routing_failure"
-        | "address_verification_failed"
-        | "address_could_not_be_verified"
-        | (string & {});
-    /** minLength: 1. maxLength: 500. */
     "merchant_reference"?: string;
     /**
-     *  [] (Value): {@link DeliveryWindowRequest}. A delivery window you supply in a
-     * caller-supplied delivery outcome, with its time range, price, and the last moment a buyer
-     * can choose it.
+     * Whether the method has a rate, is unavailable, or could not be priced. Value enum:
+     * "unavailable".
      */
-    "offered_windows"?: Array<DeliveryWindowRequest>;
-    "retryable"?: boolean;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "selection_guarantee_expires_at"?: string;
-    /** minLength: 1. */
-    "service_level"?: string;
-    /** Value enum: "unavailable". */
     "type": "unavailable" | (string & {});
     /**
      * Why the method is unavailable and the action that can make it eligible. -
@@ -941,13 +1439,12 @@ export type CallerSuppliedDeliveryOutcomeRequestUnavailable = ({
         | "pricing_unavailable"
         | "inventory_unavailable"
         | (string & {});
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "window_end_at"?: string;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "window_start_at"?: string;
 })
-    & ({
-    /** Value enum: "unavailable". */
+    & (({
+    /**
+     * Whether the method has a rate, is unavailable, or could not be priced. Value enum:
+     * "unavailable".
+     */
     "type": "unavailable" | (string & {});
     /**
      * Why the method is unavailable and the action that can make it eligible. -
@@ -969,51 +1466,19 @@ export type CallerSuppliedDeliveryOutcomeRequestUnavailable = ({
         | "pricing_unavailable"
         | "inventory_unavailable"
         | (string & {});
-});
+}));
 /** The `unavailable` variant of `CallerSuppliedDeliveryOutcomeRequest`. */
 export type CallerSuppliedDeliveryOutcomeRequestUnavailableInput = ({
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "amount_money"?: MoneyValueInput;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "expires_at"?: string | globalThis.Date;
     /**
-     * Why Flint could not calculate the method and the action that can make calculation succeed. -
-     * `dependency_failure`: Retry after the dependent service recovers. - `timeout`: Retry after
-     * the timed-out dependency recovers. - `malformed_response`: Fix the callback response so it
-     * matches the documented response schema, then retry. - `pricing_failure`: Fix the method
-     * pricing configuration or matching rate, then retry. - `schedule_failure`: Fix the method
-     * schedule, timezone, or requested window, then retry. - `geography_failure`: Fix the
-     * destination, origin, or geographic configuration, then retry. - `routing_failure`: Fix
-     * inventory routing or origin assignment, then retry. - `address_verification_failed`: Correct
-     * the address fields rejected by verification, then retry. - `address_could_not_be_verified`:
-     * Confirm or correct the address, or retry when address verification is available. Value enum:
-     * "dependency_failure", "timeout", "malformed_response", "pricing_failure",
-     * "schedule_failure", "geography_failure", "routing_failure", "address_verification_failed",
-     * "address_could_not_be_verified".
+     * Your private reference for this rate, up to 500 characters, with no leading or trailing
+     * spaces. Flint stores it with the buyer's selection and never shows it to buyers. minLength:
+     * 1. maxLength: 500.
      */
-    "failure_category"?: "dependency_failure"
-        | "timeout"
-        | "malformed_response"
-        | "pricing_failure"
-        | "schedule_failure"
-        | "geography_failure"
-        | "routing_failure"
-        | "address_verification_failed"
-        | "address_could_not_be_verified";
-    /** minLength: 1. maxLength: 500. */
     "merchant_reference"?: string;
     /**
-     *  [] (Value): {@link DeliveryWindowRequestInput}. A delivery window you supply in a
-     * caller-supplied delivery outcome, with its time range, price, and the last moment a buyer
-     * can choose it.
+     * Whether the method has a rate, is unavailable, or could not be priced. Value enum:
+     * "unavailable".
      */
-    "offered_windows"?: Array<DeliveryWindowRequestInput>;
-    "retryable"?: boolean;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "selection_guarantee_expires_at"?: string | globalThis.Date;
-    /** minLength: 1. */
-    "service_level"?: string;
-    /** Value enum: "unavailable". */
     "type": "unavailable";
     /**
      * Why the method is unavailable and the action that can make it eligible. -
@@ -1034,34 +1499,60 @@ export type CallerSuppliedDeliveryOutcomeRequestUnavailableInput = ({
         | "eligibility_no_match"
         | "pricing_unavailable"
         | "inventory_unavailable";
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "window_end_at"?: string | globalThis.Date;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "window_start_at"?: string | globalThis.Date;
+})
+    & (({
+    /**
+     * Whether the method has a rate, is unavailable, or could not be priced. Value enum:
+     * "unavailable".
+     */
+    "type": "unavailable";
+    /**
+     * Why the method is unavailable and the action that can make it eligible. -
+     * `destination_not_served`: Use a destination covered by this method or choose another method.
+     * - `pickup_unavailable`: Choose an available pickup method or location. -
+     * `no_window_available`: Choose another offered window or a method with availability for the
+     * requested time. - `eligibility_no_match`: Inspect eligibility_mismatches, then change the
+     * relevant buyer facts or method eligibility rule. - `pricing_unavailable`: Add or activate a
+     * matching rate, or provide the required caller-supplied price. - `inventory_unavailable`: The
+     * origin or pickup location cannot supply the requested inventory. Reduce the quantity,
+     * replenish inventory, or choose another origin or method. Value enum:
+     * "destination_not_served", "pickup_unavailable", "no_window_available",
+     * "eligibility_no_match", "pricing_unavailable", "inventory_unavailable".
+     */
+    "unavailable_reason": "destination_not_served"
+        | "pickup_unavailable"
+        | "no_window_available"
+        | "eligibility_no_match"
+        | "pricing_unavailable"
+        | "inventory_unavailable";
+})
+    & (({
+    "amount_money"?: never;
 })
     & ({
-    /** Value enum: "unavailable". */
-    "type": "unavailable";
-    /**
-     * Why the method is unavailable and the action that can make it eligible. -
-     * `destination_not_served`: Use a destination covered by this method or choose another method.
-     * - `pickup_unavailable`: Choose an available pickup method or location. -
-     * `no_window_available`: Choose another offered window or a method with availability for the
-     * requested time. - `eligibility_no_match`: Inspect eligibility_mismatches, then change the
-     * relevant buyer facts or method eligibility rule. - `pricing_unavailable`: Add or activate a
-     * matching rate, or provide the required caller-supplied price. - `inventory_unavailable`: The
-     * origin or pickup location cannot supply the requested inventory. Reduce the quantity,
-     * replenish inventory, or choose another origin or method. Value enum:
-     * "destination_not_served", "pickup_unavailable", "no_window_available",
-     * "eligibility_no_match", "pricing_unavailable", "inventory_unavailable".
-     */
-    "unavailable_reason": "destination_not_served"
-        | "pickup_unavailable"
-        | "no_window_available"
-        | "eligibility_no_match"
-        | "pricing_unavailable"
-        | "inventory_unavailable";
-});
+    "expires_at"?: never;
+})
+    & ({
+    "selection_guarantee_expires_at"?: never;
+})
+    & ({
+    "window_start_at"?: never;
+})
+    & ({
+    "window_end_at"?: never;
+})
+    & ({
+    "offered_windows"?: never;
+})
+    & ({
+    "service_level"?: never;
+})
+    & ({
+    "failure_category"?: never;
+})
+    & ({
+    "retryable"?: never;
+})));
 /** Cancels fulfillment work that has not completed. */
 export type CancelFulfillmentRequestInput = AcceptFulfillmentRequestInput;
 /** The request body for: Cancel a gift card notification. */
@@ -1561,8 +2052,9 @@ export type CapturePaymentIntentRequest = {
      * Amount to capture, in the authorization's currency. Omit it to capture all of
      * capturable_money. A smaller amount is a partial capture: Flint releases the rest in the same
      * request, and the payment intent can't be captured again. Must be greater than zero and at
-     * most capturable_money. Affirm payments can only be captured in full. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
+     * most capturable_money. Affirm payments can only be captured in full. Can't be combined with
+     * final_amount_money or tip_money. Monetary amount represented as integer minor units plus an
+     * ISO 4217 currency code.
      */
     "amount_money"?: MoneyValue;
     /**
@@ -1571,6 +2063,61 @@ export type CapturePaymentIntentRequest = {
      * uint64. minimum: 1.
      */
     "expected_version"?: number;
+    /**
+     * The bill without the tip. The capture collects final_amount_money plus tip_money in one
+     * charge. With only tip_money, the bill is the authorization minus the tip it carries; when
+     * the authorization is all tip, final_amount_money is required. Must be greater than zero, in
+     * the payment's currency. On an order's payment, it is at most the authorization minus the tip
+     * it carries, so the order's items, charges and tax can't grow; above it LIMIT_EXCEEDED with
+     * maximum_money on final_amount_money. The order releases the difference. Not accepted on
+     * Affirm or ACH debit payments. Monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code.
+     */
+    "final_amount_money"?: MoneyValue;
+    /**
+     * A platform fee your partner app charges on this payment, set when you know the final bill
+     * and tip. Only the partner app install token that created the payment can send it; from any
+     * other credential it is INVALID_REQUEST with NOT_ALLOWED on platform_fee. It replaces the fee
+     * the payment was created with, or adds one if it had none, after the same consent, capability
+     * and currency checks as at create: amount_money must be above zero and in the payment's
+     * currency, otherwise INVALID_REQUEST with INVALID_VALUE on platform_fee.amount_money. Without
+     * an approved cap in this currency it is ACTION_NOT_ALLOWED with reason
+     * platform_fee_consent_required; in live mode the partner app's platform_fees capability must
+     * be active. A fee that already ended is ACTION_NOT_ALLOWED with reason terminal_status. The
+     * cap and Flint's own fees apply to the captured total, so Flint lowers the fee rather than
+     * refusing the capture. A payment that belongs to an order can't take it at capture:
+     * INVALID_REQUEST with NOT_ALLOWED on platform_fee. Part of the request fingerprint. See
+     * [Platform fees](/docs/guides/platform-fees). A platform fee the partner app charges on the
+     * payment, beside Flint's fees. The installed merchant pays it, and Flint takes no share of
+     * it.
+     */
+    "platform_fee"?: PlatformFeeRequest;
+    /**
+     * Final split amounts for this capture. List every split that isn't canceled, once each, with
+     * an amount above zero in the payment's currency. Omit splits to keep the stored amounts. The
+     * total must fit after Flint's fees and one minor unit for the collecting merchant; otherwise
+     * INVALID_REQUEST with INVALID_VALUE on splits and maximum_money. An amount_money too small
+     * for the stored splits is LIMIT_EXCEEDED with minimum_money. A payment created without splits
+     * can't gain them. Part of the idempotency fingerprint. minItems: 1. maxItems: 25. [] (Value):
+     * {@link SplitReversalRequest}. The final amount of an existing split at capture.
+     */
+    "splits"?: Array<SplitReversalRequest>;
+    /**
+     * The tip, replacing the tip the authorization carries. Zero captures without a tip. With only
+     * final_amount_money, the tip is the one the authorization carries, or zero. At most the
+     * larger of 1,000.00 USD and final_amount_money; on an order's payment, the larger of 1,000.00
+     * USD and the payment's share of the order's subtotal after discounts. Above it
+     * INVALID_REQUEST with INVALID_VALUE on tip_money and maximum_money. On an order's payment,
+     * keeping or lowering the tip the authorization carries is never refused, and the tip becomes
+     * this payment's part of the order's tip. A payment that doesn't carry part of the order's
+     * requested tip can't add a tip above zero beside it: INVALID_REQUEST with NOT_ALLOWED on
+     * tip_money. On an order, the bill can't grow, so without overcapture a tip fits only within
+     * what the bill leaves of the hold. The total is at most overcapture.maximum_capturable_money
+     * when overcapture is available, else capturable_money; above it LIMIT_EXCEEDED with
+     * maximum_money. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "tip_money"?: MoneyValue;
 };
 /** The request body for: Capture payment intent. */
 export type CapturePaymentIntentRequestInput = {
@@ -1578,8 +2125,9 @@ export type CapturePaymentIntentRequestInput = {
      * Amount to capture, in the authorization's currency. Omit it to capture all of
      * capturable_money. A smaller amount is a partial capture: Flint releases the rest in the same
      * request, and the payment intent can't be captured again. Must be greater than zero and at
-     * most capturable_money. Affirm payments can only be captured in full. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
+     * most capturable_money. Affirm payments can only be captured in full. Can't be combined with
+     * final_amount_money or tip_money. Monetary amount represented as integer minor units plus an
+     * ISO 4217 currency code.
      */
     "amount_money"?: MoneyValueInput;
     /**
@@ -1588,247 +2136,59 @@ export type CapturePaymentIntentRequestInput = {
      * uint64. minimum: 1.
      */
     "expected_version"?: number;
-};
-/**
- * Card details on a payment method: brand, expiration month and year, last four digits, and the
- * wallet when one was used.
- */
-export type CardDetails = {
     /**
-     * The card network. Value enum: "visa", "mastercard", "amex", "discover", "diners", "jcb",
-     * "unionpay".
+     * The bill without the tip. The capture collects final_amount_money plus tip_money in one
+     * charge. With only tip_money, the bill is the authorization minus the tip it carries; when
+     * the authorization is all tip, final_amount_money is required. Must be greater than zero, in
+     * the payment's currency. On an order's payment, it is at most the authorization minus the tip
+     * it carries, so the order's items, charges and tax can't grow; above it LIMIT_EXCEEDED with
+     * maximum_money on final_amount_money. The order releases the difference. Not accepted on
+     * Affirm or ACH debit payments. Monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code.
      */
-    "brand": "visa" | "mastercard" | "amex" | "discover" | "diners" | "jcb" | "unionpay" | (string & {});
-    /** Month the card expires, from 1 to 12. Format: int32. */
-    "exp_month": number;
-    /** Four-digit year the card expires. Format: int32. */
-    "exp_year": number;
-    /** Last four digits of the card number. */
-    "last4": string;
+    "final_amount_money"?: MoneyValueInput;
     /**
-     * The wallet the card came from. Absent for a card entered directly. Value enum: "apple_pay",
-     * "google_pay".
+     * A platform fee your partner app charges on this payment, set when you know the final bill
+     * and tip. Only the partner app install token that created the payment can send it; from any
+     * other credential it is INVALID_REQUEST with NOT_ALLOWED on platform_fee. It replaces the fee
+     * the payment was created with, or adds one if it had none, after the same consent, capability
+     * and currency checks as at create: amount_money must be above zero and in the payment's
+     * currency, otherwise INVALID_REQUEST with INVALID_VALUE on platform_fee.amount_money. Without
+     * an approved cap in this currency it is ACTION_NOT_ALLOWED with reason
+     * platform_fee_consent_required; in live mode the partner app's platform_fees capability must
+     * be active. A fee that already ended is ACTION_NOT_ALLOWED with reason terminal_status. The
+     * cap and Flint's own fees apply to the captured total, so Flint lowers the fee rather than
+     * refusing the capture. A payment that belongs to an order can't take it at capture:
+     * INVALID_REQUEST with NOT_ALLOWED on platform_fee. Part of the request fingerprint. See
+     * [Platform fees](/docs/guides/platform-fees). A platform fee the partner app charges on the
+     * payment, beside Flint's fees. The installed merchant pays it, and Flint takes no share of
+     * it.
      */
-    "wallet"?: "apple_pay" | "google_pay" | (string & {});
-};
-/** The request body for: Record a cash-out. */
-export type CashOutGiftCardRequest = {
+    "platform_fee"?: PlatformFeeRequestInput;
     /**
-     * Amount of cash you paid the buyer outside Flint, taken off the gift card's balance. Above
-     * zero, in the card's currency, and not more than the card's unreserved value. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
+     * Final split amounts for this capture. List every split that isn't canceled, once each, with
+     * an amount above zero in the payment's currency. Omit splits to keep the stored amounts. The
+     * total must fit after Flint's fees and one minor unit for the collecting merchant; otherwise
+     * INVALID_REQUEST with INVALID_VALUE on splits and maximum_money. An amount_money too small
+     * for the stored splits is LIMIT_EXCEEDED with minimum_money. A payment created without splits
+     * can't gain them. Part of the idempotency fingerprint. minItems: 1. maxItems: 25. [] (Value):
+     * {@link CapturePaymentSplitRequestInput}. The final amount of an existing split at capture.
      */
-    "amount_money": MoneyValue;
+    "splits"?: Array<CapturePaymentSplitRequestInput>;
     /**
-     * Your reference for the cash you paid the buyer outside Flint, such as a receipt number.
-     * Required; 1 to 255 characters. The value is preserved exactly as sent. minLength: 1.
-     * maxLength: 255.
+     * The tip, replacing the tip the authorization carries. Zero captures without a tip. With only
+     * final_amount_money, the tip is the one the authorization carries, or zero. At most the
+     * larger of 1,000.00 USD and final_amount_money; on an order's payment, the larger of 1,000.00
+     * USD and the payment's share of the order's subtotal after discounts. Above it
+     * INVALID_REQUEST with INVALID_VALUE on tip_money and maximum_money. On an order's payment,
+     * keeping or lowering the tip the authorization carries is never refused, and the tip becomes
+     * this payment's part of the order's tip. A payment that doesn't carry part of the order's
+     * requested tip can't add a tip above zero beside it: INVALID_REQUEST with NOT_ALLOWED on
+     * tip_money. On an order, the bill can't grow, so without overcapture a tip fits only within
+     * what the bill leaves of the hold. The total is at most overcapture.maximum_capturable_money
+     * when overcapture is available, else capturable_money; above it LIMIT_EXCEEDED with
+     * maximum_money. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
      */
-    "cash_out_reference": string;
-    /**
-     * The gift card version last read. The command changes this card only when its current version
-     * matches. Format: int64. minimum: 1.
-     */
-    "expected_version"?: number;
-};
-/** The request body for: Record a cash-out. */
-export type CashOutGiftCardRequestInput = {
-    /**
-     * Amount of cash you paid the buyer outside Flint, taken off the gift card's balance. Above
-     * zero, in the card's currency, and not more than the card's unreserved value. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValueInput;
-    /**
-     * Your reference for the cash you paid the buyer outside Flint, such as a receipt number.
-     * Required; 1 to 255 characters. The value is preserved exactly as sent. minLength: 1.
-     * maxLength: 255.
-     */
-    "cash_out_reference": string;
-    /**
-     * The gift card version last read. The command changes this card only when its current version
-     * matches. Format: int64. minimum: 1.
-     */
-    "expected_version"?: number;
-};
-/**
- * The result of recording a gift card cash-out: the updated gift card and the transactions it
- * created.
- */
-export type CashOutGiftCardResult = {
-    /**
-     * The gift card after the cash-out. Merchant-issued purchased gift card. Posted balance
-     * includes reserved value; available value is balance minus reservations. Frozen value remains
-     * part of outstanding liability. Gift cards are independent resources and cannot be
-     * transferred across merchants or currencies.
-     */
-    "gift_card": GiftCard;
-    /**
-     * The transactions the cash-out posted to the card. [] (Value): {@link GiftCardTransaction}.
-     * Immutable posted financial movement with signed amount, per-card sequence, merchant sequence
-     * and balance snapshots. Corrections create new transactions.
-     */
-    "gift_card_transactions": Array<GiftCardTransaction>;
-};
-/** A response containing `CashOutGiftCardResult` data. */
-export type CashOutGiftCardResultResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. The result of recording
-     * a gift card cash-out: the updated gift card and the transactions it created.
-     */
-    "data": CashOutGiftCardResult;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** The source of a catalog variant line's selected net unit price. */
-export type CatalogPricing = {
-    /** Minimum quantity of the applied break. Null when the base price applies. Format: int64. */
-    "minimum_quantity": number | null;
-    /**
-     * Price list providing the selected schedule. Null when the variant's default schedule
-     * applies. Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
-     */
-    "price_list_id": string | null;
-    /**
-     * Source of the selected schedule. New source values may be added. Value enum: "variant",
-     * "price_list".
-     */
-    "source": "variant" | "price_list" | (string & {});
-};
-export type CategoriesCreateParams = (InputValue<CreateCategoryRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type CategoriesDeleteParams = {
-    /** Optional resource version last read by the caller. Format: uint64. minimum: 1. */
-    "expected_version"?: InputValue<number>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type CategoriesGetParams = DisputesAcceptParams;
-export type CategoriesListParams = {
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /**
-     * Exact handle match. Handles are lowercase, so matching is case-sensitive with no
-     * normalization; a value that isn't a valid handle returns 400 INVALID_REQUEST. maxLength:
-     * 100. pattern: ^[a-z0-9]+(-[a-z0-9]+)*$.
-     */
-    "handle"?: InputValue<string>;
-    /**
-     * Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
-     * Example: "warehouse-1842".
-     */
-    "external_reference_id"?: InputValue<string>;
-    /**
-     * Search across category ID, external reference ID, handle, name, and description. Text fields
-     * match any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs
-     * match from the start and need the type prefix, such as ctg_01.
-     */
-    "query"?: InputValue<string>;
-    /**
-     * Field to sort by. Defaults to handle; ties are broken by category_id. Default: "handle".
-     * Value enum: "handle", "created_at", "updated_at".
-     */
-    "sort_by"?: InputValue<"handle" | "created_at" | "updated_at">;
-    /** Sort direction. Defaults to asc. Default: "asc". Value enum: "asc", "desc". */
-    "sort_direction"?: InputValue<"asc" | "desc">;
-    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
-    /** Inclusive lower bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_before"?: InputValue<string | globalThis.Date>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type CategoriesUpdateParams = (InputValue<UpdateCategoryRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
+    "tip_money"?: MoneyValueInput;
 };

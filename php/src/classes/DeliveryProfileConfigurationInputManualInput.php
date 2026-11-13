@@ -12,7 +12,7 @@ namespace Flint;
 final class DeliveryProfileConfigurationInputManualInput extends Model {
     /** @param array{'allowed_types': list<string>, 'combination_policy'?: string, 'origin_policy'?: DeliveryProfileOriginPolicyRequestInput|array<array-key, mixed>|\stdClass, 'requirement': string, 'resolution_mode': string, 'splitting_policy'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryProfileConfigurationInputManualInput')); }
-    /** Required as a non-empty unique list when requirement is required. quote accepts shipment, pickup, and local_delivery. manual accepts digital and service. minItems: 1. uniqueItems: true. minItems: 1. uniqueItems: true. [] enum: "digital", "service". [] (Value): string.  Value enum: "shipment", "pickup", "local_delivery", "digital", "service". [] (Value): string.  Value enum: "digital", "service".
+    /** Required as a non-empty unique list when requirement is required. quote accepts shipment, pickup, and local_delivery. manual accepts digital and service. minItems: 1. uniqueItems: true. [] enum: "digital", "service". [] (Value): string.  Value enum: "shipment", "pickup", "local_delivery", "digital", "service". [] (Value): string.  Value enum: "digital", "service".
      * @return list<string>
      * @throws SdkError When allowed_types is omitted; use hasAllowedTypes() or valueOrDefault().
      */

@@ -12,7 +12,7 @@ namespace Flint;
 final class DeliveryPickupAvailabilityCandidateOutcome extends Model {
     /** @param array{'address_advisories'?: list<mixed>, 'failure_category'?: string, 'input_requirements'?: list<mixed>, 'retryable'?: bool, 'type': string, 'unavailable_reason'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPickupAvailabilityCandidateOutcome')); }
-    /**  [] (Value): {@see DeliveryAddressAdvisoryResource}. An address verification result for a delivery address or buyer location. `suggested_address` may offer a correction.
+    /** Address verification results that affected this method. Omitted when there are none. [] (Value): {@see DeliveryAddressAdvisoryResource}. An address verification result for a delivery address or buyer location. `suggested_address` may offer a correction.
      * @return ?list<DeliveryAddressAdvisoryResource>
      */
     public function getAddressAdvisories(): ?array { return $this->get('address_advisories'); }
@@ -22,17 +22,17 @@ final class DeliveryPickupAvailabilityCandidateOutcome extends Model {
      */
     public function getFailureCategory(): ?string { return $this->get('failure_category'); }
     public function hasFailureCategory(): bool { return $this->has('failure_category'); }
-    /**  [] (Value): {@see DeliveryInputRequirement}. An input a delivery method needs, such as an address field or time window, with its `field_path`, purpose, and constraint.
+    /** Inputs the method needs before Flint can price it. Set only when `type` is `input_required`. [] (Value): {@see DeliveryInputRequirement}. An input a delivery method needs, such as an address field or time window, with its `field_path`, purpose, and constraint.
      * @return ?list<DeliveryInputRequirement>
      */
     public function getInputRequirements(): ?array { return $this->get('input_requirements'); }
     public function hasInputRequirements(): bool { return $this->has('input_requirements'); }
-    /** retryable
+    /** Whether trying again later can succeed. Set only when `type` is `cannot_calculate`.
      * @return ?bool
      */
     public function getRetryable(): ?bool { return $this->get('retryable'); }
     public function hasRetryable(): bool { return $this->has('retryable'); }
-    /** Value enum: "available", "unavailable", "input_required", "cannot_calculate".
+    /** What happened when Flint evaluated this delivery method. Value enum: "available", "unavailable", "input_required", "cannot_calculate".
      * @return string
      */
     public function getType(): string { return $this->get('type'); }

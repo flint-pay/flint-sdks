@@ -10,15 +10,15 @@ The `pickup` variant of `CreateDeliveryMethodRequest`.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `configuration` | Required | [DeliveryMethodConfigurationCreateRequest](../models/DeliveryMethodConfigurationCreateRequest.md#deliverymethodconfigurationcreaterequest) and [DeliveryMethodConfigurationRequest](../models/DeliveryMethodConfigurationRequest.md#deliverymethodconfigurationrequest) | The configuration you supply for a delivery method: origin, pricing, eligibility, timing estimate, tax settings, and recipient requirements. The configuration you supply when creating a delivery method. `origin` and `pricing` are required. `configuration`: [field definitions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-3configuration). |
-| `description` | Optional | string | minLength: `1`. |
-| `display_position` | Optional | integer | Format: `int32`. |
+| `configuration` | Required | [DeliveryMethodConfigurationCreateRequest](../models/DeliveryMethodConfigurationCreateRequest.md#deliverymethodconfigurationcreaterequest) and [DeliveryMethodConfigurationRequest](../models/DeliveryMethodConfigurationRequest.md#deliverymethodconfigurationrequest) | Settings that decide where this method is offered, how it is priced, and what the buyer sees. Changing them publishes a new revision. The configuration you supply for a delivery method: origin, pricing, eligibility, timing estimate, tax settings, and recipient requirements. Settings that decide where this method is offered, how it is priced, and what the buyer sees. Changing them publishes a new revision. The configuration you supply when creating a delivery method. `origin` and `pricing` are required. The configuration you supply for a delivery method: origin, pricing, eligibility, timing estimate, tax settings, and recipient requirements. `configuration`: [field definitions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-3configuration). |
+| `description` | Optional | string | Buyer-visible description of the method. minLength: `1`. |
+| `display_position` | Optional | integer | Position in which this method displays among the others. Lower values display first. Format: `int32`. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. Example: `"warehouse-1842"`. |
-| `metadata` | Optional | [MetadataMap](../models/MetadataMap.md#metadatamap) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. `metadata`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_itemsmetadata). |
-| `name` | Required | string | minLength: `1`. |
+| `metadata` | Optional | [MetadataMap](../models/MetadataMap.md#metadatamap) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. `metadata`: [field definitions](../models/CreateBundleRequest.md#createbundlerequestmetadata). |
+| `name` | Required | string | Name of the method. Buyers see it as the option name at checkout. minLength: `1`. |
 | `recommendation_priority` | Optional | integer | Marks this method as recommended. Within each choice group, the available method with the lowest value is recommended and listed first. Ties go to the lower display_position, then the method ID. Null never recommends the method. Format: `int32`. |
 | `status` | Optional | string | Whether this method is available for new delivery quotes. Defaults to inactive. Default: `"inactive"`. Values: `"inactive"`, `"active"`. |
-| `type` | Required | string | Values: `"pickup"`. |
+| `type` | Required | string | Delivery type of the method. It cannot change after you create the method. Values: `"pickup"`. |
 
 ### CreateDeliveryMethodRequestPickup.configuration
 
@@ -26,5 +26,5 @@ Field definitions: [CreateDeliveryMethodRequest variant 3.configuration](../mode
 
 ### CreateDeliveryMethodRequestPickup.metadata
 
-Field definitions: [AddLineItemsRequest.line_items[].metadata](../models/AddLineItemsRequest.md#addlineitemsrequestline_itemsmetadata).
+Field definitions: [CreateBundleRequest.metadata](../models/CreateBundleRequest.md#createbundlerequestmetadata).
 

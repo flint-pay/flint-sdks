@@ -18,6 +18,7 @@ namespace Flint;
  * @property-read ?MoneyValue $expected_amount_money
  * @property-read string $invoice_activity_id
  * @property-read ?string $invoice_delivery_attempt_id
+ * @property-read string $invoice_id
  * @property-read ?string $invoice_late_fee_id
  * @property-read ?string $invoice_manual_payment_id
  * @property-read ?string $invoice_payment_attempt_id
@@ -29,7 +30,7 @@ namespace Flint;
  * @property-read ?MoneyValue $written_off_money
  * Presence-aware response; omitted optional fields return null. */
 final class InvoiceActivity extends Model {
-    /** @param array{'activity_type': string, 'actor_id'?: string, 'actor_type'?: string, 'amount_money'?: mixed, 'channel'?: string, 'checkout_session_id'?: string, 'collection_block_reason'?: string, 'created_at': string, 'credit_money'?: mixed, 'credit_note_id'?: string, 'description': string, 'due_at'?: string, 'error_code'?: string, 'expected_amount_money'?: mixed, 'invoice_activity_id': string, 'invoice_delivery_attempt_id'?: string, 'invoice_late_fee_id'?: string, 'invoice_manual_payment_id'?: string, 'invoice_payment_attempt_id'?: string, 'invoice_schedule_entry_id'?: string, 'payment_intent_id'?: string, 'rail'?: string, 'refund_id'?: string, 'to_email'?: string, 'written_off_money'?: mixed, ...}|object $values */
+    /** @param array{'activity_type': string, 'actor_id'?: string, 'actor_type'?: string, 'amount_money'?: mixed, 'channel'?: string, 'checkout_session_id'?: string, 'collection_block_reason'?: string, 'created_at': string, 'credit_money'?: mixed, 'credit_note_id'?: string, 'description': string, 'due_at'?: string, 'error_code'?: string, 'expected_amount_money'?: mixed, 'invoice_activity_id': string, 'invoice_delivery_attempt_id'?: string, 'invoice_id': string, 'invoice_late_fee_id'?: string, 'invoice_manual_payment_id'?: string, 'invoice_payment_attempt_id'?: string, 'invoice_schedule_entry_id'?: string, 'payment_intent_id'?: string, 'rail'?: string, 'refund_id'?: string, 'to_email'?: string, 'written_off_money'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceActivity')); }
     /** What happened. other means an activity this API version doesn't describe yet. New values may be added; treat an unrecognized value like `other`. Value enum: "draft_created", "issued", "sent", "delivery_sent", "reminder_sent", "viewed", "payment_attempt_started", "payment_applied", "manual_payment_recorded", "manual_payment_reversed", "refund_succeeded", "voided", "token_regenerated", "collection_blocked", "collection_block_resolved", "updated", "marked_uncollectible", "payment_processing", "issue_failed", "overdue", "reminder_due", "late_fee_due", "late_fee_assessed", "late_fee_waived", "credited", "other".
      * @return string
@@ -111,6 +112,11 @@ final class InvoiceActivity extends Model {
      */
     public function getInvoiceDeliveryAttemptId(): ?string { return $this->get('invoice_delivery_attempt_id'); }
     public function hasInvoiceDeliveryAttemptId(): bool { return $this->has('invoice_delivery_attempt_id'); }
+    /** Invoice whose history contains this activity and owns its referenced delivery attempt, late fee, or manual payment.
+     * @return string
+     */
+    public function getInvoiceId(): string { return $this->get('invoice_id'); }
+    public function hasInvoiceId(): bool { return $this->has('invoice_id'); }
     /** The late fee. Present on late_fee_assessed and late_fee_waived.
      * @return ?string
      */

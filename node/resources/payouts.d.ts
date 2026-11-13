@@ -1,16 +1,16 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-6.js';
+import type { Payout } from '../declarations/types-47.js';
 import type {
-    Payout,
     PayoutListResponse,
     PayoutResponse,
     PayoutsCancelParams,
     PayoutsCreateParams,
     PayoutsGetParams,
     PayoutsListParams
-} from '../declarations/types-46.js';
-import type { RequestOptions } from '../declarations/types-51.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-66.js';
+} from '../declarations/types-48.js';
+import type { RequestOptions } from '../declarations/types-53.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-69.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -27,29 +27,36 @@ export type {
 } from '../runtime.js';
 export type {
     PayoutsCancelParams,
-    Payout,
     PayoutResponse,
     PayoutsCreateParams,
     PayoutsGetParams,
     PayoutsListParams,
     PayoutListResponse,
     PayoutTraceID
-} from '../declarations/types-46.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-66.js';
+} from '../declarations/types-48.js';
+export type { RequestOptions } from '../declarations/types-53.js';
+export type { Payout } from '../declarations/types-47.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-69.js';
 export type { ClientOptions } from '../declarations/types-6.js';
 export type { CancelPayoutRequestInput } from '../declarations/types-4.js';
-export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-13.js';
-export type { MoneyValue, NextAction, MoneyValueInput, MoneyMovementListMeta, MoneyMovementHistoryMeta } from '../declarations/types-37.js';
-export type { MetadataMap, MetadataRequestInput } from '../declarations/types-36.js';
-export type { ExpandedPayoutSummary, ExpandedPayoutDestinationSummary } from '../declarations/types-23.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
+export type { AuthMode } from '../declarations/types-1.js';
+export type { Credentials } from '../declarations/types-14.js';
+export type {
+    MoneyValue,
+    NextAction,
+    MoneyValueInput,
+    MetadataRequestInput,
+    MoneyMovementListMeta,
+    MoneyMovementHistoryMeta
+} from '../declarations/types-38.js';
+export type { MetadataMap } from '../declarations/types-37.js';
+export type { ExpandedPayoutSummary, ExpandedPayoutDestinationSummary } from '../declarations/types-24.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
 export type { CreatePayoutRequestInput } from '../declarations/types-11.js';
-export { makeCancelPayoutRequest } from '../declarations/types-67.js';
-export { makeCreatePayoutRequest } from '../declarations/types-70.js';
-export { makeMetadataRequest } from '../declarations/types-74.js';
-export { makeMoneyValue } from '../declarations/types-75.js';
+export { makeCancelPayoutRequest } from '../declarations/types-70.js';
+export { makeCreatePayoutRequest } from '../declarations/types-73.js';
+export { makeMetadataRequest, makeMoneyValue } from '../declarations/types-78.js';
 export interface PayoutsResource {
     /**
  * Cancels an eligible payout before it leaves Flint-controlled processing and returns the

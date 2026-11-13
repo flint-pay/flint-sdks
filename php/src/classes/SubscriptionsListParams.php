@@ -32,7 +32,7 @@ namespace Flint;
 final class SubscriptionsListParams extends Model {
     /** @param array{'idempotency_key'?: string, 'terms_type'?: list<string>|string, 'page_size'?: int, 'page_token'?: string, 'status'?: list<string>|string, 'billing_schedule_owner'?: list<string>|string, 'is_awaiting_billing_schedule'?: bool, 'cancel_at_period_end'?: bool, 'customer_id'?: string, 'delivery_method_id'?: string, 'hold_reason'?: list<string>|string, 'subscription_offer_id'?: string, 'subscription_plan_id'?: string, 'external_reference_id'?: string, 'test_clock_id'?: string, 'query'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'next_billing_after'?: string|\DateTimeInterface, 'next_billing_before'?: string|\DateTimeInterface, 'needs_attention'?: bool, 'expand'?: list<string>|string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionsListParams')); }
-    /** Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength: 255.
+    /** Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength: 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
      * @return string
      * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
      */
@@ -80,13 +80,13 @@ final class SubscriptionsListParams extends Model {
      */
     public function getCancelAtPeriodEnd(): bool { return $this->get('cancel_at_period_end'); }
     public function hasCancelAtPeriodEnd(): bool { return $this->has('cancel_at_period_end'); }
-    /** Filter by Flint customer ID. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+    /** Filter by Flint customer ID. pattern: ^cus_[0-9A-HJKMNP-TV-Z]{26}$. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** Filter by the subscription's selected delivery method. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+    /** Filter by the subscription's selected delivery method. pattern: ^dmet_[0-9A-HJKMNP-TV-Z]{26}$. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
      * @return string
      * @throws SdkError When delivery_method_id is omitted; use hasDeliveryMethodId() or valueOrDefault().
      */
@@ -98,13 +98,13 @@ final class SubscriptionsListParams extends Model {
      */
     public function getHoldReason(): mixed { return $this->get('hold_reason'); }
     public function hasHoldReason(): bool { return $this->has('hold_reason'); }
-    /** Filter by Flint subscription offer ID. Example: "soffer_01KEZF7C00KAA9Y1X1KM70YFAA".
+    /** Filter by Flint subscription offer ID. pattern: ^soffer_[0-9A-HJKMNP-TV-Z]{26}$. Example: "soffer_01KEZF7C00KAA9Y1X1KM70YFAA".
      * @return string
      * @throws SdkError When subscription_offer_id is omitted; use hasSubscriptionOfferId() or valueOrDefault().
      */
     public function getSubscriptionOfferId(): string { return $this->get('subscription_offer_id'); }
     public function hasSubscriptionOfferId(): bool { return $this->has('subscription_offer_id'); }
-    /** Filter by Flint subscription plan ID. Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
+    /** Filter by Flint subscription plan ID. pattern: ^plan_[0-9A-HJKMNP-TV-Z]{26}$. Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
      * @return string
      * @throws SdkError When subscription_plan_id is omitted; use hasSubscriptionPlanId() or valueOrDefault().
      */

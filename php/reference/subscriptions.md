@@ -80,7 +80,7 @@ $result = $client->subscriptions->applyPromotion('sub_01KEZF7C00BVRE8YDBXQB74BBM
 
 ### subscriptions.cancel
 
-Cancels a subscription and records who asked, why, and when in cancellation_details. With cancel_immediately: true it ends now. Otherwise, trialing ends at trial_end_at, active at current_period_end_at (or now when a renewal delivery hold has expired), and past_due at next_retry_at instead of that retry. Scheduled, incomplete, paused, and past_due without next_retry_at require cancel_immediately: true or fail with `ACTION_NOT_ALLOWED` and reason `period_end_unavailable`. Read scheduled_cancel_at for the scheduled end time. A buyer's cancellation follows the store's customer_account.buyer_capabilities. Send expected_version to reject a concurrent change.
+Cancels a subscription and records who asked, why, and when in cancellation_details. With cancel_immediately: true it ends now. Otherwise, trialing ends at trial_end_at, active at current_period_end_at (or now when a renewal delivery hold has expired), and past_due at next_retry_at instead of that retry. Scheduled, incomplete, paused, and past_due without next_retry_at require cancel_immediately: true or fail with `ACTION_NOT_ALLOWED` and reason `period_end_unavailable`. Paid deliveries extend a scheduled cancellation to the last paid delivery when it is later. A merchant can cancel immediately without an automatic refund. A buyer cannot cancel immediately while prepaid deliveries remain and period-end cancellation is available; the refusal reason is `prepaid_deliveries_remaining`. Read scheduled_cancel_at for the scheduled end time. A buyer's cancellation follows the store's customer_account.buyer_capabilities. Send expected_version to reject a concurrent change.
 
 `POST /v1/subscriptions/{subscription_id}/cancel`
 
@@ -353,11 +353,13 @@ Body model: [CreateSubscriptionRequestInput](../models/CreateSubscriptionRequest
 | `delivery` | Optional | [SubscriptionDeliveryRequestInput](../models/SubscriptionDeliveryRequestInput.md#subscriptiondeliveryrequestinput) | The delivery preference to set on a subscription: delivery method, type, destination, and recipient. |
 | `end_after` | Optional | [SubscriptionEndAfterRequestInput](../models/SubscriptionEndAfterRequestInput.md#subscriptionendafterrequestinput) or null | Automatic end condition. Omit it to inherit the plan default; send null for no automatic end. Imported subscriptions accept the same condition. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
+| `gift_recipient` | Optional | [SubscriptionGiftRecipientRequestInput](../models/SubscriptionGiftRecipientRequestInput.md#subscriptiongiftrecipientrequestinput) or null | Who receives the gift. customer_id stays the purchaser. Omit it or send null for a subscription that isn't a gift. Imported subscriptions accept it too. |
 | `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
 | `payment_method_id` | Optional | string | Saved payment method for renewals. Omit it to use the customer's default. A free trial without an upfront charge or an imported paid period may start without either; other starts require a card. An explicit method must belong to the customer, be active, and allow charges without the buyer present. minLength: `1`. |
 | `promotions` | Optional | Array of [SubscriptionPromotionRequestInput](../models/SubscriptionPromotionRequestInput.md#subscriptionpromotionrequestinput) | Promotions to attach with their current terms frozen. Duplicate promotions are invalid. An offer's own promotion attaches automatically; listing it again returns already_applied. maxItems: `5`. uniqueItems: `true`. |
 | `prorate_first_period` | Optional | boolean | Prorate the first paid period to the next billing anchor. Requires `billing_anchor_day`, a monthly or yearly interval, `billing_schedule.owner: flint`, and no shipping. Imported billing starts are not allowed. Trials and scheduled starts prorate from their first paid start; setup fees remain full. Default: `false`. |
 | `service_location` | Optional | [SubscriptionServiceLocationRequestInput](../models/SubscriptionServiceLocationRequestInput.md#subscriptionservicelocationrequestinput) | Where a subscription's service is delivered: a saved customer address by ID, or a new address. |
+| `tax` | Optional | [SubscriptionTaxRequestInput](../models/SubscriptionTaxRequestInput.md#subscriptiontaxrequestinput) | The tax the subscription's renewal, setup fee and plan change orders use. Omit it to follow `tax.default_enabled` and `tax.default_calculation` from your settings. Replaced as a whole: send every field you want to keep. |
 | `terms` | Required | [SubscriptionTermsRequestInput](../models/SubscriptionTermsRequestInput.md#subscriptiontermsrequestinput) | Subscription terms from either a subscription plan or subscription offers, selected by `type`. |
 
 #### Response
@@ -423,7 +425,7 @@ $result = $client->subscriptions->create([
 
 ### subscriptions.createAccessLink
 
-Creates a link to one subscription in your Flint-hosted customer account, to put in buyer email or messages you send yourself. Omit purpose or send subscription_view for read-only access without a sign-in. Send subscription_manage to also let the buyer cancel, pause, or undo a scheduled cancellation, subject to your store's policy and the subscription's state. subscription_manage requires commerce.subscriptions.write; subscription_view requires commerce.subscriptions.read. Neither purpose permits other subscription changes or access to another subscription. Both work for 14 days or 5 opens, whichever comes first; after that the buyer signs in. The url is a bearer credential. Flint returns it only in this response and in a retry with the same idempotency key, so send it only to the buyer and keep it out of logs. A call with a new key creates another link; earlier links keep working until they expire. When customer_account.mode is merchant_hosted it fails with `ACTION_NOT_ALLOWED` and reason `merchant_hosted_customer_accounts`. Send no request body, an empty object ({}), or an optional purpose and return_url. Idempotency is scoped to the merchant, credential, environment, and this resource's route. A replay returns the original link without extending its lifetime or replenishing its opens. Without an idempotency key, each call creates a new link and has no replay result. If Flint cannot retain a result after minting, contact support with the request ID before sending a new request.
+Creates a link to one subscription in your Flint-hosted customer account, to put in buyer email or messages you send yourself. Omit purpose or send subscription_view for read-only access without a sign-in. Send subscription_manage to also let the buyer cancel, pause, or undo a scheduled cancellation, subject to your store's policy and the subscription's state. subscription_manage requires commerce.subscriptions.write; subscription_view requires commerce.subscriptions.read. Neither purpose permits other subscription changes or access to another subscription. Both work for 14 days or 5 opens, whichever comes first; after that the buyer signs in. The url is a bearer credential. Flint returns it only in this response and in a retry with the same idempotency key, so send it only to the buyer and keep it out of logs. A call with a new key creates another link; earlier links keep working until they expire. Dashboard sessions may create view links when the staff member can view subscriptions; subscription_manage requires permission to manage subscriptions. When customer_account.mode is merchant_hosted it fails with `ACTION_NOT_ALLOWED` and reason `merchant_hosted_customer_accounts`. Send no request body, an empty object ({}), or an optional purpose and return_url. Idempotency is scoped to the merchant, credential, environment, and this resource's route. A replay returns the original link without extending its lifetime or replenishing its opens. Without an idempotency key, each call creates a new link and has no replay result. If Flint cannot retain a result after minting, contact support with the request ID before sending a new request.
 
 `POST /v1/subscriptions/{subscription_id}/access-links`
 
@@ -665,7 +667,7 @@ deleteLineItem(string|
 | --- | --- | --- | --- |
 | `subscription_id` | Required | string | Subscription ID. |
 | `subscription_line_item_id` | Required | string | Subscription line item ID. |
-| `expected_version` | Optional | integer | Reject the deletion if the subscription version has changed. Format: `uint64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Reject the deletion if the subscription version has changed. Format: `uint64`. minimum: `1`. maximum: `9007199254740991`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -805,6 +807,7 @@ Returned payload: [SubscriptionPaymentRetry](../models/SubscriptionPaymentRetry.
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -839,7 +842,7 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. |
+| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. pattern: `^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$`. |
 | `terms_type` | Optional | Array of string or string | Filter by where the subscription terms come from: a subscription plan or subscription offers. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"subscription_plan"`, `"subscription_offer"`. Values: `"subscription_plan"`, `"subscription_offer"`. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
@@ -847,11 +850,11 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 | `billing_schedule_owner` | Optional | Array of string or string | Filter by the system that supplies billing dates. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"flint"`, `"external"`. Values: `"flint"`, `"external"`. |
 | `is_awaiting_billing_schedule` | Optional | boolean | Filter external schedules by whether they need another billing date. |
 | `cancel_at_period_end` | Optional | boolean | When true, returns subscriptions scheduled to cancel at the end of the current period that are not yet canceled. When false, returns every other subscription. |
-| `customer_id` | Optional | string | Filter by Flint customer ID. |
-| `delivery_method_id` | Optional | string | Filter by the subscription's selected delivery method. |
+| `customer_id` | Optional | string | Filter by Flint customer ID. pattern: `^cus_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `delivery_method_id` | Optional | string | Filter by the subscription's selected delivery method. pattern: `^dmet_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `hold_reason` | Optional | Array of string or string | Filter by the reason of the current delivery_hold. Does not match upcoming delivery issues. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"method_unavailable"`, `"destination_not_served"`, `"rate_unavailable"`. Values: `"method_unavailable"`, `"destination_not_served"`, `"rate_unavailable"`. |
-| `subscription_offer_id` | Optional | string | Filter by Flint subscription offer ID. |
-| `subscription_plan_id` | Optional | string | Filter by Flint subscription plan ID. |
+| `subscription_offer_id` | Optional | string | Filter by Flint subscription offer ID. pattern: `^soffer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `subscription_plan_id` | Optional | string | Filter by Flint subscription plan ID. pattern: `^plan_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `external_reference_id` | Optional | string | Exact-match filter on the caller-owned external reference ID. minLength: `1`. maxLength: `255`. |
 | `test_clock_id` | Optional | string | Sandbox only. Exact-match filter on `test_clock_id`. A live credential gets `403 FORBIDDEN` with reason `test_mode_required`. minLength: `1`. pattern: `^tclk_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `query` | Optional | string | Search across subscription ID, external reference ID, customer, and plan. Text fields match any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the start and need the type prefix, such as sub_01. |
@@ -920,7 +923,7 @@ Signature: `listPaymentRetries(string|Model $subscription_id, array|Model|null $
 | `subscription_id` | Required | string | Flint subscription ID. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
-| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. |
+| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. pattern: `^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -937,6 +940,7 @@ Returned payload: [SubscriptionPaymentRetryListResponse](../models/SubscriptionP
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -963,7 +967,7 @@ $result = $client->subscriptions->listPaymentRetries('sub_01KEZF7C00BVRE8YDBXQB7
 
 ### subscriptions.pause
 
-Pauses a subscription immediately, optionally for at least one billing cycle. A pause with a duration resumes automatically at scheduled_resume_at. Repeating the stored pause length returns the paused subscription; a different length returns ACTION_NOT_ALLOWED with reason field_locked and param pause_duration_cycles and requires resuming first. A buyer's pause follows the store's customer_account.buyer_capabilities. Send expected_version to reject a concurrent change.
+Pauses a subscription immediately. pause_duration_cycles counts delivery intervals on prepaid subscriptions and billing intervals otherwise; omit it for an indefinite pause. A pause with a duration resumes automatically at scheduled_resume_at. Repeating the stored pause length returns the paused subscription; a different length returns ACTION_NOT_ALLOWED with reason field_locked and param pause_duration_cycles and requires resuming first. A buyer's pause follows the store's customer_account.buyer_capabilities. Send expected_version to reject a concurrent change.
 
 `POST /v1/subscriptions/{subscription_id}/pause`
 
@@ -1159,7 +1163,7 @@ $result = $client->subscriptions->renew('sub_01KEZF7C00BVRE8YDBXQB74BBM', null, 
 
 ### subscriptions.resume
 
-Asks Flint to resume a paused subscription. The request is accepted while the subscription is still paused, with `resume_requested_at` set. Flint then makes it active, or past_due while an overdue period is collected, and sends subscription.resumed. If Flint can't resume it, it stays paused, resume_requested_at clears, and Flint sends subscription.updated. Any other status fails with `ACTION_NOT_ALLOWED`. To undo a scheduled cancellation, PATCH the subscription with cancel_at_period_end set to false.
+Asks Flint to resume a paused subscription. The request is accepted while the subscription is still paused, with `resume_requested_at` set. Flint then makes it active, or past_due while an overdue period is collected, and sends subscription.resumed. While prepaid deliveries remain, resuming makes no charge and shifts later deliveries and the next charge by the length of the pause. If Flint can't resume it, it stays paused, resume_requested_at clears, and Flint sends subscription.updated. Any other status fails with `ACTION_NOT_ALLOWED`. To undo a scheduled cancellation, PATCH the subscription with cancel_at_period_end set to false.
 
 `POST /v1/subscriptions/{subscription_id}/resume`
 
@@ -1221,7 +1225,7 @@ $result = $client->subscriptions->resume('sub_01KEZF7C00BVRE8YDBXQB74BBM', null,
 
 ### subscriptions.skipCycle
 
-Skips the next renewal: nothing is charged or shipped for it, and the next billing date moves forward by one of the subscription's billing intervals. A Flint-owned schedule keeps its billing_anchor_day, including when the skipped date falls in a shorter month. Available while the subscription is active, is not set to cancel at the end of its period, and has a next billing date.
+While prepaid deliveries remain, defers the next delivery and next charge by one delivery interval without consuming a delivery. Otherwise skips the next renewal without charging or shipping and moves the next billing date forward by one billing interval. A Flint-owned schedule keeps its billing_anchor_day, including when the skipped date falls in a shorter month. Available while the subscription is active, is not set to cancel at the end of its period, and has a next billing date.
 
 `POST /v1/subscriptions/{subscription_id}/skip-cycle`
 
@@ -1301,7 +1305,7 @@ Signature: `update(string|Model $subscription_id, array|Model $params, ?RequestO
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
-| `body` | Required | [UpdateSubscriptionRequestInput](../models/UpdateSubscriptionRequestInput.md#updatesubscriptionrequestinput) | The request body for: Update subscription. |
+| `body` | Required | [UpdateSubscriptionRequestInput](../models/UpdateSubscriptionRequestInput.md#updatesubscriptionrequestinput) | The request body for: Update subscription. minProperties: `1`. |
 
 Body model: [UpdateSubscriptionRequestInput](../models/UpdateSubscriptionRequestInput.md#updatesubscriptionrequestinput).
 
@@ -1317,10 +1321,12 @@ Body model: [UpdateSubscriptionRequestInput](../models/UpdateSubscriptionRequest
 | `end_after` | Optional | [SubscriptionEndAfterRequestInput](../models/SubscriptionEndAfterRequestInput.md#subscriptionendafterrequestinput) or null | Replace the complete automatic end condition, or send null to clear it. Requires expected_version. Buyers cannot change this field. |
 | `expected_version` | Optional | integer | The current subscription version. Required when end_after is present. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. |
+| `gift_recipient` | Optional | [SubscriptionGiftRecipientRequestInput](../models/SubscriptionGiftRecipientRequestInput.md#subscriptiongiftrecipientrequestinput) or null | Replace the whole gift recipient, or send null to clear it. There are no partial changes. Send expected_version to guard against concurrent changes. Buyers cannot change this field. |
 | `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequestInput.md#metadatapatchrequestinput) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. This operation also limits the metadata object you send, before merging: at most 50 keys, counting null deletions, each key 1 to 256 Unicode code points, and at most 32768 UTF-8 bytes of keys plus values. |
 | `payment_method_id` | Optional | string | minLength: `1`. |
 | `quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. minimum: `1`. maximum: `100`. |
 | `scheduled_plan_change` | Optional | null | Send null to cancel a scheduled plan change and keep the current plan. Omit to leave it unchanged. Schedule or replace through change-plan. |
+| `tax` | Optional | [SubscriptionTaxRequestInput](../models/SubscriptionTaxRequestInput.md#subscriptiontaxrequestinput) or null | Replace the subscription's tax as a whole, or send null to clear it, so its orders follow your settings again. Orders Flint creates after the change use it; an open renewal order keeps the tax it was created with. Buyers cannot change this field. |
 
 #### Response
 
@@ -1384,7 +1390,7 @@ Signature: `updateLineItem(string|Model $subscription_id, string|Model $subscrip
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
-| `body` | Required | [UpdateSubscriptionLineItemRequestInput](../models/UpdateSubscriptionLineItemRequestInput.md#updatesubscriptionlineitemrequestinput) | The request body for: Update subscription line item. |
+| `body` | Required | [UpdateSubscriptionLineItemRequestInput](../models/UpdateSubscriptionLineItemRequestInput.md#updatesubscriptionlineitemrequestinput) | The request body for: Update subscription line item. minProperties: `1`. |
 
 Body model: [UpdateSubscriptionLineItemRequestInput](../models/UpdateSubscriptionLineItemRequestInput.md#updatesubscriptionlineitemrequestinput).
 
